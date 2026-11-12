@@ -1,0 +1,9 @@
+{
+  "name": "hollywoodland-server",
+  "main": "src/index.js",
+  "compatibility_date": "2026-10-01",
+  "workers_dev": true,
+  "observability": { "enabled": true },
+  // Secrets (wrangler secret put): FIREWORKS_API_KEY, SESSION_SECRET
+  "kv_namespaces": [ { "binding": "HL_KV", "id": "9ba402f7d45d436f8a5baa9cb69feed1" } ]
+}

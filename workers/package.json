@@ -1,0 +1,13 @@
+{
+  "name": "hollywoodland-workers",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "deploy:server": "cd server && wrangler deploy",
+    "deploy:client": "cd client && wrangler deploy",
+    "deploy:stage": "node deploy-stage.mjs"
+  },
+  "devDependencies": {
+    "wrangler": "^4"
+  }
+}

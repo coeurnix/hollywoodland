@@ -1,0 +1,19 @@
+# UE
+hollywoodland-ue/Binaries/
+hollywoodland-ue/Intermediate/
+hollywoodland-ue/Saved/
+hollywoodland-ue/DerivedDataCache/
+hollywoodland-ue/web-dist*/
+hollywoodland-ue/Build/
+hollywoodland-ue/.vs/
+*.sln
+*.slnx
+# node / wrangler
+node_modules/
+.wrangler/
+.dev.vars
+.env
+# misc
+*.log
+tmp/
+itch/*.zip

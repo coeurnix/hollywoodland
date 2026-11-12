@@ -1,0 +1,17 @@
+{
+	"FileVersion": 3,
+	"EngineAssociation": "{C9A8AEE6-4871-AE42-3DDA-6A9CC7194A26}",
+	"Category": "",
+	"Description": "Hollywoodland: simulated MMORPG, Hollywood 1930 (UE 5.9 Wasm)",
+	"Modules": [
+		{ "Name": "Hollywoodland", "Type": "Runtime", "LoadingPhase": "Default" }
+	],
+	"Plugins": [
+		{ "Name": "ModelingToolsEditorMode", "Enabled": true, "TargetAllowList": [ "Editor" ] },
+		{ "Name": "PythonScriptPlugin", "Enabled": true, "TargetAllowList": [ "Editor" ] },
+		{ "Name": "ToolsetRegistry", "Enabled": true, "Optional": true, "TargetAllowList": [ "Editor" ] },
+		{ "Name": "ModelContextProtocol", "Enabled": true, "Optional": true, "TargetAllowList": [ "Editor" ] },
+		{ "Name": "OnlineSubsystemUtils", "Enabled": true, "PlatformDenyList": [ "Wasm" ] },
+		{ "Name": "OnlineSubsystemNull", "Enabled": true, "PlatformDenyList": [ "Wasm" ] }
+	]
+}
