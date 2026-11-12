@@ -1,7 +1,14 @@
 #include "HLGameMode.h"
-#include "GameFramework/SpectatorPawn.h"
+#include "HLWorldActor.h"
+#include "Engine/World.h"
 
 AHLGameMode::AHLGameMode()
 {
-	DefaultPawnClass = ASpectatorPawn::StaticClass();
+	DefaultPawnClass = nullptr;
+}
+
+void AHLGameMode::StartPlay()
+{
+	Super::StartPlay();
+	GetWorld()->SpawnActor<AHLWorldActor>(AHLWorldActor::StaticClass(), FTransform::Identity);
 }

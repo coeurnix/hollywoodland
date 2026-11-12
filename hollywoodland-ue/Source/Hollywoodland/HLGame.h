@@ -1,0 +1,345 @@
+// Game core. Plain C++ (no UObjects): units, combat, mobs, quests, inventory, simulated players, chat.
+// AHLWorldActor owns one FHLGame, ticks it, and mirrors units into gray-box actors. SHLGameUI reads/writes it directly.
+// Implementation is split: HLGame.cpp (setup, tick, movement, stats), HLCombat.cpp, HLMobs.cpp, HLPlayer.cpp, HLSim.cpp, HLChat.cpp.
+// Units are metres (x east, y south) in area-local coordinates; rendering adds the area's offset.
+#pragma once
+#include "CoreMinimal.h"
+#include "HLData.h"
+
+enum class EHLKind : uint8 { Player, Sim, Mob, Npc };
+enum class EHLAura : uint8 { Dot, Hot, Shield, Stun, Slow, Taunt, Buff };
+enum class EHLRes : uint8 { None, Power, Energy, Focus, Adrenaline };
+enum class EHLMobState : uint8 { Idle, Combat, Evade, Flee };
+
+struct FHLAura
+{
+	EHLAura Type = EHLAura::Buff;
+	FString Name, Stat;
+	int32 SourceId = 0;
+	float Value = 0, Remaining = 0, Period = 0, TickTimer = 0;
+	bool bHarmful = false;
+};
+
+/** 2 m occupancy grid with A* (the web build has no nav mesh). */
+struct FHLNav
+{
+	FVector2D Min = FVector2D::ZeroVector;
+	float Cell = 2;
+	int32 W = 0, H = 0;
+	TArray<uint8> Blocked;
+	void Init(const FHLAreaDef& Def);
+	bool BlockedCell(int32 X, int32 Y) const { return X < 0 || Y < 0 || X >= W || Y >= H || Blocked[Y * W + X] != 0; }
+	bool BlockedAt(const FVector2D& P) const { return BlockedCell(FMath::FloorToInt32((P.X - Min.X) / Cell), FMath::FloorToInt32((P.Y - Min.Y) / Cell)); }
+	bool LineClear(const FVector2D& A, const FVector2D& B) const;
+	bool FindPath(const FVector2D& A, const FVector2D& B, TArray<FVector2D>& Out) const;
+	FVector2D NearestFree(const FVector2D& P) const;
+	FVector2D Slide(const FVector2D& From, const FVector2D& Delta) const;
+private:
+	mutable TArray<float> G;
+	mutable TArray<int32> Parent;
+	mutable TArray<uint32> Stamp;
+	mutable uint32 CurStamp = 0;
+};
+
+struct FHLLoot { const FHLItem* Item = nullptr; int32 Count = 1; };
+
+struct FHLUnit
+{
+	int32 Id = 0;
+	EHLKind Kind = EHLKind::Mob;
+	FString Name, Title, Shape = TEXT("human");
+	int32 Level = 1, Area = 0;
+	FVector2D Pos = FVector2D::ZeroVector;
+	float Z = 0, VelZ = 0, Yaw = 0, Scale = 1, MoveMult = 1;
+	FLinearColor Color = FLinearColor::Gray;
+	const FHLClass* Cls = nullptr;
+	// stats
+	int32 Stats[HL_NUM_STATS] = { 0, 0, 0, 0, 0 };
+	float MaxHp = 1, Hp = 1, MaxRes = 0, Res = 0;
+	EHLRes ResType = EHLRes::None;
+	float Armor = 0, AttackPower = 0, WeaponMin = 1, WeaponMax = 2, WeaponSpeed = 2, Crit = 0.05f, Dodge = 0.05f, AbilityBonus = 0, AutoRange = 4.5f, Speed = 7;
+	bool bRangedAuto = false;
+	// combat
+	int32 TargetId = 0;
+	bool bAutoAttack = false, bDead = false, bSitting = false, bMounted = false;
+	float SwingTimer = 0, GcdUntil = 0, CastStart = 0, CastEnd = 0, CombatUntil = 0, DeadAt = 0, RegenTimer = 0, HopT = 0;
+	const FHLAbility* Casting = nullptr;
+	int32 CastTargetId = 0;
+	TMap<const FHLAbility*, float> CdUntil;
+	TArray<FHLAura> Auras;
+	// movement
+	TArray<FVector2D> Path;
+	int32 PathIdx = 0;
+	FVector2D PathGoal = FVector2D::ZeroVector;
+	float RepathAt = 0;
+	bool bMovedThisTick = false;
+	// mob
+	const FHLMobDef* Mob = nullptr;
+	int32 CampIdx = -1, CampSlot = -1, TappedBy = 0, ScriptPhase = 0, SummonerId = 0;
+	FVector2D Home = FVector2D::ZeroVector;
+	float Leash = 40, NextThink = 0, WanderAt = 0, FleeUntil = 0, CorpseUntil = 0, ScriptT[3] = { 0, 0, 0 };
+	EHLMobState MobState = EHLMobState::Idle;
+	TMap<int32, float> Threat;
+	bool bEvent = false, bLootable = false;
+	TArray<FHLLoot> Loot;
+	int32 LootCents = 0;
+	// npc / sim
+	const FHLNpcDef* Npc = nullptr;
+	int32 SimIdx = -1;
+
+	bool IsFriendly() const { return Kind != EHLKind::Mob; }
+	bool Stunned() const { for (const FHLAura& A : Auras) if (A.Type == EHLAura::Stun) return true; return false; }
+	float HpPct() const { return MaxHp > 0 ? Hp / MaxHp : 0; }
+	float BuffSum(const TCHAR* Stat) const { float V = 0; for (const FHLAura& A : Auras) if (A.Type == EHLAura::Buff && A.Stat == Stat) V += A.Value; return V; }
+	bool HasAuraNamed(const FString& N) const { for (const FHLAura& A : Auras) if (A.Name == N) return true; return false; }
+};
+
+struct FHLCampState { TArray<int32> UnitIds; TArray<float> RespawnAt; };
+struct FHLObjectState { const FHLObjectDef* Def = nullptr; bool bActive = true; float RespawnAt = 0; };
+struct FHLAreaState
+{
+	const FHLAreaDef* Def = nullptr;
+	FHLNav Nav;
+	TArray<FHLCampState> Camps;
+	TArray<FHLObjectState> Objects;
+};
+
+struct FHLInvSlot { const FHLItem* Item = nullptr; int32 Count = 0; };
+struct FHLQuestState { const FHLQuest* Q = nullptr; TArray<int32> Progress; bool bComplete = false; };
+struct FHLRelation { int32 Familiarity = 0, Liking = 0; TArray<FString> Facts; };
+
+struct FHLPlayer
+{
+	bool bCreated = false;
+	FString Name, PlayerId;
+	const FHLClass* Cls = nullptr;
+	int32 Xp = 0, Cents = 0, Salvage = 0, Deaths = 0, Kills = 0;
+	TArray<FHLInvSlot> Bag, Bank;
+	TMap<FString, const FHLItem*> Equip; // hat neck coat wrist gloves belt trousers shoes ring main off ranged
+	TArray<const FHLAbility*> Known, Bar;
+	TArray<FHLQuestState> Quests;
+	TSet<FString> Done, Discovered;
+	TMap<FString, int32> Rep;
+	TMap<FString, FHLRelation> Relations; // persona id -> memory of the player
+	double PlayedS = 0;
+	bool bShowSim = false;
+};
+
+enum class EHLSimRole : uint8 { Away, Local, Transient, Idler };
+enum class EHLSimState : uint8 { Idle, Travel, Grind, Rest, Dead, Party, Leaving, Script };
+struct FHLSim
+{
+	const FHLPersona* P = nullptr;
+	EHLSimRole Role = EHLSimRole::Away;
+	EHLSimState State = EHLSimState::Idle;
+	bool bOnline = true, bInParty = false, bAfk = false;
+	int32 UnitId = 0, Level = 1, CampIdx = -1, Kills = 0, KillGoal = 10, RouteIdx = 0, ScriptId = 0;
+	float Xp = 0, StateUntil = 0, NextAct = 0, HealBiasUntil = 0, NextEmote = 0, AwayUntil = 0;
+	FString Zone, Activity;
+	TArray<FVector2D> Route;
+	FVector2D Dest = FVector2D::ZeroVector;
+};
+
+struct FHLChatLine
+{
+	FString Ch, From, Text; // Ch: say yell zone trade lfg party whisper whisper_to system loot combat emote npc
+	int32 SimIdx = -1;
+	double Time = 0;
+};
+struct FHLFloatText { int32 UnitId = 0; FString Text; FLinearColor Color; float Age = 0; bool bCrit = false; };
+struct FHLAuction { const FHLItem* Item = nullptr; int32 Count = 1, Buyout = 0, SellerIdx = -1; float ExpiresAt = 0; bool bMine = false; };
+struct FHLRoll { const FHLItem* Item = nullptr; float EndsAt = 0; int32 PlayerChoice = -1; bool bActive = false; };
+struct FHLCensusEvent { FString Text; double Time = 0; };
+
+struct FHLInput
+{
+	float Forward = 0, Strafe = 0, Turn = 0;
+	bool bJump = false;
+	float CamYaw = 0;       // degrees; movement is relative to this when bMouseSteer
+	bool bMouseSteer = false;
+};
+
+class FHLGame
+{
+public:
+	FHLGame();
+	static FHLGame* Get() { return Instance; }
+	static FHLGame* Instance;
+
+	// ---- lifecycle (HLGame.cpp)
+	bool Init(FString& OutError);
+	void Tick(float Dt);
+	void EnterWorld();
+	double Now = 0;
+	float FrameDt = 0;
+	bool bInWorld = false;
+	FRandomStream Rng;
+	float Rand() { return Rng.FRand(); }
+	int32 RandInt(int32 A, int32 B) { return Rng.RandRange(A, B); }
+	bool Chance(float P) { return Rng.FRand() < P; }
+
+	// ---- world
+	TArray<FHLAreaState> Areas;
+	TMap<int32, TUniquePtr<FHLUnit>> Units;
+	TArray<FHLUnit*> UnitList;
+	int32 NextUnitId = 1;
+	int32 PlayerUnitId = 0;
+	FHLUnit* Unit(int32 Id) const { const TUniquePtr<FHLUnit>* P = Units.Find(Id); return P ? P->Get() : nullptr; }
+	FHLUnit* PlayerUnit() const { return Unit(PlayerUnitId); }
+	FHLUnit* AddUnit(EHLKind Kind, int32 Area, const FVector2D& Pos);
+	void RemoveUnit(int32 Id);
+	FHLUnit* SpawnMob(const FHLMobDef* Def, int32 Area, const FVector2D& Pos, int32 CampIdx = -1, int32 Slot = -1);
+	void SpawnArea(int32 AreaIdx, bool bResetBosses);
+	void TeleportUnit(FHLUnit& U, int32 Area, const FVector2D& Pos);
+	FString SubzoneAt(int32 Area, const FVector2D& P) const;
+	float Dist(const FHLUnit& A, const FHLUnit& B) const { return A.Area == B.Area ? FVector2D::Distance(A.Pos, B.Pos) : 1e9f; }
+
+	// ---- movement (HLGame.cpp)
+	FHLInput Input;
+	bool MoveTo(FHLUnit& U, const FVector2D& Goal, float StopDist = 0.5f); // returns true when arrived
+	void StopMove(FHLUnit& U) { U.Path.Reset(); U.PathIdx = 0; }
+	void FaceTo(FHLUnit& U, const FVector2D& P);
+
+	// ---- stats (HLGame.cpp)
+	void RecalcPlayerStats();
+	void RecalcCharStats(FHLUnit& U, const FHLClass& C, int32 Level, const TMap<FString, const FHLItem*>& Equip, bool bFull);
+	void InitMobStats(FHLUnit& U);
+	static int32 XpToNext(int32 L) { return 40 * L * L + 360 * L; }
+
+	// ---- combat (HLCombat.cpp)
+	bool IsHostile(const FHLUnit& A, const FHLUnit& B) const { return A.IsFriendly() != B.IsFriendly(); }
+	bool InCombat(const FHLUnit& U) const { return Now < U.CombatUntil; }
+	FString CanCast(const FHLUnit& U, const FHLAbility& Ab, const FHLUnit* Target) const; // empty = ok
+	bool TryCast(FHLUnit& U, const FHLAbility& Ab, int32 TargetId);
+	void ExecuteAbility(FHLUnit& U, const FHLAbility& Ab, FHLUnit* Target);
+	void DealDamage(FHLUnit* Src, FHLUnit& Dst, float Amount, const FString& School, bool bCrit, const FString& What);
+	void HealUnit(FHLUnit* Src, FHLUnit& Dst, float Amount, const FString& What);
+	void AddThreat(FHLUnit& Mob, int32 SrcId, float Amount);
+	void KillUnit(FHLUnit& U, FHLUnit* Killer);
+	void TickCombat(FHLUnit& U, float Dt);
+	float AbilityPower(const FHLUnit& U, const FHLEffect& E) const;
+	void GrantXp(int32 Amount, bool bQuest);
+	int32 OwnerOf(const FHLUnit& U) const; // tap owner: the player for party sims
+	void AddFloat(int32 UnitId, const FString& Text, const FLinearColor& Color, bool bCrit = false);
+
+	// ---- mobs & objects (HLMobs.cpp)
+	void TickMob(FHLUnit& U, float Dt);
+	void TickCamps(float Dt);
+	void MobEnterCombat(FHLUnit& U, int32 TargetId);
+	void MobEvade(FHLUnit& U);
+	void GenerateLoot(FHLUnit& Mob);
+	void BossScript(FHLUnit& U, float Dt);
+	bool ObjectInteract(int32 AreaIdx, int32 ObjIdx); // by the player
+	float DungeonLeftAt = -1e9;
+	bool bDungeonCleared = false;
+
+	// ---- player (HLPlayer.cpp)
+	FHLPlayer Player;
+	void NewCharacter(const FString& Name, const FHLClass* Cls);
+	FString SaveJson() const;
+	bool LoadJson(const FString& Json);
+	void SaveNow();
+	float NextSaveAt = 30;
+	bool AddItem(const FHLItem* Item, int32 Count = 1, bool bAnnounce = true);
+	int32 CountItem(const FHLItem* Item) const;
+	void RemoveItem(const FHLItem* Item, int32 Count);
+	bool CanEquip(const FHLItem& It, FString* Why = nullptr) const;
+	void EquipBag(int32 BagIdx);
+	void Unequip(const FString& Slot);
+	void UseBag(int32 BagIdx);
+	void SellBag(int32 BagIdx);
+	bool BuyItem(const FHLItem* Item);
+	void LearnAbility(const FHLAbility* Ab, bool bFree);
+	void UseBar(int32 Slot);
+	void TargetUnit(int32 Id);
+	void TabTarget();
+	void TargetNearestFriend();
+	void InteractUnit(int32 Id);
+	void LootCorpse(FHLUnit& Corpse);
+	void ReleaseSpirit();
+	void TickPlayer(float Dt);
+	// quests
+	const FHLQuestState* QuestState(const FString& Id) const;
+	bool QuestAvailable(const FHLQuest& Q) const;
+	bool QuestReadyAt(const FHLQuest& Q, const FString& NpcId) const;
+	void AcceptQuest(const FHLQuest& Q);
+	void AbandonQuest(const FString& Id);
+	void CompleteQuest(const FHLQuest& Q, int32 Choice);
+	void QuestEvent(const TCHAR* Type, const FString& Key, int32 Count = 1, const FHLUnit* Mob = nullptr);
+	int32 NpcMarker(const FHLNpcDef& N) const; // 0 none, 1 available (!), 2 ready (?), 3 in progress (grey ?)
+	// UI-facing state
+	int32 OpenNpcUnitId = 0;       // NPC dialog open
+	FString OpenNpcMode;           // "", quest:<id>, vendor, trainer, bank, auction, redcar, inn, prof
+	FString ErrorText; float ErrorUntil = 0;
+	FString BannerText, BannerSub; float BannerUntil = 0;
+	void Error(const FString& T) { ErrorText = T; ErrorUntil = Now + 2.5; }
+	void Banner(const FString& T, const FString& Sub = FString(), float Dur = 4) { BannerText = T; BannerSub = Sub; BannerUntil = Now + Dur; }
+	TArray<FHLFloatText> Floats;
+	FString CurSubzone;
+	// casting an object interaction
+	int32 InteractArea = -1, InteractObj = -1; float InteractEnd = 0, InteractStart = 0; FString InteractLabel;
+	// auction house
+	TArray<FHLAuction> Auctions;
+	float NextAuctionChurn = 0;
+	void TickAuctions();
+	bool BuyAuction(int32 Idx);
+	bool ListAuction(int32 BagIdx, int32 Buyout);
+	int32 MarketPrice(const FHLItem& It) const;
+	// loot roll
+	FHLRoll Roll;
+	void StartRoll(const FHLItem* Item);
+	void FinishRoll();
+
+	// ---- simulated players (HLSim.cpp)
+	TArray<FHLSim> Sims;
+	TArray<int32> Party; // sim indices in the player's party
+	TArray<FHLCensusEvent> CensusEvents;
+	int32 InviteFromSim = -1; float InviteUntil = 0; // pending invite to the player
+	int32 CensusCursor = 0; float NextCensus = 0, NextPopCheck = 0, NextDirector = 0;
+	int32 DirectorStep = 0; int32 BuddySim = -1;
+	void InitSims();
+	void TickSims(float Dt);
+	void TickSimBrain(FHLSim& S, FHLUnit& U, float Dt);
+	void SimCombat(FHLSim& S, FHLUnit& U);
+	FHLUnit* SpawnSim(int32 SimIdx, EHLSimRole Role, const FVector2D& Pos);
+	void DespawnSim(int32 SimIdx);
+	void TickCensus();
+	void TickDirector(float Dt);
+	void InviteSim(int32 SimIdx);
+	void SimJoinParty(int32 SimIdx);
+	void SimLeaveParty(int32 SimIdx, bool bSay);
+	void AnswerInvite(bool bAccept);
+	void LeaveParty();
+	void PartyEvent(const FString& What);
+	int32 FindSimByHandle(const FString& Handle) const;
+	FString SimActivity(const FHLSim& S) const;
+	int32 OnlineCount() const;
+	FHLRelation& Relation(const FHLSim& S) { return Player.Relations.FindOrAdd(S.P->Id); }
+	int32 PickCampFor(int32 Level);
+	const FHLAbility* SimPickAbility(FHLSim& S, FHLUnit& U, FHLUnit*& OutTarget);
+
+	// ---- chat & worker (HLChat.cpp)
+	TArray<FHLChatLine> Chat;
+	struct FPendingChat { double At; FHLChatLine Line; };
+	TArray<FPendingChat> PendingChat;
+	float NextAmbient = 3, NextGossip = 150;
+	FString Session; bool bWorkerOk = false; float NextSessionTry = 0; int32 WorkerInFlight = 0, NextReqId = 1;
+	int32 WorkerCalls = 0, WorkerFails = 0;
+	FString ApiBase;
+	FString LastWhisperFrom;
+	const FHLItem* LastLinked = nullptr;
+	void AddChat(const FString& Ch, const FString& From, const FString& Text, int32 SimIdx = -1, float Delay = 0);
+	void System(const FString& Text) { AddChat(TEXT("system"), FString(), Text); }
+	void SimSay(int32 SimIdx, const FString& Ch, const FString& Situation, float Delay = 0, const FString& Fallback = FString());
+	FString CorpusLine(const FHLSim& S, const FString& Situation);
+	FString StyleText(const FHLPersona& P, const FString& Text);
+	FString FillTemplate(const FHLSim& S, const FString& Text);
+	void TickChat(float Dt);
+	void PlayerChat(const FString& Text); // raw input incl. slash commands
+	FString ChatChannel = TEXT("say"); FString WhisperTarget;
+	void WorkerSession();
+	void WorkerSim(const FString& Kind, const TArray<int32>& Speakers, const FString& TrigKind, const FString& Channel, const FString& Text,
+		const TArray<FString>& Events, TFunction<void(bool bOk, const TSharedPtr<class FJsonObject>& Resp)> Done);
+	void ApplyWorkerActions(const TSharedPtr<class FJsonObject>& Resp, const FString& DefaultChannel, const TArray<int32>& Speakers);
+	FString WhoQuery; bool bWhoOpen = false;
+};
