@@ -1,6 +1,6 @@
 # Placeholder asset inventory
 
-Everything visible is a placeholder. Nothing below is final art. Counts follow `DESIGN-BIBLE.md` §8 and §14 "Assets".
+Everything visible is a placeholder. Nothing below is final art. Counts follow `DESIGN-BIBLE.md` §8 and §14 "Assets". Human character art (bodies, looks, hair, weapons) is specified in `ART-CHARACTERS.md`.
 "Where" = the code/data that must change when the real asset lands. Sourced public-domain media must be listed in the jam
 submission (bible §2 rule 1).
 

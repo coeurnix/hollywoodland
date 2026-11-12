@@ -2,7 +2,7 @@
 
 Simulated, player-populated MMORPG set in Hollywood, 1930 (alien insect occupation). Single-player; every other "player" is AI.
 UE 5.9.0 Preview (source build) → WebAssembly/WebGPU, served by a Cloudflare Worker, embedded on itch.io.
-Design reference: `DESIGN-BIBLE.md`. Roadmap and status: `PLAN.md`. Placeholder inventory: `ASSETS.md`.
+Design reference: `DESIGN-BIBLE.md`. Roadmap and status: `PLAN.md`. Placeholder inventory: `ASSETS.md`. Character art order: `ART-CHARACTERS.md`.
 
 - Client: https://hollywoodland.coeurnix.workers.dev/
 - Server API: https://hollywoodland-server.coeurnix.workers.dev/
