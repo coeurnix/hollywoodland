@@ -115,6 +115,26 @@ function cleanText(t) {
   if (!t || BAD.test(t)) return null;
   return t.length > 140 ? t.slice(0, 137) + '...' : t;
 }
+// Honesty guard (DESIGN-BIBLE §11): enforced in code, not left to the model.
+const ASKS_HUMAN = /\b(real (person|people|player|human)s?|(are|r) (you|u|y'?all|you guys|u guys|they|these)( guys| all)? (a |an )?(real|human|bot|bots|ai|npc|npcs|people|person)|are (you|u) .*\b(ai|bot|human)\b|is (this|everyone|anyone)( here)? (a |an )?(real|human|bot|ai)|am i talking to (a |an )?(bot|ai|human|person))\b|\b(bots?|npcs?)[?]/i;
+const CLAIMS_HUMAN = /\b(i'?m|im|i am|we'?re|were|we are)\b[^.?!]{0,24}\b(real|human|not (a |an )?(bot|ai|npc))\b|\b(real person|real people|real player|not a bot|no bots?)\b/i;
+const DISCLOSES = /\b(ai|ai-simulated|simulated|simulation)\b/i;
+const OOC = ['(ooc: honestly, im an AI-simulated player. everyone you meet here is)', '(ooc: no, im simulated by AI. this is a single-player game)'];
+function honesty(req, actions) {
+  const asked = req.kind === 'reply' && ASKS_HUMAN.test(String(req.trigger?.text || ''));
+  let disclosed = false;
+  for (const a of actions) {
+    if (!a.chat) continue;
+    if (CLAIMS_HUMAN.test(a.chat.text) && !DISCLOSES.test(a.chat.text)) a.chat.text = OOC[Math.floor(Math.random() * OOC.length)];
+    if (DISCLOSES.test(a.chat.text)) disclosed = true;
+  }
+  if (asked && !disclosed) {
+    const first = actions.find((a) => a.chat) || actions[0];
+    if (first) { first.chat = { channel: first.chat?.channel || req.trigger?.channel || 'say', text: OOC[0] }; first.delay_ms = first.delay_ms || 1500; }
+  }
+  return actions;
+}
+
 function validate(req, raw, decisions) {
   const speakers = new Map(req.speakers.map((s) => [s.persona, s]));
   const allowedGoals = new Set((req.allowed && req.allowed.goals) || []);
@@ -146,7 +166,7 @@ function validate(req, raw, decisions) {
         liking_delta: d.liking_delta ?? 0, decision: d.decision || null });
     }
   }
-  return out;
+  return honesty(req, out);
 }
 
 async function sim(request, env) {

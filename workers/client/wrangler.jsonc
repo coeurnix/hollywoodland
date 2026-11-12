@@ -6,5 +6,5 @@
   "observability": { "enabled": true },
   "r2_buckets": [ { "binding": "BUCKET", "bucket_name": "hollywoodland-stage" } ],
   // DEPLOY = R2 key prefix of the live build (switch/rollback = change this and redeploy; deploy-stage.mjs does it)
-  "vars": { "DEPLOY": "v1" }
+  "vars": { "DEPLOY": "v2" }
 }

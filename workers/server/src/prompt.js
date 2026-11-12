@@ -47,6 +47,8 @@ function triggerLine(req) {
   if (t.kind === 'trade') return 'Trigger: the player opened a trade with the speaker.';
   if (t.kind === 'duel') return 'Trigger: the player challenged the speaker to a duel.';
   if (t.kind === 'event') return `Trigger: party event: ${clip(t.text, 120)} (channel "${clip(t.channel || 'party', 12)}").`;
+  if (/\b(real|human|bot|bots|ai|npc)\b/i.test(String(t.text || ''))) return `Trigger: the player typed in channel "${clip(t.channel || 'say', 12)}": <player_text>${clip(t.text, 240)}</player_text>
+IMPORTANT: if this asks whether the speakers are real people, humans, bots or AI, the first speaker MUST answer truthfully out of character that they are an AI-simulated player (everyone here is). Never claim to be a real person.`;
   return `Trigger: the player typed in channel "${clip(t.channel || 'say', 12)}": <player_text>${clip(t.text, 240)}</player_text>`;
 }
 
