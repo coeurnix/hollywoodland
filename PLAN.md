@@ -54,7 +54,7 @@ browser ── itch.io page (iframe) ── hollywoodland Worker (R2 stage, COOP
 |---|---|---|
 | Web build + R2/Worker hosting (§13) | DONE | Shipping Wasm, forward tier. Stage ≈ 115 MB incl. Brotli siblings (budget 500 MB). |
 | itch.io embed (§13) | DONE (wrapper) | `itch/index.html` iframe; needs itch "SharedArrayBuffer support" on. See §6. |
-| Windows standalone | DONE | `ScriptsBuildWindows.ps1` (Development) -> `win-dist-DevelopmentWindowsHollywoodland.exe`; verified with `-HLAuto` self-play. |
+| Windows standalone | DONE | `Scripts\BuildWindows.ps1` (Development) -> `win-dist-Development\Windows\Hollywoodland.exe`; verified with `-HLAuto` self-play. |
 | Saves (§13) | DONE | localStorage JSON every 30 s + KV cloud copy every 2 min (`/v1/save/<player>`); cloud restore UI TODO. |
 | Zone layout (§14) | PROTO | Gray boxes on a flat plane, real street grid compressed. No slopes, interiors, rooftops (Spitters are on the ground). |
 | Exits / hive wall (§14) | DONE | Perimeter wall, 4 gaps, elite guards L22-34 (aggro 34 m). Transients pass unharmed and despawn at the grid edge. |
