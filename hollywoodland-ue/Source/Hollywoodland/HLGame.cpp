@@ -152,7 +152,7 @@ void FHLGame::EnterWorld()
 		PlayerUnitId = U->Id;
 	}
 	FHLUnit& U = *PlayerUnit();
-	U.Name = Player.Name; U.Cls = Player.Cls; U.Color = Player.Cls->Color; U.Yaw = 90;
+	U.Name = Player.Name; U.Cls = Player.Cls; U.Color = Player.Cls->Color; U.Yaw = -90;
 	RecalcPlayerStats();
 	U.Hp = U.MaxHp; U.Res = U.ResType == EHLRes::Adrenaline ? 0 : U.MaxRes;
 	bInWorld = true;

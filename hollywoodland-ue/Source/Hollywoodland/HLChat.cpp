@@ -141,6 +141,7 @@ void FHLGame::TickChat(float Dt)
 			const FHLSim& S = Sims[SI];
 			if (!S.bOnline || S.bInParty) continue;
 			if (Ch == TEXT("zone") && !(S.UnitId || S.Level <= 14)) continue; // General is zone-wide; trade and LFG are capital-wide
+			if (Ch == TEXT("lfg") && S.Level < 7) continue;
 			if (Ch == TEXT("zone") && Chance(0.35f)) { const FString Line = CorpusLine(S, TEXT("idle")); if (!Line.IsEmpty()) { AddChat(Ch, S.P->Handle, StyleText(*S.P, Line), SI); LastZoneSituation = TEXT("idle"); break; } }
 			TArray<const FHLChatTemplate*> Fit;
 			const bool bWantAnswer = Ch == TEXT("zone") && LastZoneSituation == TEXT("question") && Chance(0.6f);

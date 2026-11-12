@@ -1,0 +1,101 @@
+# Placeholder asset inventory
+
+Everything visible is a placeholder. Nothing below is final art. Counts follow `DESIGN-BIBLE.md` §8 and §14 "Assets".
+"Where" = the code/data that must change when the real asset lands. Sourced public-domain media must be listed in the jam
+submission (bible §2 rule 1).
+
+## Present authored assets (all placeholder)
+
+| Asset | Path | Purpose |
+|---|---|---|
+| `M_HL` | `Content/HL/M_HL.uasset` (made by `Scripts/make_assets.py`) | lit flat colour, params `Color`, `Glow` (emissive ambient) |
+| `M_HLSky` | `Content/HL/M_HLSky.uasset` | unlit two-sided flat colour (sky shell, portal, target ring) |
+| Engine basic shapes | `/Engine/BasicShapes/{Cube,Sphere,Cylinder,Cone}` | every mesh in the game |
+| Roboto (engine default) | Slate core style | all UI text |
+
+## 3D models
+
+| Needed | Count | Current placeholder | Where |
+|---|---|---|---|
+| Landmark exteriors: Grauman's Chinese, Egyptian, Roosevelt, Hollywood Hotel, First National Bank, Taft Building, Brown Derby, Pantages, Hollywood High, police station | 10 | labelled coloured boxes (`label` on boxes in `tools/gen/zone.mjs`) | `AHLWorldActor::BuildWorld` (swap mesh by `FHLBox::Label`) |
+| Aid stations: Receiving Hospital, Fire Station No. 27, Blessed Sacrament | 3 | boxes + red floor square | same |
+| Street kit: storefronts (≈60 instances, 6-8 variants), signs, street lamps, red-car track, kerbs, period cars, rubble | 1 kit | varied-height boxes from `shops()`, flat strips for roads/rails | `zone.mjs` `shops()`, `BuildWorld` |
+| Hive kit: wall segments, gap, spire, egg cluster, egg sac | 5 | dark boxes; cone; squashed spheres | `BuildWorld` object switch (`O.Kind`) |
+| Red car (Pacific Electric) | 1 | red box 13×2.6×3.2 m | object kind `redcar` |
+| Wrecks: newsreel truck, cars | 3 | dark low boxes | `zone.mjs` wreck boxes |
+| Player/NPC bodies | 2 base bodies | cylinder + sphere head + "nose" cube, class-coloured | `AHLWorldActor::BuildUnit` (`Shape == human`) |
+| Armour looks | 24 (4 types × 6 tiers) + 8 epic | none (body colour = class colour) | `BuildUnit`; items need `look_id` (not in data yet) |
+| Weapon meshes | ~40 | none shown | `BuildUnit`; `FHLItem::Type` |
+| Invader meshes: Worker, Drone, Spitter, Soldier, Broodling, Brute, Queen (+ Burrower, Flier later) | 7 (+2) | squashed sphere + cone "head", colour/scale per template | `BuildUnit` (`Shape == bug`), `mobs[].shape/color/scale` |
+| Wildlife: coyote, feral dog | 2 | box body + box head | `BuildUnit` (`Shape == quad`) |
+| Humans: Looter, Dragna Enforcer | reuse character | dark cylinders | — |
+| Mounts: horse, Ford Model A, motorcycle (+ 60 tier re-skins) | 3 | dark box under the rider | `SyncUnits` mount block |
+| Interactables: film can, reel, coffee tin, arc lamp, call box, mailbox, scrap pile, captured usher | 8 | small cylinders/boxes | `BuildWorld` object switch |
+| Dungeon interior: forecourt, lobby, auditorium (seat rows), projection booth, stage | 5 rooms | brown wall boxes, red seat rows, red carpet strip | `tools/gen/zone.mjs` dungeon section |
+| Sky / dome | 1 | flat-colour sphere shell (2.6 km) | `BuildWorld` |
+| HOLLYWOODLAND sign on Mount Lee | 1 | absent | add north of zone |
+
+## Animation
+
+| Needed | Current |
+|---|---|
+| Character: idle, run, jump, sit, melee swing, cast, shoot, hit react, death, loot, emotes (wave, dance, cheer) | none: units slide; death = 90° roll + darker colour; jump/emote = vertical hop (`HopT`) |
+| Invaders ×7, coyote, dog: idle, walk, attack, cast (spit), death | none |
+| Mount ride | none |
+| Crowd: vertex-animated variants (bible §13) | none |
+
+## Textures / materials
+
+| Needed | Current |
+|---|---|
+| Building facades (period signage: marquees, storefront lettering), road/sidewalk, hive resin, chitin | flat colours from data |
+| Character skin/hair/clothing sets (12 faces, 12 hair, 8 skin, 8 clothing colours) | 4 flat skin tones by unit id |
+| 1930 posters and lobby cards on theatre fronts (public domain, to be sourced and disclosed) | none |
+
+## VFX
+
+| Needed | Current |
+|---|---|
+| Ability effects per school (physical, electric, fire, acid, holy, heal), projectiles, auras (shield, DoT, stun) | none: floating numbers only |
+| Acid pool telegraph, charge telegraph, egg hatch, spire explosion, portal | emote text in chat; portal = cyan cylinder |
+| Level-up, quest complete, loot sparkle | banner text; "* loot *" label; "*" prefix on quest objects |
+| Target ring | flat cylinder, colour by hostility |
+
+## UI graphics
+
+| Needed | Count | Current |
+|---|---|---|
+| Item icons | ~700 | square tinted by quality with 2-letter glyph (`SHLGameUI::ItemIcon`) |
+| Ability icons | ~50 (61 abilities) | square tinted by school with the name as text |
+| Class icons, faction crests, guild tabards | 8 / 8 / 8 | class colour only |
+| Frames: unit frames, action bar, windows, tooltips, minimap ring, quest markers | 1 skin | flat panels + 1 px gold border; `!`/`?` are text |
+| Fonts: period display face (title, zone banners) + readable body face | 2 | Roboto |
+| World map illustration (13 zones under the dome), zone map | 2 | coloured rectangles from `world.json` `map`; boxes from layout |
+| Red-car route map | 1 | text list |
+| Loading screen / title art (no studio marks, bible §2 rule 3) | 1 | text title panel over a slow camera orbit |
+| Cursor set (attack, loot, talk, vendor) | 5 | system arrow |
+
+## Audio
+
+| Needed | Current |
+|---|---|
+| Music: title, boulevard day/night, combat, dungeon, boss | none |
+| Ambience: street, crowd, hive drone, theatre interior | none |
+| SFX: melee/gun/cast per school, hits, mob vocalisations ×9, death, loot, coin, UI clicks, level-up, quest accept/complete, red-car bell | none |
+| Period recordings (≤1925, public domain) on radios/phonographs | none |
+| Voices: NPC greetings (15 real-person NPCs must not use cloned voices, bible §2) | none |
+
+## Public-domain media (to source, verify, disclose)
+
+| Item | Use | Status |
+|---|---|---|
+| *Hell's Angels* (1930) excerpt | loops on the Chinese screen / picture night | not sourced |
+| *Robin Hood* (1922) excerpt | Egyptian stage after clear | not sourced (quest text references it) |
+| 1930 posters, lobby cards, newspaper pages | facades, tooltips | not sourced |
+
+## Text content still placeholder
+
+- Quest text is 35-60 words (target 60-120, bible §10); breadcrumb destination NPCs are names only.
+- NPC gossip greetings: 4 generic lines shared by all NPCs.
+- Unbuilt zones carry 4-8 quest titles each (target ~45) and no mob level tables.
+- LLM-generated corpus (`tools/cache/corpus.json`, 554 lines) has not had the human sample review the bible asks for.

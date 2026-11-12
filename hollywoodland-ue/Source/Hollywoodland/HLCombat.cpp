@@ -327,7 +327,7 @@ void FHLGame::KillUnit(FHLUnit& U, FHLUnit* Killer)
 			if (Owner->Kind == EHLKind::Sim && Owner->SimIdx >= 0)
 			{
 				FHLSim& S = Sims[Owner->SimIdx];
-				S.Xp += (45 + 5 * U.Level) * RankXp * 3.f; // simulated players level a little faster than a human would
+				S.Xp += (45 + 5 * U.Level) * RankXp * 1.5f; // simulated players level a little faster than a human would
 				S.Kills++;
 			}
 		}

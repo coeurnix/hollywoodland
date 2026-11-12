@@ -34,7 +34,7 @@ public:
 	bool bSaveChecked = false;
 	FString SavedJson;
 	// camera (driven by the UI)
-	float CamYaw = 90, CamPitch = 22, CamDist = 14;
+	float CamYaw = -90, CamPitch = 22, CamDist = 14;
 	FVector ToWorld(int32 Area, const FVector2D& P, float Z = 0) const;
 
 	UPROPERTY() TObjectPtr<UCameraComponent> Camera;

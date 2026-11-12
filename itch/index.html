@@ -1,0 +1,43 @@
+<!doctype html>
+<!-- itch.io HTML5 wrapper for Hollywoodland. The game itself is served by the Cloudflare Worker (R2-backed, COOP/COEP,
+     Brotli, Range). Upload this file zipped as the itch.io "played in the browser" file and turn on
+     Embed options > SharedArrayBuffer support, so that the nested iframe can be cross-origin isolated. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hollywoodland</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #0b0a0d; color: #e9d9a6; font: 14px/1.4 system-ui, sans-serif; overflow: hidden; }
+  iframe { position: absolute; inset: 0 0 26px 0; width: 100%; height: calc(100% - 26px); border: 0; background: #0b0a0d; }
+  #bar { position: absolute; left: 0; right: 0; bottom: 0; height: 26px; display: flex; align-items: center; justify-content: center; gap: 14px; font-size: 12px; background: #17131a; }
+  a { color: #ffd166; }
+  #warn { display: none; position: absolute; inset: 0 0 26px 0; align-items: center; justify-content: center; text-align: center; padding: 24px; }
+</style>
+</head>
+<body>
+<iframe id="game" title="Hollywoodland" allow="cross-origin-isolated; fullscreen; autoplay; gamepad; pointer-lock; clipboard-write" allowfullscreen></iframe>
+<div id="warn"><div>
+  <h2>Hollywoodland needs a desktop browser with WebGPU</h2>
+  <p>Chrome or Edge on a desktop computer works best. If the game does not start here, open it directly:</p>
+  <p><a id="direct" target="_blank" rel="noopener">Play Hollywoodland in a new tab</a></p>
+</div></div>
+<div id="bar">
+  <span>Single-player. Every other "player" is AI.</span>
+  <a id="direct2" target="_blank" rel="noopener">Open in a new tab</a>
+  <span>Click the game, then WASD + mouse.</span>
+</div>
+<script>
+  const GAME = 'https://hollywoodland.coeurnix.workers.dev/';
+  document.getElementById('direct').href = GAME;
+  document.getElementById('direct2').href = GAME;
+  const ok = 'gpu' in navigator && typeof SharedArrayBuffer !== 'undefined';
+  if (ok || window.crossOriginIsolated) document.getElementById('game').src = GAME;
+  else {
+    // Without isolation on the itch page the nested frame cannot get SharedArrayBuffer; still try, and show the fallback.
+    document.getElementById('game').src = GAME;
+    if (!('gpu' in navigator)) { document.getElementById('game').style.display = 'none'; document.getElementById('warn').style.display = 'flex'; }
+  }
+</script>
+</body>
+</html>

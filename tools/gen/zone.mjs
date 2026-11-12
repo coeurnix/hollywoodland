@@ -27,14 +27,14 @@ export const mobs = [
   M('mob_guard_melrose', 'Invader Brute', 'invader_brute', 24, 24, { rank: 'elite', hp: 1.2, dmg: 1.2, armor: 1.5, color: [0.25, 0.2, 0.3], scale: 1.9, guard: true, respawn: 60 }),
   M('mob_guard_la_brea', 'Dragna Enforcer', 'dragna_enforcer', 30, 30, { rank: 'elite', hp: 1.2, dmg: 1.2, armor: 1.2, shape: 'human', color: [0.12, 0.12, 0.14], scale: 1.15, guard: true, respawn: 60 }),
   // The Egyptian Theatre
-  M('mob_egy_drone', 'Theatre Drone', 'invader_drone', 9, 9, { rank: 'elite', hp: 0.55, dmg: 0.6, social: 10, color: [0.3, 0.45, 0.2], junk: ['Cracked Mandible'], respawn: 0 }),
-  M('mob_egy_spitter', 'Balcony Spitter', 'invader_spitter', 10, 10, { rank: 'elite', hp: 0.45, dmg: 0.55, armor: 0.8, ranged: true, social: 10, abilities: ['ab_mob_acid_spit'], color: [0.55, 0.65, 0.15], scale: 0.9, junk: ['Acid-pitted Scale'], respawn: 0 }),
+  M('mob_egy_drone', 'Theatre Drone', 'invader_drone', 9, 9, { rank: 'elite', hp: 0.95, dmg: 0.8, social: 10, color: [0.3, 0.45, 0.2], junk: ['Cracked Mandible'], respawn: 0 }),
+  M('mob_egy_spitter', 'Balcony Spitter', 'invader_spitter', 10, 10, { rank: 'elite', hp: 0.8, dmg: 0.75, armor: 0.8, ranged: true, social: 10, abilities: ['ab_mob_acid_spit'], color: [0.55, 0.65, 0.15], scale: 0.9, junk: ['Acid-pitted Scale'], respawn: 0 }),
   M('mob_egy_broodling', 'Aisle Broodling', 'invader_broodling', 9, 9, { hp: 0.25, dmg: 0.35, armor: 0.5, social: 8, color: [0.6, 0.7, 0.4], scale: 0.45, speed: 7, junk: ['Broodling Husk'], respawn: 0 }),
-  M('mob_egy_soldier', 'Stage Soldier', 'invader_soldier', 11, 11, { rank: 'elite', hp: 0.65, dmg: 0.6, armor: 2, social: 10, color: [0.2, 0.3, 0.15], scale: 1.25, junk: ['Cracked Mandible'], respawn: 0 }),
-  M('mob_boss_brood_keeper', 'Brood Keeper', 'invader_brute', 9, 9, { rank: 'boss', hp: 0.55, dmg: 0.5, armor: 1.5, color: [0.4, 0.25, 0.35], scale: 2.0, script: 'brood_keeper', abilities: ['ab_mob_knockback'], respawn: 0 }),
-  M('mob_boss_hive_warden', 'Hive Warden', 'invader_soldier', 10, 10, { rank: 'boss', hp: 0.55, dmg: 0.5, armor: 2, color: [0.15, 0.3, 0.3], scale: 1.9, script: 'hive_warden', abilities: ['ab_mob_charge'], respawn: 0 }),
-  M('mob_boss_matriarch', 'Spitter Matriarch', 'invader_spitter', 11, 11, { rank: 'boss', hp: 0.5, dmg: 0.5, armor: 0.8, ranged: true, color: [0.7, 0.75, 0.1], scale: 1.8, script: 'matriarch', abilities: ['ab_mob_acid_spit', 'ab_mob_acid_pool'], respawn: 0 }),
-  M('mob_boss_hive_mother', 'The Egyptian Hive Mother', 'invader_queen', 12, 12, { rank: 'boss', hp: 0.7, dmg: 0.55, armor: 1.5, color: [0.55, 0.1, 0.45], scale: 2.6, script: 'hive_mother', abilities: ['ab_mob_knockback'], respawn: 0 }),
+  M('mob_egy_soldier', 'Stage Soldier', 'invader_soldier', 11, 11, { rank: 'elite', hp: 1.0, dmg: 0.8, armor: 2, social: 10, color: [0.2, 0.3, 0.15], scale: 1.25, junk: ['Cracked Mandible'], respawn: 0 }),
+  M('mob_boss_brood_keeper', 'Brood Keeper', 'invader_brute', 9, 9, { rank: 'boss', hp: 1.3, dmg: 0.7, armor: 1.5, color: [0.4, 0.25, 0.35], scale: 2.0, script: 'brood_keeper', abilities: ['ab_mob_knockback'], respawn: 0 }),
+  M('mob_boss_hive_warden', 'Hive Warden', 'invader_soldier', 10, 10, { rank: 'boss', hp: 1.3, dmg: 0.75, armor: 2, color: [0.15, 0.3, 0.3], scale: 1.9, script: 'hive_warden', abilities: ['ab_mob_charge'], respawn: 0 }),
+  M('mob_boss_matriarch', 'Spitter Matriarch', 'invader_spitter', 11, 11, { rank: 'boss', hp: 1.3, dmg: 0.75, armor: 0.8, ranged: true, color: [0.7, 0.75, 0.1], scale: 1.8, script: 'matriarch', abilities: ['ab_mob_acid_spit', 'ab_mob_acid_pool'], respawn: 0 }),
+  M('mob_boss_hive_mother', 'The Egyptian Hive Mother', 'invader_queen', 12, 12, { rank: 'boss', hp: 1.8, dmg: 0.9, armor: 1.5, color: [0.55, 0.1, 0.45], scale: 2.6, script: 'hive_mother', abilities: ['ab_mob_knockback'], respawn: 0 }),
 ];
 
 // ---------- geometry helpers ----------

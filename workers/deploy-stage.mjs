@@ -2,7 +2,7 @@
 //   node deploy-stage.mjs <stage dir (.../Wasm)> <prefix>
 // Uses `wrangler r2 object put --remote` per file (no S3 keys needed), 6 uploads in parallel. Skips symbols.
 import { readdirSync, statSync, readFileSync, writeFileSync } from 'node:fs';
-import { join, relative, sep } from 'node:path';
+import { join, relative, resolve as absPath, sep } from 'node:path';
 import { execFile, execFileSync } from 'node:child_process';
 
 const [stage, prefix] = process.argv.slice(2);
@@ -24,7 +24,7 @@ function put(f) {
   const size = statSync(f).size;
   total += size;
   return new Promise((resolve, reject) => {
-    const attempt = (n) => execFile(wrangler, ['wrangler', 'r2', 'object', 'put', `${BUCKET}/${key}`, '--file', `"${f}"`, '--remote'],
+    const attempt = (n) => execFile(wrangler, ['wrangler', 'r2', 'object', 'put', `${BUCKET}/${key}`, '--file', `"${absPath(f)}"`, '--remote'],
       { shell: true, cwd: new URL('./client/', import.meta.url) }, (err, _o, stderr) => {
         if (err && n < 3) return attempt(n + 1);
         if (err) return reject(new Error(`${key}: ${stderr}`));

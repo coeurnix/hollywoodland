@@ -33,7 +33,12 @@ AHLWorldActor::AHLWorldActor()
 	FPostProcessSettings& PP = Camera->PostProcessSettings;
 	PP.bOverride_AutoExposureMethod = true; PP.AutoExposureMethod = AEM_Manual;
 	PP.bOverride_AutoExposureApplyPhysicalCameraExposure = true; PP.AutoExposureApplyPhysicalCameraExposure = false;
+	// The web (mobile forward) tier shows scene colour about two stops brighter than the desktop tonemapper path.
+#if PLATFORM_WASM
 	PP.bOverride_AutoExposureBias = true; PP.AutoExposureBias = 0.f;
+#else
+	PP.bOverride_AutoExposureBias = true; PP.AutoExposureBias = 2.0f;
+#endif
 	PP.bOverride_BloomIntensity = true; PP.BloomIntensity = 0.f;
 	PP.bOverride_VignetteIntensity = true; PP.VignetteIntensity = 0.25f;
 	static ConstructorHelpers::FObjectFinder<UStaticMesh> CubeF(TEXT("/Engine/BasicShapes/Cube.Cube"));
@@ -60,7 +65,7 @@ UMaterialInstanceDynamic* AHLWorldActor::Mid(const FLinearColor& C, bool bUnlit,
 	const uint32 Key = (uint32(Q.R >> 2) << 18) | (uint32(Q.G >> 2) << 12) | (uint32(Q.B >> 2) << 6) | (bUnlit ? 32u : 0u) | uint32(FMath::Clamp(Glow * 10.f, 0.f, 31.f));
 	if (TObjectPtr<UMaterialInstanceDynamic>* Found = Mids.Find(Key)) return *Found;
 	UMaterialInstanceDynamic* D = UMaterialInstanceDynamic::Create(bUnlit ? MatUnlit : MatLit, this);
-	D->SetVectorParameterValue(TEXT("Color"), C);
+	D->SetVectorParameterValue(TEXT("Color"), bUnlit ? C * 0.5f : C * 0.5f);
 	if (!bUnlit) D->SetScalarParameterValue(TEXT("Glow"), Glow);
 	Mids.Add(Key, D);
 	return D;
@@ -93,6 +98,8 @@ void AHLWorldActor::BeginPlay()
 	}
 	FParse::Value(FCommandLine::Get(), TEXT("HLAuto="), AutoClass);
 	FParse::Value(FCommandLine::Get(), TEXT("HLAutoQuit="), AutoQuit);
+	// browser test hook: localStorage hl_auto=<class> starts the self-playing test (tools/probe.py --auto)
+	HLBridge::StorageGet(TEXT("hl_auto"), [this](const FHLBridgeResult& R) { if (R.Ok() && !R.Body.IsEmpty() && AutoClass.IsEmpty()) AutoClass = R.Body.TrimStartAndEnd(); });
 	HLBridge::StorageGet(TEXT("hollywoodland_save_v1"), [this](const FHLBridgeResult& R) { bSaveChecked = true; if (R.Ok()) SavedJson = R.Body; });
 	if (GEngine && GEngine->GameViewport)
 	{
@@ -124,7 +131,7 @@ void AHLWorldActor::BuildWorld()
 	if (ADirectionalLight* Sun = W->SpawnActor<ADirectionalLight>(FVector(0, 0, 5000), FRotator(-48, 35, 0)))
 	{
 		Sun->GetRootComponent()->SetMobility(EComponentMobility::Movable);
-		if (ULightComponent* L = Sun->GetLightComponent()) { L->SetIntensity(2.6f); L->SetLightColor(FLinearColor(1.f, 0.9f, 0.78f)); L->SetCastShadows(false); }
+		if (ULightComponent* L = Sun->GetLightComponent()) { L->SetIntensity(1.7f); L->SetLightColor(FLinearColor(1.f, 0.9f, 0.78f)); L->SetCastShadows(false); }
 		Spawned.Add(Sun);
 	}
 	ObjectMeshes.SetNum(Game.Areas.Num());
@@ -270,6 +277,15 @@ void AHLWorldActor::Tick(float Dt)
 	float Yaw = CamYaw, Pitch = CamPitch, D = CamDist;
 	if (!Game.bInWorld) { Yaw = -90 + GetWorld()->GetTimeSeconds() * 3.f; Pitch = 18; D = 46; }
 	const FRotator Rot(-Pitch, Yaw, 0);
+	// camera collision against the nav grid: pull in until the line from the player is clear
+	if (P && Game.bInWorld)
+	{
+		const FHLNav& Nav = Game.Areas[P->Area].Nav;
+		const FVector Dir = -Rot.Vector();
+		float Clear = D;
+		for (float S = 1.f; S <= D; S += 0.75f) { const FVector2D Pt = P->Pos + FVector2D(Dir.X, Dir.Y) * S; if (Nav.BlockedAt(Pt)) { Clear = FMath::Max(1.5f, S - 1.0f); break; } }
+		D = Clear;
+	}
 	FVector Loc = Focus - Rot.Vector() * D * M;
 	Loc.Z = FMath::Max(Loc.Z, 40.f);
 	Camera->SetWorldLocationAndRotation(Loc, (Focus - Loc).Rotation());
@@ -279,7 +295,11 @@ void AHLWorldActor::Tick(float Dt)
 	{
 		NextLog = Game.Now + 20;
 		int32 SimsIn = 0; for (const FHLSim& S : Game.Sims) if (S.UnitId) ++SimsIn;
-		HLBridge::Log(FString::Printf(TEXT("HL_STATUS t=%.0f lvl=%d xp=%d units=%d sims=%d chat=%d worker=%d calls=%d fails=%d fps=%.0f"), Game.Now, P ? P->Level : 0, Game.Player.Xp,
+		int32 Bosses = 0, DMobs = 0, PartyAlive = 0;
+		for (const FHLUnit* U : Game.UnitList) if (U->Kind == EHLKind::Mob && U->Area == 1 && !U->bDead) { ++DMobs; if (U->Mob->Rank == TEXT("boss")) ++Bosses; }
+		for (int32 SI : Game.Party) if (const FHLUnit* U = Game.Unit(Game.Sims[SI].UnitId)) if (!U->bDead) ++PartyAlive;
+		HLBridge::Log(FString::Printf(TEXT("HL_STATUS t=%.0f lvl=%d xp=%d hp=%.0f area=%d deaths=%d kills=%d party=%d/%d dmobs=%d bosses=%d units=%d sims=%d chat=%d worker=%d calls=%d fails=%d fps=%.0f"), Game.Now, P ? P->Level : 0, Game.Player.Xp,
+			P ? P->HpPct() * 100 : 0.f, P ? P->Area : -1, Game.Player.Deaths, Game.Player.Kills, PartyAlive, Game.Party.Num(), DMobs, Bosses,
 			Game.UnitList.Num(), SimsIn, Game.Chat.Num(), Game.bWorkerOk ? 1 : 0, Game.WorkerCalls, Game.WorkerFails, Dt > 0 ? 1.f / Dt : 0.f));
 	}
 }
@@ -295,12 +315,39 @@ void AHLWorldActor::AutoTest(float Dt)
 		Game.NewCharacter(TEXT("Tester"), C);
 		Game.EnterWorld();
 		for (const FHLQuest& Q : FHLData::Get().Quests) if (Q.Level <= 2 && Game.QuestAvailable(Q)) Game.AcceptQuest(Q);
+		if (FParse::Param(FCommandLine::Get(), TEXT("HLAutoDungeon")))
+		{
+			// dungeon soak test: level 10 player + 4 level-10 simulated players (tank, healer, 2 others) inside the Egyptian
+			FHLUnit* P = Game.PlayerUnit();
+			P->Level = 10; Game.RecalcPlayerStats(); P->Hp = P->MaxHp;
+			for (const FHLAbility* Ab : C->Abilities) if (Ab->Level <= 10) Game.LearnAbility(Ab, true);
+			bool bTank = C->Role == TEXT("tank"), bHeal = C->Role == TEXT("healer");
+			for (int32 Pass = 0; Pass < 3 && Game.Party.Num() < 4; ++Pass)
+				for (int32 i = 0; i < Game.Sims.Num() && Game.Party.Num() < 4; ++i)
+				{
+					FHLSim& S = Game.Sims[i];
+					if (!S.UnitId || S.Role != EHLSimRole::Local || S.bInParty) continue;
+					const FString& SimRole = S.P->Cls->Role;
+					if (Pass == 0 && !(SimRole == TEXT("tank") && !bTank)) continue;
+					if (Pass == 1 && !(SimRole == TEXT("healer") && !bHeal)) continue;
+					if (Pass == 2 && (SimRole == TEXT("tank") || SimRole == TEXT("healer"))) continue;
+					if (SimRole == TEXT("tank")) bTank = true;
+					if (SimRole == TEXT("healer")) bHeal = true;
+					S.Level = 10; Game.RecalcCharStats(*Game.Unit(S.UnitId), *S.P->Cls, 10, S.P->Equipped, true);
+					Game.SimJoinParty(i);
+				}
+			Game.SpawnArea(1, true);
+			Game.TeleportUnit(*P, 1, Game.Areas[1].Def->Spawn);
+			for (int32 SI : Game.Party) Game.TeleportUnit(*Game.Unit(Game.Sims[SI].UnitId), 1, Game.Areas[1].Def->Spawn + FVector2D(SI % 5 - 2, 2));
+		}
 		return;
 	}
 	if (T >= AutoNextShot)
 	{
 		AutoNextShot = T + (AutoShots < 3 ? 6 : 25);
+#if !PLATFORM_WASM
 		FScreenshotRequest::RequestScreenshot(FPaths::ProjectSavedDir() / FString::Printf(TEXT("Screenshots/hl_auto_%02d.png"), AutoShots++), true, false);
+#endif
 	}
 	if (AutoQuit > 0 && T > AutoQuit) { UKismetSystemLibrary::QuitGame(this, nullptr, EQuitPreference::Quit, false); return; }
 	FHLUnit* P = Game.PlayerUnit();
@@ -314,7 +361,9 @@ void AHLWorldActor::AutoTest(float Dt)
 		for (FHLUnit* U : Game.UnitList) if (U->Kind == EHLKind::Mob && U->bDead && U->bLootable && U->TappedBy == Game.PlayerUnitId && Game.Dist(*P, *U) < 6) Game.LootCorpse(*U);
 		if (P->HpPct() < 0.5f && !Game.InCombat(*P)) { P->bSitting = true; return; }
 		FHLUnit* Best = nullptr; float BestD = 1e9f;
-		for (FHLUnit* U : Game.UnitList) if (U->Kind == EHLKind::Mob && !U->bDead && U->Area == P->Area && U->Level <= P->Level + 1 && !U->Mob->bGuard && (U->TappedBy == 0 || U->TappedBy == Game.PlayerUnitId) && Game.Dist(*P, *U) < BestD) { Best = U; BestD = Game.Dist(*P, *U); }
+		const int32 MaxLvl = P->Area == 0 ? P->Level + 1 : 99;
+		if (P->Area != 0) { bool bRest = false; for (int32 SI : Game.Party) if (const FHLUnit* Mb = Game.Unit(Game.Sims[SI].UnitId)) if (Mb->bDead || Mb->HpPct() < 0.6f || (Mb->ResType == EHLRes::Power && Mb->Res < Mb->MaxRes * 0.4f)) bRest = true; if (bRest && !Game.InCombat(*P)) { P->bSitting = true; return; } }
+		for (FHLUnit* U : Game.UnitList) if (U->Kind == EHLKind::Mob && !U->bDead && U->Area == P->Area && U->Level <= MaxLvl && !U->Mob->bGuard && (U->TappedBy == 0 || U->TappedBy == Game.PlayerUnitId) && Game.Dist(*P, *U) < BestD) { Best = U; BestD = Game.Dist(*P, *U); }
 		if (Best) Game.TargetUnit(Best->Id);
 		return;
 	}
