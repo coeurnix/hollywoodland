@@ -65,7 +65,7 @@ UMaterialInstanceDynamic* AHLWorldActor::Mid(const FLinearColor& C, bool bUnlit,
 	const uint32 Key = (uint32(Q.R >> 2) << 18) | (uint32(Q.G >> 2) << 12) | (uint32(Q.B >> 2) << 6) | (bUnlit ? 32u : 0u) | uint32(FMath::Clamp(Glow * 10.f, 0.f, 31.f));
 	if (TObjectPtr<UMaterialInstanceDynamic>* Found = Mids.Find(Key)) return *Found;
 	UMaterialInstanceDynamic* D = UMaterialInstanceDynamic::Create(bUnlit ? MatUnlit : MatLit, this);
-	D->SetVectorParameterValue(TEXT("Color"), bUnlit ? C * 0.5f : C * 0.5f);
+	D->SetVectorParameterValue(TEXT("Color"), bUnlit ? C * 0.6f : C * 0.78f);
 	if (!bUnlit) D->SetScalarParameterValue(TEXT("Glow"), Glow);
 	Mids.Add(Key, D);
 	return D;
@@ -131,7 +131,7 @@ void AHLWorldActor::BuildWorld()
 	if (ADirectionalLight* Sun = W->SpawnActor<ADirectionalLight>(FVector(0, 0, 5000), FRotator(-48, 35, 0)))
 	{
 		Sun->GetRootComponent()->SetMobility(EComponentMobility::Movable);
-		if (ULightComponent* L = Sun->GetLightComponent()) { L->SetIntensity(1.7f); L->SetLightColor(FLinearColor(1.f, 0.9f, 0.78f)); L->SetCastShadows(false); }
+		if (ULightComponent* L = Sun->GetLightComponent()) { L->SetIntensity(2.0f); L->SetLightColor(FLinearColor(1.f, 0.9f, 0.78f)); L->SetCastShadows(false); }
 		Spawned.Add(Sun);
 	}
 	ObjectMeshes.SetNum(Game.Areas.Num());

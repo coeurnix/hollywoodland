@@ -27,7 +27,17 @@ cd workers; node deploy-stage.mjs ../hollywoodland-ue/web-dist-Shipping/Wasm v<N
 cd workers/server; npx wrangler deploy                    # API worker (secrets: FIREWORKS_API_KEY, SESSION_SECRET)
 ```
 
-Native test run (fast iteration, same code): `hollywoodland-ue\Scripts\RunNative.ps1`.
+Windows standalone: `hollywoodland-ue\Scripts\BuildWindows.ps1` → `win-dist-Development\Windows\Hollywoodland.exe`.
+Native test run without packaging (fastest iteration, same code): `hollywoodland-ue\Scripts\BuildEditor.ps1`, then
+`hollywoodland-ue\Scripts\RunNative.ps1 [-HLAuto=<class> [-HLAutoDungeon] -HLAutoQuit=<seconds>]` (self-playing smoke test;
+`HL_STATUS` lines in `Saved\Logs\Hollywoodland.log`, screenshots in `Saved\Screenshots`).
+Browser tests (Playwright venv at `C:\Users\theco\Projects\unreal59\tools-venv`): `tools/probe.py <url> --auto veteran`
+(self-play via `localStorage hl_auto`), `tools/probe-input.py <url> <out-prefix>` (real keyboard/mouse),
+`node tools/serve-itch.mjs 8931` (serves `itch/index.html` with itch-style COOP/COEP to test the nested iframe).
+Server: `node tools/test-server.mjs`. Corpus: `FIREWORKS_API_KEY=... node tools/gen-corpus.mjs` then `node tools/gen-data.mjs`.
+
+itch.io: create an HTML project, upload `itch/hollywoodland-itch.zip` ("This file will be played in the browser"), set the
+viewport to 1280×720 with the fullscreen button, and enable Embed options → SharedArrayBuffer support.
 Engine: `C:\Users\theco\Projects\unreal59\UnrealEngine` (5.9.0-preview-1, MSVC 14.50, Emscripten 6.0.10).
 
 ## Engine/web constraints that shaped the code (do not rediscover)

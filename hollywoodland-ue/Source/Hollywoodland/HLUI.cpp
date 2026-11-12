@@ -221,10 +221,11 @@ FReply SHLGameUI::OnMouseMove(const FGeometry& Geo, const FPointerEvent& E)
 {
 	if (bDragging && (bLDown || bRDown))
 	{
-		const FVector2D D = E.GetCursorDelta();
+		FVector2D D = E.GetCursorDelta();
+		if (D.SizeSquared() > 250.0 * 250.0) D = FVector2D::ZeroVector; // pointer-lock warp
 		DragDist += D.Size();
 		World->CamYaw += D.X * 0.25f;
-		World->CamPitch = FMath::Clamp(World->CamPitch + D.Y * 0.2f, -10.f, 80.f);
+		World->CamPitch = FMath::Clamp(World->CamPitch + D.Y * 0.2f, -5.f, 65.f);
 		return FReply::Handled();
 	}
 	Mouse = Geo.AbsoluteToLocal(E.GetScreenSpacePosition()) / ScaleFor(Geo);

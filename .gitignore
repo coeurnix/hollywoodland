@@ -4,6 +4,7 @@ hollywoodland-ue/Intermediate/
 hollywoodland-ue/Saved/
 hollywoodland-ue/DerivedDataCache/
 hollywoodland-ue/web-dist*/
+hollywoodland-ue/win-dist*/
 hollywoodland-ue/Build/
 hollywoodland-ue/.vs/
 *.sln
