@@ -18,7 +18,7 @@ export const mobs = [
   M('mob_invader_broodling', 'Invader Broodling', 'invader_broodling', 7, 8, { hp: 0.25, dmg: 0.35, armor: 0.5, social: 8, color: [0.6, 0.7, 0.4], scale: 0.45, speed: 7, junk: ['Broodling Husk'], respawn: 60 }),
   M('mob_invader_soldier', 'Invader Soldier', 'invader_soldier', 9, 10, { hp: 1.3, dmg: 1.1, armor: 2, color: [0.2, 0.3, 0.15], scale: 1.25, junk: ['Cracked Mandible', 'Acid-pitted Scale'], trade: [['Chitin Shard', 0.35]] }),
   M('mob_old_scar', 'Old Scar', 'coyote', 5, 5, { rank: 'rare', hp: 0.9, dmg: 0.9, armor: 0.8, shape: 'quad', color: [0.75, 0.7, 0.6], scale: 1.15, speed: 7.5, title: 'coyote', junk: ['Matted Fur'], money: false, respawn: 600 }),
-  M('mob_selma_burrower', 'The Selma Avenue Burrower', 'invader_burrower', 7, 7, { rank: 'rare', hp: 0.9, dmg: 1.2, color: [0.5, 0.3, 0.2], scale: 1.3, title: 'invader burrower', junk: ['Cracked Mandible'], respawn: 900 }),
+  M('mob_selma_burrower', 'The Selma Avenue Burrower', 'invader_burrower', 7, 7, { rank: 'rare', script: 'burrower', hp: 0.9, dmg: 1.2, color: [0.5, 0.3, 0.2], scale: 1.3, title: 'invader burrower', junk: ['Cracked Mandible'], respawn: 900 }),
   M('mob_looter_ringleader', 'Knuckles Malone', 'looter', 8, 8, { rank: 'elite', hp: 0.7, dmg: 0.8, shape: 'human', color: [0.5, 0.15, 0.15], scale: 1.1, title: 'Looter ringleader', junk: ['Pawn Ticket'], respawn: 240 }),
   M('mob_ballroom_brute', 'Ballroom Brute', 'invader_brute', 11, 11, { rank: 'elite', hp: 1.2, dmg: 1.2, armor: 1.5, abilities: ['ab_mob_knockback'], color: [0.25, 0.2, 0.3], scale: 1.9, title: 'Invader Brute', junk: ['Cracked Mandible'], respawn: 480 }),
   // Exit guards: far above any player who can reach them.
@@ -30,7 +30,7 @@ export const mobs = [
   // Beyond the wall: roaming packs from the neighbouring zones, far above the slice. A taste of what is out there.
   M('mob_wall_stalker', 'Hive Wall Stalker', 'invader_soldier', 25, 27, { rank: 'elite', hp: 1.2, dmg: 1.1, armor: 1.6, color: [0.18, 0.12, 0.22], scale: 1.45, speed: 9, social: 24, respawn: 120 }),
   M('mob_pass_soldier', 'Hardened Invader Soldier', 'invader_soldier', 32, 35, { rank: 'elite', hp: 1.3, dmg: 1.1, armor: 2, color: [0.15, 0.2, 0.1], scale: 1.6, speed: 8.5, social: 24, respawn: 120 }),
-  M('mob_pass_flier', 'Hardened Invader Spitter', 'invader_spitter', 33, 36, { rank: 'elite', hp: 0.8, dmg: 1.0, armor: 0.7, ranged: true, abilities: ['ab_mob_acid_spit'], color: [0.35, 0.3, 0.12], scale: 1.2, speed: 10, social: 24, respawn: 120 }),
+  M('mob_pass_flier', 'Hardened Invader Flier', 'invader_flier', 33, 36, { rank: 'elite', hp: 0.8, dmg: 1.0, armor: 0.7, script: 'flier', color: [0.35, 0.3, 0.12], scale: 1.2, speed: 10, social: 24, respawn: 120 }),
   M('mob_wh_gunman', 'Dragna Gunman', 'dragna_enforcer', 26, 28, { rank: 'elite', hp: 0.9, dmg: 1.1, armor: 0.9, shape: 'human', ranged: true, color: [0.14, 0.13, 0.12], scale: 1.05, speed: 8.5, social: 24, respawn: 120 }),
   M('mob_melrose_brute', 'Invader Brute', 'invader_brute', 22, 24, { rank: 'elite', hp: 1.2, dmg: 1.2, armor: 1.5, color: [0.25, 0.2, 0.3], scale: 1.9, speed: 8.5, social: 24, respawn: 120 }),
   M('mob_gulch_coyote', 'Hive-ridden Coyote', 'coyote', 18, 20, { hp: 0.9, dmg: 1.1, armor: 0.8, shape: 'quad', color: [0.4, 0.3, 0.35], scale: 0.95, speed: 9, social: 20, respawn: 90 }),

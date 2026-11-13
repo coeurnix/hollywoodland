@@ -8,8 +8,11 @@ void FHLGame::MobEnterCombat(FHLUnit& U, int32 TargetId)
 	U.MobState = EHLMobState::Combat;
 	U.MoveMult = 1;
 	if (!U.Threat.Contains(TargetId)) U.Threat.Add(TargetId, 1);
+	if (U.bBurrowed && bWasIdle) BurrowerEmerge(U, Unit(TargetId), true);
 	if (bWasIdle)
 	{
+		// a patrol's Home is its next waypoint, possibly hundreds of metres off: the leash is anchored where the fight starts
+		if (U.CampIdx >= 0 && Areas[U.Area].Def->Camps[U.CampIdx].Patrol.Num() >= 2) U.Home = U.Pos;
 		for (int32 k = 0; k < 3; ++k) U.ScriptT[k] = Now + 6 + k * 4;
 		// social pull: idle neighbours of the same family join
 		if (U.Mob->Social > 0)
@@ -21,6 +24,21 @@ void FHLGame::MobEnterCombat(FHLUnit& U, int32 TargetId)
 			for (FHLUnit* O : Join) { O->MobState = EHLMobState::Combat; O->MoveMult = 1; O->Threat.FindOrAdd(TargetId) += 1; for (int32 k = 0; k < 3; ++k) O->ScriptT[k] = Now + 6 + k * 4; }
 		}
 	}
+}
+
+// Burrower: waits under the street, erupts under whoever comes near (a short stun), and at half health dives again to
+// tunnel under its target and come up beneath them.
+void FHLGame::BurrowerEmerge(FHLUnit& U, FHLUnit* T, bool bAmbush)
+{
+	U.bBurrowed = false;
+	UE_LOG(LogTemp, Display, TEXT("HL_LIFE mob %s emerges (%s)"), *U.Name, bAmbush ? TEXT("ambush") : TEXT("tunnel"));
+	AddChat(TEXT("emote"), FString(), bAmbush ? FString::Printf(TEXT("%s erupts from the ground!"), *U.Name) : FString::Printf(TEXT("%s bursts up from below!"), *U.Name));
+	if (!T || T->bDead || FVector2D::Distance(T->Pos, U.Pos) > 6) return;
+	FHLAura A; A.Type = EHLAura::Stun; A.Name = TEXT("Thrown Off Your Feet"); A.SourceId = U.Id; A.bHarmful = true; A.Remaining = 1.5f;
+	T->Auras.RemoveAll([&](const FHLAura& O) { return O.Name == A.Name; });
+	T->Auras.Add(A); T->Casting = nullptr;
+	T->HopT = 0.5f;
+	DealDamage(&U, *T, FMath::Max(1.f, (U.WeaponMin + U.WeaponMax) * 0.75f), TEXT("physical"), false, TEXT("Eruption"));
 }
 
 void FHLGame::MobEvade(FHLUnit& U)
@@ -35,10 +53,17 @@ void FHLGame::TickMob(FHLUnit& U, float Dt)
 	if (U.bDead) return;
 	const FHLMobDef& M = *U.Mob;
 	const FHLNav& Nav = Areas[U.Area].Nav;
+	// fliers hold altitude: high while idle or climbing, low while diving at a target
+	if (M.Script == TEXT("flier"))
+	{
+		const float Want = U.MobState == EHLMobState::Combat ? (Now < U.ScriptT[2] ? 0.6f : 4.5f) : 5.f;
+		U.Lift = FMath::FInterpTo(U.Lift, Want, Dt, 2.5f);
+	}
 	switch (U.MobState)
 	{
 	case EHLMobState::Idle:
 	{
+		if (M.Script == TEXT("burrower") && !U.bBurrowed && FVector2D::DistSquared(U.Pos, U.Home) < 4.f) U.bBurrowed = true; // settles back under the street
 		if (Now >= U.NextThink)
 		{
 			U.NextThink = Now + 0.4f + Rand() * 0.3f;
@@ -100,6 +125,7 @@ void FHLGame::TickMob(FHLUnit& U, float Dt)
 		if (M.bFlees && U.HpPct() < 0.3f && U.FleeUntil == 0) { U.FleeUntil = Now + 4; U.MobState = EHLMobState::Flee; U.bAutoAttack = false; return; }
 		if (!M.Script.IsEmpty()) BossScript(U, Dt);
 		if (U.bDead) return;
+		if (U.bBurrowed) { U.bAutoAttack = false; U.MoveMult = 1.3f; MoveTo(U, T->Pos, 0.8f); return; } // tunnelling
 		const float D = Dist(U, *T);
 		const bool bLos = Nav.SegClear(U.Pos, T->Pos);
 		// abilities
@@ -183,6 +209,37 @@ void FHLGame::BossScript(FHLUnit& U, float Dt)
 		A->SummonerId = U.Id; A->Home = U.Home; A->Leash = 200; A->TappedBy = U.TappedBy;
 		if (FHLUnit* V = RandomVictim(false)) MobEnterCombat(*A, V->Id);
 	};
+	if (M.Script == TEXT("burrower"))
+	{
+		FHLUnit* T = Unit(U.TargetId);
+		if (U.ScriptPhase == 0 && U.HpPct() < 0.5f)
+		{
+			U.ScriptPhase = 1; U.bBurrowed = true; U.ScriptT[0] = Now + 3.5f; U.Casting = nullptr; StopMove(U);
+			AddChat(TEXT("emote"), FString(), FString::Printf(TEXT("%s burrows into the ground!"), *U.Name));
+		}
+		else if (U.ScriptPhase == 1 && Now >= U.ScriptT[0])
+		{
+			U.ScriptPhase = 2; U.Hp = FMath::Min(U.MaxHp, U.Hp + U.MaxHp * 0.1f);
+			BurrowerEmerge(U, T, false);
+		}
+		return;
+	}
+	if (M.Script == TEXT("flier"))
+	{
+		// eight seconds diving at the target, four climbing out of reach; each dive opens with a heavy hit
+		FHLUnit* T = Unit(U.TargetId);
+		if (Now >= U.ScriptT[2] + 4)
+		{
+			U.ScriptT[2] = Now + 8;
+			if (T && !T->bDead)
+			{
+				AddChat(TEXT("emote"), FString(), FString::Printf(TEXT("%s swoops at %s!"), *U.Name, *T->Name));
+				UE_LOG(LogTemp, Display, TEXT("HL_LIFE mob %s swoops at %s"), *U.Name, *T->Name);
+				if (FVector2D::Distance(T->Pos, U.Pos) < 12) { U.Pos = Area.Nav.NearestFree(T->Pos + (U.Pos - T->Pos).GetSafeNormal() * 2); DealDamage(&U, *T, FMath::Max(1.f, (U.WeaponMin + U.WeaponMax) * 0.65f), TEXT("physical"), false, TEXT("Swoop")); }
+			}
+		}
+		return;
+	}
 	if (M.Script == TEXT("brood_keeper"))
 	{
 		if (Now >= U.ScriptT[0])

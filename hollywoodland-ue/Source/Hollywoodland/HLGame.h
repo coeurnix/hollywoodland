@@ -97,6 +97,7 @@ struct FHLUnit
 	EHLMobState MobState = EHLMobState::Idle;
 	TMap<int32, float> Threat;
 	bool bEvent = false, bLootable = false;
+	bool bBurrowed = false; float Lift = 0; // burrowers hide underground; fliers hold altitude (metres)
 	TArray<FHLLoot> Loot;
 	int32 LootCents = 0;
 	// npc / sim
@@ -276,6 +277,7 @@ public:
 	void TickCamps(float Dt);
 	void MobEnterCombat(FHLUnit& U, int32 TargetId);
 	void MobEvade(FHLUnit& U);
+	void BurrowerEmerge(FHLUnit& U, FHLUnit* T, bool bAmbush);
 	void GenerateLoot(FHLUnit& Mob);
 	void BossScript(FHLUnit& U, float Dt);
 	bool ObjectInteract(int32 AreaIdx, int32 ObjIdx); // by the player

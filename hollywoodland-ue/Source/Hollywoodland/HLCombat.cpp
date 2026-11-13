@@ -204,6 +204,8 @@ void FHLGame::DealDamage(FHLUnit* Src, FHLUnit& Dst, float Amount, const FString
 {
 	if (Dst.bDead || (Dst.Kind == EHLKind::Npc && !(bEscorting && Dst.Id == EscortUnitId))) return;
 	if (Dst.Kind == EHLKind::Mob && Dst.MobState == EHLMobState::Evade) { if (Src && Src->Kind == EHLKind::Player) AddFloat(Dst.Id, TEXT("Evade"), FLinearColor::White); return; }
+	if (Dst.bBurrowed) { if (Src && Src->Kind == EHLKind::Player) AddFloat(Dst.Id, TEXT("Underground"), FLinearColor::White); return; }
+	if (Dst.Lift > 2.5f) Amount *= 0.5f; // out of reach overhead
 	if (Src) Amount *= 1.f + Src->BuffSum(TEXT("dmg_pct")) + Src->Mod(TEXT("dmg_pct"));
 	if (School == TEXT("physical"))
 	{

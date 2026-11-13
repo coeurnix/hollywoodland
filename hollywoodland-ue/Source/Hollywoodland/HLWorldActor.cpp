@@ -189,8 +189,9 @@ void AHLWorldActor::BuildUnit(const FHLUnit& U, FHLUnitVis& V)
 	{
 		V.Body = AddMesh(A, Sphere, FVector(0, 0, 55 * S), FVector(1.5f, 0.95f, 0.75f) * S, U.Color);
 		V.Head = AddMesh(A, Cone, FVector(80 * S, 0, 60 * S), FVector(0.5f, 0.5f, 0.7f) * S, U.Color * 0.6f);
-		V.Head->SetRelativeRotation(FRotator(-90, 0, 0));
-	}
+			V.Head->SetRelativeRotation(FRotator(-90, 0, 0));
+			if (U.Mob && U.Mob->Script == TEXT("flier")) V.Extra = AddMesh(A, Cube, FVector(0, 0, 75 * S), FVector(0.5f, 3.2f, 0.04f) * S, U.Color * 0.7f); // wings
+		}
 	else if (U.Shape == TEXT("quad"))
 	{
 		V.Body = AddMesh(A, Cube, FVector(0, 0, 50 * S), FVector(1.1f, 0.42f, 0.5f) * S, U.Color);
@@ -227,6 +228,8 @@ void AHLWorldActor::SyncUnits()
 		float Z = U->Z + (U->HopT > 0 ? FMath::Sin(U->HopT * PI * 2) * 0.5f : 0.f);
 		if (U->bSitting && !U->bDead) Z -= 0.45f;
 		if (U->bMounted) Z += 0.9f;
+		Z += U->Lift;
+		if (U->bBurrowed) Z -= 0.85f * U->Scale; // only the back shows, a mound in the street
 		A->SetActorLocationAndRotation(ToWorld(U->Area, U->Pos, Z), FRotator(0, U->Yaw, U->bDead ? 90 : 0));
 		if (U->bDead != V->bDeadLook || U->bGhost != V->bGhostLook)
 		{
@@ -337,6 +340,15 @@ void AHLWorldActor::AutoTest(float Dt)
 			FHLUnit* P = Game.PlayerUnit();
 			P->Level = FMath::Clamp(StartLevel, 1, 60); Game.RecalcPlayerStats(); P->Hp = P->MaxHp;
 			for (const FHLAbility* Ab : C->Abilities) if (Ab->Level <= P->Level) Game.LearnAbility(Ab, true);
+		}
+		{
+			// -HLGoto=x,y: start somewhere else (mob behaviour checks)
+			FString Goto;
+			if (FParse::Value(FCommandLine::Get(), TEXT("HLGoto="), Goto, false))
+			{
+				FString Xs, Ys;
+				if (Goto.Split(TEXT(","), &Xs, &Ys)) Game.TeleportUnit(*Game.PlayerUnit(), 0, Game.Areas[0].Nav.NearestFree(FVector2D(FCString::Atof(*Xs), FCString::Atof(*Ys))));
+			}
 		}
 		if (FParse::Param(FCommandLine::Get(), TEXT("HLAutoDungeon")))
 		{
@@ -467,6 +479,21 @@ void AHLWorldActor::AutoTest(float Dt)
 			if (FVector2D::Distance(P->Pos, N.Pos) < 7.5f) { for (const auto& KV : Game.Units) if (KV.Value->Npc == &N) Game.OpenNpcUnitId = KV.Key; Game.OpenNpcMode = TEXT("auction"); bAutoGoal = false; }
 		}
 		return;
+	}
+	// -HLGotoMob=<mob id>: jump next to the first living unit of that template once (mob behaviour checks)
+	{
+		static bool bGotoDone = false; static FString GotoMob;
+		if (!bGotoDone && T > 4 && FParse::Value(FCommandLine::Get(), TEXT("HLGotoMob="), GotoMob))
+			for (FHLUnit* U : Game.UnitList) if (U->Kind == EHLKind::Mob && !U->bDead && U->Mob && U->Mob->Id == GotoMob && U->Area == 0)
+			{
+				bGotoDone = true;
+				Game.TeleportUnit(*P, 0, Game.Areas[0].Nav.NearestFree(U->Pos + FVector2D(6, 6))); Game.MobEnterCombat(*U, P->Id); P->TargetId = U->Id; P->bAutoAttack = true;
+				UE_LOG(LogTemp, Display, TEXT("HL_LIFE goto %s at %.0f,%.0f"), *GotoMob, U->Pos.X, U->Pos.Y);
+				break;
+			}
+		static int32 GotoId = 0; if (bGotoDone && !GotoId) GotoId = P->TargetId;
+		static double NextGotoLog = 0; if (bGotoDone && Game.Now > NextGotoLog) { NextGotoLog = Game.Now + 2; const FHLUnit* Gu = Game.Unit(GotoId); if (Gu) { UE_LOG(LogTemp, Display, TEXT("HL_LIFE goto mob state=%d dead=%d d=%.1f lift=%.1f hp=%.0f/%.0f ptarget=%d"), (int32)Gu->MobState, Gu->bDead, FVector2D::Distance(Gu->Pos, P->Pos), Gu->Lift, Gu->Hp, Gu->MaxHp, P->TargetId); } else { UE_LOG(LogTemp, Display, TEXT("HL_LIFE goto mob gone")); } }
+		if (bGotoDone) { if (FHLUnit* Gm = Game.Unit(P->TargetId)) { if (!Gm->bDead) { P->bAutoAttack = true; Game.FaceTo(*P, Gm->Pos); if (FVector2D::Distance(P->Pos, Gm->Pos) > 4) Game.MoveTo(*P, Gm->Pos, 3.5f); } } return; } // stand and fight
 	}
 	// -HLInnTest: rest at the inn (rested XP), whisper someone (typing indicator), then rent a bank box
 	static const bool bInnTest = FParse::Param(FCommandLine::Get(), TEXT("HLInnTest"));
