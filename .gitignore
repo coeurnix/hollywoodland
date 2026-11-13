@@ -18,3 +18,9 @@ node_modules/
 *.log
 tmp/
 
+# item pipeline (tools/itemgen): 1024px originals stay local
+item-art/icons-1024/
+tools/itemgen/state/sample_request.txt
+*.tmp
+*.part
+__pycache__/

@@ -16,6 +16,16 @@ const err = (m) => errors.push(m);
 
 // ---- items ----
 const items = buildItems();
+// Tooltip text and icon slots made by tools/itemgen (keyed by item name), carried across regenerations.
+const nameKey = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
+const readJson = (u) => (existsSync(u) ? JSON.parse(readFileSync(u, 'utf8')) : null);
+const itemText = readJson(new URL('./itemgen/state/descriptions.json', import.meta.url)) || {};
+const itemIcons = readJson(new URL('../item-art/atlas/item_icons.json', import.meta.url))?.icons || {};
+for (const it of items) {
+  const k = nameKey(it.name);
+  if (itemText[k]) it.desc = itemText[k].description;
+  if (itemIcons[k]) it.icon = itemIcons[k].index;
+}
 const byNameReq = new Map(), byName = new Map();
 for (const it of items) { byNameReq.set(`${it.name}|${it.req}`, it); if (!byName.has(it.name)) byName.set(it.name, it); }
 const itemId = (name, req) => {
