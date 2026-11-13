@@ -391,8 +391,10 @@ bool FHLGame::MoveTo(FHLUnit& U, const FVector2D& Goal, float StopDist)
 }
 
 // ------------------------------------------------------------------------------------------------------------- stats
-void FHLGame::RecalcCharStats(FHLUnit& U, const FHLClass& C, int32 Level, const TMap<FString, const FHLItem*>& Equip, bool bFull)
+void FHLGame::RecalcCharStats(FHLUnit& U, const FHLClass& C, int32 Level, const TMap<FString, const FHLItem*>& Equip, bool bFull, const TMap<FString, int32>* Talents)
 {
+	U.Mods.Reset();
+	if (Talents) for (const auto& KV : *Talents) if (const FHLTalent* T = FHLData::Get().Talent(KV.Key)) for (const auto& M : T->Mods) U.Mods.FindOrAdd(M.Key) += M.Value * KV.Value;
 	U.Cls = &C; U.Level = Level;
 	const int32 Prim = HLStatIndex(C.Primary), Sec = HLStatIndex(C.Secondary);
 	for (int32 i = 0; i < HL_NUM_STATS; ++i)
@@ -412,10 +414,12 @@ void FHLGame::RecalcCharStats(FHLUnit& U, const FHLClass& C, int32 Level, const 
 		if (KV.Key == TEXT("main")) Main = It;
 		if (KV.Key == TEXT("ranged")) Ranged = It;
 	}
+	static const TCHAR* StatPct[HL_NUM_STATS] = { TEXT("str_pct"), TEXT("agi_pct"), TEXT("sta_pct"), TEXT("int_pct"), TEXT("spi_pct") };
+	for (int32 i = 0; i < HL_NUM_STATS; ++i) if (const float P = U.Mod(StatPct[i])) U.Stats[i] = FMath::RoundToInt32(U.Stats[i] * (1.f + P));
 	const float OldMaxHp = U.MaxHp, OldMaxRes = U.MaxRes;
-	U.MaxHp = 20 + C.HpPerLevel * Level + 10 * U.Stats[HL_STA];
-	U.Armor = Armor;
-	if (C.Resource == TEXT("power")) { U.ResType = EHLRes::Power; U.MaxRes = 18 * Level + 15 * U.Stats[HL_INT]; }
+	U.MaxHp = FMath::RoundToFloat((20 + C.HpPerLevel * Level + 10 * U.Stats[HL_STA]) * (1.f + U.Mod(TEXT("hp_pct"))));
+	U.Armor = Armor * (1.f + U.Mod(TEXT("armor_pct")));
+	if (C.Resource == TEXT("power")) { U.ResType = EHLRes::Power; U.MaxRes = FMath::RoundToFloat((18 * Level + 15 * U.Stats[HL_INT]) * (1.f + U.Mod(TEXT("res_pct")))); }
 	else if (C.Resource == TEXT("energy")) { U.ResType = EHLRes::Energy; U.MaxRes = 100; }
 	else if (C.Resource == TEXT("focus")) { U.ResType = EHLRes::Focus; U.MaxRes = 100; }
 	else { U.ResType = EHLRes::Adrenaline; U.MaxRes = 100; }
@@ -437,14 +441,69 @@ void FHLGame::RecalcCharStats(FHLUnit& U, const FHLClass& C, int32 Level, const 
 	const bool bShield = Off && *Off && (*Off)->Type == TEXT("shield");
 	U.Block = bShield ? 0.05f + U.Stats[HL_STR] / 3000.f : 0.f;
 	U.BlockValue = bShield ? 5.f + (*Off)->Armor * 0.1f + U.Stats[HL_STR] / 20.f : 0.f;
-	U.Speed = 7;
+	U.Crit += U.Mod(TEXT("crit")); U.Dodge += U.Mod(TEXT("dodge"));
+	if (U.Parry > 0) U.Parry += U.Mod(TEXT("parry"));
+	if (U.Block > 0) U.Block += U.Mod(TEXT("block"));
+	U.Speed = 7 * (1.f + U.Mod(TEXT("speed_pct")));
 	if (bFull || OldMaxHp <= 1) { U.Hp = U.MaxHp; U.Res = U.ResType == EHLRes::Adrenaline ? 0 : U.MaxRes; }
 	else { U.Hp = FMath::Min(U.Hp, U.MaxHp); U.Res = FMath::Min(U.Res, U.MaxRes); }
 }
 
 void FHLGame::RecalcPlayerStats()
 {
-	if (FHLUnit* U = PlayerUnit()) RecalcCharStats(*U, *Player.Cls, FMath::Max(1, U->Level), Player.Equip, false);
+	FHLUnit* U = PlayerUnit();
+	if (!U) return;
+	TMap<FString, const FHLItem*> Worn;
+	for (const auto& KV : Player.Equip) if (SlotDurability(KV.Key) > 0.f) Worn.Add(KV.Key, KV.Value);
+	RecalcCharStats(*U, *Player.Cls, FMath::Max(1, U->Level), Worn, false, &Player.Talents);
+	if (Now < Player.SicknessUntil)
+	{
+		for (int32 i = 0; i < HL_NUM_STATS; ++i) U->Stats[i] = FMath::RoundToInt32(U->Stats[i] * 0.75f);
+		U->MaxHp = FMath::RoundToFloat(U->MaxHp * 0.75f); U->Hp = FMath::Min(U->Hp, U->MaxHp);
+		U->AttackPower *= 0.75f; U->AbilityBonus *= 0.75f;
+	}
+}
+
+int32 FHLGame::TalentSpent(int32 Spec) const
+{
+	int32 N = 0;
+	for (const auto& KV : Player.Talents) if (const FHLTalent* T = FHLData::Get().Talent(KV.Key)) if (Spec < 0 || T->Spec == Spec) N += KV.Value;
+	return N;
+}
+int32 FHLGame::TalentPoints() const
+{
+	const FHLUnit* U = PlayerUnit();
+	return FMath::Max(0, (U ? U->Level : 1) - 9 - TalentSpent());
+}
+FString FHLGame::CanLearnTalent(const FHLTalent& T) const
+{
+	if (!Player.Cls || T.Class != Player.Cls->Id) return TEXT("That is not your class's talent.");
+	const int32* Have = Player.Talents.Find(T.Id);
+	if (Have && *Have >= T.Ranks) return TEXT("Already at the highest rank.");
+	const FHLUnit* U = PlayerUnit();
+	if (!U || U->Level < 10) return TEXT("Talents open at level 10.");
+	if (TalentPoints() <= 0) return TEXT("No talent points to spend.");
+	const int32 Need = (T.Tier - 1) * 5;
+	if (TalentSpent(T.Spec) < Need) return FString::Printf(TEXT("Requires %d points in %s."), Need, *Player.Cls->Specs[T.Spec]);
+	return FString();
+}
+void FHLGame::LearnTalent(const FHLTalent& T)
+{
+	const FString Why = CanLearnTalent(T);
+	if (!Why.IsEmpty()) { Error(Why); return; }
+	const int32 Rank = ++Player.Talents.FindOrAdd(T.Id);
+	RecalcPlayerStats();
+	System(FString::Printf(TEXT("You have learned %s (rank %d)."), *T.Name, Rank));
+}
+void FHLGame::ResetTalents()
+{
+	if (Player.Talents.Num() == 0) return;
+	const int32 Cost = RespecCost();
+	if (Player.Cents < Cost) { Error(TEXT("You can't afford that.")); return; }
+	Player.Cents -= Cost; ++Player.Respecs;
+	Player.Talents.Reset();
+	RecalcPlayerStats();
+	System(FString::Printf(TEXT("Your talents have been reset for %s."), *HLMoney(Cost)));
 }
 
 void FHLGame::InitMobStats(FHLUnit& U)

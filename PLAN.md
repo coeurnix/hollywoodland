@@ -57,14 +57,14 @@ browser ── itch.io page (iframe) ── hollywoodland Worker (R2 stage, COOP
 | itch.io embed (§13) | DONE (wrapper) | `itch/index.html` iframe; needs itch "SharedArrayBuffer support" on. See §6. |
 | Windows standalone | DONE | `Scripts\BuildWindows.ps1` (Development) -> `win-dist-Development\Windows\Hollywoodland.exe`; verified with `-HLAuto` self-play. |
 | Saves (§13) | DONE | localStorage JSON every 30 s + KV cloud copy every 2 min (`/v1/save/<player>`); cloud restore UI TODO. |
-| Zone layout (§14) | PROTO | Gray boxes on a flat plane, real street grid compressed. No slopes, interiors, rooftops (Spitters are on the ground). |
-| Exits / hive wall (§14) | DONE | Perimeter wall, 4 gaps, elite guards L22-34 (aggro 34 m). Transients pass unharmed and despawn at the grid edge. |
-| Classes ×8, abilities to L12 (§5) | DONE | 7 abilities each, data effects. No ranks (scaled 8%/level instead), no talents (pane is a facade). |
-| Stats/formulas (§5, §6) | DONE | Attack table has miss/dodge/crit; **parry/block TODO**. Ammo TODO. Durability/repair TODO (repair button is a stub). |
+| Zone layout (§14) | PROTO | Gray boxes on a flat plane, real street grid compressed. Exact box collision for movement, line of sight and camera. No slopes, interiors, rooftops (Spitters are on the ground). |
+| Exits / hive wall (§14) | DONE | Perimeter wall, 4 gaps, elite gap guards L22-34 (speed 8.5, leash 70). Beyond it a hostile band: the edges of Cahuenga Pass (30-40), Gower Gulch, Melrose and West Hollywood with landmarks and roaming elite patrols (speed 8.5-10, leash 140), sealed by a second hive ring. Aggro radius 14 m + level gap (4-40 m); hits from 5+ levels up Daze. Transients despawn at the outer edge. |
+| Classes ×8, abilities to L12 (§5) | DONE | 7 abilities each, data effects. No ranks (scaled 8%/level instead). Icons and flavour text (tools/artgen). |
+| Stats/formulas (§5, §6) | DONE | One-roll attack table: miss, dodge, parry, block (riot shields), crit. Ammo TODO. Durability/repair TODO (repair button is a stub). |
 | Mobs (§7) | DONE | 9 open-world templates, 2 rares, 2 elites, 4 gap guards, 4 dungeon trash, 4 bosses. Burrower/Flier behaviours TODO. |
 | Death (§6) | PROTO | Release → nearest aid station at 50%. No ghost run, no durability loss, no resurrection sickness. |
 | Quests (§10, §14) | DONE 28 / PROTO 3 | Kill, drop-collect, world-collect, use, deliver work. Escort (`q_hb_14`) is a talk quest. `q_hb_29` (craft .38) absent. Breadcrumbs 30-32 accept-only. Class quests at 10 TODO. Counters only: quest items are not bag items. |
-| Items (§8) | DONE ~3,960 rows | Generator + formulas. Base list is ~70 bases (target ~680). No icons (glyph squares). On-use pocket items, on-equip effects TODO. |
+| Items (§8) | DONE ~3,960 rows | Generator + formulas. Base list is ~70 bases (target ~680). 1,447 painted icons and tooltip descriptions (tools/itemgen; gloves vision-checked). On-use pocket items, on-equip effects TODO. |
 | Vendors, trainers, bank | DONE / PROTO | Buy/sell, class trainers, 24-slot bank. Bank slot purchase, inn rested XP are text only. |
 | Auction house (§9) | PROTO | 160 simulated listings following the population spread, buyout, list-at-market, sim buyers. No bidding, durations, search box. |
 | Professions (§9) | PROTO | Salvaging 1-75 on wreck nodes. Gunsmithing and all others DATA (names in trainer window). |
@@ -75,12 +75,14 @@ browser ── itch.io page (iframe) ── hollywoodland Worker (R2 stage, COOP
 | Worker (§13) | DONE | `/v1/session`, `/v1/sim` (reply/decide/gossip), `/v1/save`. Per-isolate rate limit 20/min, 400/h; daily budget switch. |
 | Director (§14) | PROTO | 5 steps: invite, passing heal, Drone train, raid talk + red-car arrivals, buddy whisper at 5. Not randomised per play yet. |
 | Honesty (§11) | DONE | Disclosure is the game's job: title notice, first system line, "Show simulated players" toggle. The characters stay in role (prompt + server-side guard that swaps fourth-wall breaks for in-character deflections). |
-| World map / red car / talents / inspect / who | DONE as facade | 13-zone map with blurbs and dungeons, route map, greyed talent trees, inspect shows persona gear. |
+| Talents (§5) | DONE | 3 trees × 16 per class (384), 5 tiers (5 points each), passive modifiers applied in stats and combat; respec at the class trainer ($1 doubling to $50). Tiers 1-2 hand-made, 3-5 designed with Claude and validated (`tools/artgen design`). |
+| World map / red car / inspect / who | DONE as facade | 13-zone map with blurbs and dungeons, route map, inspect shows persona gear. |
 | World events (§10) | TODO | Hive surge, hive spread, picture night, fight night. Rare spawns exist (10-15 min timers, bible says 45-90). |
 | Duels, trade window, mail, guild UI, friends list | TODO | Sims decline in text only. |
 | Mounts for transients | PROTO | A dark box under the rider, +60% speed. |
 | Music | DONE | `HLMusic.cpp`; 30 tracks streamed from R2 `music/` on the web (not in the pak), copied to `<pkg>\Music` natively. Menu volume + `/music`. |
 | Day/night, SFX/ambience, VFX, animation | TODO | None. |
+| Interface (§1 WP10) | DONE | Alegreya Sans + Limelight (OFL), Art Deco frames, FLUX panel/header/title art, painted icons on bars, bags, spellbook, menu; quest goal markers (screen diamond, edge arrow, minimap, tracker distance); hostile-zone banner. |
 
 ## 3. TODO (ordered; each item is independently shippable)
 
@@ -89,21 +91,21 @@ browser ── itch.io page (iframe) ── hollywoodland Worker (R2 stage, COOP
    `hp/dmg` in `tools/gen/zone.mjs` dungeon mobs until 3/5 clears with ~1 wipe at the Hive Mother.
 2. **Tune 1-6 pacing** to 45 min with quests (bible §14 target). Levers: quest XP multiplier (`quests.mjs`), mob respawn (90 s),
    sim kill-stealing density (`MAX_LOCALS`, `PickCampFor`).
-3. **Camera collision** (camera clips through buildings) and click-to-move is absent: add a nav-grid ray pull-in in `AHLWorldActor::Tick`.
+3. ~~Camera collision~~ (done: exact box ray). Click-to-move is absent.
 4. **Mouse look on the web:** verify pointer-lock behaviour of `UseHighPrecisionMouseMovement` in the itch iframe; fall back to
    plain capture if the browser refuses the lock.
-5. **Mob/unit separation:** units overlap freely. Add cheap radius push-out in `FHLGame::Tick`.
+5. ~~Mob separation~~ (melee mobs spread around their target); sims and players still overlap.
 6. Restore from cloud save when localStorage is empty (GET `/v1/save/<player>` needs the player id → show a code in the menu).
 
 ### P1 — systems the bible calls for in the slice
 7. Ghost run + durability + repair costs (§6). Fields: add `Durability` per equip slot in `FHLPlayer`.
-8. Parry/block in the attack table; shields; ammo consumption and ammo vendor (§6, §8).
+8. ~~Parry/block, shields~~ (done); ammo consumption and ammo vendor (§6, §8).
 9. Escort quest type (follow-AI NPC, fail on death) for `q_hb_14`; class quests at 10; `q_hb_29` + Gunsmithing 1-75 with 6 recipes.
 10. Crowd LOD (§11 levels 0-3): only needed when population on screen exceeds ~60; implement as sims without `FHLUnit` combat.
 11. World events: hive surge on a hub (10 min), rare-spawn announcements in zone chat, picture night buff at the Chinese.
 12. Trade window, duel (outside hubs), mailbox with auction proceeds, friends list driven by `Relations.Familiarity`.
 13. Auction: bids, 12/24/48 h, name search, price history; sims undercut and re-list.
-14. Talents (51 points, 3×16) — at least tier 1-2 for the slice's level 10-12.
+14. ~~Talents~~ (done: all 5 tiers).
 15. Interiors: Hollywood Hotel ballroom walls/roof, Egyptian rooms with height; rooftops for Spitters (needs Z in nav).
 
 ### P2 — population depth (the showcase, §11)

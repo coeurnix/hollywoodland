@@ -50,42 +50,68 @@ static FSlateFontInfo HLFont(int32 Size, bool bBold)
 	return FCoreStyle::GetDefaultFontStyle(bBold ? "Bold" : "Regular", Size);
 }
 
-// ------------------------------------------------------------------------------------------------------------- item icons
-// Atlas sheets from tools/itemgen (Content/Data/Icons). One brush per icon with a UV window into its sheet.
-static const FSlateBrush* HLIconBrush(int32 Icon)
+// ------------------------------------------------------------------------------------------------------------- icons and art
+// Atlas sheets from tools/itemgen (icons.json) and tools/artgen (skills.json) in Content/Data/Icons, interface art in
+// Content/Data/UI. One heap brush per icon with a UV window into its sheet (heap so pointers stay put).
+static UTexture2D* HLLoadTexture(const FString& Path)
 {
-	struct FAtlas { int32 Tile = 0, Cols = 0, PerSheet = 0, SheetSize = 0; TArray<UTexture2D*> Sheets; TMap<int32, FSlateBrush> Brushes; bool bInit = false; };
-	static FAtlas At;
-	if (!At.bInit)
+	TArray<uint8> Bytes;
+	UTexture2D* T = FFileHelper::LoadFileToArray(Bytes, *Path) ? FImageUtils::ImportBufferAsTexture2D(Bytes) : nullptr;
+	if (T) { T->AddToRoot(); T->Filter = TF_Bilinear; T->LODGroup = TEXTUREGROUP_UI; T->UpdateResource(); }
+	return T;
+}
+struct FHLAtlas
+{
+	int32 Tile = 0, Cols = 0, PerSheet = 0, SheetSize = 0;
+	TArray<UTexture2D*> Sheets;
+	TMap<int32, TSharedPtr<FSlateBrush>> Brushes;
+	TMap<FString, int32> Named;
+	explicit FHLAtlas(const TCHAR* Layout)
 	{
-		At.bInit = true;
 		const FString Dir = FPaths::ProjectContentDir() / TEXT("Data/Icons/");
 		FString Text;
 		TSharedPtr<FJsonObject> J;
-		if (FFileHelper::LoadFileToString(Text, *(Dir + TEXT("icons.json"))) && FJsonSerializer::Deserialize(TJsonReaderFactory<>::Create(Text), J) && J.IsValid())
-		{
-			At.Tile = J->GetIntegerField(TEXT("tile")); At.Cols = J->GetIntegerField(TEXT("columns")); At.PerSheet = J->GetIntegerField(TEXT("per_sheet")); At.SheetSize = J->GetIntegerField(TEXT("sheet_size"));
-			for (const TSharedPtr<FJsonValue>& V : J->GetArrayField(TEXT("sheets")))
-			{
-				TArray<uint8> Bytes;
-				UTexture2D* T = FFileHelper::LoadFileToArray(Bytes, *(Dir + V->AsString())) ? FImageUtils::ImportBufferAsTexture2D(Bytes) : nullptr;
-				if (T) { T->AddToRoot(); T->Filter = TF_Bilinear; T->LODGroup = TEXTUREGROUP_UI; T->UpdateResource(); }
-				At.Sheets.Add(T);
-			}
-		}
+		if (!FFileHelper::LoadFileToString(Text, *(Dir + Layout)) || !FJsonSerializer::Deserialize(TJsonReaderFactory<>::Create(Text), J) || !J.IsValid()) return;
+		Tile = J->GetIntegerField(TEXT("tile")); Cols = J->GetIntegerField(TEXT("columns")); PerSheet = J->GetIntegerField(TEXT("per_sheet")); SheetSize = J->GetIntegerField(TEXT("sheet_size"));
+		for (const TSharedPtr<FJsonValue>& V : J->GetArrayField(TEXT("sheets"))) Sheets.Add(HLLoadTexture(Dir + V->AsString()));
+		const TSharedPtr<FJsonObject>* N = nullptr;
+		if (J->TryGetObjectField(TEXT("named"), N)) for (const auto& KV : (*N)->Values) Named.Add(FString(KV.Key), (int32)KV.Value->AsNumber());
 	}
-	if (Icon < 0 || At.PerSheet <= 0 || At.Cols <= 0) return nullptr;
-	if (const FSlateBrush* B = At.Brushes.Find(Icon)) return B->GetResourceObject() ? B : nullptr;
-	FSlateBrush& B = At.Brushes.Add(Icon);
-	const int32 Sh = Icon / At.PerSheet, Cell = Icon % At.PerSheet;
-	if (!At.Sheets.IsValidIndex(Sh) || !At.Sheets[Sh]) return nullptr;
-	B.SetResourceObject(At.Sheets[Sh]);
-	B.ImageSize = FVector2D(At.Tile, At.Tile);
-	B.DrawAs = ESlateBrushDrawType::Image;
-	const float Inv = 1.f / At.SheetSize;
-	const float U0 = (Cell % At.Cols) * At.Tile * Inv, V0 = (Cell / At.Cols) * At.Tile * Inv;
-	B.SetUVRegion(FBox2f(FVector2f(U0, V0), FVector2f(U0 + At.Tile * Inv, V0 + At.Tile * Inv)));
-	return &B;
+	const FSlateBrush* Get(int32 Icon)
+	{
+		if (Icon < 0 || PerSheet <= 0 || Cols <= 0) return nullptr;
+		if (const TSharedPtr<FSlateBrush>* B = Brushes.Find(Icon)) return B->IsValid() ? B->Get() : nullptr;
+		const int32 Sh = Icon / PerSheet, Cell = Icon % PerSheet;
+		if (!Sheets.IsValidIndex(Sh) || !Sheets[Sh]) { Brushes.Add(Icon, nullptr); return nullptr; }
+		TSharedPtr<FSlateBrush> B = MakeShared<FSlateBrush>();
+		B->SetResourceObject(Sheets[Sh]);
+		B->ImageSize = FVector2D(Tile, Tile);
+		B->DrawAs = ESlateBrushDrawType::Image;
+		const float Inv = 1.f / SheetSize;
+		const float U0 = (Cell % Cols) * Tile * Inv, V0 = (Cell / Cols) * Tile * Inv;
+		B->SetUVRegion(FBox2f(FVector2f(U0, V0), FVector2f(U0 + Tile * Inv, V0 + Tile * Inv)));
+		Brushes.Add(Icon, B);
+		return B.Get();
+	}
+};
+static const FSlateBrush* HLIconBrush(int32 Icon) { static FHLAtlas At(TEXT("icons.json")); return At.Get(Icon); }
+const FSlateBrush* HLSkillBrush(int32 Icon) { static FHLAtlas At(TEXT("skills.json")); return At.Get(Icon); }
+const FSlateBrush* HLMenuBrush(const FString& Name) { static FHLAtlas At(TEXT("skills.json")); const int32* I = At.Named.Find(Name); return I ? At.Get(*I) : nullptr; }
+const FSlateBrush* HLArtBrush(const FString& Name)
+{
+	static TMap<FString, TSharedPtr<FSlateBrush>> Art;
+	if (const TSharedPtr<FSlateBrush>* B = Art.Find(Name)) return B->IsValid() ? B->Get() : nullptr;
+	UTexture2D* T = HLLoadTexture(FPaths::ProjectContentDir() / TEXT("Data/UI/") + Name + TEXT(".jpg"));
+	TSharedPtr<FSlateBrush> B;
+	if (T) { B = MakeShared<FSlateBrush>(); B->SetResourceObject(T); B->ImageSize = FVector2D(T->GetSizeX(), T->GetSizeY()); B->DrawAs = ESlateBrushDrawType::Image; }
+	Art.Add(Name, B);
+	return B.Get();
+}
+void SHLGameUI::Img(float X, float Y, float W, float H, const FSlateBrush* B, const FLinearColor& Tint) const
+{
+	if (!B) return;
+	++Layer; LastKind = 1;
+	FSlateDrawElement::MakeBox(*DL, Layer, PGeo.ToPaintGeometry(FVector2f(W, H), FSlateLayoutTransform(Sc, FVector2f(X * Sc, Y * Sc))), B, ESlateDrawEffect::None, Tint);
 }
 
 // ------------------------------------------------------------------------------------------------------------- toolkit
@@ -188,8 +214,10 @@ bool SHLGameUI::Win(const TCHAR* Id, const FString& Title, float W, float H, boo
 	Block(P.X, P.Y, W, H);
 	++Layer; LastKind = 0;
 	Panel(P.X, P.Y, W, H);
+	if (const FSlateBrush* Bg = HLArtBrush(TEXT("ui_panel"))) Img(P.X, P.Y, W, H, Bg, FLinearColor(0.5f, 0.5f, 0.5f, 0.92f));
 	++Layer; LastKind = 1;
 	Rc(P.X, P.Y, W, 26, FLinearColor(0.16f, 0.05f, 0.05f));
+
 	++Layer; LastKind = 1;
 	Rc(P.X, P.Y + 26, W, 1, FLinearColor(0.75f, 0.6f, 0.3f)); Rc(P.X, P.Y + 28, W, 1, FLinearColor(0.75f, 0.6f, 0.3f, 0.4f));
 	TxC(P.X + W * 0.5f, P.Y + 3, Title, 14, ColGold, true);
@@ -392,7 +420,7 @@ int32 SHLGameUI::OnPaint(const FPaintArgs& Args, const FGeometry& Geo, const FSl
 	if (GEngine && GEngine->GameViewport) { FVector2D V; GEngine->GameViewport->GetViewportSize(V); if (V.X > 0 && V.Y > 0) ViewPx = V; }
 	UiRectsNext.Reset(); Picks.Reset(); TipItem = nullptr; TipText.Reset();
 	FHLGame& Gm = G();
-	{ static bool bOnce = false; if (!bOnce && Gm.bInWorld) { bOnce = true; if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenBags"))) { bBags = true; bChar = true; } } } // screenshot checks
+	{ static bool bOnce = false; if (!bOnce && Gm.bInWorld) { bOnce = true; if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenBags"))) { bBags = true; bChar = true; } if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenTalents"))) bTalents = true; if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenSpells"))) bSpells = true; } } // screenshot checks
 	if (!Gm.Areas.Num()) { Tx(40, 40, TEXT("Hollywoodland failed to load its data: ") + World->LoadError, 14, ColRed); return Layer; }
 	if (!Gm.bInWorld) DrawTitle();
 	else
@@ -413,9 +441,19 @@ void SHLGameUI::DrawTitle() const
 {
 	FHLGame& Gm = G();
 	const FHLData& D = FHLData::Get();
-	const float W = 760, H = 640, X = (VS.X - W) * 0.5f, Y = (VS.Y - H) * 0.5f;
-	Panel(X, Y, W, H, FLinearColor(0.03f, 0.03f, 0.04f));
-	TxC(X + W * 0.5f, Y + 16, TEXT("HOLLYWOODLAND"), 34, ColGold, true);
+	if (const FSlateBrush* Art = HLArtBrush(TEXT("ui_title")))
+	{
+		// cover the screen, keep the aspect
+		const float Ar = 16.f / 9.f, Cw = FMath::Max(VS.X, VS.Y * Ar), Ch = Cw / Ar;
+		Img((VS.X - Cw) * 0.5f, (VS.Y - Ch) * 0.5f, Cw, Ch, Art);
+		TxC(VS.X * 0.5f + 3, 24 + 3, TEXT("HOLLYWOODLAND"), 64, FLinearColor(0, 0, 0, 0.8f), true);
+		TxC(VS.X * 0.5f, 24, TEXT("HOLLYWOODLAND"), 64, ColGold, true);
+		if (const FSlateBrush* Hd = HLArtBrush(TEXT("ui_header"))) { const float Hw = 300, Hh = Hw * Hd->ImageSize.Y / FMath::Max(1.0, Hd->ImageSize.X); Img(VS.X * 0.5f - Hw * 0.5f, 104, Hw, Hh, Hd); }
+	}
+	const bool bArt = HLArtBrush(TEXT("ui_title")) != nullptr;
+	const float W = 760, H = 640, X = (VS.X - W) * 0.5f, Y = bArt ? FMath::Max(VS.Y - H - 30, 110.f) : (VS.Y - H) * 0.5f, Top = bArt ? 58 : 0;
+	Panel(X, Y + Top, W, H - Top, FLinearColor(0.03f, 0.03f, 0.04f, 0.9f));
+	if (!HLArtBrush(TEXT("ui_title"))) TxC(X + W * 0.5f, Y + 16, TEXT("HOLLYWOODLAND"), 34, ColGold, true);
 	TxC(X + W * 0.5f, Y + 70, TEXT("Hollywood, autumn 1930. The dome is down. The studios belong to the hive."), 12, ColWhite);
 	Rc(X + 20, Y + 100, W - 40, 62, FLinearColor(0.12f, 0.1f, 0.03f));
 	TxWrap(X + 30, Y + 106, W - 60, TEXT("This is a single-player game. Every other \"player\" you meet (in chat, in groups, at the auction house) is simulated by AI. Nothing you type is seen by another human. They play their parts in character, so enjoy the show."), 11, FLinearColor(1, 0.9f, 0.6f));
@@ -663,13 +701,22 @@ void SHLGameUI::DrawHud() const
 		Rc(X + 1, By + 1, Bs - 2, Bs - 2, FLinearColor(0.06f, 0.06f, 0.07f));
 		if (Ab)
 		{
-			const bool bUsable = P->Res >= Ab->Cost || P->ResType == EHLRes::None;
+			const bool bUsable = P->Res >= Gm.AbCost(*P, *Ab) || P->ResType == EHLRes::None;
 			const bool bRange = Ab->Target != TEXT("enemy") || (T && Gm.Dist(*P, *T) <= Ab->Range + T->Scale * 0.5f + 0.5f);
 			const FLinearColor SC = Ab->IsHeal() ? FLinearColor(0.15f, 0.5f, 0.2f) : Ab->School == TEXT("electric") ? FLinearColor(0.15f, 0.35f, 0.7f) : Ab->School == TEXT("fire") ? FLinearColor(0.7f, 0.3f, 0.08f) : Ab->School == TEXT("acid") ? FLinearColor(0.4f, 0.55f, 0.1f) : Ab->School == TEXT("holy") ? FLinearColor(0.65f, 0.6f, 0.3f) : FLinearColor(0.45f, 0.2f, 0.15f);
-			++Layer; LastKind = 1;
-			Rc(X + 3, By + 3, Bs - 6, Bs - 6, SC * (bUsable ? (bRange ? 1.f : 0.6f) : 0.35f));
-			TArray<FString> Wd; Ab->Name.ParseIntoArray(Wd, TEXT(" "));
-			for (int32 w = 0; w < Wd.Num() && w < 2; ++w) TxC(X + Bs * 0.5f, By + 8 + w * 12, Wd[w].Left(7), 8, ColWhite);
+			if (const FSlateBrush* IB = HLSkillBrush(Ab->Icon))
+			{
+				// out of range: red tint; not enough resource: blue-grey
+				const FLinearColor Tint = !bUsable ? FLinearColor(0.35f, 0.4f, 0.6f, 1) : !bRange ? FLinearColor(1, 0.35f, 0.3f, 1) : FLinearColor::White;
+				Img(X + 2, By + 2, Bs - 4, Bs - 4, IB, Tint);
+			}
+			else
+			{
+				++Layer; LastKind = 1;
+				Rc(X + 3, By + 3, Bs - 6, Bs - 6, SC * (bUsable ? (bRange ? 1.f : 0.6f) : 0.35f));
+				TArray<FString> Wd; Ab->Name.ParseIntoArray(Wd, TEXT(" "));
+				for (int32 w = 0; w < Wd.Num() && w < 2; ++w) TxC(X + Bs * 0.5f, By + 8 + w * 12, Wd[w].Left(7), 8, ColWhite);
+			}
 			const float* Cd = P->CdUntil.Find(Ab);
 			float Rem = Cd ? *Cd - Gm.Now : 0;
 			const float Gcd = Ab->bGcd ? P->GcdUntil - Gm.Now : 0;
@@ -708,8 +755,24 @@ void SHLGameUI::DrawHud() const
 		bool* Flags[] = { &bChar, &bBags, &bQuests, &bSpells, &bMap, &bWho, &bTalents, &bMenu };
 		const float Mw = 8 * 70, Mx = VS.X - Mw - 10, My = VS.Y - 30;
 		Block(Mx - 2, My - 2, Mw + 4, 26);
-		for (int32 i = 0; i < 8; ++i) if (Btn(Mx + i * 70, My, 66, 22, Lbl[i], true, 8)) { *Flags[i] = !*Flags[i]; if (i == 5) Gm.bWhoOpen = bWho; }
-		Tx(Mx + 4, My - 20, FString::Printf(TEXT("%s    Players online: %d    %s"), *HLMoney(Gm.Player.Cents), Gm.OnlineCount(), Gm.bWorkerOk ? TEXT("") : TEXT("(chat AI offline: corpus mode)")), 10, ColGold);
+		static const TCHAR* Icons[] = { TEXT("menu_char"), TEXT("menu_bags"), TEXT("menu_quests"), TEXT("menu_skills"), TEXT("menu_map"), TEXT("menu_who"), TEXT("menu_talents"), TEXT("menu_menu") };
+		for (int32 i = 0; i < 8; ++i)
+		{
+			if (const FSlateBrush* IB = HLMenuBrush(Icons[i]))
+			{
+				// icon button, label as tooltip
+				const float X = Mx + i * 70 + 16, Y = My - 14;
+				const bool bH = Hover(X, Y, 36, 36);
+				Rc(X - 1, Y - 1, 38, 38, bH ? FLinearColor(1, 0.85f, 0.45f) : *Flags[i] ? FLinearColor(0.9f, 0.7f, 0.3f) : FLinearColor(0.45f, 0.36f, 0.2f));
+				Img(X + 1, Y + 1, 34, 34, IB, bH || *Flags[i] ? FLinearColor::White : FLinearColor(0.8f, 0.8f, 0.8f, 1));
+				if (bH) { TipText = Lbl[i]; TipPos = Mouse; if (bLClick) { bLClick = false; *Flags[i] = !*Flags[i]; if (i == 5) Gm.bWhoOpen = bWho; } }
+			}
+			else if (Btn(Mx + i * 70, My, 66, 22, Lbl[i], true, 8)) { *Flags[i] = !*Flags[i]; if (i == 5) Gm.bWhoOpen = bWho; }
+		}
+		{
+			const FString Info = FString::Printf(TEXT("%s%s    Players online: %d    %s"), Gm.bWorkerOk ? TEXT("") : TEXT("(chat AI offline: corpus mode)    "), *HLMoney(Gm.Player.Cents), Gm.OnlineCount(), TEXT(""));
+			Tx(VS.X - 14 - TW(Info.TrimEnd(), 10), My - 38, Info.TrimEnd(), 10, ColGold);
+		}
 	}
 	DrawQuestMarkers();
 	DrawMinimap();
@@ -722,11 +785,13 @@ void SHLGameUI::AbilityTip(const FHLAbility& Ab) const
 	const FHLUnit* P = G().PlayerUnit();
 	FString Res = P && P->Cls ? P->Cls->Resource : TEXT("power");
 	Res[0] = FChar::ToUpper(Res[0]);
+	const float Cost = P ? G().AbCost(*P, Ab) : Ab.Cost;
 	TipText = FString::Printf(TEXT("%s\n%s%s%s\n%s"), *Ab.Name,
-		Ab.Cost > 0 ? *FString::Printf(TEXT("%d %s   "), (int32)Ab.Cost, *Res) : TEXT(""),
+		Cost > 0 ? *FString::Printf(TEXT("%d %s   "), FMath::RoundToInt32(Cost), *Res) : TEXT(""),
 		Ab.Range > 6 ? *FString::Printf(TEXT("%d m range   "), (int32)Ab.Range) : (Ab.Target == TEXT("enemy") ? TEXT("Melee range   ") : TEXT("")),
 		*FString::Printf(TEXT("%s%s"), Ab.Cast > 0 ? *FString::Printf(TEXT("%.1f s cast"), Ab.Cast) : TEXT("Instant"), Ab.Cd > 0 ? *FString::Printf(TEXT("   %d s cooldown"), (int32)Ab.Cd) : TEXT("")),
 		*Ab.Desc);
+	if (!Ab.Flavor.IsEmpty()) TipText += TEXT("\n") + Ab.Flavor;
 	TipPos = Mouse;
 }
 
@@ -769,15 +834,20 @@ void SHLGameUI::DrawQuestMarkers() const
 	const FVector CamLoc = PC->PlayerCameraManager->GetCameraLocation();
 	const FRotator CamRot = PC->PlayerCameraManager->GetCameraRotation();
 	int32 Shown = 0;
-	for (const FHLQuestState& QS : Gm.Player.Quests)
+	TArray<TPair<FVector2D, FLinearColor>> Goals;
+	if (P->bGhost && P->Area == Gm.Player.CorpseArea) Goals.Add({ Gm.Player.CorpsePos, FLinearColor(0.6f, 0.85f, 1.f) });
+	else for (const FHLQuestState& QS : Gm.Player.Quests)
 	{
-		if (Shown >= 3) break;
 		FVector2D Goal;
-		if (!HLQuestGoal(Gm, QS, *P, Goal)) continue;
+		if (Goals.Num() < 3 && HLQuestGoal(Gm, QS, *P, Goal)) Goals.Add({ Goal, QS.bComplete ? FLinearColor(1, 0.85f, 0.2f) : FLinearColor(1, 0.95f, 0.6f) });
+	}
+	for (const auto& GC : Goals)
+	{
+		const FVector2D Goal = GC.Key;
 		++Shown;
 		const float D = FVector2D::Distance(Goal, P->Pos);
 		if (D < 6) continue;
-		const FLinearColor C = QS.bComplete ? FLinearColor(1, 0.85f, 0.2f) : FLinearColor(1, 0.95f, 0.6f);
+		const FLinearColor C = GC.Value;
 		const FVector Wp = World->ToWorld(P->Area, Goal, 3);
 		FVector2D S;
 		const bool bOn = Project(Wp, S) && S.X > 40 && S.X < VS.X - 40 && S.Y > 60 && S.Y < VS.Y - 160;
@@ -974,7 +1044,24 @@ void SHLGameUI::DrawPopups() const
 		Block(X, Y, W, H); Panel(X, Y, W, H);
 		TxC(X + W * 0.5f, Y + 14, TEXT("You have died."), 16, ColRed, true);
 		if (Btn(X + 60, Y + 56, 200, 34, TEXT("Release to aid station"), true, 12)) Gm.ReleaseSpirit();
-	}
+		}
+		else if (P->bGhost)
+		{
+			const bool bNear = P->Area == Gm.Player.CorpseArea && FVector2D::Distance(P->Pos, Gm.Player.CorpsePos) <= 10;
+			const float W = 380, H = bNear ? 96 : 118, X = (VS.X - W) * 0.5f, Y = 96;
+			Block(X, Y, W, H); Panel(X, Y, W, H);
+			if (bNear)
+			{
+				TxC(X + W * 0.5f, Y + 12, TEXT("You stand over your body."), 13, FLinearColor(0.7f, 0.85f, 1), true);
+				if (Btn(X + 90, Y + 46, 200, 32, TEXT("Resurrect"), true, 12)) Gm.ResurrectAtCorpse();
+			}
+			else
+			{
+				TxC(X + W * 0.5f, Y + 10, FString::Printf(TEXT("Your body lies %d m away."), (int32)FVector2D::Distance(P->Pos, Gm.Player.CorpsePos)), 13, FLinearColor(0.7f, 0.85f, 1), true);
+				TxC(X + W * 0.5f, Y + 32, TEXT("Follow the arrow back, or revive here (-25% durability, 10 min sickness)."), 9, ColDim);
+				if (Btn(X + 90, Y + 62, 200, 32, TEXT("Revive at the aid station"), true, 11)) Gm.ResurrectAtStation();
+			}
+		}
 	if (Gm.InviteFromSim >= 0 && Gm.Sims.IsValidIndex(Gm.InviteFromSim))
 	{
 		const float W = 340, H = 100, X = (VS.X - W) * 0.5f, Y = 120;

@@ -228,10 +228,10 @@ void AHLWorldActor::SyncUnits()
 		if (U->bSitting && !U->bDead) Z -= 0.45f;
 		if (U->bMounted) Z += 0.9f;
 		A->SetActorLocationAndRotation(ToWorld(U->Area, U->Pos, Z), FRotator(0, U->Yaw, U->bDead ? 90 : 0));
-		if (U->bDead != V->bDeadLook)
+		if (U->bDead != V->bDeadLook || U->bGhost != V->bGhostLook)
 		{
-			V->bDeadLook = U->bDead;
-			if (V->Body.IsValid()) V->Body->SetMaterial(0, Mid(U->bDead ? U->Color * 0.45f : U->Color));
+			V->bDeadLook = U->bDead; V->bGhostLook = U->bGhost;
+			if (V->Body.IsValid()) V->Body->SetMaterial(0, Mid(U->bDead ? U->Color * 0.45f : U->bGhost ? FLinearColor(0.55f, 0.75f, 1.f) : U->Color));
 		}
 		if (U->bMounted != V->bMountLook)
 		{
@@ -316,11 +316,28 @@ void AHLWorldActor::AutoTest(float Dt)
 	if (!Game.bInWorld)
 	{
 		if (!bSaveChecked || T < 2) return;
+		#if !PLATFORM_WASM
+		if (FParse::Param(FCommandLine::Get(), TEXT("HLAutoTitleShot")) && AutoShots == 0)
+		{
+			static bool bShot = false;
+			if (T < 3) return;
+			if (!bShot) { bShot = true; FScreenshotRequest::RequestScreenshot(FPaths::ProjectSavedDir() / TEXT("Screenshots/hl_title.png"), true, false); }
+			if (T < 5) return;
+		}
+		#endif
 		const FHLClass* C = FHLData::Get().Class(AutoClass);
 		if (!C) C = &FHLData::Get().Classes[0];
 		Game.NewCharacter(TEXT("Tester"), C);
 		Game.EnterWorld();
 		for (const FHLQuest& Q : FHLData::Get().Quests) if (Q.Level <= 2 && Game.QuestAvailable(Q)) Game.AcceptQuest(Q);
+		int32 StartLevel = 0;
+		if (FParse::Value(FCommandLine::Get(), TEXT("HLAutoLevel="), StartLevel) && StartLevel > 1)
+		{
+			// start at a given level (talent and balance checks): abilities trained, talents spent by the bot below
+			FHLUnit* P = Game.PlayerUnit();
+			P->Level = FMath::Clamp(StartLevel, 1, 60); Game.RecalcPlayerStats(); P->Hp = P->MaxHp;
+			for (const FHLAbility* Ab : C->Abilities) if (Ab->Level <= P->Level) Game.LearnAbility(Ab, true);
+		}
 		if (FParse::Param(FCommandLine::Get(), TEXT("HLAutoDungeon")))
 		{
 			// dungeon soak test: level 10 player + 4 level-10 simulated players (tank, healer, 2 others) inside the Egyptian
@@ -357,10 +374,28 @@ void AHLWorldActor::AutoTest(float Dt)
 	}
 	if (AutoQuit > 0 && T > AutoQuit) { UKismetSystemLibrary::QuitGame(this, nullptr, EQuitPreference::Quit, false); return; }
 	FHLUnit* P = Game.PlayerUnit();
-	if (!P || Game.Now < AutoNextAct) { if (P && !P->bDead) if (FHLUnit* Tg = Game.Unit(P->TargetId)) if (!Tg->bDead && Tg->Kind == EHLKind::Mob) Game.MoveTo(*P, Tg->Pos, P->AutoRange - 1); return; }
+	if (P && P->bGhost && FVector2D::Distance(P->Pos, Game.Player.CorpsePos) > 8) Game.MoveTo(*P, Game.Player.CorpsePos, 4); // every frame
+		if (!P || Game.Now < AutoNextAct) { if (P && !P->bDead && !P->bGhost) if (FHLUnit* Tg = Game.Unit(P->TargetId)) if (!Tg->bDead && Tg->Kind == EHLKind::Mob) Game.MoveTo(*P, Tg->Pos, P->AutoRange - 1); return; }
 	AutoNextAct = Game.Now + 0.4f;
+	{
+		// -HLAutoDieAt=<s>: die once (ghost-run test)
+		static float DieAt = -1; if (DieAt < 0) { DieAt = 0; FParse::Value(FCommandLine::Get(), TEXT("HLAutoDieAt="), DieAt); }
+		if (DieAt > 0 && T > DieAt && !P->bDead && !P->bGhost) { DieAt = 0; Game.KillUnit(*P, nullptr); AutoNextAct = Game.Now + 2; return; }
+	}
 	if (P->bDead) { Game.ReleaseSpirit(); return; }
+	if (P->bGhost)
+	{
+		if (FVector2D::Distance(P->Pos, Game.Player.CorpsePos) <= 8) Game.ResurrectAtCorpse();
+		else Game.MoveTo(*P, Game.Player.CorpsePos, 4);
+		return;
+	}
 	if (Game.InviteFromSim >= 0) Game.AnswerInvite(true);
+	// spend talent points: main tree first (tier by tier), then the next
+	if (Game.TalentPoints() > 0)
+		for (int32 Spec = 0; Spec < 3 && Game.TalentPoints() > 0; ++Spec)
+			for (int32 Tier = 1; Tier <= 5 && Game.TalentPoints() > 0; ++Tier)
+				for (const FHLTalent* Tl : Game.Player.Cls->Talents)
+					if (Tl->Spec == Spec && Tl->Tier == Tier) while (Game.CanLearnTalent(*Tl).IsEmpty()) Game.LearnTalent(*Tl);
 	FHLUnit* Tg = Game.Unit(P->TargetId);
 	if (!Tg || Tg->bDead || Tg->Kind != EHLKind::Mob)
 	{

@@ -75,11 +75,13 @@ struct FHLUnit
 	bool bRangedAuto = false;
 	// combat
 	int32 TargetId = 0;
-	bool bAutoAttack = false, bDead = false, bSitting = false, bMounted = false;
+	bool bAutoAttack = false, bDead = false, bSitting = false, bMounted = false, bGhost = false; // ghost: released spirit running back
 	float SwingTimer = 0, GcdUntil = 0, CastStart = 0, CastEnd = 0, CombatUntil = 0, DeadAt = 0, RegenTimer = 0, HopT = 0;
 	const FHLAbility* Casting = nullptr;
 	int32 CastTargetId = 0;
 	TMap<const FHLAbility*, float> CdUntil;
+	TMap<FString, float> Mods; // talent modifiers (summed over ranks)
+	float Mod(const FString& K) const { const float* V = Mods.Find(K); return V ? *V : 0.f; }
 	TArray<FHLAura> Auras;
 	// movement
 	TArray<FVector2D> Path;
@@ -137,6 +139,11 @@ struct FHLPlayer
 	TMap<FString, FHLRelation> Relations; // persona id -> memory of the player
 	double PlayedS = 0;
 	bool bShowSim = false;
+	TMap<FString, int32> Talents; // talent id -> rank
+	int32 Respecs = 0;
+	TMap<FString, float> Durability; // equip slot -> 0..1 (missing = 1); a broken item (0) gives nothing
+	int32 CorpseArea = 0; FVector2D CorpsePos = FVector2D::ZeroVector;
+	double SicknessUntil = 0; // resurrection sickness (-25% attributes)
 };
 
 enum class EHLSimRole : uint8 { Away, Local, Transient, Idler };
@@ -217,12 +224,20 @@ public:
 
 	// ---- stats (HLGame.cpp)
 	void RecalcPlayerStats();
-	void RecalcCharStats(FHLUnit& U, const FHLClass& C, int32 Level, const TMap<FString, const FHLItem*>& Equip, bool bFull);
+	void RecalcCharStats(FHLUnit& U, const FHLClass& C, int32 Level, const TMap<FString, const FHLItem*>& Equip, bool bFull, const TMap<FString, int32>* Talents = nullptr);
+	// talents (DESIGN-BIBLE §5): a point per level from 10, a tier opens every 5 points spent in that tree
+	int32 TalentPoints() const;                       // unspent
+	int32 TalentSpent(int32 Spec = -1) const;
+	FString CanLearnTalent(const FHLTalent& T) const; // empty when allowed
+	void LearnTalent(const FHLTalent& T);
+	int32 RespecCost() const { return FMath::Min(5000, 100 << FMath::Min(Player.Respecs, 6)); }
+	void ResetTalents();
+	float AbCost(const FHLUnit& U, const FHLAbility& Ab) const { return Ab.Cost * FMath::Max(0.f, 1.f - U.Mod(TEXT("cost:") + Ab.Id)); }
 	void InitMobStats(FHLUnit& U);
 	static int32 XpToNext(int32 L) { return 40 * L * L + 360 * L; }
 
 	// ---- combat (HLCombat.cpp)
-	bool IsHostile(const FHLUnit& A, const FHLUnit& B) const { return A.IsFriendly() != B.IsFriendly(); }
+	bool IsHostile(const FHLUnit& A, const FHLUnit& B) const { return !A.bGhost && !B.bGhost && A.IsFriendly() != B.IsFriendly(); }
 	bool InCombat(const FHLUnit& U) const { return Now < U.CombatUntil; }
 	FString CanCast(const FHLUnit& U, const FHLAbility& Ab, const FHLUnit* Target) const; // empty = ok
 	bool TryCast(FHLUnit& U, const FHLAbility& Ab, int32 TargetId);
@@ -272,6 +287,11 @@ public:
 	void InteractUnit(int32 Id);
 	void LootCorpse(FHLUnit& Corpse);
 	void ReleaseSpirit();
+	void ResurrectAtCorpse();
+	void ResurrectAtStation();
+	int32 RepairCost() const;
+	void RepairAll();
+	float SlotDurability(const FString& Slot) const { const float* D = Player.Durability.Find(Slot); return D ? *D : 1.f; }
 	void TickPlayer(float Dt);
 	// quests
 	const FHLQuestState* QuestState(const FString& Id) const;
@@ -344,7 +364,7 @@ public:
 	FString LastWhisperFrom;
 	const FHLItem* LastLinked = nullptr;
 	void AddChat(const FString& Ch, const FString& From, const FString& Text, int32 SimIdx = -1, float Delay = 0);
-	void System(const FString& Text) { AddChat(TEXT("system"), FString(), Text); }
+	void System(const FString& Text) { AddChat(TEXT("system"), FString(), Text); UE_LOG(LogTemp, Verbose, TEXT("HL_SYS %s"), *Text); }
 	void SimSay(int32 SimIdx, const FString& Ch, const FString& Situation, float Delay = 0, const FString& Fallback = FString());
 	FString CorpusLine(const FHLSim& S, const FString& Situation);
 	FString StyleText(const FHLPersona& P, const FString& Text);

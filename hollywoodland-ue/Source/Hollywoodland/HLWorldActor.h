@@ -16,7 +16,7 @@ struct FHLUnitVis
 {
 	TWeakObjectPtr<AActor> Actor;
 	TWeakObjectPtr<UStaticMeshComponent> Body, Head, Extra;
-	bool bDeadLook = false, bMountLook = false;
+	bool bDeadLook = false, bMountLook = false, bGhostLook = false;
 };
 
 UCLASS()

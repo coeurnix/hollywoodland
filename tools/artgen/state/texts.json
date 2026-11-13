@@ -1,0 +1,1890 @@
+{
+ "class_veteran": {
+  "description": "They came home from the Argonne in 1919 and found work as extras, doormen and Legion boxers. Every one of them swore he was finished with fighting. Now the war has followed them to Hollywood Boulevard, so they dig in, hold the line and show the younger fellows how it's done.",
+  "icon": "a dented doughboy Brodie helmet over crossed bayonet and trench shovel, lit by a red flare"
+ },
+ "spec_veteran_0": {
+  "description": "The man who kept his squad alive in the Meuse-Argonne still does it, shield up and voice raised, standing wherever the mandibles land first.",
+  "icon": "a riveted steel shield bearing sergeant chevrons, green ichor splashing off its face"
+ },
+ "spec_veteran_1": {
+  "description": "Over the top with a two-handed weapon and no second thoughts. The bayonet charge worked in 1918, and the bugs have not read the field manuals.",
+  "icon": "a fixed bayonet on a Springfield rifle lunging forward, motion streaks and mud flying"
+ },
+ "spec_veteran_2": {
+  "description": "Learned at the Legion smokers on Selma Avenue, a weapon in each fist and no bell to save anybody. Queensberry never wrote a rule for beetles.",
+  "icon": "two taped fists gripping a trench knife and brass knuckles, sparks flying, boxing ring ropes behind"
+ },
+ "class_powderman": {
+  "description": "Studio effects men who blew up Atlanta twice a week and swept up the cork by supper. They know black powder, flash paper and smoke pots better than their own children. When the hive took the lots, they took the powder magazine with them.",
+  "icon": "a lit fuse sparking toward a bundle of dynamite sticks, orange glow on black"
+ },
+ "spec_powderman_0": {
+  "description": "Gasoline, magnesium and a steady match. A Fire man sets the blaze, stands back and lets it eat slow, the way it ate the Babylon set.",
+  "icon": "a burning road flare dripping molten fire, flames curling upward in smoke"
+ },
+ "spec_powderman_1": {
+  "description": "Smoke pots made a thousand battlefields on a ten-dollar budget. Now they blind compound eyes, choke the drones and hide a man who needs to be elsewhere.",
+  "icon": "a battered smoke canister pouring thick grey clouds, insect silhouettes lost within"
+ },
+ "spec_powderman_2": {
+  "description": "The big charges, wired by hand and touched off from behind a sandbag. Demolition men measure success by how far the windows rattled on Vine.",
+  "icon": "a T-handle plunger detonator pressed down, shockwave and debris bursting behind it"
+ },
+ "ab_vet_thrust": {
+  "description": "The same short, ugly lunge they drilled at Camp Kearny, twelve years on. The steel goes in where the shell plates part.",
+  "icon": "a bayonet thrusting forward through green insect ichor, motion streaks"
+ },
+ "ab_vet_shout": {
+  "description": "A voice built for artillery and parade grounds. Men stand straighter, and somewhere a bug three blocks off stops chewing.",
+  "icon": "an open-mouthed sergeant's face in profile, sound rings bursting outward, campaign hat"
+ },
+ "ab_vet_hold": {
+  "description": "You plant your boots and make yourself the biggest, loudest, most insulting thing on the street. The bug takes the bait.",
+  "icon": "a battered steel shield braced against a huge mandible, sparks flying"
+ },
+ "ab_vet_sweep": {
+  "description": "A wide, flat swing learned in a crowded trench, where the enemy came in threes and nobody had room to be polite.",
+  "icon": "a broad steel arc slashing through three insect silhouettes, curved motion trail"
+ },
+ "ab_vet_butt": {
+  "description": "The Army never wrote it in the manual, but every doughboy knew the wooden end works fine too.",
+  "icon": "a rifle stock smashing into an insect head, cracked chitin, yellow stars"
+ },
+ "ab_vet_dig_in": {
+  "description": "Shoulders down, chin tucked, feet in the dirt like the Argonne all over again. Let it come.",
+  "icon": "a helmeted soldier crouched behind sandbags, claws glancing off, dust rising"
+ },
+ "ab_vet_over_top": {
+  "description": "The whistle blows in your head and you go, the way you went in 1918, and this time you mean to finish it.",
+  "icon": "a soldier leaping over a sandbag parapet, bayonet raised, red flare sky"
+ },
+ "class_mechanic": {
+  "description": "Garage men, studio grips and camera-truck mechanics who kept the lots running on baling wire and bad language. Since the Dome came down they fix what the bugs break, rig what the bugs fear, and swing a sledge at whatever won't stay fixed.",
+  "icon": "a heavy steel wrench crossed with a sledgehammer over a glowing spark plug, oil gleaming"
+ },
+ "spec_mechanic_0": {
+  "description": "Tin-can alarms, spring traps and a motor-driven contraption that spits rivets. If it ticks, whirs or goes off when nobody expected it, a Gadgets man built it in a garage.",
+  "icon": "a clockwork rivet turret on a tripod spitting glowing hot rivets, gears whirring"
+ },
+ "spec_mechanic_1": {
+  "description": "A four-pound sledge, a tire iron, a pipe wrench as long as a man's arm. The insects grow hard shells; the Heavy Tools men bring harder answers.",
+  "icon": "a two-handed sledgehammer cracking a green chitin shell, shards and ichor flying"
+ },
+ "spec_mechanic_2": {
+  "description": "Splints, tourniquets and a canvas kit of patches that work on people about as well as on radiators. Nobody asks where the rubber hose came from.",
+  "icon": "an open canvas tool roll glowing warm, bandages and a soldering iron inside"
+ },
+ "class_gunman": {
+  "description": "Trick shooters from the Wild West shows, Gower Gulch cowboys, game wardens and the men who loaded blanks at Stembridge on Marathon Street. When the bugs came, somebody swapped the blanks for live rounds. Gunmen keep their distance, keep their heads and keep count of the shells.",
+  "icon": "crossed Winchester rifle and Colt revolver over a brass shell casing, smoke curling, warm gunmetal glow"
+ },
+ "spec_gunman_0": {
+  "description": "One rifle, one rest, one breath held. Marksmen learned the trade in the Argonne or on the deer runs above Tujunga, and they do not waste a cartridge.",
+  "icon": "telescopic rifle sight crosshairs centred on a giant compound insect eye, cold blue glint"
+ },
+ "spec_gunman_1": {
+  "description": "Annie Oakley's heirs, late of the Miller Brothers 101 Ranch show: shooting from the hip, off the mirror, with both hands at once. The bugs never applaud.",
+  "icon": "twin nickel revolvers fanning fire, a playing card split edgewise by a bullet mid-air"
+ },
+ "spec_gunman_2": {
+  "description": "Hound men from the canyons and the studio animal pens, working a dog that has learned what a hive smells like. The dog finds them; the gun finishes it.",
+  "icon": "snarling bloodhound bounding past a smoking shotgun barrel, studded collar, amber dusk light"
+ },
+ "ab_stn_haymaker": {
+  "description": "Thrown from the hip like the cowboy who started every saloon brawl on the Columbia lot. Wild, wide and telegraphed from Pasadena, and it lands anyway.",
+  "icon": "a bare knuckled fist swinging wide in a hard arc, motion streaks, flying sweat"
+ },
+ "ab_stn_tumble": {
+  "description": "A shoulder roll learned on a thousand takes. The mandible snaps shut on the spot where you stood a moment ago.",
+  "icon": "a stuntman mid-roll on dusty pavement, a giant insect claw striking empty air"
+ },
+ "ab_stn_low_blow": {
+  "description": "The Production Code forbids it on screen. Nobody under the Dome is filming, and the thing folds up just the same.",
+  "icon": "a boot driving upward into an insect's segmented underbelly, yellow impact flash"
+ },
+ "ab_stn_flurry": {
+  "description": "Three cuts faster than a newsreel can follow, the kind of work the studios hired you to fake and never knew you could do for real.",
+  "icon": "a switchblade leaving three silver slash trails across green chitin"
+ },
+ "ab_stn_bottle": {
+  "description": "Sugar glass from the prop room, made to shatter harmlessly over a leading man. Nobody told the prop man what gets poured inside it now.",
+  "icon": "a breakaway bottle bursting into glittering shards against an insect's legs, sticky splash"
+ },
+ "ab_stn_leap": {
+  "description": "The same jump that took you off a Gower Street rooftop for two dollars a fall. You come down boots first on everything around you.",
+  "icon": "a figure plunging from above, boots first, shockwave ring scattering insect shapes"
+ },
+ "ab_stn_showstopper": {
+  "description": "The finish you saved for the picture that never got made. Somewhere a director would have shouted cut and printed it.",
+  "icon": "a fist and knife striking together under a blazing spotlight, chitin cracking apart"
+ },
+ "class_nurse": {
+  "description": "They came from Hollywood Hospital, the studio first-aid huts and the base hospitals of France, and they have seen worse than bugs. Now they work double shifts in the Roosevelt lobby and the gutters of Highland Avenue. Nobody on the line argues with a nurse twice.",
+  "icon": "a starched white nurse's cap with a red cross, glowing softly above a rolled bandage"
+ },
+ "spec_nurse_0": {
+  "description": "Tag the dying, patch the living, move to the next cot. Triage nurses learned it in France, where the stretchers never stopped coming and neither did they.",
+  "icon": "a red triage tag tied to a bandaged wrist, a steel surgical clamp gleaming beside it"
+ },
+ "spec_nurse_1": {
+  "description": "Slow work and sure: carbolic, clean dressings, a spoonful of something bitter on the hour. A good nurse keeps a man mending long after she has left his bedside.",
+  "icon": "a brown glass medicine bottle with a dropper, warm amber light seeping from within"
+ },
+ "spec_nurse_2": {
+  "description": "Every hospital dispensary holds enough to kill a horse, and most bugs are smaller than a horse. The nurse measures carefully, then pours generously.",
+  "icon": "a glass syringe of bubbling green toxin dripping onto a cracked insect carapace"
+ },
+ "class_stuntman": {
+  "description": "They fell off horses, trains and the roofs of Poverty Row for seven-fifty a day and a bandage. When the bugs took the lots, the men who doubled for the stars found the real fight paid no better and hurt about the same. They hit first and land on their feet.",
+  "icon": "a scuffed leather riding boot mid-leap through a shattering breakaway window, glass shards glinting"
+ },
+ "spec_stuntman_0": {
+  "description": "Saloon brawls were staged with pulled punches. Out here nobody pulls anything, and a man who can throw one for the camera learns fast to throw one for keeps.",
+  "icon": "a taped bare-knuckle fist smashing through a breakaway saloon chair, splinters flying"
+ },
+ "spec_stuntman_1": {
+  "description": "Prop knives were rubber. The ones in a stuntman's boot these days are Sheffield steel, honed nightly and slipped between chitin plates where the hive forgot to armour.",
+  "icon": "a boot knife sliding between green chitin plates, a bright glint along the edge"
+ },
+ "spec_stuntman_2": {
+  "description": "The trick to a forty-foot fall is knowing where the boxes are. The trick with an insect's charge is the same: be somewhere else, and land laughing.",
+  "icon": "a figure tumbling backwards off a rooftop toward stacked cardboard boxes, motion blur"
+ },
+ "class_preacher": {
+  "description": "Tent revivalists, storefront pastors and Angelus Temple choir hands who were saving Hollywood's soul long before anything landed on it. They carry a cane, a worn Bible and a voice that fills five thousand seats. Now they patch up sinners and saints alike, and preach fire at anything with six legs.",
+  "icon": "a worn leather Bible crossed with a hickory cane, golden light pouring from its open pages"
+ },
+ "spec_preacher_0": {
+  "description": "Hymns sung loud enough to carry over gunfire. When the whole congregation is bleeding, the Gospel preacher lifts every voice in the room back onto its feet.",
+  "icon": "an open hymnal radiating warm golden rings of sound over a crowd of upraised palms"
+ },
+ "spec_preacher_1": {
+  "description": "The dry crusade turned to armour. Temperance preachers stand between the faithful and harm the way they once stood between a thirsty man and his bottle.",
+  "icon": "a shattered whiskey bottle behind a glowing pale blue shield of light, glass shards frozen midair"
+ },
+ "spec_preacher_2": {
+  "description": "Sawdust-trail sermons with the brimstone left in. The Hellfire preacher calls down judgment on the hive, and the hive, for once, listens.",
+  "icon": "a preacher's pointing hand wreathed in roaring orange flame above a scorched, curling insect wing"
+ },
+ "ab_gun_aimed": {
+  "description": "Breathe out, lay the bead on the joint behind the head, squeeze. The shot that wins the turkey at the county fair, here spent on something with six legs.",
+  "icon": "rifle sights aligned on a giant insect's neck joint, muzzle flash blooming bright"
+ },
+ "ab_gun_hip": {
+  "description": "No sighting, no ceremony. The gun clears leather and speaks before the bug has finished turning around.",
+  "icon": "revolver fired from the hip, smoke curling, brass casing spinning in the air"
+ },
+ "ab_gun_knee": {
+  "description": "A round into the leg joint where the shell is thinnest. Even a hive soldier limps when it has one less knee to stand on.",
+  "icon": "bullet shattering a chitinous insect leg joint, green ichor spraying sideways"
+ },
+ "ab_gun_fan": {
+  "description": "Palm slapping the hammer, six shots so close together the extras on Gower Street would swear it was one long one.",
+  "icon": "hand fanning a revolver hammer, six overlapping muzzle flashes in a blur"
+ },
+ "ab_gun_buckshot": {
+  "description": "A shell of double-ought sprays the whole knot of them. The bugs bunch up like a crowd at a premiere, and pay for it.",
+  "icon": "shotgun blast spreading a cone of pellets into a cluster of insects"
+ },
+ "ab_gun_nerves": {
+  "description": "The hands stop shaking, the noise goes far away, and every shell joint on the field looks big as a barn door.",
+  "icon": "steady gloved hand on a trigger guard, calm blue glow around the knuckles"
+ },
+ "ab_gun_rights": {
+  "description": "The bug is caught square, nowhere to run, and the gunman takes his time. Some shots end the argument outright.",
+  "icon": "rifle barrel pressed close to a cornered insect's head, blinding white muzzle flash"
+ },
+ "class_electrician": {
+  "description": "The juicers who ran cable and trimmed carbon arcs on every sound stage in town. When the hive took the lots, they kept the keys to the powerhouse and learned that a thousand amps cooks a beetle as well as it lights a starlet. Union men, mostly, and still sore about the overtime.",
+  "icon": "a heavy brass knife switch thrown closed, blue sparks leaping across its copper blades"
+ },
+ "spec_electrician_0": {
+  "description": "Strike the arc and hold it on one target. The blue-white spark that burns down a carbon rod burns through chitin just as easily, and it does not wander.",
+  "icon": "a jagged blue-white arc leaping from two carbon rods into a cracked insect carapace"
+ },
+ "spec_electrician_1": {
+  "description": "A ten-thousand-watt sun on wheels, swung across a whole swarm at once. Things raised in the dark of a hive hate a key light worse than poison.",
+  "icon": "a big studio floodlight on a stand blazing white beams over silhouetted insects"
+ },
+ "spec_electrician_2": {
+  "description": "Portable dynamos hauled off the location trucks and wound to throw a crackling skin of current around the crew. Anything that bites through it gets a mouthful.",
+  "icon": "a humming iron dynamo wrapped in a glowing blue dome of crackling current"
+ },
+ "ab_elc_arc": {
+  "description": "A blue spark leaps from the wrench tip with a crack like a slapstick. The bug twitches, and the air smells of a stage after a thunderstorm scene.",
+  "icon": "a blue electric spark leaping from a wrench tip to a green insect leg"
+ },
+ "ab_elc_insulate": {
+  "description": "Rubber, mica and a prayer, wound round the body the way you'd tape a cable. Claws skid off it like rain off a studio umbrella.",
+  "icon": "a faint amber glow of coiled rubber-taped wire wrapping a raised forearm"
+ },
+ "ab_elc_live_wire": {
+  "description": "A loose cable lashes onto the target and stays there, spitting sparks on a steady count. It hums like a neon sign on Vine.",
+  "icon": "a writhing black cable coiled round an insect thorax, sparks bursting at intervals"
+ },
+ "ab_elc_floodlight": {
+  "description": "A ten-thousand-watt studio lamp swings round and opens up. Anything caught in the beam cooks like a starlet under the old carbon arcs.",
+  "icon": "a huge studio floodlight blazing white, beam scorching silhouetted insects"
+ },
+ "ab_elc_short": {
+  "description": "One bad splice, done on purpose. The bug locks rigid with its feelers standing straight up, like an extra who's forgotten his line.",
+  "icon": "a fused junction box exploding in white sparks, a frozen insect antenna above"
+ },
+ "ab_elc_overload": {
+  "description": "Every breaker on the board thrown at once, the lamp bulbs popping down the line. It takes a moment to build, and the bug never forgets it.",
+  "icon": "a switchboard glowing red-hot, bulbs bursting, a thick bolt erupting forward"
+ },
+ "ab_elc_chain": {
+  "description": "The current isn't fussy about who it meets. It jumps from shell to shell down the line like gossip through the Brown Derby.",
+  "icon": "a forked lightning bolt zigzagging between three insect silhouettes at night"
+ },
+ "ab_nur_ether": {
+  "description": "A rag soaked from the brown bottle, pressed hard over whatever passes for a face. The fumes do the rest, and the nurse holds her breath.",
+  "icon": "a white rag dripping clear ether pressed against a mandible, sickly green vapour curling"
+ },
+ "ab_nur_dress": {
+  "description": "Clean gauze, a firm hand and a safety pin. She has wrapped worse on extras who fell off horses in Gower Gulch.",
+  "icon": "a roll of white gauze unspooling around a bloodied forearm, warm golden glow"
+ },
+ "ab_nur_tonic": {
+  "description": "A spoonful of something bitter from an unlabelled bottle. It warms the chest slowly and keeps on working long after the face stops puckering.",
+  "icon": "an amber tonic bottle tipping into a silver spoon, soft rising steam of light"
+ },
+ "ab_nur_salts": {
+  "description": "One sharp whiff under the nose and the fallen sit bolt upright, eyes watering, asking who hit them.",
+  "icon": "a small glass vial of smelling salts uncorked, sharp white fumes bursting outward"
+ },
+ "ab_nur_iodine": {
+  "description": "A flung bottle of iodine splashes brown across the carapace and keeps burning. It stings people too, as every child in Los Angeles can tell you.",
+  "icon": "a brown iodine bottle shattering against an insect shell, orange-brown splash smoking"
+ },
+ "ab_nur_surgery": {
+  "description": "Sleeves up, lamp held close, forceps and catgut on a folding table. Not a hospital, but the patient lives to complain about it.",
+  "icon": "steel forceps and curved needle trailing catgut above a lamplit wound, bright white glow"
+ },
+ "ab_nur_sedative": {
+  "description": "A syringe driven in at the soft joint between plates. Even a hive soldier stops to think about that, then stops thinking altogether.",
+  "icon": "a glass syringe plunging into an insect leg joint, blue sedative swirling inward"
+ },
+ "ab_pre_rebuke": {
+  "description": "A finger leveled and a verse from Ezekiel, delivered like a slap. The insect reels as if someone had struck it with the Book itself.",
+  "icon": "a pointing preacher's hand crackling with white-gold light striking an insect mandible"
+ },
+ "ab_pre_hands": {
+  "description": "Two calloused palms on a bloody shoulder, eyes shut, lips moving. The bleeding slows, the breathing steadies, and nobody asks how.",
+  "icon": "two weathered hands pressed on a bandaged shoulder, warm golden glow seeping between fingers"
+ },
+ "ab_pre_blessing": {
+  "description": "A quick sign of the cross and a word over the head. Claws come down and glance off something nobody can see.",
+  "icon": "translucent golden halo-dome over a kneeling man, insect claw glancing off in sparks"
+ },
+ "ab_pre_sermon": {
+  "description": "Brimstone, delivered at full volume in the Angelus Temple style. The words catch on the target like a lit fuse and keep burning.",
+  "icon": "open Bible with pages ablaze, orange flames curling toward a writhing insect silhouette"
+ },
+ "ab_pre_hymn": {
+  "description": "An old Methodist tune, sung loud enough to carry over gunfire. Everyone within earshot stands a little straighter and bleeds a little less.",
+  "icon": "a preacher's open mouth singing, golden musical waves rippling outward across rubble"
+ },
+ "ab_pre_fear": {
+  "description": "The preacher draws himself up and roars Judgment. Even a four-metre hive brute freezes, unsure what just happened to it.",
+  "icon": "towering preacher shadow over a cowering giant beetle, blinding white light behind him"
+ },
+ "ab_pre_revival": {
+  "description": "The tent-meeting cure, full fervour and both arms raised. Men who were halfway to Hollywood Cemetery get up and ask for their hats.",
+  "icon": "a fallen man rising in a pillar of radiant golden light, arms lifted"
+ },
+ "ab_mec_swing": {
+  "description": "Fourteen inches of drop-forged steel, swung like a man who has stripped a thousand rusted nuts and finally found something that deserves it.",
+  "icon": "a heavy adjustable wrench mid-swing, motion arc, green ichor flecks spraying off the jaw"
+ },
+ "ab_mec_patch": {
+  "description": "Friction tape, a dab of axle grease and a clean rag from the back pocket. It held a Model A together; it will hold you.",
+  "icon": "a roll of black friction tape wound around a bandaged forearm, soft warm glow"
+ },
+ "ab_mec_caltrops": {
+  "description": "A coffee can of roofing nails and bent bolts flung across the pavement. Six legs or two, nobody crosses that without picking their way.",
+  "icon": "bent nails and jagged bolts scattered across cobblestones, glinting, one spiking a chitinous insect foot"
+ },
+ "ab_mec_monkey": {
+  "description": "Thrown end over end at the head. Somewhere on the lot a foreman is still asking who walked off with his good wrench.",
+  "icon": "a monkey wrench tumbling end over end through the air, cartoon stars bursting on impact"
+ },
+ "ab_mec_welder": {
+  "description": "The torch spits blue-white fire and molten bead. Studio welders learned to work without goggles the day the bugs came over the wall.",
+  "icon": "a welding torch blasting a blue-white arc, sparks fanning outward in a burning circle"
+ },
+ "ab_mec_overhaul": {
+  "description": "Tighten every buckle, hammer the dents flat, bolt a sheet of boiler plate over the bad spot. Ugly work, but it runs.",
+  "icon": "a riveted steel plate being hammered onto a leather jacket, sparks and glowing rivets"
+ },
+ "ab_mec_pile": {
+  "description": "Both hands, full weight, straight down, the way the gangs drove piling for the Mulholland Dam. Shells crack the same as timber.",
+  "icon": "a massive two-handed sledgehammer slamming downward, cracked insect carapace and shockwave dust ring"
+ },
+ "ab_pow_flash": {
+  "description": "A pinch of magnesium in the tray, a thumb on the trigger, and a white bang that would make any newsreel cameraman reach for his hat.",
+  "icon": "a flash-powder tray erupting in blinding white light, smoke curling, sparks flying outward"
+ },
+ "ab_pow_fuse": {
+  "description": "The powder man lights it and walks away. The bug never hears the hiss until its shell starts to blister from the inside.",
+  "icon": "a lit fuse snaking along the ground, orange sparks crawling toward a scorched insect leg"
+ },
+ "ab_pow_smoke": {
+  "description": "A tin pot from the effects truck, good for battlefield scenes and burning barns. Insects lose their way in it as badly as extras do.",
+  "icon": "a battered tin smoke pot belching thick grey clouds, dim insect silhouettes staggering"
+ },
+ "ab_pow_squib": {
+  "description": "The little charge they tape under a shirt to make a gunshot look real. Taped to a carapace, it does not need to look like anything.",
+  "icon": "a small wired squib bursting on green chitin, spray of ichor and paper wadding"
+ },
+ "ab_pow_keg": {
+  "description": "Black powder, a stout oak keg and a short fuse. In the war they'd have called it excessive; on a studio lot they call it Tuesday.",
+  "icon": "an oak powder keg exploding outward, staves and orange fire flying in every direction"
+ },
+ "ab_pow_screen": {
+  "description": "He cracks a canister at his own feet and steps sideways into the grey. Claws close on smoke and come away empty.",
+  "icon": "a figure in shirtsleeves half-vanished into billowing white smoke, a pincer grasping empty air"
+ },
+ "ab_pow_demo": {
+  "description": "The charge they save for blowing up a whole set in one take. Studio insurance men would weep; there are none left to ask.",
+  "icon": "bundled dynamite sticks with plunger detonator, a towering fireball rising behind them"
+ },
+ "tal_vet_parade_ground": {
+  "description": "Twelve years on, the knees still lock and the chin still lifts when a sergeant's voice carries. The bugs have yet to see you slouch.",
+  "icon": "polished army boots planted at attention on dusty parade ground, golden morning light"
+ },
+ "tal_vet_barked_orders": {
+  "description": "You learned to make yourself heard over a barrage at Saint-Mihiel. A few insects clicking in a soundstage are no competition.",
+  "icon": "open mouth of a shouting sergeant under steel helmet, sound rings rippling outward"
+ },
+ "tal_vet_sandbagged": {
+  "description": "You stand behind your shield the way you stood behind a sandbag wall in the Argonne: low, square and in no hurry to leave.",
+  "icon": "stacked burlap sandbags with insect claw gouges, chitin shard embedded, dusty light"
+ },
+ "tal_vet_hold_fast": {
+  "description": "Plant the boots, square the shoulders and let the whole hive come to you. They usually do, and they usually regret it.",
+  "icon": "steel shield braced against a giant mandible, sparks spraying, boots dug into pavement"
+ },
+ "tal_vet_bayonet_drill": {
+  "description": "Long point, short point, withdraw. The straw dummies at Camp Kearny never fought back, but the lesson took all the same.",
+  "icon": "bayonet lunging through a straw training dummy, straw bursting, motion streaks"
+ },
+ "tal_vet_marching_order": {
+  "description": "Sixty pounds of pack up a Vosges hill builds a man's back. Hollywood's hills are kinder, and the load is mostly ammunition now.",
+  "icon": "heavy canvas army pack with rolled blanket and entrenching tool, sunlit road"
+ },
+ "tal_vet_no_mans_land": {
+  "description": "Nobody who crossed the wire comes home wasting a swing. You find the soft joint in the chitin the way you found the gap in the barbed wire.",
+  "icon": "tangled barbed wire silhouetted against flare-lit smoky sky, red glow"
+ },
+ "tal_vet_whistle": {
+  "description": "A tin whistle, a lungful of air, and every man goes up the ladder at once. Some habits a fellow never puts in the attic.",
+  "icon": "brass trench whistle on a lanyard mid-blast, shrill gleam, smoke behind"
+ },
+ "tal_vet_bar_room": {
+  "description": "Learned in the back rooms of Gower Street speakeasies: hit first, hit low, and never let the other fellow finish his sentence.",
+  "icon": "fist wrapped in tape smashing through a whiskey glass, liquor splashing"
+ },
+ "tal_vet_thick_skull": {
+  "description": "The doctors at Letterman said the shrapnel should have killed you. Your mother said you were always too stubborn to listen.",
+  "icon": "dented doughboy helmet with a shrapnel crease, cracked chinstrap, faint glow"
+ },
+ "tal_vet_rifle_butt": {
+  "description": "When the magazine's empty and the bug's too close, the wrong end of a Springfield works just as well. Better, some say.",
+  "icon": "rifle stock swinging into an insect head, chitin fragments flying, motion arc"
+ },
+ "tal_vet_footwork": {
+  "description": "The Legion stadium on El Centro teaches you to slip a punch on sawdust. A pincer comes slower than a middleweight's left.",
+  "icon": "boxer's boots pivoting on sawdust-strewn canvas, sawdust spraying, ring rope behind"
+ },
+ "tal_stn_roadwork": {
+  "description": "Five miles before breakfast, up Vine and back, in a sweatshirt and borrowed boots. The fellows at the Legion stadium swear by it, and so do their lungs.",
+  "icon": "worn boxing boots pounding a dawn sidewalk, breath steaming in cold air"
+ },
+ "tal_stn_haymaker": {
+  "description": "Every extra in Gower Gulch can see it coming from across the lot. The trick is that seeing it coming doesn't help one bit.",
+  "icon": "a huge bare fist swinging in a wide arc, motion blur trailing behind"
+ },
+ "tal_stn_glass_jaw": {
+  "description": "Ten years of taking stage punches that landed for real. The jaw is set like poured concrete now, and the dentist sends a card at Christmas.",
+  "icon": "a square stubbled jaw absorbing a punch, sparks scattering off the chin"
+ },
+ "tal_stn_dirty_pool": {
+  "description": "The Marquess of Queensberry never fought a four-metre beetle. A knee where it counts, a thumb in the eye, and back for more.",
+  "icon": "a knee driving upward into a chitinous insect underbelly, green spatter"
+ },
+ "tal_stn_sharp_edges": {
+  "description": "A whetstone in the hip pocket and a habit of using it between takes. The blade finds the seams in the shell like it knows the way.",
+  "icon": "a gleaming knife edge drawn across a whetstone, bright sparks flying"
+ },
+ "tal_stn_quick_hands": {
+  "description": "Card tricks at the commissary, coin rolls on set, a knife where nobody saw one a moment ago. The hands move before the eyes catch up.",
+  "icon": "blurred hands flipping a knife between fingers, ghostly afterimages"
+ },
+ "tal_stn_flurry": {
+  "description": "The second unit shoots the fights the stars won't do, fast and cheap and all in one go. Nobody counts the cuts, least of all the bug.",
+  "icon": "several knife slashes crisscrossing in silver arcs against a dark background"
+ },
+ "tal_stn_props_dept": {
+  "description": "Prop bottles are sugar glass. These are not. The props man looks the other way, and Prohibition makes sure the bottles are already empty.",
+  "icon": "a heavy glass bottle shattering against an insect head, shards glittering"
+ },
+ "tal_stn_tuck_and_roll": {
+  "description": "Hit the ground shoulder first, chin tucked, and come up running. Every stuntman learns it on the mat, or learns it in the hospital.",
+  "icon": "a figure curled mid-roll across dusty ground, motion lines circling"
+ },
+ "tal_stn_cable_work": {
+  "description": "Months on piano wire and pulleys teach a body to move light and quick. The rigging is gone, but the feet still remember it.",
+  "icon": "taut steel cables and a pulley glowing against a dark studio rafter"
+ },
+ "tal_stn_high_fall": {
+  "description": "Off the top of a set, through the awning, onto whatever waits below. The cardboard boxes are optional; landing on something with legs is better.",
+  "icon": "a stuntman plunging from a rooftop ledge, coat flaring, city lights below"
+ },
+ "tal_stn_one_take": {
+  "description": "Film stock costs money, and so does a second try. Get it right the first time, then get up and do it again.",
+  "icon": "a wooden clapperboard snapping shut with a burst of white light"
+ },
+ "tal_gun_steady_hand": {
+  "description": "Breath out slow, squeeze, don't pull. The rifle sits still as a tripod while the bug crosses the sights.",
+  "icon": "a gloved hand steadying a rifle forend on a sandbag, crosshair glow ahead"
+ },
+ "tal_gun_long_sight": {
+  "description": "Years of watching ridgelines teach the eye to catch a feeler twitching three blocks off, past the billboards.",
+  "icon": "a narrowed human eye reflecting a distant insect silhouette on a hilltop"
+ },
+ "tal_gun_dead_eye": {
+  "description": "Some men hit the bug. You hit the soft joint between the plates, every time, like threading a needle.",
+  "icon": "a bullet striking the glowing seam between two chitin plates, green spray"
+ },
+ "tal_gun_dead_to_rights": {
+  "description": "The bug has nowhere left to go, and it knows. You finish the sentence the way a judge would.",
+  "icon": "rifle muzzle pressed close to a cornered insect head, muzzle flash blooming"
+ },
+ "tal_gun_fast_draw": {
+  "description": "Learned from the Gower Gulch cowboys, who practised it between takes for a dollar a day and lunch. The iron clears leather before the mandibles open.",
+  "icon": "a revolver blurring out of a leather holster, motion streaks and spark"
+ },
+ "tal_gun_show_off": {
+  "description": "A little flourish never hurt anybody, except the bug. The extras on the sidewalk still clap.",
+  "icon": "a revolver spinning on a fingertip, brass casings tumbling in golden light"
+ },
+ "tal_gun_fanning": {
+  "description": "Palm slapping the hammer, six shots in a heartbeat. Tom Mix did it for the camera; you do it for keeps.",
+  "icon": "a palm fanning a revolver hammer, a fan of six orange muzzle flashes"
+ },
+ "tal_gun_cool_head": {
+  "description": "The bug screams, the street burns, and you are thinking about where you left your hat. Nerves like that pay for themselves.",
+  "icon": "a calm gunman lighting a cigarette amid swirling green smoke and sparks"
+ },
+ "tal_gun_tracker": {
+  "description": "Broken chaparral, a smear of ichor on a fence post. You follow the trail at a hunter's lope through Griffith Park brush.",
+  "icon": "boots striding past three-toed insect tracks in dusty earth, trail glowing faintly"
+ },
+ "tal_gun_camp_life": {
+  "description": "Cold beans, a bedroll under a pepper tree and the dog for a pillow. Nights in Vermont Canyon toughen a body up.",
+  "icon": "a campfire with a tin coffee pot and bedroll, dog curled beside it"
+ },
+ "tal_gun_hamstring": {
+  "description": "Aim low for the leg joint. A bug that can't run is a bug that waits politely for the second shot.",
+  "icon": "a bullet shattering a jointed insect leg at the knee, chitin shards flying"
+ },
+ "tal_gun_buckshot": {
+  "description": "Hand-loaded shells packed heavier than Stembridge would ever rent out. The kick bruises a shoulder and empties a doorway.",
+  "icon": "a shotgun blast of heavy pellets tearing through a swarm, red shell ejecting"
+ },
+ "tal_pre_laying_on": {
+  "description": "The preacher's palms press flat on a fevered brow and stay there, firm as a notary's stamp, until the shaking stops.",
+  "icon": "two weathered hands pressed on a bandaged forehead, warm golden light seeping between fingers"
+ },
+ "tal_pre_tent_revival": {
+  "description": "Sawdust floor, canvas walls, a hundred folding chairs and one voice that will not quit before midnight. The spirit catches like dry brush.",
+  "icon": "a canvas revival tent glowing from within at night, lantern light spilling through the flap"
+ },
+ "tal_pre_hymnal": {
+  "description": "The old hymns come easier now, every verse by heart, and the wounded find themselves humming along between gasps.",
+  "icon": "a worn hymnal open mid-song, pages lifting in a glowing breeze of light"
+ },
+ "tal_pre_collection": {
+  "description": "Pass the plate and folks give what they can: a nickel, a button, a moment's rest. It all adds up by Sunday.",
+  "icon": "a brass collection plate heaped with nickels and buttons, soft halo rising"
+ },
+ "tal_pre_teetotal": {
+  "description": "Not a drop since Coolidge. The liver is pristine, the knees are sturdy, and the bootleggers on Vine cross the street to avoid the sermon.",
+  "icon": "a smashed whiskey bottle beneath a black preacher's boot, glass shards glittering"
+ },
+ "tal_pre_blessing": {
+  "description": "The blessing settles on a shoulder like a good wool coat and stays put, long after the amen.",
+  "icon": "a pale golden mantle of light draped over a soldier's shoulders, shimmering edges"
+ },
+ "tal_pre_dry_county": {
+  "description": "No liquor, no excuses, no soft spots. A body kept dry and plain takes a blow the way a church door takes a storm.",
+  "icon": "a whitewashed church door standing firm against wind-driven dust and insect claws"
+ },
+ "tal_pre_pledge": {
+  "description": "Sign the temperance pledge and the Lord keeps His end promptly. The blessing comes round again before the ink is dry.",
+  "icon": "a fountain pen signing a ribboned pledge card, gold sparks rising from the nib"
+ },
+ "tal_pre_brimstone": {
+  "description": "The sermon smells of sulphur now. Insects in the front pews start to smoke at the joints before the second point.",
+  "icon": "a yellow sulphur flame bursting from an open pulpit Bible, embers flying"
+ },
+ "tal_pre_rebuke": {
+  "description": "A word from the pulpit, sharp as a ruler across the knuckles. Even a hive drone flinches at being told off properly.",
+  "icon": "a pointing finger crackling with white fire, a giant mantis recoiling in its glare"
+ },
+ "tal_pre_wrath": {
+  "description": "Some days the Lord is patient. Other days He lends the preacher a cane and a very good aim.",
+  "icon": "a walking cane striking down, blazing with righteous orange fire and green ichor spray"
+ },
+ "tal_pre_fear": {
+  "description": "Damnation described in such loving detail that beetles the size of Packards turn tail and scuttle for the hills.",
+  "icon": "a fierce preacher's silhouette against roaring hellfire, insect shadows fleeing outward"
+ },
+ "tal_mec_tinkerer": {
+  "description": "Every alarm clock on the Boulevard has been opened up on a kitchen table at least once. You just never stopped asking how things work.",
+  "icon": "a pocket watch splayed open on a workbench, tiny gears glowing amber under a magnifier"
+ },
+ "tal_mec_caltrops": {
+  "description": "A keg of roofing nails from a Gower Street lumberyard, scattered wide. Six legs feel every one of them.",
+  "icon": "bent roofing nails scattered across asphalt, an insect claw recoiling, green ichor droplets"
+ },
+ "tal_mec_welder": {
+  "description": "Open the acetylene valve another quarter turn. The flame goes from orange to a hissing blue that cuts chitin like tin.",
+  "icon": "a welding torch flame burning fierce blue, sparks showering off a cracked insect shell"
+ },
+ "tal_mec_spare_parts": {
+  "description": "Coat pockets full of washers, cotter pins and a carburettor float nobody asked about. Something always fits.",
+  "icon": "a tin coffee can spilling bolts, springs and washers, faint golden glow inside"
+ },
+ "tal_mec_torque": {
+  "description": "It's not the size of the wrench, it's the shoulders behind it. Put your back into the swing and the bolt gives.",
+  "icon": "a huge pipe wrench mid-swing, curved motion arc, sparks at the jaw"
+ },
+ "tal_mec_shop_floor": {
+  "description": "Ten years hauling engine blocks across a Burbank garage floor builds the kind of arms that don't need a hoist.",
+  "icon": "grease-stained forearms lifting an engine block on chains, steam rising, warm shop light"
+ },
+ "tal_mec_heavy_iron": {
+  "description": "Forged steel, no aluminium nonsense. When it lands, the bug knows it was hit by something made in Pittsburgh.",
+  "icon": "a dark forged sledgehammer head glowing red-hot at the edges on an anvil"
+ },
+ "tal_mec_pile_driver": {
+  "description": "Borrowed from a pier crew in San Pedro, near enough. Each blow lands like a piling going into bedrock, and comes back around sooner.",
+  "icon": "a steam-driven hammer slamming down, white steam jets, cracked ground beneath"
+ },
+ "tal_mec_coveralls": {
+  "description": "Heavy denim, double-stitched, stiff with a decade of motor oil. Mandibles slide right off the grime.",
+  "icon": "oil-stained blue denim coveralls hanging on a hook, an insect claw snapped against the fabric"
+ },
+ "tal_mec_patch": {
+  "description": "Why use a strip of rubber when you can use the whole inner tube? A wider patch holds a fellow together longer.",
+  "icon": "a large rubber patch pressed over a torn arm, glowing green-white healing seam"
+ },
+ "tal_mec_overhaul": {
+  "description": "Strip it down, clean it, put it back together better than the factory did. Works on Fords and on people, mostly.",
+  "icon": "a toolbox thrown open with tools floating in a ring of healing golden light"
+ },
+ "tal_mec_grease": {
+  "description": "They called you a grease monkey at the Packard dealership. Now the grease is the only reason you're still standing.",
+  "icon": "a grease-blackened hand gripping a spanner, thick oil dripping, sturdy warm glow"
+ },
+ "tal_pow_magnesium": {
+  "description": "A pinch more magnesium in the flash tray. The bugs see white for a long second, and so does anyone who forgot to look away.",
+  "icon": "a flash tray erupting in blinding white magnesium light, sparks scattering outward"
+ },
+ "tal_pow_long_fuse": {
+  "description": "Cut the fuse long and let it hiss. A patient man gets more out of every inch of powder.",
+  "icon": "a long coiled fuse burning slowly across a wooden floor, orange sparks trailing"
+ },
+ "tal_pow_burn": {
+  "description": "Some fires flare and die. Yours settle in like a boarder who pays on time and never leaves.",
+  "icon": "glowing embers smouldering deep inside a charred insect carapace, thin smoke curling"
+ },
+ "tal_pow_squib": {
+  "description": "The same little charges that burst blood packs on Western sets, wired tighter and packed meaner. Nobody yells cut.",
+  "icon": "a tiny squib charge bursting open on a wire, green ichor spraying outward"
+ },
+ "tal_pow_lampblack": {
+  "description": "A smear of soot across the face and coat. In a smoky room, a man the colour of smoke is hard to hit.",
+  "icon": "a soot-blackened hand smearing lampblack, figure fading into dark grey haze"
+ },
+ "tal_pow_fog_machine": {
+  "description": "The studio fog rig, mended with baling wire and a prayer. It coughs up a fresh bank sooner than it ought to.",
+  "icon": "a battered brass fog machine belching thick white clouds across a soundstage floor"
+ },
+ "tal_pow_cover": {
+  "description": "Stay low, stay in the haze, and let the claws find the drifting smoke instead of you.",
+  "icon": "a crouched figure in thick smoke as an insect claw slashes through empty haze"
+ },
+ "tal_pow_smokescreen": {
+  "description": "Navy men taught it on destroyers in the war. A screen that thick hides a retreat or a whole ambush.",
+  "icon": "a towering wall of dense grey smoke rolling down a moonlit street"
+ },
+ "tal_pow_black_powder": {
+  "description": "Good old-fashioned black powder, the kind grandfather used on tree stumps. Coarse, honest and loud.",
+  "icon": "a spilled powder horn pouring black grains, a single spark landing among them"
+ },
+ "tal_pow_steady": {
+  "description": "Hands that never shook through Mack Sennett's worst stunts. A steady hand makes a clever head.",
+  "icon": "two steady hands crimping a blasting cap, lamplight glinting off the copper"
+ },
+ "tal_pow_keg": {
+  "description": "The prop department said the keg was too big. The prop department is not out here fighting bugs.",
+  "icon": "an oversized powder keg with lit fuse rolling toward a hive wall"
+ },
+ "tal_pow_charge": {
+  "description": "Pack it in a cone, point it right, and the whole blast goes where you send it. Mining men swear by it.",
+  "icon": "a cone-shaped charge blasting a concentrated jet of fire through insect chitin"
+ },
+ "tal_elc_high_tension": {
+  "description": "Run the line hot enough and the arc jumps before you ask it to. The wire hums like a hornet shut in a mason jar.",
+  "icon": "porcelain high-tension insulators on a pylon crackling with blue arcs against a night sky"
+ },
+ "tal_elc_bare_copper": {
+  "description": "Strip the insulation and the current bites harder. The union safety man would have words, but he's in a cocoon on Stage 4.",
+  "icon": "stripped copper wire ends glinting, a fat white spark leaping between them"
+ },
+ "tal_elc_live_wire": {
+  "description": "A live cable whipped across a soundstage floor finds whatever is standing on it. Bugs, as a rule, stand on a great many legs.",
+  "icon": "a severed live cable writhing across wet floorboards, spitting yellow sparks"
+ },
+ "tal_elc_forked": {
+  "description": "Lightning never cared for one road. Yours leaps from shell to shell down the line, quick as gossip at the Brown Derby.",
+  "icon": "a lightning bolt splitting into three forks, striking three green insect carapaces"
+ },
+ "tal_elc_carbon_arc": {
+  "description": "The carbon rods burn white as a July noon. Sun arcs lit the dogfights in Hell's Angels; now they light anything with antennae.",
+  "icon": "carbon arc rods blazing white-hot inside an open studio lamp housing"
+ },
+ "tal_elc_key_light": {
+  "description": "The cameraman's first rule: set your key light and everything else falls into place. Think the shot through before you throw the switch.",
+  "icon": "a single brass studio spotlight on a stand throwing one hard golden beam"
+ },
+ "tal_elc_spill": {
+  "description": "Light never stays where the gaffer puts it. Neither does the harm, and nobody on the receiving end files a complaint.",
+  "icon": "bright light spilling past a lamp's barn doors into drifting haze"
+ },
+ "tal_elc_blackout": {
+  "description": "Pull the main breaker and a whole stage goes dark. Practice makes the trip quicker, and the bugs never get used to it.",
+  "icon": "a gloved hand yanking down a knife-switch breaker, sparks flying into darkness"
+ },
+ "tal_elc_dynamo": {
+  "description": "A man who works beside a running dynamo learns to take a jolt and keep his feet. The hum gets into his bones.",
+  "icon": "a cast-iron dynamo with spinning armature, blue glow sparking at the brushes"
+ },
+ "tal_elc_grounded": {
+  "description": "Every good rig has its ground wire. Run one through your own coat and the worst of it drains harmlessly into the floor.",
+  "icon": "a copper grounding rod driven into earth, blue current flowing down into dirt"
+ },
+ "tal_elc_flywheel": {
+  "description": "Once a flywheel spins up, it keeps turning long after the motor quits. A good electrician finds his second wind the same way.",
+  "icon": "a massive iron flywheel spinning with motion blur, oil gleaming on its rim"
+ },
+ "tal_elc_overload": {
+  "description": "Anyone can blow a fuse. It takes a studio electrician to blow one on purpose, on the cheap, and exactly where the bug is standing.",
+  "icon": "an open fuse box with a glass fuse bursting in a white flash"
+ },
+ "tal_nur_quick_dressing": {
+  "description": "Gauze goes on in three turns and a knot, before the man has finished swearing. The Army taught it; the Boulevard perfected it.",
+  "icon": "a nurse's hands whipping a white gauze bandage around a bleeding forearm, motion blur"
+ },
+ "tal_nur_night_shift": {
+  "description": "The lamps on Hollywood Boulevard go dark at ten. The aid station does not, and neither does she, beside a pot of coffee long gone cold.",
+  "icon": "a starched nurse's cap beside a dim oil lamp and a cold coffee cup at night"
+ },
+ "tal_nur_triage": {
+  "description": "Three men on the pavement and one pair of hands. She looks once at each and knows who can wait.",
+  "icon": "a red cross chalked on pavement between three stretchers under harsh lamplight"
+ },
+ "tal_nur_salts": {
+  "description": "One whiff of ammonia and a fainted extra sits bolt upright, ready to fight a beetle the size of a Ford.",
+  "icon": "a cracked smelling-salts vial releasing a sharp burst of pale stinging vapour"
+ },
+ "tal_nur_tonic": {
+  "description": "Nobody reads the label too closely, which is a mercy under the Volstead Act. It warms the blood all the same.",
+  "icon": "an amber patent-medicine bottle glowing warmly, a drop trickling down the glass"
+ },
+ "tal_nur_bedside": {
+  "description": "A calm voice, a cool hand, and a promise that the doctor is on his way. Nobody has seen the doctor since August.",
+  "icon": "a nurse's hand resting on a patient's brow, bathed in soft golden light"
+ },
+ "tal_nur_surgery": {
+  "description": "Under a flickering lamp, with the hive humming through the walls, the blade does not waver by a hair.",
+  "icon": "a gleaming scalpel held steady over white linen, one bright glint on its edge"
+ },
+ "tal_nur_rationing": {
+  "description": "Half a roll of gauze, a quarter-bottle of carbolic, a pencil tally on the cupboard door. Nothing under the Dome is wasted twice.",
+  "icon": "a half-empty supply cupboard, pencil tally marks on the door, neatly stacked bandage rolls"
+ },
+ "tal_nur_iodine": {
+  "description": "It stings a man and blisters a bug. The brown stains on her cuffs tell you which she's been treating lately.",
+  "icon": "a glass dropper dripping brown iodine onto green insect carapace, hissing smoke rising"
+ },
+ "tal_nur_ether": {
+  "description": "A soaked pad, a sweet heavy smell, and something with far too many legs forgets what it was doing.",
+  "icon": "a cotton pad soaked in ether, pale shimmering fumes curling around a twitching insect antenna"
+ },
+ "tal_nur_lab_coat": {
+  "description": "Starched cotton, stained with things that ought not to exist. It turns acid and spit better than you would think.",
+  "icon": "a starched white lab coat, acid droplets beading and sliding off its sleeve with a faint sheen"
+ },
+ "tal_nur_sedative": {
+  "description": "The label says one spoonful. The label was written for people, not for a hornet as long as a delivery truck.",
+  "icon": "a glass hypodermic syringe, plunger driven home, violet sedative glowing in the barrel"
+ },
+ "tal_vet_iron_nerve": {
+  "description": "Shells came down at Belleau Wood and he kept digging. A bug the size of a Ford is just one more thing that won't hurry him.",
+  "icon": "steady hand holding a lit cigarette as dirt and shell bursts rain down, unshaking"
+ },
+ "tal_vet_hard_tack": {
+  "description": "Army biscuit hard enough to drive nails. Men who lived on it in France find a hive siege no great hardship on the stomach.",
+  "icon": "cracked square army biscuit on a dented mess tin, bent fork beside it, warm lamplight"
+ },
+ "tal_vet_over_and_out": {
+  "description": "Over the top and out the other side. The whistle blows, the line goes forward, and whatever waits in the wire gets the bayonet.",
+  "icon": "brass trench whistle glowing gold on a chain, soldiers surging over sandbags behind"
+ },
+ "tal_vet_shell_shocked_calm": {
+  "description": "Some men came home shaking. Some came home very, very still. The stillness keeps a fellow on his feet long after sense says lie down.",
+  "icon": "soldier's blank stare under a dented helmet, red flare light, smoke drifting past"
+ },
+ "tal_vet_cauliflower_ear": {
+  "description": "Years of Legion smokers at El Centro and Selma taught him to roll with a punch, whether it comes from a heavyweight or a mandible.",
+  "icon": "lumpy swollen boxer's ear under a harsh ring light, sweat beads glistening"
+ },
+ "tal_vet_saloon_shove": {
+  "description": "No need to wind up for it. A short jab with the rifle butt, same as clearing the bar rail on payday.",
+  "icon": "rifle butt slamming into an insect thorax, splintered bar rail flying, impact flash"
+ },
+ "tal_vet_prohibition_gin": {
+  "description": "A medicinal pint from a friendly druggist. It tastes like turpentine and puts colour back in a man's face faster than it has any right to.",
+  "icon": "unlabelled bottle of cloudy gin beside a chipped enamel bathtub, soft amber glow"
+ },
+ "tal_vet_knuckle_duster": {
+  "description": "Brass knuckles on the off hand put weight behind every thrust. The Marquis of Queensberry never wrote rules for anything with six legs.",
+  "icon": "brass knuckles gleaming on a fist driving a bayonet forward, sparks flying"
+ },
+ "tal_vet_the_clinch": {
+  "description": "Tie up the arms, lean in, smother the punches. It works on a southpaw from San Pedro and, it turns out, on a mantis.",
+  "icon": "brawler locking a giant mantis's forelimbs in a bear hug, both straining, dim ring lights"
+ },
+ "tal_vet_rough_house": {
+  "description": "He kicks over tables, insults their mothers and makes himself the loudest thing in the room. The bugs take it personally.",
+  "icon": "overturned saloon table mid-air, chairs flying, a brawler roaring with fists raised"
+ },
+ "tal_vet_stunt_double": {
+  "description": "Padding borrowed from the stunt department, sewn under the tunic. Built to take a fall from a stagecoach, it takes a claw nearly as well.",
+  "icon": "quilted stunt padding laced under a torn army tunic, claw marks glancing off"
+ },
+ "tal_vet_back_lot_scrapper": {
+  "description": "Learned between the false fronts on the backlot, where extras settled their quarrels. Fight short, fight dirty, and find the soft spot first.",
+  "icon": "fist cracking into a jaw between plywood western false fronts, dust flying"
+ },
+ "tal_vet_speakeasy_bouncer": {
+  "description": "Clearing a crowded speakeasy at closing time takes one broad swing and no apologies. The hive gets the same courtesy.",
+  "icon": "broad arcing club swing sweeping three insects off their legs, curved motion streak"
+ },
+ "tal_vet_studio_muscle": {
+  "description": "The studios paid good money for big men to stand at the gate and look discouraging. He has the build and has kept it.",
+  "icon": "broad-shouldered guard in shirtsleeves before a studio gate, arms folded, floodlight behind"
+ },
+ "tal_vet_last_man_standing": {
+  "description": "When the line breaks and the others go down, something old and stubborn wakes in him. Nothing lands clean after that.",
+  "icon": "lone soldier atop a rubble heap, insect claws deflecting off his raised forearm, sunset glare"
+ },
+ "tal_vet_pugs_grin": {
+  "description": "Missing teeth, a flattened nose and a smile that says he has tasted worse than whatever the hive is spitting.",
+  "icon": "gap-toothed boxer grinning through green venom spatter, broken nose, bright ring light"
+ },
+ "tal_stn_studio_gym": {
+  "description": "Mornings on the pulley weights in the lot gym, between calls. The muscle a picture needs, built where the extras eat their lunch.",
+  "icon": "a leather medicine ball and iron dumbbell on a studio gym floor, chalk dust rising"
+ },
+ "tal_stn_cauliflower_ear": {
+  "description": "Every fall and fistfight leaves something behind. Yours is an ear like a boiled cabbage and a body that has stopped taking hits personally.",
+  "icon": "a battered brown leather boxing headguard hanging on a ring post, warm spotlight"
+ },
+ "tal_stn_pulled_punch": {
+  "description": "Studio fighters learn a punch that misses by an inch on camera. Out here you throw the same tidy swing, minus the wasted wind-up.",
+  "icon": "a bare fist stopping just short of a jaw, faint curved motion arc"
+ },
+ "tal_stn_main_event": {
+  "description": "You fight like the last reel, when the whole house is on its feet and the organist leans on every key at once.",
+  "icon": "a spotlit boxing ring under a stadium roof, gloved fist raised in white glare"
+ },
+ "tal_stn_two_reel_brawler": {
+  "description": "Two reels, twenty minutes, a saloon fight in each. You learned to keep swinging long after the comedian would have taken his pie and gone home.",
+  "icon": "two film reels crossed behind a pair of taped knuckles, flickering projector light"
+ },
+ "tal_stn_bums_rush": {
+  "description": "Grab a collar, grab a belt, and run them out the door. The bouncers at the Brown Derby never did it quicker.",
+  "icon": "a chitinous insect hurled through swinging saloon doors, splinters and motion streaks"
+ },
+ "tal_stn_stand_up_guy": {
+  "description": "You don't back down and you don't go down. Forearms come up, the blow slides off, and you're still standing there waiting.",
+  "icon": "a raised forearm deflecting a hooked insect claw, sparks of impact"
+ },
+ "tal_stn_below_the_belt": {
+  "description": "The Marquess of Queensberry never fought anything with six legs. A knee where it counts costs you nothing but your good name.",
+  "icon": "a boot kicking low into an insect's jointed legs, green ichor spattering"
+ },
+ "tal_stn_sucker_punch": {
+  "description": "Wait until they look at somebody else. The best punch in any picture is the one the heavy never saw coming.",
+  "icon": "a fist swinging out of shadow toward an unaware insect head, knuckles glinting"
+ },
+ "tal_stn_iron_chin": {
+  "description": "The studio doctor gave up X-raying your jaw years ago. Whatever comes at you, the leather holds and the chin behind it holds too.",
+  "icon": "a square jaw taking a heavy punch, shockwave ripples and bursting stars"
+ },
+ "tal_stn_top_billing": {
+  "description": "Your name above the title, in the biggest bulbs on the marquee. In a fight like this, everyone else is a supporting player.",
+  "icon": "a blazing theatre marquee of electric bulbs above a boxer's dark silhouette"
+ },
+ "tal_stn_second_wind": {
+  "description": "A gulp of air, a slap on the cheek, and the legs come back. Every stuntman knows the sweet moment just after the bell.",
+  "icon": "a cold sponge squeezed over a fighter's bowed head, droplets shining"
+ },
+ "tal_stn_whetstone_habit": {
+  "description": "Between takes you sit on an apple box and stroke the blade across a stone. The prop men call it nerves. The blade calls it good.",
+  "icon": "a knife blade drawn across a grey whetstone, bright sparks flying"
+ },
+ "tal_stn_switchblade_draw": {
+  "description": "Thumb on the button, blade out before the hand stops moving. Not one wasted motion between the pocket and the work.",
+  "icon": "a switchblade snapping open in a gloved hand, flash of steel"
+ },
+ "tal_stn_cutting_room_floor": {
+  "description": "The editors at Paramount cut whole scenes in a breath. You've learned to cut just as fast, and leave as much on the floor.",
+  "icon": "curled film scraps and green ichor on a floor, a knife lying among them"
+ },
+ "tal_stn_sugar_glass": {
+  "description": "Prop bottles are boiled sugar and break pretty. Real ones break meaner, and there is always another one behind the bar.",
+  "icon": "a glass bottle shattering against insect chitin, shards glittering in lamplight"
+ },
+ "tal_stn_union_break": {
+  "description": "Ten minutes every two hours, the contract says. You've learned to catch your breath in half that and still call it a break.",
+  "icon": "a tin coffee cup steaming on an apple box beside a resting knife"
+ },
+ "tal_stn_fairbanks_footwork": {
+  "description": "Douglas Fairbanks made swordplay look like dancing on his Santa Monica Boulevard lot. You picked up the footwork, and the knack for turning blades aside.",
+  "icon": "a dagger turning aside an insect mandible in a swashbuckler's lunge"
+ },
+ "tal_stn_deep_pockets": {
+  "description": "A stuntman's coat has a pocket for everything: tape, smelling salts, a spare knife, a chocolate bar. You never run dry in a long fight.",
+  "icon": "an open coat lining stuffed with knives, tape and a chocolate bar"
+ },
+ "tal_stn_thousand_cuts": {
+  "description": "No single cut finishes it. The hundredth does, or the thousandth, and you have nowhere else to be tonight.",
+  "icon": "a whirl of silver knife slashes encircling a reeling giant insect"
+ },
+ "tal_vet_mess_hall_rations": {
+  "description": "Bully beef, hardtack and coffee you could stand a spoon in. Nobody liked it, but it kept a man on his feet till Tuesday.",
+  "icon": "a dented tin of bully beef beside a steaming enamel mug, warm lamplight glow"
+ },
+ "tal_vet_kitcheners_stare": {
+  "description": "The old recruiting-poster glare, pointing finger and all. A Veteran holds the line now without spending half his breath shouting about it.",
+  "icon": "a stern mustached face with pointing finger, eyes glinting hard, bold poster shading"
+ },
+ "tal_vet_duckboard_footing": {
+  "description": "Months on slatted boards over Flanders mud taught him where his feet go. A shield set on firm footing does not give.",
+  "icon": "muddy wooden duckboards beneath a raised steel shield, rain streaking down"
+ },
+ "tal_vet_dugout_discipline": {
+  "description": "He learned to go to ground fast when the whistle blew. Sandbags, shovel, head down, all before the second shell lands.",
+  "icon": "an entrenching shovel biting into sandbags, dirt spraying, shell flash behind"
+ },
+ "tal_vet_second_wind": {
+  "description": "Halfway up Vine with a bug the size of a Packard behind him, something old and stubborn kicks in. The breath comes back.",
+  "icon": "a soldier's chest heaving, pale breath steaming in cold night air, golden glow"
+ },
+ "tal_vet_spit_and_polish": {
+  "description": "Boots blacked, buttons bright, helmet strap mended. A man who keeps his kit in order finds the claws skid off it more often.",
+  "icon": "a gleaming polished steel helmet, an insect claw glancing off in bright sparks"
+ },
+ "tal_vet_drill_sergeant": {
+  "description": "A voice that once cleared a parade ground at Camp Kearny. The bugs turn toward it the way the recruits used to.",
+  "icon": "a shouting sergeant's open mouth, sound rings rippling outward, swagger stick raised"
+ },
+ "tal_vet_dry_socks": {
+  "description": "Every veteran remembers trench foot. Fresh wool socks mean quick feet, and quick feet mean the stinger hits pavement instead.",
+  "icon": "grey wool socks drying on a bayonet beside a glowing brazier, steam rising"
+ },
+ "tal_vet_rum_ration": {
+  "description": "Prohibition says no. The Sergeant says a tot before the push never hurt anybody, and he keeps a flask to prove it.",
+  "icon": "a stone rum jar tipping amber liquid into a tin cup, warm glow"
+ },
+ "tal_vet_kit_inspection": {
+  "description": "Bayonet oiled, entrenching tool sharpened, nothing rattling. A clean kit swings easier and wastes less of the man carrying it.",
+  "icon": "soldier's kit laid neatly on a blanket, bayonet gleaming under lantern light"
+ },
+ "tal_vet_the_last_ditch": {
+  "description": "There is always one more trench behind you, until there isn't. In that last one, a Veteran stops being a man and becomes a wall.",
+  "icon": "a lone soldier in a sandbagged trench, helmet and shield blazing with defiant light"
+ },
+ "tal_vet_stripes_earned": {
+  "description": "Not handed out at Central Casting. Sewn on in France, for men who carried more than their share and brought others home.",
+  "icon": "sergeant's chevrons on a khaki sleeve glowing gold, clenched fist below"
+ },
+ "tal_vet_fixed_bayonets": {
+  "description": "The click of a bayonet locking home on the lug. After that, every lunge comes cheap and comes without a second thought.",
+  "icon": "a bayonet snapping onto a rifle muzzle, bright spark at the catch"
+ },
+ "tal_vet_creeping_barrage": {
+  "description": "Walk the fire forward and walk in behind it. His swings roll across a swarm like shellbursts across no man's land.",
+  "icon": "a line of orange shellbursts advancing across a swarm of insects, drifting smoke"
+ },
+ "tal_vet_lee_enfield_weight": {
+  "description": "Nine pounds of rifle changes a man's idea of a blow. He swings everything now as if it had a brass butt plate.",
+  "icon": "a rifle butt smashing down on an insect carapace, cracks and green ichor spraying"
+ },
+ "tal_vet_trench_raider": {
+  "description": "Night raids taught quick work in close quarters: in, swing, out before the flares go up. The habit never left him.",
+  "icon": "a spiked trench club swinging in moonlight, flare glow above, motion blur"
+ },
+ "tal_vet_short_rush": {
+  "description": "Up, run, down, five seconds and never more, the sergeants said. A Veteran still crosses Highland Avenue that way.",
+  "icon": "army boots mid-stride kicking up dust, motion streaks, crouched running silhouette"
+ },
+ "tal_vet_blood_up": {
+  "description": "The fight gets into him like a fever. The harder the bugs push, the hotter and steadier he burns.",
+  "icon": "a clenched fist trembling with red heat glow, veins standing out"
+ },
+ "tal_vet_light_pack": {
+  "description": "Leave the greatcoat, the spare boots and the letters home. Going over the top costs less when you're not hauling a mule's load.",
+  "icon": "a discarded heavy pack at the foot of a trench ladder, soldier climbing upward"
+ },
+ "tal_vet_kill_or_be_killed": {
+  "description": "The bayonet instructor's only lesson, shouted till it stuck. Twelve years on, the reflexes still answer before the Veteran thinks.",
+  "icon": "a soldier twisting aside from a striking mandible, bayonet already counter-thrusting"
+ },
+ "tal_stn_fade_into_extras": {
+  "description": "In a borrowed coat a stuntman looks like forty other men in borrowed coats. The bugs strike at whoever moved last, and it wasn't him.",
+  "icon": "a knife-wielding figure half-dissolving into a crowd of identical costumed extras, grey haze"
+ },
+ "tal_stn_stand_in_steel": {
+  "description": "Stand-ins take the star's place under the hot lamps and the falling scenery. The work builds a forearm like a stevedore's.",
+  "icon": "a muscled forearm gripping a steel stiletto under the white glare of a studio lamp"
+ },
+ "tal_stn_cut_to_ribbons": {
+  "description": "The cutting room never worked this fast. Blades flash left, right and left again until the chitin hangs off in strips.",
+  "icon": "two knives slashing through insect chitin, green ribbons of ichor spraying, bright motion arcs"
+ },
+ "tal_stn_scar_tissue": {
+  "description": "Every stuntman on Gower Street can read his career off his own hide. Old cuts heal tough, and tough is what pays the rent.",
+  "icon": "a bare shoulder crossed with old stitched knife scars, lit by a single hanging bulb"
+ },
+ "tal_stn_padded_costume": {
+  "description": "Wardrobe sews felt and horsehair under the cowboy shirt, where the camera can't see. It looks like nothing and stops plenty.",
+  "icon": "an open cowboy shirt revealing quilted horsehair padding, stitches glinting in lamplight"
+ },
+ "tal_stn_sandbag_landing": {
+  "description": "Down below, out of frame, somebody piled the sandbags right. A body that lands soft gets up again, and gets up mad.",
+  "icon": "a stuntman crashing onto a pile of burlap sandbags, dust bursting outward"
+ },
+ "tal_stn_clock_tower_nerve": {
+  "description": "Lloyd hung off a clock face above Broadway and smiled for the camera. After a few of those, a jump is just a jump.",
+  "icon": "a man in a straw boater dangling from the hands of a giant clock above a city street"
+ },
+ "tal_stn_featherfall": {
+  "description": "Lean men fall cheap. He goes off the ledge like a dropped evening paper, loose and easy, saving his wind for the landing.",
+  "icon": "a figure drifting down from a rooftop ledge, coat flaring like wings, newspaper pages trailing"
+ },
+ "tal_stn_dive_roll": {
+  "description": "Hit the boards shoulder first, tuck, come up running. Done right, it costs a man no more than a good sneeze.",
+  "icon": "a stuntman mid-somersault across studio floorboards, a curling dust trail behind him"
+ },
+ "tal_stn_wire_walker": {
+  "description": "Piano wire strung between two catwalks, a balancing pole, and no net the insurance man would sign for. The feet learn fast.",
+  "icon": "feet in soft shoes balancing on a taut glinting wire high above a dark soundstage"
+ },
+ "tal_stn_safety_last": {
+  "description": "Somebody put it on a picture poster as a joke. Stuntmen took it as a working principle and learned to roll with the hit.",
+  "icon": "a battered bowler hat deflecting a giant insect claw, impact stars bursting around it"
+ },
+ "tal_stn_pratfall_timing": {
+  "description": "A banana peel is comedy; a banana peel at the right moment is art. The same beat puts a knife where the bug isn't guarding.",
+  "icon": "a banana peel on wet cobblestones with a knife blade glinting just beyond it"
+ },
+ "tal_stn_craft_services": {
+  "description": "Coffee in a tin cup and a ham sandwich off the lunch wagon. Strikes and invasions come and go, but the crew still eats.",
+  "icon": "a steaming tin coffee cup beside a ham sandwich on a wooden crate, warm glow"
+ },
+ "tal_stn_box_office_draw": {
+  "description": "The crowd at Grauman's still cheers when a man falls off something tall. A stuntman fights better with an audience, even a frightened one.",
+  "icon": "a spotlight beam catching a falling stuntman before a cheering silhouetted theatre crowd"
+ },
+ "tal_stn_the_big_drop": {
+  "description": "The one they put on the poster: off the water tower, straight into the swarm. Nothing with six legs knows where he'll land.",
+  "icon": "a man plummeting from a studio water tower onto a giant insect, dust shockwave below"
+ },
+ "tal_stn_ambulance_standby": {
+  "description": "The studio keeps a Packard ambulance behind the set with the motor running. Knowing it's there makes a man last a little longer.",
+  "icon": "a white 1920s ambulance idling with headlamps glowing, red cross on its side panel"
+ },
+ "tal_gun_nickelodeon_nerves": {
+  "description": "You grew up in the front row of a nickel picture house, watching train robbers draw. Nothing on the Boulevard rattles a kid raised on that.",
+  "icon": "a nickel coin spinning on a gloved fingertip in a flickering projector beam"
+ },
+ "tal_gun_encore_shots": {
+  "description": "The crowd at a Wild West show always wanted one more. Fanning the hammer, you give the bugs their encore whether they asked or not.",
+  "icon": "a palm fanning a revolver hammer, a bright arc of stacked muzzle flashes"
+ },
+ "tal_gun_ricochet_romance": {
+  "description": "Off a lamppost, off a fire hydrant, into the soft seam behind the carapace. Some shots you'd write home about, if the mail still ran.",
+  "icon": "a glowing bullet trail bouncing off a brass lamppost into a beetle's joint"
+ },
+ "tal_gun_extra_cylinders": {
+  "description": "A spare cylinder, already loaded, rides in the vest pocket. Swapping it takes a breath instead of a minute, and the mind stays on the work.",
+  "icon": "a loaded revolver cylinder gleaming in an open hand, cartridges catching lamplight"
+ },
+ "tal_gun_bug_spray": {
+  "description": "A Flit gun's worth of kerosene on the collar and cuffs. The small ones lose interest, and the big ones bite a little less sure.",
+  "icon": "a hand-pump insect sprayer misting a coat collar, green droplets hanging in air"
+ },
+ "tal_gun_game_warden": {
+  "description": "You walked the hills for the Fish and Game Commission before the Dome came down. Long miles of chaparral made you hard to wear out.",
+  "icon": "a tin game warden's badge pinned to a weathered canvas jacket, sunlit"
+ },
+ "tal_gun_snare_line": {
+  "description": "Every trapper knows a crippled quarry is a caught one. You go for the legs quicker now, and the bugs offer plenty of legs to choose from.",
+  "icon": "a wire snare pulling tight around a jointed insect leg, dust kicking up"
+ },
+ "tal_gun_scattergun": {
+  "description": "A double-barrel and a box of double-ought. You've learned to load by feel and fire without wasting a pellet's worth of thought.",
+  "icon": "two red shotgun shells sliding into an open double-barrel breech"
+ },
+ "tal_gun_thick_hide_coat": {
+  "description": "A steerhide coat off a Gower Gulch extra who won't be needing it. It turns a mandible about as well as it ever turned the rain.",
+  "icon": "a heavy brown steerhide coat with a fresh gouge torn by a mandible"
+ },
+ "tal_gun_big_game_nose": {
+  "description": "Out in Griffith Park you learned what a cornered animal smells like. The hive has a smell too, and it tells you where to aim.",
+  "icon": "rifle sights settling on a glowing soft joint in a giant beetle's thorax"
+ },
+ "tal_gun_exterminators_pride": {
+  "description": "Before the Dome you rid bungalows of termites at two dollars a house. The pay is worse now, but the work has never felt better.",
+  "icon": "a brass exterminator's pump crossed with a rifle over a dead beetle"
+ },
+ "tal_gun_field_rations": {
+  "description": "A tin of corned beef, a canteen and a heel of bread, eaten crouched behind a billboard. A hunter learns to rest fast and rest anywhere.",
+  "icon": "an open tin of corned beef and a dented canteen beside a small campfire"
+ },
+ "tal_gun_bushwhacker": {
+  "description": "Lying in the sage above the Pass with your sights settled, you let the bug walk into the shot. Polite folks call it an ambush.",
+  "icon": "a rifle barrel poking through dusk sagebrush, a single bright muzzle flash"
+ },
+ "tal_gun_hard_country": {
+  "description": "Scrambling up the Hollywoodland slopes and down the dry washes every day keeps the legs quick and the hands quicker still.",
+  "icon": "a booted foot leaping across a rocky ravine, gravel spraying, sunset sky"
+ },
+ "tal_gun_swarm_season": {
+  "description": "When the hive spills out in autumn, nobody counts shells. The scattergun bucks and a whole knot of them comes apart at once.",
+  "icon": "buckshot spray tearing through a cluster of small flying insects, orange muzzle blast"
+ },
+ "tal_gun_old_trapper": {
+  "description": "Thirty winters in the Sierra taught you to step aside from a charging bear. A charging beetle is slower, and considerably uglier.",
+  "icon": "a grizzled trapper sidestepping as a huge beetle lunges past, motion blur"
+ },
+ "tal_elc_gel_filter": {
+  "description": "A sheet of amber gelatin clipped over the lamp softens the glare. Somehow the bugs find you harder to pin down through it.",
+  "icon": "a sheet of amber gel clipped over a studio lamp, warm light spilling through"
+ },
+ "tal_elc_box_office": {
+  "description": "A full house means a full till. Every lamp you light seems to pay a little current back at the ticket window.",
+  "icon": "a brass ticket-booth grille with glowing coins of light pouring through it"
+ },
+ "tal_elc_grand_premiere": {
+  "description": "Klieg lights sweep the sky like opening night for Hell's Angels at Grauman's, and every bug on the street is caught in the beam.",
+  "icon": "crossed searchlight beams sweeping a night sky over a theatre forecourt, insects silhouetted"
+ },
+ "tal_elc_nitrate_stock": {
+  "description": "Old nitrate film burns hot, fast and mean, and no projectionist ever forgets it. Your live wire has picked up the same temper.",
+  "icon": "a curling strip of nitrate film catching a blue spark and flaring white"
+ },
+ "tal_elc_step_up_coil": {
+  "description": "A wound transformer lifts the line voltage, and your spirits climb right along with it. Steady hands, steady current.",
+  "icon": "a copper-wound transformer coil humming inside a faint blue halo"
+ },
+ "tal_elc_rubber_gloves": {
+  "description": "Thick black rubber, cracked at the knuckles, handed down from the man before you. Wrapping a pal in insulation comes cheaper with them on.",
+  "icon": "a pair of black rubber lineman's gloves crackling with harmless white sparks"
+ },
+ "tal_elc_surge_protector": {
+  "description": "The breaker trips before the spike gets through, so the insulation is back on the line sooner than anybody expected.",
+  "icon": "a slate breaker panel with a knife switch snapping open in a spray of sparks"
+ },
+ "tal_elc_power_station": {
+  "description": "You once stood inside an Edison substation at midnight and listened to it think. Some of that hum never left you.",
+  "icon": "a brick substation with tall glass insulators glowing against a dusk sky"
+ },
+ "tal_elc_carbon_brushes": {
+  "description": "Carbon brushes wear down so the dynamo doesn't. A good electrician learns to take the friction and keep turning.",
+  "icon": "two carbon brushes pressed to a spinning copper commutator, sparks trailing behind"
+ },
+ "tal_elc_heavy_load": {
+  "description": "Run every lamp on the stage off one circuit and the cable goes warm in your hands. Then the bugs find out why.",
+  "icon": "a thick rubber power cable glowing cherry red along its length, smoke curling"
+ },
+ "tal_elc_field_telephone": {
+  "description": "An olive-drab field telephone from the Argonne, rewired to ring the aid station. Help comes quicker when somebody bothered to string the line.",
+  "icon": "an olive-drab crank field telephone with a soft green glow from its receiver"
+ },
+ "tal_elc_sandbagged": {
+  "description": "Grips weigh down light stands with sandbags so the wind can't topple them. Turns out the same trick works on electricians.",
+  "icon": "stacked burlap sandbags around a light stand, an insect claw glancing off them"
+ },
+ "tal_elc_doughboy_ration": {
+  "description": "Corned willy and hardtack, the same tins the boys ate in France. Nobody likes it. Everybody stays on their feet.",
+  "icon": "an opened tin of corned beef beside hardtack on a dented army mess kit"
+ },
+ "tal_elc_dugout_shelter": {
+  "description": "Timber, sheet iron and a foot of packed earth. The men who dug in along the Marne taught the crews how to roof a generator pit.",
+  "icon": "a timber and corrugated iron dugout entrance under earth, lantern glowing inside"
+ },
+ "tal_elc_powerhouse": {
+  "description": "The generator truck roars like a Southern Pacific locomotive, and the current you throw over a friend hums thick enough to stop a mandible cold.",
+  "icon": "a roaring studio generator truck casting a crackling blue dome of current over a figure"
+ },
+ "tal_elc_ground_fault": {
+  "description": "Current always finds the shortest road to earth. You just make sure it runs through the bug on the way down.",
+  "icon": "a jagged white arc leaping from a wrench through an insect leg into wet ground"
+ },
+ "tal_gun_expert_badge": {
+  "description": "The Army pinned the Expert badge on men who stopped wasting breath on a shot. You still wear yours, inside the coat where it counts.",
+  "icon": "a silver army marksmanship badge with crossed rifles, gleaming on a dark wool lapel"
+ },
+ "tal_gun_trench_patience": {
+  "description": "Months in a Flanders trench taught you to wait out anything. A dome of glass is only a longer wait.",
+  "icon": "a mud-caked doughboy helmet resting on a trench parapet, pale dawn light behind"
+ },
+ "tal_gun_sandbag_nest": {
+  "description": "A careful gunman never sets up anywhere he can't throw a few sandbags first. Burlap and sand stop more than people think.",
+  "icon": "a ring of stacked burlap sandbags around a rifle barrel, green ichor splattered across them"
+ },
+ "tal_gun_iron_sights": {
+  "description": "No fancy glass on the barrel, just a notch and a post. Less to fuss with means less to fumble.",
+  "icon": "view down a rifle's iron sights, front post centred on a glowing insect eye"
+ },
+ "tal_gun_deep_breath": {
+  "description": "Fill the lungs, let half out, hold. Every rifleman learned it at camp, and it steadies more than the muzzle.",
+  "icon": "a rifleman's breath fogging in cold blue night air, rifle stock pressed to cheek"
+ },
+ "tal_gun_pinning_fire": {
+  "description": "Put rounds where the bug wants to go and it soon stops wanting to go anywhere. The legs are the easy part.",
+  "icon": "bullets striking chitinous insect legs, dirt kicked up in sprays, the bug buckling"
+ },
+ "tal_gun_bolt_action_rhythm": {
+  "description": "Lift, back, forward, down. The bolt finds its own tempo, like a fox-trot the band plays only for you.",
+  "icon": "a hand working a rifle bolt, brass casing spinning out in golden motion blur"
+ },
+ "tal_gun_snap_shooting": {
+  "description": "No time to shoulder it. Fire from wherever the gun already points and trust the years to do the aiming.",
+  "icon": "a rifle fired from the hip, muzzle flash bursting sideways, smoke trailing"
+ },
+ "tal_gun_steady_under_fire": {
+  "description": "You learned in the Argonne that flinching never stopped a bullet. It turns out flinching doesn't stop acid either.",
+  "icon": "a calm gunman kneeling amid hissing green acid splashes, rifle level and unwavering"
+ },
+ "tal_gun_final_reel": {
+  "description": "Every picture saves its best shot for the last reel. So do you, and nobody walks out before the end.",
+  "icon": "a film reel unspooling into a rifle's smoking muzzle, flickering projector light"
+ },
+ "tal_gun_one_shot_one_bug": {
+  "description": "One cartridge, one carcass. The quartermaster at Post 43 counts every round of brass and likes your arithmetic.",
+  "icon": "a single brass cartridge standing beside a toppled giant beetle, one bullet hole glowing"
+ },
+ "tal_gun_sergeant_york": {
+  "description": "York took 132 Germans in the Argonne with a rifle and a pistol. The bugs have never heard of him, but they will.",
+  "icon": "a battered campaign hat hung on a rifle muzzle, golden light behind it"
+ },
+ "tal_gun_trick_holster": {
+  "description": "A cutaway holster bought off a Gower Gulch cowboy extra. The gun is out of the leather before the thought is finished.",
+  "icon": "a tooled leather cutaway holster, revolver leaping out in a blur of motion"
+ },
+ "tal_gun_matinee_idol": {
+  "description": "You watched Tom Mix do it a hundred Saturday afternoons. Somewhere along the way you started hitting what he only pretends to.",
+  "icon": "a white cowboy hat silhouetted in a theatre spotlight, revolver glinting below"
+ },
+ "tal_gun_six_gun_waltz": {
+  "description": "One-two-three, one-two-three, and the cylinder comes round again. The bugs never did learn to dance.",
+  "icon": "a revolver cylinder spinning, six chambers ringed in circling muzzle-flash light"
+ },
+ "tal_gun_stunt_double": {
+  "description": "A stuntman on the Columbia lot taught you how to fall out of harm's way. Now and then you return the favour.",
+  "icon": "a gunman diving sideways mid-air, acid spit streaking past his flapping coat"
+ },
+ "tal_gun_hot_lead": {
+  "description": "Fresh from the barrel and still smoking, it goes through chitin like a nail through a pine box.",
+  "icon": "a red-hot bullet punching through cracked insect shell, sparks and smoke"
+ },
+ "tal_gun_rapid_reload": {
+  "description": "Six cartridges held between the fingers like a card sharp's deck. The cylinder is full before the empties hit the pavement.",
+  "icon": "fingers pressing brass cartridges into an open revolver cylinder, empties falling"
+ },
+ "tal_gun_wild_west_show": {
+  "description": "Buffalo Bill's show folded years ago, but its sharpshooters drifted west to the pictures. You picked up their footwork and their swagger.",
+  "icon": "a glass ball shattering in midair above a twirling revolver, sawdust arena light"
+ },
+ "tal_gun_bullet_ballet": {
+  "description": "The dance directors at Fox would pay good money to film it: boots, smoke and gunfire, every step on the beat.",
+  "icon": "a gunman spinning on one heel, twin revolvers firing in an arc of flashes"
+ },
+ "tal_elc_spark_gap": {
+  "description": "Set the electrodes a hair closer and the spark jumps on less juice. Every juicer on the Paramount lot learns it, or learns it the hard way.",
+  "icon": "two brass electrodes with a bright blue spark jumping the narrow gap between them"
+ },
+ "tal_elc_live_rail": {
+  "description": "The Pacific Electric runs six hundred volts through its overhead wire. A smart electrician taps a little of it for himself and lets the railway pay.",
+  "icon": "a red-car trolley pole sparking violently against an overhead wire at night"
+ },
+ "tal_elc_crossed_wires": {
+  "description": "Two lines touch where they shouldn't, and the current goes looking for every bug in reach. Nobody calls it a mistake twice.",
+  "icon": "two frayed copper cables crossing, a crackling arc leaping outward in branching forks"
+ },
+ "tal_elc_hollywood_current": {
+  "description": "The studios pull more power than half of Los Angeles. A man who has worked their switchboards learns to throw that weight around.",
+  "icon": "a studio switchboard with knife switches thrown, sparks spraying from the copper bus bars"
+ },
+ "tal_elc_rubber_boots": {
+  "description": "Thick rubber soles, laced high. They won't stop a mandible, but they keep a fellow on his feet when the ground goes live.",
+  "icon": "heavy black rubber work boots on wet pavement, blue sparks skittering harmlessly around them"
+ },
+ "tal_elc_quick_draw": {
+  "description": "Throw the switch before you've finished thinking about it. The bugs don't wait, and neither does a good juicer.",
+  "icon": "a gloved hand yanking a knife switch down, motion streaks and a burst of light"
+ },
+ "tal_elc_flash_point": {
+  "description": "Push the lines past their rating and everything nearby goes white for an instant. The smell of scorched chitin hangs around for days.",
+  "icon": "a carbon arc lamp bursting in a blinding white flash, glass shards flying outward"
+ },
+ "tal_elc_long_fuse": {
+  "description": "Ten years splicing cable teaches patience. The electrician who plans the whole circuit before laying a foot of it lives longest.",
+  "icon": "a blueprint wiring diagram with one circuit line glowing gold under a drafting lamp"
+ },
+ "tal_elc_feedback_loop": {
+  "description": "The current runs out, comes round and runs back home. A man who wires himself into the loop gets back some of what he spent.",
+  "icon": "a closed coil of copper wire with a pulse of glowing current circling it"
+ },
+ "tal_elc_sparks_fly": {
+  "description": "When the arc catches just right it throws a fountain of sparks, the kind cameramen once paid good money to film.",
+  "icon": "a fountain of orange sparks erupting from a struck carbon arc against black"
+ },
+ "tal_elc_bolt_from_blue": {
+  "description": "No warning, no thunder. One moment the bug is crossing Vine, the next it's a smoking shell and the streetlights are flickering.",
+  "icon": "a jagged blue lightning bolt striking from a clear dusk sky onto a giant insect"
+ },
+ "tal_elc_shell_shock": {
+  "description": "Men who heard the guns at the Marne know the jolt of a near miss. A shock that floors a greenhorn barely rattles them.",
+  "icon": "a dented doughboy helmet crackling with harmless static, smoke curling behind it"
+ },
+ "tal_elc_klieg_eyes": {
+  "description": "Red, weeping, half blind from the lamps. Every old studio electrician has klieg eyes, and every one can aim a light without looking.",
+  "icon": "a squinting bloodshot eye reflecting a blazing klieg lamp in its pupil"
+ },
+ "tal_elc_hot_spot": {
+  "description": "Every lamp has one place where the beam burns brightest. Put a bug's head there and watch it smoke.",
+  "icon": "a white-hot circle of focused light scorching a beetle's shell, smoke rising"
+ },
+ "tal_elc_barn_doors": {
+  "description": "Fold the hinged shutters in and the light pinches down to a blade. The short goes where it's sent and nowhere else.",
+  "icon": "a studio lamp with four black barn-door flaps squeezing a hard narrow beam"
+ },
+ "tal_elc_footlights": {
+  "description": "The old vaudeville footlights warmed a stage from below. A little of that glow keeps an electrician's spirits up between fights.",
+  "icon": "a row of warm amber footlights glowing along a dark stage edge"
+ },
+ "tal_elc_gaffer_tape": {
+  "description": "A roll of black friction tape on the belt mends a bad splice in seconds. Gaffers swear by it; the bugs swear at it.",
+  "icon": "a roll of black cloth tape binding a sparking cable splice tight"
+ },
+ "tal_elc_searchlight_sweep": {
+  "description": "Premiere-night searchlights still swing across the Dome, and the current follows the beam from one bug to the next.",
+  "icon": "a premiere searchlight beam sweeping the night sky, insects caught crackling in it"
+ },
+ "tal_elc_sun_gun": {
+  "description": "A big arc lamp run hot enough to pass for noon. Location crews used them to fake daylight; now they cook bugs.",
+  "icon": "a massive studio arc lamp blazing like a small sun, heat shimmer rolling off"
+ },
+ "tal_elc_lamp_glare": {
+  "description": "Throw the full glare in a bug's face and it can't tell where the light ends and the electrician begins.",
+  "icon": "a giant insect recoiling, compound eyes dazzled white by a glaring arc lamp"
+ },
+ "tal_pow_gas_drill": {
+  "description": "Eight seconds to get the mask on, the Army said. Powder men learned it twice: once in France, once beside the chlorine bottles on the effects stage.",
+  "icon": "a canvas gas mask with round glass eyepieces, yellow-green fog curling around its straps"
+ },
+ "tal_pow_cordite_haze": {
+  "description": "Through the drifting smoke of the last charge you can see where the bug's shell is thinnest. The bug cannot see you at all.",
+  "icon": "blue-grey cordite smoke parting around a glowing insect eye, a bright cut of light slicing through"
+ },
+ "tal_pow_fog_of_war": {
+  "description": "In a good smoke screen a man is only a rumour. Claws snap shut on the spot where you were standing a moment ago.",
+  "icon": "a man's silhouette dissolving into thick white smoke, an insect claw striking empty air"
+ },
+ "tal_pow_blackout": {
+  "description": "When the arcs go dark on the sound stage, the powder man is the only one who still knows exactly where every charge is buried.",
+  "icon": "a pitch-dark sound stage, one hand holding a lit match above a coiled fuse"
+ },
+ "tal_pow_blasting_cap": {
+  "description": "A copper tube no bigger than a cigarette, and the whole charge waits on it. Crimp it right and the bang comes clean.",
+  "icon": "a copper blasting cap with a sputtering fuse, a bright spark flaring at the crimped end"
+ },
+ "tal_pow_cheap_kegs": {
+  "description": "Cornero's boys left empty beer kegs all over the Valley. Packed with black powder, they hold a better load than they ever held beer.",
+  "icon": "an oak beer keg spilling black powder, a fuse hissing from its bung hole"
+ },
+ "tal_pow_sappers_patience": {
+  "description": "The tunnellers at Ypres waited weeks in the clay, listening. Breathe slow, count the seconds, and let the fuse do the hurrying.",
+  "icon": "a sapper kneeling in a clay tunnel, ear pressed to a listening stick, lantern glow"
+ },
+ "tal_pow_wrecking_crew": {
+  "description": "The studios tear down a set every Friday and build another by Monday. The powder man was always the fastest hand on a teardown.",
+  "icon": "a painted plaster castle facade bursting apart, timber and canvas flying outward"
+ },
+ "tal_pow_hazard_pay": {
+  "description": "Union scale for handling explosives was a dollar more a day. The bugs pay nothing, but the hide you grew on the job still holds.",
+  "icon": "a singed, smoking pay envelope with silver dollars spilling beside a stick of dynamite"
+ },
+ "tal_pow_tamped_charge": {
+  "description": "Pack the hole with clay and tamp it hard. A tamped charge wastes nothing on noise and spends everything on the wall.",
+  "icon": "a wooden tamping rod packing clay into a drilled hole over red dynamite sticks"
+ },
+ "tal_pow_messines_ridge": {
+  "description": "June 1917: nineteen mines under the German line, and they heard it in London. A few of the men who dug them work in pictures now.",
+  "icon": "a ridge erupting at dawn in a towering column of earth, fire and smoke"
+ },
+ "tal_pow_hard_hat": {
+  "description": "A tin hat from the Argonne, painted studio grey, dented by one falling klieg light and one very large mandible.",
+  "icon": "a dented grey steel Brodie helmet, an insect mandible glancing off it in sparks"
+ },
+ "tal_pow_thick_skull": {
+  "description": "The effects foreman says you have been blown off your feet eleven times this year. You say nine. Neither of you remembers properly.",
+  "icon": "a soot-blackened man rising from smoking rubble, shaking his head, embers drifting around him"
+ },
+ "tal_pow_chain_reaction": {
+  "description": "Line the kegs up and light the first. The rest go off like a row of Keystone Cops tumbling down a staircase.",
+  "icon": "a row of kegs exploding one after another in a rippling line of orange fire"
+ },
+ "tal_pow_the_big_bang": {
+  "description": "Every effects man dreams of the shot that needs no retake. The camera shakes, windows go out on Vine Street, and the hive comes down.",
+  "icon": "an enormous fireball rising over a collapsing insect hive, a shockwave rippling outward"
+ },
+ "tal_pow_powder_monkey": {
+  "description": "The Navy's name for the boys who ran powder to the guns. You still run, crate on your shoulder, ducking under the falling sparks.",
+  "icon": "a running figure in mid-stride carrying a powder crate, sparks raining down around him"
+ },
+ "tal_nur_hospital_corners": {
+  "description": "Sheets folded tight, collar starched, cap pinned square. A nurse kept in that kind of order is a hard thing to knock over, and the bugs keep learning it.",
+  "icon": "crisp white hospital bed sheet folded into a razor-sharp corner, soft lamplight glow"
+ },
+ "tal_nur_penicillin_dream": {
+  "description": "A Scotsman in London found a mould that kills germs, the journals say. Nobody can bottle it yet, but she dresses every wound as if she could.",
+  "icon": "blue-green mould bloom spreading in a glass petri dish, glowing softly"
+ },
+ "tal_nur_miracle_of_lourdes": {
+  "description": "Pilgrims leave their crutches at the grotto. On the operating table she does not wait for the Virgin, though she would never refuse the help.",
+  "icon": "wooden crutch against a candlelit stone grotto, golden light pouring down from above"
+ },
+ "tal_nur_brisk_gait": {
+  "description": "Rubber heels on linoleum, never running, never late. A good ward nurse covers a city block between bells and arrives looking unhurried.",
+  "icon": "white nurse's shoe mid-stride on a polished ward floor, motion streaks behind"
+ },
+ "tal_nur_bunsen_burner": {
+  "description": "A steady blue flame under a flask of something nobody should drink. It heats slowly, it heats evenly, and it does not forgive.",
+  "icon": "brass Bunsen burner with a sharp blue flame under a bubbling round flask"
+ },
+ "tal_nur_volatile_mixture": {
+  "description": "Two clear liquids, one careless pour, and the beaker jumps off the bench. She has learned exactly how careless to be.",
+  "icon": "glass beaker erupting with violent green froth, droplets spraying outward"
+ },
+ "tal_nur_measured_drops": {
+  "description": "Ether by the drop, counted aloud, the way the old anaesthetists taught it. Nothing wasted, and every drop goes where it was meant to.",
+  "icon": "glass dropper releasing a single shining drop onto a white gauze mask"
+ },
+ "tal_nur_mustard_memory": {
+  "description": "She worked the gas wards at Étaples and still remembers the yellow blisters. The sedatives she mixes now carry a little of that remembering.",
+  "icon": "sickly yellow fog curling from an open brown medicine bottle, eerie glow"
+ },
+ "tal_nur_fume_hood": {
+  "description": "Behind the glass sash and the roaring fan, the vapours go up the flue instead of down her throat. She brought the habit out into the street.",
+  "icon": "glass laboratory fume hood drawing swirling green vapour upward into a metal vent"
+ },
+ "tal_nur_cheap_reagents": {
+  "description": "Iodine by the gallon from a Glendale druggist who asks no questions. It stains the same brown and stings just as hard.",
+  "icon": "large amber gallon jug of iodine sloshing, brown stain spreading across a counter"
+ },
+ "tal_nur_mad_scientist": {
+  "description": "She reads the German journals by lamplight and fills the margins with notes of her own. The orderlies have started knocking before they come in.",
+  "icon": "lamplit desk heaped with open journals, glowing flasks and scribbled anatomical diagrams"
+ },
+ "tal_nur_distillation": {
+  "description": "Copper tubing coiled in the back room, a slow drip into a clean jar. The revenue men assume bootlegging; she is only making things pure.",
+  "icon": "copper coil condenser dripping clear liquid into a mason jar, warm amber glow"
+ },
+ "tal_nur_quiet_reagent": {
+  "description": "Colourless, odourless, slow to act. By the time the hive notices what she gave it, she is already across the room tending somebody else.",
+  "icon": "plain clear vial half-hidden in a white nurse's apron pocket, faint shimmer"
+ },
+ "tal_nur_lethal_dosage": {
+  "description": "The same pharmacopoeia that tells her how to save a man lists, a page later, how much would kill one. She keeps that page dog-eared.",
+  "icon": "skull-marked cobalt poison bottle resting on a thick open pharmacopoeia, candlelight"
+ },
+ "tal_nur_gas_gas_quick": {
+  "description": "The shout every soldier knew from Flanders, the fumbling for masks, the green cloud rolling in low. Now it is the bugs who fumble.",
+  "icon": "green chlorine cloud rolling over insect silhouettes, canvas gas mask in the foreground"
+ },
+ "tal_nur_hazmat_gloves": {
+  "description": "Thick red rubber to the elbow, the kind the surgeons at County General swear by. Acid, ichor and broken glass all slide right off.",
+  "icon": "red rubber surgical glove raised, green insect ichor dripping off it harmlessly"
+ },
+ "tal_pow_nitrate_stock": {
+  "description": "Old nitrate film burns hotter than anything in the prop room. A few feet of last year's picture makes a cheaper flash than store-bought powder.",
+  "icon": "a curl of amber nitrate film strip catching fire, blinding white flash at its tip"
+ },
+ "tal_pow_blind_eye": {
+  "description": "A powder man breathes easier when the fire marshal is looking the other way, and a two-bit cigar keeps him looking.",
+  "icon": "a fire marshal's peaked cap tipped over closed eyes, cigar smoke curling upward"
+ },
+ "tal_pow_cheap_fuse": {
+  "description": "Five-and-dime safety fuse from a hardware store on Cahuenga. It sputters and stinks, but it burns down just the same.",
+  "icon": "a coil of cheap black fuse sputtering orange sparks on a scarred workbench"
+ },
+ "tal_pow_hot_lamps": {
+  "description": "Ten hours under the kliegs cooks a man's eyes and sharpens his wits. He learns what heat does to everything on a set.",
+  "icon": "a blazing klieg lamp glaring white, heat shimmer rolling off its iron housing"
+ },
+ "tal_pow_quick_draw": {
+  "description": "A squib wired fast is a squib wired cheap. The old hands do it by feel between takes, a cigarette still lit.",
+  "icon": "quick hands twisting copper wire onto a small squib charge, blue sparks jumping"
+ },
+ "tal_pow_fire_watch": {
+  "description": "Somebody has to stand by the bucket while the set burns. The fire watch learns to stand close and not flinch.",
+  "icon": "a red fire bucket held steady before a roaring wall of flame"
+ },
+ "tal_pow_celluloid_blaze": {
+  "description": "Celluloid goes up like a grudge held too long: fast, hot and impossible to put out. A pinch of it goes into everything you light.",
+  "icon": "a film canister bursting open, reels of celluloid erupting in orange flame"
+ },
+ "tal_pow_smouldering_reel": {
+  "description": "A reel left smouldering in its can is still burning when the projectionist comes back from lunch. So is whatever you lit.",
+  "icon": "a dented film can leaking slow red embers and thin grey smoke"
+ },
+ "tal_pow_asbestos_gloves": {
+  "description": "Stiff grey mitts that smell of a boiler room. They have saved more fingers on Poverty Row than any union rule.",
+  "icon": "thick grey asbestos gloves gripping a red-hot iron bar, sparks scattering"
+ },
+ "tal_pow_burning_ambition": {
+  "description": "Every powder man dreams of the big one: the fall of Babylon, the Chicago fire. The dream keeps him reading chemistry books past midnight.",
+  "icon": "a lone candle flame swelling into a towering fireball above a chemistry book"
+ },
+ "tal_pow_nitrate_inferno": {
+  "description": "When a nitrate vault goes, it goes all at once, and no fire company in Los Angeles can stop it. You have learned to start one on purpose.",
+  "icon": "a steel vault door blown open, white-hot inferno roaring through shelves of film cans"
+ },
+ "tal_pow_final_reel": {
+  "description": "In the last reel, everything blows up. The audience expects it and the studio pays for it, so make the squibs count.",
+  "icon": "a projector reel spinning off its spindle in a shower of explosive sparks"
+ },
+ "tal_pow_gas_mask": {
+  "description": "The same rubber mask that saw you through Ypres. It still smells of chlorine, and it still keeps you breathing inside your own smoke.",
+  "icon": "a battered rubber gas mask with round glass eyes, green smoke swirling past"
+ },
+ "tal_pow_cheap_smoke": {
+  "description": "A smoke pot is tar paper, saltpetre and a coffee can. The studio pays for the real thing and never asks questions.",
+  "icon": "a battered coffee can belching thick grey smoke from a rag fuse"
+ },
+ "tal_pow_trench_coat": {
+  "description": "A khaki coat from the Somme, oiled and patched. It turned sleet in Flanders, and it turns a mandible well enough here.",
+  "icon": "a mud-stained khaki trench coat, collar up, a fresh mandible gouge across the shoulder"
+ },
+ "tal_pow_no_mans_land": {
+  "description": "Anyone who crossed no man's land learned to move low and fast through smoke. The legs remember even when the man would rather not.",
+  "icon": "a crouching figure sprinting through drifting smoke past tangled barbed wire"
+ },
+ "tal_pow_smoke_signals": {
+  "description": "A few puffs in the right place tell the crew where you stand, and buy you a moment's rest behind the haze.",
+  "icon": "three rounded smoke puffs rising from a blanket lifted over a small fire"
+ },
+ "tal_pow_iron_lung": {
+  "description": "Years of breathing powder smoke on set have given you lungs like a Drinker respirator: tireless, wheezing and built of iron.",
+  "icon": "a heavy iron bellows chest pumping hard, steam puffing from brass valves"
+ },
+ "tal_pow_smoke_and_mirrors": {
+  "description": "Half of Hollywood is smoke and the other half is mirrors. A tilted pane of glass doubles the cover for half the powder.",
+  "icon": "a tilted mirror reflecting a wall of white smoke, doubling it into the distance"
+ },
+ "tal_pow_lingering_haze": {
+  "description": "Your smoke hangs over the set like morning fog off the ocean, and the bugs blunder about in it long after it should have cleared.",
+  "icon": "low grey haze clinging to a studio street, giant insect silhouettes lost within"
+ },
+ "tal_pre_abstinence": {
+  "description": "Not a drop since the Volstead Act, and the body thanks you for it. Insect venom finds a sober constitution a poor host.",
+  "icon": "an overturned whiskey bottle draining into dry dirt beside a glowing glass of clear water"
+ },
+ "tal_pre_carries_hatchet": {
+  "description": "Carrie Nation took a hatchet to every saloon bar in Kansas. Her heirs find a carapace splits as nicely as polished mahogany.",
+  "icon": "a small hatchet splitting a wooden saloon bar, splinters and broken glass flying"
+ },
+ "tal_pre_noble_experiment": {
+  "description": "Mr. Hoover called Prohibition a noble experiment. Whatever the bootleggers say, a blessing given bone-dry holds up well against claws.",
+  "icon": "a padlocked whiskey barrel wrapped in soft white protective light"
+ },
+ "tal_pre_pure_water": {
+  "description": "Hands scrubbed in clean Hollywood Reservoir water before they touch the wounded. Mr. Mulholland's water was always good for something.",
+  "icon": "cupped hands pouring clear glowing water over a bandaged forearm"
+ },
+ "tal_pre_pulpit_thumper": {
+  "description": "A man who pounds the lectern learns his scripture cold: chapter, verse, and the passages the bishop prefers to skip.",
+  "icon": "a fist slamming down on an oak pulpit, dust and Bible pages jumping"
+ },
+ "tal_pre_two_bit_sermon": {
+  "description": "Short, cheap and to the point. The best street-corner preachers on Vine can damn a sinner before the red car passes.",
+  "icon": "a silver quarter spinning on an open Bible, faint orange fire glow"
+ },
+ "tal_pre_wages_of_sin": {
+  "description": "The wages of sin is death, says Romans. The hive has been running up a tab since the Dome came down.",
+  "icon": "a paper pay envelope bursting into flame, coins scattering from it"
+ },
+ "tal_pre_fiery_tongue": {
+  "description": "The words come easier when you mean every one of them. A rebuke from the heart costs the preacher little and the bug plenty.",
+  "icon": "an open shouting mouth breathing a curling tongue of orange flame"
+ },
+ "tal_pre_hard_pew": {
+  "description": "Forty years of Sunday mornings on unpadded oak build a constitution. Nothing the invaders spit compares to a three-hour August revival.",
+  "icon": "a worn wooden church pew glowing faintly, a snapped insect claw on the floor"
+ },
+ "tal_pre_thunder_pulpit": {
+  "description": "Some voices need no radio station. This one rattles the stained glass in the back row and lifts the spirit with it.",
+  "icon": "an empty pulpit under storm clouds, lightning crackling down around it"
+ },
+ "tal_pre_old_testament": {
+  "description": "Leave the gentle parables for peacetime. Plagues, locusts and fire from heaven speak more plainly to things with six legs.",
+  "icon": "an ancient scroll unrolling as burning locusts swarm out of its flames"
+ },
+ "tal_pre_trench_faith": {
+  "description": "Plenty of men found God in a shell hole in the Argonne. He kept them breathing then, and some swear He's doing it again.",
+  "icon": "a dented doughboy helmet resting on a Bible in a muddy trench, softly glowing"
+ },
+ "tal_pre_sulphur_ration": {
+  "description": "A little brimstone with the morning coffee, so to speak. The preacher's fire banks overnight and is roaring again by breakfast.",
+  "icon": "a tin mess cup steaming yellow sulphur smoke over a small camp fire"
+ },
+ "tal_pre_billy_sunday": {
+  "description": "Billy Sunday quit the Chicago White Stockings to slide into pulpits head-first. Preach his way and the rebuke lands like a fastball.",
+  "icon": "a flaming baseball streaking toward a giant insect head, motion trails"
+ },
+ "tal_pre_hellfire_damnation": {
+  "description": "The full revival-tent treatment: sawdust trail, brimstone and a voice that cracks plaster. No bug comes forward to be saved.",
+  "icon": "a canvas revival tent erupting with pillars of hellfire against a night sky"
+ },
+ "tal_pre_slow_burn": {
+  "description": "A good sermon doesn't end at the amen. It smoulders under the shell for hours, like a cigarette tossed into dry hill brush.",
+  "icon": "glowing embers creeping along a cracked insect carapace, thin smoke rising"
+ },
+ "tal_pre_sawdust_trail": {
+  "description": "Every sinner who ever walked the sawdust trail to the mourner's bench left the preacher a little wiser about the human heart.",
+  "icon": "a trail of fresh sawdust leading down a tent aisle toward a glowing altar rail"
+ },
+ "tal_pre_faith_healing": {
+  "description": "The pile of crutches by the platform tells the story. Call it the Lord or call it nerve, the cuts still close.",
+  "icon": "a pair of wooden crutches cast aside on boards, golden light pouring over them"
+ },
+ "tal_pre_second_collection": {
+  "description": "When the plate comes back light, a seasoned preacher sends it round again and makes the hymn last on whatever the faithful can spare.",
+  "icon": "a brass collection plate heaped with nickels and pennies, glinting in candlelight"
+ },
+ "tal_pre_big_tent": {
+  "description": "Canvas big enough for the whole county, and room under it for every bruised soul who wanders in off the road.",
+  "icon": "a huge striped revival tent glowing from within at night, crowd silhouettes at the flap"
+ },
+ "tal_pre_radio_ministry": {
+  "description": "KFSG carries the Word clear across the Dome. A voice that steady is hard to shake, chittering hive or no.",
+  "icon": "a tall radio transmitter tower crackling with blue waves against a dusk sky"
+ },
+ "tal_pre_circuit_rider": {
+  "description": "The old Methodist riders covered three counties on horseback. Their heirs cover Hollywood on foot, and nearly as quick.",
+  "icon": "a dusty horseman in a long coat galloping, Bible strapped to the saddle"
+ },
+ "tal_pre_hallelujah_moment": {
+  "description": "Sometimes the Spirit lands all at once, and the whole room shouts amen before the preacher has finished the sentence.",
+  "icon": "two raised hands bursting with radiant white light, sparks flying upward"
+ },
+ "tal_pre_sunday_best": {
+  "description": "Pressed collar, shined shoes, hat brushed. A preacher who dresses the part spends less breath convincing the room.",
+  "icon": "a crisp white clerical collar and black coat on a hanger, gleaming"
+ },
+ "tal_pre_soup_kitchen": {
+  "description": "With breadlines round the block, a preacher learns to make a little go a long way, whether it's soup or salvation.",
+  "icon": "a steaming ladle lifting soup from a dented pot, a loaf of bread beside"
+ },
+ "tal_pre_altar_call": {
+  "description": "The organ swells, the lights come down, and the hurting come forward to the rail, where the preacher meets them with both hands.",
+  "icon": "a kneeling figure at a wooden altar rail under a single shaft of light"
+ },
+ "tal_pre_angelus_temple": {
+  "description": "Five thousand seats and a radio tower in Echo Park. Something of that great white blaze travels with every preacher who ever sang there.",
+  "icon": "the white domed Angelus Temple lit by floodlights, glowing cross atop the dome"
+ },
+ "tal_pre_testimony": {
+  "description": "Stand before the congregation and tell what the Lord pulled you out of. After that, a bug bite seems a small thing.",
+  "icon": "a man standing at a pew, hand on heart, a spotlight falling on him"
+ },
+ "tal_pre_soda_fountain": {
+  "description": "A cherry phosphate at the corner drugstore does everything a shot of rye once did, and the preacher is the first to say so.",
+  "icon": "a fizzing soda glass with a straw on a marble counter, bubbles rising"
+ },
+ "tal_pre_sober_judgement": {
+  "description": "A clear-eyed man wastes nothing. He gives his blessing where it is needed and not a drop more.",
+  "icon": "a balanced brass scale with a small Bible on one pan, crisp light"
+ },
+ "tal_pre_volstead_act": {
+  "description": "The law of the land since 1920, and the preacher wears it like a breastplate, whatever the bootleggers think of it.",
+  "icon": "a thick bound federal law book strapped to a forearm like a shield, rivets gleaming"
+ },
+ "tal_pre_bone_dry": {
+  "description": "Not a drop since the Armistice. Twelve years of clean living builds a constitution the hive can't easily chew through.",
+  "icon": "an empty whiskey bottle upended in cracked desert dirt, sun-bleached and dry"
+ },
+ "tal_pre_clear_head": {
+  "description": "No Monday-morning fog, no shakes. The preacher reads the room and the Scripture sharper than any drinking man ever could.",
+  "icon": "a glass of clear water catching sunlight, throwing sharp prism rays"
+ },
+ "tal_pre_water_wagon": {
+  "description": "Once you climb aboard the water wagon you learn to keep your balance, and to step lively when something lunges.",
+  "icon": "a horse-drawn water wagon with sloshing barrels, a figure leaping clear"
+ },
+ "tal_pre_padlock_order": {
+  "description": "The dry agents chain a speakeasy shut in a minute flat. The preacher learns to slam the fear of God on a thing just as fast.",
+  "icon": "a heavy iron padlock snapping shut on a chained speakeasy door"
+ },
+ "tal_pre_temperance_union": {
+  "description": "The ladies of the WCTU still meet Tuesdays, Dome or no Dome, and they send their preacher out with bandages rolled tight.",
+  "icon": "a white ribbon bow pinned beside neatly rolled bandages, soft glow"
+ },
+ "tal_nur_cheap_gauze": {
+  "description": "She buys gauze by the bolt from a Poverty Row wardrobe department and cuts it on her knee. It holds a wound as well as anything from Johns Hopkins.",
+  "icon": "a bolt of white gauze unrolling across a knee, scissors mid-snip, warm lamplight"
+ },
+ "tal_nur_cool_head": {
+  "description": "She has stood in a field hospital while the guns walked closer. A bug the size of a Ford sedan does not rattle her.",
+  "icon": "a nurse's calm profile under a starched cap, huge insect shadow looming behind, cool blue glow"
+ },
+ "tal_nur_steady_hands": {
+  "description": "Her hands do not shake. Not for shellfire, not for ichor, not for a stuntman hollering about his collarbone.",
+  "icon": "two steady hands drawing a curved suture needle, thread gleaming against a dark background"
+ },
+ "tal_nur_cheap_ammonia": {
+  "description": "Household ammonia from the corner drugstore, decanted into little brown bottles. It wakes a man just as rudely as the expensive kind.",
+  "icon": "a small brown smelling-salts bottle uncorked, sharp white vapour curling upward"
+ },
+ "tal_nur_second_wind": {
+  "description": "Somewhere past the third casualty she stops feeling tired and simply keeps going, the way she did at Étaples in the spring of 1918.",
+  "icon": "a nurse's cape billowing as a fresh gust of pale light sweeps through"
+ },
+ "tal_nur_hard_floor_sleeper": {
+  "description": "Ten minutes on bare linoleum between patients and she is up again. The Roosevelt Hotel's feather beds would only spoil her.",
+  "icon": "a folded wool blanket on bare floorboards, nurse's cap resting on top, dim lamp"
+ },
+ "tal_nur_casualty_clearing": {
+  "description": "She sets up where the wounded fall: a tarpaulin, a lantern, two sawhorses and a door. It worked in Flanders and it works on Vine Street.",
+  "icon": "a canvas tent with a red cross glowing in lantern light, stretchers lined outside"
+ },
+ "tal_nur_trench_constitution": {
+  "description": "Mud, lice, cold bully beef and trench fever. Anyone who came through all that is not about to be finished off by an insect.",
+  "icon": "a battered mud-spattered tin helmet with a red cross band, steam rising"
+ },
+ "tal_nur_brisk_rounds": {
+  "description": "Rubber soles squeak down the ward at a pace just shy of running. Head nurses have been timed against Charley Paddock and won.",
+  "icon": "white rubber-soled nurse's shoes mid-stride on polished linoleum, motion blur"
+ },
+ "tal_nur_stretcher_bearer": {
+  "description": "She learned more medicine carrying the stretcher than she ever did in lectures. You watch a man's face the whole way back.",
+  "icon": "a canvas field stretcher carried through smoke by two silhouettes, red cross armband bright"
+ },
+ "tal_nur_angel_of_mons": {
+  "description": "In 1914 the Tommies swore they saw angels over Mons. The boys she dragged off the Paramount lot swear they saw her.",
+  "icon": "a radiant winged nurse silhouette above a battlefield, golden light breaking through smoke"
+ },
+ "tal_nur_clean_sheets": {
+  "description": "Boiled white, starched stiff, corners square enough to cut yourself on. Nothing creeps into a bed she has made.",
+  "icon": "a crisp white hospital sheet snapping in the air, faint protective shimmer along its edge"
+ },
+ "tal_nur_house_calls": {
+  "description": "She keeps a bicycle and a black bag by the door, and she knows which porch lights on Gower mean trouble.",
+  "icon": "a black medical bag in a bicycle basket, porch light glowing at night"
+ },
+ "tal_nur_cod_liver_oil": {
+  "description": "A spoonful every morning, whether you like it or not. Nobody likes it. It comes cheap by the case and lasts forever.",
+  "icon": "a silver spoon brimming with golden cod liver oil, glinting bottle behind"
+ },
+ "tal_nur_doctors_orders": {
+  "description": "The doctor writes the order; she sees it carried out to the letter. Patients find it easier to argue with the bugs.",
+  "icon": "a fountain pen signing a prescription pad, ink glistening, stethoscope coiled beside"
+ },
+ "tal_nur_chloroform_calm": {
+  "description": "She moves through a fight like a ward at midnight, soft-footed and unhurried, and the hive's attention slides right past her.",
+  "icon": "a chloroform-soaked cloth trailing a faint lavender haze beside a tipped amber bottle"
+ },
+ "tal_nur_sterile_field": {
+  "description": "Carbolic on every surface, instruments boiled, hands scrubbed to the elbow. Done properly, everything she touches goes exactly where she means it.",
+  "icon": "surgical instruments gleaming in a steaming enamel tray, carbolic vapour rising"
+ },
+ "tal_nur_quiet_ward": {
+  "description": "Lights low, curtains drawn, a radio murmuring dance music at the far end. The patients mend faster, and so does she.",
+  "icon": "a dim ward of white iron beds, a single lamp glowing softly at the far end"
+ },
+ "tal_nur_bedside_vigil": {
+  "description": "She sits up all night in a hard chair with her cap still pinned. Whatever comes for the patient has to come past her first.",
+  "icon": "a wooden chair beside an iron bed, a nurse's lantern burning steady through the dark"
+ },
+ "tal_nur_laudanum_drip": {
+  "description": "A few drops in a glass of water, the old remedy. Not strictly legal, but nobody under the Dome is asking to see her license.",
+  "icon": "an amber laudanum bottle with glass dropper, a single golden drop falling into water"
+ },
+ "tal_mec_steel_helmet": {
+  "description": "A dented tin hat from the Argonne, bought for two bits off a Legion man. It rang like a church bell the first time a mandible found it.",
+  "icon": "a dented olive-drab Brodie steel helmet deflecting a black insect claw, sparks flying"
+ },
+ "tal_mec_iron_constitution": {
+  "description": "Twenty years of foundry smoke, bad coffee and worse landlords. A man built like that does not fold because a bug the size of a Ford leans on him.",
+  "icon": "a riveted cast-iron boiler plate over a beating heart, glowing red at the seams"
+ },
+ "tal_mec_demolition_man": {
+  "description": "Drive the pile hard and drive it true. The wreckers on Vine swear a good pile driver splits a hive wall like kindling.",
+  "icon": "a steel pile driver slamming down, cracking green hive resin into flying shards"
+ },
+ "tal_mec_sweatshop_pace": {
+  "description": "Ten-hour shifts on a rivet line teach a body to keep moving. Breaks are for the front office.",
+  "icon": "a factory punch clock with its hands spinning in a blur, steam rising"
+ },
+ "tal_mec_field_dressing": {
+  "description": "Clean rag, iodine and a strip of friction tape. Not pretty, but it holds until somebody with a proper bag comes along.",
+  "icon": "a bloodied bandage wound tight with black friction tape around a muscled forearm"
+ },
+ "tal_mec_sandbag_walls": {
+  "description": "Sandbags stacked shoulder-high across Highland, the way the boys did it in France. Bugs chew through most things, but not burlap full of beach.",
+  "icon": "stacked burlap sandbags under a hail of insect spines, dust bursting outward"
+ },
+ "tal_mec_cheap_bandages": {
+  "description": "Torn bedsheets from the Roosevelt Hotel, boiled in a washtub out back. The management has not yet sent a bill.",
+  "icon": "torn white bedsheet strips steaming over a dented tin washtub"
+ },
+ "tal_mec_foremans_glare": {
+  "description": "The look that once kept a whole grip crew off the lunch wagon. It works on hive drones too, near enough.",
+  "icon": "hard narrowed eyes under a flat cap brim, glaring with a red glow"
+ },
+ "tal_mec_sidestep_shuffle": {
+  "description": "Learned dodging swinging flats and runaway dollies on a soundstage floor. A pincer is slower than a falling sandbag, mostly.",
+  "icon": "scuffed work boots sidestepping on a stage floor, an insect pincer snapping empty air"
+ },
+ "tal_mec_quick_fix": {
+  "description": "Spit, wire and a sharp rap with the heel of the hand. Half the radios in Hollywood run on the same principle.",
+  "icon": "a hand slapping a sputtering patch kit, a blue spark leaping from it"
+ },
+ "tal_mec_factory_recall": {
+  "description": "Every overhaul goes back to the book: original drawings, original tolerances. What the factory built, a careful man can build again.",
+  "icon": "a glowing blue blueprint beneath a steel bolt being torqued down by a wrench"
+ },
+ "tal_mec_lunch_pail": {
+  "description": "Two ham sandwiches, a boiled egg and coffee in the lid. Enough to carry a working man through a double shift on the barricades.",
+  "icon": "a dented tin lunch pail flung open, steam curling from the coffee lid"
+ },
+ "tal_mec_spit_and_polish": {
+  "description": "A tidy bench and oiled tools keep a man's head clear. Wipe the wrench, wipe the brow, breathe.",
+  "icon": "a gleaming wrench being polished with an oily rag, a bright star of glint"
+ },
+ "tal_mec_warranty_work": {
+  "description": "Guaranteed for ninety days or ninety bugs, whichever comes first. The shop stands behind its work and does not charge twice.",
+  "icon": "a brass guarantee tag on wire hanging from a freshly repaired steel gear"
+ },
+ "tal_mec_good_as_new": {
+  "description": "When the job is done the plating sits flush and the man inside it stands straight. You would never know a bug had chewed either.",
+  "icon": "a freshly riveted steel chest plate gleaming, the last rivet still glowing hot"
+ },
+ "tal_mec_wrench_parry": {
+  "description": "A two-foot Stillson wrench turns a stinger as well as any cavalry sabre, and costs a good deal less.",
+  "icon": "a heavy Stillson wrench knocking aside a barbed insect stinger, sparks flying"
+ },
+ "tal_mec_fine_calibration": {
+  "description": "A turn of the jeweller's screwdriver and a squint through the loupe, and every contraption in the kit hits a hair closer to where it hurts.",
+  "icon": "a tiny screwdriver adjusting a brass gauge needle, glinting under a hot work lamp"
+ },
+ "tal_mec_thrown_spanner": {
+  "description": "A good mechanic never walks to fetch a wrench back. He throws it, and the hive learns to duck.",
+  "icon": "a steel spanner spinning end over end toward an insect head, motion blur"
+ },
+ "tal_mec_bootleg_current": {
+  "description": "Wire tapped straight off the Pacific Electric overhead. The welder runs hot and the power company never sends a bill.",
+  "icon": "alligator clips biting a red-car trolley wire, sparks raining down onto a welding torch"
+ },
+ "tal_mec_tack_strip": {
+  "description": "Roofing tacks and carpet nails, swept into a coffee can and flung by the handful. Cheap as dirt and twice as mean.",
+  "icon": "a dented coffee can spilling bright roofing tacks across wet cobblestones"
+ },
+ "tal_mec_union_battery": {
+  "description": "A wet-cell battery stamped with the IATSE local's number. Union-made, union-charged, and it keeps a man going well past quitting time.",
+  "icon": "a glass-jar wet-cell battery glowing blue, copper terminals crackling with sparks"
+ },
+ "tal_mec_patent_pending": {
+  "description": "The wrench has been filed, reshaped and improved past recognition. The Patent Office has three letters about it and has answered none.",
+  "icon": "a strangely modified monkey wrench lying on blueprints beside a glowing red wax seal"
+ },
+ "tal_mec_short_circuit": {
+  "description": "Bare copper threaded through the tacks. A bug that steps down gets a nail in the foot and a jolt clean up the leg.",
+  "icon": "scattered caltrops linked by bare copper wire, blue sparks leaping between the points"
+ },
+ "tal_mec_roller_skates": {
+  "description": "Borrowed from the grips who use them to cross the big stages. Nobody looks dignified on them, but everybody arrives first.",
+  "icon": "a pair of steel-wheeled roller skates racing forward, sparks trailing from the wheels"
+ },
+ "tal_mec_edisons_spite": {
+  "description": "The Wizard of Menlo Park swore by perspiration. The mechanic adds one part plain meanness, and every blow lands sorer for it.",
+  "icon": "a glowing carbon-filament bulb clenched in a grease-blackened fist, sparks flying"
+ },
+ "tal_mec_monkey_business": {
+  "description": "The monkey wrench comes round with a little extra English on it, the kind a man learns working nights on Poverty Row.",
+  "icon": "a heavy monkey wrench swinging in a wide arc, green ichor spraying from its jaws"
+ },
+ "tal_mec_tesla_coil": {
+  "description": "The welder's arc jumps its gap and crawls up the bug like lightning down a church spire. Mr. Tesla would have enjoyed the show.",
+  "icon": "a welding torch throwing a forked violet arc into a giant insect's carapace"
+ },
+ "tal_mec_asbestos_gloves": {
+  "description": "Fireproof mitts from the effects shop, stiff as cardboard and thick as a porterhouse. A mantis claw finds precious little to bite.",
+  "icon": "thick grey asbestos gloves catching a flaming insect claw, embers scattering"
+ },
+ "tal_mec_shell_shock": {
+  "description": "A ringing blow to the carapace leaves the thing staggered and stupid, like a doughboy after a whizz-bang landed close.",
+  "icon": "a sledgehammer striking an insect carapace, shockwave rings and cracks spreading outward"
+ },
+ "tal_mec_lead_pipe": {
+  "description": "Plumber's lead pipe weighs more than it looks and asks less of the arm. The dime-novel detectives were right about it.",
+  "icon": "a dull grey lead pipe swung hard, cracking an insect mandible, motion streaks"
+ },
+ "tal_mec_ten_mile_march": {
+  "description": "Camp Kearny taught him to walk ten miles under a full pack and complain the whole way. The legs remember, whether he likes it or not.",
+  "icon": "muddy army boots with wrapped puttees marching down a dusty road, dust rising"
+ },
+ "tal_mec_pick_handle_parry": {
+  "description": "An ash pick handle, held crosswise like a quarterstaff, turns aside a claw the same way it once turned aside a picket-line cop.",
+  "icon": "a wooden pick handle held crosswise, blocking a striking insect claw, splinters flying"
+ },
+ "tal_mec_union_rates": {
+  "description": "The pile driver comes down for a fair day's wage and not a penny over. The local's business agent would approve.",
+  "icon": "a steel pile driver ram slamming down, dust and green ichor bursting outward"
+ },
+ "tal_mec_coffee_cigarettes": {
+  "description": "Black coffee from a thermos lid and a Lucky Strike behind the ear. The second wind comes quicker than any doctor would advise.",
+  "icon": "a steaming tin thermos cup beside a smouldering cigarette on a toolbox lid"
+ },
+ "tal_mec_lights_out": {
+  "description": "Laid in just behind the antennae, the monkey wrench puts a bug to sleep quicker and cheaper than any bouncer on the Strip.",
+  "icon": "a monkey wrench connecting with an insect's skull, its glowing eyes dimming out"
+ },
+ "tal_mec_over_the_top": {
+  "description": "When the whistle blew in France, a man climbed the ladder and ran. The legs and the nerve both came home with him.",
+  "icon": "a figure vaulting a sandbag parapet, hammer raised, flare light burning behind"
+ }
+}

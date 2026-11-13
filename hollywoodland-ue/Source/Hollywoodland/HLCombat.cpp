@@ -33,12 +33,12 @@ float FHLGame::AbilityPower(const FHLUnit& U, const FHLEffect& E) const
 
 FString FHLGame::CanCast(const FHLUnit& U, const FHLAbility& Ab, const FHLUnit* Target) const
 {
-	if (U.bDead) return TEXT("You are dead.");
+	if (U.bDead || U.bGhost) return TEXT("You are dead.");
 	if (U.Stunned()) return TEXT("You are stunned.");
 	if (U.Casting) return TEXT("Another action is in progress.");
 	if (Ab.bGcd && Now < U.GcdUntil) return TEXT("Not ready yet.");
 	if (const float* Cd = U.CdUntil.Find(&Ab)) if (Now < *Cd) return TEXT("That ability isn't ready yet.");
-	if (U.ResType != EHLRes::None && U.Res < Ab.Cost) return U.ResType == EHLRes::Power ? TEXT("Not enough Power.") : U.ResType == EHLRes::Energy ? TEXT("Not enough Energy.") : U.ResType == EHLRes::Focus ? TEXT("Not enough Focus.") : TEXT("Not enough Adrenaline.");
+	if (U.ResType != EHLRes::None && U.Res < AbCost(U, Ab)) return U.ResType == EHLRes::Power ? TEXT("Not enough Power.") : U.ResType == EHLRes::Energy ? TEXT("Not enough Energy.") : U.ResType == EHLRes::Focus ? TEXT("Not enough Focus.") : TEXT("Not enough Adrenaline.");
 	if (Ab.Target == TEXT("enemy"))
 	{
 		if (!Target || Target->bDead || !IsHostile(U, *Target)) return TEXT("You have no target.");
@@ -74,8 +74,8 @@ bool FHLGame::TryCast(FHLUnit& U, const FHLAbility& Ab, int32 TargetId)
 
 void FHLGame::ExecuteAbility(FHLUnit& U, const FHLAbility& Ab, FHLUnit* Target)
 {
-	if (U.ResType != EHLRes::None) U.Res = FMath::Max(0.f, U.Res - Ab.Cost);
-	if (Ab.Cd > 0) U.CdUntil.Add(&Ab, Now + Ab.Cd);
+	if (U.ResType != EHLRes::None) U.Res = FMath::Max(0.f, U.Res - AbCost(U, Ab));
+	if (Ab.Cd > 0) U.CdUntil.Add(&Ab, Now + FMath::Max(0.5f, Ab.Cd - U.Mod(TEXT("cd:") + Ab.Id)));
 	const float RankScale = U.Kind == EHLKind::Mob ? 1.f : 1.f + 0.08f * FMath::Max(0, U.Level - Ab.Level);
 	const bool bPlayerSide = U.Kind == EHLKind::Player || (Target && Target->Kind == EHLKind::Player);
 
@@ -108,6 +108,7 @@ void FHLGame::ExecuteAbility(FHLUnit& U, const FHLAbility& Ab, FHLUnit* Target)
 	if (U.Kind == EHLKind::Player) AddChat(TEXT("combat"), FString(), FString::Printf(TEXT("You use %s."), *Ab.Name));
 
 	const float CritChance = U.Crit + U.BuffSum(TEXT("crit"));
+	const float AbMul = 1.f + U.Mod(TEXT("ab:") + Ab.Id); // talents
 	for (const FHLEffect& E : Ab.Effects)
 	{
 		if (E.Type == TEXT("damage"))
@@ -118,7 +119,7 @@ void FHLGame::ExecuteAbility(FHLUnit& U, const FHLAbility& Ab, FHLUnit* Target)
 				const int32 LevelGap = FMath::Max(0, T->Level - U.Level);
 				if (Chance(0.04f + 0.01f * LevelGap)) { if (bPlayerSide || T->Kind == EHLKind::Player) AddFloat(T->Id, TEXT("Miss"), FLinearColor::White); AddThreat(*T, U.Id, 1); continue; }
 				const bool bCrit = Chance(CritChance);
-				DealDamage(&U, *T, AbilityPower(U, E) * (E.Weapon > 0 ? 1.f : RankScale) * (bCrit ? 2.f : 1.f), Ab.School, bCrit, Ab.Name);
+				DealDamage(&U, *T, AbilityPower(U, E) * (E.Weapon > 0 ? 1.f : RankScale) * AbMul * (bCrit ? 2.f : 1.f), Ab.School, bCrit, Ab.Name);
 			}
 		}
 		else if (E.Type == TEXT("dot"))
@@ -128,7 +129,7 @@ void FHLGame::ExecuteAbility(FHLUnit& U, const FHLAbility& Ab, FHLUnit* Target)
 				if (T->bDead) continue;
 				T->Auras.RemoveAll([&](const FHLAura& A) { return A.Name == Ab.Name && A.SourceId == U.Id; });
 				FHLAura A; A.Type = EHLAura::Dot; A.Name = Ab.Name; A.SourceId = U.Id; A.bHarmful = true; A.Stat = Ab.School;
-				A.Value = U.Kind == EHLKind::Mob ? E.Weapon * (U.WeaponMin + U.WeaponMax) * 0.5f : (E.Base * RankScale + E.Coef * U.AbilityBonus);
+				A.Value = U.Kind == EHLKind::Mob ? E.Weapon * (U.WeaponMin + U.WeaponMax) * 0.5f : (E.Base * RankScale + E.Coef * U.AbilityBonus) * AbMul;
 				A.Period = E.Period; A.TickTimer = E.Period; A.Remaining = E.Period * E.Ticks + 0.05f;
 				T->Auras.Add(A);
 				AddThreat(*T, U.Id, 5);
@@ -140,7 +141,7 @@ void FHLGame::ExecuteAbility(FHLUnit& U, const FHLAbility& Ab, FHLUnit* Target)
 			for (FHLUnit* T : Friends)
 			{
 				const bool bCrit = Chance(CritChance);
-				HealUnit(&U, *T, (E.Base * RankScale + E.Coef * U.AbilityBonus) * (bCrit ? 1.5f : 1.f), Ab.Name);
+				HealUnit(&U, *T, (E.Base * RankScale + E.Coef * U.AbilityBonus) * AbMul * (bCrit ? 1.5f : 1.f), Ab.Name);
 			}
 		}
 		else if (E.Type == TEXT("hot"))
@@ -149,7 +150,7 @@ void FHLGame::ExecuteAbility(FHLUnit& U, const FHLAbility& Ab, FHLUnit* Target)
 			{
 				T->Auras.RemoveAll([&](const FHLAura& A) { return A.Name == Ab.Name; });
 				FHLAura A; A.Type = EHLAura::Hot; A.Name = Ab.Name; A.SourceId = U.Id;
-				A.Value = E.Base * RankScale + E.Coef * U.AbilityBonus; A.Period = E.Period; A.TickTimer = E.Period; A.Remaining = E.Period * E.Ticks + 0.05f;
+				A.Value = (E.Base * RankScale + E.Coef * U.AbilityBonus) * AbMul; A.Period = E.Period; A.TickTimer = E.Period; A.Remaining = E.Period * E.Ticks + 0.05f;
 				T->Auras.Add(A);
 			}
 		}
@@ -158,7 +159,7 @@ void FHLGame::ExecuteAbility(FHLUnit& U, const FHLAbility& Ab, FHLUnit* Target)
 			for (FHLUnit* T : Friends)
 			{
 				T->Auras.RemoveAll([&](const FHLAura& A) { return A.Name == Ab.Name; });
-				FHLAura A; A.Type = EHLAura::Shield; A.Name = Ab.Name; A.SourceId = U.Id; A.Value = E.Base * RankScale + E.Coef * U.AbilityBonus; A.Remaining = E.Dur;
+				FHLAura A; A.Type = EHLAura::Shield; A.Name = Ab.Name; A.SourceId = U.Id; A.Value = (E.Base * RankScale + E.Coef * U.AbilityBonus) * AbMul; A.Remaining = E.Dur;
 				T->Auras.Add(A);
 			}
 		}
@@ -195,6 +196,7 @@ void FHLGame::AddThreat(FHLUnit& Mob, int32 SrcId, float Amount)
 	if (Mob.Kind != EHLKind::Mob || Mob.bDead || Mob.MobState == EHLMobState::Evade) return;
 	const FHLUnit* Src = Unit(SrcId);
 	if (Src && Src->Cls && Src->Cls->Role == TEXT("tank")) Amount *= 1.3f;
+	if (Src) Amount *= 1.f + Src->Mod(TEXT("threat_pct"));
 	Mob.Threat.FindOrAdd(SrcId) += Amount;
 }
 
@@ -202,14 +204,14 @@ void FHLGame::DealDamage(FHLUnit* Src, FHLUnit& Dst, float Amount, const FString
 {
 	if (Dst.bDead || Dst.Kind == EHLKind::Npc) return;
 	if (Dst.Kind == EHLKind::Mob && Dst.MobState == EHLMobState::Evade) { if (Src && Src->Kind == EHLKind::Player) AddFloat(Dst.Id, TEXT("Evade"), FLinearColor::White); return; }
-	if (Src) Amount *= 1.f + Src->BuffSum(TEXT("dmg_pct"));
+	if (Src) Amount *= 1.f + Src->BuffSum(TEXT("dmg_pct")) + Src->Mod(TEXT("dmg_pct"));
 	if (School == TEXT("physical"))
 	{
 		const float Armor = Dst.Armor * (1.f + Dst.BuffSum(TEXT("armor_pct")));
 		const float DR = FMath::Min(0.75f, Armor / (Armor + 400.f + 85.f * (Src ? Src->Level : Dst.Level)));
 		Amount *= 1.f - DR;
 	}
-	Amount *= FMath::Max(0.1f, 1.f + Dst.BuffSum(TEXT("taken_pct")));
+	Amount *= FMath::Max(0.1f, 1.f + Dst.BuffSum(TEXT("taken_pct")) + Dst.Mod(TEXT("taken_pct")));
 	Amount = FMath::Max(1.f, FMath::RoundToFloat(Amount));
 	float Absorbed = 0;
 	for (int32 i = Dst.Auras.Num() - 1; i >= 0 && Amount > 0; --i)
@@ -252,6 +254,7 @@ void FHLGame::DealDamage(FHLUnit* Src, FHLUnit& Dst, float Amount, const FString
 void FHLGame::HealUnit(FHLUnit* Src, FHLUnit& Dst, float Amount, const FString& What)
 {
 	if (Dst.bDead) return;
+	if (Src) Amount *= 1.f + Src->Mod(TEXT("heal_pct"));
 	Amount = FMath::RoundToFloat(FMath::Max(1.f, Amount));
 	const float Eff = FMath::Min(Amount, Dst.MaxHp - Dst.Hp);
 	Dst.Hp += Eff;
@@ -339,6 +342,10 @@ void FHLGame::KillUnit(FHLUnit& U, FHLUnit* Killer)
 	else if (U.Kind == EHLKind::Player)
 	{
 		Player.Deaths++;
+		Player.CorpseArea = U.Area; Player.CorpsePos = U.Pos;
+		bool bBroke = false;
+		for (const auto& KV : Player.Equip) { float& D = Player.Durability.FindOrAdd(KV.Key, 1.f); const bool bWas = D > 0; D = FMath::Max(0.f, D - 0.1f); bBroke |= bWas && D <= 0; }
+		if (bBroke) { RecalcPlayerStats(); System(TEXT("Some of your equipment is broken. A repair vendor can mend it.")); }
 		System(TEXT("You have died. Release to the nearest aid station."));
 		if (Party.Num()) PartyEvent(TEXT("the player died"));
 		InteractObj = -1; OpenNpcUnitId = 0; OpenNpcMode.Reset();
@@ -377,10 +384,11 @@ void FHLGame::TickCombat(FHLUnit& U, float Dt)
 	}
 	const bool bCombat = InCombat(U);
 	// regeneration
-	if (U.ResType == EHLRes::Energy) U.Res = FMath::Min(U.MaxRes, U.Res + 10 * Dt);
-	else if (U.ResType == EHLRes::Focus) U.Res = FMath::Min(U.MaxRes, U.Res + 5 * Dt);
+	const float RegenMul = 1.f + U.Mod(TEXT("regen_pct"));
+	if (U.ResType == EHLRes::Energy) U.Res = FMath::Min(U.MaxRes, U.Res + 10 * RegenMul * Dt);
+	else if (U.ResType == EHLRes::Focus) U.Res = FMath::Min(U.MaxRes, U.Res + 5 * RegenMul * Dt);
 	else if (U.ResType == EHLRes::Adrenaline) { if (!bCombat) U.Res = FMath::Max(0.f, U.Res - 2 * Dt); }
-	else if (U.ResType == EHLRes::Power) U.Res = FMath::Min(U.MaxRes, U.Res + (5 + U.Stats[HL_SPI] * 0.5f) / 5.f * Dt * (bCombat ? 0.35f : (U.bSitting ? 3.f : 1.f)));
+	else if (U.ResType == EHLRes::Power) U.Res = FMath::Min(U.MaxRes, U.Res + (5 + U.Stats[HL_SPI] * 0.5f) / 5.f * RegenMul * Dt * (bCombat ? 0.35f : (U.bSitting ? 3.f : 1.f)));
 	if (!bCombat && U.Kind != EHLKind::Mob && U.Hp < U.MaxHp)
 		U.Hp = FMath::Min(U.MaxHp, U.Hp + (U.Stats[HL_SPI] * 0.5f + U.MaxHp * 0.02f) / 5.f * Dt * (U.bSitting ? 4.f : 1.f));
 	if (U.Stunned()) return;
@@ -391,7 +399,7 @@ void FHLGame::TickCombat(FHLUnit& U, float Dt)
 		U.Casting = nullptr;
 		FHLUnit* T = Unit(U.CastTargetId);
 		if (Ab->Target == TEXT("enemy") && (!T || T->bDead || Dist(U, *T) > Ab->Range * 1.4f + 3)) { if (U.Kind == EHLKind::Player) Error(TEXT("Your target is gone.")); }
-		else if (U.ResType != EHLRes::None && U.Res < Ab->Cost) {}
+		else if (U.ResType != EHLRes::None && U.Res < AbCost(U, *Ab)) {}
 		else ExecuteAbility(U, *Ab, T);
 	}
 	// auto attack

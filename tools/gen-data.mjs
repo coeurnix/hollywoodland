@@ -3,6 +3,7 @@
 import { writeFileSync, mkdirSync, existsSync, readFileSync, readdirSync, copyFileSync, rmSync } from 'node:fs';
 import { zones, dungeons, factions, redcar, guilds, mapLayout } from './gen/world.mjs';
 import { classes, abilities } from './gen/classes.mjs';
+import { talents as handTalents } from './gen/talents.mjs';
 import { buildItems, questItem } from './gen/items.mjs';
 import { mobs, areas } from './gen/zone.mjs';
 import { quests } from './gen/quests.mjs';
@@ -86,6 +87,44 @@ for (const c of classes) {
   c.start_items = [...w, ...armour].map((i) => i.id);
   c.abilities = abilities.filter((a) => a.class === c.id).map((a) => a.id);
 }
+// ---- talents, flavour text and icons for abilities / talents / classes / specs (tools/artgen) ----
+const artText = readJson(new URL('./artgen/state/texts.json', import.meta.url)) || {};
+const skillMeta = readJson(new URL('../art-gen/atlas/skill_icons.json', import.meta.url));
+const skillIcon = (k) => (skillMeta && skillMeta.icons[k] != null ? skillMeta.icons[k] : -1);
+const designed = readJson(new URL('./artgen/state/talents.json', import.meta.url)) || {};
+const talents = [...handTalents, ...classes.flatMap((c) => designed[c.id] || [])];
+for (const t of talents) { t.desc = artText[t.id]?.description || ''; t.icon = skillIcon(t.id); }
+for (const a of abilities) { a.flavor = artText[a.id]?.description || ''; a.icon = skillIcon(a.id); }
+for (const c of classes) {
+  c.desc = artText[`class_${c.id}`]?.description || ''; c.icon = skillIcon(`class_${c.id}`);
+  c.spec_desc = c.specs.map((_, i) => artText[`spec_${c.id}_${i}`]?.description || '');
+  c.spec_icons = c.specs.map((_, i) => skillIcon(`spec_${c.id}_${i}`));
+}
+{ // talent sanity: unique ids and slots, abilities exist
+  const ids = new Set(), slots = new Set();
+  for (const t of talents) {
+    if (ids.has(t.id)) err(`duplicate talent ${t.id}`); ids.add(t.id);
+    const sl = `${t.class}|${t.spec}|${t.tier}|${t.col}`; if (slots.has(sl)) err(`talent slot taken twice: ${sl}`); slots.add(sl);
+    for (const k of Object.keys(t.mods)) if (k.includes(':') && !abilities.some((a) => a.id === k.split(':')[1])) err(`talent ${t.id}: unknown ability in ${k}`);
+  }
+}
+if (skillMeta) {
+  const iconDir = new URL('../hollywoodland-ue/Content/Data/Icons/', import.meta.url);
+  mkdirSync(iconDir, { recursive: true });
+  const ship = skillMeta.sheets.map((f) => f.replace('.png', '.jpg'));
+  for (const f of readdirSync(iconDir)) if (/^skill_icons_\d+\.(png|jpg)$/.test(f) && !ship.includes(f)) rmSync(new URL(f, iconDir));
+  for (const f of ship) copyFileSync(new URL(`../art-gen/atlas/${f}`, import.meta.url), new URL(f, iconDir));
+  const named = Object.fromEntries(Object.entries(skillMeta.icons).filter(([k]) => k.startsWith('menu_')));
+  writeFileSync(new URL('skills.json', iconDir), JSON.stringify({ tile: skillMeta.tile, sheet_size: skillMeta.sheet_size, columns: skillMeta.columns, per_sheet: skillMeta.per_sheet, sheets: ship, named }));
+}
+{ // interface art
+  const uiSrc = new URL('../art-gen/ui/', import.meta.url);
+  if (existsSync(uiSrc)) {
+    const uiDir = new URL('../hollywoodland-ue/Content/Data/UI/', import.meta.url);
+    mkdirSync(uiDir, { recursive: true });
+    for (const f of readdirSync(uiSrc)) if (f.endsWith('.jpg')) copyFileSync(new URL(f, uiSrc), new URL(f, uiDir));
+  }
+}
 
 // ---- personas ----
 const personas = buildPersonas({ zones, dungeons, guilds, items, classes });
@@ -126,7 +165,7 @@ for (const z of zones) for (const n of z.neighbours) need(n, z.id);
 const write = (name, obj) => { const s = JSON.stringify(obj); writeFileSync(new URL(name, OUT), s); return (s.length / 1024).toFixed(0) + ' KB'; };
 const sizes = {
   world: write('world.json', { zones, dungeons, factions, redcar, guilds, map: mapLayout }),
-  classes: write('classes.json', { classes, abilities }),
+  classes: write('classes.json', { classes, abilities, talents }),
   items: write('items.json', { items }),
   mobs: write('mobs.json', { mobs }),
   areas: write('areas.json', { areas }),

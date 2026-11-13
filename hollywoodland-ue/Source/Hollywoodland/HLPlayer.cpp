@@ -50,6 +50,14 @@ FString FHLGame::SaveJson() const
 	O->SetStringField(TEXT("name"), Player.Name);
 	O->SetStringField(TEXT("class"), Player.Cls ? Player.Cls->Id : FString());
 	O->SetNumberField(TEXT("level"), U ? U->Level : 1);
+	{
+		TSharedPtr<FJsonObject> Tal = MakeShared<FJsonObject>();
+		for (const auto& KV : Player.Talents) Tal->SetNumberField(KV.Key, KV.Value);
+		O->SetObjectField(TEXT("talents"), Tal); O->SetNumberField(TEXT("respecs"), Player.Respecs);
+		TSharedPtr<FJsonObject> Dur = MakeShared<FJsonObject>();
+		for (const auto& KV : Player.Durability) Dur->SetNumberField(KV.Key, KV.Value);
+		O->SetObjectField(TEXT("durability"), Dur);
+	}
 	O->SetNumberField(TEXT("xp"), Player.Xp); O->SetNumberField(TEXT("cents"), Player.Cents); O->SetNumberField(TEXT("salvage"), Player.Salvage);
 	O->SetNumberField(TEXT("played"), Player.PlayedS); O->SetNumberField(TEXT("deaths"), Player.Deaths); O->SetNumberField(TEXT("kills"), Player.Kills);
 	O->SetBoolField(TEXT("show_sim"), Player.bShowSim);
@@ -121,6 +129,12 @@ bool FHLGame::LoadJson(const FString& Json)
 	if (O->TryGetNumberField(TEXT("deaths"), Num)) Player.Deaths = Num;
 	if (O->TryGetNumberField(TEXT("kills"), Num)) Player.Kills = Num;
 	O->TryGetBoolField(TEXT("show_sim"), Player.bShowSim);
+	if (O->TryGetNumberField(TEXT("respecs"), Num)) Player.Respecs = Num;
+	const TSharedPtr<FJsonObject>* Dur = nullptr;
+	if (O->TryGetObjectField(TEXT("durability"), Dur)) for (const auto& KV : (*Dur)->Values) Player.Durability.Add(FString(KV.Key), FMath::Clamp((float)KV.Value->AsNumber(), 0.f, 1.f));
+	const TSharedPtr<FJsonObject>* Tal = nullptr;
+	if (O->TryGetObjectField(TEXT("talents"), Tal))
+		for (const auto& KV : (*Tal)->Values) if (const FHLTalent* T = D.Talent(FString(KV.Key))) if (T->Class == Cls->Id) Player.Talents.Add(FString(KV.Key), FMath::Clamp((int32)KV.Value->AsNumber(), 1, T->Ranks));
 	auto Inv = [&](const TCHAR* Key, TArray<FHLInvSlot>& Slots)
 	{
 		Slots.SetNum(24);
@@ -400,10 +414,60 @@ void FHLGame::ReleaseSpirit()
 	for (const FHLAidStation& A : Def.Aid) { const float D = FVector2D::Distance(A.Pos, U->Pos); if (D < Best) { Best = D; Where = A.Pos; Name = A.Name; } }
 	U->bDead = false; U->Hp = U->MaxHp * 0.5f; if (U->ResType == EHLRes::Power) U->Res = U->MaxRes * 0.5f;
 	U->CombatUntil = 0;
+	for (FHLUnit* M : UnitList) if (M->Kind == EHLKind::Mob) M->Threat.Remove(U->Id);
 	TeleportUnit(*U, U->Area, Where);
-	System(FString::Printf(TEXT("You wake at %s."), *Name));
+	if (Def.bDungeon) System(FString::Printf(TEXT("You wake at %s."), *Name));
+	else
+	{
+		// classic ghost run: back to the body to revive, or revive here for durability and sickness
+		U->bGhost = true; U->Hp = U->MaxHp; U->bAutoAttack = false; U->TargetId = 0;
+		System(FString::Printf(TEXT("Your spirit stands at %s. Return to your body to revive, or speak to the staff here."), *Name));
+	}
 	// dungeon: fallen party members get up with the player
 	for (int32 SI : Party) if (FHLUnit* M = Unit(Sims[SI].UnitId)) { if (M->bDead || Def.bDungeon) { M->bDead = false; M->Hp = M->MaxHp * 0.6f; M->Res = M->ResType == EHLRes::Adrenaline ? 0 : M->MaxRes * 0.6f; M->CombatUntil = 0; TeleportUnit(*M, U->Area, Where + FVector2D(Rand() * 4 - 2, Rand() * 4 - 2)); Sims[SI].State = EHLSimState::Party; } }
+}
+
+void FHLGame::ResurrectAtCorpse()
+{
+	FHLUnit* U = PlayerUnit();
+	if (!U || !U->bGhost) return;
+	if (U->Area != Player.CorpseArea || FVector2D::Distance(U->Pos, Player.CorpsePos) > 10) { Error(TEXT("You are too far from your body.")); return; }
+	U->bGhost = false; U->Hp = U->MaxHp * 0.5f; U->Res = U->ResType == EHLRes::Adrenaline ? 0 : U->MaxRes * 0.5f;
+	U->Pos = Player.CorpsePos;
+	System(TEXT("You return to your body."));
+}
+
+void FHLGame::ResurrectAtStation()
+{
+	FHLUnit* U = PlayerUnit();
+	if (!U || !U->bGhost) return;
+	for (const auto& KV : Player.Equip) { float& D = Player.Durability.FindOrAdd(KV.Key, 1.f); D = FMath::Max(0.f, D - 0.25f); }
+	Player.SicknessUntil = Now + 600;
+	U->bGhost = false;
+	RecalcPlayerStats();
+	U->Hp = U->MaxHp * 0.5f; U->Res = U->ResType == EHLRes::Adrenaline ? 0 : U->MaxRes * 0.5f;
+	FHLAura A; A.Type = EHLAura::Buff; A.Name = TEXT("Resurrection Sickness"); A.Stat = TEXT("none"); A.bHarmful = true; A.Remaining = 600;
+	U->Auras.Add(A);
+	System(TEXT("You are revived. Resurrection Sickness: attributes reduced by 25% for 10 minutes."));
+}
+
+int32 FHLGame::RepairCost() const
+{
+	// 1 cent x item level per 10% durability (bible §6)
+	float C = 0;
+	for (const auto& KV : Player.Equip) if (KV.Value) C += KV.Value->ILvl * (1.f - SlotDurability(KV.Key)) * 10.f;
+	return FMath::CeilToInt32(C - 0.01f);
+}
+
+void FHLGame::RepairAll()
+{
+	const int32 Cost = RepairCost();
+	if (Cost <= 0) { System(TEXT("Your equipment is in good repair.")); return; }
+	if (Player.Cents < Cost) { Error(TEXT("You can't afford the repairs.")); return; }
+	Player.Cents -= Cost;
+	Player.Durability.Reset();
+	RecalcPlayerStats();
+	System(FString::Printf(TEXT("Repaired for %s."), *HLMoney(Cost)));
 }
 
 void FHLGame::TickPlayer(float Dt)
@@ -420,7 +484,7 @@ void FHLGame::TickPlayer(float Dt)
 			if (Move.SizeSquared() > 1) Move.Normalize();
 			const float Rad = FMath::DegreesToRadians(U->Yaw);
 			const FVector2D Fwd(FMath::Cos(Rad), FMath::Sin(Rad)), Right(-FMath::Sin(Rad), FMath::Cos(Rad));
-			float Speed = U->Speed * (Input.Forward < 0 ? 0.6f : 1.f);
+			float Speed = U->Speed * (Input.Forward < 0 ? 0.6f : 1.f) * (U->bGhost ? 1.25f : 1.f);
 			for (const FHLAura& A : U->Auras) if (A.Type == EHLAura::Slow) Speed *= (1.f - A.Value);
 			U->Pos = Area.Nav.Slide(U->Pos, (Fwd * Move.X + Right * Move.Y) * Speed * Dt);
 			if (U->Casting) { U->Casting = nullptr; U->GcdUntil = Now; Error(TEXT("Interrupted.")); }
@@ -450,6 +514,7 @@ void FHLGame::TickPlayer(float Dt)
 			if (Def.Kind == TEXT("usher")) AddChat(TEXT("npc"), TEXT("Captured Usher"), TEXT("Bless you. I'm going out the front, and I'm not coming back."));
 		}
 	}
+	if (Player.SicknessUntil > 0 && Now >= Player.SicknessUntil) { Player.SicknessUntil = 0; RecalcPlayerStats(); System(TEXT("Resurrection Sickness has faded.")); }
 	// subzone discovery
 	static float NextZoneCheck = 0;
 	if (Now >= NextZoneCheck)

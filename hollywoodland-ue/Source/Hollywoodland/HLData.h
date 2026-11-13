@@ -17,13 +17,19 @@ struct FHLEffect
 };
 struct FHLAbility
 {
-	FString Id, Name, Class, Target, School, Desc;
-	int32 Level = 1;
+	FString Id, Name, Class, Target, School, Desc, Flavor;
+	int32 Level = 1, Icon = -1;
 	float Cost = 0, Range = 5, Cast = 0, Cd = 0, Radius = 0;
 	bool bGcd = true;
 	TArray<FHLEffect> Effects;
 	bool HasEffect(const TCHAR* Type) const { for (const FHLEffect& E : Effects) if (E.Type == Type) return true; return false; }
 	bool IsHeal() const { return School == TEXT("heal"); }
+};
+struct FHLTalent
+{
+	FString Id, Name, Class, Desc;
+	int32 Spec = 0, Tier = 1, Col = 0, Ranks = 1, Icon = -1;
+	TMap<FString, float> Mods; // per rank (tools/gen/talents.mjs)
 };
 struct FHLClass
 {
@@ -33,6 +39,9 @@ struct FHLClass
 	FLinearColor Color = FLinearColor::White;
 	TArray<FString> Weapons, StartItems, Specs;
 	TArray<const FHLAbility*> Abilities;
+	FString Desc; int32 Icon = -1;
+	TArray<FString> SpecDesc; TArray<int32> SpecIcons;
+	TArray<const FHLTalent*> Talents;
 };
 struct FHLItem
 {
@@ -125,6 +134,7 @@ public:
 
 	TArray<FHLAbility> Abilities;
 	TArray<FHLClass> Classes;
+	TArray<FHLTalent> Talents;
 	TArray<FHLItem> Items;
 	TArray<FHLMobDef> Mobs;
 	TArray<FHLAreaDef> Areas;
@@ -138,6 +148,7 @@ public:
 	TArray<FHLCorpusLine> Corpus;
 
 	const FHLAbility* Ability(const FString& Id) const { const FHLAbility* const* P = AbilityById.Find(Id); return P ? *P : nullptr; }
+	const FHLTalent* Talent(const FString& Id) const { const FHLTalent* const* P = TalentById.Find(Id); return P ? *P : nullptr; }
 	const FHLClass* Class(const FString& Id) const { const FHLClass* const* P = ClassById.Find(Id); return P ? *P : nullptr; }
 	const FHLItem* Item(const FString& Id) const { const FHLItem* const* P = ItemById.Find(Id); return P ? *P : nullptr; }
 	const FHLItem* ItemByName(const FString& Name) const { const FHLItem* const* P = ItemByNameMap.Find(Name); return P ? *P : nullptr; }
@@ -152,6 +163,7 @@ public:
 
 private:
 	TMap<FString, const FHLAbility*> AbilityById;
+	TMap<FString, const FHLTalent*> TalentById;
 	TMap<FString, const FHLClass*> ClassById;
 	TMap<FString, const FHLItem*> ItemById, ItemByNameMap;
 	TMap<FString, const FHLMobDef*> MobById;

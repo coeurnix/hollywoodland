@@ -32,6 +32,11 @@ void SHLGameUI::DrawCharacter() const
 		const FHLItem* It = Gm.Player.Equip.FindRef(EquipSlots[i]);
 		if (ItemIcon(WX, Y, 26, It) == 2) { Gm.Unequip(EquipSlots[i]); }
 		Tx(WX + 32, Y + 5, It ? It->Name : FString(EquipNames[i]), 10, It ? HLQualityColor(It->Q) : ColDim);
+		if (It)
+		{
+			const float Dur = Gm.SlotDurability(EquipSlots[i]);
+			if (Dur < 0.995f) Tx(WX + 280, Y + 6, Dur <= 0 ? FString(TEXT("Broken")) : FString::Printf(TEXT("%d%%"), FMath::RoundToInt32(Dur * 100)), 9, Dur <= 0 ? ColRed : Dur < 0.3f ? FLinearColor(1, 0.6f, 0.2f) : ColDim);
+		}
 	}
 	float Y = WY + 12 * 28 + 6;
 	const float Cx = WX + 160;
@@ -100,6 +105,7 @@ void SHLGameUI::DrawSpellbook() const
 	{
 		const bool bKnown = Gm.Player.Known.Contains(Ab);
 		Rc(WX, Y, 30, 30, bKnown ? FLinearColor(0.4f, 0.2f, 0.12f) : FLinearColor(0.12f, 0.12f, 0.12f));
+		Img(WX + 1, Y + 1, 28, 28, HLSkillBrush(Ab->Icon), bKnown ? FLinearColor::White : FLinearColor(0.35f, 0.35f, 0.35f, 1));
 		Tx(WX + 38, Y, Ab->Name, 11, bKnown ? ColGold : ColDim, true);
 		Tx(WX + 38, Y + 15, bKnown ? Ab->Desc : (U.Level >= Ab->Level ? TEXT("Available at your trainer.") : FString::Printf(TEXT("Trainer: level %d"), Ab->Level)), 9, bKnown ? ColWhite : ColDim);
 		if (Hover(WX, Y, 440, 30)) AbilityTip(*Ab);
@@ -237,21 +243,99 @@ void SHLGameUI::DrawInspect() const
 	if (!S.P->Mount.IsEmpty()) Tx(WX, WY + 20 + 12 * 28, FString::Printf(TEXT("Mount: %s"), *S.P->Mount), 10, ColDim);
 }
 
+// One line per modifier, for the given number of ranks.
+static FString TalentEffect(const FHLTalent& T, int32 Rank)
+{
+	const FHLData& D = FHLData::Get();
+	TArray<FString> Out;
+	for (const auto& M : T.Mods)
+	{
+		const float V = M.Value * Rank;
+		const FString P = FString::Printf(TEXT("%g%%"), FMath::RoundToFloat(FMath::Abs(V) * 1000.f) / 10.f);
+		const FString& K = M.Key;
+		auto AbName = [&](const FString& Id) { const FHLAbility* Ab = D.Ability(Id); return Ab ? Ab->Name : Id; };
+		if (K.StartsWith(TEXT("ab:")))
+		{
+			const FHLAbility* Ab = D.Ability(K.Mid(3));
+			const TCHAR* What = !Ab ? TEXT("effect") : Ab->HasEffect(TEXT("shield")) ? TEXT("absorption") : (Ab->HasEffect(TEXT("heal")) || Ab->HasEffect(TEXT("hot"))) ? TEXT("healing") : TEXT("damage");
+			Out.Add(FString::Printf(TEXT("%s %s +%s."), *AbName(K.Mid(3)), What, *P));
+		}
+		else if (K.StartsWith(TEXT("cost:"))) Out.Add(FString::Printf(TEXT("%s costs %s less."), *AbName(K.Mid(5)), *P));
+		else if (K.StartsWith(TEXT("cd:"))) Out.Add(FString::Printf(TEXT("%s cooldown %g s shorter."), *AbName(K.Mid(3)), FMath::RoundToFloat(V * 10.f) / 10.f));
+		else
+		{
+			static const TMap<FString, FString> Names = {
+				{ TEXT("str_pct"), TEXT("Strength") }, { TEXT("agi_pct"), TEXT("Agility") }, { TEXT("sta_pct"), TEXT("Stamina") }, { TEXT("int_pct"), TEXT("Intellect") },
+				{ TEXT("spi_pct"), TEXT("Spirit") }, { TEXT("hp_pct"), TEXT("Maximum health") }, { TEXT("res_pct"), TEXT("Maximum Power") }, { TEXT("armor_pct"), TEXT("Armour") },
+				{ TEXT("crit"), TEXT("Critical strike chance") }, { TEXT("dodge"), TEXT("Dodge chance") }, { TEXT("parry"), TEXT("Parry chance") }, { TEXT("block"), TEXT("Block chance") },
+				{ TEXT("dmg_pct"), TEXT("All damage done") }, { TEXT("heal_pct"), TEXT("Healing done") }, { TEXT("threat_pct"), TEXT("Threat caused") },
+				{ TEXT("speed_pct"), TEXT("Run speed") }, { TEXT("regen_pct"), TEXT("Resource regeneration") } };
+			if (K == TEXT("taken_pct")) Out.Add(FString::Printf(TEXT("Damage taken -%s."), *P));
+			else if (const FString* N = Names.Find(K)) Out.Add(FString::Printf(TEXT("%s +%s."), **N, *P));
+		}
+	}
+	return FString::Join(Out, TEXT(" "));
+}
+
 void SHLGameUI::DrawTalents() const
 {
 	FHLGame& Gm = G();
-	if (!Win(TEXT("talents"), TEXT("Talents"), 560, 330, bTalents, 400, 200)) return;
+	const float TW3 = 228, WW = TW3 * 3 + 26, WH = 446;
+	if (!Win(TEXT("talents"), TEXT("Talents"), WW, WH, bTalents, 380, 120)) return;
 	const FHLUnit& U = *Gm.PlayerUnit();
-	const int32 Points = FMath::Max(0, U.Level - 9);
-	Tx(WX, WY, U.Level < 10 ? TEXT("Talents unlock at level 10. One point per level, three trees of sixteen talents.") : FString::Printf(TEXT("Unspent talent points: %d"), Points), 11, U.Level < 10 ? ColDim : ColGold);
-	for (int32 t = 0; t < Gm.Player.Cls->Specs.Num() && t < 3; ++t)
+	const FHLClass& C = *Gm.Player.Cls;
+	const int32 Points = Gm.TalentPoints();
+	Tx(WX, WY, U.Level < 10 ? TEXT("Talents open at level 10: one point per level, 51 by level 60.") : FString::Printf(TEXT("Unspent talent points: %d"), Points), 11, U.Level < 10 || Points == 0 ? ColDim : ColGreen, true);
+	const float S = 40, GX = 52, GY = 60;
+	const FHLTalent* Hot = nullptr;
+	for (int32 t = 0; t < C.Specs.Num() && t < 3; ++t)
 	{
-		const float X = WX + t * 180, Y = WY + 30;
-		Tx(X, Y, Gm.Player.Cls->Specs[t], 12, ColGold, true);
-		for (int32 i = 0; i < 16; ++i) { Rc(X + (i % 4) * 38, Y + 24 + (i / 4) * 38, 32, 32, FLinearColor(0.14f, 0.14f, 0.14f)); Tx(X + (i % 4) * 38 + 20, Y + 24 + (i / 4) * 38 + 18, TEXT("0"), 8, ColDim); }
+		const float X0 = WX + t * TW3, Y0 = WY + 24;
+		const int32 Spent = Gm.TalentSpent(t);
+		// tree backdrop: the spec's icon, dimmed and stretched
+		Rc(X0, Y0, TW3 - 8, WH - 92, FLinearColor(0.02f, 0.02f, 0.025f));
+		if (C.SpecIcons.IsValidIndex(t)) Img(X0, Y0 + 40, TW3 - 8, TW3 - 8, HLSkillBrush(C.SpecIcons[t]), FLinearColor(0.22f, 0.2f, 0.18f, 0.55f));
+		if (C.SpecIcons.IsValidIndex(t)) Img(X0 + 6, Y0 + 6, 26, 26, HLSkillBrush(C.SpecIcons[t]));
+		Tx(X0 + 38, Y0 + 4, C.Specs[t], 16, ColGold, true);
+		Tx(X0 + 40, Y0 + 24, FString::Printf(TEXT("%d point%s"), Spent, Spent == 1 ? TEXT("") : TEXT("s")), 9, ColDim);
+		if (Hover(X0, Y0, TW3 - 8, 36) && C.SpecDesc.IsValidIndex(t) && !C.SpecDesc[t].IsEmpty()) { TipText = C.Specs[t] + TEXT("\n") + C.SpecDesc[t]; TipPos = Mouse; }
+		for (const FHLTalent* T : C.Talents)
+		{
+			if (T->Spec != t) continue;
+			const float X = X0 + 14 + T->Col * GX, Y = Y0 + 46 + (T->Tier - 1) * GY;
+			const int32 Rank = Gm.Player.Talents.FindRef(T->Id);
+			const bool bOpen = Spent >= (T->Tier - 1) * 5 && U.Level >= 10;
+			const bool bCan = Gm.CanLearnTalent(*T).IsEmpty();
+			const FLinearColor Edge = Rank >= T->Ranks ? FLinearColor(1, 0.8f, 0.3f) : Rank > 0 || bCan ? FLinearColor(0.35f, 0.9f, 0.35f) : FLinearColor(0.3f, 0.3f, 0.3f);
+			Rc(X - 2, Y - 2, S + 4, S + 4, Edge);
+			++Layer; LastKind = 1;
+			Rc(X, Y, S, S, FLinearColor(0.05f, 0.05f, 0.05f));
+			const float Lum = Rank > 0 || bCan ? 1.f : bOpen ? 0.55f : 0.3f;
+			Img(X, Y, S, S, HLSkillBrush(T->Icon), FLinearColor(Lum, Lum, Lum, 1));
+			const FString R = FString::Printf(TEXT("%d/%d"), Rank, T->Ranks);
+			++Layer; LastKind = 1;
+			Rc(X + S - TW(R, 8) - 5, Y + S - 12, TW(R, 8) + 6, 13, FLinearColor(0, 0, 0, 0.85f));
+			Tx(X + S - TW(R, 8) - 2, Y + S - 13, R, 8, Rank >= T->Ranks ? ColGold : Rank > 0 || bCan ? ColGreen : ColDim);
+			if (Hover(X, Y, S, S))
+			{
+				Hot = T;
+				if (bLClick && bCan) { bLClick = false; Gm.LearnTalent(*T); }
+			}
+		}
 	}
-	Tx(WX, WY + 220, TEXT("Talent trees are not selectable in this proof of concept."), 10, ColDim);
-	Tx(WX, WY + 238, TEXT("Respec at your trainer: $1, doubling each time to $50."), 10, ColDim);
+	if (Hot)
+	{
+		const int32 Rank = Gm.Player.Talents.FindRef(Hot->Id);
+		FString Tip = Hot->Name + TEXT("\n") + FString::Printf(TEXT("Rank %d/%d"), Rank, Hot->Ranks);
+		if (Rank > 0) Tip += TEXT("\n") + TalentEffect(*Hot, Rank);
+		if (Rank < Hot->Ranks) Tip += (Rank > 0 ? TEXT("\nNext rank: ") : TEXT("\n")) + TalentEffect(*Hot, Rank + 1);
+		const int32 Need = (Hot->Tier - 1) * 5;
+		if (Gm.TalentSpent(Hot->Spec) < Need) Tip += FString::Printf(TEXT("\nRequires %d points in %s"), Need, *C.Specs[Hot->Spec]);
+		else if (Rank < Hot->Ranks && Gm.CanLearnTalent(*Hot).IsEmpty()) Tip += TEXT("\nClick to learn");
+		if (!Hot->Desc.IsEmpty()) Tip += TEXT("\n") + Hot->Desc;
+		TipText = Tip; TipPos = Mouse;
+	}
+	Tx(WX, WY + WH - 60, FString::Printf(TEXT("Your class trainer can unlearn all talents for %s (doubling each time, to $50)."), *HLMoney(Gm.RespecCost())), 9, ColDim);
 }
 
 void SHLGameUI::DrawMenu() const
@@ -319,7 +403,12 @@ void SHLGameUI::DrawNpc() const
 		Service(TEXT("auctioneer"), TEXT("Show me the auction listings."), TEXT("auction"));
 		Service(TEXT("redcar"), TEXT("Where do the red cars go?"), TEXT("redcar"));
 		if (Np.HasRole(TEXT("innkeeper"))) { if (Btn(WX, Y, 410, 24, TEXT("Make this inn my home."), true, 10)) { Gm.System(TEXT("The Roosevelt Hotel is now your home. Resting here earns rested experience.")); } Y += 30; }
-		if (Np.HasRole(TEXT("repair"))) { if (Btn(WX, Y, 410, 24, TEXT("Repair my gear."), true, 10)) Gm.System(TEXT("Your equipment is in good repair.")); Y += 30; }
+		if (Np.HasRole(TEXT("repair")))
+		{
+			const int32 Cost = Gm.RepairCost();
+			if (Btn(WX, Y, 410, 24, Cost > 0 ? FString::Printf(TEXT("Repair my gear (%s)."), *HLMoney(Cost)) : FString(TEXT("Repair my gear.")), true, 10)) Gm.RepairAll();
+			Y += 30;
+		}
 		return;
 	}
 	if (Gm.OpenNpcMode.StartsWith(TEXT("quest:")))
@@ -394,6 +483,7 @@ void SHLGameUI::DrawNpc() const
 		FString More;
 		for (int32 L : Later) More += FString::Printf(TEXT("%d  "), L);
 		Tx(WX, Y + 6, TEXT("Further abilities and ranks at levels: ") + More, 9, ColDim);
+		if (Gm.TalentSpent() > 0 && Btn(WX, Y + 26, 220, 22, FString::Printf(TEXT("Unlearn talents  %s"), *HLMoney(Gm.RespecCost())), Gm.Player.Cents >= Gm.RespecCost(), 10)) Gm.ResetTalents();
 		return;
 	}
 	if (Gm.OpenNpcMode == TEXT("prof"))

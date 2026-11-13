@@ -24,3 +24,4 @@ tools/itemgen/state/sample_request.txt
 *.tmp
 *.part
 __pycache__/
+art-gen/originals/

@@ -1,0 +1,3801 @@
+{
+ "electrician": [
+  {
+   "id": "tal_elc_spark_gap",
+   "name": "Spark Gap",
+   "class": "electrician",
+   "spec": 0,
+   "tier": 1,
+   "col": 2,
+   "ranks": 5,
+   "mods": {
+    "cost:ab_elc_arc": 0.04
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_elc_live_rail",
+   "name": "Live Rail",
+   "class": "electrician",
+   "spec": 0,
+   "tier": 2,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "cost:ab_elc_live_wire": 0.05
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_elc_crossed_wires",
+   "name": "Crossed Wires",
+   "class": "electrician",
+   "spec": 0,
+   "tier": 3,
+   "col": 0,
+   "ranks": 2,
+   "mods": {
+    "ab:ab_elc_chain": 0.05
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_elc_hollywood_current",
+   "name": "Hollywood Current",
+   "class": "electrician",
+   "spec": 0,
+   "tier": 3,
+   "col": 1,
+   "ranks": 3,
+   "mods": {
+    "dmg_pct": 0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_elc_rubber_boots",
+   "name": "Rubber Boots",
+   "class": "electrician",
+   "spec": 0,
+   "tier": 3,
+   "col": 2,
+   "ranks": 2,
+   "mods": {
+    "taken_pct": -0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_elc_quick_draw",
+   "name": "Quick Draw",
+   "class": "electrician",
+   "spec": 0,
+   "tier": 3,
+   "col": 3,
+   "ranks": 3,
+   "mods": {
+    "cost:ab_elc_chain": 0.06
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_elc_flash_point",
+   "name": "Flash Point",
+   "class": "electrician",
+   "spec": 0,
+   "tier": 4,
+   "col": 0,
+   "ranks": 3,
+   "mods": {
+    "ab:ab_elc_overload": 0.05
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_elc_long_fuse",
+   "name": "Long Fuse",
+   "class": "electrician",
+   "spec": 0,
+   "tier": 4,
+   "col": 1,
+   "ranks": 3,
+   "mods": {
+    "int_pct": 0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_elc_feedback_loop",
+   "name": "Feedback Loop",
+   "class": "electrician",
+   "spec": 0,
+   "tier": 4,
+   "col": 2,
+   "ranks": 2,
+   "mods": {
+    "regen_pct": 0.05
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_elc_sparks_fly",
+   "name": "Sparks Fly",
+   "class": "electrician",
+   "spec": 0,
+   "tier": 5,
+   "col": 0,
+   "ranks": 3,
+   "mods": {
+    "crit": 0.01,
+    "ab:ab_elc_arc": 0.04
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_elc_bolt_from_blue",
+   "name": "Bolt from the Blue",
+   "class": "electrician",
+   "spec": 0,
+   "tier": 5,
+   "col": 1,
+   "ranks": 1,
+   "mods": {
+    "dmg_pct": 0.05,
+    "crit": 0.05
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_elc_shell_shock",
+   "name": "Shell Shock",
+   "class": "electrician",
+   "spec": 0,
+   "tier": 5,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "res_pct": 0.03
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_elc_klieg_eyes",
+   "name": "Klieg Eyes",
+   "class": "electrician",
+   "spec": 1,
+   "tier": 1,
+   "col": 2,
+   "ranks": 5,
+   "mods": {
+    "cost:ab_elc_floodlight": 0.04
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_elc_hot_spot",
+   "name": "Hot Spot",
+   "class": "electrician",
+   "spec": 1,
+   "tier": 2,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "crit": 0.01
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_elc_barn_doors",
+   "name": "Barn Doors",
+   "class": "electrician",
+   "spec": 1,
+   "tier": 3,
+   "col": 0,
+   "ranks": 2,
+   "mods": {
+    "ab:ab_elc_short": 0.1
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_elc_footlights",
+   "name": "Footlights",
+   "class": "electrician",
+   "spec": 1,
+   "tier": 3,
+   "col": 1,
+   "ranks": 3,
+   "mods": {
+    "spi_pct": 0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_elc_gaffer_tape",
+   "name": "Gaffer Tape",
+   "class": "electrician",
+   "spec": 1,
+   "tier": 3,
+   "col": 2,
+   "ranks": 2,
+   "mods": {
+    "cost:ab_elc_short": 0.1
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_elc_searchlight_sweep",
+   "name": "Searchlight Sweep",
+   "class": "electrician",
+   "spec": 1,
+   "tier": 3,
+   "col": 3,
+   "ranks": 3,
+   "mods": {
+    "ab:ab_elc_chain": 0.05
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_elc_sun_gun",
+   "name": "Sun Gun",
+   "class": "electrician",
+   "spec": 1,
+   "tier": 4,
+   "col": 0,
+   "ranks": 3,
+   "mods": {
+    "ab:ab_elc_overload": 0.06
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_elc_lamp_glare",
+   "name": "Arc Lamp Glare",
+   "class": "electrician",
+   "spec": 1,
+   "tier": 4,
+   "col": 1,
+   "ranks": 2,
+   "mods": {
+    "threat_pct": 0.0
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_elc_gel_filter",
+   "name": "Gel Filter",
+   "class": "electrician",
+   "spec": 1,
+   "tier": 4,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "taken_pct": -0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_elc_box_office",
+   "name": "Box Office",
+   "class": "electrician",
+   "spec": 1,
+   "tier": 5,
+   "col": 0,
+   "ranks": 3,
+   "mods": {
+    "res_pct": 0.04
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_elc_grand_premiere",
+   "name": "Grand Premiere",
+   "class": "electrician",
+   "spec": 1,
+   "tier": 5,
+   "col": 1,
+   "ranks": 1,
+   "mods": {
+    "ab:ab_elc_floodlight": 0.3,
+    "dmg_pct": 0.04
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_elc_nitrate_stock",
+   "name": "Nitrate Stock",
+   "class": "electrician",
+   "spec": 1,
+   "tier": 5,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "ab:ab_elc_live_wire": 0.06
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_elc_step_up_coil",
+   "name": "Step-Up Coil",
+   "class": "electrician",
+   "spec": 2,
+   "tier": 1,
+   "col": 2,
+   "ranks": 5,
+   "mods": {
+    "spi_pct": 0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_elc_rubber_gloves",
+   "name": "Rubber Gloves",
+   "class": "electrician",
+   "spec": 2,
+   "tier": 2,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "cost:ab_elc_insulate": 0.06
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_elc_surge_protector",
+   "name": "Surge Protector",
+   "class": "electrician",
+   "spec": 2,
+   "tier": 3,
+   "col": 0,
+   "ranks": 2,
+   "mods": {
+    "cd:ab_elc_insulate": 2.0
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_elc_power_station",
+   "name": "Power Station",
+   "class": "electrician",
+   "spec": 2,
+   "tier": 3,
+   "col": 1,
+   "ranks": 3,
+   "mods": {
+    "int_pct": 0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_elc_carbon_brushes",
+   "name": "Carbon Brushes",
+   "class": "electrician",
+   "spec": 2,
+   "tier": 3,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "hp_pct": 0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_elc_heavy_load",
+   "name": "Heavy Load",
+   "class": "electrician",
+   "spec": 2,
+   "tier": 3,
+   "col": 3,
+   "ranks": 2,
+   "mods": {
+    "ab:ab_elc_overload": 0.05
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_elc_field_telephone",
+   "name": "Field Telephone",
+   "class": "electrician",
+   "spec": 2,
+   "tier": 4,
+   "col": 0,
+   "ranks": 3,
+   "mods": {
+    "heal_pct": 0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_elc_sandbagged",
+   "name": "Sandbagged",
+   "class": "electrician",
+   "spec": 2,
+   "tier": 4,
+   "col": 1,
+   "ranks": 3,
+   "mods": {
+    "taken_pct": -0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_elc_doughboy_ration",
+   "name": "Doughboy Ration",
+   "class": "electrician",
+   "spec": 2,
+   "tier": 4,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "sta_pct": 0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_elc_dugout_shelter",
+   "name": "Dugout Shelter",
+   "class": "electrician",
+   "spec": 2,
+   "tier": 5,
+   "col": 0,
+   "ranks": 3,
+   "mods": {
+    "armor_pct": 0.05
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_elc_powerhouse",
+   "name": "Powerhouse",
+   "class": "electrician",
+   "spec": 2,
+   "tier": 5,
+   "col": 1,
+   "ranks": 1,
+   "mods": {
+    "ab:ab_elc_insulate": 0.3,
+    "res_pct": 0.15
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_elc_ground_fault",
+   "name": "Ground Fault",
+   "class": "electrician",
+   "spec": 2,
+   "tier": 5,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "dmg_pct": 0.02
+   },
+   "desc": ""
+  }
+ ],
+ "gunman": [
+  {
+   "id": "tal_gun_expert_badge",
+   "name": "Expert Badge",
+   "class": "gunman",
+   "spec": 0,
+   "tier": 1,
+   "col": 2,
+   "ranks": 5,
+   "mods": {
+    "cost:ab_gun_aimed": 0.04
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_gun_trench_patience",
+   "name": "Trench Patience",
+   "class": "gunman",
+   "spec": 0,
+   "tier": 2,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "cd:ab_gun_nerves": 5.0
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_gun_sandbag_nest",
+   "name": "Sandbag Nest",
+   "class": "gunman",
+   "spec": 0,
+   "tier": 3,
+   "col": 0,
+   "ranks": 3,
+   "mods": {
+    "armor_pct": 0.04
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_gun_iron_sights",
+   "name": "Iron Sights",
+   "class": "gunman",
+   "spec": 0,
+   "tier": 3,
+   "col": 1,
+   "ranks": 2,
+   "mods": {
+    "cost:ab_gun_rights": 0.15
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_gun_deep_breath",
+   "name": "Deep Breath",
+   "class": "gunman",
+   "spec": 0,
+   "tier": 3,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "res_pct": 0.05
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_gun_pinning_fire",
+   "name": "Pinning Fire",
+   "class": "gunman",
+   "spec": 0,
+   "tier": 3,
+   "col": 3,
+   "ranks": 2,
+   "mods": {
+    "cost:ab_gun_knee": 0.2
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_gun_bolt_action_rhythm",
+   "name": "Bolt-Action Rhythm",
+   "class": "gunman",
+   "spec": 0,
+   "tier": 4,
+   "col": 0,
+   "ranks": 3,
+   "mods": {
+    "regen_pct": 0.06
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_gun_snap_shooting",
+   "name": "Snap Shooting",
+   "class": "gunman",
+   "spec": 0,
+   "tier": 4,
+   "col": 1,
+   "ranks": 3,
+   "mods": {
+    "ab:ab_gun_hip": 0.06
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_gun_steady_under_fire",
+   "name": "Steady Under Fire",
+   "class": "gunman",
+   "spec": 0,
+   "tier": 4,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "taken_pct": -0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_gun_final_reel",
+   "name": "Final Reel",
+   "class": "gunman",
+   "spec": 0,
+   "tier": 5,
+   "col": 0,
+   "ranks": 3,
+   "mods": {
+    "ab:ab_gun_aimed": 0.05
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_gun_one_shot_one_bug",
+   "name": "One Shot, One Bug",
+   "class": "gunman",
+   "spec": 0,
+   "tier": 5,
+   "col": 1,
+   "ranks": 1,
+   "mods": {
+    "crit": 0.05,
+    "ab:ab_gun_rights": 0.25
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_gun_sergeant_york",
+   "name": "Sergeant York",
+   "class": "gunman",
+   "spec": 0,
+   "tier": 5,
+   "col": 2,
+   "ranks": 2,
+   "mods": {
+    "dmg_pct": 0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_gun_trick_holster",
+   "name": "Trick Holster",
+   "class": "gunman",
+   "spec": 1,
+   "tier": 1,
+   "col": 2,
+   "ranks": 5,
+   "mods": {
+    "cost:ab_gun_hip": 0.04
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_gun_matinee_idol",
+   "name": "Matinee Idol",
+   "class": "gunman",
+   "spec": 1,
+   "tier": 2,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "crit": 0.01
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_gun_six_gun_waltz",
+   "name": "Six-Gun Waltz",
+   "class": "gunman",
+   "spec": 1,
+   "tier": 3,
+   "col": 0,
+   "ranks": 3,
+   "mods": {
+    "cd:ab_gun_fan": 1.0
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_gun_stunt_double",
+   "name": "Stunt Double",
+   "class": "gunman",
+   "spec": 1,
+   "tier": 3,
+   "col": 1,
+   "ranks": 3,
+   "mods": {
+    "dodge": 0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_gun_hot_lead",
+   "name": "Hot Lead",
+   "class": "gunman",
+   "spec": 1,
+   "tier": 3,
+   "col": 2,
+   "ranks": 5,
+   "mods": {
+    "ab:ab_gun_hip": 0.06
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_gun_rapid_reload",
+   "name": "Rapid Reload",
+   "class": "gunman",
+   "spec": 1,
+   "tier": 3,
+   "col": 3,
+   "ranks": 2,
+   "mods": {
+    "cost:ab_gun_fan": 0.15
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_gun_wild_west_show",
+   "name": "Wild West Show",
+   "class": "gunman",
+   "spec": 1,
+   "tier": 4,
+   "col": 0,
+   "ranks": 5,
+   "mods": {
+    "agi_pct": 0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_gun_bullet_ballet",
+   "name": "Bullet Ballet",
+   "class": "gunman",
+   "spec": 1,
+   "tier": 4,
+   "col": 1,
+   "ranks": 3,
+   "mods": {
+    "speed_pct": 0.03
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_gun_nickelodeon_nerves",
+   "name": "Nickelodeon Nerves",
+   "class": "gunman",
+   "spec": 1,
+   "tier": 4,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "cd:ab_gun_nerves": 4.0
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_gun_encore_shots",
+   "name": "Encore Shots",
+   "class": "gunman",
+   "spec": 1,
+   "tier": 5,
+   "col": 0,
+   "ranks": 3,
+   "mods": {
+    "ab:ab_gun_fan": 0.05
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_gun_ricochet_romance",
+   "name": "Ricochet Romance",
+   "class": "gunman",
+   "spec": 1,
+   "tier": 5,
+   "col": 1,
+   "ranks": 1,
+   "mods": {
+    "dmg_pct": 0.05,
+    "ab:ab_gun_hip": 0.2
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_gun_extra_cylinders",
+   "name": "Extra Cylinders",
+   "class": "gunman",
+   "spec": 1,
+   "tier": 5,
+   "col": 2,
+   "ranks": 2,
+   "mods": {
+    "res_pct": 0.05
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_gun_bug_spray",
+   "name": "Bug Spray",
+   "class": "gunman",
+   "spec": 2,
+   "tier": 1,
+   "col": 2,
+   "ranks": 5,
+   "mods": {
+    "taken_pct": -0.01
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_gun_game_warden",
+   "name": "Game Warden",
+   "class": "gunman",
+   "spec": 2,
+   "tier": 2,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "hp_pct": 0.03
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_gun_snare_line",
+   "name": "Snare Line",
+   "class": "gunman",
+   "spec": 2,
+   "tier": 3,
+   "col": 0,
+   "ranks": 2,
+   "mods": {
+    "cd:ab_gun_knee": 1.5
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_gun_scattergun",
+   "name": "Scattergun",
+   "class": "gunman",
+   "spec": 2,
+   "tier": 3,
+   "col": 1,
+   "ranks": 5,
+   "mods": {
+    "cost:ab_gun_buckshot": 0.04
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_gun_thick_hide_coat",
+   "name": "Thick Hide Coat",
+   "class": "gunman",
+   "spec": 2,
+   "tier": 3,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "armor_pct": 0.05
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_gun_big_game_nose",
+   "name": "Big Game Nose",
+   "class": "gunman",
+   "spec": 2,
+   "tier": 3,
+   "col": 3,
+   "ranks": 3,
+   "mods": {
+    "crit": 0.01
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_gun_exterminators_pride",
+   "name": "Exterminator's Pride",
+   "class": "gunman",
+   "spec": 2,
+   "tier": 4,
+   "col": 0,
+   "ranks": 5,
+   "mods": {
+    "dmg_pct": 0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_gun_field_rations",
+   "name": "Field Rations",
+   "class": "gunman",
+   "spec": 2,
+   "tier": 4,
+   "col": 1,
+   "ranks": 3,
+   "mods": {
+    "regen_pct": 0.06
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_gun_bushwhacker",
+   "name": "Bushwhacker",
+   "class": "gunman",
+   "spec": 2,
+   "tier": 4,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "ab:ab_gun_aimed": 0.06
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_gun_hard_country",
+   "name": "Hard Country",
+   "class": "gunman",
+   "spec": 2,
+   "tier": 5,
+   "col": 0,
+   "ranks": 3,
+   "mods": {
+    "agi_pct": 0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_gun_swarm_season",
+   "name": "Swarm Season",
+   "class": "gunman",
+   "spec": 2,
+   "tier": 5,
+   "col": 1,
+   "ranks": 1,
+   "mods": {
+    "ab:ab_gun_buckshot": 0.3,
+    "dmg_pct": 0.04
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_gun_old_trapper",
+   "name": "Old Trapper",
+   "class": "gunman",
+   "spec": 2,
+   "tier": 5,
+   "col": 2,
+   "ranks": 2,
+   "mods": {
+    "dodge": 0.02
+   },
+   "desc": ""
+  }
+ ],
+ "veteran": [
+  {
+   "id": "tal_vet_mess_hall_rations",
+   "name": "Mess Hall Rations",
+   "class": "veteran",
+   "spec": 0,
+   "tier": 1,
+   "col": 2,
+   "ranks": 5,
+   "mods": {
+    "hp_pct": 0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_vet_kitcheners_stare",
+   "name": "Kitchener's Stare",
+   "class": "veteran",
+   "spec": 0,
+   "tier": 2,
+   "col": 2,
+   "ranks": 2,
+   "mods": {
+    "cost:ab_vet_hold": 0.15
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_vet_duckboard_footing",
+   "name": "Duckboard Footing",
+   "class": "veteran",
+   "spec": 0,
+   "tier": 3,
+   "col": 0,
+   "ranks": 5,
+   "mods": {
+    "block": 0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_vet_dugout_discipline",
+   "name": "Dugout Discipline",
+   "class": "veteran",
+   "spec": 0,
+   "tier": 3,
+   "col": 1,
+   "ranks": 5,
+   "mods": {
+    "cd:ab_vet_dig_in": 4.0
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_vet_second_wind",
+   "name": "Second Wind",
+   "class": "veteran",
+   "spec": 0,
+   "tier": 3,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "regen_pct": 0.05
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_vet_spit_and_polish",
+   "name": "Spit and Polish",
+   "class": "veteran",
+   "spec": 0,
+   "tier": 3,
+   "col": 3,
+   "ranks": 3,
+   "mods": {
+    "taken_pct": -0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_vet_drill_sergeant",
+   "name": "Drill Sergeant",
+   "class": "veteran",
+   "spec": 0,
+   "tier": 4,
+   "col": 0,
+   "ranks": 3,
+   "mods": {
+    "threat_pct": 0.08,
+    "ab:ab_vet_sweep": 0.05
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_vet_dry_socks",
+   "name": "Dry Socks",
+   "class": "veteran",
+   "spec": 0,
+   "tier": 4,
+   "col": 1,
+   "ranks": 3,
+   "mods": {
+    "dodge": 0.01
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_vet_rum_ration",
+   "name": "Rum Ration",
+   "class": "veteran",
+   "spec": 0,
+   "tier": 4,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "res_pct": 0.05
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_vet_kit_inspection",
+   "name": "Kit Inspection",
+   "class": "veteran",
+   "spec": 0,
+   "tier": 5,
+   "col": 0,
+   "ranks": 3,
+   "mods": {
+    "cost:ab_vet_sweep": 0.1
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_vet_the_last_ditch",
+   "name": "The Last Ditch",
+   "class": "veteran",
+   "spec": 0,
+   "tier": 5,
+   "col": 1,
+   "ranks": 1,
+   "mods": {
+    "armor_pct": 0.18,
+    "hp_pct": 0.12
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_vet_stripes_earned",
+   "name": "Stripes Earned",
+   "class": "veteran",
+   "spec": 0,
+   "tier": 5,
+   "col": 2,
+   "ranks": 5,
+   "mods": {
+    "str_pct": 0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_vet_fixed_bayonets",
+   "name": "Fixed Bayonets",
+   "class": "veteran",
+   "spec": 1,
+   "tier": 1,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "cost:ab_vet_thrust": 0.06
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_vet_creeping_barrage",
+   "name": "Creeping Barrage",
+   "class": "veteran",
+   "spec": 1,
+   "tier": 2,
+   "col": 2,
+   "ranks": 5,
+   "mods": {
+    "ab:ab_vet_sweep": 0.06
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_vet_lee_enfield_weight",
+   "name": "Lee-Enfield Weight",
+   "class": "veteran",
+   "spec": 1,
+   "tier": 3,
+   "col": 0,
+   "ranks": 5,
+   "mods": {
+    "dmg_pct": 0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_vet_trench_raider",
+   "name": "Trench Raider",
+   "class": "veteran",
+   "spec": 1,
+   "tier": 3,
+   "col": 1,
+   "ranks": 2,
+   "mods": {
+    "cd:ab_vet_sweep": 1.0
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_vet_short_rush",
+   "name": "Short Rush",
+   "class": "veteran",
+   "spec": 1,
+   "tier": 3,
+   "col": 2,
+   "ranks": 2,
+   "mods": {
+    "speed_pct": 0.03
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_vet_blood_up",
+   "name": "Blood Up",
+   "class": "veteran",
+   "spec": 1,
+   "tier": 3,
+   "col": 3,
+   "ranks": 3,
+   "mods": {
+    "regen_pct": 0.06
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_vet_light_pack",
+   "name": "Light Pack",
+   "class": "veteran",
+   "spec": 1,
+   "tier": 4,
+   "col": 0,
+   "ranks": 3,
+   "mods": {
+    "cost:ab_vet_over_top": 0.1
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_vet_kill_or_be_killed",
+   "name": "Kill or Be Killed",
+   "class": "veteran",
+   "spec": 1,
+   "tier": 4,
+   "col": 1,
+   "ranks": 5,
+   "mods": {
+    "agi_pct": 0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_vet_iron_nerve",
+   "name": "Iron Nerve",
+   "class": "veteran",
+   "spec": 1,
+   "tier": 4,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "taken_pct": -0.01
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_vet_hard_tack",
+   "name": "Hard Tack",
+   "class": "veteran",
+   "spec": 1,
+   "tier": 5,
+   "col": 0,
+   "ranks": 3,
+   "mods": {
+    "sta_pct": 0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_vet_over_and_out",
+   "name": "Over and Out",
+   "class": "veteran",
+   "spec": 1,
+   "tier": 5,
+   "col": 1,
+   "ranks": 1,
+   "mods": {
+    "crit": 0.05,
+    "dmg_pct": 0.06
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_vet_shell_shocked_calm",
+   "name": "Shell-Shocked Calm",
+   "class": "veteran",
+   "spec": 1,
+   "tier": 5,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "hp_pct": 0.03
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_vet_cauliflower_ear",
+   "name": "Cauliflower Ear",
+   "class": "veteran",
+   "spec": 2,
+   "tier": 1,
+   "col": 2,
+   "ranks": 5,
+   "mods": {
+    "dodge": 0.01
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_vet_saloon_shove",
+   "name": "Saloon Shove",
+   "class": "veteran",
+   "spec": 2,
+   "tier": 2,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "cost:ab_vet_butt": 0.1
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_vet_prohibition_gin",
+   "name": "Prohibition Gin",
+   "class": "veteran",
+   "spec": 2,
+   "tier": 3,
+   "col": 0,
+   "ranks": 3,
+   "mods": {
+    "regen_pct": 0.06
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_vet_knuckle_duster",
+   "name": "Knuckle-Duster",
+   "class": "veteran",
+   "spec": 2,
+   "tier": 3,
+   "col": 1,
+   "ranks": 5,
+   "mods": {
+    "ab:ab_vet_thrust": 0.05
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_vet_the_clinch",
+   "name": "The Clinch",
+   "class": "veteran",
+   "spec": 2,
+   "tier": 3,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "taken_pct": -0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_vet_rough_house",
+   "name": "Rough House",
+   "class": "veteran",
+   "spec": 2,
+   "tier": 3,
+   "col": 3,
+   "ranks": 3,
+   "mods": {
+    "threat_pct": 0.07,
+    "cd:ab_vet_hold": 1.0
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_vet_stunt_double",
+   "name": "Stunt Double",
+   "class": "veteran",
+   "spec": 2,
+   "tier": 4,
+   "col": 0,
+   "ranks": 3,
+   "mods": {
+    "armor_pct": 0.04
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_vet_back_lot_scrapper",
+   "name": "Back-Lot Scrapper",
+   "class": "veteran",
+   "spec": 2,
+   "tier": 4,
+   "col": 1,
+   "ranks": 5,
+   "mods": {
+    "crit": 0.01
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_vet_speakeasy_bouncer",
+   "name": "Speakeasy Bouncer",
+   "class": "veteran",
+   "spec": 2,
+   "tier": 4,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "ab:ab_vet_sweep": 0.07
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_vet_studio_muscle",
+   "name": "Studio Muscle",
+   "class": "veteran",
+   "spec": 2,
+   "tier": 5,
+   "col": 0,
+   "ranks": 5,
+   "mods": {
+    "sta_pct": 0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_vet_last_man_standing",
+   "name": "Last Man Standing",
+   "class": "veteran",
+   "spec": 2,
+   "tier": 5,
+   "col": 1,
+   "ranks": 1,
+   "mods": {
+    "parry": 0.06,
+    "dodge": 0.06
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_vet_pugs_grin",
+   "name": "Pug's Grin",
+   "class": "veteran",
+   "spec": 2,
+   "tier": 5,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "res_pct": 0.04
+   },
+   "desc": ""
+  }
+ ],
+ "nurse": [
+  {
+   "id": "tal_nur_cheap_gauze",
+   "name": "Cheap Gauze",
+   "class": "nurse",
+   "spec": 0,
+   "tier": 1,
+   "col": 2,
+   "ranks": 5,
+   "mods": {
+    "cost:ab_nur_dress": 0.04
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_nur_cool_head",
+   "name": "Cool Head",
+   "class": "nurse",
+   "spec": 0,
+   "tier": 2,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "taken_pct": -0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_nur_steady_hands",
+   "name": "Steady Hands",
+   "class": "nurse",
+   "spec": 0,
+   "tier": 3,
+   "col": 0,
+   "ranks": 5,
+   "mods": {
+    "crit": 0.01
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_nur_cheap_ammonia",
+   "name": "Cheap Ammonia",
+   "class": "nurse",
+   "spec": 0,
+   "tier": 3,
+   "col": 1,
+   "ranks": 2,
+   "mods": {
+    "cost:ab_nur_salts": 0.1
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_nur_second_wind",
+   "name": "Second Wind",
+   "class": "nurse",
+   "spec": 0,
+   "tier": 3,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "regen_pct": 0.05
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_nur_hard_floor_sleeper",
+   "name": "Hard Floor Sleeper",
+   "class": "nurse",
+   "spec": 0,
+   "tier": 3,
+   "col": 3,
+   "ranks": 5,
+   "mods": {
+    "sta_pct": 0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_nur_casualty_clearing",
+   "name": "Casualty Clearing Station",
+   "class": "nurse",
+   "spec": 0,
+   "tier": 4,
+   "col": 0,
+   "ranks": 3,
+   "mods": {
+    "heal_pct": 0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_nur_trench_constitution",
+   "name": "Trench Constitution",
+   "class": "nurse",
+   "spec": 0,
+   "tier": 4,
+   "col": 1,
+   "ranks": 3,
+   "mods": {
+    "hp_pct": 0.03
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_nur_brisk_rounds",
+   "name": "Brisk Rounds",
+   "class": "nurse",
+   "spec": 0,
+   "tier": 4,
+   "col": 2,
+   "ranks": 2,
+   "mods": {
+    "speed_pct": 0.04
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_nur_stretcher_bearer",
+   "name": "Stretcher Bearer",
+   "class": "nurse",
+   "spec": 0,
+   "tier": 5,
+   "col": 0,
+   "ranks": 3,
+   "mods": {
+    "int_pct": 0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_nur_angel_of_mons",
+   "name": "Angel of Mons",
+   "class": "nurse",
+   "spec": 0,
+   "tier": 5,
+   "col": 1,
+   "ranks": 1,
+   "mods": {
+    "heal_pct": 0.06,
+    "crit": 0.06
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_nur_clean_sheets",
+   "name": "Clean Sheets",
+   "class": "nurse",
+   "spec": 0,
+   "tier": 5,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "res_pct": 0.04
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_nur_house_calls",
+   "name": "House Calls",
+   "class": "nurse",
+   "spec": 1,
+   "tier": 1,
+   "col": 2,
+   "ranks": 5,
+   "mods": {
+    "regen_pct": 0.03
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_nur_cod_liver_oil",
+   "name": "Cod Liver Oil",
+   "class": "nurse",
+   "spec": 1,
+   "tier": 2,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "cost:ab_nur_tonic": 0.06
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_nur_doctors_orders",
+   "name": "Doctor's Orders",
+   "class": "nurse",
+   "spec": 1,
+   "tier": 3,
+   "col": 0,
+   "ranks": 5,
+   "mods": {
+    "heal_pct": 0.01
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_nur_chloroform_calm",
+   "name": "Chloroform Calm",
+   "class": "nurse",
+   "spec": 1,
+   "tier": 3,
+   "col": 1,
+   "ranks": 3,
+   "mods": {
+    "threat_pct": 0.0
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_nur_sterile_field",
+   "name": "Sterile Field",
+   "class": "nurse",
+   "spec": 1,
+   "tier": 3,
+   "col": 2,
+   "ranks": 5,
+   "mods": {
+    "crit": 0.01
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_nur_quiet_ward",
+   "name": "Quiet Ward",
+   "class": "nurse",
+   "spec": 1,
+   "tier": 3,
+   "col": 3,
+   "ranks": 3,
+   "mods": {
+    "spi_pct": 0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_nur_bedside_vigil",
+   "name": "Bedside Vigil",
+   "class": "nurse",
+   "spec": 1,
+   "tier": 4,
+   "col": 0,
+   "ranks": 3,
+   "mods": {
+    "res_pct": 0.04
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_nur_laudanum_drip",
+   "name": "Laudanum Drip",
+   "class": "nurse",
+   "spec": 1,
+   "tier": 4,
+   "col": 1,
+   "ranks": 3,
+   "mods": {
+    "ab:ab_nur_tonic": 0.05,
+    "regen_pct": 0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_nur_hospital_corners",
+   "name": "Hospital Corners",
+   "class": "nurse",
+   "spec": 1,
+   "tier": 4,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "taken_pct": -0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_nur_penicillin_dream",
+   "name": "Penicillin Dream",
+   "class": "nurse",
+   "spec": 1,
+   "tier": 5,
+   "col": 0,
+   "ranks": 3,
+   "mods": {
+    "ab:ab_nur_dress": 0.06
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_nur_miracle_of_lourdes",
+   "name": "Miracle of Lourdes",
+   "class": "nurse",
+   "spec": 1,
+   "tier": 5,
+   "col": 1,
+   "ranks": 1,
+   "mods": {
+    "ab:ab_nur_surgery": 0.3,
+    "heal_pct": 0.06
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_nur_brisk_gait",
+   "name": "Brisk Gait",
+   "class": "nurse",
+   "spec": 1,
+   "tier": 5,
+   "col": 2,
+   "ranks": 2,
+   "mods": {
+    "speed_pct": 0.03
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_nur_bunsen_burner",
+   "name": "Bunsen Burner",
+   "class": "nurse",
+   "spec": 2,
+   "tier": 1,
+   "col": 2,
+   "ranks": 5,
+   "mods": {
+    "dmg_pct": 0.01
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_nur_volatile_mixture",
+   "name": "Volatile Mixture",
+   "class": "nurse",
+   "spec": 2,
+   "tier": 2,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "crit": 0.01
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_nur_measured_drops",
+   "name": "Measured Drops",
+   "class": "nurse",
+   "spec": 2,
+   "tier": 3,
+   "col": 0,
+   "ranks": 3,
+   "mods": {
+    "cost:ab_nur_ether": 0.06
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_nur_mustard_memory",
+   "name": "Mustard Memory",
+   "class": "nurse",
+   "spec": 2,
+   "tier": 3,
+   "col": 1,
+   "ranks": 2,
+   "mods": {
+    "ab:ab_nur_sedative": 0.1
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_nur_fume_hood",
+   "name": "Fume Hood",
+   "class": "nurse",
+   "spec": 2,
+   "tier": 3,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "taken_pct": -0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_nur_cheap_reagents",
+   "name": "Cheap Reagents",
+   "class": "nurse",
+   "spec": 2,
+   "tier": 3,
+   "col": 3,
+   "ranks": 2,
+   "mods": {
+    "cost:ab_nur_iodine": 0.08
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_nur_mad_scientist",
+   "name": "Mad Scientist",
+   "class": "nurse",
+   "spec": 2,
+   "tier": 4,
+   "col": 0,
+   "ranks": 3,
+   "mods": {
+    "int_pct": 0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_nur_distillation",
+   "name": "Distillation",
+   "class": "nurse",
+   "spec": 2,
+   "tier": 4,
+   "col": 1,
+   "ranks": 3,
+   "mods": {
+    "regen_pct": 0.05
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_nur_quiet_reagent",
+   "name": "Quiet Reagent",
+   "class": "nurse",
+   "spec": 2,
+   "tier": 4,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "threat_pct": 0.0
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_nur_lethal_dosage",
+   "name": "Lethal Dosage",
+   "class": "nurse",
+   "spec": 2,
+   "tier": 5,
+   "col": 0,
+   "ranks": 3,
+   "mods": {
+    "ab:ab_nur_ether": 0.04,
+    "ab:ab_nur_iodine": 0.04
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_nur_gas_gas_quick",
+   "name": "Gas! Gas! Quick!",
+   "class": "nurse",
+   "spec": 2,
+   "tier": 5,
+   "col": 1,
+   "ranks": 1,
+   "mods": {
+    "dmg_pct": 0.06,
+    "crit": 0.05
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_nur_hazmat_gloves",
+   "name": "Rubber Gloves",
+   "class": "nurse",
+   "spec": 2,
+   "tier": 5,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "hp_pct": 0.03
+   },
+   "desc": ""
+  }
+ ],
+ "preacher": [
+  {
+   "id": "tal_pre_sawdust_trail",
+   "name": "Sawdust Trail",
+   "class": "preacher",
+   "spec": 0,
+   "tier": 1,
+   "col": 2,
+   "ranks": 5,
+   "mods": {
+    "int_pct": 0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pre_faith_healing",
+   "name": "Faith Healing",
+   "class": "preacher",
+   "spec": 0,
+   "tier": 2,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "heal_pct": 0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pre_second_collection",
+   "name": "Second Collection",
+   "class": "preacher",
+   "spec": 0,
+   "tier": 3,
+   "col": 0,
+   "ranks": 3,
+   "mods": {
+    "cost:ab_pre_hymn": 0.1
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pre_big_tent",
+   "name": "Big Tent",
+   "class": "preacher",
+   "spec": 0,
+   "tier": 3,
+   "col": 1,
+   "ranks": 5,
+   "mods": {
+    "ab:ab_pre_revival": 0.06
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pre_radio_ministry",
+   "name": "Radio Ministry",
+   "class": "preacher",
+   "spec": 0,
+   "tier": 3,
+   "col": 2,
+   "ranks": 5,
+   "mods": {
+    "res_pct": 0.04
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pre_circuit_rider",
+   "name": "Circuit Rider",
+   "class": "preacher",
+   "spec": 0,
+   "tier": 3,
+   "col": 3,
+   "ranks": 2,
+   "mods": {
+    "speed_pct": 0.04
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pre_hallelujah_moment",
+   "name": "Hallelujah Moment",
+   "class": "preacher",
+   "spec": 0,
+   "tier": 4,
+   "col": 0,
+   "ranks": 3,
+   "mods": {
+    "crit": 0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pre_sunday_best",
+   "name": "Sunday Best",
+   "class": "preacher",
+   "spec": 0,
+   "tier": 4,
+   "col": 1,
+   "ranks": 3,
+   "mods": {
+    "cost:ab_pre_revival": 0.08
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pre_soup_kitchen",
+   "name": "Soup Kitchen",
+   "class": "preacher",
+   "spec": 0,
+   "tier": 4,
+   "col": 2,
+   "ranks": 2,
+   "mods": {
+    "cost:ab_pre_hands": 0.1
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pre_altar_call",
+   "name": "Altar Call",
+   "class": "preacher",
+   "spec": 0,
+   "tier": 5,
+   "col": 0,
+   "ranks": 3,
+   "mods": {
+    "ab:ab_pre_hands": 0.04,
+    "ab:ab_pre_revival": 0.04
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pre_angelus_temple",
+   "name": "Angelus Temple",
+   "class": "preacher",
+   "spec": 0,
+   "tier": 5,
+   "col": 1,
+   "ranks": 1,
+   "mods": {
+    "heal_pct": 0.06,
+    "regen_pct": 0.2
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pre_testimony",
+   "name": "Public Testimony",
+   "class": "preacher",
+   "spec": 0,
+   "tier": 5,
+   "col": 2,
+   "ranks": 2,
+   "mods": {
+    "hp_pct": 0.03,
+    "taken_pct": -0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pre_soda_fountain",
+   "name": "Soda Fountain",
+   "class": "preacher",
+   "spec": 1,
+   "tier": 1,
+   "col": 2,
+   "ranks": 5,
+   "mods": {
+    "regen_pct": 0.04
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pre_sober_judgement",
+   "name": "Sober Judgement",
+   "class": "preacher",
+   "spec": 1,
+   "tier": 2,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "cost:ab_pre_blessing": 0.1
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pre_volstead_act",
+   "name": "Volstead Act",
+   "class": "preacher",
+   "spec": 1,
+   "tier": 3,
+   "col": 0,
+   "ranks": 5,
+   "mods": {
+    "armor_pct": 0.05
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pre_bone_dry",
+   "name": "Bone Dry",
+   "class": "preacher",
+   "spec": 1,
+   "tier": 3,
+   "col": 1,
+   "ranks": 3,
+   "mods": {
+    "hp_pct": 0.03
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pre_clear_head",
+   "name": "Clear Head",
+   "class": "preacher",
+   "spec": 1,
+   "tier": 3,
+   "col": 2,
+   "ranks": 5,
+   "mods": {
+    "int_pct": 0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pre_water_wagon",
+   "name": "On the Wagon",
+   "class": "preacher",
+   "spec": 1,
+   "tier": 3,
+   "col": 3,
+   "ranks": 5,
+   "mods": {
+    "dodge": 0.01
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pre_padlock_order",
+   "name": "Padlock Order",
+   "class": "preacher",
+   "spec": 1,
+   "tier": 4,
+   "col": 0,
+   "ranks": 2,
+   "mods": {
+    "cd:ab_pre_fear": 3.0
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pre_temperance_union",
+   "name": "Temperance Union",
+   "class": "preacher",
+   "spec": 1,
+   "tier": 4,
+   "col": 1,
+   "ranks": 3,
+   "mods": {
+    "heal_pct": 0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pre_abstinence",
+   "name": "Strict Abstinence",
+   "class": "preacher",
+   "spec": 1,
+   "tier": 4,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "res_pct": 0.04
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pre_carries_hatchet",
+   "name": "Carrie's Hatchet",
+   "class": "preacher",
+   "spec": 1,
+   "tier": 5,
+   "col": 0,
+   "ranks": 5,
+   "mods": {
+    "crit": 0.01
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pre_noble_experiment",
+   "name": "Noble Experiment",
+   "class": "preacher",
+   "spec": 1,
+   "tier": 5,
+   "col": 1,
+   "ranks": 1,
+   "mods": {
+    "ab:ab_pre_blessing": 0.3,
+    "taken_pct": -0.06
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pre_pure_water",
+   "name": "Pure Water",
+   "class": "preacher",
+   "spec": 1,
+   "tier": 5,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "ab:ab_pre_hands": 0.06
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pre_pulpit_thumper",
+   "name": "Pulpit Thumper",
+   "class": "preacher",
+   "spec": 2,
+   "tier": 1,
+   "col": 2,
+   "ranks": 5,
+   "mods": {
+    "int_pct": 0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pre_two_bit_sermon",
+   "name": "Two-Bit Sermon",
+   "class": "preacher",
+   "spec": 2,
+   "tier": 2,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "cost:ab_pre_sermon": 0.1
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pre_wages_of_sin",
+   "name": "Wages of Sin",
+   "class": "preacher",
+   "spec": 2,
+   "tier": 3,
+   "col": 0,
+   "ranks": 5,
+   "mods": {
+    "dmg_pct": 0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pre_fiery_tongue",
+   "name": "Fiery Tongue",
+   "class": "preacher",
+   "spec": 2,
+   "tier": 3,
+   "col": 1,
+   "ranks": 2,
+   "mods": {
+    "cost:ab_pre_rebuke": 0.1
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pre_hard_pew",
+   "name": "Hard Pew",
+   "class": "preacher",
+   "spec": 2,
+   "tier": 3,
+   "col": 2,
+   "ranks": 5,
+   "mods": {
+    "res_pct": 0.04
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pre_thunder_pulpit",
+   "name": "Thunder Pulpit",
+   "class": "preacher",
+   "spec": 2,
+   "tier": 3,
+   "col": 3,
+   "ranks": 5,
+   "mods": {
+    "spi_pct": 0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pre_old_testament",
+   "name": "Old Testament",
+   "class": "preacher",
+   "spec": 2,
+   "tier": 4,
+   "col": 0,
+   "ranks": 3,
+   "mods": {
+    "ab:ab_pre_sermon": 0.05,
+    "ab:ab_pre_rebuke": 0.05
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pre_trench_faith",
+   "name": "Trench Faith",
+   "class": "preacher",
+   "spec": 2,
+   "tier": 4,
+   "col": 1,
+   "ranks": 3,
+   "mods": {
+    "taken_pct": -0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pre_sulphur_ration",
+   "name": "Sulphur Ration",
+   "class": "preacher",
+   "spec": 2,
+   "tier": 4,
+   "col": 2,
+   "ranks": 2,
+   "mods": {
+    "regen_pct": 0.06
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pre_billy_sunday",
+   "name": "Billy Sunday",
+   "class": "preacher",
+   "spec": 2,
+   "tier": 5,
+   "col": 0,
+   "ranks": 3,
+   "mods": {
+    "ab:ab_pre_rebuke": 0.06
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pre_hellfire_damnation",
+   "name": "Hellfire and Damnation",
+   "class": "preacher",
+   "spec": 2,
+   "tier": 5,
+   "col": 1,
+   "ranks": 1,
+   "mods": {
+    "dmg_pct": 0.06,
+    "crit": 0.06
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pre_slow_burn",
+   "name": "Slow Burn",
+   "class": "preacher",
+   "spec": 2,
+   "tier": 5,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "ab:ab_pre_sermon": 0.06
+   },
+   "desc": ""
+  }
+ ],
+ "stuntman": [
+  {
+   "id": "tal_stn_studio_gym",
+   "name": "Studio Gym",
+   "class": "stuntman",
+   "spec": 0,
+   "tier": 1,
+   "col": 2,
+   "ranks": 5,
+   "mods": {
+    "str_pct": 0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_stn_cauliflower_ear",
+   "name": "Cauliflower Ear",
+   "class": "stuntman",
+   "spec": 0,
+   "tier": 2,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "hp_pct": 0.03
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_stn_pulled_punch",
+   "name": "Pulled Punch",
+   "class": "stuntman",
+   "spec": 0,
+   "tier": 3,
+   "col": 0,
+   "ranks": 2,
+   "mods": {
+    "cost:ab_stn_haymaker": 0.1
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_stn_main_event",
+   "name": "Main Event",
+   "class": "stuntman",
+   "spec": 0,
+   "tier": 3,
+   "col": 1,
+   "ranks": 5,
+   "mods": {
+    "ab:ab_stn_showstopper": 0.06
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_stn_two_reel_brawler",
+   "name": "Two-Reel Brawler",
+   "class": "stuntman",
+   "spec": 0,
+   "tier": 3,
+   "col": 2,
+   "ranks": 5,
+   "mods": {
+    "dmg_pct": 0.01
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_stn_bums_rush",
+   "name": "Bum's Rush",
+   "class": "stuntman",
+   "spec": 0,
+   "tier": 3,
+   "col": 3,
+   "ranks": 3,
+   "mods": {
+    "cd:ab_stn_showstopper": 2.0
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_stn_stand_up_guy",
+   "name": "Stand-Up Guy",
+   "class": "stuntman",
+   "spec": 0,
+   "tier": 4,
+   "col": 0,
+   "ranks": 5,
+   "mods": {
+    "parry": 0.01
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_stn_below_the_belt",
+   "name": "Below the Belt",
+   "class": "stuntman",
+   "spec": 0,
+   "tier": 4,
+   "col": 1,
+   "ranks": 2,
+   "mods": {
+    "cost:ab_stn_low_blow": 0.1
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_stn_sucker_punch",
+   "name": "Sucker Punch",
+   "class": "stuntman",
+   "spec": 0,
+   "tier": 4,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "crit": 0.01,
+    "ab:ab_stn_haymaker": 0.05
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_stn_iron_chin",
+   "name": "Iron Chin",
+   "class": "stuntman",
+   "spec": 0,
+   "tier": 5,
+   "col": 0,
+   "ranks": 3,
+   "mods": {
+    "armor_pct": 0.05
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_stn_top_billing",
+   "name": "Top Billing",
+   "class": "stuntman",
+   "spec": 0,
+   "tier": 5,
+   "col": 1,
+   "ranks": 1,
+   "mods": {
+    "ab:ab_stn_showstopper": 0.25,
+    "dmg_pct": 0.05
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_stn_second_wind",
+   "name": "Second Wind",
+   "class": "stuntman",
+   "spec": 0,
+   "tier": 5,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "regen_pct": 0.05
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_stn_whetstone_habit",
+   "name": "Whetstone Habit",
+   "class": "stuntman",
+   "spec": 1,
+   "tier": 1,
+   "col": 2,
+   "ranks": 5,
+   "mods": {
+    "dmg_pct": 0.01
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_stn_switchblade_draw",
+   "name": "Switchblade Draw",
+   "class": "stuntman",
+   "spec": 1,
+   "tier": 2,
+   "col": 2,
+   "ranks": 2,
+   "mods": {
+    "cost:ab_stn_flurry": 0.1
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_stn_cutting_room_floor",
+   "name": "Cutting Room Floor",
+   "class": "stuntman",
+   "spec": 1,
+   "tier": 3,
+   "col": 0,
+   "ranks": 3,
+   "mods": {
+    "cd:ab_stn_flurry": 0.5
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_stn_sugar_glass",
+   "name": "Sugar Glass",
+   "class": "stuntman",
+   "spec": 1,
+   "tier": 3,
+   "col": 1,
+   "ranks": 3,
+   "mods": {
+    "cd:ab_stn_bottle": 1.0
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_stn_union_break",
+   "name": "Union Break",
+   "class": "stuntman",
+   "spec": 1,
+   "tier": 3,
+   "col": 2,
+   "ranks": 5,
+   "mods": {
+    "regen_pct": 0.04
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_stn_fairbanks_footwork",
+   "name": "Fairbanks Footwork",
+   "class": "stuntman",
+   "spec": 1,
+   "tier": 3,
+   "col": 3,
+   "ranks": 3,
+   "mods": {
+    "parry": 0.01
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_stn_deep_pockets",
+   "name": "Deep Pockets",
+   "class": "stuntman",
+   "spec": 1,
+   "tier": 4,
+   "col": 0,
+   "ranks": 3,
+   "mods": {
+    "res_pct": 0.04
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_stn_thousand_cuts",
+   "name": "Thousand Cuts",
+   "class": "stuntman",
+   "spec": 1,
+   "tier": 4,
+   "col": 1,
+   "ranks": 3,
+   "mods": {
+    "crit": 0.01,
+    "ab:ab_stn_flurry": 0.03
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_stn_fade_into_extras",
+   "name": "Fade Into Extras",
+   "class": "stuntman",
+   "spec": 1,
+   "tier": 4,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "threat_pct": 0.0
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_stn_stand_in_steel",
+   "name": "Stand-In Steel",
+   "class": "stuntman",
+   "spec": 1,
+   "tier": 5,
+   "col": 0,
+   "ranks": 3,
+   "mods": {
+    "str_pct": 0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_stn_cut_to_ribbons",
+   "name": "Cut to Ribbons",
+   "class": "stuntman",
+   "spec": 1,
+   "tier": 5,
+   "col": 1,
+   "ranks": 1,
+   "mods": {
+    "ab:ab_stn_flurry": 0.25,
+    "crit": 0.03
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_stn_scar_tissue",
+   "name": "Scar Tissue",
+   "class": "stuntman",
+   "spec": 1,
+   "tier": 5,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "sta_pct": 0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_stn_padded_costume",
+   "name": "Padded Costume",
+   "class": "stuntman",
+   "spec": 2,
+   "tier": 1,
+   "col": 2,
+   "ranks": 5,
+   "mods": {
+    "armor_pct": 0.03
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_stn_sandbag_landing",
+   "name": "Sandbag Landing",
+   "class": "stuntman",
+   "spec": 2,
+   "tier": 2,
+   "col": 2,
+   "ranks": 5,
+   "mods": {
+    "hp_pct": 0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_stn_clock_tower_nerve",
+   "name": "Clock Tower Nerve",
+   "class": "stuntman",
+   "spec": 2,
+   "tier": 3,
+   "col": 0,
+   "ranks": 3,
+   "mods": {
+    "cd:ab_stn_leap": 2.0
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_stn_featherfall",
+   "name": "Featherweight Fall",
+   "class": "stuntman",
+   "spec": 2,
+   "tier": 3,
+   "col": 1,
+   "ranks": 3,
+   "mods": {
+    "cost:ab_stn_leap": 0.1
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_stn_dive_roll",
+   "name": "Dive Roll",
+   "class": "stuntman",
+   "spec": 2,
+   "tier": 3,
+   "col": 2,
+   "ranks": 2,
+   "mods": {
+    "cost:ab_stn_tumble": 0.15
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_stn_wire_walker",
+   "name": "Wire Walker",
+   "class": "stuntman",
+   "spec": 2,
+   "tier": 3,
+   "col": 3,
+   "ranks": 5,
+   "mods": {
+    "agi_pct": 0.01
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_stn_safety_last",
+   "name": "Safety Last",
+   "class": "stuntman",
+   "spec": 2,
+   "tier": 4,
+   "col": 0,
+   "ranks": 3,
+   "mods": {
+    "taken_pct": -0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_stn_pratfall_timing",
+   "name": "Pratfall Timing",
+   "class": "stuntman",
+   "spec": 2,
+   "tier": 4,
+   "col": 1,
+   "ranks": 3,
+   "mods": {
+    "crit": 0.01
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_stn_craft_services",
+   "name": "Craft Services",
+   "class": "stuntman",
+   "spec": 2,
+   "tier": 4,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "regen_pct": 0.05
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_stn_box_office_draw",
+   "name": "Box Office Draw",
+   "class": "stuntman",
+   "spec": 2,
+   "tier": 5,
+   "col": 0,
+   "ranks": 3,
+   "mods": {
+    "dmg_pct": 0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_stn_the_big_drop",
+   "name": "The Big Drop",
+   "class": "stuntman",
+   "spec": 2,
+   "tier": 5,
+   "col": 1,
+   "ranks": 1,
+   "mods": {
+    "ab:ab_stn_leap": 0.3,
+    "dodge": 0.05
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_stn_ambulance_standby",
+   "name": "Ambulance Standing By",
+   "class": "stuntman",
+   "spec": 2,
+   "tier": 5,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "sta_pct": 0.02
+   },
+   "desc": ""
+  }
+ ],
+ "powderman": [
+  {
+   "id": "tal_pow_nitrate_stock",
+   "name": "Nitrate Stock",
+   "class": "powderman",
+   "spec": 0,
+   "tier": 1,
+   "col": 2,
+   "ranks": 5,
+   "mods": {
+    "cost:ab_pow_flash": 0.04
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pow_blind_eye",
+   "name": "Marshal's Blind Eye",
+   "class": "powderman",
+   "spec": 0,
+   "tier": 2,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "regen_pct": 0.05
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pow_cheap_fuse",
+   "name": "Cheap Fuse",
+   "class": "powderman",
+   "spec": 0,
+   "tier": 3,
+   "col": 0,
+   "ranks": 2,
+   "mods": {
+    "cost:ab_pow_fuse": 0.1
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pow_hot_lamps",
+   "name": "Hot Klieg Lamps",
+   "class": "powderman",
+   "spec": 0,
+   "tier": 3,
+   "col": 1,
+   "ranks": 3,
+   "mods": {
+    "int_pct": 0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pow_quick_draw",
+   "name": "Quick Draw",
+   "class": "powderman",
+   "spec": 0,
+   "tier": 3,
+   "col": 2,
+   "ranks": 2,
+   "mods": {
+    "cost:ab_pow_squib": 0.1
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pow_fire_watch",
+   "name": "Fire Watch",
+   "class": "powderman",
+   "spec": 0,
+   "tier": 3,
+   "col": 3,
+   "ranks": 3,
+   "mods": {
+    "res_pct": 0.03
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pow_celluloid_blaze",
+   "name": "Celluloid Blaze",
+   "class": "powderman",
+   "spec": 0,
+   "tier": 4,
+   "col": 0,
+   "ranks": 3,
+   "mods": {
+    "dmg_pct": 0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pow_smouldering_reel",
+   "name": "Smouldering Reel",
+   "class": "powderman",
+   "spec": 0,
+   "tier": 4,
+   "col": 1,
+   "ranks": 3,
+   "mods": {
+    "ab:ab_pow_fuse": 0.08
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pow_asbestos_gloves",
+   "name": "Asbestos Gloves",
+   "class": "powderman",
+   "spec": 0,
+   "tier": 4,
+   "col": 2,
+   "ranks": 2,
+   "mods": {
+    "taken_pct": -0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pow_burning_ambition",
+   "name": "Burning Ambition",
+   "class": "powderman",
+   "spec": 0,
+   "tier": 5,
+   "col": 0,
+   "ranks": 2,
+   "mods": {
+    "int_pct": 0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pow_nitrate_inferno",
+   "name": "Nitrate Inferno",
+   "class": "powderman",
+   "spec": 0,
+   "tier": 5,
+   "col": 1,
+   "ranks": 1,
+   "mods": {
+    "dmg_pct": 0.05,
+    "crit": 0.03
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pow_final_reel",
+   "name": "Final Reel",
+   "class": "powderman",
+   "spec": 0,
+   "tier": 5,
+   "col": 2,
+   "ranks": 2,
+   "mods": {
+    "ab:ab_pow_squib": 0.08
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pow_gas_mask",
+   "name": "Gas Mask",
+   "class": "powderman",
+   "spec": 1,
+   "tier": 1,
+   "col": 2,
+   "ranks": 5,
+   "mods": {
+    "hp_pct": 0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pow_cheap_smoke",
+   "name": "Cheap Smoke",
+   "class": "powderman",
+   "spec": 1,
+   "tier": 2,
+   "col": 2,
+   "ranks": 2,
+   "mods": {
+    "cost:ab_pow_smoke": 0.1
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pow_trench_coat",
+   "name": "Trench Coat",
+   "class": "powderman",
+   "spec": 1,
+   "tier": 3,
+   "col": 0,
+   "ranks": 3,
+   "mods": {
+    "armor_pct": 0.04
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pow_no_mans_land",
+   "name": "No Man's Land",
+   "class": "powderman",
+   "spec": 1,
+   "tier": 3,
+   "col": 1,
+   "ranks": 2,
+   "mods": {
+    "speed_pct": 0.03
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pow_smoke_signals",
+   "name": "Smoke Signals",
+   "class": "powderman",
+   "spec": 1,
+   "tier": 3,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "regen_pct": 0.05
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pow_iron_lung",
+   "name": "Iron Lung",
+   "class": "powderman",
+   "spec": 1,
+   "tier": 3,
+   "col": 3,
+   "ranks": 5,
+   "mods": {
+    "sta_pct": 0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pow_smoke_and_mirrors",
+   "name": "Smoke and Mirrors",
+   "class": "powderman",
+   "spec": 1,
+   "tier": 4,
+   "col": 0,
+   "ranks": 2,
+   "mods": {
+    "cost:ab_pow_screen": 0.15
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pow_lingering_haze",
+   "name": "Lingering Haze",
+   "class": "powderman",
+   "spec": 1,
+   "tier": 4,
+   "col": 1,
+   "ranks": 3,
+   "mods": {
+    "ab:ab_pow_smoke": 0.1
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pow_gas_drill",
+   "name": "Gas Drill",
+   "class": "powderman",
+   "spec": 1,
+   "tier": 4,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "res_pct": 0.03
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pow_cordite_haze",
+   "name": "Cordite Haze",
+   "class": "powderman",
+   "spec": 1,
+   "tier": 5,
+   "col": 0,
+   "ranks": 3,
+   "mods": {
+    "crit": 0.01
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pow_fog_of_war",
+   "name": "Fog of War",
+   "class": "powderman",
+   "spec": 1,
+   "tier": 5,
+   "col": 1,
+   "ranks": 1,
+   "mods": {
+    "dodge": 0.04,
+    "taken_pct": -0.06
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pow_blackout",
+   "name": "Studio Blackout",
+   "class": "powderman",
+   "spec": 1,
+   "tier": 5,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "int_pct": 0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pow_blasting_cap",
+   "name": "Blasting Cap",
+   "class": "powderman",
+   "spec": 2,
+   "tier": 1,
+   "col": 2,
+   "ranks": 5,
+   "mods": {
+    "crit": 0.01
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pow_cheap_kegs",
+   "name": "Bootleg Kegs",
+   "class": "powderman",
+   "spec": 2,
+   "tier": 2,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "cost:ab_pow_keg": 0.08
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pow_sappers_patience",
+   "name": "Sapper's Patience",
+   "class": "powderman",
+   "spec": 2,
+   "tier": 3,
+   "col": 0,
+   "ranks": 3,
+   "mods": {
+    "regen_pct": 0.05
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pow_wrecking_crew",
+   "name": "Wrecking Crew",
+   "class": "powderman",
+   "spec": 2,
+   "tier": 3,
+   "col": 1,
+   "ranks": 2,
+   "mods": {
+    "dmg_pct": 0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pow_hazard_pay",
+   "name": "Hazard Pay",
+   "class": "powderman",
+   "spec": 2,
+   "tier": 3,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "res_pct": 0.03
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pow_tamped_charge",
+   "name": "Tamped Charge",
+   "class": "powderman",
+   "spec": 2,
+   "tier": 3,
+   "col": 3,
+   "ranks": 2,
+   "mods": {
+    "cost:ab_pow_demo": 0.1
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pow_messines_ridge",
+   "name": "Messines Ridge",
+   "class": "powderman",
+   "spec": 2,
+   "tier": 4,
+   "col": 0,
+   "ranks": 3,
+   "mods": {
+    "ab:ab_pow_demo": 0.1
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pow_hard_hat",
+   "name": "Hard Hat",
+   "class": "powderman",
+   "spec": 2,
+   "tier": 4,
+   "col": 1,
+   "ranks": 2,
+   "mods": {
+    "taken_pct": -0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pow_thick_skull",
+   "name": "Thick Skull",
+   "class": "powderman",
+   "spec": 2,
+   "tier": 4,
+   "col": 2,
+   "ranks": 2,
+   "mods": {
+    "hp_pct": 0.03
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pow_chain_reaction",
+   "name": "Chain Reaction",
+   "class": "powderman",
+   "spec": 2,
+   "tier": 5,
+   "col": 0,
+   "ranks": 2,
+   "mods": {
+    "ab:ab_pow_keg": 0.1
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pow_the_big_bang",
+   "name": "The Big Bang",
+   "class": "powderman",
+   "spec": 2,
+   "tier": 5,
+   "col": 1,
+   "ranks": 1,
+   "mods": {
+    "dmg_pct": 0.04,
+    "ab:ab_pow_demo": 0.25
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_pow_powder_monkey",
+   "name": "Powder Monkey",
+   "class": "powderman",
+   "spec": 2,
+   "tier": 5,
+   "col": 2,
+   "ranks": 2,
+   "mods": {
+    "speed_pct": 0.03
+   },
+   "desc": ""
+  }
+ ],
+ "mechanic": [
+  {
+   "id": "tal_mec_fine_calibration",
+   "name": "Fine Calibration",
+   "class": "mechanic",
+   "spec": 0,
+   "tier": 1,
+   "col": 2,
+   "ranks": 5,
+   "mods": {
+    "crit": 0.01
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_mec_thrown_spanner",
+   "name": "Thrown Spanner",
+   "class": "mechanic",
+   "spec": 0,
+   "tier": 2,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "cd:ab_mec_monkey": 2.0
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_mec_bootleg_current",
+   "name": "Bootleg Current",
+   "class": "mechanic",
+   "spec": 0,
+   "tier": 3,
+   "col": 0,
+   "ranks": 3,
+   "mods": {
+    "cost:ab_mec_welder": 0.1
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_mec_tack_strip",
+   "name": "Tack Strip",
+   "class": "mechanic",
+   "spec": 0,
+   "tier": 3,
+   "col": 1,
+   "ranks": 2,
+   "mods": {
+    "cost:ab_mec_caltrops": 0.2,
+    "cd:ab_mec_caltrops": 1.0
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_mec_union_battery",
+   "name": "Union Battery",
+   "class": "mechanic",
+   "spec": 0,
+   "tier": 3,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "res_pct": 0.05
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_mec_patent_pending",
+   "name": "Patent Pending",
+   "class": "mechanic",
+   "spec": 0,
+   "tier": 3,
+   "col": 3,
+   "ranks": 2,
+   "mods": {
+    "cost:ab_mec_monkey": 0.2
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_mec_short_circuit",
+   "name": "Short Circuit",
+   "class": "mechanic",
+   "spec": 0,
+   "tier": 4,
+   "col": 0,
+   "ranks": 3,
+   "mods": {
+    "crit": 0.01,
+    "ab:ab_mec_caltrops": 0.05
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_mec_roller_skates",
+   "name": "Studio Roller Skates",
+   "class": "mechanic",
+   "spec": 0,
+   "tier": 4,
+   "col": 1,
+   "ranks": 2,
+   "mods": {
+    "speed_pct": 0.04
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_mec_edisons_spite",
+   "name": "Edison's Spite",
+   "class": "mechanic",
+   "spec": 0,
+   "tier": 4,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "dmg_pct": 0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_mec_monkey_business",
+   "name": "Monkey Business",
+   "class": "mechanic",
+   "spec": 0,
+   "tier": 5,
+   "col": 0,
+   "ranks": 3,
+   "mods": {
+    "ab:ab_mec_monkey": 0.1
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_mec_tesla_coil",
+   "name": "Tesla's Revenge",
+   "class": "mechanic",
+   "spec": 0,
+   "tier": 5,
+   "col": 1,
+   "ranks": 1,
+   "mods": {
+    "ab:ab_mec_welder": 0.3,
+    "crit": 0.03
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_mec_asbestos_gloves",
+   "name": "Asbestos Gloves",
+   "class": "mechanic",
+   "spec": 0,
+   "tier": 5,
+   "col": 2,
+   "ranks": 2,
+   "mods": {
+    "taken_pct": -0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_mec_shell_shock",
+   "name": "Shell Shock",
+   "class": "mechanic",
+   "spec": 1,
+   "tier": 1,
+   "col": 2,
+   "ranks": 5,
+   "mods": {
+    "crit": 0.01
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_mec_lead_pipe",
+   "name": "Lead Pipe",
+   "class": "mechanic",
+   "spec": 1,
+   "tier": 2,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "cost:ab_mec_swing": 0.1
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_mec_ten_mile_march",
+   "name": "Ten-Mile March",
+   "class": "mechanic",
+   "spec": 1,
+   "tier": 3,
+   "col": 0,
+   "ranks": 5,
+   "mods": {
+    "sta_pct": 0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_mec_pick_handle_parry",
+   "name": "Pick Handle Parry",
+   "class": "mechanic",
+   "spec": 1,
+   "tier": 3,
+   "col": 1,
+   "ranks": 3,
+   "mods": {
+    "parry": 0.01
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_mec_union_rates",
+   "name": "Union Rates",
+   "class": "mechanic",
+   "spec": 1,
+   "tier": 3,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "cost:ab_mec_pile": 0.1
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_mec_coffee_cigarettes",
+   "name": "Coffee and Cigarettes",
+   "class": "mechanic",
+   "spec": 1,
+   "tier": 3,
+   "col": 3,
+   "ranks": 2,
+   "mods": {
+    "regen_pct": 0.05
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_mec_lights_out",
+   "name": "Lights Out",
+   "class": "mechanic",
+   "spec": 1,
+   "tier": 4,
+   "col": 0,
+   "ranks": 2,
+   "mods": {
+    "ab:ab_mec_monkey": 0.1,
+    "cost:ab_mec_monkey": 0.1
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_mec_over_the_top",
+   "name": "Over the Top",
+   "class": "mechanic",
+   "spec": 1,
+   "tier": 4,
+   "col": 1,
+   "ranks": 2,
+   "mods": {
+    "speed_pct": 0.03,
+    "crit": 0.01
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_mec_steel_helmet",
+   "name": "Brodie Helmet",
+   "class": "mechanic",
+   "spec": 1,
+   "tier": 4,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "armor_pct": 0.04
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_mec_iron_constitution",
+   "name": "Iron Constitution",
+   "class": "mechanic",
+   "spec": 1,
+   "tier": 5,
+   "col": 0,
+   "ranks": 3,
+   "mods": {
+    "hp_pct": 0.03
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_mec_demolition_man",
+   "name": "Demolition Man",
+   "class": "mechanic",
+   "spec": 1,
+   "tier": 5,
+   "col": 1,
+   "ranks": 1,
+   "mods": {
+    "ab:ab_mec_pile": 0.3,
+    "crit": 0.03
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_mec_sweatshop_pace",
+   "name": "Sweatshop Pace",
+   "class": "mechanic",
+   "spec": 1,
+   "tier": 5,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "res_pct": 0.05
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_mec_field_dressing",
+   "name": "Field Dressing",
+   "class": "mechanic",
+   "spec": 2,
+   "tier": 1,
+   "col": 2,
+   "ranks": 5,
+   "mods": {
+    "heal_pct": 0.01
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_mec_sandbag_walls",
+   "name": "Sandbag Walls",
+   "class": "mechanic",
+   "spec": 2,
+   "tier": 2,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "taken_pct": -0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_mec_cheap_bandages",
+   "name": "Cheap Bandages",
+   "class": "mechanic",
+   "spec": 2,
+   "tier": 3,
+   "col": 0,
+   "ranks": 3,
+   "mods": {
+    "cost:ab_mec_patch": 0.1
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_mec_foremans_glare",
+   "name": "Foreman's Glare",
+   "class": "mechanic",
+   "spec": 2,
+   "tier": 3,
+   "col": 1,
+   "ranks": 3,
+   "mods": {
+    "threat_pct": 0.1
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_mec_sidestep_shuffle",
+   "name": "Sidestep Shuffle",
+   "class": "mechanic",
+   "spec": 2,
+   "tier": 3,
+   "col": 2,
+   "ranks": 3,
+   "mods": {
+    "dodge": 0.01
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_mec_quick_fix",
+   "name": "Quick Fix",
+   "class": "mechanic",
+   "spec": 2,
+   "tier": 3,
+   "col": 3,
+   "ranks": 2,
+   "mods": {
+    "cd:ab_mec_patch": 1.0
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_mec_factory_recall",
+   "name": "Factory Recall",
+   "class": "mechanic",
+   "spec": 2,
+   "tier": 4,
+   "col": 0,
+   "ranks": 3,
+   "mods": {
+    "ab:ab_mec_overhaul": 0.1
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_mec_lunch_pail",
+   "name": "Lunch Pail",
+   "class": "mechanic",
+   "spec": 2,
+   "tier": 4,
+   "col": 1,
+   "ranks": 5,
+   "mods": {
+    "sta_pct": 0.02
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_mec_spit_and_polish",
+   "name": "Spit and Polish",
+   "class": "mechanic",
+   "spec": 2,
+   "tier": 4,
+   "col": 2,
+   "ranks": 2,
+   "mods": {
+    "spi_pct": 0.02,
+    "regen_pct": 0.04
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_mec_warranty_work",
+   "name": "Warranty Work",
+   "class": "mechanic",
+   "spec": 2,
+   "tier": 5,
+   "col": 0,
+   "ranks": 2,
+   "mods": {
+    "cost:ab_mec_overhaul": 0.15
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_mec_good_as_new",
+   "name": "Good as New",
+   "class": "mechanic",
+   "spec": 2,
+   "tier": 5,
+   "col": 1,
+   "ranks": 1,
+   "mods": {
+    "heal_pct": 0.06,
+    "armor_pct": 0.15
+   },
+   "desc": ""
+  },
+  {
+   "id": "tal_mec_wrench_parry",
+   "name": "Wrench Parry",
+   "class": "mechanic",
+   "spec": 2,
+   "tier": 5,
+   "col": 2,
+   "ranks": 2,
+   "mods": {
+    "parry": 0.02
+   },
+   "desc": ""
+  }
+ ]
+}

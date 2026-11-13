@@ -103,7 +103,7 @@ bool FHLData::Load(FString& Err)
 			Ab.Id = S(O, TEXT("id")); Ab.Name = S(O, TEXT("name")); Ab.Class = S(O, TEXT("class")); Ab.Target = S(O, TEXT("target"));
 			Ab.School = S(O, TEXT("school")); Ab.Desc = S(O, TEXT("desc")); Ab.Level = N(O, TEXT("level"), 1);
 			Ab.Cost = N(O, TEXT("cost")); Ab.Range = N(O, TEXT("range"), 5); Ab.Cast = N(O, TEXT("cast")); Ab.Cd = N(O, TEXT("cd"));
-			Ab.Radius = N(O, TEXT("radius")); Ab.bGcd = B(O, TEXT("gcd"), true);
+			Ab.Radius = N(O, TEXT("radius")); Ab.bGcd = B(O, TEXT("gcd"), true); Ab.Flavor = S(O, TEXT("flavor")); Ab.Icon = N(O, TEXT("icon"), -1);
 			for (auto& EV : A(O, TEXT("effects")))
 			{
 				JObj E = EV->AsObject();
@@ -116,6 +116,16 @@ bool FHLData::Load(FString& Err)
 			Abilities.Add(MoveTemp(Ab));
 		}
 		for (const FHLAbility& Ab : Abilities) AbilityById.Add(Ab.Id, &Ab);
+		for (auto& V : A(R, TEXT("talents")))
+		{
+			JObj O = V->AsObject();
+			FHLTalent T;
+			T.Id = S(O, TEXT("id")); T.Name = S(O, TEXT("name")); T.Class = S(O, TEXT("class")); T.Desc = S(O, TEXT("desc"));
+			T.Spec = N(O, TEXT("spec")); T.Tier = N(O, TEXT("tier"), 1); T.Col = N(O, TEXT("col")); T.Ranks = N(O, TEXT("ranks"), 1); T.Icon = N(O, TEXT("icon"), -1);
+			if (JObj M = Sub(O, TEXT("mods"))) for (const auto& KV : M->Values) T.Mods.Add(FString(KV.Key), KV.Value->AsNumber());
+			Talents.Add(MoveTemp(T));
+		}
+		for (const FHLTalent& T : Talents) TalentById.Add(T.Id, &T);
 		for (auto& V : A(R, TEXT("classes")))
 		{
 			JObj O = V->AsObject();
@@ -125,6 +135,9 @@ bool FHLData::Load(FString& Err)
 			C.bRanged = B(O, TEXT("ranged")); C.bCaster = B(O, TEXT("caster")); C.Color = Col(O, TEXT("color"));
 			C.Weapons = SA(O, TEXT("weapons")); C.StartItems = SA(O, TEXT("start_items")); C.Specs = SA(O, TEXT("specs"));
 			for (const FString& Id : SA(O, TEXT("abilities"))) if (const FHLAbility* Ab = Ability(Id)) C.Abilities.Add(Ab);
+			C.Desc = S(O, TEXT("desc")); C.Icon = N(O, TEXT("icon"), -1); C.SpecDesc = SA(O, TEXT("spec_desc"));
+			for (auto& IV : A(O, TEXT("spec_icons"))) C.SpecIcons.Add((int32)IV->AsNumber());
+			for (const FHLTalent& T : Talents) if (T.Class == C.Id) C.Talents.Add(&T);
 			Classes.Add(MoveTemp(C));
 		}
 		for (const FHLClass& C : Classes) ClassById.Add(C.Id, &C);

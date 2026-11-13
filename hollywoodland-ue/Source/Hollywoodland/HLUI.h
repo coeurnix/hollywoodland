@@ -8,6 +8,11 @@
 
 class AHLWorldActor;
 
+// icon and art brushes (HLUI.cpp); null when the art is missing
+const struct FSlateBrush* HLSkillBrush(int32 Icon);
+const struct FSlateBrush* HLMenuBrush(const FString& Name);
+const struct FSlateBrush* HLArtBrush(const FString& Name);
+
 class SHLGameUI : public SLeafWidget
 {
 public:
@@ -46,6 +51,7 @@ private:
 
 	// ---- toolkit
 	void Rc(float X, float Y, float W, float H, const FLinearColor& C) const;
+	void Img(float X, float Y, float W, float H, const struct FSlateBrush* B, const FLinearColor& Tint = FLinearColor::White) const;
 	void Panel(float X, float Y, float W, float H, const FLinearColor& Bg = FLinearColor(0.03f, 0.03f, 0.04f, 0.88f), const FLinearColor& Border = FLinearColor(0.45f, 0.38f, 0.22f, 1)) const;
 	void Tx(float X, float Y, const FString& S, int32 Size, const FLinearColor& C, bool bBold = false, bool bShadow = true) const;
 	void TxC(float CX, float Y, const FString& S, int32 Size, const FLinearColor& C, bool bBold = false) const;
