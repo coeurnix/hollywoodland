@@ -91,6 +91,105 @@ EM_JS(void, HL_JsStart, (double Slot, int Op, double TimeoutMs, double A, double
 		M.ramp(el, M.vol, fade);
 		return;
 	}
+	if (Op === 6) {
+		// Sound effects (WebAudio). A = newline-separated commands:
+		//   p|h|url|vol|pan|rate|loop|frames|fade   s|h|vol|pan|ramp   x|h|fade   m|vol   a   l|url
+		var S = window.__hlSfx;
+		if (!S) {
+			S = window.__hlSfx = { ctx: null, master: null, mv: 0.7, bufs: {}, voices: {}, loads: [], active: 0 };
+			S.init = function () {
+				if (S.ctx) return;
+				var AC = window.AudioContext || window.webkitAudioContext;
+				if (!AC) return;
+				S.ctx = new AC();
+				S.master = S.ctx.createGain(); S.master.gain.value = S.mv; S.master.connect(S.ctx.destination);
+			};
+			S.unlock = function () { S.init(); if (S.ctx && S.ctx.state !== "running") S.ctx.resume(); };
+			document.addEventListener("pointerdown", S.unlock, true);
+			document.addEventListener("keydown", S.unlock, true);
+			S.pump = function () {
+				while (S.active < 4 && S.loads.length) {
+					var b = S.loads.shift(); S.active++;
+					fetch(new URL(b.url, location.href).href).then(function (r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.arrayBuffer(); })
+						.then(function (ab) { return new Promise(function (res, rej) { S.ctx.decodeAudioData(ab, res, rej); }); })
+						.then((function (b) { return function (buf) { b.buf = buf; var w = b.wait; b.wait = null; for (var i = 0; i < w.length; i++) w[i](); }; })(b),
+							(function (b) { return function (e) { console.warn("HL sfx " + b.url + ": " + e); b.wait = null; b.failed = true; }; })(b))
+						.then(function () { S.active--; S.pump(); });
+				}
+			};
+			S.load = function (url, urgent) {
+				var b = S.bufs[url];
+				if (!b) { b = S.bufs[url] = { url: url, buf: null, wait: [] }; if (urgent) S.loads.unshift(b); else S.loads.push(b); S.pump(); }
+				else if (urgent && b.wait && !b.buf) { var i = S.loads.indexOf(b); if (i > 0) { S.loads.splice(i, 1); S.loads.unshift(b); } }
+				return b;
+			};
+			S.start = function (h, b, vol, pan, rate, loop, frames, fade) {
+				var ctx = S.ctx, src = ctx.createBufferSource(), g = ctx.createGain(), p = ctx.createStereoPanner ? ctx.createStereoPanner() : null;
+				src.buffer = b.buf; src.playbackRate.value = rate;
+				src.connect(g);
+				if (p) { p.pan.value = pan; g.connect(p); p.connect(S.master); } else g.connect(S.master);
+				var now = ctx.currentTime, off = 0;
+				if (fade > 0) { g.gain.setValueAtTime(0, now); g.gain.linearRampToValueAtTime(vol, now + fade); } else g.gain.value = vol;
+				if (loop) {
+					src.loop = true;
+					if (frames > 0) {
+						// exact loop: skip the MP3 encoder delay when the decoder kept it (buffer longer than the master)
+						var want = frames / 44100, extra = b.buf.duration - want;
+						off = extra > 0.02 ? 1105 / 44100 : 0;
+						src.loopStart = off; src.loopEnd = Math.min(b.buf.duration, off + want);
+					}
+				}
+				src.start(now, off);
+				var v = S.voices[h] = { src: src, g: g, p: p };
+				src.onended = function () { if (S.voices[h] === v) delete S.voices[h]; };
+			};
+			S.ramp = function (param, to, secs) {
+				var t = S.ctx.currentTime;
+				param.cancelScheduledValues(t); param.setValueAtTime(param.value, t); param.linearRampToValueAtTime(to, t + Math.max(0.01, secs));
+			};
+		}
+		S.init();
+		if (!S.ctx) return;
+		var lines = a.split("\n");
+		for (var li = 0; li < lines.length; li++) {
+			var f = lines[li].split("|"), k = f[0];
+			if (k === "p") {
+				(function (h, url, vol, pan, rate, loop, frames, fade) {
+					var b = S.load(url, true);
+					if (b.failed) return;
+					if (b.buf) { S.start(h, b, vol, pan, rate, loop, frames, fade); return; }
+					var t0 = performance.now(), pend = S.voices[h] = { pending: true, vol: vol, pan: pan };
+					b.wait.push(function () {
+						if (S.voices[h] !== pend || pend.dead) return;
+						delete S.voices[h];
+						if (!loop && performance.now() - t0 > 900) return; // a late one-shot is worse than none
+						S.start(h, b, pend.vol, pend.pan, rate, loop, frames, fade);
+					});
+				})(+f[1], f[2], +f[3], +f[4], +f[5], f[6] === "1", +f[7], +f[8]);
+			} else if (k === "s") {
+				var v = S.voices[+f[1]];
+				if (!v) continue;
+				if (v.pending) { v.vol = +f[2]; v.pan = +f[3]; continue; }
+				S.ramp(v.g.gain, +f[2], +f[4]);
+				if (v.p) S.ramp(v.p.pan, +f[3], +f[4]);
+			} else if (k === "x") {
+				var v = S.voices[+f[1]];
+				if (!v) continue;
+				if (v.pending) { v.dead = true; delete S.voices[+f[1]]; continue; }
+				var fd = Math.max(0.01, +f[2]);
+				S.ramp(v.g.gain, 0, fd);
+				try { v.src.stop(S.ctx.currentTime + fd + 0.05); } catch (e) {}
+			} else if (k === "m") {
+				S.mv = +f[1]; S.ramp(S.master.gain, S.mv, 0.2);
+			} else if (k === "a") {
+				for (var hk in S.voices) { var v = S.voices[hk]; if (v.pending) v.dead = true; else try { v.src.stop(); } catch (e) {} }
+				S.voices = {};
+			} else if (k === "l") {
+				S.load(f[1], false);
+			}
+		}
+		return;
+	}
 	if (Op === 1) {
 		var v = null;
 		try { v = localStorage.getItem(a); } catch (e) {}
@@ -149,6 +248,7 @@ void HLBridge::MusicPlay(const FString& File, bool bLoop, float FadeS, float Vol
 void HLBridge::MusicStop(float FadeS) { StartOp(4, FString(TEXT(" ")), FString::Printf(TEXT("0,%d,-1"), (int32)(FadeS * 1000)), FString(), nullptr, 0); }
 void HLBridge::MusicVolume(float Volume) { StartOp(5, FString::Printf(TEXT("%.3f"), Volume), FString(), FString(), nullptr, 0); }
 void HLBridge::MusicTick(float) {}
+void HLBridge::Audio(const FString& Commands) { StartOp(6, Commands, FString(), FString(), nullptr, 0); }
 
 void HLBridge::Poll()
 {
@@ -272,6 +372,7 @@ void HLBridge::MusicStop(float) {}
 void HLBridge::MusicVolume(float) {}
 void HLBridge::MusicTick(float) {}
 #endif
+void HLBridge::Audio(const FString&) {} // native sound effects mix in HLSfx.cpp
 void HLBridge::Poll()
 {
 	TArray<TPair<FHLBridgeCallback, FHLBridgeResult>> Done = MoveTemp(GDone);

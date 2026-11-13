@@ -94,6 +94,7 @@ void FHLGame::TickEvents(float Dt)
 			SurgeWarnHub = Chance(0.7f) ? Best : RandInt(0, Hubs.Num() - 1);
 			SurgeStartAt = Now + 30;
 			EventSay(TEXT("surge_warn"), Hubs[SurgeWarnHub].Name, TEXT("zone"), Hubs[SurgeWarnHub].Pos, 400, 1);
+			Sound2D(TEXT("ev_siren"), FVector2D::Distance(Hubs[SurgeWarnHub].Pos, P->Pos) < 250 ? 1.f : 0.5f);
 		}
 	}
 	if (SurgeWarnHub >= 0 && Now >= SurgeStartAt)
@@ -102,6 +103,7 @@ void FHLGame::TickEvents(float Dt)
 		SurgeEnd = Now + SurgeLen; SurgeNextWave = Now; SurgeKills = 0; SurgeMobs.Reset();
 		const FHLHub& H = Hubs[SurgeHub];
 		Banner(TEXT("Hive Surge"), FString::Printf(TEXT("The hive is attacking %s. Defend it!"), *H.Name), 6);
+		Sound2D(TEXT("ev_doom"));
 		bBannerHostile = true;
 		System(FString::Printf(TEXT("The hive is attacking %s! If the hub falls, its merchants will close."), *H.Name));
 		for (int32 k = 0; k < 3; ++k) EventSay(TEXT("surge_start"), H.Name, TEXT("zone"), H.Pos, 500, 1 + k * 3 + Rand() * 3);
@@ -155,6 +157,7 @@ void FHLGame::TickEvents(float Dt)
 					GrantXp(Xp, true);
 				}
 				EventSay(TEXT("surge_held"), H.Name, TEXT("zone"), H.Pos, 400, 2 + Rand() * 4);
+				Sound2D(TEXT("ev_victory"));
 			}
 			else
 			{

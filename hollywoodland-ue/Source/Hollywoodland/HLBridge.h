@@ -32,4 +32,6 @@ namespace HLBridge
 	void MusicVolume(float Volume);
 	/** Native volume ramps; no-op on the web (ramps run in JS). Call once per frame. */
 	void MusicTick(float Dt);
+	/** Web only: one batch of sound-effect commands for the page's WebAudio player (HLSfx.cpp builds them). */
+	void Audio(const FString& Commands);
 }

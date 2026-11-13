@@ -17,7 +17,7 @@ void FHLGame::AddChat(const FString& Ch, const FString& From, const FString& Tex
 	if (Chat.Num() >= 400) Chat.RemoveAt(0, 100);
 	if (Ch.StartsWith(TEXT("whisper")) || Ch == TEXT("say") || Ch == TEXT("guild")) UE_LOG(LogTemp, Verbose, TEXT("HL_CHAT [%s] %s: %s"), *Ch, *From, *Text);
 	Chat.Add(L);
-	if (Ch == TEXT("whisper")) LastWhisperFrom = From;
+	if (Ch == TEXT("whisper")) { LastWhisperFrom = From; Sound2D(TEXT("ui_whisper")); }
 	// speech bubbles for nearby say/yell
 	if ((Ch == TEXT("say") || Ch == TEXT("yell")) && SimIdx >= 0 && Sims.IsValidIndex(SimIdx) && Sims[SimIdx].UnitId) AddFloat(Sims[SimIdx].UnitId, Text.Left(60), FLinearColor(1, 1, 1));
 }
@@ -267,6 +267,22 @@ void FHLGame::PlayerChat(const FString& Raw)
 				Playing.IsEmpty() ? TEXT("") : *FString::Printf(TEXT(" Now playing: %s."), *Playing)));
 			return;
 		}
+		else if (Cmd == TEXT("/sfx") || Cmd == TEXT("/sound"))
+		{
+			const FString A = Rest.ToLower();
+			if (A == TEXT("off") || A == TEXT("mute")) Sfx.SetVolume(0);
+			else if (A == TEXT("on")) Sfx.SetVolume(Sfx.GetVolume() > 0 ? Sfx.GetVolume() : 0.7f);
+			else if (A.StartsWith(TEXT("play ")))
+			{
+				const FString Id = A.Mid(5).TrimStartAndEnd();
+				if (!Sfx.Has(Id)) { Error(FString::Printf(TEXT("No sound called %s."), *Id)); return; }
+				Sound2D(Id);
+				return;
+			}
+			else if (!A.IsEmpty() && A.IsNumeric()) Sfx.SetVolume(FCString::Atof(*A) / 100.f);
+			System(FString::Printf(TEXT("Sound effects volume %d%%. Usage: /sfx <0-100> | on | off | play <id>."), FMath::RoundToInt(Sfx.GetVolume() * 100)));
+			return;
+		}
 		else if (Cmd == TEXT("/help") || Cmd == TEXT("/?"))
 		{
 			System(TEXT("Chat: /s say, /y yell, /1 general, /2 trade, /4 lfg, /p party, /g guild, /w <name> <text>, /r reply. Other: /who, /gquit, /invite <name>, /friend <name>, /unfriend <name>, /duel <name>, /leave, /roll, /sit, /dance, /wave, /bow, /cheer, /laugh, /point, /shrug, /played, /music."));
@@ -484,7 +500,7 @@ void FHLGame::ApplyWorkerActions(const TSharedPtr<FJsonObject>& Resp, const FStr
 			FHLUnit* SU = Unit(S.UnitId);
 			if (Goal == TEXT("GROUP") && PU && !S.bInParty && Party.Num() < 4 && InviteFromSim < 0 && FMath::Abs(S.Level - PU->Level) <= 5 && S.State != EHLSimState::Script)
 			{
-				InviteFromSim = SI; InviteUntil = Now + 40;
+				InviteFromSim = SI; InviteUntil = Now + 40; Sound2D(TEXT("ui_invite"));
 				System(FString::Printf(TEXT("%s has invited you to join a group."), *S.P->Handle));
 				UE_LOG(LogTemp, Display, TEXT("HL_LIFE worker goal GROUP from %s"), *S.P->Handle);
 			}

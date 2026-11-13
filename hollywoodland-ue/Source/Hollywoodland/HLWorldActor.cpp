@@ -105,6 +105,7 @@ void AHLWorldActor::BeginPlay()
 	FParse::Value(FCommandLine::Get(), TEXT("HLAutoQuit="), AutoQuit);
 	// native self-play runs are silent unless -HLMusic; the browser probe keeps music on to exercise it
 	Game.Music.Init(!PLATFORM_WASM && !AutoClass.IsEmpty() && !FParse::Param(FCommandLine::Get(), TEXT("HLMusic")));
+	Game.Sfx.Init(!PLATFORM_WASM && !AutoClass.IsEmpty() && !FParse::Param(FCommandLine::Get(), TEXT("HLSfx")));
 	// browser test hook: localStorage hl_auto=<class> starts the self-playing test (tools/probe.py --auto)
 	HLBridge::StorageGet(TEXT("hl_auto"), [this](const FHLBridgeResult& R) { if (R.Ok() && !R.Body.IsEmpty() && AutoClass.IsEmpty()) AutoClass = R.Body.TrimStartAndEnd(); });
 	HLBridge::StorageGet(TEXT("hollywoodland_save_v1"), [this](const FHLBridgeResult& R) { bSaveChecked = true; if (R.Ok()) SavedJson = R.Body; });
@@ -390,6 +391,9 @@ void AHLWorldActor::Tick(float Dt)
 	FVector Loc = Focus - Rot.Vector() * D * M;
 	Loc.Z = FMath::Max(Loc.Z, 40.f);
 	Camera->SetWorldLocationAndRotation(Loc, (Focus - Loc).Rotation());
+	// sound: the listener is the player's head, facing the camera
+	if (P && Game.bInWorld) Game.Sfx.Tick(Game, Dt, P->Area, P->Pos, P->Z + 1.7f, Yaw);
+	else Game.Sfx.Tick(Game, Dt, -1, FVector2D::ZeroVector, 0, Yaw);
 	// periodic status line for automated checks (browser console)
 	static double NextLog = 5;
 	if (Game.bInWorld && Game.Now >= NextLog)

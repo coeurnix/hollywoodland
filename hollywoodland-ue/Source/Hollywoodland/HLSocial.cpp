@@ -9,6 +9,7 @@ void FHLGame::SendMail(const FString& From, const FString& Subject, const FStrin
 	Player.Mail.Insert(M, 0);
 	if (Player.Mail.Num() > 50) Player.Mail.SetNum(50);
 	System(TEXT("You have new mail."));
+	Sound2D(From == TEXT("Hollywood Auction House") && Subject.StartsWith(TEXT("Auction successful")) ? TEXT("ui_sold") : TEXT("ui_mail"));
 }
 
 int32 FHLGame::UnreadMail() const { int32 N = 0; for (const FHLMail& M : Player.Mail) if (!M.bRead) ++N; return N; }

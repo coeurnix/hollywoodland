@@ -45,6 +45,7 @@ void FHLGame::LearnAbility(const FHLAbility* Ab, bool bFree)
 		if (Player.Cents < Cost) { Error(TEXT("You can't afford that.")); return; }
 		Player.Cents -= Cost;
 		System(FString::Printf(TEXT("You have learned %s."), *Ab->Name));
+		Sound2D(TEXT("ui_learn"));
 	}
 	Player.Known.Add(Ab);
 	for (int32 i = 0; i < Player.Bar.Num(); ++i) if (!Player.Bar[i]) { Player.Bar[i] = Ab; break; }
@@ -375,6 +376,7 @@ void FHLGame::EquipBag(int32 BagIdx)
 	Player.Bag[BagIdx] = FHLInvSlot();
 	if (Old) { Player.Bag[BagIdx].Item = Old; Player.Bag[BagIdx].Count = 1; }
 	Player.Equip.Add(It->Slot, It);
+	Sound2D(It->Kind == TEXT("weapon") ? TEXT("ui_equip_weapon") : (It->Type == TEXT("steel") || It->Type == TEXT("padded")) ? TEXT("ui_equip_metal") : TEXT("ui_equip_cloth"));
 	if (It->Slot == TEXT("main") && It->Hands == 2) if (const FHLItem* Off = Player.Equip.FindRef(TEXT("off"))) { if (AddItem(Off, 1, false)) Player.Equip.Remove(TEXT("off")); }
 	if (It->Slot == TEXT("off")) if (const FHLItem* Main = Player.Equip.FindRef(TEXT("main"))) if (Main->Hands == 2) { if (AddItem(Main, 1, false)) Player.Equip.Remove(TEXT("main")); }
 	RecalcPlayerStats();
@@ -384,7 +386,7 @@ void FHLGame::Unequip(const FString& Slot)
 {
 	const FHLItem* It = Player.Equip.FindRef(Slot);
 	if (!It) return;
-	if (AddItem(It, 1, false)) { Player.Equip.Remove(Slot); RecalcPlayerStats(); }
+	if (AddItem(It, 1, false)) { Player.Equip.Remove(Slot); RecalcPlayerStats(); Sound2D(TEXT("ui_equip_cloth"), 0.7f); }
 }
 
 void FHLGame::UseBag(int32 BagIdx)
@@ -411,18 +413,21 @@ void FHLGame::UseBag(int32 BagIdx)
 		A.Value = It->UseAmount / 9.f; A.Period = 2; A.TickTimer = 2; A.Remaining = 18.05f;
 		U->Auras.RemoveAll([&](const FHLAura& O) { return O.Name == A.Name; });
 		U->Auras.Add(A); U->bSitting = true; StopMove(*U);
+		Sound(bFood ? TEXT("pl_eat") : It->Type == TEXT("liquor") || It->Name.Contains(TEXT("Whiskey")) || It->Name.Contains(TEXT("Gin")) ? TEXT("pl_liquor") : TEXT("pl_drink"), *U);
 	}
 	else if (It->UseType == TEXT("bandage"))
 	{
 		if (U->HasAuraNamed(TEXT("Recently Bandaged"))) { Error(TEXT("You were bandaged recently.")); return; }
 		A.Type = EHLAura::Hot; A.Name = TEXT("First Aid"); A.Value = It->UseAmount / 4.f; A.Period = 1.5f; A.TickTimer = 1.5f; A.Remaining = 6.05f;
 		U->Auras.Add(A);
+		Sound(TEXT("pl_bandage"), *U);
 		FHLAura Cd; Cd.Type = EHLAura::Buff; Cd.Name = TEXT("Recently Bandaged"); Cd.Stat = TEXT("none"); Cd.Remaining = 45; Cd.bHarmful = true;
 		U->Auras.Add(Cd);
 	}
 	else if (It->UseType == TEXT("buff"))
 	{
 		A.Type = EHLAura::Buff; A.Name = It->Name; A.Stat = It->UseStat; A.Value = It->UseValue; A.Remaining = It->UseDur;
+		Sound(It->Type == TEXT("liquor") ? TEXT("pl_liquor") : It->Type == TEXT("food") ? TEXT("pl_eat") : TEXT("pl_drink"), *U);
 		U->Auras.RemoveAll([&](const FHLAura& O) { return O.Name == A.Name; });
 		U->Auras.Add(A);
 	}
@@ -446,6 +451,7 @@ void FHLGame::UseBag(int32 BagIdx)
 				AddThreat(*O, U->Id, It->UseAmount);
 			}
 			AddFloat(T->Id, TEXT("BOOM"), FLinearColor(1, 0.6f, 0.2f));
+			Sound(TEXT("obj_grenade"), *T);
 			U->CombatUntil = Now + 6;
 		}
 		else if (It->UseType == TEXT("smoke"))
@@ -460,6 +466,7 @@ void FHLGame::UseBag(int32 BagIdx)
 				if (!O->Threat.Num()) MobEvade(*O);
 			}
 			AddChat(TEXT("emote"), FString(), TEXT("A cloud of grey smoke billows up."));
+			Sound(TEXT("ab_pow_smoke"), *U);
 			if (!Lost) System(TEXT("Nothing was hunting you; the smoke drifts away."));
 			U->CombatUntil = 0;
 		}
@@ -468,11 +475,13 @@ void FHLGame::UseBag(int32 BagIdx)
 			const int32 Before = U->Auras.Num();
 			U->Auras.RemoveAll([](const FHLAura& O) { return O.bHarmful && (O.Type == EHLAura::Stun || O.Type == EHLAura::Slow || O.Name == TEXT("Dazed")); });
 			if (U->Auras.Num() == Before) { Error(TEXT("Your head is already clear.")); return; }
+			Sound(TEXT("ab_nur_salts"), *U);
 		}
 		else if (It->UseType == TEXT("heal_pct"))
 		{
 			if (U->Hp >= U->MaxHp) { Error(TEXT("You are already at full health.")); return; }
 			HealUnit(U, *U, U->MaxHp * It->UseAmount / 100.f, It->Name);
+			Sound(TEXT("ab_nur_tonic"), *U);
 		}
 		else return;
 		FHLAura Cd; Cd.Type = EHLAura::Buff; Cd.Name = TEXT("Pocket Cooldown"); Cd.Stat = TEXT("none"); Cd.Remaining = 60; Cd.bHarmful = true; Cd.SourceId = U->Id;
@@ -489,6 +498,7 @@ void FHLGame::SellBag(int32 BagIdx)
 	if (S.Item->Price <= 0) { Error(TEXT("The merchant doesn't want that.")); return; }
 	Player.Cents += S.Item->Price * S.Count / S.Item->Buy;
 	Player.Bag[BagIdx] = FHLInvSlot();
+	Sound2D(TEXT("ui_coins"));
 }
 
 const FHLItem* FHLGame::BestAmmo() const
@@ -510,6 +520,7 @@ bool FHLGame::BuyItem(const FHLItem* Item)
 	if (Player.Cents < Cost) { Error(TEXT("You can't afford that.")); return false; }
 	if (!AddItem(Item, Item->Buy, false)) return false;
 	Player.Cents -= Cost;
+	Sound2D(TEXT("ui_cash"));
 	return true;
 }
 
@@ -574,6 +585,7 @@ void FHLGame::LootCorpse(FHLUnit& Corpse)
 		const int32 Share = Corpse.LootCents / (1 + Party.Num());
 		Player.Cents += FMath::Max(1, Share);
 		AddChat(TEXT("loot"), FString(), FString::Printf(TEXT("You loot %s%s"), *HLMoney(FMath::Max(1, Share)), Party.Num() ? TEXT(" (your share)") : TEXT("")));
+		Sound2D(TEXT("ui_coins"));
 		Corpse.LootCents = 0;
 	}
 	for (int32 i = Corpse.Loot.Num() - 1; i >= 0; --i)
@@ -585,7 +597,7 @@ void FHLGame::LootCorpse(FHLUnit& Corpse)
 			StartRoll(L.Item);
 			Corpse.Loot.RemoveAt(i);
 		}
-		else if (AddItem(L.Item, L.Count)) Corpse.Loot.RemoveAt(i);
+		else if (AddItem(L.Item, L.Count)) { Corpse.Loot.RemoveAt(i); Sound2D(TEXT("ui_loot")); }
 	}
 	if (Corpse.Loot.Num() == 0) { Corpse.bLootable = false; Corpse.CorpseUntil = FMath::Min(Corpse.CorpseUntil, (float)Now + 6.f); }
 }
@@ -617,6 +629,7 @@ void FHLGame::ReleaseSpirit()
 	U->CombatUntil = 0;
 	for (FHLUnit* M : UnitList) if (M->Kind == EHLKind::Mob) M->Threat.Remove(U->Id);
 	TeleportUnit(*U, U->Area, Where);
+	Sound2D(Def.bDungeon ? TEXT("pl_rez") : TEXT("pl_spirit"));
 	if (Def.bDungeon) System(FString::Printf(TEXT("You wake at %s."), *Name));
 	else
 	{
@@ -636,6 +649,7 @@ void FHLGame::ResurrectAtCorpse()
 	U->bGhost = false; U->Hp = U->MaxHp * 0.5f; U->Res = U->ResType == EHLRes::Adrenaline ? 0 : U->MaxRes * 0.5f;
 	U->Pos = Player.CorpsePos;
 	System(TEXT("You return to your body."));
+	Sound2D(TEXT("pl_rez"));
 }
 
 void FHLGame::ResurrectAtStation()
@@ -649,6 +663,7 @@ void FHLGame::ResurrectAtStation()
 	U->Hp = U->MaxHp * 0.5f; U->Res = U->ResType == EHLRes::Adrenaline ? 0 : U->MaxRes * 0.5f;
 	FHLAura A; A.Type = EHLAura::Buff; A.Name = TEXT("Resurrection Sickness"); A.Stat = TEXT("none"); A.bHarmful = true; A.Remaining = 600;
 	U->Auras.Add(A);
+	Sound2D(TEXT("pl_rez"));
 	System(TEXT("You are revived. Resurrection Sickness: attributes reduced by 25% for 10 minutes."));
 }
 
@@ -709,6 +724,7 @@ void FHLGame::TickPlayer(float Dt)
 		{
 			const FHLObjectDef& Def = *O.Def;
 			O.bActive = false; O.RespawnAt = Now + Def.Respawn;
+			SfxObject(Def, false);
 			if (Def.Gives && Def.Gives->Kind != TEXT("quest")) AddItem(Def.Gives, 1);
 			else if (Def.Gives) AddChat(TEXT("loot"), FString(), FString::Printf(TEXT("You receive: [%s]"), *Def.Gives->Name));
 			if (Def.bSalvage) { if (Player.Salvage < 75 && Chance(0.8f)) { Player.Salvage++; System(FString::Printf(TEXT("Your skill in Salvaging has increased to %d."), Player.Salvage)); } }
@@ -793,6 +809,7 @@ void FHLGame::AcceptQuest(const FHLQuest& Q)
 	FHLQuestState QS; QS.Q = &Q; QS.Progress.Init(0, Q.Objectives.Num());
 	Player.Quests.Add(QS);
 	System(FString::Printf(TEXT("Quest accepted: %s"), *Q.Name));
+	Sound2D(TEXT("ui_quest_accept"));
 	if (!Q.Breadcrumb.IsEmpty()) System(TEXT("That road leads out through the hive wall. The guards at the gap are far above your level."));
 	StartEscort(Q);
 }
@@ -847,6 +864,7 @@ void FHLGame::CompleteQuest(const FHLQuest& Q, int32 Choice)
 	Player.Quests.RemoveAll([&](const FHLQuestState& S) { return S.Q == &Q; });
 	Player.Done.Add(Q.Id);
 	Player.Cents += Q.Cents;
+	Sound2D(TEXT("ui_quest_done"));
 	System(FString::Printf(TEXT("%s completed."), *Q.Name));
 	if (Q.Cents) AddChat(TEXT("loot"), FString(), FString::Printf(TEXT("You receive %s."), *HLMoney(Q.Cents)));
 	for (const auto& KV : Q.Rep) { Player.Rep.FindOrAdd(KV.Key) += KV.Value; System(FString::Printf(TEXT("Your reputation with the Los Angeles Police Department has increased by %d."), KV.Value)); }
@@ -990,6 +1008,7 @@ bool FHLGame::BuyAuction(int32 Idx)
 	if (!AddItem(A.Item, A.Count, false)) return false;
 	Player.Cents += Refund - A.Buyout;
 	System(FString::Printf(TEXT("You won an auction for [%s]."), *A.Item->Name));
+	Sound2D(TEXT("ui_sold"));
 	Auctions.RemoveAt(Idx);
 	return true;
 }
@@ -1014,6 +1033,7 @@ void FHLGame::StartRoll(const FHLItem* Item)
 {
 	Roll = FHLRoll(); Roll.Item = Item; Roll.bActive = true; Roll.EndsAt = Now + 12; Roll.PlayerChoice = -1;
 	AddChat(TEXT("loot"), FString(), FString::Printf(TEXT("Rolling for [%s]: Need, Greed or Pass."), *Item->Name));
+	Sound2D(TEXT("ui_dice"));
 }
 
 void FHLGame::FinishRoll()

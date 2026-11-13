@@ -82,8 +82,8 @@ submission (bible §2 rule 1).
 | Needed | Current |
 |---|---|
 | Music: title, boulevard day/night, combat, dungeon, boss | DONE: 30 Lyria tracks in `music/` (`ART-SONGS.md`), wired by `HLMusic.cpp` |
-| Ambience: street, crowd, hive drone, theatre interior | none |
-| SFX: melee/gun/cast per school, hits, mob vocalisations ×9, death, loot, coin, UI clicks, level-up, quest accept/complete, red-car bell | none |
+| Ambience: street, crowd, hive drone, theatre interior | DONE: 19 seamless 22 s stereo beds (boulevard day/night, hills day/night, alley, rooftops, backlot, hub, hive wall, hive, dungeon, lobby, stage, ballroom, gym, police, pass, Fight Night crowd, rain), crossfaded per subzone by `HLSfx.cpp` |
+| SFX: melee/gun/cast per school, hits, mob vocalisations ×9, death, loot, coin, UI clicks, level-up, quest accept/complete, red-car bell | DONE: 263 sounds / 500 variant files in `sfx/` (ElevenLabs SFX v3 via fal.ai, `tools/gen-sfx.mjs`; index `Content/Data/sfx.json`): UI, footsteps ×6 surfaces, player grunts m/f, weapons and shots, all 61 abilities, cast loops per school, DoT ticks, aura sounds, aggro/attack/hurt/death for 13 creature families, boss specials, world objects, positional loops, event stingers |
 | Period recordings (≤1925, public domain) on radios/phonographs | none |
 | Voices: NPC greetings (15 real-person NPCs must not use cloned voices, bible §2) | none |
 

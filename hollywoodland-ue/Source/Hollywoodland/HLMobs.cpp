@@ -11,6 +11,7 @@ void FHLGame::MobEnterCombat(FHLUnit& U, int32 TargetId)
 	if (U.bBurrowed && bWasIdle) BurrowerEmerge(U, Unit(TargetId), true);
 	if (bWasIdle)
 	{
+		Sound(SfxVoice(U) + TEXT("_aggro"), U, U.SummonerId ? 0.6f : 1.f);
 		// a patrol's Home is its next waypoint, possibly hundreds of metres off: the leash is anchored where the fight starts
 		if (U.CampIdx >= 0 && Areas[U.Area].Def->Camps[U.CampIdx].Patrol.Num() >= 2) U.Home = U.Pos;
 		for (int32 k = 0; k < 3; ++k) U.ScriptT[k] = Now + 6 + k * 4;
@@ -31,6 +32,7 @@ void FHLGame::MobEnterCombat(FHLUnit& U, int32 TargetId)
 void FHLGame::BurrowerEmerge(FHLUnit& U, FHLUnit* T, bool bAmbush)
 {
 	U.bBurrowed = false;
+	Sound(TEXT("burrow_emerge"), U);
 	UE_LOG(LogTemp, Display, TEXT("HL_LIFE mob %s emerges (%s)"), *U.Name, bAmbush ? TEXT("ambush") : TEXT("tunnel"));
 	AddChat(TEXT("emote"), FString(), bAmbush ? FString::Printf(TEXT("%s erupts from the ground!"), *U.Name) : FString::Printf(TEXT("%s bursts up from below!"), *U.Name));
 	if (!T || T->bDead || FVector2D::Distance(T->Pos, U.Pos) > 6) return;
@@ -216,6 +218,7 @@ void FHLGame::BossScript(FHLUnit& U, float Dt)
 		{
 			U.ScriptPhase = 1; U.bBurrowed = true; U.ScriptT[0] = Now + 3.5f; U.Casting = nullptr; StopMove(U);
 			AddChat(TEXT("emote"), FString(), FString::Printf(TEXT("%s burrows into the ground!"), *U.Name));
+			Sound(TEXT("burrow_dig"), U);
 		}
 		else if (U.ScriptPhase == 1 && Now >= U.ScriptT[0])
 		{
@@ -234,6 +237,7 @@ void FHLGame::BossScript(FHLUnit& U, float Dt)
 			if (T && !T->bDead)
 			{
 				AddChat(TEXT("emote"), FString(), FString::Printf(TEXT("%s swoops at %s!"), *U.Name, *T->Name));
+				Sound(TEXT("flier_swoop"), *T);
 				UE_LOG(LogTemp, Display, TEXT("HL_LIFE mob %s swoops at %s"), *U.Name, *T->Name);
 				if (FVector2D::Distance(T->Pos, U.Pos) < 12) { U.Pos = Area.Nav.NearestFree(T->Pos + (U.Pos - T->Pos).GetSafeNormal() * 2); DealDamage(&U, *T, FMath::Max(1.f, (U.WeaponMin + U.WeaponMax) * 0.65f), TEXT("physical"), false, TEXT("Swoop")); }
 			}
@@ -248,7 +252,7 @@ void FHLGame::BossScript(FHLUnit& U, float Dt)
 			int32 Hatched = 0;
 			for (FHLObjectState& O : Area.Objects)
 				if (O.bActive && O.Def->Boss == M.Id && CountAdds() < 8) { SpawnAdd(TEXT("mob_egy_broodling"), O.Def->Pos); SpawnAdd(TEXT("mob_egy_broodling"), O.Def->Pos); ++Hatched; }
-			if (Hatched) AddChat(TEXT("emote"), FString(), TEXT("The egg clusters hatch! Break them to stop the Broodlings."));
+			if (Hatched) { AddChat(TEXT("emote"), FString(), TEXT("The egg clusters hatch! Break them to stop the Broodlings.")); Sound(TEXT("brood_spawn"), U); Sound(TEXT("invader_brute_aggro"), U); }
 		}
 	}
 	else if (M.Script == TEXT("hive_warden"))
@@ -259,6 +263,7 @@ void FHLGame::BossScript(FHLUnit& U, float Dt)
 			if (FHLUnit* V = RandomVictim(true))
 			{
 				AddChat(TEXT("emote"), FString(), FString::Printf(TEXT("Hive Warden charges %s!"), *V->Name));
+				Sound(TEXT("warden_slam"), *V);
 				U.Pos = Area.Nav.NearestFree(V->Pos + (U.Pos - V->Pos).GetSafeNormal() * 3);
 				if (const FHLAbility* Ab = FHLData::Get().Ability(TEXT("ab_mob_charge"))) ExecuteAbility(U, *Ab, V);
 			}
@@ -272,6 +277,7 @@ void FHLGame::BossScript(FHLUnit& U, float Dt)
 			if (FHLUnit* V = RandomVictim(false))
 			{
 				AddChat(TEXT("emote"), FString(), TEXT("Spitter Matriarch sprays a pool of acid!"));
+				Sound(TEXT("invader_spitter_aggro"), U);
 				// Simulated players "break line of sight" unless they make a mistake; the human has to move behind the seats.
 				const FHLAbility* Ab = FHLData::Get().Ability(TEXT("ab_mob_acid_pool"));
 				if (Ab)
@@ -295,6 +301,7 @@ void FHLGame::BossScript(FHLUnit& U, float Dt)
 		{
 			U.ScriptPhase++;
 			AddChat(TEXT("emote"), FString(), TEXT("The Egyptian Hive Mother calls her Drones!"));
+			Sound(TEXT("queen_screech"), U);
 			for (int32 i = 0; i < 4; ++i) SpawnAdd(TEXT("mob_egy_drone"), U.Pos + FVector2D((i % 2 ? 14 : -14), -10));
 		}
 		if (Now >= U.ScriptT[1])
@@ -368,8 +375,8 @@ bool FHLGame::ObjectInteract(int32 AreaIdx, int32 ObjIdx)
 	const FHLObjectDef& Def = *O.Def;
 	if (!O.bActive) return false;
 	if (FVector2D::Distance(P->Pos, Def.Pos) > (Def.bBig ? 9.f : 4.5f)) { Error(TEXT("You are too far away.")); return false; }
-	if (Def.Kind == TEXT("mailbox")) { OpenNpcUnitId = 0; OpenNpcMode = TEXT("mail"); return true; }
-	if (Def.Kind == TEXT("redcar")) { OpenNpcUnitId = 0; OpenNpcMode = TEXT("redcar"); return true; }
+	if (Def.Kind == TEXT("mailbox")) { SfxObject(Def, true); OpenNpcUnitId = 0; OpenNpcMode = TEXT("mail"); return true; }
+	if (Def.Kind == TEXT("redcar")) { SfxObject(Def, true); OpenNpcUnitId = 0; OpenNpcMode = TEXT("redcar"); return true; }
 	if (Def.bSalvage && Player.Salvage <= 0) { Error(TEXT("Requires Salvaging. Ike Brandt at Hollywood & Vine can teach you.")); return false; }
 	if (!Def.Quest.IsEmpty() && Def.Boss.IsEmpty())
 	{
@@ -381,6 +388,7 @@ bool FHLGame::ObjectInteract(int32 AreaIdx, int32 ObjIdx)
 	if (InCombat(*P) && Def.Boss.IsEmpty()) { Error(TEXT("You can't do that while in combat.")); return false; }
 	InteractArea = AreaIdx; InteractObj = ObjIdx; InteractStart = Now; InteractEnd = Now + (Def.bUse ? 2.5f : 1.5f);
 	InteractLabel = Def.bSalvage ? TEXT("Salvaging") : Def.bUse ? TEXT("Using") : TEXT("Collecting");
+	SfxObject(Def, true);
 	StopMove(*P); P->bSitting = false;
 	return true;
 }

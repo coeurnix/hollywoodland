@@ -25,6 +25,7 @@ node tools/gen-data.mjs                                   # regenerate Content/D
 hollywoodland-ue\Scripts\BuildWeb.ps1                      # editor + Wasm Shipping build, cook, package -> web-dist-Shipping\Wasm (~8 min cold)
 cd workers; node deploy-stage.mjs ../hollywoodland-ue/web-dist-Shipping/Wasm v<N>   # upload + switch live build
 cd workers; node deploy-music.mjs                         # music/*.mp3 -> R2 music/ (only when tracks change)
+cd workers; node deploy-music.mjs --sfx                   # sfx/*.mp3 -> R2 sfx/ (after node tools/gen-sfx.mjs; needs FAL_AI_API_KEY in .env)
 cd workers/server; npx wrangler deploy                    # API worker (secrets: FIREWORKS_API_KEY, SESSION_SECRET)
 ```
 

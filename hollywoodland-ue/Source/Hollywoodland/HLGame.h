@@ -7,6 +7,7 @@
 #include "HLData.h"
 #include "HLCharacter.h"
 #include "HLMusic.h"
+#include "HLSfx.h"
 
 enum class EHLKind : uint8 { Player, Sim, Mob, Npc };
 enum class EHLAura : uint8 { Dot, Hot, Shield, Stun, Slow, Taunt, Buff };
@@ -214,6 +215,18 @@ public:
 	float FrameDt = 0;
 	bool bInWorld = false;
 	FHLMusic Music; // ticked by AHLWorldActor (also on the title screen)
+	FHLSfx Sfx;     // ticked by AHLWorldActor with the listener; drains SoundQueue
+	// ---- sound events (HLSfx.cpp). Ids are sfx.json keys; unknown ids are ignored, so a missing sound never breaks play.
+	TArray<FHLSoundEvent> SoundQueue;
+	void Sound(const FString& Id, const FHLUnit& At, float Vol = 1.f) { if (SoundQueue.Num() < 256) { FHLSoundEvent E; E.Id = Id; E.Area = At.Area; E.Pos = At.Pos; E.Z = At.Z + 1.f; E.Vol = Vol; E.UnitId = At.Id; SoundQueue.Add(MoveTemp(E)); } }
+	void SoundAt(const FString& Id, int32 Area, const FVector2D& Pos, float Vol = 1.f) { if (SoundQueue.Num() < 256) { FHLSoundEvent E; E.Id = Id; E.Area = Area; E.Pos = Pos; E.Z = 1.f; E.Vol = Vol; SoundQueue.Add(MoveTemp(E)); } }
+	void Sound2D(const FString& Id, float Vol = 1.f) { if (SoundQueue.Num() < 256) { FHLSoundEvent E; E.Id = Id; E.Vol = Vol; SoundQueue.Add(MoveTemp(E)); } }
+	FString SfxVoice(const FHLUnit& U) const;                 // creature bark prefix ("invader_soldier", "coyote", "enforcer")
+	const FHLItem* SfxWeapon(const FHLUnit& U, bool bRanged) const;
+	void SfxAttack(const FHLUnit& U, const FHLUnit& T, int32 Outcome); // 0 hit, 1 crit, 2 miss, 3 dodge, 4 parry, 5 block
+	void SfxHurt(const FHLUnit& U);
+	void SfxDeath(const FHLUnit& U);
+	void SfxObject(const struct FHLObjectDef& Def, bool bStart);
 	FRandomStream Rng;
 	float Rand() { return Rng.FRand(); }
 	int32 RandInt(int32 A, int32 B) { return Rng.RandRange(A, B); }
@@ -337,7 +350,7 @@ public:
 	FString OpenNpcMode;           // "", quest:<id>, vendor, trainer, bank, auction, redcar, inn, prof
 	FString ErrorText; float ErrorUntil = 0;
 	FString BannerText, BannerSub; float BannerUntil = 0; bool bBannerHostile = false;
-	void Error(const FString& T) { ErrorText = T; ErrorUntil = Now + 2.5; }
+	void Error(const FString& T) { if (ErrorText != T || Now > ErrorUntil - 2.0) Sound2D(TEXT("ui_error")); ErrorText = T; ErrorUntil = Now + 2.5; }
 	void Banner(const FString& T, const FString& Sub = FString(), float Dur = 4) { BannerText = T; BannerSub = Sub; BannerUntil = Now + Dur; bBannerHostile = false; }
 	TArray<FHLFloatText> Floats;
 	FString CurSubzone;
@@ -436,7 +449,7 @@ public:
 	FHLSimRun SimRun;
 	const FHLItem* SimDungeonLoot(const FHLSim& S) const;
 	void TickSimDungeon();
-	struct FHLFight { int32 Stage = 0, Bout = 0, Champ = -1; TArray<int32> Fighters, Watchers, Winners; double NextAt = 0, BeatAt = 0, BoutStart = 0, NextBout = 0, StageAt = 0, Until = 0; bool bAnnounced = false, bBoutDone = false; };
+	struct FHLFight { int32 Stage = 0, Bout = 0, Champ = -1; TArray<int32> Fighters, Watchers, Winners; double NextAt = 0, BeatAt = 0, BoutStart = 0, NextBout = 0, StageAt = 0, Until = 0; bool bAnnounced = false, bBoutDone = false; FVector2D RingPos = FVector2D::ZeroVector; };
 	FHLFight Fight;
 	bool FightPair(int32& A, int32& B) const;
 	void PlaceFightCrowd(const FVector2D& Ring);

@@ -24,4 +24,8 @@ $music = Join-Path (Split-Path $projectRoot -Parent) 'music'
 $musicOut = Join-Path $archive 'Windows\Hollywoodland\Music'
 New-Item -ItemType Directory -Force $musicOut | Out-Null
 Copy-Item (Join-Path $music '*.mp3') $musicOut -Force
+# Sound effects likewise: <ProjectDir>\Sfx\*.mp3 (tools/gen-sfx.mjs; HLSfx.cpp decodes them with dr_mp3).
+$sfxOut = Join-Path $archive 'Windows\Hollywoodland\Sfx'
+New-Item -ItemType Directory -Force $sfxOut | Out-Null
+Copy-Item (Join-Path (Join-Path (Split-Path $projectRoot -Parent) 'sfx') '*.mp3') $sfxOut -Force
 Write-Host "Windows build: $archive"

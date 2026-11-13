@@ -624,6 +624,7 @@ void FHLGame::TickFightNight()
 	static const bool bLifeTest = FParse::Param(FCommandLine::Get(), TEXT("HLLifeTest"));
 	FHLFight& F = Fight;
 	const FVector2D Ring = Areas[0].Nav.NearestFree(*Inn + FVector2D(0, -10));
+	F.RingPos = Ring;
 	const bool bNear = P->Area == 0 && FVector2D::Distance(P->Pos, Ring) < 60;
 	if (F.Stage == 0)
 	{
@@ -680,6 +681,7 @@ void FHLGame::TickFightNight()
 		{
 			F.BoutStart = Now + 3.5;
 			UA->Hp = UA->MaxHp; UB->Hp = UB->MaxHp;
+			SoundAt(TEXT("ev_bell"), 0, Ring);
 			const TCHAR* Name = F.Fighters.Num() >= 4 ? (F.Bout == 2 ? TEXT("The final") : TEXT("A semi-final")) : (F.Fighters.Num() == 3 && F.Bout == 1 ? TEXT("The final") : TEXT("The bout"));
 			if (bNear) AddChat(TEXT("system"), FString(), FString::Printf(TEXT("%s: %s (level %d) against %s (level %d)."), Name, *Sims[A].P->Handle, Sims[A].Level, *Sims[B].P->Handle, Sims[B].Level));
 			return;
@@ -698,11 +700,13 @@ void FHLGame::TickFightNight()
 			Def2->Hp = FMath::Max(1.f, Def2->MaxHp * 0.08f);
 			const int32 WinSI = Att == UA ? A : B, LoseSI = Att == UA ? B : A;
 			F.Winners.Add(WinSI); F.bBoutDone = true; F.NextBout = Now + 7;
+			SoundAt(TEXT("ev_bell"), 0, Ring); SoundAt(TEXT("ev_cheer"), 0, Ring);
 			if (bNear) System(FString::Printf(TEXT("%s has defeated %s."), *Sims[WinSI].P->Handle, *Sims[LoseSI].P->Handle));
 			for (int32 SI : F.Watchers) if (Chance(0.3f)) SimSay(SI, TEXT("say"), TEXT("duel_watch"), 1 + Rand() * 3);
 			SimSay(LoseSI, TEXT("say"), TEXT("duel_sim_lost"), 2.5f + Rand());
 			return;
 		}
+		Sound(TEXT("hit_fist"), *Def2);
 		DealDamage(Att, *Def2, Hit, TEXT("physical"), Chance(0.15f), TEXT("punch"));
 		if (bNear && Chance(0.15f) && F.Watchers.Num()) { static const TCHAR* Cheer[] = { TEXT("cheers."), TEXT("whistles."), TEXT("shouts encouragement."), TEXT("winces.") }; { const int32 W = F.Watchers[RandInt(0, F.Watchers.Num() - 1)]; const int32 Ci = RandInt(0, 3); AddChat(TEXT("emote"), FString(), Sims[W].P->Handle + TEXT(" ") + Cheer[Ci]); if (FHLUnit* Wu = Unit(Sims[W].UnitId)) Gesture(*Wu, Ci == 3 ? TEXT("Shrug") : TEXT("Cheer")); } }
 		return;

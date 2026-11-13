@@ -652,7 +652,7 @@ void FHLGame::TickDirector(float Dt)
 			const int32 i = NearestLocal([&](const FHLSim& S) { return FMath::Abs(S.Level - P->Level) <= 2 && S.P->Temperament != TEXT("quiet"); }, 45);
 			if (i >= 0)
 			{
-				BuddySim = i; InviteFromSim = i; InviteUntil = Now + 40;
+				BuddySim = i; InviteFromSim = i; Sound2D(TEXT("ui_invite")); InviteUntil = Now + 40;
 				SimSay(i, TEXT("whisper"), P->Level <= 1 ? TEXT("dir_invite_new") : TEXT("dir_invite"), 0, TEXT("want to group? faster together"));
 				LastWhisperFrom = Sims[i].P->Handle;
 				System(FString::Printf(TEXT("%s has invited you to join a group."), *Sims[i].P->Handle));

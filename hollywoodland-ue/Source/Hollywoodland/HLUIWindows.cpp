@@ -460,7 +460,7 @@ void SHLGameUI::DrawTalents() const
 void SHLGameUI::DrawMenu() const
 {
 	FHLGame& Gm = G();
-	if (!Win(TEXT("menu"), TEXT("Game Menu"), 330, 350, bMenu, (VS.X - 330) * 0.5f, 240)) return;
+	if (!Win(TEXT("menu"), TEXT("Game Menu"), 330, 384, bMenu, (VS.X - 330) * 0.5f, 240)) return;
 	if (Btn(WX, WY, 300, 26, Gm.Player.bShowSim ? TEXT("Show simulated players: ON (tags every AI player)") : TEXT("Show simulated players: OFF"), true, 10)) Gm.Player.bShowSim = !Gm.Player.bShowSim;
 	if (Btn(WX, WY + 34, 300, 26, TEXT("Save now"), true, 10)) { Gm.SaveNow(); Gm.System(TEXT("Game saved.")); }
 	if (Btn(WX, WY + 68, 300, 26, TEXT("How to play (H)"), true, 10)) bHelp = true;
@@ -472,9 +472,14 @@ void SHLGameUI::DrawMenu() const
 		const FString Now = Gm.Music.NowPlaying();
 		if (!Now.IsEmpty()) Tx(WX, WY + 166, FString::Printf(TEXT("Now playing: %s"), *Now), 9, ColDim);
 	}
-	TxWrap(WX, WY + 186, 300, TEXT("Single-player. Every other player is simulated by AI; the server only writes their chat. Your character is saved in this browser and backed up to the server."), 9, ColDim);
-	Tx(WX, WY + 238, TEXT("Cloud code (restore on another browser):"), 9, ColDim);
-	Tx(WX, WY + 254, Gm.Player.PlayerId, 12, ColGold, true);
+	{
+		const int32 Pct = FMath::RoundToInt(Gm.Sfx.GetVolume() * 100);
+		if (Btn(WX, WY + 184, 300, 26, Pct ? FString::Printf(TEXT("Sound effects: %d%%"), Pct) : FString(TEXT("Sound effects: off")), true, 10))
+			Gm.Sfx.SetVolume(Pct >= 100 ? 0.f : Pct < 25 ? 0.25f : FMath::Min(1.f, (Pct / 25 + 1) * 0.25f));
+	}
+	TxWrap(WX, WY + 220, 300, TEXT("Single-player. Every other player is simulated by AI; the server only writes their chat. Your character is saved in this browser and backed up to the server."), 9, ColDim);
+	Tx(WX, WY + 272, TEXT("Cloud code (restore on another browser):"), 9, ColDim);
+	Tx(WX, WY + 288, Gm.Player.PlayerId, 12, ColGold, true);
 }
 
 void SHLGameUI::DrawNpc() const

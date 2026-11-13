@@ -115,6 +115,7 @@ private:
 	mutable FString AuctionSearch;
 	mutable bool bChar = false, bBags = false, bQuests = false, bSpells = false, bMap = false, bWho = false, bInspect = false, bTalents = false, bCraft = false, bMenu = false, bWorldMap = false, bHelp = true;
 	mutable TMap<FName, FVector2D> WinPos;
+	mutable TMap<FName, double> WinSeen; // last paint time per window: a window not painted for a moment is opening again (sound)
 	mutable FName DragWin; mutable FVector2D DragOff;
 	mutable float WX = 0, WY = 0;
 	mutable int32 SelClass = 0, SelQuest = 0, RewardChoice = -1, AuctionPage = 0, AuctionFilter = 0, WhoScroll = 0, VendorScroll = 0, InspectSim = -1;

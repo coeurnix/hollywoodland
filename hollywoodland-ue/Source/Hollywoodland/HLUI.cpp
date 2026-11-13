@@ -193,7 +193,7 @@ bool SHLGameUI::Btn(float X, float Y, float W, float H, const FString& Label, bo
 	Rc(X, Y, W, H, !bEnabled ? FLinearColor(0.1f, 0.1f, 0.1f) : bHot ? (bLDown ? FLinearColor(0.42f, 0.09f, 0.08f) : FLinearColor(0.34f, 0.1f, 0.09f)) : FLinearColor(0.2f, 0.06f, 0.06f));
 	if (H >= 18) { ++Layer; LastKind = 1; Rc(X, Y, W, 1, FLinearColor(1, 0.85f, 0.5f, bEnabled ? 0.25f : 0.08f)); }
 	TxC(X + W * 0.5f, Y + (H - Size * 1.45f) * 0.5f, Label, Size, bEnabled ? ColGold : ColDim);
-	if (bHot && bLClick) { bLClick = false; return true; }
+	if (bHot && bLClick) { bLClick = false; G().Sfx.Ui(TEXT("ui_click")); return true; }
 	return false;
 }
 void SHLGameUI::Bar(float X, float Y, float W, float H, float Pct, const FLinearColor& C, const FString& Label, int32 Size) const
@@ -209,6 +209,12 @@ bool SHLGameUI::Win(const TCHAR* Id, const FString& Title, float W, float H, boo
 {
 	if (!bOpen) return false;
 	const FName Key(Id);
+	{
+		const double T = FPlatformTime::Seconds();
+		double& Seen = WinSeen.FindOrAdd(Key, 0);
+		if (T - Seen > 0.25) G().Sfx.Ui(Key == FName(TEXT("bags")) || Key == FName(TEXT("bag")) ? TEXT("ui_bag") : TEXT("ui_open"));
+		Seen = T;
+	}
 	FVector2D& P = WinPos.FindOrAdd(Key, FVector2D(DefX, DefY));
 	if (DragWin == Key) { if (bLDown) P = Mouse - DragOff; else DragWin = NAME_None; }
 	P.X = FMath::Clamp(P.X, 0.0, FMath::Max(0.0, VS.X - W)); P.Y = FMath::Clamp(P.Y, 0.0, FMath::Max(0.0, VS.Y - H));
@@ -222,7 +228,7 @@ bool SHLGameUI::Win(const TCHAR* Id, const FString& Title, float W, float H, boo
 	++Layer; LastKind = 1;
 	Rc(P.X, P.Y + 26, W, 1, FLinearColor(0.75f, 0.6f, 0.3f)); Rc(P.X, P.Y + 28, W, 1, FLinearColor(0.75f, 0.6f, 0.3f, 0.4f));
 	TxC(P.X + W * 0.5f, P.Y + 3, Title, 14, ColGold, true);
-	if (Btn(P.X + W - 22, P.Y + 3, 18, 18, TEXT("x"))) { bOpen = false; return false; }
+	if (Btn(P.X + W - 22, P.Y + 3, 18, 18, TEXT("x"))) { bOpen = false; G().Sfx.Ui(TEXT("ui_close")); return false; }
 	if (bLDown && DragWin.IsNone() && !bDragging && Hover(P.X, P.Y, W - 26, 24) && FVector2D::Distance(DownPos, Mouse) < 2 && Hover(P.X, P.Y, W, 24)) { DragWin = Key; DragOff = Mouse - P; }
 	WX = P.X + 10; WY = P.Y + 32;
 	return true;

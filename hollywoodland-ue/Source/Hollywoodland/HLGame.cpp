@@ -533,6 +533,7 @@ void FHLGame::LearnTalent(const FHLTalent& T)
 	const int32 Rank = ++Player.Talents.FindOrAdd(T.Id);
 	RecalcPlayerStats();
 	System(FString::Printf(TEXT("You have learned %s (rank %d)."), *T.Name, Rank));
+	Sound2D(TEXT("ui_talents"));
 }
 void FHLGame::ResetTalents()
 {

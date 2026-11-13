@@ -16,6 +16,8 @@ public class Hollywoodland : ModuleRules
 		if (Target.Platform == UnrealTargetPlatform.Win64)
 		{
 			PublicSystemLibraries.Add("winmm.lib");
+			// Native sound effects (HLSfx.cpp) decode MP3 with the engine's header-only dr_mp3 (compiled privately, DRMP3_API static).
+			PrivateIncludePaths.Add(System.IO.Path.Combine(EngineDirectory, "Source", "ThirdParty", "dr_libs", "build"));
 		}
 	}
 }

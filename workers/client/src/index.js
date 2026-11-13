@@ -30,8 +30,8 @@ export default {
     if (path === '' || path.endsWith('/')) path += 'index.html';
     if (path === '_headers' || path.endsWith('.br')) return new Response(null, { status: 404 });
     if (path === 'favicon.ico') return new Response(null, { status: 204, headers: { 'Cache-Control': 'max-age=86400' } });
-    // music/ is shared by every stage (uploaded once by deploy-music.mjs); the game streams it on demand
-    const shared = path.startsWith('music/');
+    // music/ and sfx/ are shared by every stage (uploaded by deploy-music.mjs [--sfx]); the game fetches them on demand
+    const shared = path.startsWith('music/') || path.startsWith('sfx/');
     const key = shared ? path : `${env.DEPLOY}/${path}`;
     const headers = baseHeaders(path);
     if (shared) headers.set('Cache-Control', 'public, max-age=604800');

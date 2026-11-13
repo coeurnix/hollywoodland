@@ -35,6 +35,7 @@ browser ── itch.io page (iframe) ── hollywoodland Worker (R2 stage, COOP
 | `HLMobs.cpp` | mob AI (aggro, social pull, leash, flee, evade), boss scripts, loot, camp respawn, object interaction |
 | `HLPlayer.cpp` | character creation, save/load JSON, inventory/equip/vendor, targeting, quests, auction house, loot rolls |
 | `HLSim.cpp` | Census tick, sim brains (local/transient/idler/party), ability picker, invites, Director (first 15 min) |
+| `HLSfx.*` | sound effects: sim sound-event queue (`FHLGame::Sound/SoundAt/Sound2D`, `Sfx*` helpers), variants/pitch/attenuation/pan against the listener, managed loops (ambience beds per subzone, cast loops, wings, burrowing, spires, crafting) and footsteps; web WebAudio via `HLBridge::Audio` (op 6), native dr_mp3 decode + waveOut mixer thread |
 | `HLMusic.*` | music director (title, subzone playlists day/night, notable-fight/boss/death/victory tracks); playback via `HLBridge::MusicPlay` (web `<audio>`, native MCI) |
 | `HLChat.cpp` | ambient chat (templates + corpus), typing-style filter, slash commands, Worker client + action application |
 | `HLWorldActor.*` | geometry build, unit visuals, camera, `-HLAuto` self-play test, `HL_STATUS` console line every 20 s |
@@ -82,6 +83,7 @@ browser ── itch.io page (iframe) ── hollywoodland Worker (R2 stage, COOP
 | Duels, trade, mail, friends (§6, §9, §11) | DONE | `HLSocial.cpp`. Duels outside hubs (loser stops at 1 hp, forfeit at 40 m, rivals challenge you); face-to-face trade window (sims accept fair offers and gifts); whisper a trade-chat seller "wtb" and they send it C.O.D.; mailbox with auction proceeds, returns, outbid refunds and letters; friends list (Who window tab) with online/offline notices. Guilds: a social or levelling guild invites the player at level 4+ (bonded sims first); guild chat (/g) with MOTD, welcomes, logins, grats on dings and census dungeon clears; roster tab with ranks in the Who window; /gquit. |
 | Mounts for transients | PROTO | A dark box under the rider, +60% speed. |
 | Music | DONE | `HLMusic.cpp`; 30 tracks streamed from R2 `music/` on the web (not in the pak), copied to `<pkg>\Music` natively. Menu volume + `/music`. |
+| Sound effects + ambience | DONE | `HLSfx.cpp`; 500 MP3s in `sfx/` from `tools/gen-sfx.mjs` (fal.ai ElevenLabs SFX v3), fetched from R2 `sfx/` on the web, copied to `<pkg>\Sfx` natively. Menu volume + `/sfx` (`/sfx play <id>` to audition). Auto tests are silent unless `-HLSfx`. |
 | Character art | DONE | MakeHuman bodies from the art package (`art/characters`, kept local) → `tools/charprep.py` → `Scripts/ImportCharacters.ps1` (`-Reset` for meshes) → `-Script retarget_anims.py`. Creator on the title screen (sex, skin, face, hair, hair colour, clothes dye), paper doll with a live 3D figure, gear shown on every human. Test: `-HLLineup [-HLLineupFar] [-HLLineupSide] [-HLLineupGestures] [-HLBindPose] [-HLDumpAtlas]`. |
 | Day/night, SFX/ambience, VFX | TODO | None. Character animation done (see above); invaders and wildlife still slide. |
 | Interface (§1 WP10) | DONE | Alegreya Sans + Limelight (OFL), Art Deco frames, FLUX panel/header/title art, painted icons on bars, bags, spellbook, menu; quest goal markers (screen diamond, edge arrow, minimap, tracker distance); hostile-zone banner. |
@@ -127,7 +129,7 @@ browser ── itch.io page (iframe) ── hollywoodland Worker (R2 stage, COOP
 24. Art pass per `ASSETS.md` (10 landmarks first). Keep the data-driven box layout as collision; swap visuals per box label.
 25. Items: grow base list to ~680 (bible §8), icons (~700), pocket items, epics set looks; validator rule for unique names.
 26. Quest text to 60-120 words (LLM expand with cache, human spot-check 20). Unbuilt-zone quest titles to ~45/zone.
-27. Audio (music done): SFX, ambience, 1925-and-earlier recordings on radios, UI clicks, combat hits. Public-domain film on the Chinese screen (§14 assets).
+27. Audio (music, SFX and ambience done): 1925-and-earlier recordings on radios; voice-over once the dialogue scripts exist. Public-domain film on the Chinese screen (§14 assets).
 28. Day/night cycle; skybox with the dome; HOLLYWOODLAND sign on the north horizon.
 
 ## 4. Technical dependencies and risks
@@ -166,5 +168,5 @@ quest-text name check, level-band rule for quest mobs.
 | Server Worker | `hollywoodland-server`; KV `HL_KV` (id in `workers/server/wrangler.jsonc`); secrets set |
 | itch.io | Upload `itch/hollywoodland-itch.zip` (just `index.html`) as an HTML game, viewport 1280×720+, enable fullscreen button and **SharedArrayBuffer support**. Butler: `butler push itch/hollywoodland-itch.zip <user>/hollywoodland:html5`. |
 
-Music: `cd workers; node deploy-music.mjs` uploads `music/*.mp3` to R2 `music/` (shared by all prefixes; skips unchanged).
+Music: `cd workers; node deploy-music.mjs` uploads `music/*.mp3` to R2 `music/` (shared by all prefixes; skips unchanged). `--sfx` does the same for `sfx/*.mp3`.
 Old R2 prefixes can be deleted once no tab runs them (`wrangler r2 object delete`, or bulk via dashboard).
