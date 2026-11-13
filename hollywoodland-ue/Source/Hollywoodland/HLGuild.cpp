@@ -133,6 +133,8 @@ void FHLGame::TickGuild()
 		if (bOn == bWas) continue;
 		if (bOn) GuildSeen.Add(i); else GuildSeen.Remove(i);
 		if (Notices++ >= 2) continue;
+		// the goodbye comes before the logoff notice, never after it
+		if (!bOn && Chance(0.3f)) AddChat(TEXT("guild"), Sims[i].P->Handle, StyleText(*Sims[i].P, CorpusLine(Sims[i], TEXT("guild_bye"))), i);
 		AddChat(TEXT("guild"), FString(), FString::Printf(TEXT("%s has %s."), *Sims[i].P->Handle, bOn ? TEXT("come online") : TEXT("gone offline")));
 		if (bOn && Chance(0.45f))
 		{
@@ -140,7 +142,6 @@ void FHLGame::TickGuild()
 			const int32 O = RandomGuildmate(i);
 			if (O >= 0 && Chance(0.6f)) SimSay(O, TEXT("guild"), TEXT("guild_hi_back"), 8 + Rand() * 4);
 		}
-		else if (!bOn && Chance(0.3f)) AddChat(TEXT("guild"), Sims[i].P->Handle, StyleText(*Sims[i].P, CorpusLine(Sims[i], TEXT("guild_bye"))), i);
 	}
 	// raid guilds call their raid at 19:45-20:00 server (Pacific) time
 	if (G->Kind == TEXT("raid"))

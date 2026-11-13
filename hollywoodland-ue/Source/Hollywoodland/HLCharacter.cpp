@@ -2,6 +2,7 @@
 #include "HLGame.h"
 #include "HLBridge.h"
 #include "Animation/AnimSequence.h"
+#include "Animation/Skeleton.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Dom/JsonObject.h"
@@ -56,12 +57,15 @@ uint32 FHLCharLook::TexKey() const
 
 uint32 FHLCharLook::MeshKey() const
 {
-	uint32 H = Mix(Mix(App.Sex, App.Hair), Mix(GetTypeHash(Hat), GetTypeHash(Main)));
-	H = Mix(H, Mix(GetTypeHash(Off), GetTypeHash(Ranged)));
-	H = Mix(H, (uint32)bRangedOut);
-	for (const FString& S : Slots) H = Mix(H, GetTypeHash(S)); // geosets come from the slot looks
-	return H;
-}
+	uint32 H = Mix(Mix(App.Sex, App.Hair), GetTypeHash(Hat));
+		for (const FString& S : Slots) H = Mix(H, GetTypeHash(S)); // geosets come from the slot looks
+		return H;
+	}
+
+	uint32 FHLCharLook::HeldKey() const
+	{
+		return Mix(Mix(GetTypeHash(Main), GetTypeHash(Off)), Mix(GetTypeHash(Ranged), (uint32)bRangedOut));
+	}
 
 // ------------------------------------------------------------------ data
 
@@ -176,6 +180,9 @@ bool FHLChars::Ready()
 			FHeld& H = Held.Add(FString(KV.Key));
 			H.Id = FString(KV.Key); O->TryGetStringField(TEXT("name"), H.Name); O->TryGetStringField(TEXT("type"), H.Type); O->TryGetStringField(TEXT("mesh"), H.Mesh); O->TryGetStringField(TEXT("tex"), H.Tex);
 			H.bLeft = O->GetStringField(TEXT("hand")) == TEXT("left");
+			const TArray<TSharedPtr<FJsonValue>>* G = nullptr;
+			if (O->TryGetArrayField(TEXT("grip_l"), G) && G->Num() == 3) { H.GripL = FVector((*G)[0]->AsNumber(), (*G)[1]->AsNumber(), (*G)[2]->AsNumber()); H.bGripL = !H.GripL.IsNearlyZero(); }
+			double Roll = 0; if (O->TryGetNumberField(TEXT("roll"), Roll)) H.Roll = Roll;
 		}
 	const TArray<TSharedPtr<FJsonValue>>* Sw;
 	if (Root->TryGetArrayField(TEXT("starter_colours"), Sw))
@@ -361,7 +368,7 @@ UMaterialInstanceDynamic* FHLCharVisuals::PropMid(const FString& Tex, const FLin
 	return D;
 }
 
-void FHLCharVisuals::Compose(UWorld* World, UTextureRenderTarget2D* RT, const FHLCharLook& L)
+bool FHLCharVisuals::Compose(UWorld* World, UTextureRenderTarget2D* RT, const FHLCharLook& L)
 {
 	FHLChars& C = FHLChars::Get();
 	const FHLChars::FSex& Sx = C.Sexes[L.App.Sex & 1];
@@ -370,14 +377,17 @@ void FHLCharVisuals::Compose(UWorld* World, UTextureRenderTarget2D* RT, const FH
 	FDrawToRenderTargetContext Ctx;
 	UKismetRenderingLibrary::ClearRenderTarget2D(World, RT, FLinearColor(0.5f, 0.4f, 0.35f, 1));
 	UKismetRenderingLibrary::BeginDrawCanvasToRenderTarget(World, RT, Canvas, Size, Ctx);
-	if (!Canvas) return;
+	if (!Canvas) return false;
+	// a texture whose GPU resource is not up yet draws as black and would stay baked into the atlas
+	bool bReady = true;
+	auto Ok = [&](UTexture2D* T) { if (T && (!T->GetResource() || T->HasPendingInitOrStreaming())) bReady = false; return T; };
 	int32 NextMid = 0;
 	auto Draw = [&](const FHLChars::FLayer& Ly, const FLinearColor& Mul, const FLinearColor* TintA, const FLinearColor* TintB)
 	{
-		UTexture2D* T = C.Tex(Ly.Tex);
+		UTexture2D* T = Ok(C.Tex(Ly.Tex));
 		if (!T) return;
 		const FVector2D Pos(Ly.Rect.X * Size.X, Ly.Rect.Y * Size.Y), Sz((Ly.Rect.Z - Ly.Rect.X) * Size.X, (Ly.Rect.W - Ly.Rect.Y) * Size.Y);
-		UTexture2D* M = TintA ? C.Tex(Ly.Mask) : nullptr;
+		UTexture2D* M = TintA ? Ok(C.Tex(Ly.Mask)) : nullptr;
 		if (M)
 		{
 			// dyed layer (the starter outfit): the compositing material applies the mask-weighted swatches
@@ -397,7 +407,7 @@ void FHLCharVisuals::Compose(UWorld* World, UTextureRenderTarget2D* RT, const FH
 		}
 		else Canvas->K2_DrawTexture(T, Pos, Sz, FVector2D::ZeroVector, FVector2D::UnitVector, Mul, BLEND_Translucent);
 	};
-	if (UTexture2D* Skin = C.Tex(Sx.Skins.IsValidIndex(L.App.Skin) ? Sx.Skins[L.App.Skin] : Sx.Skins[0]))
+	if (UTexture2D* Skin = Ok(C.Tex(Sx.Skins.IsValidIndex(L.App.Skin) ? Sx.Skins[L.App.Skin] : Sx.Skins[0])))
 		Canvas->K2_DrawTexture(Skin, FVector2D::ZeroVector, Size, FVector2D::ZeroVector, FVector2D::UnitVector, FLinearColor::White, BLEND_Opaque);
 	Draw(Sx.Underwear, FLinearColor::White, nullptr, nullptr);
 	if (Sx.Faces.IsValidIndex(L.App.Face)) Draw(Sx.Faces[L.App.Face], FLinearColor::White, nullptr, nullptr);
@@ -413,12 +423,19 @@ void FHLCharVisuals::Compose(UWorld* World, UTextureRenderTarget2D* RT, const FH
 		else Draw(Ly, FLinearColor::White, nullptr, nullptr);
 	}
 	UKismetRenderingLibrary::EndDrawCanvasToRenderTarget(World, Ctx);
+	return bReady;
 }
 
 UTextureRenderTarget2D* FHLCharVisuals::Atlas(UWorld* World, const FHLCharLook& L, int32 Size)
 {
 	const uint64 Key = (uint64(L.TexKey()) << 16) | uint64(Size);
-	if (const int32* Idx = AtlasIndex.Find(Key)) { Atlases[*Idx].Used = Clock; return Atlases[*Idx].RT; }
+	if (const int32* Idx = AtlasIndex.Find(Key))
+	{
+		FAtlas& A = Atlases[*Idx];
+		A.Used = Clock;
+		if (A.bDirty) A.bDirty = !Compose(World, A.RT, L);
+		return A.RT;
+	}
 	// reuse the longest-unused atlas of this size once the cache is full (none used in the last few seconds)
 	const int32 Cap = Size >= 1024 ? 6 : 72;
 	int32 Count = 0, Oldest = INDEX_NONE;
@@ -453,7 +470,8 @@ UTextureRenderTarget2D* FHLCharVisuals::Atlas(UWorld* World, const FHLCharLook& 
 	Atlases[Slot].Key = L.TexKey();
 	Atlases[Slot].Used = Clock;
 	AtlasIndex.Add(Key, Slot);
-	Compose(World, Atlases[Slot].RT, L);
+	Atlases[Slot].bDirty = !Compose(World, Atlases[Slot].RT, L);
+	if (Atlases[Slot].bDirty) UE_LOG(LogTemp, Log, TEXT("HL atlas %08x: textures not uploaded yet, composing again later"), L.TexKey());
 
 	return Atlases[Slot].RT;
 }
@@ -468,11 +486,12 @@ UMaterialInstanceDynamic* FHLCharVisuals::BodyMid(UWorld* World, const FHLCharLo
 void FHLCharVisuals::Clear(FHLCharRig& Rig)
 {
 	for (TWeakObjectPtr<USceneComponent>& P : Rig.Parts) if (P.IsValid()) P->DestroyComponent();
-	Rig.Parts.Reset();
+	for (TWeakObjectPtr<USceneComponent>& P : Rig.HeldParts) if (P.IsValid()) P->DestroyComponent();
+	Rig.Parts.Reset(); Rig.HeldParts.Reset();
 	if (Rig.Leader.IsValid()) Rig.Leader->DestroyComponent();
 	if (Rig.Root.IsValid()) Rig.Root->DestroyComponent();
 	Rig.Leader.Reset(); Rig.Root.Reset();
-	Rig.MeshKey = Rig.TexKey = 0; Rig.Sex = -1;
+	Rig.MeshKey = Rig.TexKey = Rig.HeldKey = 0; Rig.Sex = -1;
 	Rig.Base.Reset(); Rig.Shot.Reset();
 }
 
@@ -482,25 +501,57 @@ static FTransform RefCS(const USkeletalMesh* Mesh, FName Bone)
 	const FReferenceSkeleton& Ref = Mesh->GetRefSkeleton();
 	int32 I = Ref.FindBoneIndex(Bone);
 	FTransform T = FTransform::Identity;
-	while (I != INDEX_NONE) { T = T * Ref.GetRefBonePose()[I]; I = Ref.GetParentIndex(I); }
-	return T;
-}
+		while (I != INDEX_NONE) { T = T * Ref.GetRefBonePose()[I]; I = Ref.GetParentIndex(I); }
+		return T;
+	}
+
+	// component-space pose of a bone in a clip at a time: the clip's rotations on the mesh's own bone lengths
+	// (bones without a track keep the reference pose)
+	static bool PoseCS(const USkeletalMesh* Mesh, const UAnimSequence* Seq, FName Bone, double Time, FTransform& Out)
+	{
+		USkeleton* Sk = Seq ? const_cast<USkeleton*>(Seq->GetSkeleton()) : nullptr; // the bone lookup is not const
+		if (!Mesh || !Sk) return false;
+		const FReferenceSkeleton& Ref = Mesh->GetRefSkeleton();
+		int32 I = Ref.FindBoneIndex(Bone);
+		if (I == INDEX_NONE) return false;
+		const FAnimExtractContext Ctx(Time);
+		Out = FTransform::Identity;
+		while (I != INDEX_NONE)
+		{
+			FTransform Local = Ref.GetRefBonePose()[I];
+			const int32 SkI = Sk->GetSkeletonBoneIndexFromMeshBoneIndex(Mesh, I);
+			if (SkI != INDEX_NONE)
+			{
+				FTransform A = Local;
+				Seq->GetBoneTransform(A, FSkeletonPoseBoneIndex(SkI), Ctx, false);
+				Local.SetRotation(A.GetRotation());
+			}
+			Out = Out * Local;
+			I = Ref.GetParentIndex(I);
+		}
+		return true;
+	}
 
 void FHLCharVisuals::Apply(UWorld* World, AActor* Owner, USceneComponent* Parent, FHLCharRig& Rig, const FHLCharLook& L, int32 AtlasSize)
 {
 	FHLChars& C = FHLChars::Get();
 	if (!C.Ready() || !World || !Owner || !Parent) return;
 	const int32 Sex = L.App.Sex & 1;
-	const uint32 MKey = L.MeshKey(), TKey = L.TexKey();
-	if (Rig.Leader.IsValid() && Rig.MeshKey == MKey && Rig.TexKey == TKey && Rig.AtlasSize == AtlasSize) { Atlas(World, L, AtlasSize); return; }
+	const uint32 MKey = L.MeshKey(), TKey = L.TexKey(), HKey = L.HeldKey();
+	// a weapon drawn or put away: swap the held items only. Rebuilding the skeleton would show one frame of the
+	// reference (A) pose before the new leader evaluates its clip.
+	if (Rig.Leader.IsValid() && Rig.MeshKey == MKey && Rig.HeldKey != HKey) AttachHeld(Owner, Rig, L);
 	UMaterialInstanceDynamic* Body = BodyMid(World, L, AtlasSize);
+	// same look on the same atlas: nothing to do. (When the unit was out of view its atlas slot may have gone to someone
+	// else, and the look then sits in a new slot with its own material.)
+	if (Rig.Leader.IsValid() && Rig.MeshKey == MKey && Rig.TexKey == TKey && Rig.AtlasSize == AtlasSize && Rig.BodyMat.Get() == Body) return;
 	if (Rig.Leader.IsValid() && Rig.MeshKey == MKey)
 	{
 		// only the paint changed (dye, skin...): swap the body material
 		for (TWeakObjectPtr<USceneComponent>& P : Rig.Parts)
 			if (USkeletalMeshComponent* S = Cast<USkeletalMeshComponent>(P.Get())) if (S->ComponentTags.Contains(TEXT("body"))) for (int32 m = 0; m < S->GetNumMaterials(); ++m) S->SetMaterial(m, Body);
 		for (int32 m = 0; m < Rig.Leader->GetNumMaterials(); ++m) Rig.Leader->SetMaterial(m, Body);
-		Rig.TexKey = TKey; Rig.AtlasSize = AtlasSize;
+		Rig.TexKey = TKey; Rig.AtlasSize = AtlasSize; Rig.BodyMat = Body;
 		return;
 	}
 	Clear(Rig);
@@ -587,24 +638,75 @@ void FHLCharVisuals::Apply(UWorld* World, AActor* Owner, USceneComponent* Parent
 		const FVector Ahead = Fwd * (Sex ? 5.83f : 7.70f);
 		Attach(C.StaticMesh(TEXT("Hats"), HatLook->HatMesh[Sex]), PropMid(HatLook->HatTex[Sex], FLinearColor::White, TEXT("M_HLProp")), TEXT("head"), FTransform(Crown + Ahead));
 	}
-	// held items by their grip origin: blade/barrel (+X) forward, top (+Z) up, in the palm of the bind pose
-	auto Hold = [&](const FString& Id, bool bForceLeft)
+		Rig.Fwd = Fwd;
+		Rig.MeshKey = MKey; Rig.TexKey = TKey; Rig.Sex = Sex; Rig.AtlasSize = AtlasSize; Rig.BodyMat = Body;
+		AttachHeld(Owner, Rig, L);
+	}
+
+	void FHLCharVisuals::AttachHeld(AActor* Owner, FHLCharRig& Rig, const FHLCharLook& L)
 	{
-		const FHLChars::FHeld* H = C.Held.Find(Id);
-		if (!H) return;
-		const bool bLeft = H->bLeft || bForceLeft;
-		const FName Bone = bLeft ? TEXT("hand_l") : TEXT("hand_r");
-		const FTransform Hand = RefCS(HeadMesh, Bone);
-		const FTransform Finger = RefCS(HeadMesh, bLeft ? TEXT("middle_01_l") : TEXT("middle_01_r"));
-		FVector Palm = Hand.GetLocation();
-		if (!Finger.GetLocation().IsNearlyZero()) Palm = FMath::Lerp(Hand.GetLocation(), Finger.GetLocation(), 0.75f) - FVector(0, 0, 2.5f);
-		const FRotator Rot = FRotationMatrix::MakeFromXZ(Fwd, FVector::UpVector).Rotator();
-		Attach(C.StaticMesh(TEXT("Held"), H->Mesh), PropMid(H->Tex, FLinearColor::White, TEXT("M_HLProp")), Bone, FTransform(Rot, Palm));
-	};
-	if (L.bRangedOut) Hold(L.Ranged, false);
-	else { Hold(L.Main, false); Hold(L.Off, true); }
-	Rig.MeshKey = MKey; Rig.TexKey = TKey; Rig.Sex = Sex; Rig.AtlasSize = AtlasSize;
-}
+		for (TWeakObjectPtr<USceneComponent>& P : Rig.HeldParts) if (P.IsValid()) P->DestroyComponent();
+		Rig.HeldParts.Reset();
+		Rig.HeldKey = L.HeldKey();
+		USkeletalMeshComponent* Leader = Rig.Leader.Get();
+		const USkeletalMesh* HeadMesh = Leader ? Leader->GetSkeletalMeshAsset() : nullptr;
+		if (!HeadMesh) return;
+		FHLChars& C = FHLChars::Get();
+		// held items by their grip origin: blade/barrel (+X) forward, top (+Z) up, in the palm of the bind pose
+		auto Hold = [&](const FString& Id, bool bForceLeft)
+		{
+			const FHLChars::FHeld* H = C.Held.Find(Id);
+			UStaticMesh* Mesh = H ? C.StaticMesh(TEXT("Held"), H->Mesh) : nullptr;
+			if (!Mesh) return;
+			const bool bLeft = H->bLeft || bForceLeft;
+			const FName Bone = bLeft ? TEXT("hand_l") : TEXT("hand_r");
+			const FTransform Hand = RefCS(HeadMesh, Bone);
+			const FTransform Finger = RefCS(HeadMesh, bLeft ? TEXT("middle_01_l") : TEXT("middle_01_r"));
+			FVector Palm = Hand.GetLocation();
+			if (!Finger.GetLocation().IsNearlyZero()) Palm = FMath::Lerp(Hand.GetLocation(), Finger.GetLocation(), 0.75f) - FVector(0, 0, 2.5f);
+			// assets modelled against the convention are rolled upright first
+			const FQuat Fix(FVector::ForwardVector, FMath::DegreesToRadians(H->Roll));
+			FQuat Q = FRotationMatrix::MakeFromXZ(Rig.Fwd, FVector::UpVector).ToQuat();
+			FTransform BoneCS = RefCS(HeadMesh, Bone);
+			// firearms: the aim pose decides the grip. Fixed to the bind (A) pose hand, a revolver pointed up and back and a
+			// rifle hung barrel-up once the arms came up to aim. Fit the gun to the hand of the stance's combat clip instead:
+			// barrel along the facing (a long gun from the trigger hand towards the hand under the barrel), top up.
+			if (L.bRangedOut && !bLeft)
+			{
+				const bool bPistol = L.Stance == EHLStance::Pistol;
+				const UAnimSequence* Aim = C.Anim(Rig.Sex, bPistol ? TEXT("Combat_Ranged1H") : TEXT("Combat_Rifle"));
+				FTransform HandA, FingerA, OtherA;
+				if (PoseCS(HeadMesh, Aim, Bone, 0.0, HandA))
+				{
+					// the gun's support line (grip origin to its GRIP_L point, which sits above the bore line on long guns)
+					// goes from the trigger hand to the support hand; a pistol's barrel goes along the facing
+					FVector Line = Rig.Fwd, GunLine = FVector::ForwardVector;
+					if (!bPistol && H->bGripL && PoseCS(HeadMesh, Aim, TEXT("hand_l"), 0.0, OtherA))
+					{
+						const FVector Along = OtherA.GetLocation() - HandA.GetLocation();
+						if (Along.Size() > 8.f) { Line = Along.GetSafeNormal(); GunLine = Fix.RotateVector(H->GripL).GetSafeNormal(); }
+					}
+					Palm = HandA.GetLocation();
+					if (PoseCS(HeadMesh, Aim, TEXT("middle_01_r"), 0.0, FingerA)) Palm = FMath::Lerp(HandA.GetLocation(), FingerA.GetLocation(), 0.6f);
+					const FQuat Gun = FRotationMatrix::MakeFromXZ(GunLine, FVector::UpVector).ToQuat();
+					Q = FRotationMatrix::MakeFromXZ(Line, FVector::UpVector).ToQuat() * Gun.Inverse();
+					BoneCS = HandA;
+				}
+			}
+			UStaticMeshComponent* S = NewObject<UStaticMeshComponent>(Owner);
+			S->SetStaticMesh(Mesh);
+			S->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+			S->SetCastShadow(false);
+			S->SetupAttachment(Leader, Bone);
+			S->RegisterComponent();
+			UMaterialInterface* Mat = PropMid(H->Tex, FLinearColor::White, TEXT("M_HLProp"));
+			if (Mat) for (int32 m = 0; m < S->GetNumMaterials(); ++m) S->SetMaterial(m, Mat);
+			S->SetRelativeTransform(FTransform(Q * Fix, Palm).GetRelativeTransform(BoneCS));
+			Rig.HeldParts.Add(S);
+		};
+		if (L.bRangedOut) Hold(L.Ranged, false);
+		else { Hold(L.Main, false); Hold(L.Off, true); }
+	}
 
 FString FHLCharVisuals::ClipFor(int32 Sex, std::initializer_list<const TCHAR*> Names) const
 {
@@ -621,6 +723,8 @@ void FHLCharVisuals::Play(FHLCharRig& Rig, const FString& Clip, bool bLoop, floa
 	if (!Seq) return;
 	Leader->PlayAnimation(Seq, bLoop);
 	Leader->SetPlayRate(InRate);
+	// pose now: a leader made this frame would otherwise draw its reference (A) pose once
+	Leader->TickAnimation(0.f, false); Leader->RefreshBoneTransforms();
 	Rig.Base = Clip; Rig.Rate = InRate; Rig.Shot.Reset();
 }
 
@@ -631,6 +735,7 @@ void FHLCharVisuals::PlayOnce(FHLCharRig& Rig, const FString& Clip, double Now, 
 	if (!Seq) return;
 	Leader->PlayAnimation(Seq, false);
 	Leader->SetPlayRate(InRate);
+	Leader->TickAnimation(0.f, false); Leader->RefreshBoneTransforms();
 	Rig.Shot = Clip; Rig.Rate = InRate;
 	Rig.ShotUntil = Now + Seq->GetPlayLength() / FMath::Max(0.1f, InRate) - 0.05;
 	Rig.Base.Reset(); // the loop restarts when the shot ends

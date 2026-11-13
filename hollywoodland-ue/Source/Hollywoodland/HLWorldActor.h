@@ -70,6 +70,9 @@ private:
 	UMaterialInstanceDynamic* Mid(const FLinearColor& C, bool bUnlit = false, float Glow = 0.22f);
 	UStaticMeshComponent* AddMesh(AActor* InOwner, UStaticMesh* Mesh, const FVector& Loc, const FVector& Scale, const FLinearColor& Color, bool bUnlit = false, bool bShadow = false);
 	void BuildWorld();
+	// art/props static mesh at a placement (null when the mesh is missing: the caller falls back to a primitive)
+	UStaticMeshComponent* AddProp(AActor* InOwner, int32 Area, const struct FHLPropPlace& P);
+	UPROPERTY() TMap<FString, TObjectPtr<UStaticMesh>> PropMeshes;
 	void AutoTest(float Dt); // -HLAuto=<class>: self-playing smoke test with screenshots (native and web)
 	FString AutoClass; float AutoQuit = 0, AutoNextShot = 4, AutoNextAct = 0; int32 AutoShots = 0;
 	FVector2D AutoGoal = FVector2D::ZeroVector; bool bAutoGoal = false; // bot walks here every frame
@@ -78,6 +81,7 @@ private:
 	void BuildUnit(const FHLUnit& U, FHLUnitVis& V);
 	TMap<int32, FHLUnitVis> Vis;
 	TArray<TArray<TWeakObjectPtr<UStaticMeshComponent>>> ObjectMeshes;
+	TMap<TWeakObjectPtr<UStaticMeshComponent>, TWeakObjectPtr<class UPointLightComponent>> LampLights;
 	TSharedPtr<class SHLGameUI> UI;
 	TSharedPtr<class SWidget> UIContainer;
 };

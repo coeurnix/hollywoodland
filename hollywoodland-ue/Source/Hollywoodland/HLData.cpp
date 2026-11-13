@@ -199,19 +199,26 @@ bool FHLData::Load(FString& Err)
 			FHLAreaDef Ar;
 			Ar.Id = S(O, TEXT("id")); Ar.Name = S(O, TEXT("name")); Ar.Min = V2(O, TEXT("min")); Ar.Size = V2(O, TEXT("size")); Ar.Offset = V2(O, TEXT("offset"));
 			Ar.Spawn = V2(O, TEXT("spawn")); Ar.Cell = N(O, TEXT("cell"), 2); Ar.bDungeon = B(O, TEXT("dungeon")); Ar.Sky = Col(O, TEXT("sky")); Ar.Floor = Col(O, TEXT("floor"));
-			auto ReadBoxes = [](const TArray<TSharedPtr<FJsonValue>>& Arr, TArray<FHLBox>& Out)
+			auto ReadProp = [](JObj P, FHLPropPlace& Out)
+			{
+				if (!P) return;
+				Out.Mesh = S(P, TEXT("m")); Out.Pos = FVector2D(N(P, TEXT("x")), N(P, TEXT("y"))); Out.Z = N(P, TEXT("z")); Out.Yaw = N(P, TEXT("yaw"));
+				const auto& Sc = A(P, TEXT("s")); if (Sc.Num() == 3) Out.Scale = FVector(Sc[0]->AsNumber(), Sc[1]->AsNumber(), Sc[2]->AsNumber());
+			};
+			auto ReadBoxes = [&ReadProp](const TArray<TSharedPtr<FJsonValue>>& Arr, TArray<FHLBox>& Out)
 			{
 				for (auto& BV : Arr)
 				{
 					JObj Bx = BV->AsObject();
 					FHLBox Box;
 					Box.X = N(Bx, TEXT("x")); Box.Y = N(Bx, TEXT("y")); Box.W = N(Bx, TEXT("w")); Box.D = N(Bx, TEXT("d")); Box.H = N(Bx, TEXT("h"), 0.05);
-					Box.Color = Col(Bx, TEXT("color")); Box.Label = S(Bx, TEXT("label")); Box.bSolid = B(Bx, TEXT("solid"), true);
+					Box.Color = Col(Bx, TEXT("color")); Box.Label = S(Bx, TEXT("label")); Box.bSolid = B(Bx, TEXT("solid"), true); ReadProp(Sub(Bx, TEXT("prop")), Box.Prop);
 					Out.Add(Box);
 				}
 			};
 			ReadBoxes(A(O, TEXT("boxes")), Ar.Boxes);
 			ReadBoxes(A(O, TEXT("ground")), Ar.Ground);
+			for (auto& PV : A(O, TEXT("props"))) ReadProp(PV->AsObject(), Ar.Props.AddDefaulted_GetRef());
 			for (auto& SV : A(O, TEXT("subzones"))) { JObj Z = SV->AsObject(); Ar.Subzones.Add({ S(Z, TEXT("name")), (float)N(Z, TEXT("x")), (float)N(Z, TEXT("y")), (float)N(Z, TEXT("w")), (float)N(Z, TEXT("d")), S(Z, TEXT("levels")), B(Z, TEXT("hostile")) }); }
 			for (auto& NV : A(O, TEXT("npcs")))
 			{
@@ -237,7 +244,7 @@ bool FHLData::Load(FString& Err)
 				FHLObjectDef Ob;
 				Ob.Id = S(Oo, TEXT("id")); Ob.Kind = S(Oo, TEXT("kind")); Ob.Name = S(Oo, TEXT("name")); Ob.Quest = S(Oo, TEXT("quest")); Ob.Boss = S(Oo, TEXT("boss"));
 				Ob.Pos = FVector2D(N(Oo, TEXT("x")), N(Oo, TEXT("y"))); Ob.Respawn = N(Oo, TEXT("respawn"), 60); Ob.Gives = Item(S(Oo, TEXT("gives_id")));
-				Ob.bUse = B(Oo, TEXT("use")); Ob.bSalvage = B(Oo, TEXT("salvage")); Ob.bTall = B(Oo, TEXT("tall")); Ob.bBig = B(Oo, TEXT("big")); Ob.Spread = N(Oo, TEXT("spread"), 0);
+				Ob.bUse = B(Oo, TEXT("use")); Ob.bSalvage = B(Oo, TEXT("salvage")); Ob.bTall = B(Oo, TEXT("tall")); Ob.bBig = B(Oo, TEXT("big")); Ob.Spread = N(Oo, TEXT("spread"), 0); ReadProp(Sub(Oo, TEXT("prop")), Ob.Prop);
 				Ar.Objects.Add(MoveTemp(Ob));
 			}
 			for (auto& PV : A(O, TEXT("portals")))

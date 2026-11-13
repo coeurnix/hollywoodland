@@ -91,6 +91,34 @@ UStaticMeshComponent* AHLWorldActor::AddMesh(AActor* InOwner, UStaticMesh* Mesh,
 	return C;
 }
 
+UStaticMeshComponent* AHLWorldActor::AddProp(AActor* InOwner, int32 Area, const FHLPropPlace& P)
+{
+	if (!P.IsSet()) return nullptr;
+	TObjectPtr<UStaticMesh>* Found = PropMeshes.Find(P.Mesh);
+	UStaticMesh* Mesh = Found ? Found->Get() : nullptr;
+	if (!Found)
+	{
+		Mesh = LoadObject<UStaticMesh>(nullptr, *P.Mesh, nullptr, LOAD_NoWarn);
+		if (!Mesh) HLBridge::Log(FString::Printf(TEXT("HL prop mesh missing: %s"), *P.Mesh));
+		PropMeshes.Add(P.Mesh, Mesh);
+	}
+	if (!Mesh) return nullptr;
+	UStaticMeshComponent* C = NewObject<UStaticMeshComponent>(InOwner);
+	C->SetStaticMesh(Mesh);
+	C->SetMobility(EComponentMobility::Movable);
+	C->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	C->SetCastShadow(false);
+	if (InOwner->GetRootComponent()) C->SetupAttachment(InOwner->GetRootComponent()); else InOwner->SetRootComponent(C);
+	C->SetRelativeLocation(ToWorld(Area, P.Pos, P.Z));
+	C->SetRelativeRotation(FRotator(0, P.Yaw, 0));
+	C->SetRelativeScale3D(P.Scale);
+	// small things vanish early; lamp posts and cars carry further; the Red Car and the hive spires carry across the zone
+	const float R = Mesh->GetBounds().SphereRadius * P.Scale.GetMax();
+	C->SetCullDistance(FMath::Clamp(R * 90.f, 5000.f, 60000.f));
+	C->RegisterComponent();
+	return C;
+}
+
 void AHLWorldActor::BeginPlay()
 {
 	Super::BeginPlay();
@@ -157,12 +185,30 @@ void AHLWorldActor::BuildWorld()
 		AddMesh(Geo, Sphere, ToWorld(a, Ctr, 0), FVector(SkyR * 2), Def.Sky, true);
 		int32 gi = 0;
 		for (const FHLBox& B : Def.Ground) AddMesh(Geo, Cube, ToWorld(a, FVector2D(B.X + B.W * 0.5f, B.Y + B.D * 0.5f), 0.01f + 0.004f * (gi++ % 5)), FVector(B.W, B.D, 0.03f), B.Color);
-		for (const FHLBox& B : Def.Boxes) AddMesh(Geo, Cube, ToWorld(a, FVector2D(B.X + B.W * 0.5f, B.Y + B.D * 0.5f), B.H * 0.5f), FVector(B.W, B.D, B.H), B.Color);
+		for (const FHLBox& B : Def.Boxes) if (!AddProp(Geo, a, B.Prop)) AddMesh(Geo, Cube, ToWorld(a, FVector2D(B.X + B.W * 0.5f, B.Y + B.D * 0.5f), B.H * 0.5f), FVector(B.W, B.D, B.H), B.Color);
+		for (const FHLPropPlace& P : Def.Props) AddProp(Geo, a, P);
 		for (const FHLPortal& Po : Def.Portals) AddMesh(Geo, Cylinder, ToWorld(a, Po.Pos, 1.6f), FVector(Po.R * 1.2f, Po.R * 1.2f, 3.2f), FLinearColor(0.2f, 0.9f, 0.8f), true);
 		for (const FHLAidStation& Aid : Def.Aid) AddMesh(Geo, Cube, ToWorld(a, Aid.Pos, 0.05f), FVector(3, 3, 0.1f), FLinearColor(0.9f, 0.1f, 0.1f), true);
 		// interactable objects
 		for (const FHLObjectDef& O : Def.Objects)
 		{
+			if (UStaticMeshComponent* PC = AddProp(Geo, a, O.Prop))
+			{
+				ObjectMeshes[a].Add(PC);
+				if (O.Kind == TEXT("arc_lamp"))
+				{
+					// the lamp's light, shown while it is lit (SyncUnits)
+					UPointLightComponent* L = NewObject<UPointLightComponent>(Geo);
+					L->SetupAttachment(Geo->GetRootComponent());
+					L->SetMobility(EComponentMobility::Movable);
+					L->SetRelativeLocation(ToWorld(a, O.Pos, 2.4f));
+					L->SetIntensity(6000.f); L->SetAttenuationRadius(1400.f); L->SetLightColor(FLinearColor(1.f, 0.92f, 0.75f)); L->SetCastShadows(false);
+					L->SetVisibility(false);
+					L->RegisterComponent();
+					LampLights.Add(PC, L);
+				}
+				continue;
+			}
 			UStaticMesh* Mesh = Cube; FVector Scale(0.6f); float Z = 0.3f; FLinearColor C(0.8f, 0.7f, 0.2f); bool bUnlit = false;
 			if (O.Kind == TEXT("film_can") || O.Kind == TEXT("reel") || O.Kind == TEXT("coffee_tin")) { Mesh = Cylinder; Scale = FVector(0.5f, 0.5f, 0.25f); Z = 0.15f; C = O.Kind == TEXT("coffee_tin") ? FLinearColor(0.7f, 0.2f, 0.1f) : FLinearColor(0.75f, 0.75f, 0.8f); }
 			else if (O.Kind == TEXT("arc_lamp")) { Mesh = Cylinder; Scale = FVector(0.3f, 0.3f, 4); Z = 2; C = FLinearColor(0.2f, 0.2f, 0.22f); }
@@ -343,7 +389,15 @@ void AHLWorldActor::SyncUnits()
 	// objects
 	for (int32 a = 0; a < Game.Areas.Num(); ++a)
 		for (int32 o = 0; o < Game.Areas[a].Objects.Num() && o < ObjectMeshes[a].Num(); ++o)
-			if (UStaticMeshComponent* C = ObjectMeshes[a][o].Get()) { const bool bShow = Game.Areas[a].Objects[o].bActive; if (C->IsVisible() != bShow) C->SetVisibility(bShow); }
+			if (UStaticMeshComponent* C = ObjectMeshes[a][o].Get())
+			{
+				const FHLObjectState& St = Game.Areas[a].Objects[o];
+				// a lit arc lamp stays where it is and shines until it gutters out (respawns); everything else is taken or destroyed
+				const bool bLamp = St.Def && St.Def->Kind == TEXT("arc_lamp");
+				const bool bShow = bLamp || St.bActive;
+				if (C->IsVisible() != bShow) C->SetVisibility(bShow);
+				if (bLamp) if (UPointLightComponent* L = LampLights.FindRef(C).Get()) { const bool bLit = !St.bActive; if (L->IsVisible() != bLit) L->SetVisibility(bLit); }
+			}
 	// target ring
 	const FHLUnit* T = P ? Game.Unit(P->TargetId) : nullptr;
 	if (Ring)
@@ -510,18 +564,29 @@ void AHLWorldActor::AutoTest(float Dt)
 					if (Best) Game.Player.Equip.Add(Sl, Best);
 				}
 			static const TCHAR* Weap[] = { TEXT("knife"), TEXT("club"), TEXT("sabre"), TEXT("heavy"), TEXT("revolver"), TEXT("rifle"), TEXT("tool"), TEXT("smg") };
-			const FString Wt = Weap[k % 8];
+			static const TCHAR* Guns[] = { TEXT("revolver"), TEXT("rifle"), TEXT("smg") };
+			// -HLLineupGuns: only firearms, drawn and aimed (the hand grip check)
+			const bool bGuns = FParse::Param(FCommandLine::Get(), TEXT("HLLineupGuns"));
+			const FString Wt = bGuns ? Guns[k % 3] : Weap[k % 8];
 			for (const FHLItem& It : FHLData::Get().Items)
 				if (It.Kind == TEXT("weapon") && It.Type == Wt) { Game.Player.Equip.Add(It.Slot, &It); break; }
 			for (const FHLItem& It : FHLData::Get().Items) if (It.Kind == TEXT("weapon") && It.Type == (k % 3 ? TEXT("lamp") : TEXT("shield"))) { if (!Game.Player.Equip.Contains(TEXT("off"))) Game.Player.Equip.Add(TEXT("off"), &It); break; }
 			P->bRangedAuto = Wt == TEXT("revolver") || Wt == TEXT("rifle") || Wt == TEXT("smg");
-			P->bAutoAttack = false; P->CombatUntil = (k % 3 == 1) ? Game.Now + 3 : 0; P->bSitting = false;
+			P->bAutoAttack = false; P->CombatUntil = (bGuns || k % 3 == 1) ? Game.Now + 3 : 0; P->bSitting = false;
 			if (FParse::Param(FCommandLine::Get(), TEXT("HLLineupGestures")))
 			{
 				// one gesture per step (and a sit every sixth), the screenshot lands mid-clip
 				static const TCHAR* Gs[] = { TEXT("Wave"), TEXT("Dance"), TEXT("Cheer"), TEXT("Laugh"), TEXT("Bow"), TEXT("Point"), TEXT("Shrug"), TEXT("Talk"), TEXT("Loot") };
 				P->CombatUntil = 0;
 				if (k % 6 == 5) P->bSitting = true; else Game.Gesture(*P, Gs[k % 9]);
+			}
+			// -HLLineupDance: the dance loop only, shots spread over the clip
+			if (FParse::Param(FCommandLine::Get(), TEXT("HLLineupDance")))
+			{
+				P->CombatUntil = 0; P->bSitting = false;
+				Game.Player.Equip.Remove(TEXT("main")); Game.Player.Equip.Remove(TEXT("off"));
+				Game.Gesture(*P, TEXT("Dance"));
+				ShotAt = T + 0.3 + (k % 5) * 0.6;
 			}
 			if (FHLUnitVis* V = Vis.Find(P->Id)) V->NextLook = 0;
 			FString Desc;

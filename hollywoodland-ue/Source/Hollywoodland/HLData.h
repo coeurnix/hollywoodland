@@ -66,7 +66,9 @@ struct FHLMobDef
 	TArray<const FHLItem*> Junk, BossLoot;
 	TArray<TPair<const FHLItem*, float>> Trade;
 };
-struct FHLBox { float X, Y, W, D, H; FLinearColor Color; FString Label; bool bSolid = true; };
+// an art/props mesh placed in an area (tools/gen/props.mjs): Yaw in degrees, Z in metres
+struct FHLPropPlace { FString Mesh; FVector2D Pos = FVector2D::ZeroVector; float Z = 0, Yaw = 0; FVector Scale = FVector::OneVector; bool IsSet() const { return !Mesh.IsEmpty(); } };
+struct FHLBox { float X, Y, W, D, H; FLinearColor Color; FString Label; bool bSolid = true; FHLPropPlace Prop; };
 struct FHLNpcDef
 {
 	FString Id, Name, Title, Trains, Hub, Prof;
@@ -77,7 +79,7 @@ struct FHLNpcDef
 	bool HasRole(const TCHAR* R) const { return Roles.Contains(R); }
 };
 struct FHLCamp { FString Id; const FHLMobDef* Mob = nullptr; int32 Count = 1; FVector2D Pos; float R = 10, Leash = 40; TArray<FVector2D> Patrol; };
-struct FHLObjectDef { FString Id, Kind, Name, Quest, Boss; FVector2D Pos; float Respawn = 60; const FHLItem* Gives = nullptr; int32 Spread = 0; bool bUse = false, bSalvage = false, bTall = false, bBig = false; };
+struct FHLObjectDef { FString Id, Kind, Name, Quest, Boss; FVector2D Pos; float Respawn = 60; const FHLItem* Gives = nullptr; int32 Spread = 0; bool bUse = false, bSalvage = false, bTall = false, bBig = false; FHLPropPlace Prop; };
 struct FHLPortal { FString Id, ToArea, Label; FVector2D Pos, To; float R = 3; };
 struct FHLSubzone { FString Name; float X, Y, W, D; FString Levels; bool bHostile = false; };
 struct FHLExit { FString Id, Name, ToZone; FVector2D Pos; bool bRedcar = false; };
@@ -90,6 +92,7 @@ struct FHLAreaDef
 	bool bDungeon = false;
 	FLinearColor Sky, Floor;
 	TArray<FHLBox> Boxes, Ground;
+	TArray<FHLPropPlace> Props;
 	TArray<FHLSubzone> Subzones;
 	TArray<FHLNpcDef> Npcs;
 	TArray<FHLCamp> Camps;

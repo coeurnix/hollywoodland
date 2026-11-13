@@ -142,9 +142,13 @@ for lk in man['looks']:
                     stage['meshes'].append({'name': hs['mesh'], 'file': src(hs['mesh']), 'kind': 'static', 'folder': 'Hats'})
     out['looks'][lk['id']] = L
 
+# source assets that break the package convention (+X barrel/blade, +Z top): roll in degrees about +X, applied at attach time
+HELD_ROLL = {'ThompsonM1928': 180}  # modelled upside down: grips and magazine on +Z
 for w in man['weapons']:
     out['held'][w['id']] = {'name': w['name'], 'type': w['type'], 'mesh': w['mesh'], 'tex': full(w['texture'], 'Held', 256, 'prop', 'RGB'),
                             'hand': w['hand'], 'grip_l': w.get('grip_l_position')}
+    if w['id'] in HELD_ROLL:
+        out['held'][w['id']]['roll'] = HELD_ROLL[w['id']]
     stage['meshes'].append({'name': w['mesh'], 'file': src(w['mesh']), 'kind': 'static', 'folder': 'Held'})
     if f"{w['texture']}_Mask" in assets:
         out['held'][w['id']]['glow'] = True
@@ -155,7 +159,9 @@ if os.path.isdir(anim_dir):
         if f.endswith('.fbx') and f.startswith('A_'):
             sex = f.split('_')[1]
             if sex in SEXES:
-                stage['anims'].append({'name': f[:-4], 'file': os.path.join(anim_dir, f), 'sex': sex})
+                # retargeted mocap (tools/danceprep_blender.py -> art/mocap) replaces the authored clip of the same name
+                mocap = os.path.join(ROOT, 'art', 'mocap', f)
+                stage['anims'].append({'name': f[:-4], 'file': mocap if os.path.exists(mocap) else os.path.join(anim_dir, f), 'sex': sex})
 
 os.makedirs(STAGE, exist_ok=True)
 json.dump(stage, open(os.path.join(STAGE, 'stage.json'), 'w'), indent=1)

@@ -6,7 +6,8 @@
 //
 // Catalogue row: [id, category, seconds, variants, prompt, opts]
 //   opts.loop     seamless loop (ElevenLabs loop mode; kept untrimmed, stereo for ambience)
-//   opts.vol      runtime gain 0..1 (every file is peak-normalised, so loudness lives here)
+//   opts.vol      loudness relative to the rest of its category (files are loudness-normalised, see master(); the index
+//                 carries vol x CAT_GAIN[category], 0..1.5)
 //   opts.range    metres at which a positional sound fades out (0 = 2D: UI, the player's own sounds, ambience)
 //   opts.pitch    random pitch spread per play (0.06 = +-6%)
 //   opts.inf      prompt_influence (default 0.45)
@@ -338,8 +339,18 @@ async function generate(text, dur, loop, inf, file)
   }
 }
 
-// Mastering. One-shots: mono, silence trimmed at both ends, 15 ms fade-in guard, 40 ms fade-out, peak -1 dBFS, 96 kbps.
-// Loops: untouched length (seamless), one gain to peak -2 dBFS, stereo 128 kbps (mono 96 for positional loops).
+// Mastering, by loudness (EBU R128) rather than peak: peak-normalised, a dense 22 s street bed and a 0.3 s click came out at
+// the same peak and wildly different loudness.
+//   One-shots: mono, silence trimmed at both ends, fades; max momentary loudness (400 ms window) to OS_LUFS. A quiet take is
+//              raised at most OS_BOOST dB under a -1 dBFS limiter; a loud one is turned down. 96 kbps.
+//   Loops:     untouched length (seamless, so no limiter), integrated loudness to LOOP_LUFS within a -2 dBFS peak ceiling.
+//              Stereo 128 kbps (mono 96 for positional loops).
+const OS_LUFS = -16, OS_BOOST = 8, LOOP_LUFS = -20;
+// the category's place in the mix (loudness at the listener: ambience is a bed under everything, combat sits forward)
+const CAT_GAIN = { ui: 0.63, player: 0.8, combat: 1.05, cast: 1.0, school: 1.0, ability: 1.0, mob: 0.94, object: 0.72, world: 0.79, ambient: 0.44, event: 0.9 };
+const verbose = (file, af) => run('ffmpeg', ['-hide_banner', '-nostats', '-v', 'verbose', '-i', file, '-af', af, '-f', 'null', '-']);
+const maxMomentary = (txt) => Math.max(-70, ...[...txt.matchAll(/M:\s*(-?[\d.]+)/g)].map((m) => Number(m[1])).filter((v) => Number.isFinite(v)));
+const integrated = (txt) => { const m = [...txt.matchAll(/^\s+I:\s+(-?[\d.]+) LUFS/gm)]; return m.length ? Number(m[m.length - 1][1]) : -70; };
 async function master(src, dst, o)
 {
   const stereo = o.stereo ?? (o.loop && !o.range);
@@ -350,16 +361,23 @@ async function master(src, dst, o)
   const gain = `volume=${((o.loop ? -2 : -1) - peak).toFixed(2)}dB`;
   if (o.loop)
   {
-    await run('ffmpeg', ['-hide_banner', '-y', '-loglevel', 'error', '-i', src, '-ac', String(ch), '-ar', '44100', '-af', gain, '-c:a', 'libmp3lame', '-b:a', stereo ? '128k' : '96k', dst]);
-    return { samples: Math.round(last(probe, /n_samples:\s*(\d+)/g) / ch) };
+    const lu = integrated(await verbose(src, `aformat=channel_layouts=${stereo ? 'stereo' : 'mono'},ebur128=framelog=verbose`));
+    const g = Math.min(LOOP_LUFS - lu, -2 - peak);
+    await run('ffmpeg', ['-hide_banner', '-y', '-loglevel', 'error', '-i', src, '-ac', String(ch), '-ar', '44100', '-af', `volume=${g.toFixed(2)}dB`, '-c:a', 'libmp3lame', '-b:a', stereo ? '128k' : '96k', dst]);
+    return { samples: Math.round(last(probe, /n_samples:\s*(\d+)/g) / ch), lufs: lu + g };
   }
   // one-shots: normalise first, then trim silence relative to the normalised level, then short fades
   const trim = `${gain},silenceremove=start_periods=1:start_threshold=-50dB:start_silence=0.01,areverse,silenceremove=start_periods=1:start_threshold=-58dB:start_silence=0.03,areverse`;
   const p2 = await run('ffmpeg', ['-hide_banner', '-nostats', '-i', src, '-ac', '1', '-af', `${trim},volumedetect`, '-f', 'null', '-']);
   const secs = last(p2, /n_samples:\s*(\d+)/g) / 44100;
-  const af = secs > 0.06 ? `${trim},afade=t=in:d=0.004,afade=t=out:st=${Math.max(0, secs - 0.04).toFixed(3)}:d=0.04` : `${gain},afade=t=in:d=0.004`;
+  const body = secs > 0.06 ? trim : gain;
+  // loudness of the trimmed, peak-normalised take (padded: the momentary window is 400 ms)
+  const m = maxMomentary(await verbose(src, `${body},aformat=channel_layouts=mono,apad=pad_dur=0.4,ebur128=framelog=verbose`));
+  const g2 = Math.min(OS_LUFS - m, OS_BOOST);
+  const level = g2 > 0 ? `volume=${g2.toFixed(2)}dB,alimiter=limit=0.891:level=false:attack=2:release=40` : `volume=${g2.toFixed(2)}dB`;
+  const af = secs > 0.06 ? `${trim},${level},afade=t=in:d=0.004,afade=t=out:st=${Math.max(0, secs - 0.04).toFixed(3)}:d=0.04` : `${gain},${level},afade=t=in:d=0.004`;
   await run('ffmpeg', ['-hide_banner', '-y', '-loglevel', 'error', '-i', src, '-ac', '1', '-ar', '44100', '-af', af, '-c:a', 'libmp3lame', '-b:a', '96k', dst]);
-  return { samples: 0, secs };
+  return { samples: 0, secs, lufs: m + g2 };
 }
 
 // ---------------------------------------------------------------------------------------------------------------------- run
@@ -398,7 +416,7 @@ const keep = new Set();
 const mq = [];
 for (const [id, cat, dur, n, prompt, o] of C)
 {
-  const e = index[id] = { cat, files: [], vol: o.vol ?? 0.6, range: o.range ?? 40, pitch: o.pitch ?? 0 };
+  const e = index[id] = { cat, files: [], vol: Math.round(Math.min(1.5, (o.vol ?? 0.6) * (CAT_GAIN[cat] ?? 1)) * 1000) / 1000, range: o.range ?? 40, pitch: o.pitch ?? 0 };
   if (o.loop) { e.loop = true; e.samples = []; }
   for (let v = 0; v < n; ++v)
   {

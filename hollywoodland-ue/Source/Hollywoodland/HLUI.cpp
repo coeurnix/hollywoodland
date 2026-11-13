@@ -965,7 +965,18 @@ static bool HLQuestGoal(const FHLGame& Gm, const FHLQuestState& QS, const FHLUni
 			const TArray<FString>& Ids = O.Type == TEXT("kill") ? O.Mobs : O.From;
 			for (const FHLCamp& C : Def.Camps) if (C.Mob && Ids.Contains(C.Mob->Id)) Try(C.Pos);
 		}
-		else for (const FHLObjectDef& Ob : Def.Objects) if (Ob.Quest == QS.Q->Id || (!O.Kind.IsEmpty() && Ob.Kind == O.Kind)) Try(Ob.Pos);
+		else
+		{
+			// only objects that can be used now: a lamp just lit (or a can just taken) is out until it respawns,
+			// so the marker moves on to the next one instead of sitting on the spent one
+			const TArray<FHLObjectState>& States = Gm.Areas[P.Area].Objects;
+			for (int32 k = 0; k < Def.Objects.Num(); ++k)
+			{
+				const FHLObjectDef& Ob = Def.Objects[k];
+				if (States.IsValidIndex(k) && !States[k].bActive) continue;
+				if (Ob.Quest == QS.Q->Id || (!O.Kind.IsEmpty() && Ob.Kind == O.Kind)) Try(Ob.Pos);
+			}
+		}
 		if (Best < 1e9f) return true;
 	}
 	return false;

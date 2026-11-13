@@ -140,7 +140,13 @@ void FHLGame::TickChat(float Dt)
 {
 	for (int32 i = 0; i < PendingChat.Num();)
 	{
-		if (Now >= PendingChat[i].At) { const FHLChatLine L = PendingChat[i].Line; PendingChat.RemoveAt(i); AddChat(L.Ch, L.From, L.Text, L.SimIdx, 0); }
+		if (Now >= PendingChat[i].At)
+		{
+			const FHLChatLine L = PendingChat[i].Line; PendingChat.RemoveAt(i);
+			// a sim that logged off while the line was "being typed" never sends it
+			if (L.SimIdx >= 0 && Sims.IsValidIndex(L.SimIdx) && !Sims[L.SimIdx].bOnline) continue;
+			AddChat(L.Ch, L.From, L.Text, L.SimIdx, 0);
+		}
 		else ++i;
 	}
 	if (!Session.IsEmpty() || Now < NextSessionTry) {} else WorkerSession();
@@ -422,7 +428,23 @@ void FHLGame::WorkerSim(const FString& Kind, const TArray<int32>& Speakers, cons
 		Ctx->SetArrayField(TEXT("party"), Pa);
 	}
 	TArray<FString> Recent;
-	for (int32 i = Chat.Num() - 1; i >= 0 && Recent.Num() < 8; --i) { const FHLChatLine& L = Chat[i]; if (L.Ch == TEXT("combat") || L.Ch == TEXT("system") || L.Ch == TEXT("loot") || L.Ch == TEXT("quest") || L.From.IsEmpty()) continue; Recent.Insert(FString::Printf(TEXT("[%s] %s: %s"), *L.Ch, *L.From, *L.Text), 0); }
+	for (int32 i = Chat.Num() - 1; i >= 0 && Recent.Num() < 8; --i)
+	{
+		const FHLChatLine& L = Chat[i];
+		if (L.Ch == TEXT("combat") || L.Ch == TEXT("system") || L.Ch == TEXT("loot") || L.Ch == TEXT("quest") || L.From.IsEmpty()) continue;
+		// NPC speech is labelled as such: unlabelled, the model took quest givers for players and answered them
+		Recent.Insert(L.Ch == TEXT("npc") ? FString::Printf(TEXT("[npc] %s (NPC, not a player): %s"), *L.From, *L.Text) : FString::Printf(TEXT("[%s] %s: %s"), *L.Ch, *L.From, *L.Text), 0);
+	}
+	if (P)
+	{
+		// the game's NPCs around the player, by name, so the speakers never mistake them for players
+		TArray<TPair<float, FString>> Near;
+		for (const FHLUnit* N : UnitList) if (N->Kind == EHLKind::Npc && N->Npc && N->Area == P->Area && Dist(*N, *P) < 60) Near.Add({ Dist(*N, *P), N->Npc->Title.IsEmpty() ? N->Name : FString::Printf(TEXT("%s (%s)"), *N->Name, *N->Npc->Title) });
+		Near.Sort([](const TPair<float, FString>& A, const TPair<float, FString>& B) { return A.Key < B.Key; });
+		TArray<FString> Names;
+		for (const auto& KV : Near) if (Names.Num() < 10) Names.AddUnique(KV.Value);
+		if (Names.Num()) Ctx->SetArrayField(TEXT("npcs"), Strs(Names));
+	}
 	Ctx->SetArrayField(TEXT("recent_chat"), Strs(Recent)); Ctx->SetArrayField(TEXT("world"), Strs(World)); Ctx->SetArrayField(TEXT("events"), Strs(Events));
 	Req->SetObjectField(TEXT("context"), Ctx);
 	TSharedRef<FJsonObject> Allowed = MakeShared<FJsonObject>();
