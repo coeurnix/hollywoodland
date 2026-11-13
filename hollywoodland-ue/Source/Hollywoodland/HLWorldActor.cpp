@@ -1,4 +1,4 @@
-#include "HLWorldActor.h"
+﻿#include "HLWorldActor.h"
 #include "HLBridge.h"
 #include "HLUI.h"
 #include "Camera/CameraComponent.h"
@@ -18,6 +18,11 @@
 #include "Misc/Paths.h"
 #include "UnrealClient.h"
 #include "Kismet/KismetSystemLibrary.h"
+#include "Kismet/KismetRenderingLibrary.h"
+#include "Components/PointLightComponent.h"
+#include "Components/SceneCaptureComponent2D.h"
+#include "Components/SkeletalMeshComponent.h"
+#include "Engine/TextureRenderTarget2D.h"
 
 static const float M = 100.f; // metres -> UE units
 
@@ -197,6 +202,14 @@ void AHLWorldActor::BuildUnit(const FHLUnit& U, FHLUnitVis& V)
 		V.Body = AddMesh(A, Cube, FVector(0, 0, 50 * S), FVector(1.1f, 0.42f, 0.5f) * S, U.Color);
 		V.Head = AddMesh(A, Cube, FVector(65 * S, 0, 70 * S), FVector(0.4f, 0.32f, 0.32f) * S, U.Color * 0.8f);
 	}
+	else if (FHLChars::Get().Ready())
+	{
+		V.bHuman = true;
+		V.Look = FHLChars::Get().LookFor(Game, U);
+		V.NextLook = Game.Now + 0.5;
+		A->SetActorScale3D(FVector(S));
+		CharVis.Apply(GetWorld(), A, Root, V.Rig, V.Look, U.Id == Game.PlayerUnitId ? 1024 : 512);
+	}
 	else
 	{
 		V.Body = AddMesh(A, Cylinder, FVector(0, 0, 70 * S), FVector(0.55f, 0.55f, 1.4f) * S, U.Color);
@@ -207,6 +220,71 @@ void AHLWorldActor::BuildUnit(const FHLUnit& U, FHLUnitVis& V)
 	}
 	V.Actor = A;
 	Spawned.Add(A);
+}
+
+UTextureRenderTarget2D* AHLWorldActor::Preview(const FHLCharLook& L, float Yaw, const FString& Clip)
+{
+	if (!GetWorld() || !FHLChars::Get().Ready()) return nullptr;
+	if (!Stage)
+	{
+		// a kilometre up: nothing above to shadow it, out of sight of the street camera
+		Stage = GetWorld()->SpawnActor<AActor>(AActor::StaticClass(), FTransform(FVector(0, 0, 100000)));
+		USceneComponent* Root = NewObject<USceneComponent>(Stage);
+		Root->SetMobility(EComponentMobility::Movable);
+		Stage->SetRootComponent(Root); Root->RegisterComponent();
+		StageChar = NewObject<USceneComponent>(Stage);
+		StageChar->SetMobility(EComponentMobility::Movable);
+		StageChar->SetupAttachment(Root); StageChar->RegisterComponent();
+		// a backdrop and a round floor, so the figure stands somewhere
+		AddMesh(Stage, Cube, FVector(-160, 0, 150), FVector(0.1f, 9.f, 6.f), FLinearColor(0.07f, 0.06f, 0.05f), true);
+		AddMesh(Stage, Cylinder, FVector(0, 0, -2), FVector(1.6f, 1.6f, 0.04f), FLinearColor(0.3f, 0.26f, 0.2f));
+		UPointLightComponent* Key = NewObject<UPointLightComponent>(Stage);
+		Key->SetupAttachment(Root); Key->SetMobility(EComponentMobility::Movable);
+		Key->SetRelativeLocation(FVector(260, 140, 230));
+		Key->SetIntensityUnits(ELightUnits::Unitless); Key->SetIntensity(2500.f); Key->SetAttenuationRadius(900.f);
+		Key->SetLightColor(FLinearColor(1.f, 0.97f, 0.92f)); Key->SetCastShadows(false);
+		Key->RegisterComponent();
+		StageRT = NewObject<UTextureRenderTarget2D>(this);
+		StageRT->RenderTargetFormat = ETextureRenderTargetFormat::RTF_RGBA8_SRGB;
+		StageRT->ClearColor = FLinearColor(0.16f, 0.13f, 0.1f, 1);
+		StageRT->InitAutoFormat(512, 768);
+		StageRT->UpdateResourceImmediate(true);
+		StageCap = NewObject<USceneCaptureComponent2D>(Stage);
+		StageCap->SetupAttachment(Root);
+		StageCap->SetMobility(EComponentMobility::Movable);
+		// 26 degrees across a 2:3 frame is about 38 up and down: a 2.1 m tall view at 3 m
+		StageCap->FOVAngle = 26.f;
+		StageCap->SetRelativeLocation(FVector(305, 0, 100));
+		StageCap->SetRelativeRotation(FRotator(-1.5f, 180, 0));
+		StageCap->TextureTarget = StageRT;
+		StageCap->CaptureSource = ESceneCaptureSource::SCS_FinalColorLDR;
+		StageCap->PrimitiveRenderMode = ESceneCapturePrimitiveRenderMode::PRM_UseShowOnlyList;
+		StageCap->ShowOnlyActors.Add(Stage);
+		StageCap->bCaptureEveryFrame = false; StageCap->bCaptureOnMovement = false;
+		StageCap->PostProcessSettings = Camera->PostProcessSettings;
+		StageCap->PostProcessSettings.bOverride_VignetteIntensity = true; StageCap->PostProcessSettings.VignetteIntensity = 0.4f;
+		StageCap->PostProcessBlendWeight = 1.f;
+		StageCap->ShowFlags.SetFog(false);
+		StageCap->ShowFlags.SetAtmosphere(false);
+		StageCap->RegisterComponent();
+		Spawned.Add(Stage);
+	}
+	StageWantUntil = FPlatformTime::Seconds() + 0.3;
+	Stage->SetActorHiddenInGame(false);
+	StageCap->bCaptureEveryFrame = true;
+	CharVis.Apply(GetWorld(), Stage, StageChar, StageRig, L, 1024);
+	if (USkeletalMeshComponent* Ld = StageRig.Leader.Get()) Ld->VisibilityBasedAnimTickOption = EVisibilityBasedAnimTickOption::AlwaysTickPoseAndRefreshBones;
+	CharVis.Play(StageRig, Clip.IsEmpty() ? FString(TEXT("Idle")) : Clip, true);
+	StageChar->SetRelativeRotation(FRotator(0, Yaw, 0));
+	return StageRT;
+}
+
+void AHLWorldActor::TickStage()
+{
+	if (!Stage || !StageCap || FPlatformTime::Seconds() < StageWantUntil || Stage->IsHidden()) return;
+	// nobody looked for a moment: stop filming and hide the stage
+	StageCap->bCaptureEveryFrame = false;
+	Stage->SetActorHiddenInGame(true);
 }
 
 void AHLWorldActor::SyncUnits()
@@ -225,13 +303,25 @@ void AHLWorldActor::SyncUnits()
 		AActor* A = V->Actor.Get();
 		if (!A) continue;
 		A->SetActorHiddenInGame(false);
-		float Z = U->Z + (U->HopT > 0 ? FMath::Sin(U->HopT * PI * 2) * 0.5f : 0.f);
-		if (U->bSitting && !U->bDead) Z -= 0.45f;
+		float Z = U->Z + (U->HopT > 0 && !V->bHuman ? FMath::Sin(U->HopT * PI * 2) * 0.5f : 0.f);
+		if (U->bSitting && !U->bDead && !V->bHuman) Z -= 0.45f;
 		if (U->bMounted) Z += 0.9f;
 		Z += U->Lift;
 		if (U->bBurrowed) Z -= 0.85f * U->Scale; // only the back shows, a mound in the street
-		A->SetActorLocationAndRotation(ToWorld(U->Area, U->Pos, Z), FRotator(0, U->Yaw, U->bDead ? 90 : 0));
-		if (U->bDead != V->bDeadLook || U->bGhost != V->bGhostLook)
+		A->SetActorLocationAndRotation(ToWorld(U->Area, U->Pos, Z), FRotator(0, U->Yaw, U->bDead && !V->bHuman ? 90 : 0));
+		if (V->bHuman)
+		{
+			// equipment changes show up within half a second
+			if (Game.Now >= V->NextLook)
+			{
+				V->NextLook = Game.Now + 0.5;
+				V->Look = FHLChars::Get().LookFor(Game, *U);
+				CharVis.Apply(GetWorld(), A, A->GetRootComponent(), V->Rig, V->Look, U->Id == Game.PlayerUnitId ? 1024 : 512);
+			}
+			static const bool bNoAnim = FParse::Param(FCommandLine::Get(), TEXT("HLBindPose"));
+			if (!bNoAnim) CharVis.Drive(V->Rig, *U, V->Look, Game.Now, Game.FrameDt);
+		}
+		if ((U->bDead != V->bDeadLook || U->bGhost != V->bGhostLook) && !V->bHuman)
 		{
 			V->bDeadLook = U->bDead; V->bGhostLook = U->bGhost;
 			if (V->Body.IsValid()) V->Body->SetMaterial(0, Mid(U->bDead ? U->Color * 0.45f : U->bGhost ? FLinearColor(0.55f, 0.75f, 1.f) : U->Color));
@@ -276,7 +366,9 @@ void AHLWorldActor::Tick(float Dt)
 	if (!AutoClass.IsEmpty()) AutoTest(Dt);
 	Game.Tick(Dt);
 	Game.Music.Tick(Game, Dt);
+	CharVis.Tick(Game.Now);
 	SyncUnits();
+	TickStage();
 	// camera: orbit the player (or the forecourt on the title screen)
 	const FHLUnit* P = Game.PlayerUnit();
 	FVector Focus = P ? ToWorld(P->Area, P->Pos, P->Z + 1.7f) : ToWorld(0, Game.Areas[0].Def->Spawn + FVector2D(0, 8), 2.f);
@@ -386,6 +478,64 @@ void AHLWorldActor::AutoTest(float Dt)
 	}
 	if (AutoQuit > 0 && T > AutoQuit) { UKismetSystemLibrary::QuitGame(this, nullptr, EQuitPreference::Quit, false); return; }
 	FHLUnit* P = Game.PlayerUnit();
+	if (P && FParse::Param(FCommandLine::Get(), TEXT("HLLineup")))
+	{
+		// character art check: camera in front of the player, a new body and outfit every 3 s, a screenshot of each
+		static int32 Step = -1;
+		static double NextStep = 0, ShotAt = 0;
+		CamYaw = P->Yaw + (FParse::Param(FCommandLine::Get(), TEXT("HLLineupSide")) ? 90 : 180); CamPitch = 6; CamDist = FParse::Param(FCommandLine::Get(), TEXT("HLLineupFar")) ? 7.f : 3.4f;
+		AutoNextShot = 1e9;
+		if (T >= NextStep)
+		{
+			NextStep = T + 3; ShotAt = T + 2.2; ++Step;
+			const int32 k = Step;
+			FHLAppearance& A = Game.Player.Look;
+			A.Sex = k % 2; A.Skin = (k / 2) % 8; A.Face = (k * 5) % 12; A.Hair = (k * 7 + k / 2) % 12; A.HairColor = (k * 3) % 8; A.Outfit = k % 8;
+			static const TCHAR* Types[4] = { TEXT("cloth"), TEXT("leather"), TEXT("padded"), TEXT("steel") };
+			static const int32 Bands[] = { 1, 5, 10, 20, 30, 40, 50, 60 };
+			const FString Ty = Types[(k / 2) % 4];
+			const int32 Want = Bands[(k / 8) % 8];
+			Game.Player.Equip.Reset();
+			if (k % 8 != 0) // every eighth step shows the starter outfit
+				for (const TCHAR* Sl : { TEXT("coat"), TEXT("trousers"), TEXT("shoes"), TEXT("gloves"), TEXT("belt"), TEXT("wrist"), TEXT("hat") })
+				{
+					const FHLItem* Best = nullptr;
+					for (const FHLItem& It : FHLData::Get().Items)
+						if (It.Kind == TEXT("armor") && It.Slot == Sl && It.Type == Ty && It.Q == (k % 5 == 4 ? 4 : 2) && (!Best || FMath::Abs(It.Req - Want) < FMath::Abs(Best->Req - Want))) Best = &It;
+					if (!Best) for (const FHLItem& It : FHLData::Get().Items) if (It.Kind == TEXT("armor") && It.Slot == Sl && It.Type == Ty && (!Best || FMath::Abs(It.Req - Want) < FMath::Abs(Best->Req - Want))) Best = &It;
+					if (Best) Game.Player.Equip.Add(Sl, Best);
+				}
+			static const TCHAR* Weap[] = { TEXT("knife"), TEXT("club"), TEXT("sabre"), TEXT("heavy"), TEXT("revolver"), TEXT("rifle"), TEXT("tool"), TEXT("smg") };
+			const FString Wt = Weap[k % 8];
+			for (const FHLItem& It : FHLData::Get().Items)
+				if (It.Kind == TEXT("weapon") && It.Type == Wt) { Game.Player.Equip.Add(It.Slot, &It); break; }
+			for (const FHLItem& It : FHLData::Get().Items) if (It.Kind == TEXT("weapon") && It.Type == (k % 3 ? TEXT("lamp") : TEXT("shield"))) { if (!Game.Player.Equip.Contains(TEXT("off"))) Game.Player.Equip.Add(TEXT("off"), &It); break; }
+			P->bRangedAuto = Wt == TEXT("revolver") || Wt == TEXT("rifle") || Wt == TEXT("smg");
+			P->bAutoAttack = false; P->CombatUntil = (k % 3 == 1) ? Game.Now + 3 : 0; P->bSitting = false;
+			if (FParse::Param(FCommandLine::Get(), TEXT("HLLineupGestures")))
+			{
+				// one gesture per step (and a sit every sixth), the screenshot lands mid-clip
+				static const TCHAR* Gs[] = { TEXT("Wave"), TEXT("Dance"), TEXT("Cheer"), TEXT("Laugh"), TEXT("Bow"), TEXT("Point"), TEXT("Shrug"), TEXT("Talk"), TEXT("Loot") };
+				P->CombatUntil = 0;
+				if (k % 6 == 5) P->bSitting = true; else Game.Gesture(*P, Gs[k % 9]);
+			}
+			if (FHLUnitVis* V = Vis.Find(P->Id)) V->NextLook = 0;
+			FString Desc;
+			for (const auto& KV : Game.Player.Equip) Desc += KV.Key + TEXT("=") + KV.Value->Name + TEXT("; ");
+			HLBridge::Log(FString::Printf(TEXT("HL_LINEUP %d sex=%d skin=%d face=%d hair=%d hairc=%d outfit=%d %s"), k, A.Sex, A.Skin, A.Face, A.Hair, A.HairColor, A.Outfit, *Desc));
+		}
+	#if !PLATFORM_WASM
+		if (ShotAt > 0 && T >= ShotAt)
+		{
+			ShotAt = 0;
+			FScreenshotRequest::RequestScreenshot(FPaths::ProjectSavedDir() / FString::Printf(TEXT("Screenshots/hl_lineup_%02d.png"), Step), false, false);
+			if (FParse::Param(FCommandLine::Get(), TEXT("HLDumpAtlas")))
+				if (FHLUnitVis* V = Vis.Find(P->Id))
+					UKismetRenderingLibrary::ExportRenderTarget(this, CharVis.Atlas(GetWorld(), V->Look, 1024), FPaths::ProjectSavedDir() / TEXT("Screenshots"), FString::Printf(TEXT("atlas_%02d.png"), Step));
+		}
+	#endif
+		return;
+	}
 	if (P && P->bGhost && FVector2D::Distance(P->Pos, Game.Player.CorpsePos) > 8) Game.MoveTo(*P, Game.Player.CorpsePos, 4); // every frame
 	else if (P && bAutoGoal && !P->bDead && Game.MoveTo(*P, AutoGoal, 5)) bAutoGoal = false;
 		if (!P || Game.Now < AutoNextAct) { if (P && !P->bDead && !P->bGhost) if (FHLUnit* Tg = Game.Unit(P->TargetId)) if (!Tg->bDead && Tg->Kind == EHLKind::Mob) Game.MoveTo(*P, Tg->Pos, P->AutoRange - 1); return; }

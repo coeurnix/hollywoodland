@@ -11,13 +11,19 @@ class UStaticMeshComponent;
 class UMaterialInterface;
 class UMaterialInstanceDynamic;
 class UCameraComponent;
+class UTextureRenderTarget2D;
 
 struct FHLUnitVis
 {
 	TWeakObjectPtr<AActor> Actor;
 	TWeakObjectPtr<UStaticMeshComponent> Body, Head, Extra;
-	bool bDeadLook = false, bMountLook = false, bGhostLook = false;
-};
+		bool bDeadLook = false, bMountLook = false, bGhostLook = false;
+		// people from the character art (HLCharacter.h); gray-box shapes otherwise
+		bool bHuman = false;
+		FHLCharRig Rig;
+		FHLCharLook Look;
+		double NextLook = 0;
+	};
 
 UCLASS()
 class AHLWorldActor : public AActor
@@ -47,8 +53,20 @@ public:
 	UPROPERTY() TMap<uint32, TObjectPtr<UMaterialInstanceDynamic>> Mids;
 	UPROPERTY() TArray<TObjectPtr<AActor>> Spawned;
 	UPROPERTY() TObjectPtr<UStaticMeshComponent> Ring;
+	FHLCharVisuals CharVis; // body atlases and character materials
+
+	// character preview (creator, paper doll): one rig on a little stage far off the map, filmed by a capture that sees
+	// only the stage. The UI calls Preview every frame it shows one; the capture stops when nobody asks.
+	UTextureRenderTarget2D* Preview(const FHLCharLook& L, float Yaw, const FString& Clip);
+	UPROPERTY() TObjectPtr<AActor> Stage;
+	UPROPERTY() TObjectPtr<class USceneCaptureComponent2D> StageCap;
+	UPROPERTY() TObjectPtr<UTextureRenderTarget2D> StageRT;
+	UPROPERTY() TObjectPtr<USceneComponent> StageChar;
 
 private:
+	FHLCharRig StageRig;
+	double StageWantUntil = 0;
+	void TickStage();
 	UMaterialInstanceDynamic* Mid(const FLinearColor& C, bool bUnlit = false, float Glow = 0.22f);
 	UStaticMeshComponent* AddMesh(AActor* InOwner, UStaticMesh* Mesh, const FVector& Loc, const FVector& Scale, const FLinearColor& Color, bool bUnlit = false, bool bShadow = false);
 	void BuildWorld();

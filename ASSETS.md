@@ -23,12 +23,12 @@ submission (bible §2 rule 1).
 | Hive kit: wall segments, gap, spire, egg cluster, egg sac | 5 | dark boxes; cone; squashed spheres | `BuildWorld` object switch (`O.Kind`) |
 | Red car (Pacific Electric) | 1 | red box 13×2.6×3.2 m | object kind `redcar` |
 | Wrecks: newsreel truck, cars | 3 | dark low boxes | `zone.mjs` wreck boxes |
-| Player/NPC bodies | 2 base bodies | cylinder + sphere head + "nose" cube, class-coloured | `AHLWorldActor::BuildUnit` (`Shape == human`) |
-| Armour looks | 24 (4 types × 6 tiers) + 8 epic | none (body colour = class colour) | `BuildUnit`; items need `look_id` (not in data yet) |
-| Weapon meshes | ~40 | none shown | `BuildUnit`; `FHLItem::Type` |
+| Player/NPC bodies | 2 base bodies | DONE: MakeHuman male/female, 37-bone rig, modular geosets (`Content/Characters/Body`) | `HLCharacter.cpp` (`FHLCharVisuals::Apply`) |
+| Armour looks | 24 (4 types × 6 tiers) + 8 epic | DONE: 32 looks + starter, 38 hats; item → look by type letter, required level band and quality (`FHLChars::LookForItem`) | `Content/Data/characters.json` |
+| Weapon meshes | ~40 | DONE: 41 held items (name match, else same type by hash) in the palm of either hand | `FHLChars::HeldForItem` |
 | Invader meshes: Worker, Drone, Spitter, Soldier, Broodling, Brute, Queen (+ Burrower, Flier later) | 7 (+2) | squashed sphere + cone "head", colour/scale per template | `BuildUnit` (`Shape == bug`), `mobs[].shape/color/scale` |
 | Wildlife: coyote, feral dog | 2 | box body + box head | `BuildUnit` (`Shape == quad`) |
-| Humans: Looter, Dragna Enforcer | reuse character | dark cylinders | — |
+| Humans: Looter, Dragna Enforcer | reuse character | DONE: character art (suits and blackjacks for the Dragna, work clothes and tools for looters) | `FHLChars::LookFor` |
 | Mounts: horse, Ford Model A, motorcycle (+ 60 tier re-skins) | 3 | dark box under the rider | `SyncUnits` mount block |
 | Interactables: film can, reel, coffee tin, arc lamp, call box, mailbox, scrap pile, captured usher | 8 | small cylinders/boxes | `BuildWorld` object switch |
 | Dungeon interior: forecourt, lobby, auditorium (seat rows), projection booth, stage | 5 rooms | brown wall boxes, red seat rows, red carpet strip | `tools/gen/zone.mjs` dungeon section |
@@ -39,7 +39,7 @@ submission (bible §2 rule 1).
 
 | Needed | Current |
 |---|---|
-| Character: idle, run, jump, sit, melee swing, cast, shoot, hit react, death, loot, emotes (wave, dance, cheer) | none: units slide; death = 90° roll + darker colour; jump/emote = vertical hop (`HopT`) |
+| Character: idle, run, jump, sit, melee swing, cast, shoot, hit react, death, loot, emotes (wave, dance, cheer) | DONE: 22 clips retargeted from the engine template Mannequin (`Scripts/retarget_anims.py`) + 19 authored for the rig (combat 1H/2H, cast, sit, loot, talk, wave, laugh, cheer, shrug, point, bow, dance); chosen per frame in `FHLCharVisuals::Drive` |
 | Invaders ×7, coyote, dog: idle, walk, attack, cast (spit), death | none |
 | Mount ride | none |
 | Crowd: vertex-animated variants (bible §13) | none |
@@ -49,7 +49,7 @@ submission (bible §2 rule 1).
 | Needed | Current |
 |---|---|
 | Building facades (period signage: marquees, storefront lettering), road/sidewalk, hive resin, chitin | flat colours from data |
-| Character skin/hair/clothing sets (12 faces, 12 hair, 8 skin, 8 clothing colours) | 4 flat skin tones by unit id |
+| Character skin/hair/clothing sets (12 faces, 12 hair, 8 skin, 8 clothing colours) | DONE: 8 skins, 12 painted faces and 12 hairstyles per sex, 8 hair colours, 8 starter dyes; one body atlas per look composed on the GPU |
 | 1930 posters and lobby cards on theatre fronts (public domain, to be sourced and disclosed) | none |
 
 ## VFX

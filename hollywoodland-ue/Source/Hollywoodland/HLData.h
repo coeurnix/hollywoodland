@@ -115,6 +115,7 @@ struct FHLPersona
 {
 	FString Id, Handle, Class, HomeZone, Temperament, Guild, Goal, Mount;
 	int32 Level = 1, Index = 0;
+	int32 Body = 0, Skin = 0, HairStyle = 0; // appearance (body 0 man, 1 woman)
 	float ReactionS = 0.6f, MistakeRate = 0.08f, TypoRate = 0.02f, StartHour = 0, Hours = 3;
 	bool bLower = true, bPunct = false, bCaps = false;
 	TArray<FString> Abbrev, Friends;

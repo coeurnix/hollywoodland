@@ -38,7 +38,8 @@ browser ── itch.io page (iframe) ── hollywoodland Worker (R2 stage, COOP
 | `HLMusic.*` | music director (title, subzone playlists day/night, notable-fight/boss/death/victory tracks); playback via `HLBridge::MusicPlay` (web `<audio>`, native MCI) |
 | `HLChat.cpp` | ambient chat (templates + corpus), typing-style filter, slash commands, Worker client + action application |
 | `HLWorldActor.*` | geometry build, unit visuals, camera, `-HLAuto` self-play test, `HL_STATUS` console line every 20 s |
-| `HLUI.cpp`, `HLUIWindows.cpp` | toolkit (Rc/Tx/Btn/Win/ItemIcon), input, title screen, nameplates, HUD, chat, minimap, all windows |
+| `HLUI.cpp`, `HLUIWindows.cpp` | toolkit (Rc/Tx/Btn/Win/ItemIcon), input, title screen + character creator, nameplates, HUD, chat, minimap, all windows (character window = paper doll) |
+| `HLCharacter.*` | human character art: appearance, item → look/held mapping, modular rigs, GPU body atlases, clip choice (`Drive`), gestures; the creator/doll preview stage is `AHLWorldActor::Preview` |
 
 ### Verification loop
 
@@ -81,7 +82,8 @@ browser ── itch.io page (iframe) ── hollywoodland Worker (R2 stage, COOP
 | Duels, trade, mail, friends (§6, §9, §11) | DONE | `HLSocial.cpp`. Duels outside hubs (loser stops at 1 hp, forfeit at 40 m, rivals challenge you); face-to-face trade window (sims accept fair offers and gifts); whisper a trade-chat seller "wtb" and they send it C.O.D.; mailbox with auction proceeds, returns, outbid refunds and letters; friends list (Who window tab) with online/offline notices. Guilds: a social or levelling guild invites the player at level 4+ (bonded sims first); guild chat (/g) with MOTD, welcomes, logins, grats on dings and census dungeon clears; roster tab with ranks in the Who window; /gquit. |
 | Mounts for transients | PROTO | A dark box under the rider, +60% speed. |
 | Music | DONE | `HLMusic.cpp`; 30 tracks streamed from R2 `music/` on the web (not in the pak), copied to `<pkg>\Music` natively. Menu volume + `/music`. |
-| Day/night, SFX/ambience, VFX, animation | TODO | None. |
+| Character art | DONE | MakeHuman bodies from the art package (`art/characters`, kept local) → `tools/charprep.py` → `Scripts/ImportCharacters.ps1` (`-Reset` for meshes) → `-Script retarget_anims.py`. Creator on the title screen (sex, skin, face, hair, hair colour, clothes dye), paper doll with a live 3D figure, gear shown on every human. Test: `-HLLineup [-HLLineupFar] [-HLLineupSide] [-HLLineupGestures] [-HLBindPose] [-HLDumpAtlas]`. |
+| Day/night, SFX/ambience, VFX | TODO | None. Character animation done (see above); invaders and wildlife still slide. |
 | Interface (§1 WP10) | DONE | Alegreya Sans + Limelight (OFL), Art Deco frames, FLUX panel/header/title art, painted icons on bars, bags, spellbook, menu; quest goal markers (screen diamond, edge arrow, minimap, tracker distance); hostile-zone banner. |
 
 ## 3. TODO (ordered; each item is independently shippable)

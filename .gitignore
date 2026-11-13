@@ -25,3 +25,8 @@ tools/itemgen/state/sample_request.txt
 *.part
 __pycache__/
 art-gen/originals/
+
+# Engine template Mannequin (retarget source only; Scripts/retarget_anims.py copies it from the engine)
+hollywoodland-ue/Content/Characters/Mannequins/
+# retarget rigs reference the Mannequins; Scripts/retarget_anims.py rebuilds them
+hollywoodland-ue/Content/Characters/Rigs/

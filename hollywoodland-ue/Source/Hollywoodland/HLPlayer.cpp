@@ -17,6 +17,7 @@ void FHLGame::NewCharacter(const FString& Name, const FHLClass* Cls)
 	Player = FHLPlayer();
 	Player.PlayerId = KeepId.IsEmpty() ? FString::Printf(TEXT("p_%08x%08x"), FMath::Rand32(), (uint32)(FPlatformTime::Cycles64() & 0xffffffff)) : KeepId;
 	Player.bCreated = true; Player.Name = Name; Player.Cls = Cls; Player.Cents = 25;
+	Player.Look = FHLAppearance::FromSeed(GetTypeHash(Player.PlayerId)); // the creator overwrites this
 	Player.Bag.SetNum(24); Player.Bank.SetNum(24); Player.Bar.Init(nullptr, 12);
 	const FHLData& D = FHLData::Get();
 	for (const FString& Id : Cls->StartItems) if (const FHLItem* It = D.Item(Id)) Player.Equip.Add(It->Slot, It);
@@ -128,7 +129,13 @@ FString FHLGame::SaveJson() const
 		O->SetArrayField(TEXT("mail"), Ml);
 		O->SetArrayField(TEXT("friends"), Strs(Player.Friends));
 		O->SetStringField(TEXT("guild"), Player.Guild); O->SetNumberField(TEXT("gdecl"), Player.GuildDeclines);
-				O->SetNumberField(TEXT("bankboxes"), Player.BankBoxes); O->SetNumberField(TEXT("rested"), Player.Rested); O->SetBoolField(TEXT("innhome"), Player.bInnHome);
+				{
+									TSharedPtr<FJsonObject> Lk = MakeShared<FJsonObject>();
+									Lk->SetNumberField(TEXT("sex"), Player.Look.Sex); Lk->SetNumberField(TEXT("skin"), Player.Look.Skin); Lk->SetNumberField(TEXT("face"), Player.Look.Face);
+									Lk->SetNumberField(TEXT("hair"), Player.Look.Hair); Lk->SetNumberField(TEXT("hairc"), Player.Look.HairColor); Lk->SetNumberField(TEXT("outfit"), Player.Look.Outfit);
+									O->SetObjectField(TEXT("look"), Lk);
+								}
+								O->SetNumberField(TEXT("bankboxes"), Player.BankBoxes); O->SetNumberField(TEXT("rested"), Player.Rested); O->SetBoolField(TEXT("innhome"), Player.bInnHome);
 				O->SetNumberField(TEXT("saved_at"), (double)FDateTime::UtcNow().ToUnixTimestamp());
 		TArray<TSharedPtr<FJsonValue>> Au;
 		for (const FHLAuction& A : Auctions)
@@ -174,6 +181,16 @@ bool FHLGame::LoadJson(const FString& Json)
 	if (O->TryGetObjectField(TEXT("talents"), Tal))
 		for (const auto& KV : (*Tal)->Values) if (const FHLTalent* T = D.Talent(FString(KV.Key))) if (T->Class == Cls->Id) Player.Talents.Add(FString(KV.Key), FMath::Clamp((int32)KV.Value->AsNumber(), 1, T->Ranks));
 	if (O->TryGetNumberField(TEXT("bankboxes"), Num)) Player.BankBoxes = FMath::Clamp((int32)Num, 0, 6);
+	{
+		const TSharedPtr<FJsonObject>* Lk = nullptr;
+		if (O->TryGetObjectField(TEXT("look"), Lk))
+		{
+			auto Get = [&](const TCHAR* K, int32 Max) { double V = 0; (*Lk)->TryGetNumberField(K, V); return FMath::Clamp((int32)V, 0, Max); };
+			Player.Look.Sex = Get(TEXT("sex"), 1); Player.Look.Skin = Get(TEXT("skin"), 7); Player.Look.Face = Get(TEXT("face"), 11);
+			Player.Look.Hair = Get(TEXT("hair"), 11); Player.Look.HairColor = Get(TEXT("hairc"), 7); Player.Look.Outfit = Get(TEXT("outfit"), 7);
+		}
+		else Player.Look = FHLAppearance::FromSeed(GetTypeHash(Player.PlayerId)); // saves from before the character art
+	}
 	auto Inv = [&](const TCHAR* Key, TArray<FHLInvSlot>& Slots, int32 Size)
 	{
 		Slots.SetNum(Size);
@@ -534,7 +551,7 @@ void FHLGame::InteractUnit(int32 Id)
 	TargetUnit(Id);
 	if (T->Kind == EHLKind::Mob)
 	{
-		if (T->bDead) { if (T->bLootable && T->TappedBy == PlayerUnitId) { if (Dist(*U, *T) > 6) Error(TEXT("You are too far away.")); else LootCorpse(*T); } return; }
+		if (T->bDead) { if (T->bLootable && T->TappedBy == PlayerUnitId) { if (Dist(*U, *T) > 6) Error(TEXT("You are too far away.")); else { Gesture(*U, TEXT("Loot")); LootCorpse(*T); } } return; }
 		U->bAutoAttack = true;
 		if (!U->bRangedAuto && Dist(*U, *T) > U->AutoRange + 2) Error(TEXT("You are too far away."));
 		return;
@@ -545,6 +562,7 @@ void FHLGame::InteractUnit(int32 Id)
 		if (Dist(*U, *T) > 6) { Error(TEXT("You are too far away.")); return; }
 		if (T->Npc->HasRole(TEXT("guard")) && T->Npc->Roles.Num() == 1) { AddChat(TEXT("npc"), T->Name, TEXT("Keep to the boulevard after dark. The Egyptian is theirs, and so is everything past the wall.")); return; }
 		QuestEvent(TEXT("talk"), T->Npc->Id);
+		Gesture(*T, Chance(0.3f) ? TEXT("Wave") : TEXT("Talk"));
 		OpenNpcUnitId = Id; OpenNpcMode = TEXT("gossip");
 	}
 }

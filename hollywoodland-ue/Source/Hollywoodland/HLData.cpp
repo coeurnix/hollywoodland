@@ -295,6 +295,7 @@ bool FHLData::Load(FString& Err)
 			P.Index = Personas.Num();
 			P.Id = S(O, TEXT("id")); P.Handle = S(O, TEXT("handle")); P.Class = S(O, TEXT("class")); P.HomeZone = S(O, TEXT("home_zone")); P.Temperament = S(O, TEXT("temperament"));
 			P.Guild = S(O, TEXT("guild")); P.Goal = S(O, TEXT("goal")); P.Mount = S(O, TEXT("mount")); P.Level = N(O, TEXT("level"), 1);
+ 			P.Body = N(O, TEXT("body"), 0); P.Skin = N(O, TEXT("skin"), 0); P.HairStyle = N(O, TEXT("hair"), 0);
 			JObj Sk = Sub(O, TEXT("skill")); P.ReactionS = N(Sk, TEXT("reaction_s"), 0.6); P.MistakeRate = N(Sk, TEXT("mistake_rate"), 0.08);
 			JObj Ty = Sub(O, TEXT("typing")); P.bLower = B(Ty, TEXT("lowercase"), true); P.bPunct = B(Ty, TEXT("punctuation")); P.bCaps = B(Ty, TEXT("caps"));
 			P.TypoRate = N(Ty, TEXT("typo_rate"), 0.02); P.Abbrev = SA(Ty, TEXT("abbrev"));

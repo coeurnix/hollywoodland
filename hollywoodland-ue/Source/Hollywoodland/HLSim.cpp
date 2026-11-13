@@ -308,7 +308,7 @@ void FHLGame::TickSimBrain(FHLSim& S, FHLUnit& U, float Dt)
 	{
 		if (S.Role == EHLSimRole::Idler)
 		{
-			if (!S.bAfk && Now >= S.NextEmote) { S.NextEmote = Now + 8 + Rand() * 30; if (Chance(0.5f)) U.HopT = 0.5f; else U.Yaw += Rand() * 120 - 60; }
+			if (!S.bAfk && Now >= S.NextEmote) { S.NextEmote = Now + 8 + Rand() * 30; if (Chance(0.5f)) { static const TCHAR* Idle[] = { TEXT("Talk"), TEXT("Talk"), TEXT("Shrug"), TEXT("Laugh"), TEXT("Wave"), TEXT("Point"), TEXT("Cheer") }; Gesture(U, Idle[RandInt(0, 6)]); } else U.Yaw += Rand() * 120 - 60; }
 			if (Now >= S.StateUntil) { S.State = EHLSimState::Leaving; S.Dest = Def.Exits[RandInt(0, Def.Exits.Num() - 1)].Pos; if (Chance(0.3f)) SimSay(SimIdx, TEXT("say"), TEXT("bye"), 0); }
 			break;
 		}

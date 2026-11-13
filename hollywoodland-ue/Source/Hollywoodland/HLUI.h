@@ -119,6 +119,12 @@ private:
 	mutable float WX = 0, WY = 0;
 	mutable int32 SelClass = 0, SelQuest = 0, RewardChoice = -1, AuctionPage = 0, AuctionFilter = 0, WhoScroll = 0, VendorScroll = 0, InspectSim = -1;
 	mutable FString SelQuestId;
+	// character creator and the paper doll: a 3D figure from AHLWorldActor::Preview, turned by dragging
+	mutable FHLAppearance NewLook; mutable bool bNewLookSet = false;
+	mutable float PreviewYaw = -18.f, PreviewLastX = 0; mutable bool bPreviewDrag = false;
+	mutable TSharedPtr<struct FSlateBrush> PreviewBrush;
+	void DrawPreview(float X, float Y, float W, float H, const FHLCharLook& L, const FString& Clip) const;
+	void DrawCreator(float X, float Y, float W) const;
 	// tooltip (set during paint, drawn last)
 	mutable const FHLItem* TipItem = nullptr; mutable FString TipText; mutable FVector2D TipPos;
 	// world picks collected during the overlay pass

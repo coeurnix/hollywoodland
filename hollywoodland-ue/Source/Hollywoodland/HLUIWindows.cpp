@@ -25,22 +25,48 @@ void SHLGameUI::DrawWindows() const
 void SHLGameUI::DrawCharacter() const
 {
 	FHLGame& Gm = G();
-	if (!Win(TEXT("char"), FString::Printf(TEXT("%s  -  Level %d %s"), *Gm.Player.Name, Gm.PlayerUnit()->Level, *Gm.Player.Cls->Name), 330, 470, bChar, 260, 130)) return;
+	const bool bDoll = FHLChars::Get().Ready();
+	if (!Win(TEXT("char"), FString::Printf(TEXT("%s  -  Level %d %s"), *Gm.Player.Name, Gm.PlayerUnit()->Level, *Gm.Player.Cls->Name), bDoll ? 420 : 330, bDoll ? 500 : 470, bChar, 260, 110)) return;
 	const FHLUnit& U = *Gm.PlayerUnit();
-	for (int32 i = 0; i < 12; ++i)
+	auto Slot = [&](int32 i, float X, float Y, float S)
 	{
-		const float Y = WY + i * 28;
 		const FHLItem* It = Gm.Player.Equip.FindRef(EquipSlots[i]);
-		if (ItemIcon(WX, Y, 26, It) == 2) { Gm.Unequip(EquipSlots[i]); }
-		Tx(WX + 32, Y + 5, It ? It->Name : FString(EquipNames[i]), 10, It ? HLQualityColor(It->Q) : ColDim);
-		if (It)
+		if (ItemIcon(X, Y, S, It) == 2) Gm.Unequip(EquipSlots[i]);
+		if (!It) { if (Hover(X, Y, S, S)) { TipText = EquipNames[i]; TipPos = Mouse; } return It; }
+		const float Dur = Gm.SlotDurability(EquipSlots[i]);
+		if (Dur < 0.995f)
 		{
-			const float Dur = Gm.SlotDurability(EquipSlots[i]);
-			if (Dur < 0.995f) Tx(WX + 280, Y + 6, Dur <= 0 ? FString(TEXT("Broken")) : FString::Printf(TEXT("%d%%"), FMath::RoundToInt32(Dur * 100)), 9, Dur <= 0 ? ColRed : Dur < 0.3f ? FLinearColor(1, 0.6f, 0.2f) : ColDim);
+			// wear shows as a strip along the bottom of the icon (red when broken)
+			++Layer; LastKind = 1;
+			Rc(X + 2, Y + S - 5, (S - 4), 3, FLinearColor(0, 0, 0, 0.7f));
+			Rc(X + 2, Y + S - 5, (S - 4) * FMath::Max(Dur, 0.f), 3, Dur <= 0 ? ColRed : Dur < 0.3f ? FLinearColor(1, 0.6f, 0.2f) : FLinearColor(0.85f, 0.85f, 0.6f));
+			if (Dur <= 0) TxC(X + S * 0.5f, Y + 2, TEXT("broken"), 8, ColRed);
 		}
+		return It;
+	};
+	float Y;
+	if (bDoll)
+	{
+		// paper doll: clothes down the sides, the figure in the middle, weapons under it
+		const float S = 40, Step = 46, Cw = 400, Pw = 196, Ph = 6 * Step - 6;
+		for (int32 i = 0; i < 6; ++i) Slot(i, WX, WY + i * Step, S);
+		for (int32 i = 6; i < 9; ++i) Slot(i, WX + Cw - S, WY + (i - 6) * Step, S);
+		const FHLCharLook L = FHLChars::Get().LookFor(Gm, U);
+		DrawPreview(WX + (Cw - Pw) * 0.5f, WY, Pw, Ph, L, TEXT("Idle"));
+		for (int32 i = 9; i < 12; ++i) Slot(i, WX + Cw * 0.5f - S * 1.5f - 6 + (i - 9) * Step, WY + Ph + 8, S);
+		Y = WY + Ph + 8 + S + 12;
 	}
-	float Y = WY + 12 * 28 + 6;
-	const float Cx = WX + 160;
+	else
+	{
+		for (int32 i = 0; i < 12; ++i)
+		{
+			const float Ry = WY + i * 28;
+			const FHLItem* It = Slot(i, WX, Ry, 26);
+			Tx(WX + 32, Ry + 5, It ? It->Name : FString(EquipNames[i]), 10, It ? HLQualityColor(It->Q) : ColDim);
+		}
+		Y = WY + 12 * 28 + 6;
+	}
+	const float Cx = WX + (bDoll ? 205 : 160);
 	for (int32 i = 0; i < HL_NUM_STATS; ++i) Tx(i < 3 ? WX : Cx, Y + (i % 3) * 15, FString::Printf(TEXT("%s: %d"), HLStatNames[i], U.Stats[i]), 10, ColWhite);
 	Tx(Cx, Y + 30, FString::Printf(TEXT("Armour: %d"), (int32)U.Armor), 10, ColWhite);
 	Y += 50;

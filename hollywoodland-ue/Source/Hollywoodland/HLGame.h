@@ -5,6 +5,7 @@
 #pragma once
 #include "CoreMinimal.h"
 #include "HLData.h"
+#include "HLCharacter.h"
 #include "HLMusic.h"
 
 enum class EHLKind : uint8 { Player, Sim, Mob, Npc };
@@ -79,6 +80,10 @@ struct FHLUnit
 	float SwingTimer = 0, GcdUntil = 0, CastStart = 0, CastEnd = 0, CombatUntil = 0, DeadAt = 0, RegenTimer = 0, HopT = 0;
 	const FHLAbility* Casting = nullptr;
 	int32 CastTargetId = 0;
+	// a gesture for the character art (a clip name: Wave, Dance, Cheer, Laugh, Bow, Point, Shrug, Talk, Loot); each
+	// request bumps the sequence so repeats replay. Set through FHLGame::Gesture.
+	FString Gesture;
+	int32 GestureSeq = 0;
 	TMap<const FHLAbility*, float> CdUntil;
 	TMap<FString, float> Mods; // talent modifiers (summed over ranks)
 	float Mod(const FString& K) const { const float* V = Mods.Find(K); return V ? *V : 0.f; }
@@ -151,6 +156,7 @@ struct FHLPlayer
 		FString Guild; // guild id, empty when unguilded
 		int32 GuildDeclines = 0;
 		int32 BankBoxes = 0; float Rested = 0; bool bInnHome = false; int64 SavedAt = 0;
+				FHLAppearance Look; // body chosen in the creator (HLCharacter.h)
 	};
 
 enum class EHLSimRole : uint8 { Away, Local, Transient, Idler };
@@ -287,6 +293,7 @@ public:
 	// ---- player (HLPlayer.cpp)
 	FHLPlayer Player;
 	void NewCharacter(const FString& Name, const FHLClass* Cls);
+	void Gesture(FHLUnit& U, const TCHAR* Clip) { U.Gesture = Clip; ++U.GestureSeq; U.HopT = 0.4f; }
 	FString SaveJson() const;
 	bool LoadJson(const FString& Json);
 	void SaveNow();

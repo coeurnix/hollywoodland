@@ -1,0 +1,7398 @@
+{
+ "version": 1,
+ "sexes": {
+  "Male": {
+   "skins": [
+    "Skin/T_Male_Skin_01",
+    "Skin/T_Male_Skin_02",
+    "Skin/T_Male_Skin_03",
+    "Skin/T_Male_Skin_04",
+    "Skin/T_Male_Skin_05",
+    "Skin/T_Male_Skin_06",
+    "Skin/T_Male_Skin_07",
+    "Skin/T_Male_Skin_08"
+   ],
+   "underwear": {
+    "tex": "Skin/T_Male_Underwear",
+    "rect": [
+     0.0,
+     0.0,
+     1.0,
+     0.677246
+    ]
+   },
+   "faces": [
+    {
+     "tex": "Skin/T_Male_Face_01",
+     "rect": [
+      0.317871,
+      0.630859,
+      0.498047,
+      0.903809
+     ]
+    },
+    {
+     "tex": "Skin/T_Male_Face_02",
+     "rect": [
+      0.319824,
+      0.630859,
+      0.498047,
+      0.904297
+     ]
+    },
+    {
+     "tex": "Skin/T_Male_Face_03",
+     "rect": [
+      0.313477,
+      0.630859,
+      0.498047,
+      1.0
+     ]
+    },
+    {
+     "tex": "Skin/T_Male_Face_04",
+     "rect": [
+      0.323242,
+      0.630859,
+      0.498047,
+      0.904297
+     ]
+    },
+    {
+     "tex": "Skin/T_Male_Face_05",
+     "rect": [
+      0.318359,
+      0.630859,
+      0.498047,
+      0.904297
+     ]
+    },
+    {
+     "tex": "Skin/T_Male_Face_06",
+     "rect": [
+      0.314941,
+      0.630859,
+      0.498047,
+      1.0
+     ]
+    },
+    {
+     "tex": "Skin/T_Male_Face_07",
+     "rect": [
+      0.321289,
+      0.630859,
+      0.498047,
+      0.904297
+     ]
+    },
+    {
+     "tex": "Skin/T_Male_Face_08",
+     "rect": [
+      0.271484,
+      0.630859,
+      0.498047,
+      0.904785
+     ]
+    },
+    {
+     "tex": "Skin/T_Male_Face_09",
+     "rect": [
+      0.271484,
+      0.630859,
+      0.498047,
+      1.0
+     ]
+    },
+    {
+     "tex": "Skin/T_Male_Face_10",
+     "rect": [
+      0.315918,
+      0.630859,
+      0.498047,
+      1.0
+     ]
+    },
+    {
+     "tex": "Skin/T_Male_Face_11",
+     "rect": [
+      0.271484,
+      0.630859,
+      0.498047,
+      0.904785
+     ]
+    },
+    {
+     "tex": "Skin/T_Male_Face_12",
+     "rect": [
+      0.14209,
+      0.630859,
+      0.498047,
+      1.0
+     ]
+    }
+   ],
+   "defaults": [
+    "Head_Base",
+    "Torso_Base",
+    "Arms_Base",
+    "Hands_Base",
+    "Legs_Base",
+    "Feet_Base"
+   ],
+   "hair_tex": "Hair/T_Male_Hair",
+   "hair": [
+    {
+     "name": "Slicked Back",
+     "mesh": "SK_Male_Hair_01",
+     "top": "SK_Male_Hair_01_Top",
+     "scalp": {
+      "tex": "Hair/T_Male_Scalp_01",
+      "rect": [
+       0.0,
+       0.621094,
+       0.418945,
+       0.97168
+      ]
+     }
+    },
+    {
+     "name": "Side Part",
+     "mesh": "SK_Male_Hair_02",
+     "top": "SK_Male_Hair_02_Top",
+     "scalp": {
+      "tex": "Hair/T_Male_Scalp_01",
+      "rect": [
+       0.0,
+       0.621094,
+       0.418945,
+       0.97168
+      ]
+     }
+    },
+    {
+     "name": "Pompadour",
+     "mesh": "SK_Male_Hair_03",
+     "top": "SK_Male_Hair_03_Top",
+     "scalp": {
+      "tex": "Hair/T_Male_Scalp_01",
+      "rect": [
+       0.0,
+       0.621094,
+       0.418945,
+       0.97168
+      ]
+     }
+    },
+    {
+     "name": "Crew Cut",
+     "mesh": null,
+     "top": null,
+     "scalp": {
+      "tex": "Hair/T_Male_Scalp_04",
+      "rect": [
+       0.0,
+       0.621094,
+       0.418945,
+       0.97168
+      ]
+     }
+    },
+    {
+     "name": "Centre Part",
+     "mesh": "SK_Male_Hair_05",
+     "top": "SK_Male_Hair_05_Top",
+     "scalp": {
+      "tex": "Hair/T_Male_Scalp_01",
+      "rect": [
+       0.0,
+       0.621094,
+       0.418945,
+       0.97168
+      ]
+     }
+    },
+    {
+     "name": "Wavy",
+     "mesh": "SK_Male_Hair_06",
+     "top": "SK_Male_Hair_06_Top",
+     "scalp": {
+      "tex": "Hair/T_Male_Scalp_01",
+      "rect": [
+       0.0,
+       0.621094,
+       0.418945,
+       0.97168
+      ]
+     }
+    },
+    {
+     "name": "Receding",
+     "mesh": null,
+     "top": null,
+     "scalp": {
+      "tex": "Hair/T_Male_Scalp_07",
+      "rect": [
+       0.0,
+       0.621094,
+       0.418945,
+       0.97168
+      ]
+     }
+    },
+    {
+     "name": "Bald with Stubble",
+     "mesh": null,
+     "top": null,
+     "scalp": {
+      "tex": "Hair/T_Male_Scalp_08",
+      "rect": [
+       0.0,
+       0.621094,
+       0.418945,
+       0.97168
+      ]
+     }
+    },
+    {
+     "name": "Curly",
+     "mesh": "SK_Male_Hair_09",
+     "top": "SK_Male_Hair_09_Top",
+     "scalp": {
+      "tex": "Hair/T_Male_Scalp_01",
+      "rect": [
+       0.0,
+       0.621094,
+       0.418945,
+       0.97168
+      ]
+     }
+    },
+    {
+     "name": "Short Afro",
+     "mesh": "SK_Male_Hair_10",
+     "top": "SK_Male_Hair_10_Top",
+     "scalp": {
+      "tex": "Hair/T_Male_Scalp_01",
+      "rect": [
+       0.0,
+       0.621094,
+       0.418945,
+       0.97168
+      ]
+     }
+    },
+    {
+     "name": "Tousled",
+     "mesh": "SK_Male_Hair_11",
+     "top": "SK_Male_Hair_11_Top",
+     "scalp": {
+      "tex": "Hair/T_Male_Scalp_01",
+      "rect": [
+       0.0,
+       0.621094,
+       0.418945,
+       0.97168
+      ]
+     }
+    },
+    {
+     "name": "Side-swept Long",
+     "mesh": "SK_Male_Hair_12",
+     "top": "SK_Male_Hair_12_Top",
+     "scalp": {
+      "tex": "Hair/T_Male_Scalp_01",
+      "rect": [
+       0.0,
+       0.621094,
+       0.418945,
+       0.97168
+      ]
+     }
+    }
+   ]
+  },
+  "Female": {
+   "skins": [
+    "Skin/T_Female_Skin_01",
+    "Skin/T_Female_Skin_02",
+    "Skin/T_Female_Skin_03",
+    "Skin/T_Female_Skin_04",
+    "Skin/T_Female_Skin_05",
+    "Skin/T_Female_Skin_06",
+    "Skin/T_Female_Skin_07",
+    "Skin/T_Female_Skin_08"
+   ],
+   "underwear": {
+    "tex": "Skin/T_Female_Underwear",
+    "rect": [
+     0.0,
+     0.0,
+     1.0,
+     1.0
+    ]
+   },
+   "faces": [
+    {
+     "tex": "Skin/T_Female_Face_01",
+     "rect": [
+      0.320312,
+      0.630859,
+      0.498047,
+      1.0
+     ]
+    },
+    {
+     "tex": "Skin/T_Female_Face_02",
+     "rect": [
+      0.323242,
+      0.630859,
+      0.498047,
+      1.0
+     ]
+    },
+    {
+     "tex": "Skin/T_Female_Face_03",
+     "rect": [
+      0.316406,
+      0.630859,
+      0.498047,
+      1.0
+     ]
+    },
+    {
+     "tex": "Skin/T_Female_Face_04",
+     "rect": [
+      0.326172,
+      0.630859,
+      0.498047,
+      1.0
+     ]
+    },
+    {
+     "tex": "Skin/T_Female_Face_05",
+     "rect": [
+      0.321289,
+      0.630859,
+      0.498047,
+      1.0
+     ]
+    },
+    {
+     "tex": "Skin/T_Female_Face_06",
+     "rect": [
+      0.317871,
+      0.630859,
+      0.498047,
+      1.0
+     ]
+    },
+    {
+     "tex": "Skin/T_Female_Face_07",
+     "rect": [
+      0.324707,
+      0.630859,
+      0.498047,
+      1.0
+     ]
+    },
+    {
+     "tex": "Skin/T_Female_Face_08",
+     "rect": [
+      0.269531,
+      0.630859,
+      0.498047,
+      1.0
+     ]
+    },
+    {
+     "tex": "Skin/T_Female_Face_09",
+     "rect": [
+      0.269531,
+      0.630859,
+      0.498047,
+      1.0
+     ]
+    },
+    {
+     "tex": "Skin/T_Female_Face_10",
+     "rect": [
+      0.318359,
+      0.630859,
+      0.498047,
+      1.0
+     ]
+    },
+    {
+     "tex": "Skin/T_Female_Face_11",
+     "rect": [
+      0.269531,
+      0.630859,
+      0.498047,
+      1.0
+     ]
+    },
+    {
+     "tex": "Skin/T_Female_Face_12",
+     "rect": [
+      0.269531,
+      0.630859,
+      0.498047,
+      1.0
+     ]
+    }
+   ],
+   "defaults": [
+    "Head_Base",
+    "Torso_Base",
+    "Arms_Base",
+    "Hands_Base",
+    "Legs_Skirt",
+    "Feet_Base"
+   ],
+   "hair_tex": "Hair/T_Male_Hair",
+   "hair": [
+    {
+     "name": "Finger-wave Bob",
+     "mesh": "SK_Female_Hair_01",
+     "top": "SK_Female_Hair_01_Top",
+     "scalp": {
+      "tex": "Hair/T_Female_Scalp_01",
+      "rect": [
+       0.0,
+       0.621094,
+       0.435059,
+       1.0
+      ]
+     }
+    },
+    {
+     "name": "Pin Curls",
+     "mesh": "SK_Female_Hair_02",
+     "top": "SK_Female_Hair_02_Top",
+     "scalp": {
+      "tex": "Hair/T_Female_Scalp_02",
+      "rect": [
+       0.0,
+       0.621094,
+       0.435059,
+       1.0
+      ]
+     }
+    },
+    {
+     "name": "Sleek Bob with Bangs",
+     "mesh": "SK_Female_Hair_03",
+     "top": "SK_Female_Hair_03_Top",
+     "scalp": {
+      "tex": "Hair/T_Female_Scalp_01",
+      "rect": [
+       0.0,
+       0.621094,
+       0.435059,
+       1.0
+      ]
+     }
+    },
+    {
+     "name": "Marcel Waves",
+     "mesh": "SK_Female_Hair_04",
+     "top": "SK_Female_Hair_04_Top",
+     "scalp": {
+      "tex": "Hair/T_Female_Scalp_02",
+      "rect": [
+       0.0,
+       0.621094,
+       0.435059,
+       1.0
+      ]
+     }
+    },
+    {
+     "name": "Chignon",
+     "mesh": "SK_Female_Hair_05",
+     "top": "SK_Female_Hair_05_Top",
+     "scalp": {
+      "tex": "Hair/T_Female_Scalp_02",
+      "rect": [
+       0.0,
+       0.621094,
+       0.435059,
+       1.0
+      ]
+     }
+    },
+    {
+     "name": "Short Curly Crop",
+     "mesh": "SK_Female_Hair_06",
+     "top": "SK_Female_Hair_06_Top",
+     "scalp": {
+      "tex": "Hair/T_Female_Scalp_02",
+      "rect": [
+       0.0,
+       0.621094,
+       0.435059,
+       1.0
+      ]
+     }
+    },
+    {
+     "name": "Shoulder-length Waves",
+     "mesh": "SK_Female_Hair_07",
+     "top": "SK_Female_Hair_07_Top",
+     "scalp": {
+      "tex": "Hair/T_Female_Scalp_02",
+      "rect": [
+       0.0,
+       0.621094,
+       0.435059,
+       1.0
+      ]
+     }
+    },
+    {
+     "name": "Braided Crown",
+     "mesh": "SK_Female_Hair_08",
+     "top": "SK_Female_Hair_08_Top",
+     "scalp": {
+      "tex": "Hair/T_Female_Scalp_02",
+      "rect": [
+       0.0,
+       0.621094,
+       0.435059,
+       1.0
+      ]
+     }
+    },
+    {
+     "name": "Low Bun",
+     "mesh": "SK_Female_Hair_09",
+     "top": "SK_Female_Hair_09_Top",
+     "scalp": {
+      "tex": "Hair/T_Female_Scalp_02",
+      "rect": [
+       0.0,
+       0.621094,
+       0.435059,
+       1.0
+      ]
+     }
+    },
+    {
+     "name": "Pageboy",
+     "mesh": "SK_Female_Hair_10",
+     "top": "SK_Female_Hair_10_Top",
+     "scalp": {
+      "tex": "Hair/T_Female_Scalp_01",
+      "rect": [
+       0.0,
+       0.621094,
+       0.435059,
+       1.0
+      ]
+     }
+    },
+    {
+     "name": "Short Afro",
+     "mesh": "SK_Female_Hair_11",
+     "top": "SK_Female_Hair_11_Top",
+     "scalp": {
+      "tex": "Hair/T_Female_Scalp_02",
+      "rect": [
+       0.0,
+       0.621094,
+       0.435059,
+       1.0
+      ]
+     }
+    },
+    {
+     "name": "Wind-swept",
+     "mesh": "SK_Female_Hair_12",
+     "top": "SK_Female_Hair_12_Top",
+     "scalp": {
+      "tex": "Hair/T_Female_Scalp_02",
+      "rect": [
+       0.0,
+       0.621094,
+       0.435059,
+       1.0
+      ]
+     }
+    }
+   ]
+  }
+ },
+ "looks": {
+  "Starter": {
+   "name": "New Arrival",
+   "type": "cloth",
+   "tier": 0,
+   "slots": {
+    "shirt": {
+     "Male": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_Starter_Male_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ],
+      "mask": "Looks/T_Starter_Male_Shirt_Mask"
+     },
+     "Female": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_Starter_Female_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ],
+      "mask": "Looks/T_Starter_Female_Shirt_Mask"
+     }
+    },
+    "trousers": {
+     "Male": {
+      "geosets": [
+       "Legs_Base"
+      ],
+      "tex": "Looks/T_Starter_Male_Trousers",
+      "rect": [
+       0.496094,
+       0.326172,
+       1.0,
+       0.878906
+      ],
+      "mask": "Looks/T_Starter_Male_Trousers_Mask"
+     },
+     "Female": {
+      "geosets": [
+       "Legs_Skirt"
+      ],
+      "tex": "Looks/T_Starter_Female_Trousers",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.878906
+      ],
+      "mask": "Looks/T_Starter_Female_Trousers_Mask"
+     }
+    },
+    "shoes": {
+     "Male": {
+      "geosets": [
+       "Feet_Base"
+      ],
+      "tex": "Looks/T_Starter_Male_Shoes",
+      "rect": [
+       0.496094,
+       0.825195,
+       1.0,
+       1.0
+      ],
+      "mask": "Looks/T_Starter_Male_Shoes_Mask"
+     },
+     "Female": {
+      "geosets": [
+       "Feet_Base"
+      ],
+      "tex": "Looks/T_Starter_Female_Shoes",
+      "rect": [
+       0.496094,
+       0.828125,
+       1.0,
+       1.0
+      ],
+      "mask": "Looks/T_Starter_Female_Shoes_Mask"
+     }
+    }
+   },
+   "hat": {}
+  },
+  "C1": {
+   "name": "Street Clothes",
+   "type": "cloth",
+   "tier": 1,
+   "slots": {
+    "shirt": {
+     "Male": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_C1_Male_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_C1_Female_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     }
+    },
+    "trousers": {
+     "Male": {
+      "geosets": [
+       "Legs_Base"
+      ],
+      "tex": "Looks/T_C1_Male_Trousers",
+      "rect": [
+       0.496094,
+       0.326172,
+       1.0,
+       0.878906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Legs_Skirt"
+      ],
+      "tex": "Looks/T_C1_Female_Trousers",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.878906
+      ]
+     }
+    },
+    "shoes": {
+     "Male": {
+      "geosets": [
+       "Feet_Base"
+      ],
+      "tex": "Looks/T_Starter_Male_Shoes",
+      "rect": [
+       0.496094,
+       0.825195,
+       1.0,
+       1.0
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Feet_Base"
+      ],
+      "tex": "Looks/T_Starter_Female_Shoes",
+      "rect": [
+       0.496094,
+       0.828125,
+       1.0,
+       1.0
+      ]
+     }
+    },
+    "coat": {
+     "Male": {
+      "geosets": [],
+      "tex": "Looks/T_C1_Male_Coat",
+      "rect": [
+       0.496094,
+       0.0,
+       1.0,
+       0.378906
+      ]
+     },
+     "Female": {
+      "geosets": [],
+      "tex": "Looks/T_C1_Female_Coat",
+      "rect": [
+       0.496094,
+       0.0,
+       1.0,
+       0.378906
+      ]
+     }
+    },
+    "wrist": {
+     "Male": {
+      "geosets": [],
+      "tex": "Looks/T_C1_Male_Wrist",
+      "rect": [
+       0.250977,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [],
+      "tex": "Looks/T_C1_Female_Wrist",
+      "rect": [
+       0.251953,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     }
+    },
+    "gloves": {
+     "Male": {
+      "geosets": [
+       "Hands_Base"
+      ],
+      "tex": "Looks/T_C1_Male_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Hands_Base"
+      ],
+      "tex": "Looks/T_C1_Female_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     }
+    },
+    "belt": {
+     "Male": {
+      "geosets": [],
+      "tex": "Looks/T_C1_Male_Belt",
+      "rect": [
+       0.496094,
+       0.329102,
+       1.0,
+       0.378906
+      ]
+     },
+     "Female": {
+      "geosets": [],
+      "tex": "Looks/T_C1_Female_Belt",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.357422
+      ]
+     }
+    }
+   },
+   "hat": {
+    "Male": {
+     "mesh": "SM_Hat_C1",
+     "tex": "Hats/T_Hat_C1",
+     "hides_top": true
+    },
+    "Female": {
+     "mesh": "SM_Hat_C1_Female",
+     "tex": "Hats/T_Hat_C1_Female",
+     "hides_top": true
+    }
+   }
+  },
+  "C2": {
+   "name": "Sack Suit",
+   "type": "cloth",
+   "tier": 2,
+   "slots": {
+    "shirt": {
+     "Male": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_C2_Male_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_C2_Female_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     }
+    },
+    "trousers": {
+     "Male": {
+      "geosets": [
+       "Legs_Base"
+      ],
+      "tex": "Looks/T_C2_Male_Trousers",
+      "rect": [
+       0.496094,
+       0.326172,
+       1.0,
+       0.878906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Legs_Skirt"
+      ],
+      "tex": "Looks/T_C2_Female_Trousers",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.878906
+      ]
+     }
+    },
+    "shoes": {
+     "Male": {
+      "geosets": [
+       "Feet_Base"
+      ],
+      "tex": "Looks/T_Starter_Male_Shoes",
+      "rect": [
+       0.496094,
+       0.825195,
+       1.0,
+       1.0
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Feet_Base"
+      ],
+      "tex": "Looks/T_Starter_Female_Shoes",
+      "rect": [
+       0.496094,
+       0.828125,
+       1.0,
+       1.0
+      ]
+     }
+    },
+    "coat": {
+     "Male": {
+      "geosets": [],
+      "tex": "Looks/T_C2_Male_Coat",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [],
+      "tex": "Looks/T_C2_Female_Coat",
+      "rect": [
+       0.496094,
+       0.0,
+       1.0,
+       0.378906
+      ]
+     }
+    },
+    "wrist": {
+     "Male": {
+      "geosets": [],
+      "tex": "Looks/T_C1_Male_Wrist",
+      "rect": [
+       0.250977,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [],
+      "tex": "Looks/T_C1_Female_Wrist",
+      "rect": [
+       0.251953,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     }
+    },
+    "gloves": {
+     "Male": {
+      "geosets": [
+       "Hands_Base"
+      ],
+      "tex": "Looks/T_C1_Male_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Hands_Base"
+      ],
+      "tex": "Looks/T_C1_Female_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     }
+    },
+    "belt": {
+     "Male": {
+      "geosets": [],
+      "tex": "Looks/T_C1_Male_Belt",
+      "rect": [
+       0.496094,
+       0.329102,
+       1.0,
+       0.378906
+      ]
+     },
+     "Female": {
+      "geosets": [],
+      "tex": "Looks/T_C1_Female_Belt",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.357422
+      ]
+     }
+    }
+   },
+   "hat": {
+    "Male": {
+     "mesh": "SM_Hat_C2",
+     "tex": "Hats/T_Hat_C2",
+     "hides_top": true
+    },
+    "Female": {
+     "mesh": "SM_Hat_C2_Female",
+     "tex": "Hats/T_Hat_C2",
+     "hides_top": true
+    }
+   }
+  },
+  "C3": {
+   "name": "Three-piece Suit",
+   "type": "cloth",
+   "tier": 3,
+   "slots": {
+    "shirt": {
+     "Male": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_C3_Male_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_C3_Female_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     }
+    },
+    "trousers": {
+     "Male": {
+      "geosets": [
+       "Legs_Base"
+      ],
+      "tex": "Looks/T_C3_Male_Trousers",
+      "rect": [
+       0.496094,
+       0.326172,
+       1.0,
+       0.878906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Legs_Skirt"
+      ],
+      "tex": "Looks/T_C3_Female_Trousers",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.878906
+      ]
+     }
+    },
+    "shoes": {
+     "Male": {
+      "geosets": [
+       "Feet_Base"
+      ],
+      "tex": "Looks/T_Starter_Male_Shoes",
+      "rect": [
+       0.496094,
+       0.825195,
+       1.0,
+       1.0
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Feet_Base"
+      ],
+      "tex": "Looks/T_Starter_Female_Shoes",
+      "rect": [
+       0.496094,
+       0.828125,
+       1.0,
+       1.0
+      ]
+     }
+    },
+    "coat": {
+     "Male": {
+      "geosets": [
+       "Coat_Tails"
+      ],
+      "tex": "Looks/T_C3_Male_Coat",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.628906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Coat_Tails"
+      ],
+      "tex": "Looks/T_C3_Female_Coat",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.628906
+      ]
+     }
+    },
+    "wrist": {
+     "Male": {
+      "geosets": [],
+      "tex": "Looks/T_C1_Male_Wrist",
+      "rect": [
+       0.250977,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [],
+      "tex": "Looks/T_C1_Female_Wrist",
+      "rect": [
+       0.251953,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     }
+    },
+    "gloves": {
+     "Male": {
+      "geosets": [
+       "Hands_Base"
+      ],
+      "tex": "Looks/T_C3_Male_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Hands_Base"
+      ],
+      "tex": "Looks/T_C3_Female_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     }
+    },
+    "belt": {
+     "Male": {
+      "geosets": [],
+      "tex": "Looks/T_C1_Male_Belt",
+      "rect": [
+       0.496094,
+       0.329102,
+       1.0,
+       0.378906
+      ]
+     },
+     "Female": {
+      "geosets": [],
+      "tex": "Looks/T_C1_Female_Belt",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.357422
+      ]
+     }
+    }
+   },
+   "hat": {
+    "Male": {
+     "mesh": "SM_Hat_C3",
+     "tex": "Hats/T_Hat_C3",
+     "hides_top": true
+    },
+    "Female": {
+     "mesh": "SM_Hat_C3_Female",
+     "tex": "Hats/T_Hat_C3",
+     "hides_top": true
+    }
+   }
+  },
+  "C4": {
+   "name": "Opening Night",
+   "type": "cloth",
+   "tier": 4,
+   "slots": {
+    "shirt": {
+     "Male": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_C3_Male_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_C4_Female_Shirt",
+      "rect": [
+       0.496094,
+       0.0,
+       1.0,
+       0.378906
+      ]
+     }
+    },
+    "trousers": {
+     "Male": {
+      "geosets": [
+       "Legs_Base"
+      ],
+      "tex": "Looks/T_C4_Male_Trousers",
+      "rect": [
+       0.496094,
+       0.326172,
+       1.0,
+       0.878906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Legs_Skirt"
+      ],
+      "tex": "Looks/T_C4_Female_Trousers",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.878906
+      ]
+     }
+    },
+    "shoes": {
+     "Male": {
+      "geosets": [
+       "Feet_Base"
+      ],
+      "tex": "Looks/T_Starter_Male_Shoes",
+      "rect": [
+       0.496094,
+       0.825195,
+       1.0,
+       1.0
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Feet_Base"
+      ],
+      "tex": "Looks/T_Starter_Female_Shoes",
+      "rect": [
+       0.496094,
+       0.828125,
+       1.0,
+       1.0
+      ]
+     }
+    },
+    "coat": {
+     "Male": {
+      "geosets": [
+       "Coat_Tails"
+      ],
+      "tex": "Looks/T_C4_Male_Coat",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.628906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Coat_Tails"
+      ],
+      "tex": "Looks/T_C4_Female_Coat",
+      "rect": [
+       0.496094,
+       0.0,
+       1.0,
+       0.628906
+      ]
+     }
+    },
+    "wrist": {
+     "Male": {
+      "geosets": [],
+      "tex": "Looks/T_C1_Male_Wrist",
+      "rect": [
+       0.250977,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     }
+    },
+    "gloves": {
+     "Male": {
+      "geosets": [
+       "Hands_Base"
+      ],
+      "tex": "Looks/T_C3_Male_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Hands_Base"
+      ],
+      "tex": "Looks/T_C4_Female_Gloves",
+      "rect": [
+       0.0,
+       0.496094,
+       0.503906,
+       0.628906
+      ]
+     }
+    },
+    "belt": {
+     "Male": {
+      "geosets": [],
+      "tex": "Looks/T_C1_Male_Belt",
+      "rect": [
+       0.496094,
+       0.329102,
+       1.0,
+       0.378906
+      ]
+     },
+     "Female": {
+      "geosets": [],
+      "tex": "Looks/T_C1_Female_Belt",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.357422
+      ]
+     }
+    }
+   },
+   "hat": {
+    "Male": {
+     "mesh": "SM_Hat_C4",
+     "tex": "Hats/T_Hat_C4",
+     "hides_top": true
+    },
+    "Female": {
+     "mesh": "SM_Hat_C4_Female",
+     "tex": "Hats/T_Hat_C4",
+     "hides_top": false
+    }
+   }
+  },
+  "C5": {
+   "name": "Golden Hour",
+   "type": "cloth",
+   "tier": 5,
+   "slots": {
+    "shirt": {
+     "Male": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_C5_Male_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_C5_Female_Shirt",
+      "rect": [
+       0.496094,
+       0.0,
+       1.0,
+       0.378906
+      ]
+     }
+    },
+    "trousers": {
+     "Male": {
+      "geosets": [
+       "Legs_Base"
+      ],
+      "tex": "Looks/T_C5_Male_Trousers",
+      "rect": [
+       0.496094,
+       0.326172,
+       1.0,
+       0.878906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Legs_Skirt"
+      ],
+      "tex": "Looks/T_C5_Female_Trousers",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.878906
+      ]
+     }
+    },
+    "shoes": {
+     "Male": {
+      "geosets": [
+       "Feet_Base"
+      ],
+      "tex": "Looks/T_C5_Male_Shoes",
+      "rect": [
+       0.496094,
+       0.825195,
+       1.0,
+       1.0
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Feet_Base"
+      ],
+      "tex": "Looks/T_C5_Female_Shoes",
+      "rect": [
+       0.496094,
+       0.828125,
+       1.0,
+       1.0
+      ]
+     }
+    },
+    "coat": {
+     "Male": {
+      "geosets": [
+       "Collar_Up"
+      ],
+      "tex": "Looks/T_C5_Male_Coat",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Collar_Up"
+      ],
+      "tex": "Looks/T_C5_Female_Coat",
+      "rect": [
+       0.496094,
+       0.0,
+       1.0,
+       0.378906
+      ]
+     }
+    },
+    "wrist": {
+     "Male": {
+      "geosets": [],
+      "tex": "Looks/T_C5_Male_Wrist",
+      "rect": [
+       0.250977,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     }
+    },
+    "gloves": {
+     "Male": {
+      "geosets": [
+       "Hands_Base"
+      ],
+      "tex": "Looks/T_C5_Male_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Hands_Base"
+      ],
+      "tex": "Looks/T_C5_Female_Gloves",
+      "rect": [
+       0.0,
+       0.496094,
+       0.503906,
+       0.628906
+      ]
+     }
+    },
+    "belt": {
+     "Male": {
+      "geosets": [],
+      "tex": "Looks/T_C5_Male_Belt",
+      "rect": [
+       0.496094,
+       0.329102,
+       1.0,
+       0.378906
+      ]
+     },
+     "Female": {
+      "geosets": [],
+      "tex": "Looks/T_C5_Female_Belt",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.357422
+      ]
+     }
+    }
+   },
+   "hat": {
+    "Male": {
+     "mesh": "SM_Hat_C5",
+     "tex": "Hats/T_Hat_C5",
+     "hides_top": true
+    },
+    "Female": {
+     "mesh": "SM_Hat_C5_Female",
+     "tex": "Hats/T_Hat_C5",
+     "hides_top": false
+    }
+   }
+  },
+  "C6": {
+   "name": "Midnight Carapace",
+   "type": "cloth",
+   "tier": 6,
+   "slots": {
+    "shirt": {
+     "Male": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_C5_Male_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_C6_Female_Shirt",
+      "rect": [
+       0.496094,
+       0.0,
+       1.0,
+       0.378906
+      ]
+     }
+    },
+    "trousers": {
+     "Male": {
+      "geosets": [
+       "Legs_Base"
+      ],
+      "tex": "Looks/T_C6_Male_Trousers",
+      "rect": [
+       0.496094,
+       0.326172,
+       1.0,
+       0.878906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Legs_Skirt"
+      ],
+      "tex": "Looks/T_C6_Female_Trousers",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.878906
+      ]
+     }
+    },
+    "shoes": {
+     "Male": {
+      "geosets": [
+       "Feet_Base"
+      ],
+      "tex": "Looks/T_C5_Male_Shoes",
+      "rect": [
+       0.496094,
+       0.825195,
+       1.0,
+       1.0
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Feet_Base"
+      ],
+      "tex": "Looks/T_C5_Female_Shoes",
+      "rect": [
+       0.496094,
+       0.828125,
+       1.0,
+       1.0
+      ]
+     }
+    },
+    "coat": {
+     "Male": {
+      "geosets": [
+       "Collar_Up"
+      ],
+      "tex": "Looks/T_C6_Male_Coat",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Collar_Up"
+      ],
+      "tex": "Looks/T_C6_Female_Coat",
+      "rect": [
+       0.496094,
+       0.0,
+       1.0,
+       0.378906
+      ]
+     }
+    },
+    "wrist": {
+     "Male": {
+      "geosets": [],
+      "tex": "Looks/T_C5_Male_Wrist",
+      "rect": [
+       0.250977,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     }
+    },
+    "gloves": {
+     "Male": {
+      "geosets": [
+       "Hands_Base"
+      ],
+      "tex": "Looks/T_C5_Male_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Hands_Base"
+      ],
+      "tex": "Looks/T_C5_Female_Gloves",
+      "rect": [
+       0.0,
+       0.496094,
+       0.503906,
+       0.628906
+      ]
+     }
+    },
+    "belt": {
+     "Male": {
+      "geosets": [],
+      "tex": "Looks/T_C5_Male_Belt",
+      "rect": [
+       0.496094,
+       0.329102,
+       1.0,
+       0.378906
+      ]
+     },
+     "Female": {
+      "geosets": [],
+      "tex": "Looks/T_C5_Female_Belt",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.357422
+      ]
+     }
+    }
+   },
+   "hat": {
+    "Male": {
+     "mesh": "SM_Hat_C6",
+     "tex": "Hats/T_Hat_C6",
+     "hides_top": true
+    },
+    "Female": {
+     "mesh": "SM_Hat_C6_Female",
+     "tex": "Hats/T_Hat_C6",
+     "hides_top": false
+    }
+   }
+  },
+  "L1": {
+   "name": "Flying Leathers",
+   "type": "leather",
+   "tier": 1,
+   "slots": {
+    "shirt": {
+     "Male": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_L1_Male_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_L1_Female_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     }
+    },
+    "trousers": {
+     "Male": {
+      "geosets": [
+       "Legs_Base"
+      ],
+      "tex": "Looks/T_L1_Male_Trousers",
+      "rect": [
+       0.496094,
+       0.326172,
+       1.0,
+       0.878906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Legs_Base"
+      ],
+      "tex": "Looks/T_L1_Female_Trousers",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.878906
+      ]
+     }
+    },
+    "shoes": {
+     "Male": {
+      "geosets": [
+       "Feet_Boot"
+      ],
+      "tex": "Looks/T_L1_Male_Shoes",
+      "rect": [
+       0.496094,
+       0.688477,
+       1.0,
+       1.0
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Feet_Boot"
+      ],
+      "tex": "Looks/T_L1_Female_Shoes",
+      "rect": [
+       0.496094,
+       0.670898,
+       1.0,
+       1.0
+      ]
+     }
+    },
+    "coat": {
+     "Male": {
+      "geosets": [],
+      "tex": "Looks/T_L1_Male_Coat",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [],
+      "tex": "Looks/T_L1_Female_Coat",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     }
+    },
+    "wrist": {
+     "Male": {
+      "geosets": [],
+      "tex": "Looks/T_C1_Male_Wrist",
+      "rect": [
+       0.250977,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [],
+      "tex": "Looks/T_C1_Female_Wrist",
+      "rect": [
+       0.251953,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     }
+    },
+    "gloves": {
+     "Male": {
+      "geosets": [
+       "Hands_Base"
+      ],
+      "tex": "Looks/T_C3_Male_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Hands_Base"
+      ],
+      "tex": "Looks/T_C3_Female_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     }
+    },
+    "belt": {
+     "Male": {
+      "geosets": [
+       "Belt_Heavy"
+      ],
+      "tex": "Looks/T_C1_Male_Belt",
+      "rect": [
+       0.496094,
+       0.329102,
+       1.0,
+       0.378906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Belt_Heavy"
+      ],
+      "tex": "Looks/T_C1_Female_Belt",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.357422
+      ]
+     }
+    }
+   },
+   "hat": {
+    "Male": {
+     "mesh": "SM_Hat_L1",
+     "tex": "Hats/T_Hat_L1",
+     "hides_top": true
+    },
+    "Female": {
+     "mesh": "SM_Hat_L1",
+     "tex": "Hats/T_Hat_L1",
+     "hides_top": true
+    }
+   }
+  },
+  "L2": {
+   "name": "Horsehide Rider",
+   "type": "leather",
+   "tier": 2,
+   "slots": {
+    "shirt": {
+     "Male": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_L1_Male_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_L1_Female_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     }
+    },
+    "trousers": {
+     "Male": {
+      "geosets": [
+       "Legs_Flare"
+      ],
+      "tex": "Looks/T_L2_Male_Trousers",
+      "rect": [
+       0.496094,
+       0.326172,
+       1.0,
+       0.878906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Legs_Flare"
+      ],
+      "tex": "Looks/T_L2_Female_Trousers",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.878906
+      ]
+     }
+    },
+    "shoes": {
+     "Male": {
+      "geosets": [
+       "Feet_Boot"
+      ],
+      "tex": "Looks/T_L1_Male_Shoes",
+      "rect": [
+       0.496094,
+       0.688477,
+       1.0,
+       1.0
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Feet_Boot"
+      ],
+      "tex": "Looks/T_L1_Female_Shoes",
+      "rect": [
+       0.496094,
+       0.670898,
+       1.0,
+       1.0
+      ]
+     }
+    },
+    "coat": {
+     "Male": {
+      "geosets": [],
+      "tex": "Looks/T_L2_Male_Coat",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [],
+      "tex": "Looks/T_L2_Female_Coat",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     }
+    },
+    "wrist": {
+     "Male": {
+      "geosets": [],
+      "tex": "Looks/T_C1_Male_Wrist",
+      "rect": [
+       0.250977,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [],
+      "tex": "Looks/T_C1_Female_Wrist",
+      "rect": [
+       0.251953,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     }
+    },
+    "gloves": {
+     "Male": {
+      "geosets": [
+       "Hands_Base"
+      ],
+      "tex": "Looks/T_C3_Male_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Hands_Base"
+      ],
+      "tex": "Looks/T_C3_Female_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     }
+    },
+    "belt": {
+     "Male": {
+      "geosets": [
+       "Belt_Heavy"
+      ],
+      "tex": "Looks/T_C1_Male_Belt",
+      "rect": [
+       0.496094,
+       0.329102,
+       1.0,
+       0.378906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Belt_Heavy"
+      ],
+      "tex": "Looks/T_C1_Female_Belt",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.357422
+      ]
+     }
+    }
+   },
+   "hat": {
+    "Male": {
+     "mesh": "SM_Hat_L2",
+     "tex": "Hats/T_Hat_L2",
+     "hides_top": true
+    },
+    "Female": {
+     "mesh": "SM_Hat_L2",
+     "tex": "Hats/T_Hat_L2",
+     "hides_top": true
+    }
+   }
+  },
+  "L3": {
+   "name": "Gower Gulch",
+   "type": "leather",
+   "tier": 3,
+   "slots": {
+    "shirt": {
+     "Male": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_C5_Male_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_L3_Female_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     }
+    },
+    "trousers": {
+     "Male": {
+      "geosets": [
+       "Legs_Flare"
+      ],
+      "tex": "Looks/T_L3_Male_Trousers",
+      "rect": [
+       0.496094,
+       0.326172,
+       1.0,
+       0.878906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Legs_Skirt"
+      ],
+      "tex": "Looks/T_L3_Female_Trousers",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.878906
+      ]
+     }
+    },
+    "shoes": {
+     "Male": {
+      "geosets": [
+       "Feet_Boot"
+      ],
+      "tex": "Looks/T_L1_Male_Shoes",
+      "rect": [
+       0.496094,
+       0.688477,
+       1.0,
+       1.0
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Feet_Boot"
+      ],
+      "tex": "Looks/T_L1_Female_Shoes",
+      "rect": [
+       0.496094,
+       0.670898,
+       1.0,
+       1.0
+      ]
+     }
+    },
+    "coat": {
+     "Male": {
+      "geosets": [
+       "Collar_Up"
+      ],
+      "tex": "Looks/T_L3_Male_Coat",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Collar_Up"
+      ],
+      "tex": "Looks/T_L3_Female_Coat",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     }
+    },
+    "wrist": {
+     "Male": {
+      "geosets": [],
+      "tex": "Looks/T_C1_Male_Wrist",
+      "rect": [
+       0.250977,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [],
+      "tex": "Looks/T_C1_Female_Wrist",
+      "rect": [
+       0.251953,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     }
+    },
+    "gloves": {
+     "Male": {
+      "geosets": [
+       "Hands_Base"
+      ],
+      "tex": "Looks/T_C3_Male_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Hands_Base"
+      ],
+      "tex": "Looks/T_C3_Female_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     }
+    },
+    "belt": {
+     "Male": {
+      "geosets": [
+       "Belt_Heavy"
+      ],
+      "tex": "Looks/T_C1_Male_Belt",
+      "rect": [
+       0.496094,
+       0.329102,
+       1.0,
+       0.378906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Belt_Heavy"
+      ],
+      "tex": "Looks/T_C1_Female_Belt",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.357422
+      ]
+     }
+    }
+   },
+   "hat": {
+    "Male": {
+     "mesh": "SM_Hat_L3",
+     "tex": "Hats/T_Hat_L3",
+     "hides_top": true
+    },
+    "Female": {
+     "mesh": "SM_Hat_L3",
+     "tex": "Hats/T_Hat_L3",
+     "hides_top": true
+    }
+   }
+  },
+  "L4": {
+   "name": "Stunt Rider",
+   "type": "leather",
+   "tier": 4,
+   "slots": {
+    "shirt": {
+     "Male": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_C5_Male_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_L3_Female_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     }
+    },
+    "trousers": {
+     "Male": {
+      "geosets": [
+       "Legs_Base"
+      ],
+      "tex": "Looks/T_L4_Male_Trousers",
+      "rect": [
+       0.496094,
+       0.326172,
+       1.0,
+       0.878906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Legs_Base"
+      ],
+      "tex": "Looks/T_L4_Female_Trousers",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.878906
+      ]
+     }
+    },
+    "shoes": {
+     "Male": {
+      "geosets": [
+       "Feet_TallBoot"
+      ],
+      "tex": "Looks/T_L4_Male_Shoes",
+      "rect": [
+       0.496094,
+       0.621094,
+       1.0,
+       1.0
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Feet_TallBoot"
+      ],
+      "tex": "Looks/T_L4_Female_Shoes",
+      "rect": [
+       0.496094,
+       0.621094,
+       1.0,
+       1.0
+      ]
+     }
+    },
+    "coat": {
+     "Male": {
+      "geosets": [
+       "Collar_Up"
+      ],
+      "tex": "Looks/T_L4_Male_Coat",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Collar_Up"
+      ],
+      "tex": "Looks/T_L4_Female_Coat",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     }
+    },
+    "wrist": {
+     "Male": {
+      "geosets": [],
+      "tex": "Looks/T_C1_Male_Wrist",
+      "rect": [
+       0.250977,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [],
+      "tex": "Looks/T_C1_Female_Wrist",
+      "rect": [
+       0.251953,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     }
+    },
+    "gloves": {
+     "Male": {
+      "geosets": [
+       "Hands_Base"
+      ],
+      "tex": "Looks/T_C3_Male_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Hands_Base"
+      ],
+      "tex": "Looks/T_C3_Female_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     }
+    },
+    "belt": {
+     "Male": {
+      "geosets": [
+       "Belt_Heavy"
+      ],
+      "tex": "Looks/T_C1_Male_Belt",
+      "rect": [
+       0.496094,
+       0.329102,
+       1.0,
+       0.378906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Belt_Heavy"
+      ],
+      "tex": "Looks/T_C1_Female_Belt",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.357422
+      ]
+     }
+    }
+   },
+   "hat": {
+    "Male": {
+     "mesh": "SM_Hat_L4",
+     "tex": "Hats/T_Hat_L4",
+     "hides_top": true
+    },
+    "Female": {
+     "mesh": "SM_Hat_L4",
+     "tex": "Hats/T_Hat_L4",
+     "hides_top": true
+    }
+   }
+  },
+  "L5": {
+   "name": "Pendleton Rider",
+   "type": "leather",
+   "tier": 5,
+   "slots": {
+    "shirt": {
+     "Male": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_C5_Male_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_L3_Female_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     }
+    },
+    "trousers": {
+     "Male": {
+      "geosets": [
+       "Legs_Base"
+      ],
+      "tex": "Looks/T_L5_Male_Trousers",
+      "rect": [
+       0.496094,
+       0.326172,
+       1.0,
+       0.878906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Legs_Base"
+      ],
+      "tex": "Looks/T_L5_Female_Trousers",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.878906
+      ]
+     }
+    },
+    "shoes": {
+     "Male": {
+      "geosets": [
+       "Feet_Boot"
+      ],
+      "tex": "Looks/T_L5_Male_Shoes",
+      "rect": [
+       0.496094,
+       0.688477,
+       1.0,
+       1.0
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Feet_Boot"
+      ],
+      "tex": "Looks/T_L5_Female_Shoes",
+      "rect": [
+       0.496094,
+       0.670898,
+       1.0,
+       1.0
+      ]
+     }
+    },
+    "coat": {
+     "Male": {
+      "geosets": [
+       "Coat_Long",
+       "Collar_Up"
+      ],
+      "tex": "Looks/T_L5_Male_Coat",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.628906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Coat_Long",
+       "Collar_Up"
+      ],
+      "tex": "Looks/T_L5_Female_Coat",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.628906
+      ]
+     }
+    },
+    "wrist": {
+     "Male": {
+      "geosets": [],
+      "tex": "Looks/T_C5_Male_Wrist",
+      "rect": [
+       0.250977,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [],
+      "tex": "Looks/T_L5_Female_Wrist",
+      "rect": [
+       0.251953,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     }
+    },
+    "gloves": {
+     "Male": {
+      "geosets": [
+       "Hands_Base"
+      ],
+      "tex": "Looks/T_C5_Male_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Hands_Base"
+      ],
+      "tex": "Looks/T_L5_Female_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     }
+    },
+    "belt": {
+     "Male": {
+      "geosets": [
+       "Belt_Heavy"
+      ],
+      "tex": "Looks/T_C5_Male_Belt",
+      "rect": [
+       0.496094,
+       0.329102,
+       1.0,
+       0.378906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Belt_Heavy"
+      ],
+      "tex": "Looks/T_C5_Female_Belt",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.357422
+      ]
+     }
+    }
+   },
+   "hat": {
+    "Male": {
+     "mesh": "SM_Hat_L5",
+     "tex": "Hats/T_Hat_L5",
+     "hides_top": true
+    },
+    "Female": {
+     "mesh": "SM_Hat_L5",
+     "tex": "Hats/T_Hat_L5",
+     "hides_top": true
+    }
+   }
+  },
+  "L6": {
+   "name": "Hivehide",
+   "type": "leather",
+   "tier": 6,
+   "slots": {
+    "shirt": {
+     "Male": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_C5_Male_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_L3_Female_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     }
+    },
+    "trousers": {
+     "Male": {
+      "geosets": [
+       "Legs_Base"
+      ],
+      "tex": "Looks/T_L6_Male_Trousers",
+      "rect": [
+       0.496094,
+       0.326172,
+       1.0,
+       0.878906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Legs_Base"
+      ],
+      "tex": "Looks/T_L6_Female_Trousers",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.878906
+      ]
+     }
+    },
+    "shoes": {
+     "Male": {
+      "geosets": [
+       "Feet_Boot"
+      ],
+      "tex": "Looks/T_L5_Male_Shoes",
+      "rect": [
+       0.496094,
+       0.688477,
+       1.0,
+       1.0
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Feet_Boot"
+      ],
+      "tex": "Looks/T_L5_Female_Shoes",
+      "rect": [
+       0.496094,
+       0.670898,
+       1.0,
+       1.0
+      ]
+     }
+    },
+    "coat": {
+     "Male": {
+      "geosets": [
+       "Collar_Up"
+      ],
+      "tex": "Looks/T_L6_Male_Coat",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Collar_Up"
+      ],
+      "tex": "Looks/T_L6_Female_Coat",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     }
+    },
+    "wrist": {
+     "Male": {
+      "geosets": [],
+      "tex": "Looks/T_C5_Male_Wrist",
+      "rect": [
+       0.250977,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [],
+      "tex": "Looks/T_L5_Female_Wrist",
+      "rect": [
+       0.251953,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     }
+    },
+    "gloves": {
+     "Male": {
+      "geosets": [
+       "Hands_Base"
+      ],
+      "tex": "Looks/T_C5_Male_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Hands_Base"
+      ],
+      "tex": "Looks/T_L5_Female_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     }
+    },
+    "belt": {
+     "Male": {
+      "geosets": [
+       "Belt_Heavy"
+      ],
+      "tex": "Looks/T_C5_Male_Belt",
+      "rect": [
+       0.496094,
+       0.329102,
+       1.0,
+       0.378906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Belt_Heavy"
+      ],
+      "tex": "Looks/T_C5_Female_Belt",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.357422
+      ]
+     }
+    }
+   },
+   "hat": {
+    "Male": {
+     "mesh": "SM_Hat_L6",
+     "tex": "Hats/T_Hat_L6",
+     "hides_top": true
+    },
+    "Female": {
+     "mesh": "SM_Hat_L6",
+     "tex": "Hats/T_Hat_L6",
+     "hides_top": true
+    }
+   }
+  },
+  "P1": {
+   "name": "Backlot Worker",
+   "type": "padded",
+   "tier": 1,
+   "slots": {
+    "shirt": {
+     "Male": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_C1_Male_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_C1_Female_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     }
+    },
+    "trousers": {
+     "Male": {
+      "geosets": [
+       "Legs_Base"
+      ],
+      "tex": "Looks/T_P1_Male_Trousers",
+      "rect": [
+       0.496094,
+       0.326172,
+       1.0,
+       0.878906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Legs_Base"
+      ],
+      "tex": "Looks/T_P1_Female_Trousers",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.878906
+      ]
+     }
+    },
+    "shoes": {
+     "Male": {
+      "geosets": [
+       "Feet_Boot"
+      ],
+      "tex": "Looks/T_L1_Male_Shoes",
+      "rect": [
+       0.496094,
+       0.688477,
+       1.0,
+       1.0
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Feet_Boot"
+      ],
+      "tex": "Looks/T_L1_Female_Shoes",
+      "rect": [
+       0.496094,
+       0.670898,
+       1.0,
+       1.0
+      ]
+     }
+    },
+    "coat": {
+     "Male": {
+      "geosets": [],
+      "tex": "Looks/T_P1_Male_Coat",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [],
+      "tex": "Looks/T_P1_Female_Coat",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     }
+    },
+    "wrist": {
+     "Male": {
+      "geosets": [],
+      "tex": "Looks/T_C1_Male_Wrist",
+      "rect": [
+       0.250977,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [],
+      "tex": "Looks/T_C1_Female_Wrist",
+      "rect": [
+       0.251953,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     }
+    },
+    "gloves": {
+     "Male": {
+      "geosets": [
+       "Hands_Base"
+      ],
+      "tex": "Looks/T_C3_Male_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Hands_Base"
+      ],
+      "tex": "Looks/T_C3_Female_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     }
+    },
+    "belt": {
+     "Male": {
+      "geosets": [
+       "Belt_Heavy"
+      ],
+      "tex": "Looks/T_C1_Male_Belt",
+      "rect": [
+       0.496094,
+       0.329102,
+       1.0,
+       0.378906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Belt_Heavy"
+      ],
+      "tex": "Looks/T_C1_Female_Belt",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.357422
+      ]
+     }
+    }
+   },
+   "hat": {
+    "Male": {
+     "mesh": "SM_Hat_P1",
+     "tex": "Hats/T_Hat_P1",
+     "hides_top": true
+    },
+    "Female": {
+     "mesh": "SM_Hat_P1",
+     "tex": "Hats/T_Hat_P1",
+     "hides_top": true
+    }
+   }
+  },
+  "P2": {
+   "name": "Lineman",
+   "type": "padded",
+   "tier": 2,
+   "slots": {
+    "shirt": {
+     "Male": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_L1_Male_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_L1_Female_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     }
+    },
+    "trousers": {
+     "Male": {
+      "geosets": [
+       "Legs_Base"
+      ],
+      "tex": "Looks/T_P1_Male_Trousers",
+      "rect": [
+       0.496094,
+       0.326172,
+       1.0,
+       0.878906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Legs_Base"
+      ],
+      "tex": "Looks/T_P1_Female_Trousers",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.878906
+      ]
+     }
+    },
+    "shoes": {
+     "Male": {
+      "geosets": [
+       "Feet_Boot"
+      ],
+      "tex": "Looks/T_L1_Male_Shoes",
+      "rect": [
+       0.496094,
+       0.688477,
+       1.0,
+       1.0
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Feet_Boot"
+      ],
+      "tex": "Looks/T_L1_Female_Shoes",
+      "rect": [
+       0.496094,
+       0.670898,
+       1.0,
+       1.0
+      ]
+     }
+    },
+    "coat": {
+     "Male": {
+      "geosets": [],
+      "tex": "Looks/T_P2_Male_Coat",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [],
+      "tex": "Looks/T_P2_Female_Coat",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     }
+    },
+    "wrist": {
+     "Male": {
+      "geosets": [],
+      "tex": "Looks/T_C1_Male_Wrist",
+      "rect": [
+       0.250977,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [],
+      "tex": "Looks/T_C1_Female_Wrist",
+      "rect": [
+       0.251953,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     }
+    },
+    "gloves": {
+     "Male": {
+      "geosets": [
+       "Hands_Base"
+      ],
+      "tex": "Looks/T_C3_Male_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Hands_Base"
+      ],
+      "tex": "Looks/T_C3_Female_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     }
+    },
+    "belt": {
+     "Male": {
+      "geosets": [
+       "Belt_Heavy"
+      ],
+      "tex": "Looks/T_C1_Male_Belt",
+      "rect": [
+       0.496094,
+       0.329102,
+       1.0,
+       0.378906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Belt_Heavy"
+      ],
+      "tex": "Looks/T_C1_Female_Belt",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.357422
+      ]
+     }
+    }
+   },
+   "hat": {
+    "Male": {
+     "mesh": "SM_Hat_P2",
+     "tex": "Hats/T_Hat_P2",
+     "hides_top": true
+    },
+    "Female": {
+     "mesh": "SM_Hat_P2",
+     "tex": "Hats/T_Hat_P2",
+     "hides_top": true
+    }
+   }
+  },
+  "P3": {
+   "name": "Gridiron",
+   "type": "padded",
+   "tier": 3,
+   "slots": {
+    "shirt": {
+     "Male": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_C5_Male_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_L3_Female_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     }
+    },
+    "trousers": {
+     "Male": {
+      "geosets": [
+       "Legs_Base"
+      ],
+      "tex": "Looks/T_P3_Male_Trousers",
+      "rect": [
+       0.496094,
+       0.326172,
+       1.0,
+       0.878906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Legs_Base"
+      ],
+      "tex": "Looks/T_P3_Female_Trousers",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.878906
+      ]
+     }
+    },
+    "shoes": {
+     "Male": {
+      "geosets": [
+       "Feet_Boot"
+      ],
+      "tex": "Looks/T_L1_Male_Shoes",
+      "rect": [
+       0.496094,
+       0.688477,
+       1.0,
+       1.0
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Feet_Boot"
+      ],
+      "tex": "Looks/T_L1_Female_Shoes",
+      "rect": [
+       0.496094,
+       0.670898,
+       1.0,
+       1.0
+      ]
+     }
+    },
+    "coat": {
+     "Male": {
+      "geosets": [
+       "Torso_Bulky",
+       "Collar_Up"
+      ],
+      "tex": "Looks/T_P3_Male_Coat",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Torso_Bulky",
+       "Collar_Up"
+      ],
+      "tex": "Looks/T_P3_Female_Coat",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     }
+    },
+    "wrist": {
+     "Male": {
+      "geosets": [],
+      "tex": "Looks/T_C1_Male_Wrist",
+      "rect": [
+       0.250977,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [],
+      "tex": "Looks/T_C1_Female_Wrist",
+      "rect": [
+       0.251953,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     }
+    },
+    "gloves": {
+     "Male": {
+      "geosets": [
+       "Hands_Base"
+      ],
+      "tex": "Looks/T_C3_Male_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Hands_Base"
+      ],
+      "tex": "Looks/T_C3_Female_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     }
+    },
+    "belt": {
+     "Male": {
+      "geosets": [
+       "Belt_Heavy"
+      ],
+      "tex": "Looks/T_C1_Male_Belt",
+      "rect": [
+       0.496094,
+       0.329102,
+       1.0,
+       0.378906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Belt_Heavy"
+      ],
+      "tex": "Looks/T_C1_Female_Belt",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.357422
+      ]
+     }
+    }
+   },
+   "hat": {
+    "Male": {
+     "mesh": "SM_Hat_P3",
+     "tex": "Hats/T_Hat_P3",
+     "hides_top": true
+    },
+    "Female": {
+     "mesh": "SM_Hat_P3",
+     "tex": "Hats/T_Hat_P3",
+     "hides_top": true
+    }
+   }
+  },
+  "P4": {
+   "name": "Quilted Aviator",
+   "type": "padded",
+   "tier": 4,
+   "slots": {
+    "shirt": {
+     "Male": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_C5_Male_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_L3_Female_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     }
+    },
+    "trousers": {
+     "Male": {
+      "geosets": [
+       "Legs_Base"
+      ],
+      "tex": "Looks/T_P4_Male_Trousers",
+      "rect": [
+       0.496094,
+       0.326172,
+       1.0,
+       0.878906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Legs_Base"
+      ],
+      "tex": "Looks/T_P4_Female_Trousers",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.878906
+      ]
+     }
+    },
+    "shoes": {
+     "Male": {
+      "geosets": [
+       "Feet_Boot"
+      ],
+      "tex": "Looks/T_L1_Male_Shoes",
+      "rect": [
+       0.496094,
+       0.688477,
+       1.0,
+       1.0
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Feet_Boot"
+      ],
+      "tex": "Looks/T_L1_Female_Shoes",
+      "rect": [
+       0.496094,
+       0.670898,
+       1.0,
+       1.0
+      ]
+     }
+    },
+    "coat": {
+     "Male": {
+      "geosets": [
+       "Torso_Bulky",
+       "Collar_Up"
+      ],
+      "tex": "Looks/T_P4_Male_Coat",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Torso_Bulky",
+       "Collar_Up"
+      ],
+      "tex": "Looks/T_P4_Female_Coat",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     }
+    },
+    "wrist": {
+     "Male": {
+      "geosets": [],
+      "tex": "Looks/T_C1_Male_Wrist",
+      "rect": [
+       0.250977,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [],
+      "tex": "Looks/T_C1_Female_Wrist",
+      "rect": [
+       0.251953,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     }
+    },
+    "gloves": {
+     "Male": {
+      "geosets": [
+       "Hands_Base"
+      ],
+      "tex": "Looks/T_C3_Male_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Hands_Base"
+      ],
+      "tex": "Looks/T_C3_Female_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     }
+    },
+    "belt": {
+     "Male": {
+      "geosets": [
+       "Belt_Heavy"
+      ],
+      "tex": "Looks/T_C1_Male_Belt",
+      "rect": [
+       0.496094,
+       0.329102,
+       1.0,
+       0.378906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Belt_Heavy"
+      ],
+      "tex": "Looks/T_C1_Female_Belt",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.357422
+      ]
+     }
+    }
+   },
+   "hat": {
+    "Male": {
+     "mesh": "SM_Hat_P4",
+     "tex": "Hats/T_Hat_P4",
+     "hides_top": true
+    },
+    "Female": {
+     "mesh": "SM_Hat_P4",
+     "tex": "Hats/T_Hat_P4",
+     "hides_top": true
+    }
+   }
+  },
+  "P5": {
+   "name": "Welder",
+   "type": "padded",
+   "tier": 5,
+   "slots": {
+    "shirt": {
+     "Male": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_C5_Male_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_L3_Female_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     }
+    },
+    "trousers": {
+     "Male": {
+      "geosets": [
+       "Legs_Base"
+      ],
+      "tex": "Looks/T_P5_Male_Trousers",
+      "rect": [
+       0.496094,
+       0.326172,
+       1.0,
+       0.878906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Legs_Base"
+      ],
+      "tex": "Looks/T_P5_Female_Trousers",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.878906
+      ]
+     }
+    },
+    "shoes": {
+     "Male": {
+      "geosets": [
+       "Feet_Boot"
+      ],
+      "tex": "Looks/T_L5_Male_Shoes",
+      "rect": [
+       0.496094,
+       0.688477,
+       1.0,
+       1.0
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Feet_Boot"
+      ],
+      "tex": "Looks/T_L5_Female_Shoes",
+      "rect": [
+       0.496094,
+       0.670898,
+       1.0,
+       1.0
+      ]
+     }
+    },
+    "coat": {
+     "Male": {
+      "geosets": [
+       "Collar_Up"
+      ],
+      "tex": "Looks/T_P5_Male_Coat",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Collar_Up"
+      ],
+      "tex": "Looks/T_P5_Female_Coat",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     }
+    },
+    "wrist": {
+     "Male": {
+      "geosets": [],
+      "tex": "Looks/T_C5_Male_Wrist",
+      "rect": [
+       0.250977,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [],
+      "tex": "Looks/T_L5_Female_Wrist",
+      "rect": [
+       0.251953,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     }
+    },
+    "gloves": {
+     "Male": {
+      "geosets": [
+       "Hands_Gauntlet"
+      ],
+      "tex": "Looks/T_P5_Male_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Hands_Gauntlet"
+      ],
+      "tex": "Looks/T_P5_Female_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     }
+    },
+    "belt": {
+     "Male": {
+      "geosets": [
+       "Belt_Heavy"
+      ],
+      "tex": "Looks/T_C5_Male_Belt",
+      "rect": [
+       0.496094,
+       0.329102,
+       1.0,
+       0.378906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Belt_Heavy"
+      ],
+      "tex": "Looks/T_C5_Female_Belt",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.357422
+      ]
+     }
+    }
+   },
+   "hat": {
+    "Male": {
+     "mesh": "SM_Hat_P5",
+     "tex": "Hats/T_Hat_P5",
+     "hides_top": true
+    },
+    "Female": {
+     "mesh": "SM_Hat_P5",
+     "tex": "Hats/T_Hat_P5",
+     "hides_top": true
+    }
+   }
+  },
+  "P6": {
+   "name": "Chitin Quilt",
+   "type": "padded",
+   "tier": 6,
+   "slots": {
+    "shirt": {
+     "Male": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_C5_Male_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_L3_Female_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     }
+    },
+    "trousers": {
+     "Male": {
+      "geosets": [
+       "Legs_Base"
+      ],
+      "tex": "Looks/T_P6_Male_Trousers",
+      "rect": [
+       0.496094,
+       0.326172,
+       1.0,
+       0.878906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Legs_Base"
+      ],
+      "tex": "Looks/T_P6_Female_Trousers",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.878906
+      ]
+     }
+    },
+    "shoes": {
+     "Male": {
+      "geosets": [
+       "Feet_Boot"
+      ],
+      "tex": "Looks/T_L5_Male_Shoes",
+      "rect": [
+       0.496094,
+       0.688477,
+       1.0,
+       1.0
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Feet_Boot"
+      ],
+      "tex": "Looks/T_L5_Female_Shoes",
+      "rect": [
+       0.496094,
+       0.670898,
+       1.0,
+       1.0
+      ]
+     }
+    },
+    "coat": {
+     "Male": {
+      "geosets": [
+       "Torso_Bulky",
+       "Collar_Up"
+      ],
+      "tex": "Looks/T_P6_Male_Coat",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Torso_Bulky",
+       "Collar_Up"
+      ],
+      "tex": "Looks/T_P6_Female_Coat",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     }
+    },
+    "wrist": {
+     "Male": {
+      "geosets": [],
+      "tex": "Looks/T_C5_Male_Wrist",
+      "rect": [
+       0.250977,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [],
+      "tex": "Looks/T_L5_Female_Wrist",
+      "rect": [
+       0.251953,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     }
+    },
+    "gloves": {
+     "Male": {
+      "geosets": [
+       "Hands_Base"
+      ],
+      "tex": "Looks/T_C5_Male_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Hands_Base"
+      ],
+      "tex": "Looks/T_L5_Female_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     }
+    },
+    "belt": {
+     "Male": {
+      "geosets": [
+       "Belt_Heavy"
+      ],
+      "tex": "Looks/T_C5_Male_Belt",
+      "rect": [
+       0.496094,
+       0.329102,
+       1.0,
+       0.378906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Belt_Heavy"
+      ],
+      "tex": "Looks/T_C5_Female_Belt",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.357422
+      ]
+     }
+    }
+   },
+   "hat": {
+    "Male": {
+     "mesh": "SM_Hat_P6",
+     "tex": "Hats/T_Hat_P6",
+     "hides_top": true
+    },
+    "Female": {
+     "mesh": "SM_Hat_P6",
+     "tex": "Hats/T_Hat_P6",
+     "hides_top": true
+    }
+   }
+  },
+  "S1": {
+   "name": "Doughboy",
+   "type": "steel",
+   "tier": 1,
+   "slots": {
+    "shirt": {
+     "Male": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_S1_Male_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_S1_Female_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     }
+    },
+    "trousers": {
+     "Male": {
+      "geosets": [
+       "Legs_Base"
+      ],
+      "tex": "Looks/T_S1_Male_Trousers",
+      "rect": [
+       0.496094,
+       0.326172,
+       1.0,
+       0.878906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Legs_Base"
+      ],
+      "tex": "Looks/T_S1_Female_Trousers",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.878906
+      ]
+     }
+    },
+    "shoes": {
+     "Male": {
+      "geosets": [
+       "Feet_Boot"
+      ],
+      "tex": "Looks/T_L1_Male_Shoes",
+      "rect": [
+       0.496094,
+       0.688477,
+       1.0,
+       1.0
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Feet_Boot"
+      ],
+      "tex": "Looks/T_L1_Female_Shoes",
+      "rect": [
+       0.496094,
+       0.670898,
+       1.0,
+       1.0
+      ]
+     }
+    },
+    "coat": {
+     "Male": {
+      "geosets": [
+       "Torso_Bulky"
+      ],
+      "tex": "Looks/T_S1_Male_Coat",
+      "rect": [
+       0.496094,
+       0.0,
+       1.0,
+       0.378906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Torso_Bulky"
+      ],
+      "tex": "Looks/T_S1_Female_Coat",
+      "rect": [
+       0.496094,
+       0.0,
+       1.0,
+       0.378906
+      ]
+     }
+    },
+    "wrist": {
+     "Male": {
+      "geosets": [],
+      "tex": "Looks/T_C1_Male_Wrist",
+      "rect": [
+       0.250977,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [],
+      "tex": "Looks/T_C1_Female_Wrist",
+      "rect": [
+       0.251953,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     }
+    },
+    "gloves": {
+     "Male": {
+      "geosets": [
+       "Hands_Base"
+      ],
+      "tex": "Looks/T_C3_Male_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Hands_Base"
+      ],
+      "tex": "Looks/T_C3_Female_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     }
+    },
+    "belt": {
+     "Male": {
+      "geosets": [
+       "Belt_Heavy"
+      ],
+      "tex": "Looks/T_C1_Male_Belt",
+      "rect": [
+       0.496094,
+       0.329102,
+       1.0,
+       0.378906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Belt_Heavy"
+      ],
+      "tex": "Looks/T_C1_Female_Belt",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.357422
+      ]
+     }
+    }
+   },
+   "hat": {
+    "Male": {
+     "mesh": "SM_Hat_S1",
+     "tex": "Hats/T_Hat_S1",
+     "hides_top": true
+    },
+    "Female": {
+     "mesh": "SM_Hat_S1",
+     "tex": "Hats/T_Hat_S1",
+     "hides_top": true
+    }
+   }
+  },
+  "S2": {
+   "name": "Riveted Trench",
+   "type": "steel",
+   "tier": 2,
+   "slots": {
+    "shirt": {
+     "Male": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_S1_Male_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_S1_Female_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     }
+    },
+    "trousers": {
+     "Male": {
+      "geosets": [
+       "Legs_Flare"
+      ],
+      "tex": "Looks/T_S1_Male_Trousers",
+      "rect": [
+       0.496094,
+       0.326172,
+       1.0,
+       0.878906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Legs_Flare"
+      ],
+      "tex": "Looks/T_S1_Female_Trousers",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.878906
+      ]
+     }
+    },
+    "shoes": {
+     "Male": {
+      "geosets": [
+       "Feet_Boot"
+      ],
+      "tex": "Looks/T_L1_Male_Shoes",
+      "rect": [
+       0.496094,
+       0.688477,
+       1.0,
+       1.0
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Feet_Boot"
+      ],
+      "tex": "Looks/T_L1_Female_Shoes",
+      "rect": [
+       0.496094,
+       0.670898,
+       1.0,
+       1.0
+      ]
+     }
+    },
+    "coat": {
+     "Male": {
+      "geosets": [
+       "Torso_Bulky",
+       "Coat_Long",
+       "Collar_Up"
+      ],
+      "tex": "Looks/T_S2_Male_Coat",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.628906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Torso_Bulky",
+       "Coat_Long",
+       "Collar_Up"
+      ],
+      "tex": "Looks/T_S2_Female_Coat",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.628906
+      ]
+     }
+    },
+    "wrist": {
+     "Male": {
+      "geosets": [],
+      "tex": "Looks/T_C1_Male_Wrist",
+      "rect": [
+       0.250977,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [],
+      "tex": "Looks/T_C1_Female_Wrist",
+      "rect": [
+       0.251953,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     }
+    },
+    "gloves": {
+     "Male": {
+      "geosets": [
+       "Hands_Base"
+      ],
+      "tex": "Looks/T_C3_Male_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Hands_Base"
+      ],
+      "tex": "Looks/T_C3_Female_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     }
+    },
+    "belt": {
+     "Male": {
+      "geosets": [
+       "Belt_Heavy"
+      ],
+      "tex": "Looks/T_C1_Male_Belt",
+      "rect": [
+       0.496094,
+       0.329102,
+       1.0,
+       0.378906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Belt_Heavy"
+      ],
+      "tex": "Looks/T_C1_Female_Belt",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.357422
+      ]
+     }
+    }
+   },
+   "hat": {
+    "Male": {
+     "mesh": "SM_Hat_S2",
+     "tex": "Hats/T_Hat_S2",
+     "hides_top": true
+    },
+    "Female": {
+     "mesh": "SM_Hat_S2",
+     "tex": "Hats/T_Hat_S2",
+     "hides_top": true
+    }
+   }
+  },
+  "S3": {
+   "name": "Mail Guard",
+   "type": "steel",
+   "tier": 3,
+   "slots": {
+    "shirt": {
+     "Male": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_S1_Male_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_S1_Female_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     }
+    },
+    "trousers": {
+     "Male": {
+      "geosets": [
+       "Legs_Base"
+      ],
+      "tex": "Looks/T_S1_Male_Trousers",
+      "rect": [
+       0.496094,
+       0.326172,
+       1.0,
+       0.878906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Legs_Base"
+      ],
+      "tex": "Looks/T_S1_Female_Trousers",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.878906
+      ]
+     }
+    },
+    "shoes": {
+     "Male": {
+      "geosets": [
+       "Feet_Boot"
+      ],
+      "tex": "Looks/T_S3_Male_Shoes",
+      "rect": [
+       0.496094,
+       0.688477,
+       1.0,
+       1.0
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Feet_Boot"
+      ],
+      "tex": "Looks/T_S3_Female_Shoes",
+      "rect": [
+       0.496094,
+       0.670898,
+       1.0,
+       1.0
+      ]
+     }
+    },
+    "coat": {
+     "Male": {
+      "geosets": [
+       "Torso_Bulky",
+       "Collar_Up"
+      ],
+      "tex": "Looks/T_S3_Male_Coat",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Torso_Bulky",
+       "Collar_Up"
+      ],
+      "tex": "Looks/T_S3_Female_Coat",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     }
+    },
+    "wrist": {
+     "Male": {
+      "geosets": [],
+      "tex": "Looks/T_S3_Male_Wrist",
+      "rect": [
+       0.250977,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [],
+      "tex": "Looks/T_S3_Female_Wrist",
+      "rect": [
+       0.251953,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     }
+    },
+    "gloves": {
+     "Male": {
+      "geosets": [
+       "Hands_Gauntlet"
+      ],
+      "tex": "Looks/T_S3_Male_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Hands_Gauntlet"
+      ],
+      "tex": "Looks/T_S3_Female_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     }
+    },
+    "belt": {
+     "Male": {
+      "geosets": [
+       "Belt_Heavy"
+      ],
+      "tex": "Looks/T_S3_Male_Belt",
+      "rect": [
+       0.496094,
+       0.329102,
+       1.0,
+       0.378906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Belt_Heavy"
+      ],
+      "tex": "Looks/T_S3_Female_Belt",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.357422
+      ]
+     }
+    }
+   },
+   "hat": {
+    "Male": {
+     "mesh": "SM_Hat_S3",
+     "tex": "Hats/T_Hat_S3",
+     "hides_top": true
+    },
+    "Female": {
+     "mesh": "SM_Hat_S3",
+     "tex": "Hats/T_Hat_S3",
+     "hides_top": true
+    }
+   }
+  },
+  "S4": {
+   "name": "Studio-forged Plate",
+   "type": "steel",
+   "tier": 4,
+   "slots": {
+    "shirt": {
+     "Male": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_S1_Male_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_S1_Female_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     }
+    },
+    "trousers": {
+     "Male": {
+      "geosets": [
+       "Legs_Base"
+      ],
+      "tex": "Looks/T_S4_Male_Trousers",
+      "rect": [
+       0.496094,
+       0.326172,
+       1.0,
+       0.878906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Legs_Base"
+      ],
+      "tex": "Looks/T_S4_Female_Trousers",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.878906
+      ]
+     }
+    },
+    "shoes": {
+     "Male": {
+      "geosets": [
+       "Feet_TallBoot"
+      ],
+      "tex": "Looks/T_S4_Male_Shoes",
+      "rect": [
+       0.496094,
+       0.621094,
+       1.0,
+       1.0
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Feet_TallBoot"
+      ],
+      "tex": "Looks/T_S4_Female_Shoes",
+      "rect": [
+       0.496094,
+       0.621094,
+       1.0,
+       1.0
+      ]
+     }
+    },
+    "coat": {
+     "Male": {
+      "geosets": [
+       "Torso_Bulky",
+       "Collar_Up"
+      ],
+      "tex": "Looks/T_S4_Male_Coat",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Torso_Bulky",
+       "Collar_Up"
+      ],
+      "tex": "Looks/T_S4_Female_Coat",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     }
+    },
+    "wrist": {
+     "Male": {
+      "geosets": [],
+      "tex": "Looks/T_S4_Male_Wrist",
+      "rect": [
+       0.250977,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [],
+      "tex": "Looks/T_S4_Female_Wrist",
+      "rect": [
+       0.251953,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     }
+    },
+    "gloves": {
+     "Male": {
+      "geosets": [
+       "Hands_Gauntlet"
+      ],
+      "tex": "Looks/T_S4_Male_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Hands_Gauntlet"
+      ],
+      "tex": "Looks/T_S4_Female_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     }
+    },
+    "belt": {
+     "Male": {
+      "geosets": [
+       "Belt_Heavy"
+      ],
+      "tex": "Looks/T_S4_Male_Belt",
+      "rect": [
+       0.496094,
+       0.329102,
+       1.0,
+       0.378906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Belt_Heavy"
+      ],
+      "tex": "Looks/T_S4_Female_Belt",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.357422
+      ]
+     }
+    }
+   },
+   "hat": {
+    "Male": {
+     "mesh": "SM_Hat_S4",
+     "tex": "Hats/T_Hat_S4",
+     "hides_top": true
+    },
+    "Female": {
+     "mesh": "SM_Hat_S4",
+     "tex": "Hats/T_Hat_S4",
+     "hides_top": true
+    }
+   }
+  },
+  "S5": {
+   "name": "Blackened Deco",
+   "type": "steel",
+   "tier": 5,
+   "slots": {
+    "shirt": {
+     "Male": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_S1_Male_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_S1_Female_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     }
+    },
+    "trousers": {
+     "Male": {
+      "geosets": [
+       "Legs_Base"
+      ],
+      "tex": "Looks/T_S5_Male_Trousers",
+      "rect": [
+       0.496094,
+       0.326172,
+       1.0,
+       0.878906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Legs_Base"
+      ],
+      "tex": "Looks/T_S5_Female_Trousers",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.878906
+      ]
+     }
+    },
+    "shoes": {
+     "Male": {
+      "geosets": [
+       "Feet_TallBoot"
+      ],
+      "tex": "Looks/T_S5_Male_Shoes",
+      "rect": [
+       0.496094,
+       0.621094,
+       1.0,
+       1.0
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Feet_TallBoot"
+      ],
+      "tex": "Looks/T_S5_Female_Shoes",
+      "rect": [
+       0.496094,
+       0.621094,
+       1.0,
+       1.0
+      ]
+     }
+    },
+    "coat": {
+     "Male": {
+      "geosets": [
+       "Torso_Bulky",
+       "Collar_Up"
+      ],
+      "tex": "Looks/T_S5_Male_Coat",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Torso_Bulky",
+       "Collar_Up"
+      ],
+      "tex": "Looks/T_S5_Female_Coat",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     }
+    },
+    "wrist": {
+     "Male": {
+      "geosets": [],
+      "tex": "Looks/T_S5_Male_Wrist",
+      "rect": [
+       0.250977,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [],
+      "tex": "Looks/T_S5_Female_Wrist",
+      "rect": [
+       0.251953,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     }
+    },
+    "gloves": {
+     "Male": {
+      "geosets": [
+       "Hands_Gauntlet"
+      ],
+      "tex": "Looks/T_S5_Male_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Hands_Gauntlet"
+      ],
+      "tex": "Looks/T_S5_Female_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     }
+    },
+    "belt": {
+     "Male": {
+      "geosets": [
+       "Belt_Heavy"
+      ],
+      "tex": "Looks/T_S5_Male_Belt",
+      "rect": [
+       0.496094,
+       0.329102,
+       1.0,
+       0.378906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Belt_Heavy"
+      ],
+      "tex": "Looks/T_S5_Female_Belt",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.357422
+      ]
+     }
+    }
+   },
+   "hat": {
+    "Male": {
+     "mesh": "SM_Hat_S5",
+     "tex": "Hats/T_Hat_S5",
+     "hides_top": true
+    },
+    "Female": {
+     "mesh": "SM_Hat_S5",
+     "tex": "Hats/T_Hat_S5",
+     "hides_top": true
+    }
+   }
+  },
+  "S6": {
+   "name": "Carapace Guard",
+   "type": "steel",
+   "tier": 6,
+   "slots": {
+    "shirt": {
+     "Male": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_S1_Male_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_S1_Female_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     }
+    },
+    "trousers": {
+     "Male": {
+      "geosets": [
+       "Legs_Base"
+      ],
+      "tex": "Looks/T_S6_Male_Trousers",
+      "rect": [
+       0.496094,
+       0.326172,
+       1.0,
+       0.878906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Legs_Base"
+      ],
+      "tex": "Looks/T_S6_Female_Trousers",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.878906
+      ]
+     }
+    },
+    "shoes": {
+     "Male": {
+      "geosets": [
+       "Feet_TallBoot"
+      ],
+      "tex": "Looks/T_S6_Male_Shoes",
+      "rect": [
+       0.496094,
+       0.621094,
+       1.0,
+       1.0
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Feet_TallBoot"
+      ],
+      "tex": "Looks/T_S6_Female_Shoes",
+      "rect": [
+       0.496094,
+       0.621094,
+       1.0,
+       1.0
+      ]
+     }
+    },
+    "coat": {
+     "Male": {
+      "geosets": [
+       "Torso_Bulky",
+       "Collar_Up"
+      ],
+      "tex": "Looks/T_S6_Male_Coat",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Torso_Bulky",
+       "Collar_Up"
+      ],
+      "tex": "Looks/T_S6_Female_Coat",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     }
+    },
+    "wrist": {
+     "Male": {
+      "geosets": [],
+      "tex": "Looks/T_S6_Male_Wrist",
+      "rect": [
+       0.250977,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [],
+      "tex": "Looks/T_S6_Female_Wrist",
+      "rect": [
+       0.251953,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     }
+    },
+    "gloves": {
+     "Male": {
+      "geosets": [
+       "Hands_Gauntlet"
+      ],
+      "tex": "Looks/T_S6_Male_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Hands_Gauntlet"
+      ],
+      "tex": "Looks/T_S6_Female_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     }
+    },
+    "belt": {
+     "Male": {
+      "geosets": [
+       "Belt_Heavy"
+      ],
+      "tex": "Looks/T_S6_Male_Belt",
+      "rect": [
+       0.496094,
+       0.329102,
+       1.0,
+       0.378906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Belt_Heavy"
+      ],
+      "tex": "Looks/T_S6_Female_Belt",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.357422
+      ]
+     }
+    }
+   },
+   "hat": {
+    "Male": {
+     "mesh": "SM_Hat_S6",
+     "tex": "Hats/T_Hat_S6",
+     "hides_top": true
+    },
+    "Female": {
+     "mesh": "SM_Hat_S6",
+     "tex": "Hats/T_Hat_S6",
+     "hides_top": true
+    }
+   }
+  },
+  "E1": {
+   "name": "Argonne Commander",
+   "type": "steel",
+   "tier": 6,
+   "slots": {
+    "shirt": {
+     "Male": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_S1_Male_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_S1_Female_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     }
+    },
+    "trousers": {
+     "Male": {
+      "geosets": [
+       "Legs_Base"
+      ],
+      "tex": "Looks/T_E1_Male_Trousers",
+      "rect": [
+       0.496094,
+       0.326172,
+       1.0,
+       0.878906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Legs_Base"
+      ],
+      "tex": "Looks/T_E1_Female_Trousers",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.878906
+      ]
+     }
+    },
+    "shoes": {
+     "Male": {
+      "geosets": [
+       "Feet_TallBoot"
+      ],
+      "tex": "Looks/T_E1_Male_Shoes",
+      "rect": [
+       0.496094,
+       0.621094,
+       1.0,
+       1.0
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Feet_TallBoot"
+      ],
+      "tex": "Looks/T_E1_Female_Shoes",
+      "rect": [
+       0.496094,
+       0.621094,
+       1.0,
+       1.0
+      ]
+     }
+    },
+    "coat": {
+     "Male": {
+      "geosets": [
+       "Torso_Bulky",
+       "Collar_Up"
+      ],
+      "tex": "Looks/T_E1_Male_Coat",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Torso_Bulky",
+       "Collar_Up"
+      ],
+      "tex": "Looks/T_E1_Female_Coat",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     }
+    },
+    "wrist": {
+     "Male": {
+      "geosets": [],
+      "tex": "Looks/T_E1_Male_Wrist",
+      "rect": [
+       0.250977,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [],
+      "tex": "Looks/T_E1_Female_Wrist",
+      "rect": [
+       0.251953,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     }
+    },
+    "gloves": {
+     "Male": {
+      "geosets": [
+       "Hands_Base"
+      ],
+      "tex": "Looks/T_E1_Male_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Hands_Base"
+      ],
+      "tex": "Looks/T_E1_Female_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     }
+    },
+    "belt": {
+     "Male": {
+      "geosets": [
+       "Belt_Heavy"
+      ],
+      "tex": "Looks/T_E1_Male_Belt",
+      "rect": [
+       0.496094,
+       0.329102,
+       1.0,
+       0.378906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Belt_Heavy"
+      ],
+      "tex": "Looks/T_E1_Female_Belt",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.357422
+      ]
+     }
+    }
+   },
+   "hat": {
+    "Male": {
+     "mesh": "SM_Hat_E1",
+     "tex": "Hats/T_Hat_E1",
+     "hides_top": true
+    },
+    "Female": {
+     "mesh": "SM_Hat_E1",
+     "tex": "Hats/T_Hat_E1",
+     "hides_top": true
+    }
+   }
+  },
+  "E2": {
+   "name": "Daredevil",
+   "type": "leather",
+   "tier": 6,
+   "slots": {
+    "shirt": {
+     "Male": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_E2_Male_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_E2_Female_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     }
+    },
+    "trousers": {
+     "Male": {
+      "geosets": [
+       "Legs_Base"
+      ],
+      "tex": "Looks/T_E2_Male_Trousers",
+      "rect": [
+       0.496094,
+       0.326172,
+       1.0,
+       0.878906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Legs_Base"
+      ],
+      "tex": "Looks/T_E2_Female_Trousers",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.878906
+      ]
+     }
+    },
+    "shoes": {
+     "Male": {
+      "geosets": [
+       "Feet_Boot"
+      ],
+      "tex": "Looks/T_L5_Male_Shoes",
+      "rect": [
+       0.496094,
+       0.688477,
+       1.0,
+       1.0
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Feet_Boot"
+      ],
+      "tex": "Looks/T_L5_Female_Shoes",
+      "rect": [
+       0.496094,
+       0.670898,
+       1.0,
+       1.0
+      ]
+     }
+    },
+    "coat": {
+     "Male": {
+      "geosets": [
+       "Collar_Up"
+      ],
+      "tex": "Looks/T_E2_Male_Coat",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Collar_Up"
+      ],
+      "tex": "Looks/T_E2_Female_Coat",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     }
+    },
+    "wrist": {
+     "Male": {
+      "geosets": [],
+      "tex": "Looks/T_E2_Male_Wrist",
+      "rect": [
+       0.250977,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [],
+      "tex": "Looks/T_E2_Female_Wrist",
+      "rect": [
+       0.251953,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     }
+    },
+    "gloves": {
+     "Male": {
+      "geosets": [
+       "Hands_Base"
+      ],
+      "tex": "Looks/T_C5_Male_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Hands_Base"
+      ],
+      "tex": "Looks/T_L5_Female_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     }
+    },
+    "belt": {
+     "Male": {
+      "geosets": [
+       "Belt_Heavy"
+      ],
+      "tex": "Looks/T_E2_Male_Belt",
+      "rect": [
+       0.496094,
+       0.329102,
+       1.0,
+       0.378906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Belt_Heavy"
+      ],
+      "tex": "Looks/T_C5_Female_Belt",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.357422
+      ]
+     }
+    }
+   },
+   "hat": {
+    "Male": {
+     "mesh": "SM_Hat_E2",
+     "tex": "Hats/T_Hat_E2",
+     "hides_top": true
+    },
+    "Female": {
+     "mesh": "SM_Hat_E2",
+     "tex": "Hats/T_Hat_E2",
+     "hides_top": true
+    }
+   }
+  },
+  "E3": {
+   "name": "Lawman",
+   "type": "leather",
+   "tier": 6,
+   "slots": {
+    "shirt": {
+     "Male": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_E3_Male_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_E3_Female_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     }
+    },
+    "trousers": {
+     "Male": {
+      "geosets": [
+       "Legs_Base"
+      ],
+      "tex": "Looks/T_E3_Male_Trousers",
+      "rect": [
+       0.496094,
+       0.326172,
+       1.0,
+       0.878906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Legs_Base"
+      ],
+      "tex": "Looks/T_E3_Female_Trousers",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.878906
+      ]
+     }
+    },
+    "shoes": {
+     "Male": {
+      "geosets": [
+       "Feet_Boot"
+      ],
+      "tex": "Looks/T_L5_Male_Shoes",
+      "rect": [
+       0.496094,
+       0.688477,
+       1.0,
+       1.0
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Feet_Boot"
+      ],
+      "tex": "Looks/T_L5_Female_Shoes",
+      "rect": [
+       0.496094,
+       0.670898,
+       1.0,
+       1.0
+      ]
+     }
+    },
+    "coat": {
+     "Male": {
+      "geosets": [
+       "Coat_Tails"
+      ],
+      "tex": "Looks/T_E3_Male_Coat",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.628906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Coat_Tails"
+      ],
+      "tex": "Looks/T_E3_Female_Coat",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.628906
+      ]
+     }
+    },
+    "wrist": {
+     "Male": {
+      "geosets": [],
+      "tex": "Looks/T_E3_Male_Wrist",
+      "rect": [
+       0.250977,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [],
+      "tex": "Looks/T_E3_Female_Wrist",
+      "rect": [
+       0.251953,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     }
+    },
+    "gloves": {
+     "Male": {
+      "geosets": [
+       "Hands_Base"
+      ],
+      "tex": "Looks/T_C5_Male_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Hands_Base"
+      ],
+      "tex": "Looks/T_L5_Female_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     }
+    },
+    "belt": {
+     "Male": {
+      "geosets": [
+       "Belt_Heavy"
+      ],
+      "tex": "Looks/T_E3_Male_Belt",
+      "rect": [
+       0.496094,
+       0.329102,
+       1.0,
+       0.378906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Belt_Heavy"
+      ],
+      "tex": "Looks/T_C5_Female_Belt",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.357422
+      ]
+     }
+    }
+   },
+   "hat": {
+    "Male": {
+     "mesh": "SM_Hat_E3",
+     "tex": "Hats/T_Hat_E3",
+     "hides_top": true
+    },
+    "Female": {
+     "mesh": "SM_Hat_E3",
+     "tex": "Hats/T_Hat_E3",
+     "hides_top": true
+    }
+   }
+  },
+  "E4": {
+   "name": "Klieg Rig",
+   "type": "padded",
+   "tier": 6,
+   "slots": {
+    "shirt": {
+     "Male": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_E4_Male_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_E4_Female_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     }
+    },
+    "trousers": {
+     "Male": {
+      "geosets": [
+       "Legs_Base"
+      ],
+      "tex": "Looks/T_E4_Male_Trousers",
+      "rect": [
+       0.496094,
+       0.326172,
+       1.0,
+       0.878906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Legs_Base"
+      ],
+      "tex": "Looks/T_E4_Female_Trousers",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.878906
+      ]
+     }
+    },
+    "shoes": {
+     "Male": {
+      "geosets": [
+       "Feet_Boot"
+      ],
+      "tex": "Looks/T_L5_Male_Shoes",
+      "rect": [
+       0.496094,
+       0.688477,
+       1.0,
+       1.0
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Feet_Boot"
+      ],
+      "tex": "Looks/T_L5_Female_Shoes",
+      "rect": [
+       0.496094,
+       0.670898,
+       1.0,
+       1.0
+      ]
+     }
+    },
+    "coat": {
+     "Male": {
+      "geosets": [
+       "Torso_Bulky",
+       "Collar_Up"
+      ],
+      "tex": "Looks/T_E4_Male_Coat",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Torso_Bulky",
+       "Collar_Up"
+      ],
+      "tex": "Looks/T_E4_Female_Coat",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     }
+    },
+    "wrist": {
+     "Male": {
+      "geosets": [],
+      "tex": "Looks/T_E4_Male_Wrist",
+      "rect": [
+       0.250977,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [],
+      "tex": "Looks/T_E4_Female_Wrist",
+      "rect": [
+       0.251953,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     }
+    },
+    "gloves": {
+     "Male": {
+      "geosets": [
+       "Hands_Base"
+      ],
+      "tex": "Looks/T_C5_Male_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Hands_Base"
+      ],
+      "tex": "Looks/T_L5_Female_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     }
+    },
+    "belt": {
+     "Male": {
+      "geosets": [
+       "Belt_Heavy"
+      ],
+      "tex": "Looks/T_E4_Male_Belt",
+      "rect": [
+       0.496094,
+       0.329102,
+       1.0,
+       0.378906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Belt_Heavy"
+      ],
+      "tex": "Looks/T_C5_Female_Belt",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.357422
+      ]
+     }
+    }
+   },
+   "hat": {
+    "Male": {
+     "mesh": "SM_Hat_E4",
+     "tex": "Hats/T_Hat_E4",
+     "hides_top": true
+    },
+    "Female": {
+     "mesh": "SM_Hat_E4",
+     "tex": "Hats/T_Hat_E4",
+     "hides_top": true
+    }
+   }
+  },
+  "E5": {
+   "name": "Pyrotechnician",
+   "type": "padded",
+   "tier": 6,
+   "slots": {
+    "shirt": {
+     "Male": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_E5_Male_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_E5_Female_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     }
+    },
+    "trousers": {
+     "Male": {
+      "geosets": [
+       "Legs_Base"
+      ],
+      "tex": "Looks/T_E5_Male_Trousers",
+      "rect": [
+       0.496094,
+       0.326172,
+       1.0,
+       0.878906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Legs_Base"
+      ],
+      "tex": "Looks/T_E5_Female_Trousers",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.878906
+      ]
+     }
+    },
+    "shoes": {
+     "Male": {
+      "geosets": [
+       "Feet_Boot"
+      ],
+      "tex": "Looks/T_L5_Male_Shoes",
+      "rect": [
+       0.496094,
+       0.688477,
+       1.0,
+       1.0
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Feet_Boot"
+      ],
+      "tex": "Looks/T_L5_Female_Shoes",
+      "rect": [
+       0.496094,
+       0.670898,
+       1.0,
+       1.0
+      ]
+     }
+    },
+    "coat": {
+     "Male": {
+      "geosets": [
+       "Torso_Bulky",
+       "Collar_Up"
+      ],
+      "tex": "Looks/T_E5_Male_Coat",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Torso_Bulky",
+       "Collar_Up"
+      ],
+      "tex": "Looks/T_E5_Female_Coat",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     }
+    },
+    "wrist": {
+     "Male": {
+      "geosets": [],
+      "tex": "Looks/T_E5_Male_Wrist",
+      "rect": [
+       0.250977,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [],
+      "tex": "Looks/T_E5_Female_Wrist",
+      "rect": [
+       0.251953,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     }
+    },
+    "gloves": {
+     "Male": {
+      "geosets": [
+       "Hands_Base"
+      ],
+      "tex": "Looks/T_C5_Male_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Hands_Base"
+      ],
+      "tex": "Looks/T_L5_Female_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     }
+    },
+    "belt": {
+     "Male": {
+      "geosets": [
+       "Belt_Heavy"
+      ],
+      "tex": "Looks/T_E5_Male_Belt",
+      "rect": [
+       0.496094,
+       0.329102,
+       1.0,
+       0.378906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Belt_Heavy"
+      ],
+      "tex": "Looks/T_C5_Female_Belt",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.357422
+      ]
+     }
+    }
+   },
+   "hat": {
+    "Male": {
+     "mesh": "SM_Hat_E5",
+     "tex": "Hats/T_Hat_E5",
+     "hides_top": true
+    },
+    "Female": {
+     "mesh": "SM_Hat_E5",
+     "tex": "Hats/T_Hat_E5",
+     "hides_top": true
+    }
+   }
+  },
+  "E6": {
+   "name": "Red Cross Matron",
+   "type": "cloth",
+   "tier": 6,
+   "slots": {
+    "shirt": {
+     "Male": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_E6_Male_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_E6_Female_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     }
+    },
+    "trousers": {
+     "Male": {
+      "geosets": [
+       "Legs_Base"
+      ],
+      "tex": "Looks/T_E6_Male_Trousers",
+      "rect": [
+       0.496094,
+       0.326172,
+       1.0,
+       0.878906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Legs_Skirt"
+      ],
+      "tex": "Looks/T_E6_Female_Trousers",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.878906
+      ]
+     }
+    },
+    "shoes": {
+     "Male": {
+      "geosets": [
+       "Feet_Base"
+      ],
+      "tex": "Looks/T_C5_Male_Shoes",
+      "rect": [
+       0.496094,
+       0.825195,
+       1.0,
+       1.0
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Feet_Base"
+      ],
+      "tex": "Looks/T_C5_Female_Shoes",
+      "rect": [
+       0.496094,
+       0.828125,
+       1.0,
+       1.0
+      ]
+     }
+    },
+    "coat": {
+     "Male": {
+      "geosets": [
+       "Collar_Up"
+      ],
+      "tex": "Looks/T_E6_Male_Coat",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Collar_Up"
+      ],
+      "tex": "Looks/T_E6_Female_Coat",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     }
+    },
+    "wrist": {
+     "Male": {
+      "geosets": [],
+      "tex": "Looks/T_E6_Male_Wrist",
+      "rect": [
+       0.250977,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [],
+      "tex": "Looks/T_E6_Female_Wrist",
+      "rect": [
+       0.251953,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     }
+    },
+    "gloves": {
+     "Male": {
+      "geosets": [
+       "Hands_Base"
+      ],
+      "tex": "Looks/T_C5_Male_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Hands_Base"
+      ],
+      "tex": "Looks/T_L5_Female_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     }
+    },
+    "belt": {
+     "Male": {
+      "geosets": [],
+      "tex": "Looks/T_E6_Male_Belt",
+      "rect": [
+       0.496094,
+       0.329102,
+       1.0,
+       0.378906
+      ]
+     },
+     "Female": {
+      "geosets": [],
+      "tex": "Looks/T_C5_Female_Belt",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.357422
+      ]
+     }
+    }
+   },
+   "hat": {
+    "Male": {
+     "mesh": "SM_Hat_E6",
+     "tex": "Hats/T_Hat_E6",
+     "hides_top": true
+    },
+    "Female": {
+     "mesh": "SM_Hat_E6",
+     "tex": "Hats/T_Hat_E6",
+     "hides_top": true
+    }
+   }
+  },
+  "E7": {
+   "name": "Revival Tent",
+   "type": "cloth",
+   "tier": 6,
+   "slots": {
+    "shirt": {
+     "Male": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_E7_Male_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_E7_Female_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     }
+    },
+    "trousers": {
+     "Male": {
+      "geosets": [
+       "Legs_Base"
+      ],
+      "tex": "Looks/T_E7_Male_Trousers",
+      "rect": [
+       0.496094,
+       0.326172,
+       1.0,
+       0.878906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Legs_Skirt"
+      ],
+      "tex": "Looks/T_E7_Female_Trousers",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.878906
+      ]
+     }
+    },
+    "shoes": {
+     "Male": {
+      "geosets": [
+       "Feet_Base"
+      ],
+      "tex": "Looks/T_C5_Male_Shoes",
+      "rect": [
+       0.496094,
+       0.825195,
+       1.0,
+       1.0
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Feet_Base"
+      ],
+      "tex": "Looks/T_C5_Female_Shoes",
+      "rect": [
+       0.496094,
+       0.828125,
+       1.0,
+       1.0
+      ]
+     }
+    },
+    "coat": {
+     "Male": {
+      "geosets": [
+       "Coat_Long",
+       "Collar_Up"
+      ],
+      "tex": "Looks/T_E7_Male_Coat",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.628906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Coat_Long",
+       "Collar_Up"
+      ],
+      "tex": "Looks/T_E7_Female_Coat",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.628906
+      ]
+     }
+    },
+    "wrist": {
+     "Male": {
+      "geosets": [],
+      "tex": "Looks/T_E7_Male_Wrist",
+      "rect": [
+       0.250977,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [],
+      "tex": "Looks/T_E7_Female_Wrist",
+      "rect": [
+       0.251953,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     }
+    },
+    "gloves": {
+     "Male": {
+      "geosets": [
+       "Hands_Base"
+      ],
+      "tex": "Looks/T_C5_Male_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Hands_Base"
+      ],
+      "tex": "Looks/T_L5_Female_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     }
+    },
+    "belt": {
+     "Male": {
+      "geosets": [],
+      "tex": "Looks/T_E7_Male_Belt",
+      "rect": [
+       0.496094,
+       0.329102,
+       1.0,
+       0.378906
+      ]
+     },
+     "Female": {
+      "geosets": [],
+      "tex": "Looks/T_C5_Female_Belt",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.357422
+      ]
+     }
+    }
+   },
+   "hat": {
+    "Male": {
+     "mesh": "SM_Hat_E7",
+     "tex": "Hats/T_Hat_E7",
+     "hides_top": true
+    },
+    "Female": {
+     "mesh": "SM_Hat_E7",
+     "tex": "Hats/T_Hat_E7",
+     "hides_top": true
+    }
+   }
+  },
+  "E8": {
+   "name": "Studio Grip",
+   "type": "padded",
+   "tier": 6,
+   "slots": {
+    "shirt": {
+     "Male": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_E8_Male_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Torso_Base"
+      ],
+      "tex": "Looks/T_E8_Female_Shirt",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     }
+    },
+    "trousers": {
+     "Male": {
+      "geosets": [
+       "Legs_Base"
+      ],
+      "tex": "Looks/T_E8_Male_Trousers",
+      "rect": [
+       0.496094,
+       0.326172,
+       1.0,
+       0.878906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Legs_Base"
+      ],
+      "tex": "Looks/T_E8_Female_Trousers",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.878906
+      ]
+     }
+    },
+    "shoes": {
+     "Male": {
+      "geosets": [
+       "Feet_Boot"
+      ],
+      "tex": "Looks/T_L5_Male_Shoes",
+      "rect": [
+       0.496094,
+       0.688477,
+       1.0,
+       1.0
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Feet_Boot"
+      ],
+      "tex": "Looks/T_L5_Female_Shoes",
+      "rect": [
+       0.496094,
+       0.670898,
+       1.0,
+       1.0
+      ]
+     }
+    },
+    "coat": {
+     "Male": {
+      "geosets": [
+       "Collar_Up"
+      ],
+      "tex": "Looks/T_E8_Male_Coat",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Collar_Up"
+      ],
+      "tex": "Looks/T_E8_Female_Coat",
+      "rect": [
+       0.0,
+       0.0,
+       1.0,
+       0.503906
+      ]
+     }
+    },
+    "wrist": {
+     "Male": {
+      "geosets": [],
+      "tex": "Looks/T_E8_Male_Wrist",
+      "rect": [
+       0.250977,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     },
+     "Female": {
+      "geosets": [],
+      "tex": "Looks/T_E8_Female_Wrist",
+      "rect": [
+       0.251953,
+       0.246094,
+       0.503906,
+       0.503906
+      ]
+     }
+    },
+    "gloves": {
+     "Male": {
+      "geosets": [
+       "Hands_Base"
+      ],
+      "tex": "Looks/T_C5_Male_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Hands_Base"
+      ],
+      "tex": "Looks/T_L5_Female_Gloves",
+      "rect": [
+       0.0,
+       0.246094,
+       0.503906,
+       0.628906
+      ]
+     }
+    },
+    "belt": {
+     "Male": {
+      "geosets": [
+       "Belt_Heavy"
+      ],
+      "tex": "Looks/T_E8_Male_Belt",
+      "rect": [
+       0.496094,
+       0.329102,
+       1.0,
+       0.378906
+      ]
+     },
+     "Female": {
+      "geosets": [
+       "Belt_Heavy"
+      ],
+      "tex": "Looks/T_C5_Female_Belt",
+      "rect": [
+       0.496094,
+       0.296875,
+       1.0,
+       0.357422
+      ]
+     }
+    }
+   },
+   "hat": {
+    "Male": {
+     "mesh": "SM_Hat_E8",
+     "tex": "Hats/T_Hat_E8",
+     "hides_top": true
+    },
+    "Female": {
+     "mesh": "SM_Hat_E8",
+     "tex": "Hats/T_Hat_E8",
+     "hides_top": true
+    }
+   }
+  }
+ },
+ "hats": {},
+ "held": {
+  "Pocketknife": {
+   "name": "Pocketknife",
+   "type": "knife",
+   "mesh": "SM_Wpn_Pocketknife",
+   "tex": "Held/T_Wpn_Pocketknife",
+   "hand": "right",
+   "grip_l": null
+  },
+  "StraightRazor": {
+   "name": "Straight Razor",
+   "type": "knife",
+   "mesh": "SM_Wpn_StraightRazor",
+   "tex": "Held/T_Wpn_StraightRazor",
+   "hand": "right",
+   "grip_l": null
+  },
+  "HuntingKnife": {
+   "name": "Hunting Knife",
+   "type": "knife",
+   "mesh": "SM_Wpn_HuntingKnife",
+   "tex": "Held/T_Wpn_HuntingKnife",
+   "hand": "right",
+   "grip_l": null
+  },
+  "M1905Bayonet": {
+   "name": "M1905 Bayonet",
+   "type": "knife",
+   "mesh": "SM_Wpn_M1905Bayonet",
+   "tex": "Held/T_Wpn_HuntingKnife",
+   "hand": "right",
+   "grip_l": null
+  },
+  "TrenchKnife": {
+   "name": "Trench Knife",
+   "type": "knife",
+   "mesh": "SM_Wpn_TrenchKnife",
+   "tex": "Held/T_Wpn_HuntingKnife",
+   "hand": "right",
+   "grip_l": null
+  },
+  "TapedKnuckles": {
+   "name": "Taped Knuckles",
+   "type": "fist",
+   "mesh": "SM_Wpn_TapedKnuckles",
+   "tex": "Held/T_Wpn_TapedKnuckles",
+   "hand": "right",
+   "grip_l": null
+  },
+  "BrassKnuckles": {
+   "name": "Brass Knuckles",
+   "type": "fist",
+   "mesh": "SM_Wpn_BrassKnuckles",
+   "tex": "Held/T_Wpn_HuntingKnife",
+   "hand": "right",
+   "grip_l": null
+  },
+  "WeightedGloves": {
+   "name": "Weighted Gloves",
+   "type": "fist",
+   "mesh": "SM_Wpn_WeightedGloves",
+   "tex": "Held/T_Wpn_StraightRazor",
+   "hand": "right",
+   "grip_l": null
+  },
+  "Cane": {
+   "name": "Cane",
+   "type": "club",
+   "mesh": "SM_Wpn_Cane",
+   "tex": "Held/T_Wpn_Cane",
+   "hand": "right",
+   "grip_l": null
+  },
+  "Blackjack": {
+   "name": "Blackjack",
+   "type": "club",
+   "mesh": "SM_Wpn_Blackjack",
+   "tex": "Held/T_Wpn_StraightRazor",
+   "hand": "right",
+   "grip_l": null
+  },
+  "PoliceNightstick": {
+   "name": "Police Nightstick",
+   "type": "club",
+   "mesh": "SM_Wpn_PoliceNightstick",
+   "tex": "Held/T_Wpn_PoliceNightstick",
+   "hand": "right",
+   "grip_l": null
+  },
+  "LouisvilleSlugger": {
+   "name": "Louisville Slugger",
+   "type": "club",
+   "mesh": "SM_Wpn_LouisvilleSlugger",
+   "tex": "Held/T_Wpn_LouisvilleSlugger",
+   "hand": "right",
+   "grip_l": null
+  },
+  "PipeWrench": {
+   "name": "Pipe Wrench",
+   "type": "tool",
+   "mesh": "SM_Wpn_PipeWrench",
+   "tex": "Held/T_Wpn_PipeWrench",
+   "hand": "right",
+   "grip_l": null
+  },
+  "Crowbar": {
+   "name": "Crowbar",
+   "type": "tool",
+   "mesh": "SM_Wpn_Crowbar",
+   "tex": "Held/T_Wpn_Crowbar",
+   "hand": "right",
+   "grip_l": null
+  },
+  "Hatchet": {
+   "name": "Hatchet",
+   "type": "tool",
+   "mesh": "SM_Wpn_Hatchet",
+   "tex": "Held/T_Wpn_Hatchet",
+   "hand": "right",
+   "grip_l": null
+  },
+  "LinemansWrench": {
+   "name": "Lineman's Wrench",
+   "type": "tool",
+   "mesh": "SM_Wpn_LinemansWrench",
+   "tex": "Held/T_Wpn_LinemansWrench",
+   "hand": "right",
+   "grip_l": null
+  },
+  "PropFencingSabre": {
+   "name": "Prop Fencing Sabre",
+   "type": "sabre",
+   "mesh": "SM_Wpn_PropFencingSabre",
+   "tex": "Held/T_Wpn_PropFencingSabre",
+   "hand": "right",
+   "grip_l": null
+  },
+  "M1913CavalrySabre": {
+   "name": "M1913 Cavalry Sabre",
+   "type": "sabre",
+   "mesh": "SM_Wpn_M1913CavalrySabre",
+   "tex": "Held/T_Wpn_M1913CavalrySabre",
+   "hand": "right",
+   "grip_l": null
+  },
+  "TrenchShovel": {
+   "name": "Trench Shovel",
+   "type": "heavy",
+   "mesh": "SM_Wpn_TrenchShovel",
+   "tex": "Held/T_Wpn_TrenchShovel",
+   "hand": "right",
+   "grip_l": [
+    33.005001068115234,
+    0.0,
+    -1.9919832944869995
+   ]
+  },
+  "Pickaxe": {
+   "name": "Pickaxe",
+   "type": "heavy",
+   "mesh": "SM_Wpn_Pickaxe",
+   "tex": "Held/T_Wpn_Pickaxe",
+   "hand": "right",
+   "grip_l": [
+    42.435001373291016,
+    0.0,
+    0.0
+   ]
+  },
+  "FireAxe": {
+   "name": "Fire Axe",
+   "type": "heavy",
+   "mesh": "SM_Wpn_FireAxe",
+   "tex": "Held/T_Wpn_FireAxe",
+   "hand": "right",
+   "grip_l": [
+    42.90650177001953,
+    0.0,
+    1.327250361442566
+   ]
+  },
+  "Sledgehammer": {
+   "name": "Sledgehammer",
+   "type": "heavy",
+   "mesh": "SM_Wpn_Sledgehammer",
+   "tex": "Held/T_Wpn_Sledgehammer",
+   "hand": "right",
+   "grip_l": [
+    42.90650177001953,
+    0.0,
+    -0.9309331178665161
+   ]
+  },
+  "ColtPolicePositive": {
+   "name": "Colt Police Positive",
+   "type": "revolver",
+   "mesh": "SM_Wpn_ColtPolicePositive",
+   "tex": "Held/T_Wpn_ColtPolicePositive",
+   "hand": "right",
+   "grip_l": null
+  },
+  "SmithAndWesson38MilitaryAndPolice": {
+   "name": "Smith & Wesson .38 Military & Police",
+   "type": "revolver",
+   "mesh": "SM_Wpn_SmithAndWesson38MilitaryAndPolice",
+   "tex": "Held/T_Wpn_SmithAndWesson38MilitaryAndPolice",
+   "hand": "right",
+   "grip_l": null
+  },
+  "ColtSingleActionArmy": {
+   "name": "Colt Single Action Army",
+   "type": "revolver",
+   "mesh": "SM_Wpn_ColtSingleActionArmy",
+   "tex": "Held/T_Wpn_ColtSingleActionArmy",
+   "hand": "right",
+   "grip_l": null
+  },
+  "ColtM1911": {
+   "name": "Colt M1911",
+   "type": "pistol",
+   "mesh": "SM_Wpn_ColtM1911",
+   "tex": "Held/T_Wpn_ColtM1911",
+   "hand": "right",
+   "grip_l": null
+  },
+  "WinchesterModel1894": {
+   "name": "Winchester Model 1894",
+   "type": "rifle",
+   "mesh": "SM_Wpn_WinchesterModel1894",
+   "tex": "Held/T_Wpn_WinchesterModel1894",
+   "hand": "right",
+   "grip_l": [
+    32.18274688720703,
+    0.0,
+    12.457870483398438
+   ]
+  },
+  "RemingtonModel8": {
+   "name": "Remington Model 8",
+   "type": "rifle",
+   "mesh": "SM_Wpn_RemingtonModel8",
+   "tex": "Held/T_Wpn_RemingtonModel8",
+   "hand": "right",
+   "grip_l": [
+    34.683998107910156,
+    0.0,
+    10.774592399597168
+   ]
+  },
+  "SpringfieldM1903": {
+   "name": "Springfield M1903",
+   "type": "rifle",
+   "mesh": "SM_Wpn_SpringfieldM1903",
+   "tex": "Held/T_Wpn_SpringfieldM1903",
+   "hand": "right",
+   "grip_l": [
+    36.685001373291016,
+    0.0,
+    5.762359619140625
+   ]
+  },
+  "WinchesterModel1897": {
+   "name": "Winchester Model 1897",
+   "type": "shotgun",
+   "mesh": "SM_Wpn_WinchesterModel1897",
+   "tex": "Held/T_Wpn_WinchesterModel1897",
+   "hand": "right",
+   "grip_l": [
+    33.883602142333984,
+    0.0,
+    2.94922137260437
+   ]
+  },
+  "RemingtonModel11": {
+   "name": "Remington Model 11",
+   "type": "shotgun",
+   "mesh": "SM_Wpn_RemingtonModel11",
+   "tex": "Held/T_Wpn_RemingtonModel11",
+   "hand": "right",
+   "grip_l": [
+    33.35000228881836,
+    0.0,
+    7.947317123413086
+   ]
+  },
+  "ThompsonM1928": {
+   "name": "Thompson M1928",
+   "type": "smg",
+   "mesh": "SM_Wpn_ThompsonM1928",
+   "tex": "Held/T_Wpn_ThompsonM1928",
+   "hand": "right",
+   "grip_l": [
+    23.736000061035156,
+    0.0,
+    7.177002429962158
+   ]
+  },
+  "TrashCanLid": {
+   "name": "Trash Can Lid",
+   "type": "shield",
+   "mesh": "SM_Wpn_TrashCanLid",
+   "tex": "Held/T_Wpn_HuntingKnife",
+   "hand": "left",
+   "grip_l": null
+  },
+  "RiotShield": {
+   "name": "Riot Shield",
+   "type": "shield",
+   "mesh": "SM_Wpn_RiotShield",
+   "tex": "Held/T_Wpn_HuntingKnife",
+   "hand": "left",
+   "grip_l": null
+  },
+  "WorkLamp": {
+   "name": "Work Lamp",
+   "type": "lamp",
+   "mesh": "SM_Wpn_WorkLamp",
+   "tex": "Held/T_Wpn_WorkLamp",
+   "hand": "left",
+   "grip_l": null,
+   "glow": true
+  },
+  "CarbideLamp": {
+   "name": "Carbide Lamp",
+   "type": "lamp",
+   "mesh": "SM_Wpn_CarbideLamp",
+   "tex": "Held/T_Wpn_WorkLamp",
+   "hand": "left",
+   "grip_l": null,
+   "glow": true
+  },
+  "ArcLamp": {
+   "name": "Arc Lamp",
+   "type": "lamp",
+   "mesh": "SM_Wpn_ArcLamp",
+   "tex": "Held/T_Wpn_WorkLamp",
+   "hand": "left",
+   "grip_l": null,
+   "glow": true
+  },
+  "MedicalBag": {
+   "name": "Medical Bag",
+   "type": "bag",
+   "mesh": "SM_Wpn_MedicalBag",
+   "tex": "Held/T_Wpn_MedicalBag",
+   "hand": "right",
+   "grip_l": null
+  },
+  "JohnsonAndJohnsonFirstAidKit": {
+   "name": "Johnson & Johnson First Aid Kit",
+   "type": "bag",
+   "mesh": "SM_Wpn_JohnsonAndJohnsonFirstAidKit",
+   "tex": "Held/T_Wpn_JohnsonAndJohnsonFirstAidKit",
+   "hand": "right",
+   "grip_l": null
+  },
+  "PocketTestament": {
+   "name": "Pocket Testament",
+   "type": "bible",
+   "mesh": "SM_Wpn_PocketTestament",
+   "tex": "Held/T_Wpn_PocketTestament",
+   "hand": "right",
+   "grip_l": null
+  },
+  "FamilyBible": {
+   "name": "Family Bible",
+   "type": "bible",
+   "mesh": "SM_Wpn_FamilyBible",
+   "tex": "Held/T_Wpn_PocketTestament",
+   "hand": "right",
+   "grip_l": null
+  }
+ },
+ "slots": [
+  "shirt",
+  "trousers",
+  "shoes",
+  "coat",
+  "wrist",
+  "gloves",
+  "belt"
+ ],
+ "starter_colours": [
+  {
+   "primary": "#7a3b2e",
+   "secondary": "#d8c8a0"
+  },
+  {
+   "primary": "#244c47",
+   "secondary": "#d9c49c"
+  },
+  {
+   "primary": "#344653",
+   "secondary": "#b7b1a4"
+  },
+  {
+   "primary": "#765326",
+   "secondary": "#e0cfab"
+  },
+  {
+   "primary": "#4d3855",
+   "secondary": "#c2b7a3"
+  },
+  {
+   "primary": "#596044",
+   "secondary": "#d8c798"
+  },
+  {
+   "primary": "#243d50",
+   "secondary": "#b4844f"
+  },
+  {
+   "primary": "#625649",
+   "secondary": "#c9b9a2"
+  }
+ ],
+ "hat_anchor": {
+  "Male": [
+   -5.30957890987338e-07,
+   20.13680648803711,
+   -0.9530510902404785
+  ],
+  "Female": [
+   -3.149197596030717e-07,
+   18.822385787963867,
+   -1.6221532821655273
+  ]
+ },
+ "height": {
+  "Male": 185,
+  "Female": 172
+ }
+}

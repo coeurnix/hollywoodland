@@ -220,7 +220,7 @@ void FHLGame::SimGatherBrain(FHLSim& S, FHLUnit& U)
 		if (!MoveTo(U, O.Def->Pos, 1.8f)) return;
 		StopMove(U); FaceTo(U, O.Def->Pos);
 		S.GatherEnd = Now + (O.Def->bUse ? 2.5f : 1.5f) + Rand() * 0.6f;
-		if (O.Def->bUse) U.HopT = 0.3f; else U.bSitting = true; // kneel to pick it up
+		if (O.Def->bUse) Gesture(U, TEXT("Loot")); else U.bSitting = true; // kneel to pick it up
 		return;
 	}
 	if (Now < S.GatherEnd) return;
@@ -354,7 +354,7 @@ void FHLGame::TickHappenings()
 	}
 	case 2: // dance: hop about, the odd emote
 	{
-		for (int32 SI : Happen.Sims) { FHLUnit* U = nullptr; if (Arrived(SI, U)) { if (Chance(0.5f)) U->HopT = 0.45f; if (Chance(0.15f)) U->Yaw += Rand() * 180 - 90; } }
+		for (int32 SI : Happen.Sims) { FHLUnit* U = nullptr; if (Arrived(SI, U)) { if (U->Gesture != TEXT("Dance") || Chance(0.04f)) Gesture(*U, Chance(0.85f) ? TEXT("Dance") : TEXT("Cheer")); if (Chance(0.15f)) U->Yaw += Rand() * 180 - 90; } }
 		if (bNear && Chance(0.08f))
 		{
 			const int32 SI = Happen.Sims[RandInt(0, Happen.Sims.Num() - 1)], SJ = Happen.Sims[RandInt(0, Happen.Sims.Num() - 1)];
@@ -704,7 +704,7 @@ void FHLGame::TickFightNight()
 			return;
 		}
 		DealDamage(Att, *Def2, Hit, TEXT("physical"), Chance(0.15f), TEXT("punch"));
-		if (bNear && Chance(0.15f) && F.Watchers.Num()) { static const TCHAR* Cheer[] = { TEXT("cheers."), TEXT("whistles."), TEXT("shouts encouragement."), TEXT("winces.") }; AddChat(TEXT("emote"), FString(), Sims[F.Watchers[RandInt(0, F.Watchers.Num() - 1)]].P->Handle + TEXT(" ") + Cheer[RandInt(0, 3)]); }
+		if (bNear && Chance(0.15f) && F.Watchers.Num()) { static const TCHAR* Cheer[] = { TEXT("cheers."), TEXT("whistles."), TEXT("shouts encouragement."), TEXT("winces.") }; { const int32 W = F.Watchers[RandInt(0, F.Watchers.Num() - 1)]; const int32 Ci = RandInt(0, 3); AddChat(TEXT("emote"), FString(), Sims[W].P->Handle + TEXT(" ") + Cheer[Ci]); if (FHLUnit* Wu = Unit(Sims[W].UnitId)) Gesture(*Wu, Ci == 3 ? TEXT("Shrug") : TEXT("Cheer")); } }
 		return;
 	}
 	if (F.Stage == 2)

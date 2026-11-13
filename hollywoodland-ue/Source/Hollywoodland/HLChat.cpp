@@ -245,10 +245,14 @@ void FHLGame::PlayerChat(const FString& Raw)
 		else if (Cmd == TEXT("/roll")) { AddChat(TEXT("system"), FString(), FString::Printf(TEXT("%s rolls %d (1-100)"), *Player.Name, RandInt(1, 100))); return; }
 		else if (Cmd == TEXT("/played")) { System(FString::Printf(TEXT("Total time played: %d minutes."), (int32)(Player.PlayedS / 60))); return; }
 		else if (Cmd == TEXT("/sit")) { if (P) P->bSitting = !P->bSitting; return; }
-		else if (Cmd == TEXT("/dance") || Cmd == TEXT("/wave") || Cmd == TEXT("/cheer") || Cmd == TEXT("/laugh"))
+		else if (Cmd == TEXT("/dance") || Cmd == TEXT("/wave") || Cmd == TEXT("/cheer") || Cmd == TEXT("/laugh") || Cmd == TEXT("/bow") || Cmd == TEXT("/point") || Cmd == TEXT("/shrug"))
 		{
-			AddChat(TEXT("emote"), FString(), FString::Printf(TEXT("%s %ss."), *Player.Name, *Cmd.Mid(1)));
-			if (P) P->HopT = 0.5f;
+			const FString Verb = Cmd.Mid(1);
+			const FHLUnit* T = P ? Unit(P->TargetId) : nullptr;
+			if (T && T != P && (Verb == TEXT("wave") || Verb == TEXT("bow") || Verb == TEXT("point") || Verb == TEXT("laugh")))
+				AddChat(TEXT("emote"), FString(), FString::Printf(TEXT("%s %s%s %s."), *Player.Name, *Verb, Verb == TEXT("bow") ? TEXT("s before") : TEXT("s at"), *T->Name));
+			else AddChat(TEXT("emote"), FString(), FString::Printf(TEXT("%s %ss."), *Player.Name, *Verb));
+			if (P) { P->bSitting = false; FString Clip = Verb; Clip[0] = FChar::ToUpper(Clip[0]); Gesture(*P, *Clip); }
 			return;
 		}
 		else if (Cmd == TEXT("/music"))
@@ -265,7 +269,7 @@ void FHLGame::PlayerChat(const FString& Raw)
 		}
 		else if (Cmd == TEXT("/help") || Cmd == TEXT("/?"))
 		{
-			System(TEXT("Chat: /s say, /y yell, /1 general, /2 trade, /4 lfg, /p party, /g guild, /w <name> <text>, /r reply. Other: /who, /gquit, /invite <name>, /friend <name>, /unfriend <name>, /duel <name>, /leave, /roll, /sit, /dance, /played, /music."));
+			System(TEXT("Chat: /s say, /y yell, /1 general, /2 trade, /4 lfg, /p party, /g guild, /w <name> <text>, /r reply. Other: /who, /gquit, /invite <name>, /friend <name>, /unfriend <name>, /duel <name>, /leave, /roll, /sit, /dance, /wave, /bow, /cheer, /laugh, /point, /shrug, /played, /music."));
 			System(TEXT("Keys: WASD move, right-drag turn, Tab target, 1-0 abilities, right-click interact, C character, B bags, L quests, M map, P abilities, O who, N talents, Esc close."));
 			return;
 		}
@@ -462,7 +466,15 @@ void FHLGame::ApplyWorkerActions(const TSharedPtr<FJsonObject>& Resp, const FStr
 			AddChat(Ch, S.P->Handle, Text, SI, Delay);
 		}
 		FString Emote;
-		if (A->TryGetStringField(TEXT("emote"), Emote) && !Emote.IsEmpty()) if (FHLUnit* U = Unit(S.UnitId)) U->HopT = 0.5f;
+		if (A->TryGetStringField(TEXT("emote"), Emote) && !Emote.IsEmpty())
+			if (FHLUnit* U = Unit(S.UnitId))
+			{
+				const FString E = Emote.ToLower();
+				static const TCHAR* Keys[][2] = { { TEXT("danc"), TEXT("Dance") }, { TEXT("wave"), TEXT("Wave") }, { TEXT("cheer"), TEXT("Cheer") }, { TEXT("clap"), TEXT("Cheer") }, { TEXT("laugh"), TEXT("Laugh") }, { TEXT("chuckl"), TEXT("Laugh") }, { TEXT("bow"), TEXT("Bow") }, { TEXT("point"), TEXT("Point") }, { TEXT("shrug"), TEXT("Shrug") } };
+				const TCHAR* Clip = TEXT("Talk");
+				for (const auto& K : Keys) if (E.Contains(K[0])) { Clip = K[1]; break; }
+				Gesture(*U, Clip);
+			}
 		// goals the model may set (allowed: GROUP, FOLLOW, IDLE); the game decides whether they are possible
 		const TSharedPtr<FJsonObject>* GoalObj = nullptr;
 		if (A->TryGetObjectField(TEXT("goal"), GoalObj) && GoalObj->IsValid())

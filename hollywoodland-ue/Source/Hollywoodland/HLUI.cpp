@@ -15,6 +15,7 @@
 #include "Misc/FileHelper.h"
 #include "ImageUtils.h"
 #include "Engine/Texture2D.h"
+#include "Engine/TextureRenderTarget2D.h"
 #include "Dom/JsonObject.h"
 #include "Serialization/JsonReader.h"
 #include "Serialization/JsonSerializer.h"
@@ -452,6 +453,74 @@ int32 SHLGameUI::OnPaint(const FPaintArgs& Args, const FGeometry& Geo, const FSl
 	return Layer + 1;
 }
 
+void SHLGameUI::DrawPreview(float X, float Y, float W, float H, const FHLCharLook& L, const FString& Clip) const
+{
+	// a drag that started on the figure turns it
+	const bool bFromHere = DownPos.X >= X && DownPos.X < X + W && DownPos.Y >= Y && DownPos.Y < Y + H;
+	if (bLDown && bFromHere)
+	{
+		if (bPreviewDrag) PreviewYaw += (Mouse.X - PreviewLastX) * 1.2f;
+		bPreviewDrag = true; PreviewLastX = Mouse.X;
+	}
+	else bPreviewDrag = false;
+	Rc(X - 1, Y - 1, W + 2, H + 2, FLinearColor(0.55f, 0.45f, 0.25f));
+	Rc(X, Y, W, H, FLinearColor(0.16f, 0.13f, 0.1f));
+	UTextureRenderTarget2D* RT = World ? World->Preview(L, PreviewYaw, Clip) : nullptr;
+	if (!RT) { TxC(X + W * 0.5f, Y + H * 0.5f - 8, TEXT("(character art not loaded)"), 10, ColDim); return; }
+	if (!PreviewBrush.IsValid() || PreviewBrush->GetResourceObject() != RT)
+	{
+		PreviewBrush = MakeShared<FSlateBrush>();
+		PreviewBrush->SetResourceObject(RT);
+		PreviewBrush->ImageSize = FVector2D(RT->SizeX, RT->SizeY);
+		PreviewBrush->DrawAs = ESlateBrushDrawType::Image;
+	}
+	++Layer; LastKind = 1;
+	// the capture's alpha is not coverage: draw it opaque
+	FSlateDrawElement::MakeBox(*DL, Layer, PGeo.ToPaintGeometry(FVector2f(W, H), FSlateLayoutTransform(Sc, FVector2f(X * Sc, Y * Sc))), PreviewBrush.Get(), ESlateDrawEffect::IgnoreTextureAlpha, FLinearColor::White);
+	if (Hover(X, Y, W, H) && !bPreviewDrag) TxC(X + W * 0.5f, Y + H - 18, TEXT("drag to turn"), 9, FLinearColor(1, 0.9f, 0.7f, 0.7f));
+}
+
+void SHLGameUI::DrawCreator(float X, float Y, float W) const
+{
+	FHLChars& C = FHLChars::Get();
+	if (!C.Ready()) return;
+	if (!bNewLookSet) { NewLook = FHLAppearance::FromSeed(FMath::Rand()); bNewLookSet = true; }
+	FHLAppearance& A = NewLook;
+	const FHLChars::FSex& Sx = C.Sexes[A.Sex & 1];
+	const float Pw = 210, Ph = 315;
+	TxC(X + W * 0.5f, Y, TEXT("Appearance"), 13, ColGold, true);
+	const TMap<FString, const FHLItem*> NoGear;
+	DrawPreview(X + (W - Pw) * 0.5f, Y + 24, Pw, Ph, C.LookFromGear(A, NoGear, false), TEXT("Idle"));
+	float Ry = Y + 24 + Ph + 10;
+	const float Bx = X + 96;
+	Tx(X + 6, Ry + 4, TEXT("Body"), 11, ColDim);
+	for (int32 s = 0; s < 2; ++s)
+	{
+		const float Sx0 = Bx + s * 108;
+		if (s == A.Sex) Rc(Sx0 - 2, Ry - 2, 104, 26, ColGold);
+		if (Btn(Sx0, Ry, 100, 22, s ? TEXT("Woman") : TEXT("Man"), true, 11) && A.Sex != s) A.Sex = s;
+	}
+	Ry += 28;
+	auto Step = [&](const TCHAR* Label, int32& V, int32 N, const FString& Shown, const FLinearColor* SwA = nullptr, const FLinearColor* SwB = nullptr)
+	{
+		if (N <= 0) return;
+		V = FMath::Clamp(V, 0, N - 1);
+		Tx(X + 6, Ry + 4, Label, 11, ColDim);
+		if (Btn(Bx, Ry, 24, 22, TEXT("<"), true, 12)) V = (V + N - 1) % N;
+		if (SwA && SwB) { Rc(Bx + 40, Ry + 3, 70, 16, *SwA); Rc(Bx + 114, Ry + 3, 70, 16, *SwB); }
+		else TxC(Bx + 106, Ry + 4, Shown, 11, ColWhite);
+		if (Btn(Bx + 188, Ry, 24, 22, TEXT(">"), true, 12)) V = (V + 1) % N;
+		Ry += 28;
+	};
+	Step(TEXT("Skin"), A.Skin, Sx.Skins.Num(), FHLChars::SkinNames().IsValidIndex(A.Skin) ? FHLChars::SkinNames()[A.Skin] : FString::Printf(TEXT("%d"), A.Skin + 1));
+	Step(TEXT("Face"), A.Face, Sx.Faces.Num(), FString::Printf(TEXT("%d of %d"), A.Face + 1, Sx.Faces.Num()));
+	Step(TEXT("Hair"), A.Hair, Sx.Hair.Num(), Sx.Hair.IsValidIndex(A.Hair) ? Sx.Hair[A.Hair].Name : FString());
+	Step(TEXT("Hair colour"), A.HairColor, FHLChars::HairColors().Num(), FHLChars::HairColorNames().IsValidIndex(A.HairColor) ? FHLChars::HairColorNames()[A.HairColor] : FString());
+	const int32 Dye = FMath::Clamp(A.Outfit, 0, FMath::Max(0, C.OutfitA.Num() - 1));
+	if (C.OutfitA.Num() && C.OutfitB.Num() == C.OutfitA.Num()) Step(TEXT("Clothes"), A.Outfit, C.OutfitA.Num(), FString(), &C.OutfitB[Dye], &C.OutfitA[Dye]); // shirt, then trousers
+	if (Btn(Bx, Ry + 2, 212, 24, TEXT("Surprise me"), true, 11)) A = FHLAppearance::FromSeed(FMath::Rand(), A.Sex);
+}
+
 void SHLGameUI::DrawTitle() const
 {
 	FHLGame& Gm = G();
@@ -466,8 +535,15 @@ void SHLGameUI::DrawTitle() const
 		if (const FSlateBrush* Hd = HLArtBrush(TEXT("ui_header"))) { const float Hw = 300, Hh = Hw * Hd->ImageSize.Y / FMath::Max(1.0, Hd->ImageSize.X); Img(VS.X * 0.5f - Hw * 0.5f, 104, Hw, Hh, Hd); }
 	}
 	const bool bArt = HLArtBrush(TEXT("ui_title")) != nullptr;
-	const float W = 760, H = 640, X = (VS.X - W) * 0.5f, Y = bArt ? FMath::Max(VS.Y - H - 30, 110.f) : (VS.Y - H) * 0.5f, Top = bArt ? 58 : 0;
-	Panel(X, Y + Top, W, H - Top, FLinearColor(0.03f, 0.03f, 0.04f, 0.9f));
+	// the new character's looks sit in a column to the right when the character art is in and there is room
+	const bool bCreator = FHLChars::Get().Ready() && VS.X >= 1110;
+	const float W = 760, H = 640, FullW = W + (bCreator ? 330 : 0), X = (VS.X - FullW) * 0.5f, Y = bArt ? FMath::Max(VS.Y - H - 30, 110.f) : (VS.Y - H) * 0.5f, Top = bArt ? 58 : 0;
+	Panel(X, Y + Top, FullW, H - Top, FLinearColor(0.03f, 0.03f, 0.04f, 0.9f));
+	if (bCreator && World->bSaveChecked)
+	{
+		Rc(X + W - 4, Y + Top + 14, 1, H - Top - 28, FLinearColor(0.55f, 0.45f, 0.25f, 0.5f));
+		DrawCreator(X + W + 4, Y + Top + 12, 310);
+	}
 	if (!HLArtBrush(TEXT("ui_title"))) TxC(X + W * 0.5f, Y + 16, TEXT("HOLLYWOODLAND"), 34, ColGold, true);
 	TxC(X + W * 0.5f, Y + 70, TEXT("Hollywood, autumn 1930. The dome is down. The studios belong to the hive."), 12, ColWhite);
 	Rc(X + 20, Y + 100, W - 40, 62, FLinearColor(0.12f, 0.1f, 0.03f));
@@ -542,6 +618,7 @@ void SHLGameUI::DrawTitle() const
 	{
 		FString Name = NameEntry.ToLower(); Name[0] = FChar::ToUpper(Name[0]);
 		Gm.NewCharacter(Name, &C);
+		if (bNewLookSet) Gm.Player.Look = NewLook;
 		if (FHLUnit* U = Gm.PlayerUnit()) { U->Level = 1; U->Pos = Gm.Areas[0].Def->Spawn; U->Area = 0; U->bDead = false; }
 		Gm.EnterWorld();
 	}
