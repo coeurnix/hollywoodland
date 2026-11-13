@@ -307,11 +307,12 @@ FReply SHLGameUI::OnKeyDown(const FGeometry& Geo, const FKeyEvent& E)
 	else if (K == EKeys::M) bMap = !bMap;
 	else if (K == EKeys::O) { bWho = !bWho; Gm.bWhoOpen = bWho; }
 	else if (K == EKeys::N) bTalents = !bTalents;
+	else if (K == EKeys::K) bCraft = !bCraft;
 	else if (K == EKeys::H) bHelp = !bHelp;
 	else if (K == EKeys::Escape)
 	{
 		if (Gm.OpenNpcUnitId || !Gm.OpenNpcMode.IsEmpty()) { Gm.OpenNpcUnitId = 0; Gm.OpenNpcMode.Reset(); }
-		else if (bChar || bBags || bQuests || bSpells || bMap || bWho || bInspect || bTalents || bHelp) { bChar = bBags = bQuests = bSpells = bMap = bWho = bInspect = bTalents = bHelp = false; Gm.bWhoOpen = false; }
+		else if (bChar || bBags || bQuests || bSpells || bMap || bWho || bInspect || bTalents || bHelp || bCraft) { bChar = bBags = bQuests = bSpells = bMap = bWho = bInspect = bTalents = bHelp = bCraft = false; Gm.bWhoOpen = false; }
 		else if (Gm.PlayerUnit() && Gm.PlayerUnit()->TargetId) Gm.TargetUnit(0);
 		else bMenu = !bMenu;
 	}
@@ -427,7 +428,7 @@ int32 SHLGameUI::OnPaint(const FPaintArgs& Args, const FGeometry& Geo, const FSl
 	if (GEngine && GEngine->GameViewport) { FVector2D V; GEngine->GameViewport->GetViewportSize(V); if (V.X > 0 && V.Y > 0) ViewPx = V; }
 	UiRectsNext.Reset(); Picks.Reset(); TipItem = nullptr; TipText.Reset();
 	FHLGame& Gm = G();
-	{ static bool bOnce = false; if (!bOnce && Gm.bInWorld) { bOnce = true; if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenBags"))) { bBags = true; bChar = true; } if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenTalents"))) bTalents = true; if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenSpells"))) bSpells = true; if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenFriends"))) { bWho = true; WhoTab = 1; }
+	{ static bool bOnce = false; if (!bOnce && Gm.bInWorld) { bOnce = true; if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenBags"))) { bBags = true; bChar = true; } if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenTalents"))) bTalents = true; if (FParse::Param(FCommandLine::Get(), TEXT("HLCraftTest"))) bCraft = true; if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenSpells"))) bSpells = true; if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenFriends"))) { bWho = true; WhoTab = 1; }
 		if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenAuction"))) for (const FHLUnit* N : Gm.UnitList) if (N->Npc && N->Npc->HasRole(TEXT("auctioneer"))) { Gm.OpenNpcUnitId = N->Id; Gm.OpenNpcMode = TEXT("auction"); AuctionSearch = TEXT("boots"); break; } } } // screenshot checks
 	if (!Gm.Areas.Num()) { Tx(40, 40, TEXT("Hollywoodland failed to load its data: ") + World->LoadError, 14, ColRed); return Layer; }
 	if (!Gm.bInWorld) DrawTitle();
@@ -753,6 +754,11 @@ void SHLGameUI::DrawHud() const
 	// cast / interaction bar
 	if (P->Casting) Bar(VS.X * 0.5f - 130, VS.Y - 150, 260, 18, (Gm.Now - P->CastStart) / FMath::Max(0.1f, P->CastEnd - P->CastStart), FLinearColor(0.9f, 0.7f, 0.1f), P->Casting->Name, 10);
 	else if (Gm.InteractObj >= 0) Bar(VS.X * 0.5f - 130, VS.Y - 150, 260, 18, (Gm.Now - Gm.InteractStart) / FMath::Max(0.1f, Gm.InteractEnd - Gm.InteractStart), FLinearColor(0.3f, 0.7f, 0.9f), Gm.InteractLabel, 10);
+	else if (Gm.CraftIdx >= 0 && FHLGame::GunRecipes().IsValidIndex(Gm.CraftIdx))
+	{
+		const FHLGame::FHLRecipe& R = FHLGame::GunRecipes()[Gm.CraftIdx];
+		Bar(VS.X * 0.5f - 130, VS.Y - 150, 260, 18, (float)((Gm.Now - Gm.CraftStart) / FMath::Max(0.1, Gm.CraftEnd - Gm.CraftStart)), FLinearColor(0.85f, 0.6f, 0.25f), Gm.CraftLeft > 1 ? FString::Printf(TEXT("%s (%d)"), *R.Product, Gm.CraftLeft) : R.Product, 10);
+	}
 	if (P->bAutoAttack && T && !T->bDead) TxC(VS.X * 0.5f, VS.Y - 96, P->bRangedAuto ? TEXT("Auto-shot") : TEXT("Attacking"), 9, FLinearColor(1, 0.5f, 0.4f));
 	// error and banner text
 	if (Gm.Now < Gm.ErrorUntil) TxC(VS.X * 0.5f, 170, Gm.ErrorText, 14, FLinearColor(1, 0.2f, 0.15f, FMath::Min(1.f, Gm.ErrorUntil - (float)Gm.Now)), true);
@@ -830,6 +836,8 @@ static bool HLQuestGoal(const FHLGame& Gm, const FHLQuestState& QS, const FHLUni
 		const FHLObjective& O = QS.Q->Objectives[i];
 		if (!QS.Progress.IsValidIndex(i) || QS.Progress[i] >= O.Count) continue;
 		if (O.Type == TEXT("talk")) TryNpc(O.Npc);
+		else if (O.Type == TEXT("escort")) Try(O.To);
+		else if (O.Type == TEXT("craft")) {}
 		else if (O.Type == TEXT("kill") || O.Type == TEXT("item"))
 		{
 			const TArray<FString>& Ids = O.Type == TEXT("kill") ? O.Mobs : O.From;
@@ -996,6 +1004,7 @@ void SHLGameUI::DrawTracker() const
 		{
 			const FHLObjective& O = QS.Q->Objectives[i];
 			Tx(X + 8, Y, O.Count > 1 ? FString::Printf(TEXT("%s: %d/%d"), *O.Label, QS.Progress[i], O.Count) : O.Label, 9, QS.Progress[i] >= O.Count ? ColDim : ColWhite); Y += 14;
+			if (O.Type == TEXT("escort") && Gm.bEscorting) if (const FHLUnit* W = Gm.Unit(Gm.EscortUnitId)) { Bar(X + 8, Y + 1, 150, 9, W->HpPct(), W->HpPct() < 0.35f ? ColRed : ColGreen, FString::Printf(TEXT("%s %d%%"), *W->Name, (int32)(W->HpPct() * 100)), 7); Y += 14; }
 		}
 		Y += 4;
 	}
@@ -1152,6 +1161,7 @@ void SHLGameUI::DrawPopups() const
 			TEXT("Interact: right-click people, corpses and objects, or stand close and press F. Gold ! means a quest, gold ? means hand it in.\n")
 			TEXT("Rest: use food from your bags (B), or press X to sit. Train new abilities every 2 levels at your class trainer.\n")
 			TEXT("People: Enter to chat, click a name to whisper, target someone and Invite them. /who lists everyone online.\n")
+			TEXT("Professions: Salvaging from Ike Brandt at Vine, Gunsmithing from Earl Tanner at Highland. K opens your workbench.\n")
 			TEXT("Press H to hide or show this panel."), 10, ColWhite);
 		if (Btn(X + W - 80, Y + 6, 70, 20, TEXT("Hide (H)"), true, 9)) bHelp = false;
 	}

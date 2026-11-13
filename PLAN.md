@@ -63,11 +63,11 @@ browser ── itch.io page (iframe) ── hollywoodland Worker (R2 stage, COOP
 | Stats/formulas (§5, §6) | DONE | One-roll attack table: miss, dodge, parry, block (riot shields), crit. Ammo: pistol/rifle/shotgun calibres in boxes of 100 (gun shop, quartermaster, newsie), one round per auto-shot, adds dps. Durability: 10% per death, broken items give no stats, repair at vendors (1c x ilvl per 10%). |
 | Mobs (§7) | DONE | 9 open-world templates, 2 rares, 2 elites, 4 gap guards, 4 dungeon trash, 4 bosses. Burrower/Flier behaviours TODO. |
 | Death (§6) | DONE | Release as a ghost at the nearest aid station, run back to the corpse (marker, 1.25x speed) and revive at 50%, or revive at the station for -25% durability and 10 min sickness (-25% attributes). Dungeon deaths respawn at the portal. |
-| Quests (§10, §14) | DONE 28 / PROTO 3 | Kill, drop-collect, world-collect, use, deliver work. Escort (`q_hb_14`) is a talk quest. `q_hb_29` (craft .38) absent. Breadcrumbs 30-32 accept-only. Class quests at 10 TODO. Counters only: quest items are not bag items. |
+| Quests (§10, §14) | DONE 38 / PROTO 3 | Kill, drop-collect, world-collect, use, deliver, escort and craft objectives work. `q_hb_14` finds Whitey Nolan, `q_hb_14b` escorts him to the Pantages (follows the player, three ambushes, fails if he dies or is left 60 m behind). `q_hb_29` crafts 20 .38 rounds (handed in). Eight class quests at level 10 from the class trainers, each with a named blue class weapon. Breadcrumbs 30-32 accept-only. Counters only: quest items are not bag items. |
 | Items (§8) | DONE ~3,960 rows | Generator + formulas. Base list is ~70 bases (target ~680). 1,447 painted icons and tooltip descriptions (tools/itemgen; gloves vision-checked). On-use pocket items, on-equip effects TODO. |
 | Vendors, trainers, bank | DONE / PROTO | Buy/sell, class trainers, 24-slot bank. Bank slot purchase, inn rested XP are text only. |
 | Auction house (§9) | DONE | 160 simulated listings following the population spread; name search, bids with rival bidders (outbid mail), buyout, 1/4/12 h listings, sim buyers and bidders, results by mail; your listings and bids persist in the save. Price history TODO. |
-| Professions (§9) | PROTO | Salvaging 1-75 on wreck nodes. Gunsmithing and all others DATA (names in trainer window). |
+| Professions (§9) | DONE 2 / DATA rest | Salvaging 1-75 on wreck nodes. Gunsmithing 1-75 from Earl Tanner (level 5, 25c): six recipes (.38, birdshot, Zip Gun, .30-30, .45, Sawed-off Coach Gun) from Scrap Metal and Brass Casings (wrecks, looters, Earl's stock), workbench window (K), cast bar, orange/yellow/green/grey skill-ups. Other professions DATA. |
 | Dungeon: Egyptian (§14) | PROTO | One persistent "instance" area at +3000 m. 4 bosses with simplified mechanics (eggs hatch, charge, acid pool with LOS, add waves + egg sac heal). Loot 2 blues/boss, need/greed rolls. Untuned: run `-HLAuto` party tests (WP7 target: 3 of 5 clears). |
 | Simulated population (§11) | PROTO | 300 personas; ~40 locals + ≤8 transients + ≤6 idlers as full units (no crowd LOD yet; fine at this count). Census: logins, level-ups, dice dungeon runs → events. |
 | Party (§6) | DONE | Invite either way, follow/assist/heal/taunt, loot rolls, leave after 15-40 min. Sim tanks/healers use generic priority picker. |
@@ -100,7 +100,7 @@ browser ── itch.io page (iframe) ── hollywoodland Worker (R2 stage, COOP
 ### P1 — systems the bible calls for in the slice
 7. ~~Ghost run + durability + repair costs~~ (done).
 8. ~~Parry/block, shields, ammo~~ (done).
-9. Escort quest type (follow-AI NPC, fail on death) for `q_hb_14`; class quests at 10; `q_hb_29` + Gunsmithing 1-75 with 6 recipes.
+9. ~~Escort quest type (follow-AI NPC, fail on death) for `q_hb_14`; class quests at 10; `q_hb_29` + Gunsmithing 1-75 with 6 recipes.~~ Done.
 10. Crowd LOD (§11 levels 0-3): only needed when population on screen exceeds ~60; implement as sims without `FHLUnit` combat.
 11. ~~World events: surge, rare calls, picture night~~ (done); hive spread, fight night (needs duels).
 12. ~~Trade window, duels, mailbox, friends list~~ (done).

@@ -217,7 +217,7 @@ bool FHLData::Load(FString& Err)
 			{
 				JObj Nn = NV->AsObject();
 				FHLNpcDef Np;
-				Np.Id = S(Nn, TEXT("id")); Np.Name = S(Nn, TEXT("name")); Np.Title = S(Nn, TEXT("title")); Np.Trains = S(Nn, TEXT("trains")); Np.Hub = S(Nn, TEXT("hub"));
+				Np.Id = S(Nn, TEXT("id")); Np.Name = S(Nn, TEXT("name")); Np.Title = S(Nn, TEXT("title")); Np.Trains = S(Nn, TEXT("trains")); Np.Hub = S(Nn, TEXT("hub")); Np.Prof = S(Nn, TEXT("prof"));
 				Np.Pos = FVector2D(N(Nn, TEXT("x")), N(Nn, TEXT("y"))); Np.Yaw = N(Nn, TEXT("yaw")); Np.Roles = SA(Nn, TEXT("roles")); Np.Color = Col(Nn, TEXT("color"));
 				for (const FString& Id : SA(Nn, TEXT("stock"))) if (const FHLItem* It = Item(Id)) Np.Stock.Add(It);
 				Ar.Npcs.Add(MoveTemp(Np));
@@ -263,7 +263,8 @@ bool FHLData::Load(FString& Err)
 			JObj O = V->AsObject();
 			FHLQuest Q;
 			Q.Id = S(O, TEXT("id")); Q.Name = S(O, TEXT("name")); Q.Giver = S(O, TEXT("giver")); Q.Turnin = S(O, TEXT("turnin")); Q.Prereq = S(O, TEXT("prereq"));
-			Q.Next = S(O, TEXT("next")); Q.Type = S(O, TEXT("type")); Q.Text = S(O, TEXT("text")); Q.CompleteText = S(O, TEXT("complete_text")); Q.Hub = S(O, TEXT("hub")); Q.Breadcrumb = S(O, TEXT("breadcrumb"));
+			Q.Next = S(O, TEXT("next")); Q.Type = S(O, TEXT("type")); Q.Text = S(O, TEXT("text")); Q.CompleteText = S(O, TEXT("complete_text")); Q.Hub = S(O, TEXT("hub")); Q.Breadcrumb = S(O, TEXT("breadcrumb")); Q.Cls = S(O, TEXT("cls"));
+ 			for (auto& TV : A(O, TEXT("takes"))) { JObj To = TV->AsObject(); if (const FHLItem* It = Item(S(To, TEXT("item")))) Q.Takes.Add(TPair<const FHLItem*, int32>(It, N(To, TEXT("count"), 1))); }
 			Q.Level = N(O, TEXT("level"), 1); Q.MinLevel = N(O, TEXT("min_level"), 1); Q.bGroup = B(O, TEXT("group")); Q.bDungeon = B(O, TEXT("dungeon"));
 			JObj Rw = Sub(O, TEXT("rewards"));
 			Q.Xp = N(Rw, TEXT("xp")); Q.Cents = N(Rw, TEXT("cents"));
@@ -275,6 +276,7 @@ bool FHLData::Load(FString& Err)
 				FHLObjective Oj;
 				Oj.Type = S(Ob, TEXT("type")); Oj.Item = S(Ob, TEXT("item")); Oj.Kind = S(Ob, TEXT("kind")); Oj.Npc = S(Ob, TEXT("npc")); Oj.Label = S(Ob, TEXT("label"));
 				Oj.Mobs = SA(Ob, TEXT("mobs")); Oj.From = SA(Ob, TEXT("from")); Oj.Count = N(Ob, TEXT("count"), 1); Oj.Rate = N(Ob, TEXT("rate"), 1);
+				Oj.To = V2(Ob, TEXT("to"));
 				Q.Objectives.Add(MoveTemp(Oj));
 			}
 			Quests.Add(MoveTemp(Q));

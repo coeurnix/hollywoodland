@@ -10169,5 +10169,103 @@
   "icon": "Row of chunky dark green paper shotgun shells with tall brass heads, one cut open to show large grey lead pellets packed inside",
   "model": "claude-opus-5-5",
   "at": "2026-11-12 20:10:44"
+ },
+ "belleau_wood_trench_club": {
+  "name": "Belleau Wood Trench Club",
+  "description": "Marines carried clubs like this into the wheat at Belleau Wood in June of 1918. Its owner drank at Post 43 and never spoke of the wood, except to say the insects at least make noise coming.",
+  "icon": "Short stout hardwood trench club, the head studded with rows of iron hobnails, grip wrapped in black friction tape, leather wrist loop, dark stained oak with olive-drab paint flecks",
+  "model": "claude-opus-5-5",
+  "at": "2026-11-12 21:37:56"
+ },
+ "stunt_double_s_weighted_gloves": {
+  "name": "Stunt Double's Weighted Gloves",
+  "description": "Lead shot is sewn across the knuckles, a trick from a double who took Fairbanks's punches for eleven pictures and never once got billing. The studio paid him seven-fifty a day. The invaders pay nothing, but they fall down convincingly.",
+  "icon": "Pair of scuffed tan leather fighting gloves with lumpy padded knuckles bulging from sewn-in lead shot, red cross-stitching, brass wrist buckles, laid crossed over each other; shown as ONE single glove lying flat, back of the hand facing the viewer, fingers pointing up, the thumb clearly separate on one side, exactly four fingers and one thumb, anatomically correct human glove",
+  "model": "claude-opus-5-5",
+  "at": "2026-11-12 21:37:56"
+ },
+ "studio_armourer_s_winchester": {
+  "name": "Studio Armourer's Winchester",
+  "description": "Stembridge's gun room rented this Winchester to forty westerns, always loaded with blanks. When the Dome came down, an armourer on Marathon Street pulled the blank adapter, fed it live rounds and found the old rifle remembered how.",
+  "icon": "Lever-action rifle with long octagonal blued barrel, polished walnut stock and forend, brass rental tag tied to the lever loop with red string, worn bluing along the receiver",
+  "model": "claude-opus-5-5",
+  "at": "2026-11-12 21:37:56"
+ },
+ "klieg_light_reflector": {
+  "name": "Klieg Light Reflector",
+  "description": "Polished to throw a carbon arc across a soundstage, the dish still catches whatever light is going and hands it back hotter. Actresses blamed it for klieg eyes. The insects take it worse.",
+  "icon": "Round concave mirrored reflector dish in a black iron yoke with a carry handle, bright silver bowl with a hot white-gold glare at its centre, scorched rim and brass bolts",
+  "model": "claude-opus-5-5",
+  "at": "2026-11-12 21:37:56"
+ },
+ "powder_monkey_s_tamping_bar": {
+  "name": "Powder Monkey's Tamping Bar",
+  "description": "Brass and hickory, because steel strikes sparks and powder men who forget that end up as a line in the trade papers. An effects crew at the Egyptian packed charges with it for a Nile picture that never finished shooting.",
+  "icon": "Long slim tamping bar, hickory shaft with a blunt polished brass head and brass ferrule, black powder smudges near the tip, short coil of red fuse cord tied below the head",
+  "model": "claude-opus-5-5",
+  "at": "2026-11-12 21:37:56"
+ },
+ "queen_of_angels_field_satchel": {
+  "name": "Queen of Angels Field Satchel",
+  "description": "Stitched for the sisters at Queen of Angels Hospital and carried up Bellevue Avenue on calls the ambulance would not make. Iodine, gauze, a rosary in the side pocket and a prayer card nobody has the heart to throw out.",
+  "icon": "Boxy white canvas field satchel with a red cross patch, tan leather straps and brass clasps, a small wooden rosary hanging from the side pocket, slightly grimy corners",
+  "model": "claude-opus-5-5",
+  "at": "2026-11-12 21:37:56"
+ },
+ "circuit_rider_s_saddle_bible": {
+  "name": "Circuit Rider's Saddle Bible",
+  "description": "Some Methodist preacher rode a thousand miles of Arizona with this in a saddlebag, and the cover shows every one. The margins hold pencilled names of baptisms, burials and a horse thief he forgave. Sister Aimee approved of the mileage.",
+  "icon": "Thick black leather Bible with rounded sun-cracked corners, a leather strap and brass buckle holding it shut, gilt-edged pages, faded red ribbon marker trailing out, dust ground into the grain",
+  "model": "claude-opus-5-5",
+  "at": "2026-11-12 21:37:56"
+ },
+ "model_t_crank_handle": {
+  "name": "Model T Crank Handle",
+  "description": "Every Ford owner in Los Angeles knew the crank kicked back hard enough to break a wrist; doctors called it chauffeur's fracture. A garage man on Cahuenga swears it kicks harder now, and only at things with six legs.",
+  "icon": "Z-shaped steel engine crank handle, black-painted iron with chipped paint, a turned wooden grip at one end worn pale, notched coupling at the other, faint oil sheen",
+  "model": "claude-opus-5-5",
+  "at": "2026-11-12 21:37:56"
+ },
+ "zip_gun": {
+  "name": "Zip Gun",
+  "description": "Pipe, a door bolt and rubber strapping, put together in a Gower Gulch alley by a boy who has since gone missing. It fires roughly where it points, most days.",
+  "icon": "Crude homemade pistol: short length of gas pipe lashed to a carved wooden grip with wire and rubber strips, a sliding door bolt as the hammer, rusty grey metal and raw pine",
+  "model": "claude-opus-5-5",
+  "at": "2026-11-12 21:37:56"
+ },
+ "sawed_off_coach_gun": {
+  "name": "Sawed-off Coach Gun",
+  "description": "Wells Fargo guards rode shotgun with something like it, until a bootlegger on the Strip took a hacksaw to both ends. Now it fits under an overcoat and clears a speakeasy doorway in one argument.",
+  "icon": "Side-by-side double-barrel shotgun with stubby hacksawed barrels and a cut-down pistol-grip stock, outside hammers, dark walnut and worn blued steel with bright raw saw marks at the muzzles",
+  "model": "claude-opus-5-5",
+  "at": "2026-11-12 21:37:56"
+ },
+ "soldier_mandible": {
+  "name": "Soldier Mandible",
+  "description": "Sawn from an Invader Soldier at the hinge, which took longer than the killing. The inner edge is serrated like a bread knife and still closes slowly if you press the joint.",
+  "icon": "A single curved insect mandible, sickle-shaped with a serrated inner edge, glossy green-black chitin fading to dull bronze at the sawn-off hinge, a ragged stump of pale tendon at the base.",
+  "model": "claude-opus-5-5",
+  "at": "2026-11-12 21:38:05"
+ },
+ "invader_nerve_cord": {
+  "name": "Invader Nerve Cord",
+  "description": "A grey, rope-like length that twitches when a red car passes. Every pharmacist on Highland wants one, and none of them will say what for.",
+  "icon": "A coiled length of pale grey translucent cord, knotted with small beadlike swellings, faintly glistening, loosely looped like a short rope, one frayed end tinged amber.",
+  "model": "claude-opus-5-5",
+  "at": "2026-11-12 21:38:05"
+ },
+ "broodling_venom_sac": {
+  "name": "Broodling Venom Sac",
+  "description": "Carried in a handkerchief, at arm's length, by anyone with sense. The sac sloshes like a hot-water bottle and smells of burnt almonds and wet cardboard.",
+  "icon": "A small plump translucent sac, pear-shaped, filled with cloudy yellow-green fluid, a short black chitin nub at the neck, resting in a folded white handkerchief with a damp stain.",
+  "model": "claude-opus-5-5",
+  "at": "2026-11-12 21:38:05"
+ },
+ "stolen_auto_parts": {
+  "name": "Stolen Auto Parts",
+  "description": "A carburettor, two spark plugs and a fan belt, lifted from a studio motor pool by someone who left the oil pan behind. The Dome has made every Model A a parts donor.",
+  "icon": "A small bundle of auto parts tied with twine: a grimy brass carburettor, two white porcelain spark plugs, and a coiled black rubber fan belt, smudged with dark engine oil.",
+  "model": "claude-opus-5-5",
+  "at": "2026-11-12 21:38:05"
  }
 }

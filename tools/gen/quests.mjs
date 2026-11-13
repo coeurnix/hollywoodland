@@ -9,6 +9,10 @@ const item = (name, count, from, rate, label) => ({ type: 'item', item: name, co
 const object = (kind, count, name, label) => ({ type: 'object', kind, item: name, count, label: label || name });
 const use = (kind, count, label) => ({ type: 'use', kind, count, label });
 const talk = (npc, label) => ({ type: 'talk', npc, count: 1, label });
+const escort = (npc, to, label) => ({ type: 'escort', npc, to, count: 1, label });
+const craft = (name, count, label) => ({ type: 'craft', item: name, count, label: label || name });
+const T = (cls) => `npc_trainer_${cls}`;
+const cq = (cls) => ({ hub: 'hub_chinese_forecourt', end: true, extra: { cls } });
 const G = 'npc_sid_grauman';
 const starter = [['Newsboy Cap of Stamina', 1], ['Leather Gloves of Agility', 1], ['Canvas Work Gloves of Strength', 1]];
 
@@ -52,9 +56,12 @@ export const quests = [
   Q('q_hb_13', 'Coffee for the Derby', 6, 'npc_derby_cook', null, [object('coffee_tin', 10, 'Brown Derby Coffee Tin', 'Coffee tins recovered')],
     "No trucks come through that dome, so what's in my storeroom is all the coffee there is. Trouble is the storeroom door's gone and the tins are scattered round the back of the Derby. Ten tins and the whole street stays awake.",
     "Ten tins. I could kiss you. Have a cup instead.", { hub: 'hub_vine' }),
-  Q('q_hb_14', 'The Stagehand', 6, 'npc_pantages_manager', null, [talk('npc_stagehand', 'Find Whitey Nolan in the Cahuenga alleys')],
+  Q('q_hb_14', 'The Stagehand', 6, 'npc_pantages_manager', 'npc_stagehand', [talk('npc_stagehand', 'Find Whitey Nolan in the Cahuenga alleys')],
     "My best stagehand, Whitey Nolan, went down Cahuenga for lumber two days ago. Somebody saw him holed up past Selma with those spitting things all around. Find him and tell him the Pantages still has a job for him.",
-    "Whitey's alive? Then the show goes up Friday. Thank you.", { hub: 'hub_vine' }),
+    "You're from the Pantages? Thank God. I've been sat on this lumber two days with them things clicking on the roof. I'll come, but I'm not walking it alone.", { hub: 'hub_vine' }),
+  Q('q_hb_14b', 'Whitey Comes Home', 6, 'npc_stagehand', 'npc_pantages_manager', [escort('npc_stagehand', [718, 196], 'Bring Whitey Nolan back to the Pantages')],
+    "Right. You go first and I'll keep behind you. Those spitting things will come down off the roofs when they hear us, so don't let them get at me. I'm a stagehand, not a fighter. Pantages loading door, Hollywood and Argyle.",
+    "Whitey! Look at you. Get inside, there's coffee. You brought him back through all that? The show goes up Friday, and you're in the best seat.", { hub: 'hub_vine', choice: [['Stagehand\'s Rigging Gloves', 10], ['Work Boots of Agility', 5], ['Canvas Plimsolls of Intellect', 5]] }),
   Q('q_hb_15', 'Rooftop Spitters', 7, 'npc_pantages_manager', null, [kill('mob_invader_spitter', 6, 'Invader Spitters slain')],
     "The Spitters above Cahuenga can hit my loading door from the rooftops. I have had two scenery flats burned through. Six of them, if you please, before they start on the marquee.",
     "The loading door is safe. You have a friend at the Pantages.", { hub: 'hub_vine', choice: [['Wool Trousers of the Doctor', 5], ['Leather Chaps of the Acrobat', 5], ['Levi Strauss Waist Overalls of the Boxer', 5], ['Steel-kneed Breeches of Strength', 5]], end: true }),
@@ -97,6 +104,34 @@ export const quests = [
   Q('q_hb_28', 'Scrap Drive', 5, 'npc_gunsmith', null, [object('scrap', 10, 'Scrap Metal', 'Scrap Metal salvaged')],
     "I can't cast a bullet out of good intentions. The wrecks in the back lots are full of steel and brass. Learn to salvage, Ike Brandt at Vine will show you if you ask, and bring me ten loads of scrap.",
     "That's a week of cartridges. Much obliged.", { hub: 'hub_highland' }),
+  Q('q_hb_29', 'Rounds for the Line', 6, 'npc_gunsmith', null, [craft('.38 Special Lead Round-Nose', 20, 'Rounds of .38 Special made')],
+    "Salvage is half of it. The other half is the bench. I'll teach you to load a cartridge if you've the patience, and the boys at the forecourt need every round they can get. Make twenty .38s and bring them here so I can check your crimp.",
+    "Nice even crimp. You'd pass at Winchester. Keep at the bench, there's a lot more to learn.", { hub: 'hub_highland', extra: { takes: [['.38 Special Lead Round-Nose', 20]] } }),
+  // Class quests (level 10, one per class, from the class trainer)
+  Q('q_cls_veteran', 'Hold the Line', 10, T('veteran'), null, [kill('mob_invader_soldier', 8, 'Invader Soldiers slain')],
+    "I held a trench at Belleau Wood with a club I made from a fence post, because a rifle jams and a club doesn't. The armoured ones on the Hollywood High field are the closest thing to a German line you'll see. Kill eight of them, up close, and I'll give you that club.",
+    "Eight. You stood your ground. Take it. It's been through worse than you have.", { ...cq('veteran'), choice: [['Belleau Wood Trench Club', 10]] }),
+  Q('q_cls_stuntman', 'Falling for a Living', 10, T('stuntman'), null, [kill('mob_invader_drone_hs', 10, 'Drones slain at Hollywood High'), kill('mob_invader_broodling', 10, 'Broodlings slain')],
+    "Any fool can take a fall. A stuntman takes a fall and gets up swinging. The school gates are crawling with Drones and the yard is knee deep in the little ones. Go in fast, get knocked down, get up. Ten of each and you've earned my gloves.",
+    "You're still in one piece. That's the whole job, kid. Wear these, they're weighted with buckshot.", { ...cq('stuntman'), choice: [['Stunt Double\'s Weighted Gloves', 10]] }),
+  Q('q_cls_gunman', 'Trophy Shots', 10, T('gunman'), null, [item('Soldier Mandible', 6, 'mob_invader_soldier', 0.6, 'Soldier Mandibles taken')],
+    "A man who can hit a playing card at thirty paces works in pictures. A man who can hit a Soldier through the joint in its armour works for me. Bring me six mandibles off the Soldiers on the school field, and I'll know you didn't buy them.",
+    "Clean through the joint, every one. The studio armourer let me have this Winchester for whoever earned it. That's you.", { ...cq('gunman'), choice: [['Studio Armourer\'s Winchester', 10]] }),
+  Q('q_cls_electrician', 'Hot Wire', 10, T('electrician'), null, [item('Invader Nerve Cord', 6, 'mob_invader_soldier', 0.5, 'Nerve Cords taken')],
+    "The Soldiers carry a cord down their backs that hums when you hold it near a lamp. I think they talk with it, like a telephone line. Bring me six and I'll find out what they're saying. Mind your fingers, it bites.",
+    "Six, and still humming. Here, a reflector off a klieg light from the Lasky lot. It throws a beam you could read by on the moon.", { ...cq('electrician'), choice: [['Klieg Light Reflector', 10]] }),
+  Q('q_cls_powderman', 'A Bigger Bang', 10, T('powderman'), null, [use('spire', 3, 'Hive spires blown'), kill('mob_invader_soldier', 4, 'Invader Soldiers slain')],
+    "Ike's charges on the spires are a good start, but a spire's no use dead if the Soldiers just guard the hole. Blow three spires south of Selma, then go and make four Soldiers sorry on the school field. Pack the charge tight. Tight is everything.",
+    "I heard the third one from here. Take my tamping bar. Pack them tight.", { ...cq('powderman'), choice: [['Powder Monkey\'s Tamping Bar', 10]] }),
+  Q('q_cls_nurse', 'Antivenom', 10, T('nurse'), null, [item('Broodling Venom Sac', 8, 'mob_invader_broodling', 0.5, 'Venom Sacs taken')],
+    "Half the boys we see at the aid station have broodling bites gone green. If I had the venom I could make an antivenom, the way they do for rattlers. Eight sacs, from the schoolyard. Don't squeeze them.",
+    "Eight, and none burst. I'll have the first doses tonight. This satchel came from Queen of Angels, it's yours now.", { ...cq('nurse'), choice: [['Queen of Angels Field Satchel', 10]] }),
+  Q('q_cls_preacher', 'The Lost Flock', 10, T('preacher'), null, [kill('mob_invader_broodling', 15, 'Broodlings slain'), kill('mob_invader_drone_hs', 6, 'Drones slain at Hollywood High')],
+    "There were children at that school. They got out, thank the Lord, but the things that hatched in the yard are still there and the parents want to go back for what they left. Clear a path through the yard so they can. Fifteen of the small ones and six of the Drones at the gates.",
+    "The families went in this morning. They're praying for you by name. Carry this Bible, it rode a circuit through three states before it came to me.", { ...cq('preacher'), choice: [['Circuit Rider\'s Saddle Bible', 10]] }),
+  Q('q_cls_mechanic', 'Spare Parts', 10, T('mechanic'), null, [item('Stolen Auto Parts', 8, ['mob_looter', 'mob_looter_ringleader'], 0.6, 'Stolen auto parts recovered')],
+    "The looters behind the Taft have been stripping every car on Vine for parts. Carburettors, magnetos, the lot. There's a fire engine at the station that won't run without them. Get me back eight parts and I'll get the engine running.",
+    "That's a magneto, a carb and a starter in there. The engine will run by Sunday. Have the crank handle. A Model T never let anybody down if they knew how to swing one.", { ...cq('mechanic'), choice: [['Model T Crank Handle', 10]] }),
   Q('q_hb_30', 'Word from Melrose', 12, G, 'npc_cemetery_gatekeeper', [talk('npc_cemetery_gatekeeper', 'Report to the Hollywood Cemetery gate in Melrose')],
     "You've outgrown my boulevard. The people at the Hollywood Cemetery gate, down in Melrose, are asking for help with the crypts. It's a hard road south through the wall. Don't go alone.", "", { extra: { breadcrumb: 'zone_melrose' } }),
   Q('q_hb_31', 'Extras Wanted', 12, 'npc_auctioneer', 'npc_columbia_gate', [talk('npc_columbia_gate', 'Report to the Columbia gate in Gower Gulch')],
@@ -109,7 +144,7 @@ const chain = (a, b) => { quests.find((q) => q.id === a).next = b; quests.find((
 chain('q_hb_01', 'q_hb_03'); chain('q_hb_03', 'q_hb_04'); chain('q_hb_04', 'q_hb_05'); chain('q_hb_05', 'q_hb_09');
 chain('q_hb_01', 'q_hb_06'); chain('q_hb_06', 'q_hb_07'); chain('q_hb_07', 'q_hb_08'); chain('q_hb_08', 'q_hb_17');
 chain('q_hb_17', 'q_hb_18'); chain('q_hb_18', 'q_hb_19'); chain('q_hb_19', 'q_hb_22'); chain('q_hb_22', 'q_hb_23'); chain('q_hb_23', 'q_hb_24');
-chain('q_hb_11', 'q_hb_15'); chain('q_hb_12', 'q_hb_21'); chain('q_hb_14', 'q_hb_15');
+chain('q_hb_11', 'q_hb_15'); chain('q_hb_12', 'q_hb_21'); chain('q_hb_14', 'q_hb_14b'); chain('q_hb_14b', 'q_hb_15'); chain('q_hb_28', 'q_hb_29');
 // A quest can have only one prereq; restore the ones overwritten above (first prereq wins for display, all listed here).
 quests.find((q) => q.id === 'q_hb_06').prereq = 'q_hb_01'; quests.find((q) => q.id === 'q_hb_15').prereq = 'q_hb_11';
 quests.find((q) => q.id === 'q_hb_20').giver = 'npc_kearney';

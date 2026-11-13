@@ -108,10 +108,11 @@ private:
 	// windows
 	void DrawTrade() const;
 	void DrawMail() const;
+	void DrawCraft() const;
 	mutable int32 SelMail = 0, WhoTab = 0, AuctionHours = 1;
 	mutable bool bSearchFocus = false;
 	mutable FString AuctionSearch;
-	mutable bool bChar = false, bBags = false, bQuests = false, bSpells = false, bMap = false, bWho = false, bInspect = false, bTalents = false, bMenu = false, bWorldMap = false, bHelp = true;
+	mutable bool bChar = false, bBags = false, bQuests = false, bSpells = false, bMap = false, bWho = false, bInspect = false, bTalents = false, bCraft = false, bMenu = false, bWorldMap = false, bHelp = true;
 	mutable TMap<FName, FVector2D> WinPos;
 	mutable FName DragWin; mutable FVector2D DragOff;
 	mutable float WX = 0, WY = 0;

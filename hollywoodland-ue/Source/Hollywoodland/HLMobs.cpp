@@ -47,7 +47,7 @@ void FHLGame::TickMob(FHLUnit& U, float Dt)
 				FHLUnit* Best = nullptr; float BestD = 1e9f;
 				for (FHLUnit* O : UnitList)
 				{
-					if (O->bDead || O->bGhost || O->Area != U.Area || (O->Kind != EHLKind::Player && O->Kind != EHLKind::Sim)) continue;
+					if (O->bDead || O->bGhost || O->Area != U.Area || (O->Kind != EHLKind::Player && O->Kind != EHLKind::Sim && !(bEscorting && O->Id == EscortUnitId))) continue;
 					if (O->Kind == EHLKind::Sim && O->SimIdx >= 0 && (Sims[O->SimIdx].Role == EHLSimRole::Transient || Sims[O->SimIdx].Role == EHLSimRole::Idler)) continue;
 					const float D = FVector2D::Distance(O->Pos, U.Pos);
 					// classic rule: 14 m at even level, one metre more per level the mob has over its victim (so a

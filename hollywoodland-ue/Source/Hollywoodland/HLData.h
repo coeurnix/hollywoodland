@@ -69,7 +69,7 @@ struct FHLMobDef
 struct FHLBox { float X, Y, W, D, H; FLinearColor Color; FString Label; bool bSolid = true; };
 struct FHLNpcDef
 {
-	FString Id, Name, Title, Trains, Hub;
+	FString Id, Name, Title, Trains, Hub, Prof;
 	FVector2D Pos; float Yaw = 0;
 	TArray<FString> Roles;
 	TArray<const FHLItem*> Stock;
@@ -100,11 +100,12 @@ struct FHLAreaDef
 	TArray<FVector2D> IdleSpots;
 	TMap<FString, FVector2D> Pois;
 };
-struct FHLObjective { FString Type, Item, Kind, Npc, Label; TArray<FString> Mobs, From; int32 Count = 1; float Rate = 1; };
+struct FHLObjective { FString Type, Item, Kind, Npc, Label; TArray<FString> Mobs, From; int32 Count = 1; float Rate = 1; FVector2D To = FVector2D::ZeroVector; };
 struct FHLQuest
 {
-	FString Id, Name, Giver, Turnin, Prereq, Next, Text, CompleteText, Hub, Breadcrumb, Type;
+	FString Id, Name, Giver, Turnin, Prereq, Next, Text, CompleteText, Hub, Breadcrumb, Type, Cls;
 	int32 Level = 1, MinLevel = 1, Xp = 0, Cents = 0;
+	TArray<TPair<const FHLItem*, int32>> Takes; // handed in at turn-in (crafted goods)
 	bool bGroup = false, bDungeon = false;
 	TArray<FHLObjective> Objectives;
 	TArray<const FHLItem*> Choice;

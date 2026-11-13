@@ -67,7 +67,7 @@ FString FHLGame::SaveJson() const
 		for (const auto& KV : Player.Durability) Dur->SetNumberField(KV.Key, KV.Value);
 		O->SetObjectField(TEXT("durability"), Dur);
 	}
-	O->SetNumberField(TEXT("xp"), Player.Xp); O->SetNumberField(TEXT("cents"), Player.Cents); O->SetNumberField(TEXT("salvage"), Player.Salvage);
+	O->SetNumberField(TEXT("xp"), Player.Xp); O->SetNumberField(TEXT("cents"), Player.Cents); O->SetNumberField(TEXT("salvage"), Player.Salvage); O->SetNumberField(TEXT("guns"), Player.Guns);
 	O->SetNumberField(TEXT("played"), Player.PlayedS); O->SetNumberField(TEXT("deaths"), Player.Deaths); O->SetNumberField(TEXT("kills"), Player.Kills);
 	O->SetBoolField(TEXT("show_sim"), Player.bShowSim);
 	if (U && U->Area == 0) { O->SetNumberField(TEXT("x"), U->Pos.X); O->SetNumberField(TEXT("y"), U->Pos.Y); }
@@ -159,6 +159,7 @@ bool FHLGame::LoadJson(const FString& Json)
 	Player.Xp = O->GetIntegerField(TEXT("xp")); Player.Cents = O->GetIntegerField(TEXT("cents"));
 	double Num = 0;
 	if (O->TryGetNumberField(TEXT("salvage"), Num)) Player.Salvage = Num;
+	if (O->TryGetNumberField(TEXT("guns"), Num)) Player.Guns = Num;
 	if (O->TryGetNumberField(TEXT("played"), Num)) Player.PlayedS = Num;
 	if (O->TryGetNumberField(TEXT("deaths"), Num)) Player.Deaths = Num;
 	if (O->TryGetNumberField(TEXT("kills"), Num)) Player.Kills = Num;
@@ -429,6 +430,7 @@ void FHLGame::InteractUnit(int32 Id)
 	}
 	if (T->Kind == EHLKind::Npc && T->Npc)
 	{
+		if (T->bDead) { Error(FString::Printf(TEXT("%s is dead."), *T->Name)); return; }
 		if (Dist(*U, *T) > 6) { Error(TEXT("You are too far away.")); return; }
 		if (T->Npc->HasRole(TEXT("guard")) && T->Npc->Roles.Num() == 1) { AddChat(TEXT("npc"), T->Name, TEXT("Keep to the boulevard after dark. The Egyptian is theirs, and so is everything past the wall.")); return; }
 		QuestEvent(TEXT("talk"), T->Npc->Id);
@@ -559,6 +561,7 @@ void FHLGame::TickPlayer(float Dt)
 			U->Pos = Area.Nav.Slide(U->Pos, (Fwd * Move.X + Right * Move.Y) * Speed * Dt);
 			if (U->Casting) { U->Casting = nullptr; U->GcdUntil = Now; Error(TEXT("Interrupted.")); }
 			if (InteractObj >= 0) InteractObj = -1;
+			if (CraftIdx >= 0) { CraftIdx = -1; Error(TEXT("Interrupted.")); }
 			if (U->bSitting) { U->bSitting = false; U->Auras.RemoveAll([](const FHLAura& A) { return A.Name == TEXT("Eating") || A.Name == TEXT("Drinking"); }); }
 			if (OpenNpcUnitId) if (FHLUnit* N = Unit(OpenNpcUnitId)) if (Dist(*U, *N) > 8) { OpenNpcUnitId = 0; OpenNpcMode.Reset(); }
 		}
@@ -584,6 +587,7 @@ void FHLGame::TickPlayer(float Dt)
 			if (Def.Kind == TEXT("usher")) AddChat(TEXT("npc"), TEXT("Captured Usher"), TEXT("Bless you. I'm going out the front, and I'm not coming back."));
 		}
 	}
+	TickCraft();
 	if (Player.SicknessUntil > 0 && Now >= Player.SicknessUntil) { Player.SicknessUntil = 0; RecalcPlayerStats(); System(TEXT("Resurrection Sickness has faded.")); }
 	// subzone discovery
 	static float NextZoneCheck = 0;
@@ -640,6 +644,7 @@ bool FHLGame::QuestAvailable(const FHLQuest& Q) const
 	const FHLUnit* U = PlayerUnit();
 	if (!U || Player.Done.Contains(Q.Id) || QuestState(Q.Id)) return false;
 	if (U->Level < Q.MinLevel) return false;
+	if (!Q.Cls.IsEmpty() && (!Player.Cls || Player.Cls->Id != Q.Cls)) return false;
 	if (!Q.Prereq.IsEmpty() && !Player.Done.Contains(Q.Prereq)) return false;
 	return true;
 }
@@ -654,10 +659,12 @@ void FHLGame::AcceptQuest(const FHLQuest& Q)
 {
 	if (!QuestAvailable(Q)) return;
 	if (Player.Quests.Num() >= 20) { Error(TEXT("Your quest log is full.")); return; }
+	if (!CanStartEscort(Q, true)) return;
 	FHLQuestState QS; QS.Q = &Q; QS.Progress.Init(0, Q.Objectives.Num());
 	Player.Quests.Add(QS);
 	System(FString::Printf(TEXT("Quest accepted: %s"), *Q.Name));
 	if (!Q.Breadcrumb.IsEmpty()) System(TEXT("That road leads out through the hive wall. The guards at the gap are far above your level."));
+	StartEscort(Q);
 }
 
 void FHLGame::AbandonQuest(const FString& Id)
@@ -681,7 +688,7 @@ void FHLGame::QuestEvent(const TCHAR* Type, const FString& Key, int32 Count, con
 				if (Oj.Type == TEXT("kill") && Oj.Mobs.Contains(Key)) bHit = true;
 				else if (Oj.Type == TEXT("item") && Oj.From.Contains(Key) && Chance(Oj.Rate)) { bHit = true; AddChat(TEXT("loot"), FString(), FString::Printf(TEXT("You receive: [%s]"), *Oj.Item)); }
 			}
-			else if (Oj.Type == T && (Oj.Kind == Key || Oj.Npc == Key)) bHit = true;
+			else if (Oj.Type == T && (Oj.Kind == Key || Oj.Npc == Key || (T == TEXT("craft") && Oj.Item == Key))) bHit = true;
 			if (!bHit) continue;
 			QS.Progress[i] = FMath::Min(Oj.Count, QS.Progress[i] + Count);
 			bChanged = true;
@@ -700,11 +707,13 @@ void FHLGame::CompleteQuest(const FHLQuest& Q, int32 Choice)
 {
 	const FHLQuestState* QS = QuestState(Q.Id);
 	if (!QS || !QS->bComplete) return;
+	for (const auto& Tk : Q.Takes) if (CountItem(Tk.Key) < Tk.Value) { Error(FString::Printf(TEXT("You need %d x %s."), Tk.Value, *Tk.Key->Name)); return; }
 	if (Q.Choice.Num())
 	{
 		if (!Q.Choice.IsValidIndex(Choice)) { Error(TEXT("Choose a reward.")); return; }
 		if (!AddItem(Q.Choice[Choice], 1)) return;
 	}
+	for (const auto& Tk : Q.Takes) RemoveItem(Tk.Key, Tk.Value);
 	Player.Quests.RemoveAll([&](const FHLQuestState& S) { return S.Q == &Q; });
 	Player.Done.Add(Q.Id);
 	Player.Cents += Q.Cents;

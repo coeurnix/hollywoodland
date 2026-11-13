@@ -341,6 +341,7 @@ void FHLGame::Tick(float Dt)
 	TickCensus();
 	TickDirector(Dt);
 	TickEvents(Dt);
+	TickEscort(Dt);
 	TickSocial(Dt);
 	TickDuel();
 	TickPendingMail();

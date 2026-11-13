@@ -18,6 +18,7 @@ void SHLGameUI::DrawWindows() const
 	DrawWho();
 	DrawInspect();
 	DrawTalents();
+	DrawCraft();
 	DrawMenu();
 }
 
@@ -47,6 +48,7 @@ void SHLGameUI::DrawCharacter() const
 	Tx(Cx, Y, FString::Printf(TEXT("Crit: %.1f%%  Dodge: %.1f%%"), U.Crit * 100, U.Dodge * 100), 10, ColWhite);
 	Tx(WX, Y + 16, FString::Printf(TEXT("Kills: %d   Deaths: %d   Played: %d min"), Gm.Player.Kills, Gm.Player.Deaths, (int32)(Gm.Player.PlayedS / 60)), 10, ColDim);
 	if (Gm.Player.Salvage > 0) Tx(WX, Y + 32, FString::Printf(TEXT("Salvaging %d / 75 (Apprentice)"), Gm.Player.Salvage), 10, ColDim);
+	if (Gm.Player.Guns > 0) Tx(WX, Y + 48, FString::Printf(TEXT("Gunsmithing %d / 75 (Apprentice)"), Gm.Player.Guns), 10, ColDim);
 	if (const int32* Rep = Gm.Player.Rep.Find(TEXT("fac_lapd"))) Tx(Cx, Y + 32, FString::Printf(TEXT("LAPD: %d / 3000 Neutral"), *Rep), 10, ColDim);
 }
 
@@ -516,6 +518,34 @@ void SHLGameUI::DrawNpc() const
 		if (Gm.TalentSpent() > 0 && Btn(WX, Y + 26, 220, 22, FString::Printf(TEXT("Unlearn talents  %s"), *HLMoney(Gm.RespecCost())), Gm.Player.Cents >= Gm.RespecCost(), 10)) Gm.ResetTalents();
 		return;
 	}
+	if (Gm.OpenNpcMode == TEXT("prof") && Np.Prof == TEXT("guns"))
+	{
+		if (!Win(TEXT("npc"), Title, 440, 330, bOpen, 300, 140)) { Close(); return; }
+		Tx(WX, WY, TEXT("Gunsmithing (crafting)"), 12, ColGold, true);
+		TxWrap(WX, WY + 22, 410, TEXT("Load cartridges and build rough guns from Scrap Metal and Brass Casings. Salvage scrap from the wrecks in the back lots; looters carry casings. Earl sells both, at a price."), 10, ColWhite);
+		const int32 Cost = 25;
+		const bool bLevel = P.Level >= 5;
+		if (Gm.Player.Guns > 0)
+		{
+			Tx(WX, WY + 84, FString::Printf(TEXT("You are an Apprentice Gunsmith (%d / 75)."), Gm.Player.Guns), 10, ColGreen);
+			if (Btn(WX + 250, WY + 80, 150, 24, TEXT("Open workbench (K)"), true, 10)) bCraft = true;
+		}
+		else if (Btn(WX, WY + 80, 220, 26, FString::Printf(TEXT("Learn Gunsmithing  %s"), *HLMoney(Cost)), bLevel && Gm.Player.Cents >= Cost, 10))
+		{
+			Gm.Player.Cents -= Cost; Gm.Player.Guns = 1; bCraft = true;
+			Gm.System(TEXT("You have learned Gunsmithing. Press K to open your workbench."));
+		}
+		if (!bLevel && Gm.Player.Guns <= 0) Tx(WX + 230, WY + 86, TEXT("Requires level 5"), 10, ColRed);
+		float Y = WY + 120;
+		Tx(WX, Y, TEXT("Recipes"), 11, ColGold, true); Y += 20;
+		for (const FHLGame::FHLRecipe& R : FHLGame::GunRecipes())
+		{
+			Tx(WX + 8, Y, R.Product, 10, ColWhite);
+			Tx(WX + 300, Y, FString::Printf(TEXT("Skill %d"), R.Skill), 10, Gm.Player.Guns >= R.Skill ? ColDim : ColRed);
+			Y += 16;
+		}
+		return;
+	}
 	if (Gm.OpenNpcMode == TEXT("prof"))
 	{
 		if (!Win(TEXT("npc"), Title, 440, 300, bOpen, 300, 140)) { Close(); return; }
@@ -644,6 +674,44 @@ void SHLGameUI::DrawTrade() const
 	Tx(WX, WY + 170, TEXT("Click items in your bags to offer them."), 9, ColDim);
 	if (Btn(WX + 120, WY + 210, 110, 28, TEXT("Trade"), true, 12)) Gm.AcceptTrade();
 	if (Btn(WX + 250, WY + 210, 110, 28, TEXT("Cancel"), true, 12)) { Gm.TradeSim = -1; Gm.TradeBag.Reset(); }
+}
+
+void SHLGameUI::DrawCraft() const
+{
+	if (!bCraft) return;
+	FHLGame& Gm = G();
+	const FHLData& D = FHLData::Get();
+	bool bOpen = true;
+	if (!Win(TEXT("craft"), FString::Printf(TEXT("Gunsmithing  %d / 75"), Gm.Player.Guns), 470, 340, bOpen, 420, 150) || !bOpen) { bCraft = false; return; }
+	if (Gm.Player.Guns <= 0)
+	{
+		TxWrap(WX, WY, 440, TEXT("You have not learned a crafting profession. Earl Tanner at the Hollywood Gun Shop (Highland) teaches Gunsmithing from level 5."), 10, ColWhite);
+		return;
+	}
+	static const FLinearColor Cols[] = { FLinearColor(0.55f, 0.55f, 0.55f), FLinearColor(0.3f, 0.85f, 0.3f), FLinearColor(1.f, 0.9f, 0.2f), FLinearColor(1.f, 0.5f, 0.15f) };
+	const FHLItem* Scrap = D.ItemByName(TEXT("Scrap Metal"));
+	const FHLItem* Brass = D.ItemByName(TEXT("Brass Casings"));
+	float Y = WY;
+	const TArray<FHLGame::FHLRecipe>& Rs = FHLGame::GunRecipes();
+	for (int32 i = 0; i < Rs.Num(); ++i)
+	{
+		const FHLGame::FHLRecipe& R = Rs[i];
+		const FHLItem* Out = D.ItemByName(R.Product);
+		const int32 C = Gm.RecipeColour(R);
+		ItemIcon(WX, Y, 34, Out, R.Yield);
+		Tx(WX + 42, Y + 1, R.Yield > 1 ? FString::Printf(TEXT("%s  x%d"), *R.Product, R.Yield) : R.Product, 11, C < 0 ? ColRed : Cols[C], true);
+		Tx(WX + 42, Y + 19, FString::Printf(TEXT("%d Scrap Metal, %d Brass Casings"), R.N1, R.N2), 9, ColDim);
+		if (C < 0) Tx(WX + 330, Y + 9, FString::Printf(TEXT("Requires %d"), R.Skill), 10, ColRed);
+		else
+		{
+			const int32 N = Gm.CraftableCount(R);
+			if (Btn(WX + 300, Y + 6, 64, 22, N > 0 ? FString::Printf(TEXT("Make (%d)"), N) : FString(TEXT("Make")), N > 0 && Gm.CraftIdx < 0, 9)) Gm.StartCraft(i, 1);
+			if (Btn(WX + 370, Y + 6, 64, 22, TEXT("Make all"), N > 1 && Gm.CraftIdx < 0, 9)) Gm.StartCraft(i, N);
+		}
+		Y += 42;
+	}
+	Tx(WX, Y + 6, FString::Printf(TEXT("You have: %d Scrap Metal, %d Brass Casings"), Scrap ? Gm.CountItem(Scrap) : 0, Brass ? Gm.CountItem(Brass) : 0), 10, ColWhite);
+	Tx(WX, Y + 24, TEXT("Orange always teaches you something, yellow usually, green rarely, grey never."), 9, ColDim);
 }
 
 void SHLGameUI::DrawMail() const

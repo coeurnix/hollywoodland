@@ -8727,6 +8727,90 @@
    "sheet": 3,
    "x": 288,
    "y": 576
+  },
+  "belleau_wood_trench_club": {
+   "index": 1453,
+   "sheet": 3,
+   "x": 384,
+   "y": 576
+  },
+  "stunt_double_s_weighted_gloves": {
+   "index": 1454,
+   "sheet": 3,
+   "x": 480,
+   "y": 576
+  },
+  "studio_armourer_s_winchester": {
+   "index": 1455,
+   "sheet": 3,
+   "x": 576,
+   "y": 576
+  },
+  "klieg_light_reflector": {
+   "index": 1456,
+   "sheet": 3,
+   "x": 672,
+   "y": 576
+  },
+  "powder_monkey_s_tamping_bar": {
+   "index": 1457,
+   "sheet": 3,
+   "x": 768,
+   "y": 576
+  },
+  "queen_of_angels_field_satchel": {
+   "index": 1458,
+   "sheet": 3,
+   "x": 864,
+   "y": 576
+  },
+  "circuit_rider_s_saddle_bible": {
+   "index": 1459,
+   "sheet": 3,
+   "x": 960,
+   "y": 576
+  },
+  "model_t_crank_handle": {
+   "index": 1460,
+   "sheet": 3,
+   "x": 1056,
+   "y": 576
+  },
+  "zip_gun": {
+   "index": 1461,
+   "sheet": 3,
+   "x": 1152,
+   "y": 576
+  },
+  "sawed_off_coach_gun": {
+   "index": 1462,
+   "sheet": 3,
+   "x": 1248,
+   "y": 576
+  },
+  "soldier_mandible": {
+   "index": 1463,
+   "sheet": 3,
+   "x": 1344,
+   "y": 576
+  },
+  "invader_nerve_cord": {
+   "index": 1464,
+   "sheet": 3,
+   "x": 1440,
+   "y": 576
+  },
+  "broodling_venom_sac": {
+   "index": 1465,
+   "sheet": 3,
+   "x": 1536,
+   "y": 576
+  },
+  "stolen_auto_parts": {
+   "index": 1466,
+   "sheet": 3,
+   "x": 1632,
+   "y": 576
   }
  },
  "items": {
@@ -12651,6 +12735,16 @@
   "item_architect_s_t_square_60": "architect_s_t_square",
   "item_sister_aimee_s_pulpit_bible_60": "sister_aimee_s_pulpit_bible",
   "item_kop_captain_s_nightstick_50": "kop_captain_s_nightstick",
+  "item_belleau_wood_trench_club_10": "belleau_wood_trench_club",
+  "item_stunt_double_s_weighted_gloves_10": "stunt_double_s_weighted_gloves",
+  "item_studio_armourer_s_winchester_10": "studio_armourer_s_winchester",
+  "item_klieg_light_reflector_10": "klieg_light_reflector",
+  "item_powder_monkey_s_tamping_bar_10": "powder_monkey_s_tamping_bar",
+  "item_queen_of_angels_field_satchel_10": "queen_of_angels_field_satchel",
+  "item_circuit_rider_s_saddle_bible_10": "circuit_rider_s_saddle_bible",
+  "item_model_t_crank_handle_10": "model_t_crank_handle",
+  "item_zip_gun_5": "zip_gun",
+  "item_sawed_off_coach_gun_10": "sawed_off_coach_gun",
   "item_hot_dog": "hot_dog",
   "item_coffee": "coffee",
   "item_ham_sandwich": "ham_sandwich",
@@ -12697,6 +12791,10 @@
   "item_q_brown_derby_coffee_tin": "brown_derby_coffee_tin",
   "item_q_call_box_key": "call_box_key",
   "item_q_reel_of_robin_hood": "reel_of_robin_hood",
+  "item_q_soldier_mandible": "soldier_mandible",
+  "item_q_invader_nerve_cord": "invader_nerve_cord",
+  "item_q_broodling_venom_sac": "broodling_venom_sac",
+  "item_q_stolen_auto_parts": "stolen_auto_parts",
   "item_q_grauman_s_note": "grauman_s_note"
  }
 }

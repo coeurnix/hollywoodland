@@ -603,5 +603,10 @@
   "ok": true,
   "reason": "The single ragged glove shows exactly one thumb and four distinct fingers with plausible proportions and joints. There are no extra, missing, or fused digits, and the shape could be worn by a human hand.",
   "seed": 957845911
+ },
+ "stunt_double_s_weighted_gloves": {
+  "ok": true,
+  "reason": "The glove shows one thumb on the left and four fingers, which makes a plausible palm-facing glove with a stitched baseball-like padded palm and a wrist strap. No digits are extra, missing, or fused.",
+  "seed": 47818828
  }
 }

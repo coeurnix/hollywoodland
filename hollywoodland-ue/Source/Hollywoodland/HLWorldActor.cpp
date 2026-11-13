@@ -433,6 +433,68 @@ void AHLWorldActor::AutoTest(float Dt)
 	if (SocialStep == 4) { if (Game.Now < AutoSocialAt) { P->bSitting = true; return; } SocialStep = 99; }
 	if (Game.DuelState == 2 && Game.Sims.IsValidIndex(Game.DuelSim)) { P->TargetId = Game.Sims[Game.DuelSim].UnitId; }
 	bAutoGoal = false;
+	const FHLData& HD = FHLData::Get();
+	// -HLCraftTest: learn Gunsmithing, take Rounds for the Line, load .38s at the bench, hand them in to Earl
+	static int32 CraftStep = FParse::Param(FCommandLine::Get(), TEXT("HLCraftTest")) ? 0 : 99;
+	if (CraftStep < 99 && P->Area == 0 && !Game.InCombat(*P))
+	{
+		const FHLQuest* Q = HD.Quest(TEXT("q_hb_29"));
+		if (CraftStep == 0 && T > 8 && Q)
+		{
+			Game.Player.Guns = 1;
+			Game.AddItem(HD.ItemByName(TEXT("Scrap Metal")), 40, false); Game.AddItem(HD.ItemByName(TEXT("Brass Casings")), 40, false);
+			Game.Player.Done.Add(TEXT("q_hb_28")); Game.AcceptQuest(*Q);
+			Game.StartCraft(0, 30);
+			CraftStep = 1; return;
+		}
+		if (CraftStep == 1) { if (Game.CraftIdx >= 0) return; CraftStep = 2; }
+		if (CraftStep == 2 && Q)
+		{
+			for (const FHLNpcDef& N : Game.Areas[0].Def->Npcs) if (N.Id == TEXT("npc_gunsmith")) { AutoGoal = N.Pos; bAutoGoal = true; if (FVector2D::Distance(P->Pos, N.Pos) < 7.5f) { Game.CompleteQuest(*Q, 0); CraftStep = 3; AutoSocialAt = Game.Now + 4; } }
+			return;
+		}
+		if (CraftStep == 3) { if (Game.Now < AutoSocialAt) return; CraftStep = 99; }
+		if (CraftStep == 0) return;
+	}
+	// -HLEscortTest: take Whitey Comes Home and bring him back to the Pantages, fighting off the ambushes
+	static int32 EscStep = FParse::Param(FCommandLine::Get(), TEXT("HLEscortTest")) ? 0 : 99;
+	if (EscStep < 99 && P->Area == 0)
+	{
+		const FHLQuest* Q = HD.Quest(TEXT("q_hb_14b"));
+		if (EscStep == 0)
+		{
+			if (T < 6 || !Q) return;
+			Game.Player.Done.Add(TEXT("q_hb_14"));
+			for (FHLUnit* U : Game.UnitList) if (U->Kind == EHLKind::Npc && U->Npc && U->Npc->Id == TEXT("npc_stagehand")) Game.TeleportUnit(*P, 0, U->Pos + FVector2D(2, 0));
+			Game.AcceptQuest(*Q);
+			EscStep = 1; return;
+		}
+		if (EscStep == 1)
+		{
+			if (!Game.bEscorting)
+			{
+				const FHLQuestState* QS = Game.QuestState(TEXT("q_hb_14b"));
+				UE_LOG(LogTemp, Display, TEXT("HL_ESCORT %s"), QS && QS->bComplete ? TEXT("arrived") : TEXT("failed"));
+				EscStep = QS && QS->bComplete ? 2 : 99;
+				return;
+			}
+			const FHLUnit* W = Game.Unit(Game.EscortUnitId);
+			FHLUnit* Threat = nullptr; float BestD = 35;
+			for (FHLUnit* U : Game.UnitList) if (U->Kind == EHLKind::Mob && !U->bDead && U->Area == 0 && W && (U->TargetId == W->Id || U->TargetId == P->Id) && Game.Dist(*P, *U) < BestD) { Threat = U; BestD = Game.Dist(*P, *U); }
+			if (Threat) { if (P->TargetId != Threat->Id) Game.TargetUnit(Threat->Id); }
+			else
+			{
+				P->TargetId = 0; P->bAutoAttack = false;
+				for (const FHLObjective& O : Q->Objectives) if (O.Type == TEXT("escort")) { AutoGoal = O.To; bAutoGoal = true; }
+				return;
+			}
+		}
+		else if (EscStep == 2)
+		{
+			for (const FHLNpcDef& N : Game.Areas[0].Def->Npcs) if (N.Id == TEXT("npc_pantages_manager")) { AutoGoal = N.Pos; bAutoGoal = true; if (FVector2D::Distance(P->Pos, N.Pos) < 7.5f) { Game.CompleteQuest(*Q, 0); EscStep = 99; } }
+			return;
+		}
+	}
 	const FHLUnit* Fighting = Game.Unit(P->TargetId);
 	const bool bBusy = Fighting && !Fighting->bDead && Game.InCombat(*P);
 	if (P->Area == 0 && Game.SurgeHub >= 0 && !bBusy && Game.DuelState == 0)

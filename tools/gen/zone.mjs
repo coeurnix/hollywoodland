@@ -14,7 +14,7 @@ export const mobs = [
   M('mob_invader_drone', 'Invader Drone', 'invader_drone', 4, 6, { social: 12, color: [0.3, 0.45, 0.2], junk: ['Cracked Mandible', 'Dull Chitin Flake'], trade: [['Chitin Shard', 0.2]] }),
   M('mob_invader_drone_hs', 'Invader Drone', 'invader_drone', 7, 8, { social: 12, color: [0.28, 0.4, 0.18], junk: ['Cracked Mandible', 'Dull Chitin Flake'], trade: [['Chitin Shard', 0.25]] }),
   M('mob_invader_spitter', 'Invader Spitter', 'invader_spitter', 5, 7, { hp: 0.8, dmg: 0.9, armor: 0.8, ranged: true, abilities: ['ab_mob_acid_spit'], color: [0.55, 0.65, 0.15], scale: 0.9, junk: ['Acid-pitted Scale', 'Bent Antenna'], trade: [['Invader Gland', 0.15]] }),
-  M('mob_looter', 'Looter', 'looter', 5, 6, { shape: 'human', color: [0.35, 0.3, 0.28], social: 8, junk: ['Empty Hip Flask', 'Pawn Ticket', 'Torn Movie Ticket'] }),
+  M('mob_looter', 'Looter', 'looter', 5, 6, { shape: 'human', color: [0.35, 0.3, 0.28], social: 8, junk: ['Empty Hip Flask', 'Pawn Ticket', 'Torn Movie Ticket'], trade: [['Brass Casings', 0.3]] }),
   M('mob_invader_broodling', 'Invader Broodling', 'invader_broodling', 7, 8, { hp: 0.25, dmg: 0.35, armor: 0.5, social: 8, color: [0.6, 0.7, 0.4], scale: 0.45, speed: 7, junk: ['Broodling Husk'], respawn: 60 }),
   M('mob_invader_soldier', 'Invader Soldier', 'invader_soldier', 9, 10, { hp: 1.3, dmg: 1.1, armor: 2, color: [0.2, 0.3, 0.15], scale: 1.25, junk: ['Cracked Mandible', 'Acid-pitted Scale'], trade: [['Chitin Shard', 0.35]] }),
   M('mob_old_scar', 'Old Scar', 'coyote', 5, 5, { rank: 'rare', hp: 0.9, dmg: 0.9, armor: 0.8, shape: 'quad', color: [0.75, 0.7, 0.6], scale: 1.15, speed: 7.5, title: 'coyote', junk: ['Matted Fur'], money: false, respawn: 600 }),
@@ -158,17 +158,17 @@ N('npc_sid_grauman', 'Sid Grauman', 'Showman', 92, 172, 90, ['quest'], { real_pe
 N('npc_max_factor', 'Max Factor', 'Pharmacy Trainer', 158, 188, 90, ['quest', 'vendor'], { real_person: true, died: 1938, stock: 'pharmacy', hub: 'hub_chinese_forecourt' });
 [['veteran', 'Sgt. Walt Brenner', 64], ['stuntman', 'Buck Tolliver', 70], ['gunman', 'Annie Pruitt', 76], ['electrician', 'Lou Kessler', 82],
   ['powderman', 'Dutch Vanderhoek', 102], ['nurse', 'Edith Collier, R.N.', 108], ['preacher', 'Rev. Amos Tully', 114], ['mechanic', 'Hank Mulroney', 120]]
-  .forEach(([cls, name, x]) => N(`npc_trainer_${cls}`, name, `${cls[0].toUpperCase() + cls.slice(1).replace('powderman', 'owder Man').replace('Powder Man', 'Powder Man')} Trainer`, x, 181, 90, ['trainer'], { trains: cls, hub: 'hub_chinese_forecourt' }));
+  .forEach(([cls, name, x]) => N(`npc_trainer_${cls}`, name, `${cls[0].toUpperCase() + cls.slice(1).replace('powderman', 'owder Man').replace('Powder Man', 'Powder Man')} Trainer`, x, 181, 90, ['trainer', 'quest'], { trains: cls, hub: 'hub_chinese_forecourt' }));
 npcs.find((n) => n.id === 'npc_trainer_powderman').title = 'Powder Man Trainer';
 N('npc_newsie', 'Mickey Doyle', 'General Goods', 124, 187, 90, ['vendor'], { stock: 'general', hub: 'hub_chinese_forecourt' });
 N('npc_roosevelt_clerk', 'Mr. Pennington', 'Roosevelt Hotel Front Desk', 96, 212.5, -90, ['quest', 'vendor', 'innkeeper'], { stock: 'food', hub: 'hub_chinese_forecourt' });
 N('npc_teller', 'Miss Abigail Frost', 'Teller, First National Bank', 330, 188, 90, ['banker'], { hub: 'hub_highland' });
 N('npc_conductor', 'Conductor Ruiz', 'Pacific Electric', 284, 196, 0, ['redcar'], { hub: 'hub_highland' });
-N('npc_gunsmith', 'Earl Tanner', 'Hollywood Gun Shop', 366, 188, 90, ['quest', 'vendor', 'repair'], { stock: 'weapons', hub: 'hub_highland' });
+N('npc_gunsmith', 'Earl Tanner', 'Gunsmithing Trainer', 366, 188, 90, ['quest', 'vendor', 'repair', 'trainer_prof'], { stock: 'weapons', prof: 'guns', hub: 'hub_highland' });
 N('npc_haberdasher', 'Saul Hirsch', 'Haberdasher', 384, 188, 90, ['vendor', 'repair'], { stock: 'armor', hub: 'hub_highland' });
 N('npc_auctioneer', 'Cornelius Vane', 'Auctioneer', 772, 211, 180, ['quest', 'auctioneer'], { hub: 'hub_vine' });
 N('npc_auctioneer2', 'Miss Opal Reed', 'Auctioneer', 790, 211.5, -90, ['auctioneer'], { hub: 'hub_vine' });
-N('npc_salvage_trainer', 'Ike Brandt', 'Salvaging Trainer', 742, 214, -90, ['quest', 'trainer_prof'], { hub: 'hub_vine' });
+N('npc_salvage_trainer', 'Ike Brandt', 'Salvaging Trainer', 742, 214, -90, ['quest', 'trainer_prof'], { prof: 'salvage', hub: 'hub_vine' });
 N('npc_derby_cook', 'Gus Malloy', 'Brown Derby Kitchen', 768, 286, 180, ['quest', 'vendor'], { stock: 'food', hub: 'hub_vine' });
 N('npc_druggist', 'Mrs. Ida Walsh', 'Druggist, WCTU', 730, 212.5, -90, ['quest'], { hub: 'hub_vine' });
 N('npc_pantages_manager', 'Lloyd Carver', 'Pantages House Manager', 718, 188, 90, ['quest'], { hub: 'hub_vine' });

@@ -130,7 +130,7 @@ struct FHLPlayer
 	bool bCreated = false;
 	FString Name, PlayerId;
 	const FHLClass* Cls = nullptr;
-	int32 Xp = 0, Cents = 0, Salvage = 0, Deaths = 0, Kills = 0;
+	int32 Xp = 0, Cents = 0, Salvage = 0, Deaths = 0, Kills = 0, Guns = 0;
 	TArray<FHLInvSlot> Bag, Bank;
 	TMap<FString, const FHLItem*> Equip; // hat neck coat wrist gloves belt trousers shoes ring main off ranged
 	TArray<const FHLAbility*> Known, Bar;
@@ -392,6 +392,25 @@ public:
 	FString WhoQuery; bool bWhoOpen = false;
 	FString ChatCtx; // fills {ctx} in corpus lines (event names)
 
+	// ---- gunsmithing and escorts (HLCraft.cpp)
+	struct FHLRecipe { FString Product, Mat1, Mat2; int32 Yield = 1, Skill = 1, N1 = 0, N2 = 0; };
+	static const TArray<FHLRecipe>& GunRecipes();
+	int32 CraftIdx = -1, CraftLeft = 0;
+	double CraftStart = 0, CraftEnd = 0;
+	int32 RecipeColour(const FHLRecipe& R) const; // -1 too high, 0 grey, 1 green, 2 yellow, 3 orange
+	int32 CraftableCount(const FHLRecipe& R) const;
+	void StartCraft(int32 Idx, int32 Times);
+	void TickCraft();
+	int32 EscortUnitId = 0, EscortAmbush = 0;
+	const FHLQuest* EscortQuest = nullptr;
+	FVector2D EscortStart = FVector2D::ZeroVector;
+	double EscortResetAt = 0;
+	bool bEscorting = false;
+	bool CanStartEscort(const FHLQuest& Q, bool bReport);
+	void StartEscort(const FHLQuest& Q);
+	void EndEscort(bool bFailed, const FString& Why);
+	void EscortDied(FHLUnit& W);
+	void TickEscort(float Dt);
 	// ---- world events (HLEvents.cpp)
 	struct FHLHub { FString Id, Name; FVector2D Pos; };
 	TArray<FHLHub> Hubs;

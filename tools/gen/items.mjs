@@ -137,6 +137,13 @@ const NAMED_WEAPONS = [
   ['Letter H Girder', 'heavy', 12, 4, { str: 0.6, sta: 0.4 }], ['Hive Queen\'s Stinger', 'knife', 12, 4, { agi: 0.6, sta: 0.4 }],
   ['Tower Beacon', 'lamp', 12, 4, { int: 0.6, spi: 0.4 }], ['Architect\'s T-Square', 'tool', 12, 4, { int: 0.6, sta: 0.4 }],
   ['Sister Aimee\'s Pulpit Bible', 'bible', 12, 4, { spi: 0.6, int: 0.4 }], ['Kop Captain\'s Nightstick', 'club', 10, 3, { str: 0.5, sta: 0.5 }],
+  // Class quest rewards (band 2 = req 10)
+  ['Belleau Wood Trench Club', 'club', 2, 3, { str: 0.6, sta: 0.4 }], ['Stunt Double\'s Weighted Gloves', 'fist', 2, 3, { agi: 0.6, str: 0.4 }],
+  ['Studio Armourer\'s Winchester', 'rifle', 2, 3, { agi: 0.6, sta: 0.4 }], ['Klieg Light Reflector', 'lamp', 2, 3, { int: 0.6, spi: 0.4 }],
+  ['Powder Monkey\'s Tamping Bar', 'tool', 2, 3, { int: 0.6, sta: 0.4 }], ['Queen of Angels Field Satchel', 'bag', 2, 3, { int: 0.6, spi: 0.4 }],
+  ['Circuit Rider\'s Saddle Bible', 'bible', 2, 3, { spi: 0.6, int: 0.4 }], ['Model T Crank Handle', 'tool', 2, 3, { str: 0.6, int: 0.4 }],
+  // Gunsmithing products (green)
+  ['Zip Gun', 'pistol', 1, 2, { agi: 0.6, sta: 0.4 }], ['Sawed-off Coach Gun', 'shotgun', 2, 2, { agi: 0.6, str: 0.4 }],
 ];
 
 export function buildItems() {

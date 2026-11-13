@@ -52,6 +52,7 @@ for (const q of quests) for (const o of q.objectives) {
 }
 for (const q of quests) {
   q.rewards.choice = q.rewards.choice.map(([n, r]) => itemId(n, r)).filter(Boolean);
+  if (q.takes) q.takes = q.takes.map(([n, c]) => ({ item: itemId(n), count: c }));
   if (q.gives_on_accept && !byName.has(q.gives_on_accept)) { const row = questItem(q.gives_on_accept); items.push(row); byName.set(row.name, row); }
 }
 
@@ -68,7 +69,7 @@ for (const m of mobs) if (m.rank === 'boss') m.boss_loot = egyLoot;
 // ---- NPCs: vendor stock, trainer titles ----
 const className = Object.fromEntries(classes.map((c) => [c.id, c.name]));
 const stock = {
-  weapons: [...items.filter((i) => i.kind === 'ammo'), ...items.filter((i) => i.kind === 'weapon' && i.q === 1 && i.req <= 10)].map((i) => i.id),
+  weapons: [...items.filter((i) => i.kind === 'ammo'), ...items.filter((i) => i.name === 'Scrap Metal' || i.name === 'Brass Casings'), ...items.filter((i) => i.kind === 'weapon' && i.q === 1 && i.req <= 10)].map((i) => i.id),
   armor: items.filter((i) => i.kind === 'armor' && i.q === 1 && i.req <= 10).map((i) => i.id),
   food: ['Hot Dog', 'Coffee', 'Ham Sandwich', 'Coca-Cola', 'Linen Bandage'].map((n) => itemId(n)),
   general: ['Linen Bandage', 'Johnson & Johnson Gauze Roll', 'Hot Dog', 'Coffee', '.38 Special Lead Round-Nose', '.30-30 Winchester Soft-Point', '12-Gauge Birdshot Shells'].map((n) => itemId(n)),
@@ -152,7 +153,8 @@ for (const q of quests) {
   for (const o of q.objectives) {
     for (const m of o.mobs || []) need(m, `quest ${q.id}`);
     for (const m of o.from || []) need(m, `quest ${q.id}`);
-    if (o.type === 'talk' && !FAR_NPCS.has(o.npc)) need(o.npc, `quest ${q.id}`);
+    if ((o.type === 'talk' || o.type === 'escort') && !FAR_NPCS.has(o.npc)) need(o.npc, `quest ${q.id}`);
+    if (o.type === 'craft' && !byName.has(o.item)) err(`quest ${q.id}: craft item ${o.item}`);
     if ((o.type === 'object' || o.type === 'use') && !areas.some((a) => a.objects.filter((x) => x.kind === o.kind).length >= o.count)) err(`quest ${q.id}: not enough objects of kind ${o.kind}`);
     if (o.type === 'kill' && !areas.some((a) => a.camps.some((c) => o.mobs.includes(c.mob)))) err(`quest ${q.id}: no camp for ${o.mobs}`);
   }

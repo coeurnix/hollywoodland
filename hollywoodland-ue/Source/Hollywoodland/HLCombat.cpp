@@ -202,7 +202,7 @@ void FHLGame::AddThreat(FHLUnit& Mob, int32 SrcId, float Amount)
 
 void FHLGame::DealDamage(FHLUnit* Src, FHLUnit& Dst, float Amount, const FString& School, bool bCrit, const FString& What)
 {
-	if (Dst.bDead || Dst.Kind == EHLKind::Npc) return;
+	if (Dst.bDead || (Dst.Kind == EHLKind::Npc && !(bEscorting && Dst.Id == EscortUnitId))) return;
 	if (Dst.Kind == EHLKind::Mob && Dst.MobState == EHLMobState::Evade) { if (Src && Src->Kind == EHLKind::Player) AddFloat(Dst.Id, TEXT("Evade"), FLinearColor::White); return; }
 	if (Src) Amount *= 1.f + Src->BuffSum(TEXT("dmg_pct")) + Src->Mod(TEXT("dmg_pct"));
 	if (School == TEXT("physical"))
@@ -249,8 +249,9 @@ void FHLGame::DealDamage(FHLUnit* Src, FHLUnit& Dst, float Amount, const FString
 		if (Dst.MobState == EHLMobState::Idle || Dst.MobState == EHLMobState::Flee) MobEnterCombat(Dst, Src->Id);
 	}
 	if (Dst.Hp <= 0 && Src && InDuel(*Src, Dst)) { Dst.Hp = 1; EndDuel(Src->Id, TEXT("defeated")); return; }
-	if (Dst.Hp <= 0) KillUnit(Dst, Src);
-}
+		if (Dst.Hp <= 0 && Dst.Kind == EHLKind::Npc) { EscortDied(Dst); return; }
+		if (Dst.Hp <= 0) KillUnit(Dst, Src);
+	}
 
 void FHLGame::HealUnit(FHLUnit* Src, FHLUnit& Dst, float Amount, const FString& What)
 {
@@ -351,7 +352,7 @@ void FHLGame::KillUnit(FHLUnit& U, FHLUnit* Killer)
 		if (bBroke) { RecalcPlayerStats(); System(TEXT("Some of your equipment is broken. A repair vendor can mend it.")); }
 		System(TEXT("You have died. Release to the nearest aid station."));
 		if (Party.Num()) PartyEvent(TEXT("the player died"));
-		InteractObj = -1; OpenNpcUnitId = 0; OpenNpcMode.Reset();
+		InteractObj = -1; CraftIdx = -1; OpenNpcUnitId = 0; OpenNpcMode.Reset();
 	}
 	else if (U.Kind == EHLKind::Sim && U.SimIdx >= 0)
 	{
