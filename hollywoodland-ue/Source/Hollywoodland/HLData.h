@@ -45,13 +45,15 @@ struct FHLClass
 };
 struct FHLItem
 {
-	FString Id, Name, Kind, Slot, Type, Blurb, UseType, UseStat, Desc;
+	FString Id, Name, Kind, Slot, Type, Blurb, UseType, UseStat, Desc, Ammo; // Ammo: calibre (pistol rifle shotgun) on ammo rows
 	int32 Icon = -1; // global slot in Content/Data/Icons (tools/itemgen)
 	int32 Q = 1, Req = 0, ILvl = 1, Armor = 0, DMin = 0, DMax = 0, Price = 0, Stack = 1, Hands = 1;
-	float Speed = 0, UseAmount = 0, UseValue = 0, UseDur = 0;
+	float Speed = 0, UseAmount = 0, UseValue = 0, UseDur = 0, AmmoDps = 0;
+	int32 Buy = 1; // vendor sells this many per purchase (ammo boxes); Price is per purchase
 	int32 Stats[HL_NUM_STATS] = { 0, 0, 0, 0, 0 };
 	bool bNamed = false;
 	bool IsEquip() const { return Kind == TEXT("armor") || Kind == TEXT("weapon"); }
+	FString Calibre() const { return Type == TEXT("rifle") ? TEXT("rifle") : Type == TEXT("shotgun") ? TEXT("shotgun") : Slot == TEXT("ranged") ? TEXT("pistol") : FString(); }
 };
 struct FHLMobDef
 {

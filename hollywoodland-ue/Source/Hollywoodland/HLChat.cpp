@@ -116,6 +116,7 @@ FString FHLGame::FillTemplate(const FHLSim& S, const FString& In)
 	Rep(TEXT("{plvl}"), [&] { return FString::FromInt(P ? P->Level : 1); });
 	Rep(TEXT("{need}"), [&] { return FString::FromInt(FMath::Max(8, S.Level - 4)); });
 	Rep(TEXT("{target}"), [&] { return Player.Name; });
+	Rep(TEXT("{ctx}"), [&] { return ChatCtx; });
 	return Out;
 }
 

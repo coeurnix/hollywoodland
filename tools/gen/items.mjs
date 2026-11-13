@@ -181,6 +181,16 @@ export function buildItems() {
   add({ id: '', name: 'Linen Bandage', kind: 'consumable', slot: '', type: 'bandage', q: 1, req: 1, ilvl: 1, stats: {}, armor: 0, price: 2, stack: 20, use: { type: 'bandage', amount: 40 }, built: true });
   add({ id: '', name: 'Johnson & Johnson Gauze Roll', kind: 'consumable', slot: '', type: 'bandage', q: 1, req: 8, ilvl: 8, stats: {}, armor: 0, price: 8, stack: 20, use: { type: 'bandage', amount: 110 }, built: true });
   add({ id: '', name: 'Bootleg Gin', kind: 'consumable', slot: '', type: 'liquor', q: 1, req: 5, ilvl: 5, stats: {}, armor: 0, price: 12, stack: 10, use: { type: 'buff', stat: 'dmg_pct', value: 0.05, dur: 600 }, built: true, blurb: 'Contraband. +5% damage for 10 minutes.' });
+  // Ammunition (bible §6: each auto-shot uses one round). Sold in boxes of `buy`; price is per box, sell value per round.
+  const ammo = [
+    ['.38 Special Lead Round-Nose', 'pistol', 1, 0.5, 1, 'Fits revolvers, automatic pistols and the Thompson.'],
+    ['.45 ACP Full Metal Jacket', 'pistol', 10, 1.4, 5, 'Fits revolvers, automatic pistols and the Thompson. Hits harder.'],
+    ['.30-30 Winchester Soft-Point', 'rifle', 1, 0.6, 1, 'Fits lever-action and bolt rifles.'],
+    ['.30-06 Springfield Ball', 'rifle', 10, 1.6, 5, 'Fits lever-action and bolt rifles. Army surplus.'],
+    ['12-Gauge Birdshot Shells', 'shotgun', 1, 0.6, 1, 'Fits pump and auto shotguns.'],
+    ['12-Gauge 00 Buckshot Shells', 'shotgun', 10, 1.6, 5, 'Fits pump and auto shotguns. Stops a charging drone.'],
+  ];
+  for (const [n, cal, req, dps, price, blurb] of ammo) add({ id: '', name: n, kind: 'ammo', slot: '', type: 'ammo', q: 1, req, ilvl: req, stats: {}, armor: 0, price, buy: 100, stack: 200, ammo: cal, ammo_dps: dps, blurb: `${blurb} +${dps} damage per second. Used one round per shot.`, built: true });
   // Junk and trade goods
   const junk = [['Cracked Mandible', 2], ['Bent Antenna', 3], ['Dull Chitin Flake', 4], ['Matted Fur', 2], ['Chewed Bone', 2], ['Empty Hip Flask', 6], ['Pawn Ticket', 9], ['Broodling Husk', 5], ['Acid-pitted Scale', 8], ['Torn Movie Ticket', 1]];
   for (const [n, lvl] of junk) add({ id: '', name: n, kind: 'junk', slot: '', type: 'junk', q: 0, req: 0, ilvl: lvl, stats: {}, armor: 0, price: Math.max(1, Math.round(lvl * lvl / 10 * 0.5) + lvl), stack: 20, built: true });

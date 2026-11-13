@@ -8691,6 +8691,42 @@
    "sheet": 3,
    "x": 1728,
    "y": 480
+  },
+  "38_special_lead_round_nose": {
+   "index": 1447,
+   "sheet": 3,
+   "x": 1824,
+   "y": 480
+  },
+  "45_acp_full_metal_jacket": {
+   "index": 1448,
+   "sheet": 3,
+   "x": 1920,
+   "y": 480
+  },
+  "30_30_winchester_soft_point": {
+   "index": 1449,
+   "sheet": 3,
+   "x": 0,
+   "y": 576
+  },
+  "30_06_springfield_ball": {
+   "index": 1450,
+   "sheet": 3,
+   "x": 96,
+   "y": 576
+  },
+  "12_gauge_birdshot_shells": {
+   "index": 1451,
+   "sheet": 3,
+   "x": 192,
+   "y": 576
+  },
+  "12_gauge_00_buckshot_shells": {
+   "index": 1452,
+   "sheet": 3,
+   "x": 288,
+   "y": 576
   }
  },
  "items": {
@@ -12630,6 +12666,12 @@
   "item_linen_bandage": "linen_bandage",
   "item_johnson_and_johnson_gauze_roll": "johnson_johnson_gauze_roll",
   "item_bootleg_gin": "bootleg_gin",
+  "item_38_special_lead_round_nose": "38_special_lead_round_nose",
+  "item_45_acp_full_metal_jacket": "45_acp_full_metal_jacket",
+  "item_30_30_winchester_soft_point": "30_30_winchester_soft_point",
+  "item_30_06_springfield_ball": "30_06_springfield_ball",
+  "item_12_gauge_birdshot_shells": "12_gauge_birdshot_shells",
+  "item_12_gauge_00_buckshot_shells": "12_gauge_00_buckshot_shells",
   "item_cracked_mandible": "cracked_mandible",
   "item_bent_antenna": "bent_antenna",
   "item_dull_chitin_flake": "dull_chitin_flake",

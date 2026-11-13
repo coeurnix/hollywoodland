@@ -68,10 +68,10 @@ for (const m of mobs) if (m.rank === 'boss') m.boss_loot = egyLoot;
 // ---- NPCs: vendor stock, trainer titles ----
 const className = Object.fromEntries(classes.map((c) => [c.id, c.name]));
 const stock = {
-  weapons: items.filter((i) => i.kind === 'weapon' && i.q === 1 && i.req <= 10).map((i) => i.id),
+  weapons: [...items.filter((i) => i.kind === 'ammo'), ...items.filter((i) => i.kind === 'weapon' && i.q === 1 && i.req <= 10)].map((i) => i.id),
   armor: items.filter((i) => i.kind === 'armor' && i.q === 1 && i.req <= 10).map((i) => i.id),
   food: ['Hot Dog', 'Coffee', 'Ham Sandwich', 'Coca-Cola', 'Linen Bandage'].map((n) => itemId(n)),
-  general: ['Linen Bandage', 'Johnson & Johnson Gauze Roll', 'Hot Dog', 'Coffee'].map((n) => itemId(n)),
+  general: ['Linen Bandage', 'Johnson & Johnson Gauze Roll', 'Hot Dog', 'Coffee', '.38 Special Lead Round-Nose', '.30-30 Winchester Soft-Point', '12-Gauge Birdshot Shells'].map((n) => itemId(n)),
   pharmacy: ['Linen Bandage', 'Johnson & Johnson Gauze Roll', 'Coca-Cola'].map((n) => itemId(n)),
 };
 for (const a of areas) for (const n of a.npcs) {

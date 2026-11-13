@@ -154,6 +154,7 @@ struct FHLSim
 	EHLSimRole Role = EHLSimRole::Away;
 	EHLSimState State = EHLSimState::Idle;
 	bool bOnline = true, bInParty = false, bAfk = false;
+	uint8 EventRole = 0; // 1 defending a hive surge, 2 watching picture night
 	int32 UnitId = 0, Level = 1, CampIdx = -1, Kills = 0, KillGoal = 10, RouteIdx = 0, ScriptId = 0;
 	float Xp = 0, StateUntil = 0, NextAct = 0, HealBiasUntil = 0, NextEmote = 0, AwayUntil = 0;
 	FString Zone, Activity;
@@ -221,6 +222,7 @@ public:
 	bool MoveTo(FHLUnit& U, const FVector2D& Goal, float StopDist = 0.5f); // returns true when arrived
 	void StopMove(FHLUnit& U) { U.Path.Reset(); U.PathIdx = 0; }
 	void FaceTo(FHLUnit& U, const FVector2D& P);
+	void SeparateSims(float Dt);
 
 	// ---- stats (HLGame.cpp)
 	void RecalcPlayerStats();
@@ -272,6 +274,8 @@ public:
 	float NextSaveAt = 30;
 	bool AddItem(const FHLItem* Item, int32 Count = 1, bool bAnnounce = true);
 	int32 CountItem(const FHLItem* Item) const;
+	const FHLItem* BestAmmo() const;
+	void GiveStarterAmmo(); // best usable ammunition in the bags for the equipped ranged weapon
 	void RemoveItem(const FHLItem* Item, int32 Count);
 	bool CanEquip(const FHLItem& It, FString* Why = nullptr) const;
 	void EquipBag(int32 BagIdx);
@@ -377,4 +381,24 @@ public:
 		const TArray<FString>& Events, TFunction<void(bool bOk, const TSharedPtr<class FJsonObject>& Resp)> Done);
 	void ApplyWorkerActions(const TSharedPtr<class FJsonObject>& Resp, const FString& DefaultChannel, const TArray<int32>& Speakers);
 	FString WhoQuery; bool bWhoOpen = false;
+	FString ChatCtx; // fills {ctx} in corpus lines (event names)
+
+	// ---- world events (HLEvents.cpp)
+	struct FHLHub { FString Id, Name; FVector2D Pos; };
+	TArray<FHLHub> Hubs;
+	int32 SurgeHub = -1, SurgeWarnHub = -1, SurgeKills = 0;
+	double SurgeStartAt = 0, SurgeEnd = 0, SurgeNextWave = 0, NextSurgeAt = 0;
+	TSet<int32> SurgeMobs;
+	TMap<FString, double> HubClosedUntil;
+	double FilmStart = 0, FilmEnd = 0, NextFilmAt = 0, NextFilmChat = 0; float FilmWatchS = 0;
+	bool bFilmAnnounced = false, bFilmBuffGiven = false, bEventsSoon = false;
+	FString FilmTitle, FilmShort;
+	void InitEvents();
+	void TickEvents(float Dt);
+	bool SimEventBrain(FHLSim& S, FHLUnit& U);
+	void OnEventMobKilled(const FHLUnit& Mob, const FHLUnit* Killer);
+	void AnnounceRare(const FHLUnit& Mob);
+	bool HubClosed(const FString& HubId) const;
+	int32 RandomLocalSim(const FVector2D& Near, float MaxD);
+	void EventSay(const FString& Situation, const FString& Ctx, const FString& Ch, const FVector2D& Near, float MaxD, float Delay);
 };

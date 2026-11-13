@@ -274,6 +274,7 @@ void FHLGame::GrantXp(int32 Amount, bool bQuest)
 {
 	FHLUnit* U = PlayerUnit();
 	if (!U || Amount <= 0) return;
+	if (!bQuest) Amount = FMath::RoundToInt32(Amount * (1.f + U->BuffSum(TEXT("xp_pct"))));
 	Player.Xp += Amount;
 	AddChat(TEXT("system"), FString(), bQuest ? FString::Printf(TEXT("Experience gained: %d."), Amount) : FString::Printf(TEXT("You gain %d experience."), Amount));
 	if (!bQuest) AddFloat(U->Id, FString::Printf(TEXT("+%d XP"), Amount), FLinearColor(0.8f, 0.5f, 1.f));
@@ -305,6 +306,7 @@ void FHLGame::KillUnit(FHLUnit& U, FHLUnit* Killer)
 	{
 		const FHLMobDef& M = *U.Mob;
 		U.MobState = EHLMobState::Idle;
+		if (U.bEvent) OnEventMobKilled(U, Killer);
 		float RankXp = M.Rank == TEXT("elite") ? 2.f : M.Rank == TEXT("rare") ? 3.f : M.Rank == TEXT("boss") ? 4.f : 1.f;
 		if (U.SummonerId) RankXp *= 0.3f;
 		if (U.TappedBy == PlayerUnitId && PlayerUnit())
@@ -412,6 +414,21 @@ void FHLGame::TickCombat(FHLUnit& U, float Dt)
 		const float Reach = U.AutoRange + (U.bRangedAuto ? 0.f : T->Scale * 0.4f);
 		if (D <= Reach && U.SwingTimer <= 0 && (!U.bRangedAuto || Areas[U.Area].Nav.SegClear(U.Pos, T->Pos)))
 		{
+			float AmmoDps = 0;
+			if (U.Kind == EHLKind::Player && U.bRangedAuto)
+			{
+				const FHLItem* Ammo = BestAmmo();
+				if (!Ammo)
+				{
+					const FHLItem* const* Gun = Player.Equip.Find(TEXT("ranged"));
+					Error(FString::Printf(TEXT("You have no %s ammunition."), Gun && *Gun ? *(*Gun)->Calibre() : TEXT("")));
+					U.bAutoAttack = false; return;
+				}
+				AmmoDps = Ammo->AmmoDps;
+				RemoveItem(Ammo, 1);
+				const int32 Left = CountItem(Ammo);
+				if (Left == 50 || Left == 10) System(FString::Printf(TEXT("%d rounds of %s left."), Left, *Ammo->Name));
+			}
 			U.SwingTimer = U.WeaponSpeed;
 			if (U.Kind != EHLKind::Player || !Input.bMouseSteer) FaceTo(U, T->Pos);
 			const bool bShow = U.Kind == EHLKind::Player || T->Kind == EHLKind::Player;
@@ -438,7 +455,7 @@ void FHLGame::TickCombat(FHLUnit& U, float Dt)
 			{
 				const bool bBlocked = R < Miss + Dodge + Parry + Block;
 				const bool bCrit = !bBlocked && Chance(U.Crit + U.BuffSum(TEXT("crit")));
-				float Dmg = FMath::Lerp(U.WeaponMin, U.WeaponMax, Rand()) + U.AttackPower / 14.f * U.WeaponSpeed;
+				float Dmg = FMath::Lerp(U.WeaponMin, U.WeaponMax, Rand()) + (U.AttackPower / 14.f + AmmoDps) * U.WeaponSpeed;
 				if (bBlocked) { Dmg = FMath::Max(0.f, Dmg - T->BlockValue); if (bShow) AddFloat(T->Id, TEXT("Block"), FLinearColor::White); }
 				if (Dmg > 0) DealDamage(&U, *T, Dmg * (bCrit ? 2.f : 1.f), TEXT("physical"), bCrit, U.bRangedAuto ? TEXT("shot") : TEXT("attack"));
 				// Dazed: a mob far above its victim slows it on every hit, so nobody outruns a zone-wall elite

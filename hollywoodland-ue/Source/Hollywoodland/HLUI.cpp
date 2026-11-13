@@ -753,25 +753,33 @@ void SHLGameUI::DrawHud() const
 	{
 		static const TCHAR* Lbl[] = { TEXT("Char (C)"), TEXT("Bags (B)"), TEXT("Quests (L)"), TEXT("Skills (P)"), TEXT("Map (M)"), TEXT("Who (O)"), TEXT("Talent (N)"), TEXT("Menu") };
 		bool* Flags[] = { &bChar, &bBags, &bQuests, &bSpells, &bMap, &bWho, &bTalents, &bMenu };
-		const float Mw = 8 * 70, Mx = VS.X - Mw - 10, My = VS.Y - 30;
-		Block(Mx - 2, My - 2, Mw + 4, 26);
+		// one framed strip of adjacent bevelled buttons (classic micro menu): 8 x 38 px, 6 px frame
+		const float Bsz = 36, Gap = 2, Pad = 5, Mw = 8 * Bsz + 7 * Gap + Pad * 2, Mh = Bsz + Pad * 2;
+		const float Mx = VS.X - Mw - 12, Mtop = VS.Y - Mh - 8;
+		Block(Mx - 2, Mtop - 2, Mw + 4, Mh + 4);
+		Panel(Mx, Mtop, Mw, Mh, FLinearColor(0.05f, 0.045f, 0.04f), FLinearColor(0.72f, 0.56f, 0.28f));
 		static const TCHAR* Icons[] = { TEXT("menu_char"), TEXT("menu_bags"), TEXT("menu_quests"), TEXT("menu_skills"), TEXT("menu_map"), TEXT("menu_who"), TEXT("menu_talents"), TEXT("menu_menu") };
 		for (int32 i = 0; i < 8; ++i)
 		{
+			const float X = Mx + Pad + i * (Bsz + Gap), Y = Mtop + Pad;
+			const bool bH = Hover(X, Y, Bsz, Bsz), bOn = *Flags[i];
+			++Layer; LastKind = 1;
+			// bevel: black outline, light top-left edge, dark bottom-right edge (inverted while the window is open)
+			Rc(X, Y, Bsz, Bsz, FLinearColor(0, 0, 0, 1));
+			++Layer; LastKind = 1;
+			const FLinearColor Lite = bH ? FLinearColor(1, 0.86f, 0.5f) : FLinearColor(0.62f, 0.5f, 0.3f), Dark(0.16f, 0.12f, 0.07f);
+			Rc(X + 1, Y + 1, Bsz - 2, 2, bOn ? Dark : Lite); Rc(X + 1, Y + 1, 2, Bsz - 2, bOn ? Dark : Lite);
+			Rc(X + 1, Y + Bsz - 3, Bsz - 2, 2, bOn ? Lite : Dark); Rc(X + Bsz - 3, Y + 1, 2, Bsz - 2, bOn ? Lite : Dark);
+			const float O = bOn ? 1.f : 0.f; // pressed: the face sinks a pixel
 			if (const FSlateBrush* IB = HLMenuBrush(Icons[i]))
-			{
-				// icon button, label as tooltip
-				const float X = Mx + i * 70 + 16, Y = My - 14;
-				const bool bH = Hover(X, Y, 36, 36);
-				Rc(X - 1, Y - 1, 38, 38, bH ? FLinearColor(1, 0.85f, 0.45f) : *Flags[i] ? FLinearColor(0.9f, 0.7f, 0.3f) : FLinearColor(0.45f, 0.36f, 0.2f));
-				Img(X + 1, Y + 1, 34, 34, IB, bH || *Flags[i] ? FLinearColor::White : FLinearColor(0.8f, 0.8f, 0.8f, 1));
-				if (bH) { TipText = Lbl[i]; TipPos = Mouse; if (bLClick) { bLClick = false; *Flags[i] = !*Flags[i]; if (i == 5) Gm.bWhoOpen = bWho; } }
-			}
-			else if (Btn(Mx + i * 70, My, 66, 22, Lbl[i], true, 8)) { *Flags[i] = !*Flags[i]; if (i == 5) Gm.bWhoOpen = bWho; }
+				Img(X + 3 + O, Y + 3 + O, Bsz - 6, Bsz - 6, IB, bH || bOn ? FLinearColor::White : FLinearColor(0.78f, 0.78f, 0.78f, 1));
+			else TxC(X + Bsz * 0.5f, Y + 11, FString(Lbl[i]).Left(4), 8, ColWhite);
+			if (bOn) { ++Layer; LastKind = 1; Rc(X + 3, Y + 3, Bsz - 6, 1, FLinearColor(1, 0.8f, 0.35f, 0.9f)); Rc(X + 3, Y + Bsz - 4, Bsz - 6, 1, FLinearColor(1, 0.8f, 0.35f, 0.9f)); }
+			if (bH) { TipText = Lbl[i]; TipPos = Mouse; if (bLClick) { bLClick = false; *Flags[i] = !*Flags[i]; if (i == 5) Gm.bWhoOpen = bWho; } }
 		}
 		{
 			const FString Info = FString::Printf(TEXT("%s%s    Players online: %d    %s"), Gm.bWorkerOk ? TEXT("") : TEXT("(chat AI offline: corpus mode)    "), *HLMoney(Gm.Player.Cents), Gm.OnlineCount(), TEXT(""));
-			Tx(VS.X - 14 - TW(Info.TrimEnd(), 10), My - 38, Info.TrimEnd(), 10, ColGold);
+			Tx(VS.X - 14 - TW(Info.TrimEnd(), 10), Mtop - 18, Info.TrimEnd(), 10, ColGold);
 		}
 	}
 	DrawQuestMarkers();
@@ -836,7 +844,8 @@ void SHLGameUI::DrawQuestMarkers() const
 	int32 Shown = 0;
 	TArray<TPair<FVector2D, FLinearColor>> Goals;
 	if (P->bGhost && P->Area == Gm.Player.CorpseArea) Goals.Add({ Gm.Player.CorpsePos, FLinearColor(0.6f, 0.85f, 1.f) });
-	else for (const FHLQuestState& QS : Gm.Player.Quests)
+	else if (Gm.SurgeHub >= 0 && P->Area == 0 && Gm.Hubs.IsValidIndex(Gm.SurgeHub)) Goals.Add({ Gm.Hubs[Gm.SurgeHub].Pos, FLinearColor(1, 0.35f, 0.25f) });
+	if (!P->bGhost) for (const FHLQuestState& QS : Gm.Player.Quests)
 	{
 		FVector2D Goal;
 		if (Goals.Num() < 3 && HLQuestGoal(Gm, QS, *P, Goal)) Goals.Add({ Goal, QS.bComplete ? FLinearColor(1, 0.85f, 0.2f) : FLinearColor(1, 0.95f, 0.6f) });
@@ -927,6 +936,23 @@ void SHLGameUI::DrawTracker() const
 {
 	FHLGame& Gm = G();
 	float X = VS.X - 250, Y = 222;
+	auto Clock = [](double S) { const int32 T = FMath::Max(0, (int32)S); return FString::Printf(TEXT("%d:%02d"), T / 60, T % 60); };
+	if (Gm.SurgeHub >= 0 && Gm.Hubs.IsValidIndex(Gm.SurgeHub))
+	{
+		const FHLGame::FHLHub& H = Gm.Hubs[Gm.SurgeHub];
+		Tx(X, Y, TEXT("Hive Surge"), 10, FLinearColor(1, 0.4f, 0.3f), true);
+		if (const FHLUnit* PU = Gm.PlayerUnit()) { const FString Hint = FString::Printf(TEXT("%s %d m"), HLCompass(H.Pos - PU->Pos), (int32)FVector2D::Distance(H.Pos, PU->Pos)); Tx(VS.X - 16 - TW(Hint, 9), Y + 1, Hint, 9, ColDim); }
+		Y += 15;
+		Tx(X + 8, Y, FString::Printf(TEXT("Defend %s"), *H.Name), 9, ColWhite); Y += 14;
+		Tx(X + 8, Y, FString::Printf(TEXT("%s left    Invaders slain: %d"), *Clock(Gm.SurgeEnd - Gm.Now), Gm.SurgeKills), 9, ColWhite); Y += 18;
+	}
+	if (Gm.bFilmAnnounced)
+	{
+		const bool bOn = Gm.FilmStart > 0;
+		Tx(X, Y, TEXT("Picture Night"), 10, FLinearColor(0.75f, 0.85f, 1.f), true); Y += 15;
+		Tx(X + 8, Y, FString::Printf(TEXT("%s at Grauman's Chinese"), *Gm.FilmShort), 9, ColWhite); Y += 14;
+		Tx(X + 8, Y, bOn ? (Gm.bFilmBuffGiven ? FString::Printf(TEXT("%s left (buff received)"), *Clock(Gm.FilmEnd - Gm.Now)) : FString::Printf(TEXT("%s left. Watch to be inspired"), *Clock(Gm.FilmEnd - Gm.Now))) : FString::Printf(TEXT("Starts in %s"), *Clock(Gm.NextFilmAt - Gm.Now)), 9, ColDim); Y += 18;
+	}
 	if (!Gm.Player.Quests.Num())
 	{
 		if (Gm.PlayerUnit()->Level <= 2 && Gm.Player.Done.Num() == 0) { Tx(X, Y, TEXT("Speak to Sid Grauman (the gold ! nearby)."), 10, ColGold); Tx(X, Y + 16, TEXT("Right-click him, or stand close and press F."), 10, ColDim); }
@@ -1088,7 +1114,7 @@ void SHLGameUI::DrawPopups() const
 	}
 	if (bHelp)
 	{
-		const float W = 430, H = 250, X = VS.X - W - 16, Y = VS.Y - H - 60;
+		const float W = 430, H = 250, X = VS.X - W - 16, Y = VS.Y - H - 84;
 		Block(X, Y, W, H); Panel(X, Y, W, H);
 		Tx(X + 10, Y + 8, TEXT("How to play"), 13, ColGold, true);
 		TxWrap(X + 10, Y + 32, W - 20,
@@ -1139,7 +1165,8 @@ void SHLGameUI::DrawTooltip() const
 			Wrap(It.Desc, 10, 280, Wr);
 			for (const FString& D : Wr) Lines.Add({ D, FLinearColor(1, 0.86f, 0.55f) });
 		}
-		if (It.Price > 0) Lines.Add({ FString::Printf(TEXT("Sell price: %s"), *HLMoney(It.Price)), ColDim });
+		if (It.Kind == TEXT("ammo")) Lines.Add({ FString::Printf(TEXT("Ammunition (%s)    +%.1f dps"), *It.Ammo, It.AmmoDps), ColWhite });
+		if (It.Price > 0) Lines.Add({ It.Buy > 1 ? FString::Printf(TEXT("Sell price: %s per %d"), *HLMoney(It.Price), It.Buy) : FString::Printf(TEXT("Sell price: %s"), *HLMoney(It.Price)), ColDim });
 	}
 	else
 	{

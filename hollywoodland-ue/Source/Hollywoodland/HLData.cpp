@@ -155,6 +155,7 @@ bool FHLData::Load(FString& Err)
 			It.Blurb = S(O, TEXT("blurb")); It.Q = N(O, TEXT("q"), 1); It.Req = N(O, TEXT("req")); It.ILvl = N(O, TEXT("ilvl"), 1); It.Armor = N(O, TEXT("armor"));
 			It.DMin = N(O, TEXT("dmin")); It.DMax = N(O, TEXT("dmax")); It.Speed = N(O, TEXT("speed")); It.Price = N(O, TEXT("price")); It.Stack = N(O, TEXT("stack"), 1);
 			It.Hands = N(O, TEXT("hands"), 1); It.bNamed = B(O, TEXT("named")); It.Desc = S(O, TEXT("desc")); It.Icon = N(O, TEXT("icon"), -1);
+			It.Ammo = S(O, TEXT("ammo")); It.AmmoDps = N(O, TEXT("ammo_dps")); It.Buy = FMath::Max(1, (int32)N(O, TEXT("buy"), 1));
 			if (JObj St = Sub(O, TEXT("stats")))
 			{
 				It.Stats[HL_STR] = N(St, TEXT("str")); It.Stats[HL_AGI] = N(St, TEXT("agi")); It.Stats[HL_STA] = N(St, TEXT("sta"));

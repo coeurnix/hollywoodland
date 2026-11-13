@@ -76,7 +76,7 @@ void FHLGame::TickMob(FHLUnit& U, float Dt)
 			U.PathGoal = Camp.Pos; U.Home = Nav.NearestFree(Camp.Pos + FVector2D(FMath::Cos(Ang), FMath::Sin(Ang)) * R);
 			U.WanderAt = Now + 6 + Rand() * 14;
 		}
-		if (FVector2D::DistSquared(U.Pos, U.Home) > 1.f) { U.MoveMult = 0.35f; MoveTo(U, U.Home, 0.6f); }
+		if (FVector2D::DistSquared(U.Pos, U.Home) > 1.f) { U.MoveMult = U.bEvent ? 0.7f : 0.35f; MoveTo(U, U.Home, 0.6f); }
 		break;
 	}
 	case EHLMobState::Combat:
@@ -294,7 +294,9 @@ void FHLGame::TickCamps(float Dt)
 				const float Ang = Rand() * 2 * PI, R = Camp.R * FMath::Sqrt(Rand());
 				const FVector2D Pos = Camp.Pos + FVector2D(FMath::Cos(Ang), FMath::Sin(Ang)) * R;
 				if (P && P->Area == a && FVector2D::Distance(P->Pos, Pos) < 8) continue; // not on top of the player
-				A.Camps[c].UnitIds[s] = SpawnMob(Camp.Mob, a, Pos, c, s)->Id;
+				FHLUnit* M = SpawnMob(Camp.Mob, a, Pos, c, s);
+				A.Camps[c].UnitIds[s] = M->Id;
+				if (Camp.Mob->Rank == TEXT("rare")) AnnounceRare(*M);
 			}
 		}
 		for (FHLObjectState& O : A.Objects) if (!O.bActive && O.Def->Respawn > 0 && Now >= O.RespawnAt) O.bActive = true;

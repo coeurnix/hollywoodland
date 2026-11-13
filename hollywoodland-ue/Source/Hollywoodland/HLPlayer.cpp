@@ -24,6 +24,15 @@ void FHLGame::NewCharacter(const FString& Name, const FHLClass* Cls)
 	if (const FHLItem* Food = D.ItemByName(TEXT("Hot Dog"))) AddItem(Food, 5, false);
 	if (Cls->Resource == TEXT("power")) if (const FHLItem* Drink = D.ItemByName(TEXT("Coffee"))) AddItem(Drink, 5, false);
 	if (const FHLItem* Bd = D.ItemByName(TEXT("Linen Bandage"))) AddItem(Bd, 3, false);
+	GiveStarterAmmo();
+}
+
+void FHLGame::GiveStarterAmmo()
+{
+	const FHLItem* const* Gun = Player.Equip.Find(TEXT("ranged"));
+	if (!Player.Cls || !Player.Cls->bRanged || !Gun || !*Gun) return;
+	for (const FHLItem& It : FHLData::Get().Items)
+		if (It.Kind == TEXT("ammo") && It.Req <= 1 && It.Ammo == (*Gun)->Calibre()) { AddItem(&It, 200, false); return; }
 }
 
 void FHLGame::LearnAbility(const FHLAbility* Ab, bool bFree)
@@ -45,7 +54,7 @@ FString FHLGame::SaveJson() const
 {
 	const FHLUnit* U = PlayerUnit();
 	TSharedRef<FJsonObject> O = MakeShared<FJsonObject>();
-	O->SetNumberField(TEXT("v"), 1);
+	O->SetNumberField(TEXT("v"), 2);
 	O->SetStringField(TEXT("player_id"), Player.PlayerId);
 	O->SetStringField(TEXT("name"), Player.Name);
 	O->SetStringField(TEXT("class"), Player.Cls ? Player.Cls->Id : FString());
@@ -185,6 +194,7 @@ bool FHLGame::LoadJson(const FString& Json)
 	U.Level = FMath::Clamp((int32)O->GetIntegerField(TEXT("level")), 1, 60);
 	double X = 0, Y = 0;
 	if (O->TryGetNumberField(TEXT("x"), X) && O->TryGetNumberField(TEXT("y"), Y)) U.Pos = Areas[0].Nav.NearestFree(FVector2D(X, Y));
+	if (O->GetIntegerField(TEXT("v")) < 2) GiveStarterAmmo(); // saves from before ammunition existed
 	return true;
 }
 
@@ -300,8 +310,20 @@ void FHLGame::SellBag(int32 BagIdx)
 	if (!Player.Bag.IsValidIndex(BagIdx) || !Player.Bag[BagIdx].Item) return;
 	const FHLInvSlot S = Player.Bag[BagIdx];
 	if (S.Item->Price <= 0) { Error(TEXT("The merchant doesn't want that.")); return; }
-	Player.Cents += S.Item->Price * S.Count;
+	Player.Cents += S.Item->Price * S.Count / S.Item->Buy;
 	Player.Bag[BagIdx] = FHLInvSlot();
+}
+
+const FHLItem* FHLGame::BestAmmo() const
+{
+	const FHLItem* const* Gun = Player.Equip.Find(TEXT("ranged"));
+	const FHLUnit* U = PlayerUnit();
+	if (!Gun || !*Gun || !U || SlotDurability(TEXT("ranged")) <= 0) return nullptr;
+	const FString Cal = (*Gun)->Calibre();
+	const FHLItem* Best = nullptr;
+	for (const FHLInvSlot& S : Player.Bag)
+		if (S.Item && S.Count > 0 && S.Item->Kind == TEXT("ammo") && S.Item->Ammo == Cal && S.Item->Req <= U->Level && (!Best || S.Item->AmmoDps > Best->AmmoDps)) Best = S.Item;
+	return Best;
 }
 
 bool FHLGame::BuyItem(const FHLItem* Item)
@@ -309,7 +331,7 @@ bool FHLGame::BuyItem(const FHLItem* Item)
 	if (!Item) return false;
 	const int32 Cost = FMath::Max(1, Item->Price * 4);
 	if (Player.Cents < Cost) { Error(TEXT("You can't afford that.")); return false; }
-	if (!AddItem(Item, 1, false)) return false;
+	if (!AddItem(Item, Item->Buy, false)) return false;
 	Player.Cents -= Cost;
 	return true;
 }

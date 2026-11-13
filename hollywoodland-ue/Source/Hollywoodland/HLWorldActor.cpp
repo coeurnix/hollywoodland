@@ -375,6 +375,7 @@ void AHLWorldActor::AutoTest(float Dt)
 	if (AutoQuit > 0 && T > AutoQuit) { UKismetSystemLibrary::QuitGame(this, nullptr, EQuitPreference::Quit, false); return; }
 	FHLUnit* P = Game.PlayerUnit();
 	if (P && P->bGhost && FVector2D::Distance(P->Pos, Game.Player.CorpsePos) > 8) Game.MoveTo(*P, Game.Player.CorpsePos, 4); // every frame
+	else if (P && bAutoGoal && !P->bDead && Game.MoveTo(*P, AutoGoal, 5)) bAutoGoal = false;
 		if (!P || Game.Now < AutoNextAct) { if (P && !P->bDead && !P->bGhost) if (FHLUnit* Tg = Game.Unit(P->TargetId)) if (!Tg->bDead && Tg->Kind == EHLKind::Mob) Game.MoveTo(*P, Tg->Pos, P->AutoRange - 1); return; }
 	AutoNextAct = Game.Now + 0.4f;
 	{
@@ -396,6 +397,25 @@ void AHLWorldActor::AutoTest(float Dt)
 			for (int32 Tier = 1; Tier <= 5 && Game.TalentPoints() > 0; ++Tier)
 				for (const FHLTalent* Tl : Game.Player.Cls->Talents)
 					if (Tl->Spec == Spec && Tl->Tier == Tier) while (Game.CanLearnTalent(*Tl).IsEmpty()) Game.LearnTalent(*Tl);
+	// world events: defend a surging hub, sit in on picture night until the buff lands
+	bAutoGoal = false;
+	const FHLUnit* Fighting = Game.Unit(P->TargetId);
+	const bool bBusy = Fighting && !Fighting->bDead && Game.InCombat(*P);
+	if (P->Area == 0 && Game.SurgeHub >= 0 && !bBusy)
+	{
+		const FHLUnit* Cur = Game.Unit(P->TargetId);
+		if (!Cur || Cur->bDead || !Game.SurgeMobs.Contains(Cur->Id))
+		{
+			FHLUnit* Best = nullptr; float BestD = 1e9f;
+			for (int32 Id : Game.SurgeMobs) if (FHLUnit* SM = Game.Unit(Id)) if (!SM->bDead && Game.Dist(*P, *SM) < BestD) { Best = SM; BestD = Game.Dist(*P, *SM); }
+			if (Best && BestD < 60) Game.TargetUnit(Best->Id);
+			else { AutoGoal = Game.Hubs[Game.SurgeHub].Pos; bAutoGoal = true; return; }
+		}
+	}
+	else if (P->Area == 0 && Game.FilmStart > 0 && !Game.bFilmBuffGiven && !Game.InCombat(*P))
+	{
+		if (const FVector2D* Scr = Game.Areas[0].Def->Pois.Find(TEXT("forecourt"))) { P->TargetId = 0; P->bAutoAttack = false; if (FVector2D::Distance(P->Pos, *Scr) < 12) P->bSitting = true; else { AutoGoal = *Scr + FVector2D(0, -6); bAutoGoal = true; } return; }
+	}
 	FHLUnit* Tg = Game.Unit(P->TargetId);
 	if (!Tg || Tg->bDead || Tg->Kind != EHLKind::Mob)
 	{

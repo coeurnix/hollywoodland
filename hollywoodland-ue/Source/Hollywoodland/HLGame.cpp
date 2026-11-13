@@ -336,9 +336,11 @@ void FHLGame::Tick(float Dt)
 		if (U.HopT > 0) U.HopT = FMath::Max(0.f, U.HopT - Dt);
 	}
 	TickSims(Dt);
+	SeparateSims(Dt);
 	TickCamps(Dt);
 	TickCensus();
 	TickDirector(Dt);
+	TickEvents(Dt);
 	TickChat(Dt);
 	if (Now >= NextAuctionChurn) TickAuctions();
 	if (Roll.bActive && Now >= Roll.EndsAt) FinishRoll();
@@ -347,6 +349,29 @@ void FHLGame::Tick(float Dt)
 }
 
 // ------------------------------------------------------------------------------------------------------------- movement
+// Simulated players step aside instead of standing inside each other (or inside the player and NPCs). Only sims are
+// pushed: the player is never shoved, and mobs spread around their own target in TickMob.
+void FHLGame::SeparateSims(float Dt)
+{
+	const float MinD = 0.9f;
+	for (FHLUnit* A : UnitList)
+	{
+		if (A->Kind != EHLKind::Sim || A->bDead || A->Casting) continue;
+		FVector2D Push = FVector2D::ZeroVector;
+		for (const FHLUnit* B : UnitList)
+		{
+			if (B == A || B->Area != A->Area || B->bDead || B->Kind == EHLKind::Mob) continue;
+			const FVector2D D = A->Pos - B->Pos;
+			if (FMath::Abs(D.X) > MinD || FMath::Abs(D.Y) > MinD) continue;
+			const float L = D.Size();
+			if (L >= MinD) continue;
+			const FVector2D N = L > 0.01f ? D / L : FVector2D(FMath::Cos(A->Id * 1.7f), FMath::Sin(A->Id * 1.7f));
+			Push += N * (MinD - L);
+		}
+		if (!Push.IsNearlyZero()) A->Pos = Areas[A->Area].Nav.Slide(A->Pos, Push * FMath::Min(1.f, Dt * 5.f), 0.35f);
+	}
+}
+
 void FHLGame::FaceTo(FHLUnit& U, const FVector2D& P)
 {
 	const FVector2D D = P - U.Pos;

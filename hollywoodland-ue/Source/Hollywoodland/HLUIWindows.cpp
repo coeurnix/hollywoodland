@@ -396,7 +396,11 @@ void SHLGameUI::DrawNpc() const
 		}
 		Y += 6;
 		auto Service = [&](const TCHAR* Role, const TCHAR* Label, const TCHAR* Mode) { if (Np.HasRole(Role)) { if (Btn(WX, Y, 410, 24, Label, true, 10)) { Gm.OpenNpcMode = Mode; if (FCString::Strcmp(Mode, TEXT("vendor")) == 0 || FCString::Strcmp(Mode, TEXT("bank")) == 0 || FCString::Strcmp(Mode, TEXT("auction")) == 0) bBags = true; VendorScroll = 0; AuctionPage = 0; } Y += 30; } };
-		Service(TEXT("vendor"), TEXT("Let me browse your goods."), TEXT("vendor"));
+		if (Np.HasRole(TEXT("vendor")) && Gm.HubClosed(Np.Hub))
+		{
+			Tx(WX, Y + 4, FString::Printf(TEXT("\"We're boarded up after the surge. Come back in %d minutes.\""), FMath::Max(1, (int32)((Gm.HubClosedUntil[Np.Hub] - Gm.Now) / 60) + 1)), 10, ColDim); Y += 30;
+		}
+		else Service(TEXT("vendor"), TEXT("Let me browse your goods."), TEXT("vendor"));
 		Service(TEXT("trainer"), TEXT("I'd like to train."), TEXT("trainer"));
 		Service(TEXT("trainer_prof"), TEXT("Teach me a profession."), TEXT("prof"));
 		Service(TEXT("banker"), TEXT("I'd like to check my deposit box."), TEXT("bank"));
@@ -454,7 +458,7 @@ void SHLGameUI::DrawNpc() const
 			const bool bCan = !It->IsEquip() || Gm.CanEquip(*It);
 			ItemIcon(WX, Y, 28, It);
 			Tx(WX + 34, Y + 1, It->Name, 10, bCan ? HLQualityColor(It->Q) : ColRed);
-			Tx(WX + 34, Y + 14, It->IsEquip() ? FString::Printf(TEXT("level %d %s"), It->Req, *It->Type) : It->Type, 8, ColDim);
+			Tx(WX + 34, Y + 14, It->IsEquip() ? FString::Printf(TEXT("level %d %s"), It->Req, *It->Type) : It->Buy > 1 ? FString::Printf(TEXT("box of %d"), It->Buy) : It->Type, 8, ColDim);
 			const int32 Cost = FMath::Max(1, It->Price * 4);
 			if (Btn(WX + 330, Y + 2, 84, 24, HLMoney(Cost), Gm.Player.Cents >= Cost, 10)) Gm.BuyItem(It);
 		}

@@ -17362,5 +17362,77 @@
   "file": "grauman_s_note.png",
   "brief": "A folded cream letter sheet covered in illegible looping ink strokes, a red wax seal smudged at the fold, one corner dog-eared.",
   "at": "2026-11-12 19:26:20"
+ },
+ "38_special_lead_round_nose": {
+  "attempt": 0,
+  "seed": 1834525127,
+  "prompt": "Hand-painted inventory icon for a classic fantasy MMORPG, 1930s Hollywood Art Deco flavour. Subject: Small open buff cardboard box of revolver cartridges with a blank red label, rows of dull grey lead round-nose tips set in tarnished brass cases. A single object, centred, filling about 80 percent of a square frame, whole object visible, bold clean silhouette with a thin dark outline, chunky simplified forms that stay readable when tiny, confident painterly brush strokes, warm golden key light from the upper left, cool teal rim light, rich saturated colour, high contrast against a plain dark warm-brown radial vignette background. No text, no letters, no numbers, no logo, no border, no frame, no people, no hands.",
+  "request_id": null,
+  "status_url": "https://queue.fal.run/blackforestlabs/flux-3/requests/01a1d319-d5fe-7583-aedf-f07b8b0932a0/status",
+  "response_url": "https://queue.fal.run/blackforestlabs/flux-3/requests/01a1d319-d5fe-7583-aedf-f07b8b0932a0",
+  "status": "done",
+  "file": "38_special_lead_round_nose.png",
+  "brief": "Small open buff cardboard box of revolver cartridges with a blank red label, rows of dull grey lead round-nose tips set in tarnished brass cases",
+  "at": "2026-11-12 20:10:58"
+ },
+ "45_acp_full_metal_jacket": {
+  "attempt": 0,
+  "seed": 1580092788,
+  "prompt": "Hand-painted inventory icon for a classic fantasy MMORPG, 1930s Hollywood Art Deco flavour. Subject: Five stubby pistol cartridges standing upright beside a small green pasteboard box, bright copper-jacketed noses on short polished brass cases. A single object, centred, filling about 80 percent of a square frame, whole object visible, bold clean silhouette with a thin dark outline, chunky simplified forms that stay readable when tiny, confident painterly brush strokes, warm golden key light from the upper left, cool teal rim light, rich saturated colour, high contrast against a plain dark warm-brown radial vignette background. No text, no letters, no numbers, no logo, no border, no frame, no people, no hands.",
+  "request_id": null,
+  "status_url": "https://queue.fal.run/blackforestlabs/flux-3/requests/01a1d319-d666-7f53-9402-646724852bb3/status",
+  "response_url": "https://queue.fal.run/blackforestlabs/flux-3/requests/01a1d319-d666-7f53-9402-646724852bb3",
+  "status": "done",
+  "file": "45_acp_full_metal_jacket.png",
+  "brief": "Five stubby pistol cartridges standing upright beside a small green pasteboard box, bright copper-jacketed noses on short polished brass cases",
+  "at": "2026-11-12 20:10:58"
+ },
+ "30_30_winchester_soft_point": {
+  "attempt": 0,
+  "seed": 297457291,
+  "prompt": "Hand-painted inventory icon for a classic fantasy MMORPG, 1930s Hollywood Art Deco flavour. Subject: Slender bottlenecked brass rifle cartridges with flat exposed lead soft-point tips, packed in a yellow-orange paper box, one cartridge lying loose in front. A single object, centred, filling about 80 percent of a square frame, whole object visible, bold clean silhouette with a thin dark outline, chunky simplified forms that stay readable when tiny, confident painterly brush strokes, warm golden key light from the upper left, cool teal rim light, rich saturated colour, high contrast against a plain dark warm-brown radial vignette background. No text, no letters, no numbers, no logo, no border, no frame, no people, no hands.",
+  "request_id": null,
+  "status_url": "https://queue.fal.run/blackforestlabs/flux-3/requests/01a1d319-d667-7fc2-9a0b-40eb9cc8a29b/status",
+  "response_url": "https://queue.fal.run/blackforestlabs/flux-3/requests/01a1d319-d667-7fc2-9a0b-40eb9cc8a29b",
+  "status": "done",
+  "file": "30_30_winchester_soft_point.png",
+  "brief": "Slender bottlenecked brass rifle cartridges with flat exposed lead soft-point tips, packed in a yellow-orange paper box, one cartridge lying loose in front",
+  "at": "2026-11-12 20:10:58"
+ },
+ "30_06_springfield_ball": {
+  "attempt": 0,
+  "seed": 1256230741,
+  "prompt": "Hand-painted inventory icon for a classic fantasy MMORPG, 1930s Hollywood Art Deco flavour. Subject: Five long pointed rifle cartridges held in a steel stripper clip, dull brass cases and copper-nickel tips, resting against an olive drab canvas bandolier pocket. A single object, centred, filling about 80 percent of a square frame, whole object visible, bold clean silhouette with a thin dark outline, chunky simplified forms that stay readable when tiny, confident painterly brush strokes, warm golden key light from the upper left, cool teal rim light, rich saturated colour, high contrast against a plain dark warm-brown radial vignette background. No text, no letters, no numbers, no logo, no border, no frame, no people, no hands.",
+  "request_id": null,
+  "status_url": "https://queue.fal.run/blackforestlabs/flux-3/requests/01a1d319-d5fe-75f1-9ea8-4b6c846f240a/status",
+  "response_url": "https://queue.fal.run/blackforestlabs/flux-3/requests/01a1d319-d5fe-75f1-9ea8-4b6c846f240a",
+  "status": "done",
+  "file": "30_06_springfield_ball.png",
+  "brief": "Five long pointed rifle cartridges held in a steel stripper clip, dull brass cases and copper-nickel tips, resting against an olive drab canvas bandolier pocket",
+  "at": "2026-11-12 20:10:58"
+ },
+ "12_gauge_birdshot_shells": {
+  "attempt": 0,
+  "seed": 728732338,
+  "prompt": "Hand-painted inventory icon for a classic fantasy MMORPG, 1930s Hollywood Art Deco flavour. Subject: Three faded red paper shotgun shells with crimped tops and short brass bases, one standing upright and two lying on their sides. A single object, centred, filling about 80 percent of a square frame, whole object visible, bold clean silhouette with a thin dark outline, chunky simplified forms that stay readable when tiny, confident painterly brush strokes, warm golden key light from the upper left, cool teal rim light, rich saturated colour, high contrast against a plain dark warm-brown radial vignette background. No text, no letters, no numbers, no logo, no border, no frame, no people, no hands.",
+  "request_id": null,
+  "status_url": "https://queue.fal.run/blackforestlabs/flux-3/requests/01a1d319-fdde-76e3-8ee4-644315fc8497/status",
+  "response_url": "https://queue.fal.run/blackforestlabs/flux-3/requests/01a1d319-fdde-76e3-8ee4-644315fc8497",
+  "status": "done",
+  "file": "12_gauge_birdshot_shells.png",
+  "brief": "Three faded red paper shotgun shells with crimped tops and short brass bases, one standing upright and two lying on their sides",
+  "at": "2026-11-12 20:11:05"
+ },
+ "12_gauge_00_buckshot_shells": {
+  "attempt": 0,
+  "seed": 1173546963,
+  "prompt": "Hand-painted inventory icon for a classic fantasy MMORPG, 1930s Hollywood Art Deco flavour. Subject: Row of chunky dark green paper shotgun shells with tall brass heads, one cut open to show large grey lead pellets packed inside. A single object, centred, filling about 80 percent of a square frame, whole object visible, bold clean silhouette with a thin dark outline, chunky simplified forms that stay readable when tiny, confident painterly brush strokes, warm golden key light from the upper left, cool teal rim light, rich saturated colour, high contrast against a plain dark warm-brown radial vignette background. No text, no letters, no numbers, no logo, no border, no frame, no people, no hands.",
+  "request_id": null,
+  "status_url": "https://queue.fal.run/blackforestlabs/flux-3/requests/01a1d319-fdde-7d72-9615-096626fd719a/status",
+  "response_url": "https://queue.fal.run/blackforestlabs/flux-3/requests/01a1d319-fdde-7d72-9615-096626fd719a",
+  "status": "done",
+  "file": "12_gauge_00_buckshot_shells.png",
+  "brief": "Row of chunky dark green paper shotgun shells with tall brass heads, one cut open to show large grey lead pellets packed inside",
+  "at": "2026-11-12 20:11:06"
  }
 }

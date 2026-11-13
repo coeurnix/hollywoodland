@@ -273,6 +273,7 @@ void FHLGame::TickSimBrain(FHLSim& S, FHLUnit& U, float Dt)
 	}
 
 	if (S.State == EHLSimState::Script) { MoveTo(U, S.Dest, 2.f); return; } // the Director set it running
+	if (S.EventRole && SimEventBrain(S, U)) return;
 
 	// anyone attacked defends themselves (transients one-shot in passing)
 	if (InCombat(U) && S.State != EHLSimState::Grind)
