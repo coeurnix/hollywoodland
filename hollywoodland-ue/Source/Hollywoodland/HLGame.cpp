@@ -346,6 +346,7 @@ void FHLGame::Tick(float Dt)
 	TickSimDungeon();
 	TickFightNight();
 	TickEvents(Dt);
+	TickHive();
 	TickEscort(Dt);
 	TickSocial(Dt);
 	TickGuild();
@@ -588,5 +589,5 @@ void FHLGame::SpawnArea(int32 AreaIdx, bool bResetBosses)
 			A.Camps[c].RespawnAt[s] = 0;
 		}
 	}
-	for (FHLObjectState& O : A.Objects) { O.bActive = true; O.RespawnAt = 0; }
-}
+		for (FHLObjectState& O : A.Objects) { O.bActive = O.Def->Spread == 0; O.RespawnAt = 0; }
+	}

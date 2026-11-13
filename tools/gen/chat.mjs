@@ -109,6 +109,8 @@ export const corpus = [
   ...L('guild_raid', ['raid invites in 10, be at the bank', 'mount lee tonight, need 2 more heals', 'reminder: raid 8pm server, repair first', 'who is coming tonight? reply here', 'raid canceled, not enough tanks. dungeons instead']),
   ...L('guild_clear', ['GG all, {ctx}', 'finally. {ctx}', '{ctx}!!', 'nice work tonight. {ctx}', 'gg, {ctx}']),
   ...L('guild_declined', ['np', 'all good, offer stands', 'ok! gl out there', 'no worries', 'k, whisper me if you change your mind']),
+  ...L('hive_spread', ['eggs spreading by {ctx} again', 'hive is spreading near {ctx}, someone burn it', 'who left the egg field up? its spreading to {ctx}', 'broodlings all over {ctx} now, ugh', 'eggs at {ctx}. not it']),
+  ...L('hive_cleared', ['eggs at {ctx} cleared, ty whoever', 'finally someone burned the {ctx} eggs', '{ctx} clear, hive pulled back', 'cleared the eggs by {ctx}, youre welcome']),
   ...L('guild_reply', ['lol', 'yeah', 'true', 'haha', 'same', 'nice', 'sure', 'hm', 'idk', 'gl']),
   ...L('who_ai', ['lol what', 'beep boop. no, im just slow', 'i wish, id level faster', 'rude', 'says the guy who keeps pulling 3 drones', 'haha ok', 'bots dont die this much', 'only on mondays']),
   ...L('idle', ['anyone know when picture night starts', 'this zone is packed tonight', 'lag?', 'is it just me or are the drones tougher today', 'need {left} more for {lvl}', 'so many workers so little time',

@@ -20,15 +20,17 @@ Context: a classic-MMO look (early World of Warcraft polygon budget and texturin
 
 ## 2. Hard performance budgets
 
+**Texture resolution update (user direction, 12 November 2026):** character and item textures must be **1K or 2K**, never 512² or smaller, and never 4K. Use 2048×2048 for body, skin, underwear, face, scalp and hair masters; use 1024×1024 for clothing layers, hats, held items and their masks. A clothing or item texture may use 2048×2048 when closeup detail warrants it. Masks match their associated layer's resolution. This supersedes all earlier lower-resolution targets. Preserve real source detail rather than enlarging a degraded 512² image.
+
 | Item | Triangles (LOD0) | Texture |
 |---|---|---|
-| Base body (always-on pieces + default geosets, §5) | 2,000–3,000 | body atlas 512×512 (§4) |
+| Base body (always-on pieces + default geosets, §5) | 2,000–3,000 | body atlas 2048×2048 (§4) |
 | Each geoset variant | ≤ 400 additional | body atlas |
-| Hairstyle | ≤ 400 | hair atlas 512×512 per sex, shared by all styles |
-| Hat | ≤ 300 | 256×256 each (128×128 for simple caps) |
-| Weapon, small (knife, fist, bible, bag) | ≤ 200 | 128×128 |
-| Weapon, one-handed (club, tool, sabre, revolver, pistol) | ≤ 350 | 256×256 |
-| Weapon, large (two-handed, rifle, shotgun, SMG, shield, lamp) | ≤ 550 | 256×256 |
+| Hairstyle | ≤ 400 | hair atlas 2048×2048 per sex, shared by all styles |
+| Hat | ≤ 300 | 1024×1024 each; 2048×2048 when needed |
+| Weapon, small (knife, fist, bible, bag) | ≤ 200 | 1024×1024; 2048×2048 when needed |
+| Weapon, one-handed (club, tool, sabre, revolver, pistol) | ≤ 350 | 1024×1024; 2048×2048 when needed |
+| Weapon, large (two-handed, rifle, shotgun, SMG, shield, lamp) | ≤ 550 | 1024×1024; 2048×2048 when needed |
 | **Worst-case fully dressed and armed avatar** | **≤ 4,500** | — |
 
 - Skeleton: **exactly the 37 bones in §3**, with no extras.
@@ -80,11 +82,11 @@ That is 37 bones: 7 central, 11 per arm and 4 per leg.
 - **Export content:** deform bones only. Do not export IK controls, constraints, custom properties or leaf/end bones.
 - **Shape keys:** none.
 
-## 4. Body texture atlas (512×512, shared layout)
+## 4. Body texture atlas (2048×2048, shared logical layout)
 
 Every body mesh and geoset is UV-mapped into these fixed regions on **both** sexes. This lets one clothing layer fit both bodies and lets layers be composited into a single texture per avatar at runtime.
 
-Coordinates are in pixels from the top-left:
+The table below uses **logical coordinates on a 512×512 layout grid**, measured from the top-left. **512 is not a delivered image resolution.** Multiply every coordinate, dimension and padding value by **4** for a 2048² image, or by **2** for a 1024² clothing layer or mask. Normalized UVs are identical at both resolutions. Resize layers to the target body atlas resolution before runtime compositing; scale pixel rectangles accordingly.
 
 | Region | x | y | w | h | Contents |
 |---|---|---|---|---|---|
@@ -101,7 +103,7 @@ Coordinates are in pixels from the top-left:
 
 Rules:
 
-- UV islands stay inside their region with ≥ 4 px padding to the region edge, and texel density is roughly uniform.
+- UV islands stay inside their region with ≥ 4 logical px padding to the region edge (16 actual px at 2K, 8 actual px at 1K), and texel density is roughly uniform.
 - Limbs are mirrored, so limb textures are symmetric by design. Torso and head are unique, not mirrored.
 - Seams fall on region boundaries where possible: neck, waist, mid-upper-arm, elbow, wrist, knee and ankle.
 - Each geoset also maps into the regions of the slot it belongs to (§5, "UV regions").
@@ -152,18 +154,18 @@ Rules:
 For each sex (`Male`, `Female`):
 
 - **Body FBX:** the armature plus every `GEO_*` mesh from §5.
-- **Skin:** 8 skin-tone textures `T_<Sex>_Skin_01..08.png` (512², RGB, no alpha). They are full-body bare skin and follow the same paintover; only the tone differs, from 01 lightest to 08 darkest, with varied undertones.
-- **Underwear:** `T_<Sex>_Underwear.png` (512² RGBA, alpha = coverage), modest 1930s undergarments.
+- **Skin:** 8 skin-tone textures `T_<Sex>_Skin_01..08.png` (2048², RGB, no alpha). They are full-body bare skin and follow the same paintover; only the tone differs, from 01 lightest to 08 darkest, with varied undertones.
+- **Underwear:** `T_<Sex>_Underwear.png` (2048² RGBA, alpha = coverage), modest 1930s undergarments.
   - Male: undershirt and knee-length shorts.
   - Female: camisole and slip to the knee.
-- **Faces:** 12 face overlays `T_<Sex>_Face_01..12.png` (512² RGBA, painted only in the face regions).
+- **Faces:** 12 face overlays `T_<Sex>_Face_01..12.png` (2048² RGBA, painted only in the face regions).
   - Contents: eyes, brows, lips, facial structure shading, and stubble or moustache on some male faces.
   - They must read correctly over all 8 skin tones, so paint them with tone-neutral shading (multiply-style darks, sparse lights).
 - **Hair:** 12 hairstyles per sex. Each has:
   - mesh `SK_<Sex>_Hair_01..12` (rigid to `head`, 100% weight);
   - optional brim-split mesh `SK_<Sex>_Hair_NN_Top` for the part a hat hides (if a style has no `_Top`, the whole style shows under hats);
-  - a scalp overlay `T_<Sex>_Scalp_NN.png` (512² RGBA, face regions) for hairline and stubble.
-- **Hair atlas:** all hair meshes share `T_<Sex>_Hair.png` (512²). Hair and scalp are painted **greyscale** (mean value about 0.55, with painted highlights) because the game tints them to the chosen hair colour. A style may be scalp-only, with no mesh (crew cut, receding).
+  - a scalp overlay `T_<Sex>_Scalp_NN.png` (2048² RGBA, face regions) for hairline and stubble.
+- **Hair atlas:** all hair meshes share `T_<Sex>_Hair.png` (2048²). Hair and scalp are painted **greyscale** (mean value about 0.55, with painted highlights) because the game tints them to the chosen hair colour. A style may be scalp-only, with no mesh (crew cut, receding).
 - **Styles, men:** slicked back, side part, pompadour, crew cut, centre part, wavy, receding, bald with stubble, curly, short afro, tousled, side-swept long.
 - **Styles, women:** finger-wave bob, pin curls, sleek bob with bangs, Marcel waves, chignon, short curly crop, shoulder-length waves, braided crown, low bun, pageboy, short afro, wind-swept.
 
@@ -173,8 +175,8 @@ There are **32 looks**: 24 (4 armour types × 6 tiers) plus 8 epics. A look is o
 
 Each look has, **per sex** (the female version re-interprets the outfit with period womenswear, e.g. a dress in place of trousers):
 
-- one **layer texture per slot**: `T_<Look>_<Sex>_<Slot>.png` (512² RGBA, painted only in that slot's regions from §4, with alpha = coverage);
-- one **tint mask per slot**: `T_<Look>_<Sex>_<Slot>_Mask.png` (512² RGB, linear), where R = primary recolour area, G = secondary recolour area and B = unused (0). Blue-quality items and colour sets recolour these areas. Leave metal, buttons and skin at 0;
+- one **layer texture per slot**: `T_<Look>_<Sex>_<Slot>.png` (1024² RGBA; 2048² if needed, painted only in that slot's regions from §4, with alpha = coverage);
+- one **tint mask per slot**: `T_<Look>_<Sex>_<Slot>_Mask.png` (same size as its layer: 1024² or 2048² RGB, linear), where R = primary recolour area, G = secondary recolour area and B = unused (0). Blue-quality items and colour sets recolour these areas. Leave metal, buttons and skin at 0;
 - a **geoset choice per slot** (from §5) and an optional **hat mesh** `SM_Hat_<Look>` (one mesh fits both sexes' heads, pivot at the crown where it sits on the head, with flag `hides_hair_top`).
 
 Tiers map to levels as follows: T1 = 1–9, T2 = 10–19, T3 = 20–29, T4 = 30–39, T5 = 40–49 and T6 = 50–60. Chitin appears from T5. The base items each look must evoke come from `tools/gen/items.mjs`:
@@ -273,7 +275,7 @@ art/characters/
 
 Use a single FBX convention throughout: binary FBX 7.4, Z-up, the character facing +Y, 1 unit = 1 cm in UE, all transforms applied, and scale 1.0. From Blender, use the default FBX export axes with "Apply Unit" checked, "Add Leaf Bones" off, and the armature object named `Armature`, which UE drops.
 
-Textures are 8-bit PNG, sRGB except masks, which are linear. Sizes are exactly as specified.
+Textures are 8-bit PNG, sRGB except masks, which are linear. Sizes are 1024² or 2048² as specified above; no delivered character or item textures may be 512² or smaller. Record actual texture dimensions in the manifest. The logical 512-grid atlas table is a layout contract, not permission to deliver 512² textures.
 
 `manifest.json` lists every look so that import needs no guesswork:
 
@@ -302,6 +304,7 @@ Textures are 8-bit PNG, sRGB except masks, which are linear. Sizes are exactly a
 ## 11. Acceptance checklist (self-check before delivery)
 
 - [ ] Bone names and hierarchy match §3 exactly in both bodies. Count = 37.
+- [ ] Every delivered character/item texture is 1024² or 2048², with no 512² or smaller images; masks match their layers. Body/face/hair masters are 2048². The manifest records dimensions, and atlas coordinates/padding are scaled from the logical 512 grid.
 - [ ] Triangle counts are within §2, including the worst case: the heaviest look plus hair, hat and a two-handed weapon is ≤ 4,500.
 - [ ] Every vertex has 1–4 normalised weights. No vertex is unweighted.
 - [ ] UVs follow §4: islands sit inside their regions with padding, and both sexes use the same layout.
@@ -315,7 +318,7 @@ Textures are 8-bit PNG, sRGB except masks, which are linear. Sizes are exactly a
 
 ## 12. Fallbacks (only if the tooling can't meet a rule)
 
-- **Can't paint into the shared atlas:** deliver each clothing piece as its own skinned mesh with its own 256² texture, shrink-wrapped to the body (≤ 600 triangles). The integrator will rebake it to §4 in Blender.
+- **Can't paint into the shared atlas:** deliver each clothing piece as its own skinned mesh with its own 1024² texture (2048² if needed), shrink-wrapped to the body (≤ 600 triangles). The integrator will rebake it to §4 in Blender.
 - **The auto-rigger's skeleton has extra bones:** keep it, but rename the bones in §3 to the exact names. The integrator will collapse the extras.
 - **Can't match seam rings exactly:** keep vertex positions identical within 0.1 cm at the boundaries. The integrator will weld them.
 

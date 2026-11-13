@@ -428,6 +428,14 @@ public:
 	void PlaceFightCrowd(const FVector2D& Ring);
 	void EndFightNight(const TCHAR* Why);
 	void TickFightNight();
+	// hive spread (HLHive.cpp)
+	struct FHLHiveSite { bool bActive = false; double Since = 0, NextSpawn = 0; int32 PlayerBroke = 0; TArray<int32> Mobs; };
+	TArray<FHLHiveSite> HiveSites; double HiveGrowth = 0, NextHiveTick = 0;
+	int32 HiveEggsLeft(int32 Site) const;
+	FVector2D HiveSitePos(int32 Site) const;
+	FString HiveSiteName(int32 Site) const;
+	void HiveEggBroken(int32 Site, bool bByPlayer);
+	void TickHive();
 	// guilds (HLGuild.cpp)
 	int32 GuildFromSim = -1, GuildRaidDay = -1; double GuildInviteAt = 0, GuildInviteUntil = 0, NextGuildTick = 0, NextGuildInvite = 0, NextGuildChat = 0;
 	TSet<int32> GuildSeen; bool bGuildSeenInit = false;

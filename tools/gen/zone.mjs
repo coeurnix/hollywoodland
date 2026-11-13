@@ -225,6 +225,7 @@ const obj = (kind, name, x, y, o = {}) => objects.push({ id: `obj_${String(++obj
 [[784, 300], [790, 302], [796, 300], [802, 296], [804, 288], [804, 280], [778, 302], [772, 300], [806, 272], [786, 306], [798, 306], [808, 300]].forEach(([x, y]) => obj('coffee_tin', 'Coffee Tin', x, y, { gives: 'Brown Derby Coffee Tin', quest: 'q_hb_13' }));
 [[330, 400], [372, 392], [408, 404], [440, 396]].forEach(([x, y]) => obj('spire', 'Hive Spire', x, y, { quest: 'q_hb_16', use: true, respawn: 90, tall: true }));
 [[180, 440], [300, 444], [420, 440], [540, 444], [660, 440], [60, 444], [760, 444]].forEach(([x, y]) => obj('callbox', 'Police Call Box', x, y, { gives: 'Call-box Key', quest: 'q_hb_20' }));
+[[[300, 360], 1], [[140, 382], 2], [[330, 302], 3]].forEach(([[x, y], s]) => [[0, 0], [6, 4], [-4, 6]].forEach(([dx, dy]) => obj('spread_egg', 'Spreading Egg Cluster', x + dx, y + dy, { use: true, respawn: 0, spread: s })));
 [[212, 360], [222, 372], [236, 364], [246, 378], [214, 388], [230, 394], [244, 392], [226, 356], [240, 356], [210, 398]].forEach(([x, y]) => obj('egg', 'Egg Cluster', x, y, { quest: 'q_hb_22', use: true, respawn: 90 }));
 [[354, 338], [390, 370], [332, 394], [674, 350], [720, 382], [822, 350], [652, 274], [704, 270], [560, 330], [480, 330], [600, 280], [860, 300], [420, 300], [300, 330]].forEach(([x, y]) => obj('scrap', 'Wreckage', x + 1, y + 4, { gives: 'Scrap Metal', salvage: true, respawn: 120 }));
 obj('mailbox', 'Mailbox', 354, 188, { respawn: 0 });

@@ -587,6 +587,7 @@ void FHLGame::TickPlayer(float Dt)
 			else if (Def.Gives) AddChat(TEXT("loot"), FString(), FString::Printf(TEXT("You receive: [%s]"), *Def.Gives->Name));
 			if (Def.bSalvage) { if (Player.Salvage < 75 && Chance(0.8f)) { Player.Salvage++; System(FString::Printf(TEXT("Your skill in Salvaging has increased to %d."), Player.Salvage)); } }
 			QuestEvent(Def.bUse ? TEXT("use") : TEXT("object"), Def.Kind);
+			if (Def.Spread > 0) HiveEggBroken(Def.Spread, true);
 			if (Def.Kind == TEXT("usher")) AddChat(TEXT("npc"), TEXT("Captured Usher"), TEXT("Bless you. I'm going out the front, and I'm not coming back."));
 		}
 	}

@@ -225,6 +225,7 @@ void FHLGame::SimGatherBrain(FHLSim& S, FHLUnit& U)
 	}
 	if (Now < S.GatherEnd) return;
 	O.bActive = false; O.RespawnAt = Now + O.Def->Respawn;
+	if (O.Def->Spread > 0) HiveEggBroken(O.Def->Spread, false);
 	UE_LOG(LogTemp, Verbose, TEXT("HL_LIFE %s gathered %s"), *S.P->Handle, *O.Def->Kind);
 	U.bSitting = false; S.GatherObj = -1; S.GatherEnd = 0; S.State = EHLSimState::Grind;
 	S.StateUntil = Now + 0.5f;

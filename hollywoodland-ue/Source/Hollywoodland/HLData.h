@@ -77,7 +77,7 @@ struct FHLNpcDef
 	bool HasRole(const TCHAR* R) const { return Roles.Contains(R); }
 };
 struct FHLCamp { FString Id; const FHLMobDef* Mob = nullptr; int32 Count = 1; FVector2D Pos; float R = 10, Leash = 40; TArray<FVector2D> Patrol; };
-struct FHLObjectDef { FString Id, Kind, Name, Quest, Boss; FVector2D Pos; float Respawn = 60; const FHLItem* Gives = nullptr; bool bUse = false, bSalvage = false, bTall = false, bBig = false; };
+struct FHLObjectDef { FString Id, Kind, Name, Quest, Boss; FVector2D Pos; float Respawn = 60; const FHLItem* Gives = nullptr; int32 Spread = 0; bool bUse = false, bSalvage = false, bTall = false, bBig = false; };
 struct FHLPortal { FString Id, ToArea, Label; FVector2D Pos, To; float R = 3; };
 struct FHLSubzone { FString Name; float X, Y, W, D; FString Levels; bool bHostile = false; };
 struct FHLExit { FString Id, Name, ToZone; FVector2D Pos; bool bRedcar = false; };

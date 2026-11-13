@@ -237,7 +237,7 @@ bool FHLData::Load(FString& Err)
 				FHLObjectDef Ob;
 				Ob.Id = S(Oo, TEXT("id")); Ob.Kind = S(Oo, TEXT("kind")); Ob.Name = S(Oo, TEXT("name")); Ob.Quest = S(Oo, TEXT("quest")); Ob.Boss = S(Oo, TEXT("boss"));
 				Ob.Pos = FVector2D(N(Oo, TEXT("x")), N(Oo, TEXT("y"))); Ob.Respawn = N(Oo, TEXT("respawn"), 60); Ob.Gives = Item(S(Oo, TEXT("gives_id")));
-				Ob.bUse = B(Oo, TEXT("use")); Ob.bSalvage = B(Oo, TEXT("salvage")); Ob.bTall = B(Oo, TEXT("tall")); Ob.bBig = B(Oo, TEXT("big"));
+				Ob.bUse = B(Oo, TEXT("use")); Ob.bSalvage = B(Oo, TEXT("salvage")); Ob.bTall = B(Oo, TEXT("tall")); Ob.bBig = B(Oo, TEXT("big")); Ob.Spread = N(Oo, TEXT("spread"), 0);
 				Ar.Objects.Add(MoveTemp(Ob));
 			}
 			for (auto& PV : A(O, TEXT("portals")))

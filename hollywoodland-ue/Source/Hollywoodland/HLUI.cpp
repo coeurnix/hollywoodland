@@ -1013,6 +1013,14 @@ void SHLGameUI::DrawTracker() const
 		Tx(X + 8, Y, FString::Printf(TEXT("%s at Grauman's Chinese"), *Gm.FilmShort), 9, ColWhite); Y += 14;
 		Tx(X + 8, Y, bOn ? (Gm.bFilmBuffGiven ? FString::Printf(TEXT("%s left (buff received)"), *Clock(Gm.FilmEnd - Gm.Now)) : FString::Printf(TEXT("%s left. Watch to be inspired"), *Clock(Gm.FilmEnd - Gm.Now))) : FString::Printf(TEXT("Starts in %s"), *Clock(Gm.NextFilmAt - Gm.Now)), 9, ColDim); Y += 18;
 	}
+	for (int32 s = 1; s < Gm.HiveSites.Num(); ++s) if (Gm.HiveSites[s].bActive)
+	{
+		Tx(X, Y, TEXT("Hive Spread"), 10, FLinearColor(1.f, 0.45f, 0.35f), true); Y += 15;
+		const FHLUnit* PU = Gm.PlayerUnit();
+		const FVector2D At = Gm.HiveSitePos(s);
+		const float Dm = PU && PU->Area == 0 ? FVector2D::Distance(PU->Pos, At) : -1;
+		Tx(X + 8, Y, FString::Printf(TEXT("Destroy the egg clusters near %s: %d left%s"), *Gm.HiveSiteName(s), Gm.HiveEggsLeft(s), Dm >= 0 ? *FString::Printf(TEXT("  (%d m)"), (int32)Dm) : TEXT("")), 9, ColWhite); Y += 18;
+	}
 	if (Gm.Fight.bAnnounced)
 	{
 		Tx(X, Y, TEXT("Fight Night"), 10, FLinearColor(1.f, 0.7f, 0.35f), true); Y += 15;

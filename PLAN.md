@@ -102,7 +102,7 @@ browser ── itch.io page (iframe) ── hollywoodland Worker (R2 stage, COOP
 8. ~~Parry/block, shields, ammo~~ (done).
 9. ~~Escort quest type (follow-AI NPC, fail on death) for `q_hb_14`; class quests at 10; `q_hb_29` + Gunsmithing 1-75 with 6 recipes.~~ Done.
 10. Crowd LOD (§11 levels 0-3): only needed when population on screen exceeds ~60; implement as sims without `FHLUnit` combat.
-11. ~~World events: surge, rare calls, picture night, fight night~~ (done: fight night every 20-35 min outside the Roosevelt, up to four sims near the player's level box semi-finals and a final with a crowd, then the champion challenges the player for a purse of 50c + 20c per level); hive spread.
+11. ~~World events: surge, rare calls, picture night, fight night~~ (done: fight night every 20-35 min outside the Roosevelt, up to four sims near the player's level box semi-finals and a final with a crowd, then the champion challenges the player for a purse of 50c + 20c per level); hive spread done: while 7+ of the 10 egg-field clusters stand for ~7 min, three clusters appear at the next of three sites with two Broodlings per cluster; the player (XP each, bounty on clearing) or, after 10 min, other players destroy them.
 12. ~~Trade window, duels, mailbox, friends list~~ (done).
 13. ~~Auction: bids, durations, search; sims undercutting the player~~ (done: a sim at the auctioneer may list the same item 1-5% under the player's price, and undercut listings rarely sell); price history.
 14. ~~Talents~~ (done: all 5 tiers).
