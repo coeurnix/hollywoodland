@@ -493,6 +493,16 @@ void AHLWorldActor::AutoTest(float Dt)
 			}
 		static int32 GotoId = 0; if (bGotoDone && !GotoId) GotoId = P->TargetId;
 		static double NextGotoLog = 0; if (bGotoDone && Game.Now > NextGotoLog) { NextGotoLog = Game.Now + 2; const FHLUnit* Gu = Game.Unit(GotoId); if (Gu) { UE_LOG(LogTemp, Display, TEXT("HL_LIFE goto mob state=%d dead=%d d=%.1f lift=%.1f hp=%.0f/%.0f ptarget=%d"), (int32)Gu->MobState, Gu->bDead, FVector2D::Distance(Gu->Pos, P->Pos), Gu->Lift, Gu->Hp, Gu->MaxHp, P->TargetId); } else { UE_LOG(LogTemp, Display, TEXT("HL_LIFE goto mob gone")); } }
+		static bool bPocket = false;
+		if (bGotoDone && !bPocket && FParse::Param(FCommandLine::Get(), TEXT("HLPocketTest")) && Game.Unit(P->TargetId) && Game.InCombat(*P))
+		{
+			bPocket = true;
+			const FHLData& Dd = FHLData::Get();
+			for (const FHLItem& It : Dd.Items) if (It.Type == TEXT("pocket")) Game.AddItem(&It, 2, false);
+			auto UseNamed = [&](const TCHAR* N) { for (int32 i = 0; i < Game.Player.Bag.Num(); ++i) if (Game.Player.Bag[i].Item && Game.Player.Bag[i].Item->Name == N) { Game.UseBag(i); UE_LOG(LogTemp, Display, TEXT("HL_LIFE pocket used %s, target hp %.0f"), N, Game.Unit(P->TargetId) ? Game.Unit(P->TargetId)->Hp : -1.f); return; } };
+			UseNamed(TEXT("Mk II Fragmentation Grenade"));
+			UseNamed(TEXT("Patent Tonic")); // refused: shared cooldown
+		}
 		if (bGotoDone) { if (FHLUnit* Gm = Game.Unit(P->TargetId)) { if (!Gm->bDead) { P->bAutoAttack = true; Game.FaceTo(*P, Gm->Pos); if (FVector2D::Distance(P->Pos, Gm->Pos) > 4) Game.MoveTo(*P, Gm->Pos, 3.5f); } } return; } // stand and fight
 	}
 	// -HLInnTest: rest at the inn (rested XP), whisper someone (typing indicator), then rent a bank box

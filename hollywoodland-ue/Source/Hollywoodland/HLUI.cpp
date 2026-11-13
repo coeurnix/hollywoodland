@@ -1273,6 +1273,8 @@ void SHLGameUI::DrawTooltip() const
 			if (It.UseType == TEXT("food")) Lines.Add({ FString::Printf(TEXT("Use: restores %d health over 18 s. Must remain seated."), (int32)It.UseAmount), ColGreen });
 			else if (It.UseType == TEXT("drink")) Lines.Add({ FString::Printf(TEXT("Use: restores %d Power over 18 s. Must remain seated."), (int32)It.UseAmount), ColGreen });
 			else if (It.UseType == TEXT("bandage")) Lines.Add({ FString::Printf(TEXT("Use: heals %d over 6 s."), (int32)It.UseAmount), ColGreen });
+			else if (It.UseType == TEXT("grenade")) Lines.Add({ FString::Printf(TEXT("Use: about %d fire damage to your target and everything within 6 m. Range 30 m."), (int32)It.UseAmount), ColGreen });
+			if (It.Type == TEXT("pocket")) Lines.Add({ TEXT("Pocket item: usable in combat. 1 min cooldown shared by pocket items."), ColDim });
 			if (It.Req > 1) Lines.Add({ FString::Printf(TEXT("Requires level %d"), It.Req), ColWhite });
 		}
 		if (!It.Blurb.IsEmpty()) Lines.Add({ It.Blurb, ColGold });

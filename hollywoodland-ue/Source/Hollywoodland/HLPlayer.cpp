@@ -409,6 +409,58 @@ void FHLGame::UseBag(int32 BagIdx)
 		U->Auras.RemoveAll([&](const FHLAura& O) { return O.Name == A.Name; });
 		U->Auras.Add(A);
 	}
+	else if (It->Type == TEXT("pocket"))
+	{
+		// pocket items: usable in combat, one shared cooldown
+		if (U->HasAuraNamed(TEXT("Pocket Cooldown"))) { Error(TEXT("Your pockets need a moment (pocket items share a cooldown).")); return; }
+		if (It->UseType == TEXT("grenade"))
+		{
+			FHLUnit* T = Unit(U->TargetId);
+			if (!T || T->bDead || T->Kind != EHLKind::Mob || T->Area != U->Area) { Error(TEXT("You need a hostile target.")); return; }
+			if (Dist(*U, *T) > 30) { Error(TEXT("Out of range.")); return; }
+			if (!Areas[U->Area].Nav.SegClear(U->Pos, T->Pos)) { Error(TEXT("Target not in line of sight.")); return; }
+			TArray<FHLUnit*> Hit;
+			for (FHLUnit* O : UnitList) if (O->Kind == EHLKind::Mob && !O->bDead && O->Area == T->Area && FVector2D::Distance(O->Pos, T->Pos) <= 6) Hit.Add(O);
+			for (FHLUnit* O : Hit)
+			{
+				if (O->MobState == EHLMobState::Idle) MobEnterCombat(*O, U->Id);
+				if (!O->TappedBy) O->TappedBy = U->Id;
+				DealDamage(U, *O, It->UseAmount * (0.9f + Rand() * 0.2f), TEXT("fire"), false, It->Name);
+				AddThreat(*O, U->Id, It->UseAmount);
+			}
+			AddFloat(T->Id, TEXT("BOOM"), FLinearColor(1, 0.6f, 0.2f));
+			U->CombatUntil = Now + 6;
+		}
+		else if (It->UseType == TEXT("smoke"))
+		{
+			int32 Lost = 0;
+			for (FHLUnit* O : UnitList)
+			{
+				if (O->Kind != EHLKind::Mob || O->bDead || O->Area != U->Area || O->MobState != EHLMobState::Combat || FVector2D::Distance(O->Pos, U->Pos) > It->UseAmount) continue;
+				if (!O->Threat.Remove(U->Id)) continue;
+				++Lost;
+				if (O->TargetId == U->Id) O->TargetId = 0;
+				if (!O->Threat.Num()) MobEvade(*O);
+			}
+			AddChat(TEXT("emote"), FString(), TEXT("A cloud of grey smoke billows up."));
+			if (!Lost) System(TEXT("Nothing was hunting you; the smoke drifts away."));
+			U->CombatUntil = 0;
+		}
+		else if (It->UseType == TEXT("cleanse"))
+		{
+			const int32 Before = U->Auras.Num();
+			U->Auras.RemoveAll([](const FHLAura& O) { return O.bHarmful && (O.Type == EHLAura::Stun || O.Type == EHLAura::Slow || O.Name == TEXT("Dazed")); });
+			if (U->Auras.Num() == Before) { Error(TEXT("Your head is already clear.")); return; }
+		}
+		else if (It->UseType == TEXT("heal_pct"))
+		{
+			if (U->Hp >= U->MaxHp) { Error(TEXT("You are already at full health.")); return; }
+			HealUnit(U, *U, U->MaxHp * It->UseAmount / 100.f, It->Name);
+		}
+		else return;
+		FHLAura Cd; Cd.Type = EHLAura::Buff; Cd.Name = TEXT("Pocket Cooldown"); Cd.Stat = TEXT("none"); Cd.Remaining = 60; Cd.bHarmful = true; Cd.SourceId = U->Id;
+		U->Auras.Add(Cd);
+	}
 	else return;
 	if (--Player.Bag[BagIdx].Count <= 0) Player.Bag[BagIdx] = FHLInvSlot();
 }

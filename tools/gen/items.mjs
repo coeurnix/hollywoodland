@@ -188,6 +188,11 @@ export function buildItems() {
   add({ id: '', name: 'Linen Bandage', kind: 'consumable', slot: '', type: 'bandage', q: 1, req: 1, ilvl: 1, stats: {}, armor: 0, price: 2, stack: 20, use: { type: 'bandage', amount: 40 }, built: true });
   add({ id: '', name: 'Johnson & Johnson Gauze Roll', kind: 'consumable', slot: '', type: 'bandage', q: 1, req: 8, ilvl: 8, stats: {}, armor: 0, price: 8, stack: 20, use: { type: 'bandage', amount: 110 }, built: true });
   add({ id: '', name: 'Bootleg Gin', kind: 'consumable', slot: '', type: 'liquor', q: 1, req: 5, ilvl: 5, stats: {}, armor: 0, price: 12, stack: 10, use: { type: 'buff', stat: 'dmg_pct', value: 0.05, dur: 600 }, built: true, blurb: 'Contraband. +5% damage for 10 minutes.' });
+  // Pocket items: usable in combat, sharing one 60 s cooldown.
+  add({ id: '', name: 'Mk II Fragmentation Grenade', kind: 'consumable', slot: '', type: 'pocket', q: 1, req: 6, ilvl: 6, stats: {}, armor: 0, price: 12, stack: 10, use: { type: 'grenade', amount: 90 }, built: true, blurb: 'Army surplus "pineapple". Thrown at your target: damages every invader within 6 m of it.' });
+  add({ id: '', name: 'Smoke Pot', kind: 'consumable', slot: '', type: 'pocket', q: 1, req: 4, ilvl: 4, stats: {}, armor: 0, price: 8, stack: 10, use: { type: 'smoke', amount: 30 }, built: true, blurb: 'A stage effects pot. Everything fighting you within 30 m loses track of you.' });
+  add({ id: '', name: 'Smelling Salts', kind: 'consumable', slot: '', type: 'pocket', q: 1, req: 1, ilvl: 1, stats: {}, armor: 0, price: 3, stack: 10, use: { type: 'cleanse', amount: 0 }, built: true, blurb: 'Clears the head: removes stuns, dazes and slows.' });
+  add({ id: '', name: 'Patent Tonic', kind: 'consumable', slot: '', type: 'pocket', q: 1, req: 3, ilvl: 3, stats: {}, armor: 0, price: 10, stack: 10, use: { type: 'heal_pct', amount: 30 }, built: true, blurb: '"Cures what ails you." Restores 30% of your health at once.' });
   // Ammunition (bible §6: each auto-shot uses one round). Sold in boxes of `buy`; price is per box, sell value per round.
   const ammo = [
     ['.38 Special Lead Round-Nose', 'pistol', 1, 0.5, 1, 'Fits revolvers, automatic pistols and the Thompson.'],
