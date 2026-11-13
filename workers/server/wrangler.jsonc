@@ -5,5 +5,8 @@
   "workers_dev": true,
   "observability": { "enabled": true },
   // Secrets (wrangler secret put): FIREWORKS_API_KEY, SESSION_SECRET
-  "kv_namespaces": [ { "binding": "HL_KV", "id": "9ba402f7d45d436f8a5baa9cb69feed1" } ]
+  "kv_namespaces": [ { "binding": "HL_KV", "id": "9ba402f7d45d436f8a5baa9cb69feed1" } ],
+  // rate limits and the daily budget, shared across isolates
+  "durable_objects": { "bindings": [ { "name": "LIMITER", "class_name": "Limiter" } ] },
+  "migrations": [ { "tag": "v1", "new_sqlite_classes": [ "Limiter" ] } ]
 }

@@ -22,7 +22,8 @@ const clip = (s, n) => String(s ?? '').slice(0, n);
 
 function speakerLines(req) {
   return req.speakers.map((s) => {
-    const mem = Array.isArray(s.memory) && s.memory.length ? ` Remembers about the player: ${s.memory.slice(0, 8).map((m) => clip(m, 100)).join('; ')}.` : '';
+    const mem = (Array.isArray(s.memory) && s.memory.length ? ` Remembers about the player: ${s.memory.slice(0, 8).map((m) => clip(m, 100)).join('; ')}.` : '') +
+      (Array.isArray(s.recent) && s.recent.length ? ` Their last lines (keep this voice): ${s.recent.slice(-3).map((m) => `"${clip(m, 100)}"`).join(' ')}.` : '');
     return `- ${s.persona} "${s.handle}": level ${s.level | 0} ${clip(s.class, 16)}, temperament ${clip(s.temperament, 16)}, typing: ${clip(s.typing, 80)}` +
       `${s.activity ? `, currently ${clip(s.activity, 60)}` : ''}${s.guild ? `, guild <${clip(s.guild, 30)}>` : ''}` +
       `${typeof s.liking === 'number' ? `, liking of player ${s.liking}` : ''}.${mem}`;

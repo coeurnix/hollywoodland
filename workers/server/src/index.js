@@ -14,8 +14,37 @@ const RUNE = 'accounts/fireworks/models/rune';
 const LIMIT_PER_MIN = 20, LIMIT_PER_HOUR = 400, DAILY_BUDGET = 40000;
 const ORIGIN_OK = /^https:\/\/([a-z0-9-]+\.)*(itch\.zone|itch\.io|coeurnix\.workers\.dev)$|^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/;
 
-const rate = new Map(); // per-isolate, best effort: session -> [timestamps]
+const rate = new Map(); // per-isolate fallback when the Durable Object is unavailable: session -> [timestamps]
 let budget = { day: '', n: 0 };
+
+// Limiter: one Durable Object holds the per-session windows and the daily budget for every isolate, so the limits hold
+// across Cloudflare's edge rather than per isolate. The budget survives restarts in DO storage.
+export class Limiter {
+  constructor(state) { this.state = state; this.rate = new Map(); this.budget = null; }
+  async fetch(request) {
+    const { session } = await request.json();
+    const now = Date.now();
+    const day = new Date().toISOString().slice(0, 10);
+    if (!this.budget) this.budget = (await this.state.storage.get('budget')) || { day, n: 0 };
+    if (this.budget.day !== day) this.budget = { day, n: 0 };
+    const list = (this.rate.get(session) || []).filter((t) => now - t < 3600e3);
+    if (list.filter((t) => now - t < 60e3).length >= LIMIT_PER_MIN || list.length >= LIMIT_PER_HOUR) return Response.json({ limited: 'rate' });
+    if (this.budget.n >= DAILY_BUDGET) return Response.json({ limited: 'budget' });
+    list.push(now); this.rate.set(session, list);
+    if (this.rate.size > 20000) for (const [k, v] of this.rate) if (!v.length || now - v[v.length - 1] > 3600e3) this.rate.delete(k);
+    this.budget.n++;
+    if (this.budget.n % 10 === 1) await this.state.storage.put('budget', this.budget);
+    return Response.json({ limited: false, n: this.budget.n });
+  }
+}
+async function limitedDO(env, session) {
+  if (!env.LIMITER) return limited(session);
+  try {
+    const stub = env.LIMITER.get(env.LIMITER.idFromName('global'));
+    const r = await stub.fetch('https://limiter/check', { method: 'POST', body: JSON.stringify({ session }) });
+    return !!(await r.json()).limited;
+  } catch (e) { console.log('limiter failed', String(e)); return limited(session); }
+}
 
 function cors(request) {
   const origin = request.headers.get('Origin') || '';
@@ -166,12 +195,29 @@ async function sim(request, env) {
   try { req = JSON.parse(await request.text()); } catch { return json(request, { error: 'bad json' }, 400); }
   const player = await checkToken(env, req.session);
   if (!player) return json(request, { error: 'session', fallback: true }, 401);
-  if (limited(req.session)) return json(request, { error: 'rate', fallback: true }, 429);
+  if (await limitedDO(env, req.session)) return json(request, { error: 'rate', fallback: true }, 429);
   if (!Array.isArray(req.speakers) || !req.speakers.length || req.speakers.length > 4) return json(request, { error: 'speakers' }, 400);
   if (!['reply', 'decide', 'gossip'].includes(req.kind)) return json(request, { error: 'kind' }, 400);
   req.speakers = req.speakers.map((s) => ({ ...s, persona: String(s.persona), handle: String(s.handle || '?').slice(0, 24) }));
 
   const t0 = Date.now();
+  // the same census events within a 2-minute bucket (retries, the same events reaching several players) cost one LLM call
+  let gossipKey = null;
+  if (req.kind === 'gossip' && env.HL_KV) {
+    const ev = JSON.stringify((req.context && req.context.events) || []);
+    const h = [...new Uint8Array(await crypto.subtle.digest('SHA-1', new TextEncoder().encode(ev)))].slice(0, 8).map((b) => b.toString(16).padStart(2, '0')).join('');
+    gossipKey = `gossip:${h}:${req.speakers.length}:${Math.floor(Date.now() / 120e3)}`;
+  }
+  if (gossipKey) {
+    try {
+      const hit = await env.HL_KV.get(gossipKey, 'json');
+      if (hit && Array.isArray(hit.lines)) {
+        const actions = req.speakers.map((s, i) => ({ speaker: s.persona, delay_ms: 1500 + i * 2500, chat: hit.lines[i] ? { channel: hit.lines[i].channel, text: hit.lines[i].text } : null,
+          emote: null, goal: null, bias: null, memory_add: [], liking_delta: 0, decision: null }));
+        return json(request, { id: req.id, actions: stayInRole(actions), cached: true, ms: { rune: 0, llm: 0 } });
+      }
+    } catch (e) { console.log('gossip cache read failed', String(e)); }
+  }
   let decisions = {};
   try {
     if (req.kind !== 'gossip') decisions = await runeDecide(env, req);
@@ -189,7 +235,12 @@ async function sim(request, env) {
       messages: [{ role: 'system', content: SYSTEM_PROMPT }, { role: 'user', content: buildUserPrompt(req, decisions) }],
     }, 6000);
     const raw = JSON.parse(out.choices[0].message.content);
-    return json(request, { id: req.id, actions: validate(req, raw, decisions), ms: { rune: tRune, llm: Date.now() - t0 - tRune } });
+    const actions = validate(req, raw, decisions);
+    if (gossipKey) {
+      const lines = actions.map((a) => a.chat).filter(Boolean);
+      if (lines.length) await env.HL_KV.put(gossipKey, JSON.stringify({ lines }), { expirationTtl: 600 }).catch((e) => console.log('gossip cache write failed', String(e)));
+    }
+    return json(request, { id: req.id, actions, ms: { rune: tRune, llm: Date.now() - t0 - tRune } });
   } catch (e) {
     console.log('llm failed', String(e));
     // Decisions still stand; the client fills the line from its corpus.
