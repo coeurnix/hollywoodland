@@ -257,12 +257,19 @@ void SHLGameUI::DrawTalents() const
 void SHLGameUI::DrawMenu() const
 {
 	FHLGame& Gm = G();
-	if (!Win(TEXT("menu"), TEXT("Game Menu"), 330, 250, bMenu, (VS.X - 330) * 0.5f, 240)) return;
+	if (!Win(TEXT("menu"), TEXT("Game Menu"), 330, 300, bMenu, (VS.X - 330) * 0.5f, 240)) return;
 	if (Btn(WX, WY, 300, 26, Gm.Player.bShowSim ? TEXT("Show simulated players: ON (tags every AI player)") : TEXT("Show simulated players: OFF"), true, 10)) Gm.Player.bShowSim = !Gm.Player.bShowSim;
 	if (Btn(WX, WY + 34, 300, 26, TEXT("Save now"), true, 10)) { Gm.SaveNow(); Gm.System(TEXT("Game saved.")); }
 	if (Btn(WX, WY + 68, 300, 26, TEXT("How to play (H)"), true, 10)) bHelp = true;
 	if (Btn(WX, WY + 102, 300, 26, TEXT("Unstuck: return to the Chinese forecourt"), true, 10)) { if (FHLUnit* U = Gm.PlayerUnit()) if (!Gm.InCombat(*U)) Gm.TeleportUnit(*U, 0, Gm.Areas[0].Def->Spawn); }
-	TxWrap(WX, WY + 138, 300, TEXT("Single-player. Every other player is simulated by AI; the server only writes their chat. Your character is saved in this browser and backed up to the server."), 9, ColDim);
+	{
+		const int32 Pct = FMath::RoundToInt(Gm.Music.GetVolume() * 100);
+		if (Btn(WX, WY + 136, 300, 26, Pct ? FString::Printf(TEXT("Music volume: %d%%"), Pct) : FString(TEXT("Music: off")), true, 10))
+			Gm.Music.SetVolume(Pct >= 100 ? 0.f : Pct < 25 ? 0.25f : FMath::Min(1.f, (Pct / 25 + 1) * 0.25f));
+		const FString Now = Gm.Music.NowPlaying();
+		if (!Now.IsEmpty()) Tx(WX, WY + 166, FString::Printf(TEXT("Now playing: %s"), *Now), 9, ColDim);
+	}
+	TxWrap(WX, WY + 186, 300, TEXT("Single-player. Every other player is simulated by AI; the server only writes their chat. Your character is saved in this browser and backed up to the server."), 9, ColDim);
 }
 
 void SHLGameUI::DrawNpc() const

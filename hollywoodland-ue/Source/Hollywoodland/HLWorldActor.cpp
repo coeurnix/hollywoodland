@@ -98,6 +98,8 @@ void AHLWorldActor::BeginPlay()
 	}
 	FParse::Value(FCommandLine::Get(), TEXT("HLAuto="), AutoClass);
 	FParse::Value(FCommandLine::Get(), TEXT("HLAutoQuit="), AutoQuit);
+	// native self-play runs are silent unless -HLMusic; the browser probe keeps music on to exercise it
+	Game.Music.Init(!PLATFORM_WASM && !AutoClass.IsEmpty() && !FParse::Param(FCommandLine::Get(), TEXT("HLMusic")));
 	// browser test hook: localStorage hl_auto=<class> starts the self-playing test (tools/probe.py --auto)
 	HLBridge::StorageGet(TEXT("hl_auto"), [this](const FHLBridgeResult& R) { if (R.Ok() && !R.Body.IsEmpty() && AutoClass.IsEmpty()) AutoClass = R.Body.TrimStartAndEnd(); });
 	HLBridge::StorageGet(TEXT("hollywoodland_save_v1"), [this](const FHLBridgeResult& R) { bSaveChecked = true; if (R.Ok()) SavedJson = R.Body; });
@@ -270,6 +272,7 @@ void AHLWorldActor::Tick(float Dt)
 	if (UI.IsValid()) UI->PreTick(Dt);
 	if (!AutoClass.IsEmpty()) AutoTest(Dt);
 	Game.Tick(Dt);
+	Game.Music.Tick(Game, Dt);
 	SyncUnits();
 	// camera: orbit the player (or the forecourt on the title screen)
 	const FHLUnit* P = Game.PlayerUnit();

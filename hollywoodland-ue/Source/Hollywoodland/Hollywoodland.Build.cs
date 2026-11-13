@@ -12,5 +12,10 @@ public class Hollywoodland : ModuleRules
 		{
 			PrivateDependencyModuleNames.Add("HTTP");
 		}
+		// Native music playback (HLBridge::MusicPlay) uses Windows MCI.
+		if (Target.Platform == UnrealTargetPlatform.Win64)
+		{
+			PublicSystemLibraries.Add("winmm.lib");
+		}
 	}
 }

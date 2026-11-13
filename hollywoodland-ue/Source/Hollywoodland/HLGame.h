@@ -5,6 +5,7 @@
 #pragma once
 #include "CoreMinimal.h"
 #include "HLData.h"
+#include "HLMusic.h"
 
 enum class EHLKind : uint8 { Player, Sim, Mob, Npc };
 enum class EHLAura : uint8 { Dot, Hot, Shield, Stun, Slow, Taunt, Buff };
@@ -173,6 +174,7 @@ public:
 	double Now = 0;
 	float FrameDt = 0;
 	bool bInWorld = false;
+	FHLMusic Music; // ticked by AHLWorldActor (also on the title screen)
 	FRandomStream Rng;
 	float Rand() { return Rng.FRand(); }
 	int32 RandInt(int32 A, int32 B) { return Rng.RandRange(A, B); }

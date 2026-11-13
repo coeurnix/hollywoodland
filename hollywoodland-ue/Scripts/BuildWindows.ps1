@@ -19,4 +19,9 @@ $arguments = @('BuildCookRun', "-project=$project", '-platform=Win64', "-clientc
 $log = Join-Path $projectRoot "Saved\Logs\win-$Configuration.log"
 & (Join-Path $EngineRoot 'Engine\Build\BatchFiles\RunUAT.bat') @arguments 2>&1 | Tee-Object -FilePath $log | Out-Null
 if ($LASTEXITCODE -ne 0) { throw "Windows packaging failed ($LASTEXITCODE). See $log" }
+# Music is not cooked: the game plays <ProjectDir>\Music\*.mp3 natively (the web build streams them from the Worker).
+$music = Join-Path (Split-Path $projectRoot -Parent) 'music'
+$musicOut = Join-Path $archive 'Windows\Hollywoodland\Music'
+New-Item -ItemType Directory -Force $musicOut | Out-Null
+Copy-Item (Join-Path $music '*.mp3') $musicOut -Force
 Write-Host "Windows build: $archive"

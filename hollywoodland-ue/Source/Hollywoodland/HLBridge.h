@@ -24,4 +24,12 @@ namespace HLBridge
 	void Poll();
 	/** console.log on the web (works in Shipping); UE_LOG natively. */
 	void Log(const FString& Line);
+
+	/** Streaming music, one track at a time with crossfades. Web: an <audio> element on the page (File is a URL relative to the
+	 *  page, played once the browser allows audio). Native: Windows MCI on an MP3 path. Volume 0..1. */
+	void MusicPlay(const FString& File, bool bLoop, float FadeS, float Volume);
+	void MusicStop(float FadeS);
+	void MusicVolume(float Volume);
+	/** Native volume ramps; no-op on the web (ramps run in JS). Call once per frame. */
+	void MusicTick(float Dt);
 }

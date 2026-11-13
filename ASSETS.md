@@ -79,7 +79,7 @@ submission (bible §2 rule 1).
 
 | Needed | Current |
 |---|---|
-| Music: title, boulevard day/night, combat, dungeon, boss | none |
+| Music: title, boulevard day/night, combat, dungeon, boss | DONE: 30 Lyria tracks in `music/` (`ART-SONGS.md`), wired by `HLMusic.cpp` |
 | Ambience: street, crowd, hive drone, theatre interior | none |
 | SFX: melee/gun/cast per school, hits, mob vocalisations ×9, death, loot, coin, UI clicks, level-up, quest accept/complete, red-car bell | none |
 | Period recordings (≤1925, public domain) on radios/phonographs | none |

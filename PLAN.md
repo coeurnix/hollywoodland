@@ -35,6 +35,7 @@ browser ── itch.io page (iframe) ── hollywoodland Worker (R2 stage, COOP
 | `HLMobs.cpp` | mob AI (aggro, social pull, leash, flee, evade), boss scripts, loot, camp respawn, object interaction |
 | `HLPlayer.cpp` | character creation, save/load JSON, inventory/equip/vendor, targeting, quests, auction house, loot rolls |
 | `HLSim.cpp` | Census tick, sim brains (local/transient/idler/party), ability picker, invites, Director (first 15 min) |
+| `HLMusic.*` | music director (title, subzone playlists day/night, notable-fight/boss/death/victory tracks); playback via `HLBridge::MusicPlay` (web `<audio>`, native MCI) |
 | `HLChat.cpp` | ambient chat (templates + corpus), typing-style filter, slash commands, Worker client + action application |
 | `HLWorldActor.*` | geometry build, unit visuals, camera, `-HLAuto` self-play test, `HL_STATUS` console line every 20 s |
 | `HLUI.cpp`, `HLUIWindows.cpp` | toolkit (Rc/Tx/Btn/Win/ItemIcon), input, title screen, nameplates, HUD, chat, minimap, all windows |
@@ -78,7 +79,8 @@ browser ── itch.io page (iframe) ── hollywoodland Worker (R2 stage, COOP
 | World events (§10) | TODO | Hive surge, hive spread, picture night, fight night. Rare spawns exist (10-15 min timers, bible says 45-90). |
 | Duels, trade window, mail, guild UI, friends list | TODO | Sims decline in text only. |
 | Mounts for transients | PROTO | A dark box under the rider, +60% speed. |
-| Day/night, audio, VFX, animation | TODO | None. |
+| Music | DONE | `HLMusic.cpp`; 30 tracks streamed from R2 `music/` on the web (not in the pak), copied to `<pkg>\Music` natively. Menu volume + `/music`. |
+| Day/night, SFX/ambience, VFX, animation | TODO | None. |
 
 ## 3. TODO (ordered; each item is independently shippable)
 
@@ -120,7 +122,7 @@ browser ── itch.io page (iframe) ── hollywoodland Worker (R2 stage, COOP
 24. Art pass per `ASSETS.md` (10 landmarks first). Keep the data-driven box layout as collision; swap visuals per box label.
 25. Items: grow base list to ~680 (bible §8), icons (~700), pocket items, epics set looks; validator rule for unique names.
 26. Quest text to 60-120 words (LLM expand with cache, human spot-check 20). Unbuilt-zone quest titles to ~45/zone.
-27. Audio: 1925-and-earlier recordings on radios, UI clicks, combat hits. Public-domain film on the Chinese screen (§14 assets).
+27. Audio (music done): SFX, ambience, 1925-and-earlier recordings on radios, UI clicks, combat hits. Public-domain film on the Chinese screen (§14 assets).
 28. Day/night cycle; skybox with the dome; HOLLYWOODLAND sign on the north horizon.
 
 ## 4. Technical dependencies and risks
@@ -159,4 +161,5 @@ quest-text name check, level-band rule for quest mobs.
 | Server Worker | `hollywoodland-server`; KV `HL_KV` (id in `workers/server/wrangler.jsonc`); secrets set |
 | itch.io | Upload `itch/hollywoodland-itch.zip` (just `index.html`) as an HTML game, viewport 1280×720+, enable fullscreen button and **SharedArrayBuffer support**. Butler: `butler push itch/hollywoodland-itch.zip <user>/hollywoodland:html5`. |
 
+Music: `cd workers; node deploy-music.mjs` uploads `music/*.mp3` to R2 `music/` (shared by all prefixes; skips unchanged).
 Old R2 prefixes can be deleted once no tab runs them (`wrangler r2 object delete`, or bulk via dashboard).

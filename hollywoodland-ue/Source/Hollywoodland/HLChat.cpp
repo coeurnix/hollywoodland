@@ -222,9 +222,21 @@ void FHLGame::PlayerChat(const FString& Raw)
 			if (P) P->HopT = 0.5f;
 			return;
 		}
+		else if (Cmd == TEXT("/music"))
+		{
+			const FString A = Rest.ToLower();
+			if (A == TEXT("off") || A == TEXT("mute")) Music.SetVolume(0);
+			else if (A == TEXT("on")) Music.SetVolume(Music.GetVolume() > 0 ? Music.GetVolume() : 0.5f);
+			else if (A == TEXT("next") || A == TEXT("skip")) Music.Skip();
+			else if (!A.IsEmpty() && A.IsNumeric()) Music.SetVolume(FCString::Atof(*A) / 100.f);
+			const FString Playing = Music.NowPlaying();
+			System(FString::Printf(TEXT("Music volume %d%%.%s Usage: /music <0-100> | on | off | next."), FMath::RoundToInt(Music.GetVolume() * 100),
+				Playing.IsEmpty() ? TEXT("") : *FString::Printf(TEXT(" Now playing: %s."), *Playing)));
+			return;
+		}
 		else if (Cmd == TEXT("/help") || Cmd == TEXT("/?"))
 		{
-			System(TEXT("Chat: /s say, /y yell, /1 general, /2 trade, /4 lfg, /p party, /w <name> <text>, /r reply. Other: /who, /invite <name>, /leave, /roll, /sit, /dance, /played."));
+			System(TEXT("Chat: /s say, /y yell, /1 general, /2 trade, /4 lfg, /p party, /w <name> <text>, /r reply. Other: /who, /invite <name>, /leave, /roll, /sit, /dance, /played, /music."));
 			System(TEXT("Keys: WASD move, right-drag turn, Tab target, 1-0 abilities, right-click interact, C character, B bags, L quests, M map, P abilities, O who, N talents, Esc close."));
 			return;
 		}
