@@ -784,7 +784,7 @@ void FHLGame::TickAuctions()
 		{
 			// a simulated player buys it if the price is fair
 			const int32 Fair = MarketPrice(*A.Item) * A.Count;
-			const bool bSold = Chance(A.Buyout <= Fair * 1.3f ? 0.25f : A.Buyout <= Fair * 2 ? 0.05f : 0.f);
+			const bool bSold = Chance((A.Buyout <= Fair * 1.3f ? 0.25f : A.Buyout <= Fair * 2 ? 0.05f : 0.f) * (Undercut(A) ? 0.15f : 1.f));
 			if (bSold || (Now >= A.ExpiresAt && A.Bid > 0))
 			{
 				const int32 Price = bSold ? A.Buyout : A.Bid;

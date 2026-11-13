@@ -1,4 +1,4 @@
-// Chat templates and the seed corpus (DESIGN-BIBLE §11 "Chat sources"). Simulated players type modern MMO shorthand.
+﻿// Chat templates and the seed corpus (DESIGN-BIBLE Â§11 "Chat sources"). Simulated players type modern MMO shorthand.
 // Template tokens (filled by the client from data, so every reference resolves):
 //   {dng} dungeon fitting the speaker's level   {raid} a raid   {zone} speaker's home zone   {ozone} any other zone
 //   {item} [item link] near the speaker's level  {price} a price   {role} tank/heals/dps   {guild} speaker's guild
@@ -72,6 +72,9 @@ export const corpus = [
   ...L('bond_mentor', ['hows it going down there', 'remember: bandages between pulls, not during', 'dont go near the hive wall yet. trust me', 'if youre short on cash, sell the grey stuff to vendors and the greens on the AH', 'pick a talent tree and stick with it until 20', 'ping me if youre stuck on a quest']),
   ...L('bond_mentor_gift', ['check your mail. small something', 'sent you a thing in the mail, dont thank me', 'mail. go.']),
   // duels and trades
+  ...L('duel_watch', ['gg', 'nice duel', 'lol rekt', 'rematch!', 'close one', 'called it', 'gg wp', 'that was fast', 'again again', 'ouch']),
+  ...L('duel_sim_lost', ['gg', 'gg wp', 'rematch?', 'i was out of power', 'ok you win this time', 'lag', 'my big hit was on cooldown', 'next time', 'ugh gg']),
+  ...L('duel_sim_won', ['gg', 'gg wp', 'ez', 'good fight', 'anyone else?', 'who is next', 'gg, that was close']),
   ...L('duel_challenge', ['{ctx} duel me', 'duel? lets go', 'you vs me, right here', 'cmon {ctx}, one duel']),
   ...L('duel_accept', ['ok', 'sure', 'bring it', 'ez', 'lets go', 'ok but no crying']),
   ...L('duel_decline', ['nah busy', 'not now', 'no ty', 'maybe later', 'lol no']),
@@ -105,4 +108,51 @@ export const corpus = [
   ...L('idle', ['first to 12 today wins', 'race you to 10', 'top dps or go home', 'that rare is mine'], 'competitive'),
   ...L('idle', ['if anyone needs help with the brute pst', 'free bandages at the forecourt if anyone needs', 'happy to heal egyptian runs', 'new players: train your abilities every 2 levels'], 'helpful'),
   ...L('idle', ['paying 20c for someone to kill old scar for me', 'will tank for tips', 'wts my time'], 'mercenary'),
+];
+
+// Conversations: two simulated players trade lines. 'zone' runs in General chat; 'say' is spoken aloud by two sims standing
+// together near the player (speech bubbles). Lines start "a:" or "b:" for the speaker. Tokens are filled once per
+// conversation from speaker a, so {dng}, {item} and {boss} agree from line to line.
+const C = (ch, lines, o = {}) => ({ ch, lines: lines.map((l) => ({ w: 'abc'.indexOf(l[0]), t: l.slice(2).trim() })), min: o.min || 1, max: o.max || 60 });
+export const convos = [
+  C('zone', ['a: anyone know where the stagehand is for the pantages quest', 'b: cahuenga alleys, past selma. bring a friend the spitters are up on the roofs', 'a: ty', 'b: np. hes slow walking back fyi']),
+  C('zone', ['a: is {dng} worth it at {lvl}', 'b: if you have a healer yes', 'b: {boss} hits like a truck tho', 'a: k ill find a group']),
+  C('zone', ['a: what drops {item}', 'b: think its world drop', 'a: rip', 'b: check the ah, vane usually has a few']),
+  C('zone', ['a: how do i get to melrose', 'b: you dont, not at your level lol', 'b: guards at the south gap are like 20+ elites', 'a: oh', 'a: they did one shot me']),
+  C('zone', ['a: anyone selling bags', 'b: tailors at the roosevelt sometimes', 'a: i got 5c lol', 'b: then no']),
+  C('zone', ['a: is gunsmithing worth it', 'b: yes if youre a gunman, ammo adds up', 'a: and if im not', 'b: sell the ammo to gunmen']),
+  C('zone', ['a: where do workers spawn', 'b: right in front of the chinese', 'b: theyre everywhere just walk out the door', 'a: oh i see them ty']),
+  C('zone', ['a: the brute in the hollywood hotel ballroom soloable?', 'b: at 15 maybe', 'a: im {lvl}', 'b: then no lmao', 'a: worth a try']),
+  C('zone', ['a: picture night tonight?', 'b: yeah at the forecourt, sit down for the buff', 'a: whats it give', 'b: 10% xp for half an hour', 'a: nice']),
+  C('zone', ['a: what class is best for new players', 'b: veteran is easy', 'c: dont listen, stuntman is easier', 'b: lol', 'a: ok veteran it is']),
+  C('zone', ['a: whoever keeps killing old scar before me', 'b: :)', 'a: i knew it', 'b: he respawns in like 10 min', 'a: ...']),
+  C('zone', ['a: lf someone to help with the gymnasium eggs', 'b: what level', 'a: {lvl}', 'b: sure inv, im outside the police station']),
+  C('zone', ['a: does anyone actually use the red car', 'b: every day, saves a lot of walking', 'a: costs money tho', 'b: 5c lol']),
+  C('zone', ['a: why is the sky purple', 'b: the dome', 'a: what dome', 'b: are you new', 'a: yes']),
+  C('zone', ['a: guild recruiting? casual, {lvl} {class}', 'b: {guild} is, whisper me', 'a: done']),
+  C('zone', ['a: rate my gear [{item}]', 'b: 6/10', 'b: needs more chitin', 'a: harsh']),
+  C('zone', ['a: is the hive mother hard', 'b: not if the tank knows to turn her', 'b: acid pools, dont stand in them', 'a: noted', 'b: everybody stands in them']),
+  C('zone', ['a: how much is a mount', 'b: a lot', 'a: how much is a lot', 'b: more than you have, trust me']),
+  C('zone', ['a: anyone around the taft, need a quick heal', 'b: omw', 'a: ty ty', 'b: dont pull anything till i get there']),
+  C('zone', ['a: did anyone see that surge at vine', 'b: yeah we held it barely', 'a: i died twice', 'b: we all did']),
+  C('zone', ['a: what does spirit do', 'b: power regen', 'b: for healers mostly', 'a: so useless for me', 'b: depends what you are']),
+  C('zone', ['a: gonna be on later?', 'b: prob after dinner', 'a: egyptian then?', 'b: if we find a tank', 'a: we never find a tank']),
+  C('zone', ['a: who keeps training drones through the forecourt', 'b: not me', 'a: its always someone', 'b: its always someone']),
+  C('zone', ['a: anyone want to duel outside the roosevelt', 'b: no you always win', 'a: thats the point', 'b: no']),
+  C('zone', ['a: how many levels till the egyptian', 'b: 8 min, 10 is better', 'a: ok', 'b: bring potions']),
+  C('zone', ['a: who has the best hot dogs', 'b: the newsboy at the chinese, mickey', 'a: they heal right', 'b: out of combat yes']),
+  C('zone', ['a: what is the difference between the burrower and a normal drone', 'b: the burrower comes out of the ground and has your name on it', 'a: lovely']),
+  C('zone', ['a: lf mentor, new to the game', 'b: what class', 'a: {class}', 'b: whisper me, i main one of those', 'a: ty!!']),
+  C('zone', ['a: auction house is a joke rn', 'b: everyone undercutting by 1c', 'a: i undercut by 2c out of spite', 'b: hero']),
+  C('zone', ['a: someone took my coffee tins', 'b: theyre first come first serve', 'a: i was standing right there', 'b: sad']),
+  C('say', ['a: you going back out?', 'b: after i eat', 'a: ok, ill wait', 'b: get me a coffee if youre buying']),
+  C('say', ['a: nice hat', 'b: ty, dropped off a looter', 'a: lucky', 'b: took 40 of them']),
+  C('say', ['a: how did you get so many casings', 'b: looters', 'b: they carry them for some reason', 'a: weird']),
+  C('say', ['a: wanna group for the spitters', 'b: sure', 'a: inv', 'b: one sec, need to repair first']),
+  C('say', ['a: did you see who won the duel', 'b: the gunman', 'a: obviously', 'b: they always do at range']),
+  C('say', ['a: ok im out of power', 'b: drink then', 'a: im out of drinks too', 'b: oof. roosevelt sells coffee']),
+  C('say', ['a: are you going to picture night', 'b: if i remember', 'a: its at 8', 'b: i wont remember']),
+  C('say', ['a: brb grabbing my alt from the bank', 'b: k', 'a: ...nvm, bank is closed lol', 'b: its never closed']),
+  C('say', ['a: how far to the police station', 'b: west along the boulevard, past highland', 'a: ty', 'b: watch out for the dogs on franklin']),
+  C('say', ['a: you guild?', 'b: not yet', 'a: want one', 'b: maybe later, still learning stuff', 'a: no rush']),
 ];

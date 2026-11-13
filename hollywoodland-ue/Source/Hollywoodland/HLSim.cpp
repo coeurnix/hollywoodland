@@ -281,6 +281,12 @@ void FHLGame::TickSimBrain(FHLSim& S, FHLUnit& U, float Dt)
 
 	if (S.State == EHLSimState::Script) { MoveTo(U, S.Dest, 2.f); return; } // the Director set it running
 	if (S.EventRole && SimEventBrain(S, U)) return;
+	if (S.State == EHLSimState::Gather)
+	{
+		if (InCombat(U)) { U.bSitting = false; S.State = EHLSimState::Grind; S.GatherObj = -1; S.GatherEnd = 0; }
+		else { SimGatherBrain(S, U); return; }
+	}
+	if (SimChatBrain(S, U)) return;
 
 	// anyone attacked defends themselves (transients one-shot in passing)
 	if (InCombat(U) && S.State != EHLSimState::Grind)
@@ -323,7 +329,7 @@ void FHLGame::TickSimBrain(FHLSim& S, FHLUnit& U, float Dt)
 		if (MoveTo(U, S.Dest, 2.f))
 		{
 			if (S.Role == EHLSimRole::Local && S.CampIdx >= 0 && !S.Route.Num()) S.State = EHLSimState::Grind;
-			else { S.State = EHLSimState::Idle; S.StateUntil = Now + 8 + Rand() * 30; if (Chance(0.3f)) U.HopT = 0.4f; }
+			else { S.State = EHLSimState::Idle; S.StateUntil = Now + 8 + Rand() * 30; if (Chance(0.3f)) U.HopT = 0.4f; SimArrived(S, U); }
 		}
 		break;
 	}
@@ -353,11 +359,13 @@ void FHLGame::TickSimBrain(FHLSim& S, FHLUnit& U, float Dt)
 				// back to town: vendor/trainer, then out again
 				static const TCHAR* Stops[] = { TEXT("vendor"), TEXT("trainers"), TEXT("inn"), TEXT("mailbox"), TEXT("auction"), TEXT("forecourt") };
 				S.Route.Reset(); S.RouteIdx = 0; S.Kills = 0;
-				if (const FVector2D* Poi = Def.Pois.Find(Stops[RandInt(0, 5)])) S.Route.Add(*Poi + FVector2D(Rand() * 6 - 3, Rand() * 4 - 1));
+				const FString Stop = Stops[RandInt(0, 5)];
+				if (const FVector2D* Poi = Def.Pois.Find(Stop)) S.Route.Add(Stop == TEXT("forecourt") ? *Poi + FVector2D(Rand() * 6 - 3, Rand() * 4 - 1) : ErrandSpot(Stop, S, *Poi));
 				S.State = EHLSimState::Idle; S.StateUntil = Now; S.CampIdx = -1;
 				break;
 			}
 			if (Now < S.StateUntil) break;
+			if (!InCombat(U) && TryStartGather(S, U)) break;
 			// someone attacking me first
 			FHLUnit* Best = nullptr; float BestD = 1e9f;
 			for (FHLUnit* O : UnitList)
@@ -414,7 +422,7 @@ void FHLGame::TickSims(float Dt)
 			TArray<FString> Pick = { TEXT("bank"), TEXT("auction") };
 			Pick.Add(Errands[RandInt(2, 5)]);
 			if (Chance(0.5f)) Pick.Swap(0, 1);
-			for (const FString& K : Pick) if (const FVector2D* Poi = Def.Pois.Find(K)) if (Chance(0.8f)) S.Route.Add(*Poi + FVector2D(Rand() * 8 - 4, Rand() * 4 - 1));
+			for (const FString& K : Pick) if (const FVector2D* Poi = Def.Pois.Find(K)) if (Chance(0.8f)) S.Route.Add(ErrandSpot(K, S, *Poi));
 			S.StateUntil = Now;
 		}
 	}

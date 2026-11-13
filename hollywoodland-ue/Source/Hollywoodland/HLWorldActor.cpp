@@ -456,6 +456,17 @@ void AHLWorldActor::AutoTest(float Dt)
 		if (CraftStep == 3) { if (Game.Now < AutoSocialAt) return; CraftStep = 99; }
 		if (CraftStep == 0) return;
 	}
+	// -HLLifeTest: stand near whatever is happening on the street and watch
+	static const bool bLifeTest = FParse::Param(FCommandLine::Get(), TEXT("HLLifeTest"));
+	if (bLifeTest && P->Area == 0)
+	{
+		P->TargetId = 0; P->bAutoAttack = false;
+		const FVector2D* Inn = Game.Areas[0].Def->Pois.Find(TEXT("inn"));
+		const FVector2D Want = Game.Happen.Kind ? Game.Happen.Pos + FVector2D(0, Game.Happen.Kind == 4 ? -9.f : 9.f) : (Inn ? *Inn + FVector2D(0, -6) : P->Pos);
+		if (FVector2D::Distance(P->Pos, Want) > 6) { AutoGoal = Want; bAutoGoal = true; }
+		else { Game.FaceTo(*P, Game.Happen.Kind ? Game.Happen.Pos : P->Pos + FVector2D(0, -5)); CamYaw = P->Yaw; }
+		return;
+	}
 	// -HLEscortTest: take Whitey Comes Home and bring him back to the Pantages, fighting off the ambushes
 	static int32 EscStep = FParse::Param(FCommandLine::Get(), TEXT("HLEscortTest")) ? 0 : 99;
 	if (EscStep < 99 && P->Area == 0)

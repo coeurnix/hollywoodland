@@ -130,6 +130,7 @@ void FHLGame::TickChat(float Dt)
 	}
 	if (!Session.IsEmpty() || Now < NextSessionTry) {} else WorkerSession();
 	const FHLData& D = FHLData::Get();
+	TickConvos();
 	if (Now >= NextAmbient && Sims.Num())
 	{
 		// about 10 lines a minute across the capital's channels

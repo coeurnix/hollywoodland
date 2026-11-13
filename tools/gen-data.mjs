@@ -8,7 +8,7 @@ import { buildItems, questItem } from './gen/items.mjs';
 import { mobs, areas } from './gen/zone.mjs';
 import { quests } from './gen/quests.mjs';
 import { buildPersonas } from './gen/personas.mjs';
-import { templates, corpus } from './gen/chat.mjs';
+import { templates, corpus, convos } from './gen/chat.mjs';
 
 const OUT = new URL('../hollywoodland-ue/Content/Data/', import.meta.url);
 mkdirSync(OUT, { recursive: true });
@@ -173,7 +173,7 @@ const sizes = {
   areas: write('areas.json', { areas }),
   quests: write('quests.json', { quests }),
   personas: write('personas.json', { personas }),
-  chat: write('chat.json', { templates, corpus: fullCorpus }),
+  chat: write('chat.json', { templates, corpus: fullCorpus, convos }),
 };
 const lv = (a, b) => personas.filter((p) => p.level >= a && p.level <= b).length;
 console.log('sizes', sizes);

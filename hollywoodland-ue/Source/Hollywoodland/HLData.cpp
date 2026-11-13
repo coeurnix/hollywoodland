@@ -341,6 +341,13 @@ bool FHLData::Load(FString& Err)
 			Templates.Add(MoveTemp(T));
 		}
 		for (auto& V : A(R, TEXT("corpus"))) { JObj O = V->AsObject(); Corpus.Add({ S(O, TEXT("s")), S(O, TEXT("t")), S(O, TEXT("text")) }); }
+		for (auto& V : A(R, TEXT("convos")))
+		{
+			JObj O = V->AsObject();
+			FHLConvo C; C.Ch = S(O, TEXT("ch")); C.Min = N(O, TEXT("min"), 1); C.Max = N(O, TEXT("max"), 60); C.Speakers = 1;
+			for (auto& LV : A(O, TEXT("lines"))) { JObj Lo = LV->AsObject(); const int32 W = FMath::Max(0, (int32)N(Lo, TEXT("w"))); C.Lines.Add(TPair<int32, FString>(W, S(Lo, TEXT("t")))); C.Speakers = FMath::Max(C.Speakers, W + 1); }
+			if (C.Lines.Num()) Convos.Add(MoveTemp(C));
+		}
 	}
 	bLoaded = Err.IsEmpty() && Classes.Num() > 0 && Areas.Num() > 0;
 	return bLoaded;

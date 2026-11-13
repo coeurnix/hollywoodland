@@ -150,7 +150,7 @@ struct FHLPlayer
 };
 
 enum class EHLSimRole : uint8 { Away, Local, Transient, Idler };
-enum class EHLSimState : uint8 { Idle, Travel, Grind, Rest, Dead, Party, Leaving, Script };
+enum class EHLSimState : uint8 { Idle, Travel, Grind, Rest, Dead, Party, Leaving, Script, Gather };
 struct FHLSim
 {
 	const FHLPersona* P = nullptr;
@@ -161,9 +161,13 @@ struct FHLSim
 	int32 UnitId = 0, Level = 1, CampIdx = -1, Kills = 0, KillGoal = 10, RouteIdx = 0, ScriptId = 0;
 	float Xp = 0, StateUntil = 0, NextAct = 0, HealBiasUntil = 0, NextEmote = 0, AwayUntil = 0;
 	FString Zone, Activity;
-	TArray<FVector2D> Route;
-	FVector2D Dest = FVector2D::ZeroVector;
-};
+		TArray<FVector2D> Route;
+		FVector2D Dest = FVector2D::ZeroVector;
+		// street life (HLSimLife.cpp)
+		int32 ChatWith = -1, GatherObj = -1;
+		double ChatUntil = 0, GatherEnd = 0, NextGather = 0;
+		bool bChatWalker = false;
+	};
 
 struct FHLChatLine
 {
@@ -392,6 +396,25 @@ public:
 	FString WhoQuery; bool bWhoOpen = false;
 	FString ChatCtx; // fills {ctx} in corpus lines (event names)
 
+	// ---- street life (HLSimLife.cpp)
+	struct FHLHappening { int32 Kind = 0; FVector2D Pos = FVector2D::ZeroVector; TArray<int32> Sims; double Until = 0, NextBeat = 0, DuelStart = 0, NextServe = 0; int32 Duel[2] = { -1, -1 }; bool bDone = false; };
+	FHLHappening Happen;
+	int32 LastHappening = 0;
+	TArray<const FHLConvo*> RecentConvos;
+	double ConvoEndsAt = 0, SayEndsAt = 0, NextZoneConvo = 40, NextSayConvo = 60, NextNpcFacing = 0, NextHappening = 0;
+	bool StartConvo(const FHLConvo& C, const TArray<int32>& Speakers, float Lead);
+	void TickConvos();
+	bool SimChatBrain(FHLSim& S, FHLUnit& U);
+	FVector2D ErrandSpot(const FString& Poi, const FHLSim& S, const FVector2D& PoiPos);
+	void SimArrived(FHLSim& S, FHLUnit& U);
+	void SimPostAuction(int32 SimIdx);
+	bool Undercut(const FHLAuction& Mine) const;
+	bool TryStartGather(FHLSim& S, FHLUnit& U);
+	void SimGatherBrain(FHLSim& S, FHLUnit& U);
+	void TickNpcFacing();
+	void TickHappenings();
+	void EndHappening();
+	FVector2D HappeningSpot(int32 K, int32 N) const;
 	// ---- gunsmithing and escorts (HLCraft.cpp)
 	struct FHLRecipe { FString Product, Mat1, Mat2; int32 Yield = 1, Skill = 1, N1 = 0, N2 = 0; };
 	static const TArray<FHLRecipe>& GunRecipes();

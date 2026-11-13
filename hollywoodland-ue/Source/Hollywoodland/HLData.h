@@ -127,6 +127,7 @@ struct FHLGuild { FString Id, Name, Kind, Blurb; };
 struct FHLRedcarLine { FString Name; TArray<FString> Stops; };
 struct FHLChatTemplate { FString Ch, S, Text; int32 Min = 1, Max = 60; bool bGuild = false; };
 struct FHLCorpusLine { FString S, T, Text; };
+struct FHLConvo { FString Ch; int32 Min = 1, Max = 60, Speakers = 2; TArray<TPair<int32, FString>> Lines; };
 
 class FHLData
 {
@@ -149,6 +150,7 @@ public:
 	TArray<FHLRedcarLine> Redcar;
 	TArray<FHLChatTemplate> Templates;
 	TArray<FHLCorpusLine> Corpus;
+	TArray<FHLConvo> Convos;
 
 	const FHLAbility* Ability(const FString& Id) const { const FHLAbility* const* P = AbilityById.Find(Id); return P ? *P : nullptr; }
 	const FHLTalent* Talent(const FString& Id) const { const FHLTalent* const* P = TalentById.Find(Id); return P ? *P : nullptr; }

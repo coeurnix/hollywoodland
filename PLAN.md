@@ -104,17 +104,17 @@ browser ── itch.io page (iframe) ── hollywoodland Worker (R2 stage, COOP
 10. Crowd LOD (§11 levels 0-3): only needed when population on screen exceeds ~60; implement as sims without `FHLUnit` combat.
 11. ~~World events: surge, rare calls, picture night~~ (done); hive spread, fight night (needs duels).
 12. ~~Trade window, duels, mailbox, friends list~~ (done).
-13. ~~Auction: bids, durations, search~~ (done); price history, sims undercutting the player.
+13. ~~Auction: bids, durations, search; sims undercutting the player~~ (done: a sim at the auctioneer may list the same item 1-5% under the player's price, and undercut listings rarely sell); price history.
 14. ~~Talents~~ (done: all 5 tiers).
 15. Interiors: Hollywood Hotel ballroom walls/roof, Egyptian rooms with height; rooftops for Spitters (needs Z in nav).
 
 ### P2 — population depth (the showcase, §11)
 16. ~~Persistent relationships~~ (done: each save seeds 3 pals, a rival, a flirt, a mentor and a gossip from the player id; they whisper, mail gifts, befriend, challenge; bonded sims are likelier to log in and appear on the Boulevard). Original note: on first login pick ~8 personas as this save's friends/rivals/flirt/nemesis (seeded by player
     id), bias Director events and whispers toward them, surface "X has come online".
-17. Sims use the auction house, trainers and vendors visibly (stand at NPC, emote), gather nodes, compete for quest objects.
+17. ~~Sims use the auction house, trainers and vendors visibly, gather nodes, compete for quest objects~~ (done: errands stop at the counter of a real NPC, who turns to face them; auction posts, ability learned at their own trainer, sitting at the inn; grinding sims take salvage and quest objects that are more than 10 m from the player).
 18. Sim-formed dungeon groups: LFG shout → walk to the Egyptian → enter (despawn) → return 20 min later with boss loot equipped.
-19. Per-play randomisation of Director events; add: duel outside the Roosevelt, dance party on the bank steps, AFK chains.
-20. Typing indicators / delays by persona `reaction_s`; multi-line conversations between sims in zone chat (templated pairs).
+19. ~~Duel outside the Roosevelt, dance party on the bank steps, AFK chains~~ (done, plus a queue at the auctioneer: one random happening near the player every 2.5-5.5 minutes after the first 200 s). Still fixed: the onboarding Director steps 0-4.
+20. ~~Multi-line conversations between sims~~ (done: 30 General and 10 spoken conversations in `chat.mjs`; spoken ones walk two nearby sims together with speech bubbles; each line waits for reading and typing time at the persona's reaction speed). Typing indicator not shown.
 21. Census: guild rosters, raid schedules by server clock, wipes/clears feeding guild chat; 30 "server history" events at start.
 22. Worker: move rate limiting and the daily budget to a Durable Object; cache gossip per 2-min bucket in KV across players;
     add `kind:"decide"` for trades/duels; stream nothing (latency is hidden by typing time).
