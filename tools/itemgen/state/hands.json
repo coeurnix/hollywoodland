@@ -1,0 +1,607 @@
+{
+ "canvas_work_gloves_of_agility": {
+  "ok": true,
+  "reason": "The glove has five digits: four fingers (the leftmost, splayed outward, is the pinky) and one thumb on the right side. There are no extra, missing or fused digits, and the shape is wearable.",
+  "seed": 311093264
+ },
+ "canvas_work_gloves_of_the_acrobat": {
+  "ok": true,
+  "reason": "The glove shows one thumb on the left and four distinct fingers of plausible relative lengths. There are no extra, missing, or fused digits, and the cuffed glove shape could be worn by a human hand.",
+  "seed": 1393235225
+ },
+ "canvas_work_gloves_of_the_boxer": {
+  "ok": true,
+  "reason": "The glove shows one thumb angled out on the left and four fingers across the top, with no extra, missing, or fused digits. The shape is plausible for a wearable human glove.",
+  "seed": 1269051655
+ },
+ "canvas_work_gloves_of_stamina": {
+  "ok": true,
+  "reason": "The glove has exactly one thumb on the left side and four distinct fingers along the top, with plausible lengths and proportions. There are no extra, missing or fused digits, and the shape could be worn by a human hand.",
+  "seed": 262197019
+ },
+ "canvas_work_gloves_of_the_engineer": {
+  "ok": true,
+  "reason": "The glove shows one thumb at the lower left and four fingers fanned toward the lower right. That is a plausible digit count, and no fingers look fused or duplicated. The shape could be worn by a human hand.",
+  "seed": 412187183
+ },
+ "architect_s_drafting_gloves": {
+  "ok": true,
+  "reason": "The glove has one thumb on the left and four fingers of plausible relative lengths. There are no extra, missing or fused digits, and the shape could be worn by a human hand.",
+  "seed": 994721992
+ },
+ "canvas_work_gloves_of_the_marksman": {
+  "ok": true,
+  "reason": "The glove shows exactly one thumb on the left and four fingers: an index finger with a torn tip, then middle, ring and pinky. Their lengths and placement are plausible, and there are no fused, extra or missing digits. A human hand could wear it.",
+  "seed": 1617872337
+ },
+ "chitin_lined_everlast_bag_gloves": {
+  "ok": true,
+  "reason": "The glove shows one thumb on the left and four distinct fingers with plausible relative lengths (index, a longest middle finger, ring, pinky). There are no extra, missing or fused digits, and the cuff and overall shape could be worn by a human hand.",
+  "seed": 752223628
+ },
+ "canvas_work_gloves_of_strength": {
+  "ok": true,
+  "reason": "The glove shows exactly one thumb on the left and four distinct fingers with plausible relative lengths. There are no extra, missing, or fused digits, and the overall shape could be worn by a human hand.",
+  "seed": 362218017
+ },
+ "chitin_lined_opera_gloves": {
+  "ok": true,
+  "reason": "The glove shows exactly one thumb on the left and four distinct fingers of plausible relative lengths. There are no extra, missing or fused digits, and the cuff opening makes it a wearable glove shape.",
+  "seed": 1636858717
+ },
+ "chitin_lined_plated_gauntlets": {
+  "ok": true,
+  "reason": "The gauntlet shows exactly one thumb, extending to the left, and four distinct fingers with plausible lengths: the middle finger is tallest and the pinky shortest. No digits are extra, missing or fused, and the cuff and overall shape could be worn by a human hand.",
+  "seed": 531684208
+ },
+ "chitin_lined_welder_s_gauntlets": {
+  "ok": true,
+  "reason": "The glove shows exactly one thumb (the green digit on the left) and four fingers with plausible relative lengths. No digits are extra, missing, or fused, and the cuff and palm form a wearable glove shape.",
+  "seed": 47340715
+ },
+ "chitin_plated_plated_gauntlets": {
+  "ok": true,
+  "reason": "The gauntlet shows one thumb on the left and four distinct fingers (index, middle, ring and a shorter little finger). There are no extra, missing or fused digits, and the armored shape could plausibly be worn on a human hand.",
+  "seed": 1306651712
+ },
+ "chitin_plated_welder_s_gauntlets": {
+  "ok": true,
+  "reason": "The gauntlet shows one thumb on the left and four distinct fingers of plausible relative lengths, with the middle finger tallest. No digits are extra, missing or fused, and the overall shape could be worn by a human hand.",
+  "seed": 339441590
+ },
+ "chitin_plated_everlast_bag_gloves": {
+  "ok": true,
+  "reason": "The glove shows one thumb angled out to the left and four distinct, separate fingers. There are no extra, missing or fused digits, and the overall shape is wearable by a human hand.",
+  "seed": 728035904
+ },
+ "cotton_gloves_of_intellect": {
+  "ok": true,
+  "reason": "The glove has one thumb on the left and four fingers: the index finger with the blue tip, then the middle, ring and little fingers. The proportions are plausible and the glove could be worn by a human hand. There are no extra, missing or fused digits.",
+  "seed": 961437643
+ },
+ "cotton_gloves_of_the_doctor": {
+  "ok": true,
+  "reason": "The single glove has one thumb at upper left and four distinct fingers fanning toward the lower left. That is five digits with no extras, fusions or duplicate thumbs. The cuff and overall shape could plausibly be worn by a human hand.",
+  "seed": 755840852
+ },
+ "cotton_gloves_of_spirit": {
+  "ok": true,
+  "reason": "The glove shows exactly one thumb on the left and four distinct fingers. None are fused, extra or missing, and the shape with its cuff could plausibly be worn by a human hand.",
+  "seed": 1118323505
+ },
+ "chitin_plated_opera_gloves": {
+  "ok": true,
+  "reason": "The glove shows four fingers, a short pinky on the left and three longer fingers, plus one thumb angled out to the right. The digits are distinct and in plausible proportions, so a human hand could wear it.",
+  "seed": 1094714082
+ },
+ "everlast_bag_gloves_of_spirit": {
+  "ok": true,
+  "reason": "The single glove has one thumb on the left and four distinct fingers (index, middle, ring and pinky) of plausible lengths. The digits are clearly separated with no extra, missing or fused ones, and the shape could be worn by a human hand.",
+  "seed": 195274833
+ },
+ "everlast_bag_gloves_of_agility": {
+  "ok": true,
+  "reason": "The glove shows one thumb on the left and four distinct fingers fanning to the upper right. There are no extra, missing, or fused digits, and the overall shape is wearable by a human hand.",
+  "seed": 1288025600
+ },
+ "cotton_gloves_of_the_deacon": {
+  "ok": true,
+  "reason": "The glove shows one thumb on the left and four distinct fingers of plausible relative lengths. There are no extra, missing or fused digits, and the shape could be worn by a human hand.",
+  "seed": 1446000903
+ },
+ "everlast_bag_gloves_of_stamina": {
+  "ok": true,
+  "reason": "The glove shows one thumb on the left and four fingers of plausible relative lengths. No digits are extra, missing or fused, and the shape could be worn by a human hand.",
+  "seed": 885527318
+ },
+ "cotton_gloves_of_the_engineer": {
+  "ok": true,
+  "reason": "The glove shows exactly five digits: one thumb angled out low on the left and four fingers of plausible relative lengths. None are fused, duplicated or missing, and the overall shape could be worn by a human hand.",
+  "seed": 1935397012
+ },
+ "everlast_bag_gloves_of_the_deacon": {
+  "ok": true,
+  "reason": "The glove shows one thumb extending to the left and four distinct fingers of plausible relative lengths. There are no extra, missing, or fused digits, and the shape could be worn by a human hand.",
+  "seed": 848436933
+ },
+ "cotton_gloves_of_stamina": {
+  "ok": true,
+  "reason": "The glove shows exactly one thumb on the left and four separate fingers with plausible lengths, the middle finger longest and the little finger shortest. There are no extra, missing or fused digits, and the cuff and overall shape could be worn by a human hand.",
+  "seed": 254314419
+ },
+ "fine_lineman_s_gloves": {
+  "ok": true,
+  "reason": "The single glove shows one brown thumb on the left and four distinct, separately stitched tan fingers. The digits are not fused, there are no extra or missing fingers, and the glove has a wearable cuffed shape.",
+  "seed": 1428919187
+ },
+ "everlast_bag_gloves_of_the_stevedore": {
+  "ok": true,
+  "reason": "The glove shows five digits: a thumb along the upper edge and four fingers fanning toward the lower left. There are no extra, missing or fused digits, and the shape could be worn by a human hand. The thumb is fairly long and runs nearly parallel to the fingers, but this reads as plausible for a glove lying flat.",
+  "seed": 640449393
+ },
+ "fine_riding_gauntlets": {
+  "ok": true,
+  "reason": "The glove shows exactly one thumb on the left and four distinct, separated fingers. Proportions and the cuff are plausible, with no extra, missing or fused digits.",
+  "seed": 1142555728
+ },
+ "everlast_bag_gloves_of_the_acrobat": {
+  "ok": true,
+  "reason": "The single glove shows one thumb on the left and four distinct fingers with plausible relative lengths. The digits are separate rather than fused, and the cuff and palm shape could be worn by a human hand.",
+  "seed": 1601480066
+ },
+ "fine_kid_gloves": {
+  "ok": true,
+  "reason": "The glove has one thumb on the left and four distinct fingers, with no extra, missing, or fused digits. The overall shape is a plausible wearable glove, shown from the back with decorative stitching and a wrist button.",
+  "seed": 1042779246
+ },
+ "good_leather_gloves": {
+  "ok": true,
+  "reason": "The glove shows one thumb on the left and four distinct fingers with plausible relative lengths. There are no extra, missing or fused digits, and the cuff and overall shape could be worn by a human hand.",
+  "seed": 907911772
+ },
+ "heavy_plated_gauntlets": {
+  "ok": true,
+  "reason": "The single gauntlet has one thumb on the left and four distinct segmented fingers. The digits are not fused and none are extra or missing, and the overall shape is wearable by a human hand.",
+  "seed": 151450517
+ },
+ "good_cotton_gloves": {
+  "ok": true,
+  "reason": "The glove has exactly one thumb, extending to the left, and four distinct fingers of plausible relative lengths. No digits are extra, missing or fused, and the glove has a wearable shape with a cuff.",
+  "seed": 1703944606
+ },
+ "good_mail_backed_gloves": {
+  "ok": true,
+  "reason": "The glove shows one thumb extending to the left and four distinct fingers of plausible relative lengths. No digits are extra, missing or fused, and the shape could be worn by a human hand.",
+  "seed": 1814799906
+ },
+ "fine_mail_backed_gloves": {
+  "ok": true,
+  "reason": "The glove shows one thumb on the left and four distinct fingers of plausible relative lengths, with no extra, missing, or fused digits. The shape could be worn by a human hand.",
+  "seed": 706660189
+ },
+ "good_canvas_work_gloves": {
+  "ok": true,
+  "reason": "Both gloves look anatomically plausible. The front glove shows four leather fingers and one thumb on the pale cuff section. The back glove shows four fingers and one thumb on its left side. There are no extra, missing, or fused digits, and both could be worn by a human hand.",
+  "seed": 351593204
+ },
+ "heavy_lineman_s_gloves": {
+  "ok": true,
+  "reason": "The glove is drawn as a clenched fist. Four curled fingers are visible across the top, with matching knuckle rows, and a single thumb-like digit sits on the right side. There is no extra, missing or fused digit, so the shape is plausible for a human hand.",
+  "seed": 945960490
+ },
+ "heavy_kid_gloves": {
+  "ok": true,
+  "reason": "The glove shows one thumb on the left and four distinct fingers with plausible, decreasing lengths toward the pinky. No digits are extra, missing or fused, and the shape could be worn by a human hand.",
+  "seed": 792053925
+ },
+ "heavy_riding_gauntlets": {
+  "ok": true,
+  "reason": "The gauntlet shows one thumb on the left and four fingers above a row of four riveted knuckle plates, one plate per finger. The digits are distinct, not fused, and the overall shape is wearable.",
+  "seed": 1417897588
+ },
+ "kid_gloves_of_the_engineer": {
+  "ok": true,
+  "reason": "The glove shows exactly five digits: one thumb angled out to the left and four fingers, with the shortest on the far right like a pinky. The proportions and arrangement are plausible for a wearable glove, and there are no extra, missing or fused digits.",
+  "seed": 2051697550
+ },
+ "kid_gloves_of_intellect": {
+  "ok": true,
+  "reason": "The glove shows one thumb on the left and four distinct fingers of plausible relative lengths, with no fused, extra, or missing digits. The shape could be worn by a human hand. The pencil behind it does not affect the glove's anatomy.",
+  "seed": 916981632
+ },
+ "leather_gloves_of_spirit": {
+  "ok": true,
+  "reason": "The glove shows four distinct fingers fanning to the upper left and one thumb on the right side. The proportions are plausible and the cuff is intact. There are no extra, missing, or fused digits, and a human hand could wear it.",
+  "seed": 387595264
+ },
+ "kid_gloves_of_stamina": {
+  "ok": true,
+  "reason": "The front glove shows one thumb on the left and four distinct fingers. The back glove is mostly hidden by overlap, but its two visible digits (likely pinky and ring finger, with the thumb hidden behind the front glove) form a plausible shape. No extra, fused or missing digits are visible.",
+  "seed": 1006001607
+ },
+ "kid_gloves_of_the_doctor": {
+  "ok": true,
+  "reason": "Both gloves read as anatomically plausible. Right glove: a thumb on its left side plus four fingers (index, middle, ring, pinky). Left glove: four visible fingers, with its thumb partly visible behind the right glove's thumb. No extra, missing or fused digits, and the two gloves form a believable mirrored pair.",
+  "seed": 833767861
+ },
+ "kid_gloves_of_spirit": {
+  "ok": true,
+  "reason": "The glove shows four distinct fingers and one thumb extending to the side. The proportions are plausible and wearable, with no extra, missing or fused digits.",
+  "seed": 1702121738
+ },
+ "lineman_s_gloves_of_agility": {
+  "ok": true,
+  "reason": "The glove shows four distinct fingers, getting shorter toward the pinky, and a single thumb on the opposite side. There are no extra, missing or fused digits, so it is a plausible wearable glove.",
+  "seed": 1118665160
+ },
+ "kid_gloves_of_the_deacon": {
+  "ok": true,
+  "reason": "The glove shows exactly one thumb on the left and four distinct fingers with plausible proportions and no fused or extra digits, so it could be worn by a human hand.",
+  "seed": 730901883
+ },
+ "leather_gloves_of_agility": {
+  "ok": true,
+  "reason": "The glove shows one thumb extending to the left and four distinct fingers of plausible relative lengths. There are no extra, missing or fused digits, and the shape could be worn by a human hand.",
+  "seed": 1698246438
+ },
+ "leather_gloves_of_the_stevedore": {
+  "ok": true,
+  "reason": "The glove shows one thumb pointing up-left and four separate fingers extending down-left. The digits are distinct, not fused, and the overall shape could be worn by a human hand.",
+  "seed": 1476798713
+ },
+ "leather_gloves_of_the_acrobat": {
+  "ok": true,
+  "reason": "The single glove shows one thumb on the left and four distinct fingers along the top, with no extra, missing, or fused digits. Its proportions and shape are plausible for a wearable glove.",
+  "seed": 1225694933
+ },
+ "leather_gloves_of_stamina": {
+  "ok": true,
+  "reason": "The glove shows one thumb on the left and four distinct fingers across the top, in plausible proportions and positions. The stitched ridges on the back of the hand are decorative and do not read as extra digits. The cuff and overall shape could be worn by a human hand.",
+  "seed": 794147430
+ },
+ "leather_gloves_of_the_deacon": {
+  "ok": true,
+  "reason": "The glove shows one thumb on the left and four distinct fingers of plausible relative length. No digits are extra, missing or fused, and the shape could be worn by a human hand.",
+  "seed": 44242735
+ },
+ "lineman_s_gloves_of_stamina": {
+  "ok": true,
+  "reason": "The glove shows one brown thumb on the left and four distinct quilted fingers. The digits are separate and properly proportioned, so the shape is wearable by a human hand.",
+  "seed": 1371371422
+ },
+ "lineman_s_gloves_of_the_acrobat": {
+  "ok": true,
+  "reason": "The glove shows one thumb on the left and four distinct fingers decreasing plausibly in length toward the pinky. There are no extra, missing or fused digits, and the shape could be worn by a human hand.",
+  "seed": 1535499999
+ },
+ "lineman_s_gloves_of_strength": {
+  "ok": true,
+  "reason": "The single glove shows exactly four fingers and one thumb with plausible proportions and placement, forming a wearable left glove seen from the back. There are no extra, missing or fused digits.",
+  "seed": 394679194
+ },
+ "mail_backed_gloves_of_strength": {
+  "ok": true,
+  "reason": "The glove shows one thumb extending to the left and four distinct fingers of plausible proportions. The digits are separate, not fused, and the glove shape could be worn by a human hand. The three knuckle rings and chainmail are decorative and do not affect the anatomy.",
+  "seed": 483374330
+ },
+ "lockheed_riveter_s_gauntlets": {
+  "ok": true,
+  "reason": "Both gauntlets are mirrored and plausible. Each appears to show one articulated thumb pointing inward toward the center and four segmented, curled fingers. I see no extra digits, double thumbs or fused fingers, though the overlapping plates make the finger count hard to confirm with complete certainty.",
+  "seed": 811126235
+ },
+ "mail_backed_gloves_of_stamina": {
+  "ok": true,
+  "reason": "The single glove has one thumb (the leather piece on the left) and four chainmail fingers of plausible decreasing lengths. No digits are extra, missing or fused, and the shape could be worn by a human hand.",
+  "seed": 1685469962
+ },
+ "lineman_s_gloves_of_the_boxer": {
+  "ok": true,
+  "reason": "The glove is drawn as a clenched fist: four curled finger segments run along the top knuckle row, and a fifth digit on the right reads as the thumb. The shape is plausible for a fist, with no extra, missing or fused digits, and the cuff opening makes it wearable. The thumb placement is somewhat stylized, so confidence is moderate rather than high.",
+  "seed": 1491358005
+ },
+ "lineman_s_gloves_of_the_engineer": {
+  "ok": true,
+  "reason": "The glove shows four fingers and one thumb, set apart on the right side. Digit lengths and placement are plausible for a slightly tilted hand. There are no extra, missing or fused digits, and the glove could be worn by a human hand.",
+  "seed": 1063665297
+ },
+ "mail_backed_gloves_of_the_boxer": {
+  "ok": true,
+  "reason": "The glove shows one thumb on the left and four distinct fingers along the top, five digits in total. The proportions and wrist cuff are plausible for a wearable human glove, with no fused, extra, or missing digits.",
+  "seed": 2011622671
+ },
+ "lineman_s_gloves_of_the_marksman": {
+  "ok": true,
+  "reason": "The glove shows exactly four fingers along the top and one thumb extending from the left side. The digits are distinct and proportioned plausibly, and the cuff and palm form a wearable glove shape. No extra, missing or fused digits.",
+  "seed": 150515662
+ },
+ "mail_backed_gloves_of_the_stevedore": {
+  "ok": true,
+  "reason": "The front glove shows four chain-mail fingers and one brown thumb rising from the cuff. The back leather glove shows a thumb and three fingers, with its fourth finger plausibly hidden behind the front glove. There are no extra, fused or impossible digits, and both gloves look wearable.",
+  "seed": 442514192
+ },
+ "opera_gloves_of_intellect": {
+  "ok": true,
+  "reason": "The glove shows five distinct digits: a thumb splayed out on the right side and four fingers fanning downward with plausible relative lengths (shortest pinky on the left, longer middle fingers). There are no extra, missing or fused digits, and the shape could be worn by a human hand.",
+  "seed": 926775558
+ },
+ "opera_gloves_of_spirit": {
+  "ok": true,
+  "reason": "The glove has one thumb on the left and four distinct fingers of plausible relative lengths. There are no extra, missing, or fused digits, and the shape is wearable by a human hand.",
+  "seed": 1975744707
+ },
+ "matriarch_s_acid_etched_gloves": {
+  "ok": true,
+  "reason": "The glove has one thumb on the left and four fingers of plausible, graded lengths. There are no extra, missing or fused digits, and the cuffed shape could be worn by a human hand.",
+  "seed": 760643708
+ },
+ "opera_gloves_of_the_doctor": {
+  "ok": true,
+  "reason": "The glove shows exactly five digits: four fingers (pinky, ring, middle and index, with plausible relative lengths) and one thumb extending to the side. There are no extra, missing or fused digits, and the cuff and overall shape could be worn by a human hand.",
+  "seed": 486988913
+ },
+ "patched_canvas_work_gloves": {
+  "ok": true,
+  "reason": "The glove shows four fingers and one thumb in a plausible arrangement. The fingers run from the short pinky at lower left up to the patched index finger, with the thumb angled out on the right. There are no extra, missing or fused digits, and a human hand could wear it.",
+  "seed": 1407149124
+ },
+ "opera_gloves_of_stamina": {
+  "ok": true,
+  "reason": "Both gloves appear to have a thumb and four fingers. The upper glove shows a thumb plus four fingers fanning to the left, and the lower glove shows five digits in a plausible arrangement. There are no obvious extra, missing or fused digits, and both gloves look wearable.",
+  "seed": 1114530123
+ },
+ "patched_cotton_gloves": {
+  "ok": true,
+  "reason": "The glove shows exactly five digits: four fingers (a pinky on the left, two middle fingers and a ring/index finger) plus one thumb angled out on the right from lower on the palm. The proportions are plausible, with no fused, extra or missing digits, so a human hand could wear it.",
+  "seed": 1890142632
+ },
+ "opera_gloves_of_the_deacon": {
+  "ok": true,
+  "reason": "Two stacked gloves. The front glove shows four fanned fingers and a thumb at the lower left. The protrusion on the right reads as the back glove's thumb, and its remaining fingers are plausibly hidden by the overlap. No clear extra, missing or fused digits, though the layered fingers are somewhat ambiguous.",
+  "seed": 780084301
+ },
+ "opera_gloves_of_the_engineer": {
+  "ok": true,
+  "reason": "The glove shows exactly one thumb, angled out to the left, and four fingers with gold tips. The finger lengths are plausible, with the middle finger tallest and the pinky shortest. There are no extra, missing or fused digits, and the cuff and overall shape could be worn by a human hand.",
+  "seed": 770236504
+ },
+ "patched_mail_backed_gloves": {
+  "ok": true,
+  "reason": "The glove shows exactly one thumb, angled out on the right, and four fingers: a shorter pinky on the left and three taller fingers in the middle. The digits are distinct, not fused, and proportioned plausibly for a wearable human glove.",
+  "seed": 522836180
+ },
+ "plated_gauntlets_of_stamina": {
+  "ok": true,
+  "reason": "The gauntlet shows one thumb on the left and four distinct fingers of plausible length and spacing. There are no extra, missing, or fused digits, and the shape could be worn by a human hand.",
+  "seed": 1633026942
+ },
+ "plain_mail_backed_gloves": {
+  "ok": true,
+  "reason": "The front glove shows four distinct fingers and a single thumb positioned beside the index finger, which is a plausible, wearable hand shape. The glove layered behind it is mostly hidden by overlap, and nothing visible suggests extra, missing or fused digits.",
+  "seed": 340476613
+ },
+ "patched_leather_gloves": {
+  "ok": true,
+  "reason": "The glove shows exactly five digits: four fingers (the leftmost pinky angled slightly outward, then three upright fingers) and one thumb extending to the right. The proportions and placement are plausible for a wearable human glove, and there are no fused, extra or missing digits.",
+  "seed": 2009409029
+ },
+ "plated_gauntlets_of_strength": {
+  "ok": true,
+  "reason": "The gauntlet shows one thumb on the left and four distinct segmented fingers across the top, with no extra, missing or fused digits. The overall hand shape is plausible and wearable.",
+  "seed": 1366086552
+ },
+ "plated_gauntlets_of_the_boxer": {
+  "ok": true,
+  "reason": "The gauntlet shows one thumb on the left and four distinct fingers across the top, with plausible proportions for a stylized armored glove. There are no extra, missing or fused digits, and a human hand could wear it.",
+  "seed": 365239904
+ },
+ "plain_canvas_work_gloves": {
+  "ok": true,
+  "reason": "Each glove shows four fingers and one thumb. On the left glove the thumb angles across the palm. On the right glove the rightmost, lower-set digit reads as the thumb. I see no extra, missing or fused digits, and both gloves are wearable shapes.",
+  "seed": 1972461109
+ },
+ "pressed_lineman_s_gloves": {
+  "ok": true,
+  "reason": "The glove shows four distinct fingers and one thumb on the right side, with the pinky lowest at the far left. The digits are properly separated and the shape is wearable by a human hand.",
+  "seed": 286597870
+ },
+ "plated_gauntlets_of_the_stevedore": {
+  "ok": true,
+  "reason": "The rusty metal gauntlet is a clenched fist with four curled finger segments and one thumb wrapped beneath. There are no extra, missing or fused digits. The hook and rope are attached to the cuff and do not affect the hand anatomy, so the gauntlet is plausibly wearable.",
+  "seed": 1682448105
+ },
+ "plain_cotton_gloves": {
+  "ok": true,
+  "reason": "Two overlapping gloves. The back glove shows a thumb pointing left and some fingers, with the rest plausibly hidden behind the front glove. The front glove shows one thumb and four fingers. No extra, fused or missing digits are apparent, and both gloves have wearable shapes. The digit count is hard to verify exactly because of the heavy overlap.",
+  "seed": 1869746334
+ },
+ "pressed_riding_gauntlets": {
+  "ok": true,
+  "reason": "Both gloves appear anatomically plausible. The left glove shows four fingers, with the pinky shorter on the outer edge, and its thumb on the right. The right glove shows four fingers with its thumb on the left. They read as a mirrored left/right pair seen from the back. Confidence is moderate, since the stylized finger segmentation makes the left glove's count slightly harder to verify.",
+  "seed": 1219533613
+ },
+ "plain_leather_gloves": {
+  "ok": true,
+  "reason": "The glove shows one thumb angled out to the left and four fingers rising upward, with plausible lengths and spacing ending in a shorter pinky on the right. No digits are extra, missing or fused, and the shape could be worn by a human hand.",
+  "seed": 1775332007
+ },
+ "reinforced_welder_s_gauntlets": {
+  "ok": true,
+  "reason": "The clenched-fist glove shows four curled fingers, with the pinky shortest on the left, and one thumb raised on the right side. There are no extra, missing, or fused digits, and the overall shape is plausible for a human hand.",
+  "seed": 98556279
+ },
+ "reinforced_opera_gloves": {
+  "ok": true,
+  "reason": "The glove shows exactly one thumb on the left and four distinct fingers along the top, with no fused, extra or missing digits. The overall shape is plausible for a wearable glove.",
+  "seed": 493710103
+ },
+ "pressed_mail_backed_gloves": {
+  "ok": true,
+  "reason": "The gauntlet has one thumb near the cuff on the left and four fingers, each marked by a knuckle stud. I saw no extra, missing or fused digits, and the glove looks wearable. Confidence is moderate, because the dark rendering makes the area between the thumb and the lowest finger hard to read.",
+  "seed": 713143698
+ },
+ "pressed_kid_gloves": {
+  "ok": true,
+  "reason": "The glove has one thumb on the left and four distinct, separated fingers, with no extra, missing or fused digits. Its proportions and cuff are plausible for a wearable glove.",
+  "seed": 1925200087
+ },
+ "reinforced_everlast_bag_gloves": {
+  "ok": true,
+  "reason": "The front glove shows a plausible five-digit hand: one thumb angled off to the left and four fingers fanning upward, ending in a shorter pinky. The second glove behind it is mostly hidden by overlap and the strap, and its visible curled digits look believable. I found no extra, missing, or fused digits, though the stylized digit shapes make this a less than certain call.",
+  "seed": 583228984
+ },
+ "riding_gauntlets_of_spirit": {
+  "ok": true,
+  "reason": "The glove shows one thumb on the left and four distinct fingers of plausible relative lengths. There are no extra, missing or fused digits, and the cuffed shape could be worn by a human hand.",
+  "seed": 452670377
+ },
+ "riding_gauntlets_of_the_acrobat": {
+  "ok": true,
+  "reason": "Both gloves show one thumb and four fingers each, mirrored as a plausible left/right pair, with no extra, missing, or fused digits.",
+  "seed": 608293100
+ },
+ "reinforced_plated_gauntlets": {
+  "ok": true,
+  "reason": "The gauntlet shows exactly four fingers (a shorter pinky at left, rising to the tallest middle finger) and one thumb extending from the right side. Proportions and placement are plausible for a wearable human hand, with no extra, missing or fused digits.",
+  "seed": 55526802
+ },
+ "riding_gauntlets_of_stamina": {
+  "ok": true,
+  "reason": "Both gloves appear anatomically plausible. Each shows one thumb and four fingers, and they read as a proper mirrored left/right pair viewed from the back with fingers pointing downward. I see no extra, missing or fused digits, though the dense stitching makes the exact finger separation somewhat hard to confirm.",
+  "seed": 2109271181
+ },
+ "riding_gauntlets_of_agility": {
+  "ok": true,
+  "reason": "Both gloves show a plausible five-digit hand with no extra, missing, or fused digits. The left glove has four fingers and a thumb on its right side. The right glove has four fingers and a partly hidden thumb on its left side. The two form a believable mirrored pair.",
+  "seed": 1462970310
+ },
+ "riding_gauntlets_of_the_deacon": {
+  "ok": true,
+  "reason": "The glove shows exactly one thumb on the left and four distinct fingers with plausible relative lengths. There are no extra, missing, or fused digits, and the cuff and strap are wearable.",
+  "seed": 520107879
+ },
+ "superior_everlast_bag_gloves": {
+  "ok": true,
+  "reason": "The glove shows exactly one thumb on the left and four distinct fingers with plausible relative lengths, the middle one tallest. There are no fused, extra, or missing digits, and the laced cuff is wearable.",
+  "seed": 1096090413
+ },
+ "sturdy_cotton_gloves": {
+  "ok": true,
+  "reason": "The glove has exactly one thumb on the left and four separate fingers of plausible relative lengths. No digits are fused, extra or missing, and the shape with its ribbed cuff could be worn by a human hand.",
+  "seed": 1853970348
+ },
+ "sturdy_canvas_work_gloves": {
+  "ok": true,
+  "reason": "The glove shows one thumb on the left and four distinct fingers (index, middle, ring, pinky), each separated by clear gaps. The proportions and cuff are plausible, with no extra, missing or fused digits, so a human hand could wear it.",
+  "seed": 87585428
+ },
+ "riding_gauntlets_of_the_stevedore": {
+  "ok": true,
+  "reason": "The glove shows one thumb on the left and four distinct fingers: index, middle, ring and pinky. Proportions are plausible and the digits are not fused, so a human hand could wear it.",
+  "seed": 1718531917
+ },
+ "tailored_lineman_s_gloves": {
+  "ok": true,
+  "reason": "The single glove shows four fingers fanned across the top and one separate thumb on the right. The digits are distinct, not fused or duplicated, and the cuff and overall shape could be worn by a human hand.",
+  "seed": 42094659
+ },
+ "sturdy_mail_backed_gloves": {
+  "ok": true,
+  "reason": "The single glove shows one thumb on the left and four distinct fingers along the top, five digits in total. The proportions are plausible and no digits are fused or extra, so a human hand could wear it.",
+  "seed": 1610743666
+ },
+ "sturdy_leather_gloves": {
+  "ok": true,
+  "reason": "The glove shows exactly one thumb, extended to the left, and four distinct fingers with plausible relative lengths: the middle finger is the tallest and the pinky the shortest. There are no fused or extra digits, and the shape could be worn by a human hand.",
+  "seed": 394122460
+ },
+ "superior_plated_gauntlets": {
+  "ok": true,
+  "reason": "The armored glove shows exactly one thumb, angled out on the left, and four distinct fingers, with the middle finger the longest. The proportions and cuff are plausible for a wearable human glove, and there are no extra, missing or fused digits.",
+  "seed": 1190989656
+ },
+ "tailored_riding_gauntlets": {
+  "ok": true,
+  "reason": "The glove shows one thumb on the left and four distinct fingers of plausible relative lengths, with the pinky shortest. No digits are extra, missing or fused, and the cuffed glove shape is wearable by a human hand.",
+  "seed": 1267384974
+ },
+ "stagehand_s_rigging_gloves": {
+  "ok": true,
+  "reason": "The single glove has one thumb extending to the left and four separate fingers along the top, five digits in total. They are distinct and not fused, with plausible proportions, so it could be worn by a human hand.",
+  "seed": 1980673697
+ },
+ "tailored_plated_gauntlets": {
+  "ok": true,
+  "reason": "Both gauntlets show exactly one thumb and four distinct articulated fingers with plausible lengths. They form a mirrored left/right pair with thumbs correctly placed, and there are no fused, extra or missing digits.",
+  "seed": 2010600071
+ },
+ "superior_opera_gloves": {
+  "ok": true,
+  "reason": "The single glove shows one thumb on the left and four distinct fingers with plausible lengths and spacing. There are no extra, missing, or fused digits, and the shape could be worn by a human hand.",
+  "seed": 300908412
+ },
+ "welder_s_gauntlets_of_agility": {
+  "ok": true,
+  "reason": "The glove shows exactly four fingers (top, upper-middle, lower-middle, and a smaller pinky) plus one thumb on the opposite side. Proportions and arrangement are plausible for a wearable human glove, with no extra, missing, or fused digits.",
+  "seed": 1240289456
+ },
+ "tailored_kid_gloves": {
+  "ok": true,
+  "reason": "The single glove shows one thumb on the left and four distinct fingers with metal tips. Finger lengths are plausible, with the middle finger longest, and there are no extra, missing or fused digits. The glove could be worn by a human hand.",
+  "seed": 1640407422
+ },
+ "superior_welder_s_gauntlets": {
+  "ok": true,
+  "reason": "The single glove shows exactly one thumb on the left and four fingers (index, middle, ring, little) with plausible relative lengths. There are no extra, missing or fused digits, and the shape could be worn by a human hand.",
+  "seed": 977444132
+ },
+ "welder_s_gauntlets_of_the_acrobat": {
+  "ok": true,
+  "reason": "The glove is shown as a clenched fist with four curled fingers, each marked by a metal band, and a single thumb wrapped on the right side. There are no extra, missing or fused digits, and the shape could plausibly be worn by a human hand.",
+  "seed": 938639165
+ },
+ "welder_s_gauntlets_of_the_engineer": {
+  "ok": true,
+  "reason": "The image shows a single clenched-fist glove. Four curled fingers are visible across the top and front, and one thumb wraps along the right side. There are no extra, missing or fused digits, and the shape is plausible for a human hand to wear.",
+  "seed": 710945816
+ },
+ "welder_s_gauntlets_of_strength": {
+  "ok": true,
+  "reason": "The glove shows one thumb on the left and four distinct fingers across the top, five digits in total. None are extra, missing, or fused, and the overall shape could be worn by a human hand.",
+  "seed": 1256533291
+ },
+ "welder_s_gauntlets_of_the_marksman": {
+  "ok": true,
+  "reason": "The glove is drawn as a clenched fist with four distinct curled fingers and one thumb raised beside them. The digits are separate and not fused, and the overall shape could plausibly be worn by a human hand.",
+  "seed": 2071190046
+ },
+ "welder_s_gauntlets_of_stamina": {
+  "ok": true,
+  "reason": "The glove reads as a clenched fist: curled finger segments are stacked along the front and the thumb area sits plausibly tucked on the lower side. There are no clear extra digits, duplicate thumbs or melted fingers, and a human hand could wear it. The digit separation is somewhat stylized, so this is a judgement call rather than a certain pass.",
+  "seed": 1623668383
+ },
+ "welder_s_gauntlets_of_the_boxer": {
+  "ok": true,
+  "reason": "The glove is a clenched fist. The curled fingers show as rows of knuckle segments across the top, with no obvious extra or fused digits. A single thumb sits on the right side, resting against the curled index finger. The overall shape is a plausible, wearable fist glove.",
+  "seed": 67744830
+ },
+ "worn_leather_gloves": {
+  "ok": true,
+  "reason": "The glove shows one thumb on the left, attached nearer the wrist and shorter than the other digits, plus four fingers, which together make a plausible shape a human hand could wear. The thumb sits roughly parallel to the fingers, which is unusual but believable for a glove lying flat. There are no extra, missing or fused digits.",
+  "seed": 94917362
+ },
+ "worn_mail_backed_gloves": {
+  "ok": true,
+  "reason": "The glove shows exactly one thumb on the left side and four distinct fingers with plausible relative lengths. No digits are extra, missing or fused, and the glove could be worn by a human hand.",
+  "seed": 1814289876
+ },
+ "worn_canvas_work_gloves": {
+  "ok": true,
+  "reason": "The glove has exactly one thumb on the left and four distinct fingers along the top, with no extra, missing, or fused digits. The worn fingertips and frayed cuff are stylistic, and the shape could be worn by a human hand.",
+  "seed": 1755898387
+ },
+ "worn_cotton_gloves": {
+  "ok": true,
+  "reason": "The single ragged glove shows exactly one thumb and four distinct fingers with plausible proportions and joints. There are no extra, missing, or fused digits, and the shape could be worn by a human hand.",
+  "seed": 957845911
+ }
+}
