@@ -9,6 +9,7 @@ ap = argparse.ArgumentParser()
 ap.add_argument('url'); ap.add_argument('--seconds', type=float, default=120); ap.add_argument('--stop', default='')
 ap.add_argument('--shot', default=''); ap.add_argument('--auto', default=''); ap.add_argument('--headed', action='store_true')
 ap.add_argument('--shots', type=int, default=1, help='number of screenshots spread over the run')
+ap.add_argument('--autoplay', action='store_true', help='let audio start without a click (music test)')
 ap.add_argument('--browser', default=os.environ.get('PROBE_CHROME', r'C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe'))
 a = ap.parse_args()
 stop = re.compile(a.stop) if a.stop else None
@@ -20,7 +21,7 @@ def say(kind, text):
         hit['t'] = time.time()
 with sync_playwright() as p:
     b = p.chromium.launch(executable_path=a.browser, headless=not a.headed,
-        args=['--enable-unsafe-webgpu', '--enable-features=SharedArrayBuffer', '--ignore-gpu-blocklist', '--use-angle=d3d11'])
+        args=['--enable-unsafe-webgpu', '--enable-features=SharedArrayBuffer', '--ignore-gpu-blocklist', '--use-angle=d3d11'] + (['--autoplay-policy=no-user-gesture-required'] if a.autoplay else []))
     ctx = b.new_context(viewport={'width': 1600, 'height': 900})
     if a.auto:
         ctx.add_init_script(f"try {{ localStorage.setItem('hl_auto', '{a.auto}'); }} catch (e) {{}}")
