@@ -1,6 +1,6 @@
 // Content generator: writes hollywoodland-ue/Content/Data/*.json (deterministic). usage: node tools/gen-data.mjs
 // Order follows DESIGN-BIBLE §12. A validator at the end checks that every referenced ID exists.
-import { writeFileSync, mkdirSync, existsSync, readFileSync } from 'node:fs';
+import { writeFileSync, mkdirSync, existsSync, readFileSync, readdirSync, copyFileSync, rmSync } from 'node:fs';
 import { zones, dungeons, factions, redcar, guilds, mapLayout } from './gen/world.mjs';
 import { classes, abilities } from './gen/classes.mjs';
 import { buildItems, questItem } from './gen/items.mjs';
@@ -20,7 +20,16 @@ const items = buildItems();
 const nameKey = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
 const readJson = (u) => (existsSync(u) ? JSON.parse(readFileSync(u, 'utf8')) : null);
 const itemText = readJson(new URL('./itemgen/state/descriptions.json', import.meta.url)) || {};
-const itemIcons = readJson(new URL('../item-art/atlas/item_icons.json', import.meta.url))?.icons || {};
+const atlasMeta = readJson(new URL('../item-art/atlas/item_icons.json', import.meta.url));
+const itemIcons = atlasMeta?.icons || {};
+if (atlasMeta) {
+  // the client reads the sheets plus a small layout file from Content/Data/Icons
+  const iconDir = new URL('../hollywoodland-ue/Content/Data/Icons/', import.meta.url);
+  mkdirSync(iconDir, { recursive: true });
+  for (const f of readdirSync(iconDir)) if (/^item_icons_\d+\.png$/.test(f) && !atlasMeta.sheets.includes(f)) rmSync(new URL(f, iconDir));
+  for (const f of atlasMeta.sheets) copyFileSync(new URL(`../item-art/atlas/${f}`, import.meta.url), new URL(f, iconDir));
+  writeFileSync(new URL('icons.json', iconDir), JSON.stringify({ tile: atlasMeta.tile, sheet_size: atlasMeta.sheet_size, columns: atlasMeta.columns, per_sheet: atlasMeta.per_sheet, sheets: atlasMeta.sheets }));
+}
 for (const it of items) {
   const k = nameKey(it.name);
   if (itemText[k]) it.desc = itemText[k].description;

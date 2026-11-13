@@ -314,7 +314,7 @@ void FHLGame::TabTarget()
 	FHLUnit* U = PlayerUnit();
 	if (!U) return;
 	TArray<FHLUnit*> C;
-	for (FHLUnit* O : UnitList) if (O->Kind == EHLKind::Mob && !O->bDead && O->Area == U->Area && Dist(*U, *O) < 40 && Areas[U->Area].Nav.LineClear(U->Pos, O->Pos)) C.Add(O);
+	for (FHLUnit* O : UnitList) if (O->Kind == EHLKind::Mob && !O->bDead && O->Area == U->Area && Dist(*U, *O) < 40 && Areas[U->Area].Nav.SegClear(U->Pos, O->Pos)) C.Add(O);
 	if (!C.Num()) return;
 	C.Sort([&](const FHLUnit& A, const FHLUnit& B) { return FVector2D::DistSquared(A.Pos, U->Pos) < FVector2D::DistSquared(B.Pos, U->Pos); });
 	int32 Cur = C.IndexOfByPredicate([&](const FHLUnit* O) { return O->Id == U->TargetId; });
@@ -459,7 +459,14 @@ void FHLGame::TickPlayer(float Dt)
 		if (Sz != CurSubzone)
 		{
 			CurSubzone = Sz;
-			Banner(Sz, FString(), 3);
+			const FHLSubzone* SzDef = Area.Def->Subzones.FindByPredicate([&Sz](const FHLSubzone& S) { return S.Name == Sz; });
+			if (SzDef && SzDef->bHostile)
+			{
+				Banner(Sz, FString::Printf(TEXT("Hostile territory, levels %s"), *SzDef->Levels), 4);
+				bBannerHostile = true;
+				if (U->Level + 5 < FCString::Atoi(*SzDef->Levels)) Error(TEXT("The creatures here are far beyond you."));
+			}
+			else Banner(Sz, SzDef && !SzDef->Levels.IsEmpty() ? FString::Printf(TEXT("Levels %s"), *SzDef->Levels) : FString(), 3);
 			if (!Player.Discovered.Contains(Sz)) { Player.Discovered.Add(Sz); System(FString::Printf(TEXT("Discovered: %s"), *Sz)); GrantXp(10 + 5 * U->Level, true); }
 		}
 		// portals

@@ -663,7 +663,7 @@ Zone chat runs at about 0.3 lines per minute per online player in the zone, capp
 
 - The jam page and the first launch state plainly that this is a single-player game and every other player is an AI.
 - A **show simulated players** setting marks them all; it is off by default.
-- Asked sincerely whether they are human, a character answers truthfully, out of character.
+- In chat the characters stay in role, as players of the game. Asked whether they are bots, they react the way a player would (amused, teasing, a shrug) rather than breaking the fourth wall; disclosure is the game's job, not the characters'.
 - Simulated players never ask for real personal details, never try to move the relationship outside the game, and never use slurs or sexual content.
 
 ## 12. Data schemas and content pipeline

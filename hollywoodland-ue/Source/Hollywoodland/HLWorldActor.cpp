@@ -280,14 +280,17 @@ void AHLWorldActor::Tick(float Dt)
 	float Yaw = CamYaw, Pitch = CamPitch, D = CamDist;
 	if (!Game.bInWorld) { Yaw = -90 + GetWorld()->GetTimeSeconds() * 3.f; Pitch = 18; D = 46; }
 	const FRotator Rot(-Pitch, Yaw, 0);
-	// camera collision against the nav grid: pull in until the line from the player is clear
+	// camera collision: a 3D ray from the head back to the camera against the building boxes (roofs included, so the
+	// camera may look over a low wall); pulled in a little in front of the hit and eased back out
 	if (P && Game.bInWorld)
 	{
 		const FHLNav& Nav = Game.Areas[P->Area].Nav;
 		const FVector Dir = -Rot.Vector();
-		float Clear = D;
-		for (float S = 1.f; S <= D; S += 0.75f) { const FVector2D Pt = P->Pos + FVector2D(Dir.X, Dir.Y) * S; if (Nav.BlockedAt(Pt)) { Clear = FMath::Max(1.5f, S - 1.0f); break; } }
-		D = Clear;
+		const FVector O(P->Pos.X, P->Pos.Y, P->Z + 1.7f);
+		const float Hit = Nav.Ray3(O, Dir, D + 0.4f);
+		const float Want = Hit < D + 0.4f ? FMath::Max(1.2f, Hit - 0.4f) : D;
+		CamCollideDist = Want < CamCollideDist ? Want : FMath::FInterpTo(CamCollideDist, Want, Dt, 4.f);
+		D = FMath::Min(D, CamCollideDist);
 	}
 	FVector Loc = Focus - Rot.Vector() * D * M;
 	Loc.Z = FMath::Max(Loc.Z, 40.f);

@@ -63,7 +63,7 @@ export const corpus = [
   ...L('mob_tag', ['that was mine', 'really', 'ok', 'tagged it first but ok', 'lol take it']),
   ...L('heal_passby', ['there you go', 'np', 'careful', 'you looked low']),
   ...L('whisper_fallback', ['sec', 'lol', 'busy rn', 'hm?', 'one sec', 'idk', 'ask in zone', 'afk sorry', 'what', 'in a fight sec', 'yeah', 'no idea sorry']),
-  ...L('who_ai', ['(ooc: yes, im an AI-simulated player. everyone here is)', '(ooc: im a simulated player, this is a single-player game)']),
+  ...L('who_ai', ['lol what', 'beep boop. no, im just slow', 'i wish, id level faster', 'rude', 'says the guy who keeps pulling 3 drones', 'haha ok', 'bots dont die this much', 'only on mondays']),
   ...L('idle', ['anyone know when picture night starts', 'this zone is packed tonight', 'lag?', 'is it just me or are the drones tougher today', 'need {left} more for {lvl}', 'so many workers so little time',
     'the chinese looks nice with the lights on', 'why is everyone at the bank', 'dance party on the bank steps', 'someone duel me outside the roosevelt', 'bored', 'what should i roll next',
     'my bags are full again', 'who took all the scrap nodes', 'need a bigger suitcase', 'vendor prices are robbery', 'repair bill hurts', 'i love this game', 'one more quest then bed',

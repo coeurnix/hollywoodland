@@ -4,7 +4,7 @@
     python tools/itemgen/itemgen.py plan                 # no keys needed: counts, batches, a sample request
     python tools/itemgen/itemgen.py text [--batch-api]   # descriptions + icon briefs        (ANTHROPIC_API_KEY)
     python tools/itemgen/itemgen.py icons                # 1024x1024 originals               (FAL_KEY)
-    python tools/itemgen/itemgen.py atlas                # 64x64 icons + atlas sheets + mapping
+    python tools/itemgen/itemgen.py atlas                # 96x96 icons + atlas sheets + mapping
     python tools/itemgen/itemgen.py apply                # write desc / icon into items.json
     python tools/itemgen/itemgen.py review               # item-art/review.html contact sheet
     python tools/itemgen/itemgen.py all                  # text, icons, atlas, apply, review
@@ -38,14 +38,14 @@ ICON_STATE = STATE / 'icons.json'             # key -> {seed, prompt, request_id
 PENDING_BATCH = STATE / 'pending_batch.json'  # in-flight Message Batch (batch-api mode)
 ART = ROOT / 'item-art'
 SRC_DIR = ART / 'icons-1024'                  # originals as delivered by fal (not committed: ~1.5 MB each)
-SMALL_DIR = ART / 'icons-64'
+SMALL_DIR = ART / 'icons-96'
 ATLAS_DIR = ART / 'atlas'
 ATLAS_MAP = ATLAS_DIR / 'item_icons.json'
 
 MODEL = 'claude-opus-5-5'
 FALLBACK_BETA = 'server-side-fallback-2026-07-01'
 FAL_MODEL = 'blackforestlabs/flux-3/klein/text-to-image'
-TILE, SHEET = 64, 2048                        # 32 x 32 = 1024 icons per atlas sheet
+TILE, SHEET = 96, 2048                        # 21 x 21 = 441 icons per 2048 sheet (power of two for WebGL)
 # Text-token prices (USD per million) used only for the running estimate printed at the end.
 PRICE = {'in': 4.0, 'out': 20.0, 'cache_write_1h': 8.0, 'cache_read': 0.20}
 
@@ -494,8 +494,8 @@ def downsample(src: Path, dst: Path):
     from PIL import Image, ImageFilter
     with Image.open(src) as im:
         im = im.convert('RGB')
-        # Lanczos in stages keeps edges crisp without ringing; a light unsharp mask restores the outline at 64 px.
-        im = im.resize((256, 256), Image.LANCZOS).resize((TILE, TILE), Image.LANCZOS)
+        # Lanczos in stages keeps edges crisp without ringing; a light unsharp mask restores the outline at small sizes.
+        im = im.resize((384, 384), Image.LANCZOS).resize((TILE, TILE), Image.LANCZOS)
         im = im.filter(ImageFilter.UnsharpMask(radius=0.8, percent=70, threshold=2))
         dst.parent.mkdir(parents=True, exist_ok=True)
         im.save(dst, optimize=True)
@@ -573,9 +573,9 @@ def step_review(args, entries):
         if k not in texts and not (SRC_DIR / f'{k}.png').exists():
             continue
         t = texts.get(k, {})
-        small = f'icons-64/{k}.png' if (SMALL_DIR / f'{k}.png').exists() else ''
+        small = f'icons-96/{k}.png' if (SMALL_DIR / f'{k}.png').exists() else ''
         big = f'icons-1024/{k}.png' if (SRC_DIR / f'{k}.png').exists() else ''
-        img = (f'<a href="{big}"><img src="{small or big}" width="64" height="64" alt=""></a>'
+        img = (f'<a href="{big}"><img src="{small or big}" width="96" height="96" alt=""></a>'
                f'<img src="{small or big}" width="32" height="32" alt="">') if (small or big) else '<div class="none"></div>'
         rows.append(f'<div class="row">{img}<div><b style="color:{qcol.get(e["q"], "#fff")}">{html.escape(e["name"])}</b>'
                     f' <span class="k">{html.escape(k)} · {e["kind"]} {html.escape(e["slot"])}</span>'
@@ -585,7 +585,7 @@ def step_review(args, entries):
             '.row{display:flex;gap:12px;padding:8px 0;border-bottom:1px solid #3a3026}'
             '.row img{image-rendering:auto;border:1px solid #5a4a36;flex:none}.row p{margin:4px 0}'
             '.k{color:#8a7a66;font-size:12px}.ic{color:#9a8a76;font-size:12px;font-style:italic}'
-            '.none{width:64px;height:64px;background:#2a221a;flex:none}</style>'
+            '.none{width:96px;height:96px;background:#2a221a;flex:none}</style>'
             f'<h1>Hollywoodland items ({len(rows)})</h1>' + ''.join(rows))
     ART.mkdir(parents=True, exist_ok=True)
     (ART / 'review.html').write_text(page, encoding='utf-8')

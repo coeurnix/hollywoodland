@@ -74,7 +74,7 @@ browser ── itch.io page (iframe) ── hollywoodland Worker (R2 stage, COOP
 | Chat (§11) | DONE | 63 templates, ~790 corpus lines (237 hand-written + LLM cache), typing styles, item links, whisper-by-click, /who. |
 | Worker (§13) | DONE | `/v1/session`, `/v1/sim` (reply/decide/gossip), `/v1/save`. Per-isolate rate limit 20/min, 400/h; daily budget switch. |
 | Director (§14) | PROTO | 5 steps: invite, passing heal, Drone train, raid talk + red-car arrivals, buddy whisper at 5. Not randomised per play yet. |
-| Honesty (§11) | DONE | Title notice, first system line, "Show simulated players" toggle, truthful OOC answer (model + offline fallback). |
+| Honesty (§11) | DONE | Disclosure is the game's job: title notice, first system line, "Show simulated players" toggle. The characters stay in role (prompt + server-side guard that swaps fourth-wall breaks for in-character deflections). |
 | World map / red car / talents / inspect / who | DONE as facade | 13-zone map with blurbs and dungeons, route map, greyed talent trees, inspect shows persona gear. |
 | World events (§10) | TODO | Hive surge, hive spread, picture night, fight night. Rare spawns exist (10-15 min timers, bible says 45-90). |
 | Duels, trade window, mail, guild UI, friends list | TODO | Sims decline in text only. |

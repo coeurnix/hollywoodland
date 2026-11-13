@@ -69,6 +69,7 @@ private:
 	void DrawHud() const;
 	void DrawChat() const;
 	void DrawMinimap() const;
+	void DrawQuestMarkers() const;
 	void DrawTracker() const;
 	void DrawWindows() const;
 	void DrawCharacter() const;

@@ -43,7 +43,7 @@ FString FHLGame::CanCast(const FHLUnit& U, const FHLAbility& Ab, const FHLUnit* 
 	{
 		if (!Target || Target->bDead || !IsHostile(U, *Target)) return TEXT("You have no target.");
 		if (Dist(U, *Target) > Ab.Range + Target->Scale * 0.5f + 0.5f) return TEXT("Out of range.");
-		if (Ab.Range > 6 && !Areas[U.Area].Nav.LineClear(U.Pos, Target->Pos)) return TEXT("Target not in line of sight.");
+		if (Ab.Range > 6 && !Areas[U.Area].Nav.SegClear(U.Pos, Target->Pos)) return TEXT("Target not in line of sight.");
 	}
 	else if (Ab.Target == TEXT("friend") && Target && Target != &U)
 	{
@@ -402,21 +402,46 @@ void FHLGame::TickCombat(FHLUnit& U, float Dt)
 		if (!T || T->bDead || !IsHostile(U, *T) || T->Area != U.Area) { U.bAutoAttack = false; return; }
 		const float D = Dist(U, *T);
 		const float Reach = U.AutoRange + (U.bRangedAuto ? 0.f : T->Scale * 0.4f);
-		if (D <= Reach && U.SwingTimer <= 0 && (!U.bRangedAuto || Areas[U.Area].Nav.LineClear(U.Pos, T->Pos)))
+		if (D <= Reach && U.SwingTimer <= 0 && (!U.bRangedAuto || Areas[U.Area].Nav.SegClear(U.Pos, T->Pos)))
 		{
 			U.SwingTimer = U.WeaponSpeed;
 			if (U.Kind != EHLKind::Player || !Input.bMouseSteer) FaceTo(U, T->Pos);
 			const bool bShow = U.Kind == EHLKind::Player || T->Kind == EHLKind::Player;
 			const int32 Gap = FMath::Max(0, T->Level - U.Level);
 			const float R = Rand();
+			// one-roll attack table (classic order): miss, dodge, parry, block, crit, hit. Parry and block need the
+			// defender to face the attacker; nobody parries a bullet.
+			const FVector2D ToAtt = (U.Pos - T->Pos).GetSafeNormal();
+			const float TRad = FMath::DegreesToRadians(T->Yaw);
+			const bool bFacing = FVector2D::DotProduct(ToAtt, FVector2D(FMath::Cos(TRad), FMath::Sin(TRad))) > 0.f || T->Kind == EHLKind::Mob;
 			const float Miss = 0.05f + 0.01f * Gap, Dodge = T->Dodge + T->BuffSum(TEXT("dodge"));
-			if (R < Miss) { if (bShow) AddFloat(T->Id, TEXT("Miss"), FLinearColor::White); AddThreat(*T, U.Id, 1); U.CombatUntil = T->CombatUntil = Now + 6; if (T->Kind == EHLKind::Mob && T->MobState == EHLMobState::Idle) MobEnterCombat(*T, U.Id); }
-			else if (R < Miss + Dodge) { if (bShow) AddFloat(T->Id, TEXT("Dodge"), FLinearColor::White); AddThreat(*T, U.Id, 1); U.CombatUntil = T->CombatUntil = Now + 6; if (T->Kind == EHLKind::Mob && T->MobState == EHLMobState::Idle) MobEnterCombat(*T, U.Id); }
+			const float Parry = (bFacing && !U.bRangedAuto) ? T->Parry : 0.f, Block = bFacing ? T->Block : 0.f;
+			auto Avoided = [&](const TCHAR* What)
+			{
+				if (bShow) AddFloat(T->Id, What, FLinearColor::White);
+				if (T->Kind == EHLKind::Player) AddChat(TEXT("combat"), FString(), FString::Printf(TEXT("%s attacks. You %s."), *U.Name, *FString(What).ToLower()));
+				AddThreat(*T, U.Id, 1); U.CombatUntil = T->CombatUntil = Now + 6;
+				if (T->Kind == EHLKind::Mob && T->MobState == EHLMobState::Idle) MobEnterCombat(*T, U.Id);
+			};
+			if (R < Miss) Avoided(TEXT("Miss"));
+			else if (R < Miss + Dodge) Avoided(TEXT("Dodge"));
+			else if (R < Miss + Dodge + Parry) Avoided(TEXT("Parry"));
 			else
 			{
-				const bool bCrit = Chance(U.Crit + U.BuffSum(TEXT("crit")));
+				const bool bBlocked = R < Miss + Dodge + Parry + Block;
+				const bool bCrit = !bBlocked && Chance(U.Crit + U.BuffSum(TEXT("crit")));
 				float Dmg = FMath::Lerp(U.WeaponMin, U.WeaponMax, Rand()) + U.AttackPower / 14.f * U.WeaponSpeed;
-				DealDamage(&U, *T, Dmg * (bCrit ? 2.f : 1.f), TEXT("physical"), bCrit, U.bRangedAuto ? TEXT("shot") : TEXT("attack"));
+				if (bBlocked) { Dmg = FMath::Max(0.f, Dmg - T->BlockValue); if (bShow) AddFloat(T->Id, TEXT("Block"), FLinearColor::White); }
+				if (Dmg > 0) DealDamage(&U, *T, Dmg * (bCrit ? 2.f : 1.f), TEXT("physical"), bCrit, U.bRangedAuto ? TEXT("shot") : TEXT("attack"));
+				// Dazed: a mob far above its victim slows it on every hit, so nobody outruns a zone-wall elite
+				if (U.Kind == EHLKind::Mob && !T->bDead && T->Kind != EHLKind::Mob && U.Level - T->Level >= 5)
+				{
+					const bool bNew = !T->HasAuraNamed(TEXT("Dazed"));
+					T->Auras.RemoveAll([](const FHLAura& A) { return A.Name == TEXT("Dazed"); });
+					FHLAura A; A.Type = EHLAura::Slow; A.Name = TEXT("Dazed"); A.Value = 0.5f; A.Remaining = 4; A.bHarmful = true; A.SourceId = U.Id;
+					T->Auras.Add(A);
+					if (bNew && T->Kind == EHLKind::Player) AddChat(TEXT("combat"), FString(), TEXT("You are Dazed."));
+				}
 			}
 		}
 	}

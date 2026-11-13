@@ -141,7 +141,7 @@ bool FHLData::Load(FString& Err)
 			It.Id = S(O, TEXT("id")); It.Name = S(O, TEXT("name")); It.Kind = S(O, TEXT("kind")); It.Slot = S(O, TEXT("slot")); It.Type = S(O, TEXT("type"));
 			It.Blurb = S(O, TEXT("blurb")); It.Q = N(O, TEXT("q"), 1); It.Req = N(O, TEXT("req")); It.ILvl = N(O, TEXT("ilvl"), 1); It.Armor = N(O, TEXT("armor"));
 			It.DMin = N(O, TEXT("dmin")); It.DMax = N(O, TEXT("dmax")); It.Speed = N(O, TEXT("speed")); It.Price = N(O, TEXT("price")); It.Stack = N(O, TEXT("stack"), 1);
-			It.Hands = N(O, TEXT("hands"), 1); It.bNamed = B(O, TEXT("named"));
+			It.Hands = N(O, TEXT("hands"), 1); It.bNamed = B(O, TEXT("named")); It.Desc = S(O, TEXT("desc")); It.Icon = N(O, TEXT("icon"), -1);
 			if (JObj St = Sub(O, TEXT("stats")))
 			{
 				It.Stats[HL_STR] = N(St, TEXT("str")); It.Stats[HL_AGI] = N(St, TEXT("agi")); It.Stats[HL_STA] = N(St, TEXT("sta"));
@@ -198,7 +198,7 @@ bool FHLData::Load(FString& Err)
 			};
 			ReadBoxes(A(O, TEXT("boxes")), Ar.Boxes);
 			ReadBoxes(A(O, TEXT("ground")), Ar.Ground);
-			for (auto& SV : A(O, TEXT("subzones"))) { JObj Z = SV->AsObject(); Ar.Subzones.Add({ S(Z, TEXT("name")), (float)N(Z, TEXT("x")), (float)N(Z, TEXT("y")), (float)N(Z, TEXT("w")), (float)N(Z, TEXT("d")) }); }
+			for (auto& SV : A(O, TEXT("subzones"))) { JObj Z = SV->AsObject(); Ar.Subzones.Add({ S(Z, TEXT("name")), (float)N(Z, TEXT("x")), (float)N(Z, TEXT("y")), (float)N(Z, TEXT("w")), (float)N(Z, TEXT("d")), S(Z, TEXT("levels")), B(Z, TEXT("hostile")) }); }
 			for (auto& NV : A(O, TEXT("npcs")))
 			{
 				JObj Nn = NV->AsObject();
@@ -214,6 +214,7 @@ bool FHLData::Load(FString& Err)
 				FHLCamp Cp;
 				Cp.Id = S(Cc, TEXT("id")); Cp.Mob = Mob(S(Cc, TEXT("mob"))); Cp.Count = N(Cc, TEXT("count"), 1); Cp.Pos = FVector2D(N(Cc, TEXT("x")), N(Cc, TEXT("y")));
 				Cp.R = N(Cc, TEXT("r"), 10); Cp.Leash = N(Cc, TEXT("leash"), 40);
+				for (auto& PV : A(Cc, TEXT("patrol"))) { const auto& P = PV->AsArray(); if (P.Num() >= 2) Cp.Patrol.Add(FVector2D(P[0]->AsNumber(), P[1]->AsNumber())); }
 				if (Cp.Mob) Ar.Camps.Add(Cp);
 			}
 			for (auto& OV : A(O, TEXT("objects")))

@@ -36,7 +36,8 @@ struct FHLClass
 };
 struct FHLItem
 {
-	FString Id, Name, Kind, Slot, Type, Blurb, UseType, UseStat;
+	FString Id, Name, Kind, Slot, Type, Blurb, UseType, UseStat, Desc;
+	int32 Icon = -1; // global slot in Content/Data/Icons (tools/itemgen)
 	int32 Q = 1, Req = 0, ILvl = 1, Armor = 0, DMin = 0, DMax = 0, Price = 0, Stack = 1, Hands = 1;
 	float Speed = 0, UseAmount = 0, UseValue = 0, UseDur = 0;
 	int32 Stats[HL_NUM_STATS] = { 0, 0, 0, 0, 0 };
@@ -64,10 +65,10 @@ struct FHLNpcDef
 	FLinearColor Color;
 	bool HasRole(const TCHAR* R) const { return Roles.Contains(R); }
 };
-struct FHLCamp { FString Id; const FHLMobDef* Mob = nullptr; int32 Count = 1; FVector2D Pos; float R = 10, Leash = 40; };
+struct FHLCamp { FString Id; const FHLMobDef* Mob = nullptr; int32 Count = 1; FVector2D Pos; float R = 10, Leash = 40; TArray<FVector2D> Patrol; };
 struct FHLObjectDef { FString Id, Kind, Name, Quest, Boss; FVector2D Pos; float Respawn = 60; const FHLItem* Gives = nullptr; bool bUse = false, bSalvage = false, bTall = false, bBig = false; };
 struct FHLPortal { FString Id, ToArea, Label; FVector2D Pos, To; float R = 3; };
-struct FHLSubzone { FString Name; float X, Y, W, D; };
+struct FHLSubzone { FString Name; float X, Y, W, D; FString Levels; bool bHostile = false; };
 struct FHLExit { FString Id, Name, ToZone; FVector2D Pos; bool bRedcar = false; };
 struct FHLAidStation { FString Name; FVector2D Pos; };
 struct FHLAreaDef

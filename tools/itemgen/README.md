@@ -32,7 +32,7 @@ The script reads keys only from the environment and never writes them anywhere.
 | `... text` | Generates descriptions and icon briefs, using parallel streaming requests (`--workers 4`). |
 | `... text --batch-api` | Does the same through the Message Batches API: half price, asynchronous. Rerun the command to collect a batch that is still running. |
 | `... icons` | Fetches the 1024×1024 originals into `item-art/icons-1024/`. |
-| `... atlas` | Writes the 64×64 icons to `item-art/icons-64/`. Packs them into 2048² sheets in `item-art/atlas/item_icons_N.png` (1024 icons per sheet) and writes the mapping to `item-art/atlas/item_icons.json`. |
+| `... atlas` | Writes the 96×96 icons to `item-art/icons-96/`. Packs them into 2048² sheets in `item-art/atlas/item_icons_N.png` (441 icons per sheet, 21 × 21) and writes the mapping to `item-art/atlas/item_icons.json`. |
 | `... apply` | Adds `desc` and `icon` (a global atlas index) to each row of `items.json`. |
 | `... review` | Writes the contact sheet `item-art/review.html`, with names, descriptions, icon briefs and icons at 64 and 32 px. |
 | `... all` | Runs text, icons, atlas, apply and review in order. |
@@ -56,7 +56,7 @@ Options:
 **`gen-data.mjs`.** It reads `state/descriptions.json` and `item-art/atlas/item_icons.json`, so a regenerated `items.json` keeps its `desc` and `icon` fields.
 
 **What is committed.**
-- Committed: `state/`, the 64 px icons and the atlas.
+- Committed: `state/`, the 96 px icons and the atlas.
 - Local only (gitignored): the 1024 px originals in `item-art/icons-1024/`, about 1–2 GB for all items. Back them up separately if you want to keep them.
 
 **Atlas lookup.** For an item's `icon` value `i`:

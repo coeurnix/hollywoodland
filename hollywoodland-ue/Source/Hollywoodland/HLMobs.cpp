@@ -50,11 +50,24 @@ void FHLGame::TickMob(FHLUnit& U, float Dt)
 					if (O->bDead || O->Area != U.Area || (O->Kind != EHLKind::Player && O->Kind != EHLKind::Sim)) continue;
 					if (O->Kind == EHLKind::Sim && O->SimIdx >= 0 && (Sims[O->SimIdx].Role == EHLSimRole::Transient || Sims[O->SimIdx].Role == EHLSimRole::Idler)) continue;
 					const float D = FVector2D::Distance(O->Pos, U.Pos);
-					const float Aggro = FMath::Clamp(10.f + (U.Level - O->Level), 3.f, M.bGuard ? 34.f : 22.f);
-					if (D < Aggro && D < BestD && Nav.LineClear(U.Pos, O->Pos)) { Best = O; BestD = D; }
+					// classic rule: 14 m at even level, one metre more per level the mob has over its victim (so a
+					// zone-wall elite twenty levels up notices you from across the street), never under 4 m
+					const float Aggro = FMath::Clamp(14.f + (U.Level - O->Level), 4.f, 40.f);
+					if (D < Aggro && D < BestD && Nav.SegClear(U.Pos, O->Pos)) { Best = O; BestD = D; }
 				}
 				if (Best) { MobEnterCombat(U, Best->Id); return; }
 			}
+		}
+		if (U.CampIdx >= 0 && Areas[U.Area].Def->Camps[U.CampIdx].Patrol.Num() >= 2)
+		{
+			// patrol: walk the route's waypoints in a loop (each unit of the camp offset a little so they move as a pack)
+			const FHLCamp& Camp = Areas[U.Area].Def->Camps[U.CampIdx];
+			const FVector2D Off(FMath::Cos(U.CampSlot * 2.1f) * 2.5f * U.CampSlot, FMath::Sin(U.CampSlot * 2.1f) * 2.5f * U.CampSlot);
+			const int32 Wp = U.ScriptPhase % Camp.Patrol.Num();
+			U.Home = Nav.NearestFree(Camp.Patrol[Wp] + Off);
+			U.MoveMult = 0.55f;
+			if (MoveTo(U, U.Home, 1.5f)) U.ScriptPhase = (Wp + 1) % Camp.Patrol.Num();
+			break;
 		}
 		if (U.CampIdx >= 0 && Now >= U.WanderAt && !M.bGuard && M.Rank != TEXT("boss"))
 		{
@@ -88,7 +101,7 @@ void FHLGame::TickMob(FHLUnit& U, float Dt)
 		if (!M.Script.IsEmpty()) BossScript(U, Dt);
 		if (U.bDead) return;
 		const float D = Dist(U, *T);
-		const bool bLos = Nav.LineClear(U.Pos, T->Pos);
+		const bool bLos = Nav.SegClear(U.Pos, T->Pos);
 		// abilities
 		if (!U.Casting && Now >= U.GcdUntil)
 		{
@@ -105,7 +118,29 @@ void FHLGame::TickMob(FHLUnit& U, float Dt)
 		if (!U.Casting)
 		{
 			if (D > Want || !bLos) { U.MoveMult = 1; MoveTo(U, T->Pos, FMath::Max(1.5f, Want - 0.5f)); }
-			else { StopMove(U); FaceTo(U, T->Pos); }
+			else
+			{
+				// Spread out: a melee mob standing inside another one on the same target sidesteps around the target
+				FVector2D Push = FVector2D::ZeroVector;
+				if (!M.bRanged)
+					for (const FHLUnit* O : UnitList)
+					{
+						if (O == &U || O->bDead || O->Kind != EHLKind::Mob || O->Area != U.Area || O->TargetId != T->Id) continue;
+						const float MinSep = 0.4f * (U.Scale + O->Scale);
+						const FVector2D Off = U.Pos - O->Pos; const float L = Off.Size();
+						if (L < MinSep) Push += (L > 0.01f ? Off / L : FVector2D(FMath::FRandRange(-1.f, 1.f), FMath::FRandRange(-1.f, 1.f))) * (MinSep - L);
+					}
+				if (Push.SizeSquared() > 0.0025f)
+				{
+					// keep the attack distance: slide along the circle around the target
+					FVector2D NewPos = U.Pos + Push.GetClampedToMaxSize(3.f * Dt);
+					const FVector2D FromT = NewPos - T->Pos;
+					if (FromT.Size() > 0.1f) NewPos = T->Pos + FromT.GetSafeNormal() * FMath::Min(FromT.Size(), Want);
+					U.Pos = Nav.Slide(U.Pos, NewPos - U.Pos, FMath::Clamp(0.35f * U.Scale, 0.3f, 0.9f));
+				}
+				else StopMove(U);
+				FaceTo(U, T->Pos);
+			}
 		}
 		break;
 	}
@@ -189,7 +224,7 @@ void FHLGame::BossScript(FHLUnit& U, float Dt)
 					for (FHLUnit* O : Hit)
 					{
 						if (O->Kind == EHLKind::Sim && O->SimIdx >= 0 && !Chance(Sims[O->SimIdx].P->MistakeRate * 3)) continue;
-						if (!Area.Nav.LineClear(U.Pos, O->Pos)) continue;
+						if (!Area.Nav.SegClear(U.Pos, O->Pos)) continue;
 						DealDamage(&U, *O, AbilityPower(U, Ab->Effects[0]), TEXT("acid"), false, Ab->Name);
 					}
 				}

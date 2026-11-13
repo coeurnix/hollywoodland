@@ -34,8 +34,21 @@ struct FHLNav
 	bool LineClear(const FVector2D& A, const FVector2D& B) const;
 	bool FindPath(const FVector2D& A, const FVector2D& B, TArray<FVector2D>& Out) const;
 	FVector2D NearestFree(const FVector2D& P) const;
-	FVector2D Slide(const FVector2D& From, const FVector2D& Delta) const;
+	// Exact collision against the solid boxes (the grid above is only for A*): a unit is a circle of radius R; moving
+	// into a wall pushes it out along the wall's normal, so it slides along buildings instead of stopping a cell early.
+	FVector2D Slide(const FVector2D& From, const FVector2D& Delta, float R = 0.45f) const;
+	bool Hits(const FVector2D& P, float R) const;
+	bool SegClear(const FVector2D& A, const FVector2D& B, float MinH = 1.0f) const; // line of sight (anything 1 m or taller blocks)
+	float Ray3(const FVector& O, const FVector& Dir, float MaxD) const;               // first box hit along a 3D ray (camera)
+	struct FRect { float X0, Y0, X1, Y1, H; };
+	TArray<FRect> Rects;
+	TArray<TArray<int32>> Buckets;
+	int32 BW = 0, BH = 0;
+	static constexpr float BucketSize = 16.f;
+	template <typename F> void ForRects(float X0, float Y0, float X1, float Y1, F&& Fn) const;
 private:
+	mutable TArray<uint32> RectStamp;
+	mutable uint32 RectCur = 0;
 	mutable TArray<float> G;
 	mutable TArray<int32> Parent;
 	mutable TArray<uint32> Stamp;
@@ -58,7 +71,7 @@ struct FHLUnit
 	int32 Stats[HL_NUM_STATS] = { 0, 0, 0, 0, 0 };
 	float MaxHp = 1, Hp = 1, MaxRes = 0, Res = 0;
 	EHLRes ResType = EHLRes::None;
-	float Armor = 0, AttackPower = 0, WeaponMin = 1, WeaponMax = 2, WeaponSpeed = 2, Crit = 0.05f, Dodge = 0.05f, AbilityBonus = 0, AutoRange = 4.5f, Speed = 7;
+	float Armor = 0, AttackPower = 0, WeaponMin = 1, WeaponMax = 2, WeaponSpeed = 2, Crit = 0.05f, Dodge = 0.05f, Parry = 0, Block = 0, BlockValue = 0, AbilityBonus = 0, AutoRange = 4.5f, Speed = 7;
 	bool bRangedAuto = false;
 	// combat
 	int32 TargetId = 0;
@@ -273,9 +286,9 @@ public:
 	int32 OpenNpcUnitId = 0;       // NPC dialog open
 	FString OpenNpcMode;           // "", quest:<id>, vendor, trainer, bank, auction, redcar, inn, prof
 	FString ErrorText; float ErrorUntil = 0;
-	FString BannerText, BannerSub; float BannerUntil = 0;
+	FString BannerText, BannerSub; float BannerUntil = 0; bool bBannerHostile = false;
 	void Error(const FString& T) { ErrorText = T; ErrorUntil = Now + 2.5; }
-	void Banner(const FString& T, const FString& Sub = FString(), float Dur = 4) { BannerText = T; BannerSub = Sub; BannerUntil = Now + Dur; }
+	void Banner(const FString& T, const FString& Sub = FString(), float Dur = 4) { BannerText = T; BannerSub = Sub; BannerUntil = Now + Dur; bBannerHostile = false; }
 	TArray<FHLFloatText> Floats;
 	FString CurSubzone;
 	// casting an object interaction

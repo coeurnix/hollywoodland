@@ -21,6 +21,100 @@ void FHLNav::Init(const FHLAreaDef& Def)
 			for (int32 X = FMath::Max(0, X0); X <= FMath::Min(W - 1, X1); ++X) Blocked[Y * W + X] = 1;
 	}
 	G.SetNumZeroed(W * H); Parent.SetNumZeroed(W * H); Stamp.SetNumZeroed(W * H);
+	// exact rectangles bucketed on a 16 m grid
+	Rects.Reset();
+	BW = FMath::CeilToInt32(Def.Size.X / BucketSize) + 1; BH = FMath::CeilToInt32(Def.Size.Y / BucketSize) + 1;
+	Buckets.Reset(); Buckets.SetNum(BW * BH);
+	for (const FHLBox& B : Def.Boxes)
+	{
+		if (!B.bSolid || B.H < 1.0f) continue;
+		const int32 Ri = Rects.Add({ B.X, B.Y, B.X + B.W, B.Y + B.D, B.H });
+		const int32 X0 = FMath::Clamp(FMath::FloorToInt32((B.X - Min.X) / BucketSize), 0, BW - 1), X1 = FMath::Clamp(FMath::FloorToInt32((B.X + B.W - Min.X) / BucketSize), 0, BW - 1);
+		const int32 Y0 = FMath::Clamp(FMath::FloorToInt32((B.Y - Min.Y) / BucketSize), 0, BH - 1), Y1 = FMath::Clamp(FMath::FloorToInt32((B.Y + B.D - Min.Y) / BucketSize), 0, BH - 1);
+		for (int32 Y = Y0; Y <= Y1; ++Y) for (int32 X = X0; X <= X1; ++X) Buckets[Y * BW + X].Add(Ri);
+	}
+	RectStamp.Init(0, Rects.Num()); RectCur = 0;
+}
+
+template <typename F> void FHLNav::ForRects(float X0, float Y0, float X1, float Y1, F&& Fn) const
+{
+	if (!Rects.Num()) return;
+	if (++RectCur == 0) { FMemory::Memzero(RectStamp.GetData(), RectStamp.Num() * sizeof(uint32)); RectCur = 1; }
+	const int32 BX0 = FMath::Clamp(FMath::FloorToInt32((X0 - Min.X) / BucketSize), 0, BW - 1), BX1 = FMath::Clamp(FMath::FloorToInt32((X1 - Min.X) / BucketSize), 0, BW - 1);
+	const int32 BY0 = FMath::Clamp(FMath::FloorToInt32((Y0 - Min.Y) / BucketSize), 0, BH - 1), BY1 = FMath::Clamp(FMath::FloorToInt32((Y1 - Min.Y) / BucketSize), 0, BH - 1);
+	for (int32 Y = BY0; Y <= BY1; ++Y)
+		for (int32 X = BX0; X <= BX1; ++X)
+			for (int32 Ri : Buckets[Y * BW + X])
+			{
+				if (RectStamp[Ri] == RectCur) continue;
+				RectStamp[Ri] = RectCur;
+				if (!Fn(Rects[Ri])) return;
+			}
+}
+
+bool FHLNav::Hits(const FVector2D& P, float R) const
+{
+	bool bHit = false;
+	ForRects(P.X - R, P.Y - R, P.X + R, P.Y + R, [&](const FRect& Rc)
+	{
+		const float Cx = FMath::Clamp((float)P.X, Rc.X0, Rc.X1), Cy = FMath::Clamp((float)P.Y, Rc.Y0, Rc.Y1);
+		if (FMath::Square(P.X - Cx) + FMath::Square(P.Y - Cy) < R * R) { bHit = true; return false; }
+		return true;
+	});
+	return bHit;
+}
+
+static bool SegBox(const FVector2D& A, const FVector2D& B, float X0, float Y0, float X1, float Y1, float& TOut)
+{
+	// slab test; returns the entry parameter in [0,1]
+	float T0 = 0, T1 = 1;
+	const FVector2D D = B - A;
+	const float Lo[2] = { X0, Y0 }, Hi[2] = { X1, Y1 }, O[2] = { (float)A.X, (float)A.Y }, Dd[2] = { (float)D.X, (float)D.Y };
+	for (int32 k = 0; k < 2; ++k)
+	{
+		if (FMath::Abs(Dd[k]) < 1e-6f) { if (O[k] < Lo[k] || O[k] > Hi[k]) return false; continue; }
+		float Ta = (Lo[k] - O[k]) / Dd[k], Tb = (Hi[k] - O[k]) / Dd[k];
+		if (Ta > Tb) Swap(Ta, Tb);
+		T0 = FMath::Max(T0, Ta); T1 = FMath::Min(T1, Tb);
+		if (T0 > T1) return false;
+	}
+	TOut = T0;
+	return true;
+}
+
+bool FHLNav::SegClear(const FVector2D& A, const FVector2D& B, float MinH) const
+{
+	bool bClear = true;
+	ForRects(FMath::Min(A.X, B.X), FMath::Min(A.Y, B.Y), FMath::Max(A.X, B.X), FMath::Max(A.Y, B.Y), [&](const FRect& Rc)
+	{
+		float T;
+		if (Rc.H >= MinH && SegBox(A, B, Rc.X0, Rc.Y0, Rc.X1, Rc.Y1, T)) { bClear = false; return false; }
+		return true;
+	});
+	return bClear;
+}
+
+float FHLNav::Ray3(const FVector& O, const FVector& Dir, float MaxD) const
+{
+	const FVector E = O + Dir * MaxD;
+	float Best = MaxD;
+	ForRects(FMath::Min(O.X, E.X), FMath::Min(O.Y, E.Y), FMath::Max(O.X, E.X), FMath::Max(O.Y, E.Y), [&](const FRect& Rc)
+	{
+		// 3D slab test against the box (z from 0 to H)
+		float T0 = 0, T1 = Best;
+		const float Lo[3] = { Rc.X0, Rc.Y0, 0 }, Hi[3] = { Rc.X1, Rc.Y1, Rc.H }, Oo[3] = { (float)O.X, (float)O.Y, (float)O.Z }, Dd[3] = { (float)Dir.X, (float)Dir.Y, (float)Dir.Z };
+		for (int32 k = 0; k < 3; ++k)
+		{
+			if (FMath::Abs(Dd[k]) < 1e-6f) { if (Oo[k] < Lo[k] || Oo[k] > Hi[k]) return true; continue; }
+			float Ta = (Lo[k] - Oo[k]) / Dd[k], Tb = (Hi[k] - Oo[k]) / Dd[k];
+			if (Ta > Tb) Swap(Ta, Tb);
+			T0 = FMath::Max(T0, Ta); T1 = FMath::Min(T1, Tb);
+			if (T0 > T1) return true;
+		}
+		if (T0 < Best) Best = T0;
+		return true;
+	});
+	return Best;
 }
 
 bool FHLNav::LineClear(const FVector2D& A, const FVector2D& B) const
@@ -45,15 +139,41 @@ FVector2D FHLNav::NearestFree(const FVector2D& P) const
 	return P;
 }
 
-FVector2D FHLNav::Slide(const FVector2D& From, const FVector2D& Delta) const
+FVector2D FHLNav::Slide(const FVector2D& From, const FVector2D& Delta, float R) const
 {
-	FVector2D To = From + Delta;
-	if (!BlockedAt(To)) return To;
-	To = From + FVector2D(Delta.X, 0);
-	if (!BlockedAt(To)) return To;
-	To = From + FVector2D(0, Delta.Y);
-	if (!BlockedAt(To)) return To;
-	return From;
+	// sub-step long moves so a fast unit cannot tunnel through a thin wall
+	const float Len = Delta.Size();
+	const int32 Steps = FMath::Clamp(FMath::CeilToInt32(Len / FMath::Max(0.2f, R)), 1, 8);
+	FVector2D P = From;
+	for (int32 s = 0; s < Steps; ++s)
+	{
+		P += Delta / Steps;
+		for (int32 Iter = 0; Iter < 3; ++Iter)
+		{
+			bool bPushed = false;
+			ForRects(P.X - R, P.Y - R, P.X + R, P.Y + R, [&](const FRect& Rc)
+			{
+				const float Cx = FMath::Clamp((float)P.X, Rc.X0, Rc.X1), Cy = FMath::Clamp((float)P.Y, Rc.Y0, Rc.Y1);
+				const FVector2D N(P.X - Cx, P.Y - Cy);
+				const float D2 = N.SizeSquared();
+				if (D2 >= R * R) return true;
+				if (D2 > 1e-8f) P = FVector2D(Cx, Cy) + N / FMath::Sqrt(D2) * R;
+				else
+				{
+					// centre inside the box: leave by the nearest face
+					const float L = P.X - Rc.X0, Rr = Rc.X1 - P.X, T = P.Y - Rc.Y0, Bb = Rc.Y1 - P.Y;
+					const float M = FMath::Min(FMath::Min(L, Rr), FMath::Min(T, Bb));
+					if (M == L) P.X = Rc.X0 - R; else if (M == Rr) P.X = Rc.X1 + R; else if (M == T) P.Y = Rc.Y0 - R; else P.Y = Rc.Y1 + R;
+				}
+				bPushed = true;
+				return true;
+			});
+			if (!bPushed) break;
+		}
+	}
+	// outside the area: stay put
+	if (P.X < Min.X || P.Y < Min.Y || P.X > Min.X + W * Cell || P.Y > Min.Y + H * Cell) return From;
+	return P;
 }
 
 bool FHLNav::FindPath(const FVector2D& AIn, const FVector2D& BIn, TArray<FVector2D>& Out) const
@@ -262,7 +382,7 @@ bool FHLGame::MoveTo(FHLUnit& U, const FVector2D& Goal, float StopDist)
 		{
 			const FVector2D Dir = (T - U.Pos) / Seg;
 			U.Yaw = FMath::RadiansToDegrees(FMath::Atan2(Dir.Y, Dir.X));
-			U.Pos = Nav.Slide(U.Pos, Dir * Step);
+			U.Pos = Nav.Slide(U.Pos, Dir * Step, FMath::Clamp(0.35f * U.Scale, 0.3f, 0.9f));
 			Step = 0;
 		}
 	}
@@ -311,6 +431,12 @@ void FHLGame::RecalcCharStats(FHLUnit& U, const FHLClass& C, int32 Level, const 
 	U.AbilityBonus = 0.5f * (C.Id == TEXT("preacher") ? FMath::Max(U.Stats[HL_INT], U.Stats[HL_SPI]) : U.Stats[HL_INT]);
 	U.Crit = C.bCaster ? 0.05f + U.Stats[HL_INT] / 6000.f : 0.05f + U.Stats[HL_AGI] / 2000.f;
 	U.Dodge = 0.05f + U.Stats[HL_AGI] / 2000.f;
+	// parry for melee fighters with a weapon in hand; block with a riot shield (bible §8 off-hands)
+	U.Parry = (!C.bCaster && !C.bRanged && Main) ? 0.05f : 0.f;
+	const FHLItem* const* Off = Equip.Find(TEXT("off"));
+	const bool bShield = Off && *Off && (*Off)->Type == TEXT("shield");
+	U.Block = bShield ? 0.05f + U.Stats[HL_STR] / 3000.f : 0.f;
+	U.BlockValue = bShield ? 5.f + (*Off)->Armor * 0.1f + U.Stats[HL_STR] / 20.f : 0.f;
 	U.Speed = 7;
 	if (bFull || OldMaxHp <= 1) { U.Hp = U.MaxHp; U.Res = U.ResType == EHLRes::Adrenaline ? 0 : U.MaxRes; }
 	else { U.Hp = FMath::Min(U.Hp, U.MaxHp); U.Res = FMath::Min(U.Res, U.MaxRes); }
@@ -334,6 +460,7 @@ void FHLGame::InitMobStats(FHLUnit& U)
 	U.WeaponMin = Hit * 0.85f; U.WeaponMax = Hit * 1.15f; U.WeaponSpeed = M.Swing; U.AttackPower = 0;
 	U.Armor = 20 * L * M.Armor;
 	U.Crit = 0.05f; U.Dodge = 0.05f; U.Speed = M.Speed; U.AutoRange = 3.5f + M.Scale * 0.8f;
+	U.Parry = M.Shape == TEXT("human") ? 0.05f : 0.f; U.Block = 0; U.BlockValue = 0;
 	U.ResType = EHLRes::None; U.MaxRes = U.Res = 0;
 }
 

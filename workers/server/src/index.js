@@ -115,22 +115,14 @@ function cleanText(t) {
   if (!t || BAD.test(t)) return null;
   return t.length > 140 ? t.slice(0, 137) + '...' : t;
 }
-// Honesty guard (DESIGN-BIBLE §11): enforced in code, not left to the model.
-const ASKS_HUMAN = /\b(real (person|people|player|human)s?|(are|r) (you|u|y'?all|you guys|u guys|they|these)( guys| all)? (a |an )?(real|human|bot|bots|ai|npc|npcs|people|person)|are (you|u) .*\b(ai|bot|human)\b|is (this|everyone|anyone)( here)? (a |an )?(real|human|bot|ai)|am i talking to (a |an )?(bot|ai|human|person))\b|\b(bots?|npcs?)[?]/i;
-const CLAIMS_HUMAN = /\b(i'?m|im|i am|we'?re|were|we are)\b[^.?!]{0,24}\b(real|human|not (a |an )?(bot|ai|npc))\b|\b(real person|real people|real player|not a bot|no bots?)\b/i;
-const DISCLOSES = /\b(ai|ai-simulated|simulated|simulation)\b/i;
-const OOC = ['(ooc: honestly, im an AI-simulated player. everyone you meet here is)', '(ooc: no, im simulated by AI. this is a single-player game)'];
-function honesty(req, actions) {
-  const asked = req.kind === 'reply' && ASKS_HUMAN.test(String(req.trigger?.text || ''));
-  let disclosed = false;
+// Role guard (DESIGN-BIBLE §11 "Honesty"): disclosure is the game's job (title screen, first system line, the
+// "show simulated players" toggle). In chat the characters stay in role, so assistant-style fourth-wall breaks are
+// replaced with a light in-character deflection.
+const BREAKS_ROLE = /\b(as an ai|an ai (model|assistant)|language model|ai[- ]simulated|simulated (player|character)|i'?m (just )?(an? )?(ai|npc|bot|program)\b|i am (just )?(an? )?(ai|npc|bot|program)\b|this is a single[- ]player game)/i;
+const DEFLECT = ['lol what', 'beep boop. no, im just slow', 'i wish, id level faster', 'rude', 'lol ok', 'sure buddy', 'haha no'];
+function stayInRole(actions) {
   for (const a of actions) {
-    if (!a.chat) continue;
-    if (CLAIMS_HUMAN.test(a.chat.text) && !DISCLOSES.test(a.chat.text)) a.chat.text = OOC[Math.floor(Math.random() * OOC.length)];
-    if (DISCLOSES.test(a.chat.text)) disclosed = true;
-  }
-  if (asked && !disclosed) {
-    const first = actions.find((a) => a.chat) || actions[0];
-    if (first) { first.chat = { channel: first.chat?.channel || req.trigger?.channel || 'say', text: OOC[0] }; first.delay_ms = first.delay_ms || 1500; }
+    if (a.chat && BREAKS_ROLE.test(a.chat.text)) a.chat.text = DEFLECT[Math.floor(Math.random() * DEFLECT.length)];
   }
   return actions;
 }
@@ -166,7 +158,7 @@ function validate(req, raw, decisions) {
         liking_delta: d.liking_delta ?? 0, decision: d.decision || null });
     }
   }
-  return honesty(req, out);
+  return stayInRole(out);
 }
 
 async function sim(request, env) {

@@ -185,7 +185,7 @@ void FHLGame::SimCombat(FHLSim& S, FHLUnit& U)
 		const bool bRangedStyle = S.P->Cls->bCaster || U.bRangedAuto;
 		const float Want = bRangedStyle ? 20.f : U.AutoRange - 0.8f;
 		const float D = Dist(U, *T);
-		const bool bLos = Areas[U.Area].Nav.LineClear(U.Pos, T->Pos);
+		const bool bLos = Areas[U.Area].Nav.SegClear(U.Pos, T->Pos);
 		if (!U.Casting)
 		{
 			if (D > Want + (bRangedStyle ? 6 : 0) || !bLos) MoveTo(U, T->Pos, FMath::Max(1.5f, Want - 1));
