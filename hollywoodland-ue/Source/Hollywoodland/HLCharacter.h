@@ -130,7 +130,7 @@ public:
 	virtual void AddReferencedObjects(FReferenceCollector& Collector) override;
 	virtual FString GetReferencerName() const override { return TEXT("FHLCharVisuals"); }
 private:
-	struct FAtlas { TObjectPtr<UTextureRenderTarget2D> RT; TObjectPtr<UMaterialInstanceDynamic> Mid; uint32 Key = 0; int32 Size = 0; double Used = 0; bool bDirty = false; };
+	struct FAtlas { TObjectPtr<UTextureRenderTarget2D> RT; TObjectPtr<UMaterialInstanceDynamic> Mid; uint32 Key = 0; int32 Size = 0; double Used = 0, Born = 0; int32 Redo = 0; bool bDirty = false; };
 	TArray<FAtlas> Atlases;
 	TMap<uint64, int32> AtlasIndex;
 	TArray<TObjectPtr<UMaterialInstanceDynamic>> LayerMids;

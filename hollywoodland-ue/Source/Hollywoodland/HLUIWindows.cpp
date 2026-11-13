@@ -156,10 +156,51 @@ void SHLGameUI::DrawSpellbook() const
 	Tx(WX, Y + 4, TEXT("11 further abilities and ranks are trained from level 14 to 60."), 9, ColDim);
 }
 
+void SHLGameUI::DrawPlayerPin(float X, float Y, float Yaw, bool bLabel) const
+{
+	const FVector2D C(X, Y);
+	const float T = FMath::Frac((float)FPlatformTime::Seconds() * 0.8f);
+	++Layer; LastKind = 1;
+	// a ring that grows and fades, so the eye finds it on a busy painting
+	for (int32 r = 0; r < 2; ++r)
+	{
+		const float Ph = FMath::Frac(T + r * 0.5f), Rad = 7 + Ph * 16;
+		const FLinearColor RC(1, 0.9f, 0.4f, (1 - Ph) * 0.9f);
+		for (int32 s = 0; s < 20; ++s)
+		{
+			const float A0 = s * PI / 10, A1 = (s + 1) * PI / 10;
+			Line(C + FVector2D(FMath::Cos(A0), FMath::Sin(A0)) * Rad, C + FVector2D(FMath::Cos(A1), FMath::Sin(A1)) * Rad, RC, 2);
+		}
+	}
+	// the heading arrow: dark outline, then a filled gold arrowhead
+	const float Rd = FMath::DegreesToRadians(Yaw);
+	const FVector2D F(FMath::Cos(Rd), FMath::Sin(Rd)), Rt(-F.Y, F.X);
+	const FVector2D Tip = C + F * 12, L = C - F * 7 + Rt * 8, R = C - F * 7 - Rt * 8, Notch = C - F * 3;
+	++Layer; LastKind = 1;
+	Line(Tip, L, FLinearColor(0, 0, 0, 1), 5); Line(L, Notch, FLinearColor(0, 0, 0, 1), 5); Line(Notch, R, FLinearColor(0, 0, 0, 1), 5); Line(R, Tip, FLinearColor(0, 0, 0, 1), 5);
+	++Layer; LastKind = 1;
+	for (int32 k = 0; k <= 8; ++k)
+	{
+		const float A = k / 8.f;
+		Line(Tip, FMath::Lerp(L, Notch, A), FLinearColor(1, 0.85f, 0.25f), 2);
+		Line(Tip, FMath::Lerp(Notch, R, A), FLinearColor(1, 0.85f, 0.25f), 2);
+	}
+	Line(Tip, L, FLinearColor(1, 1, 0.85f), 1); Line(R, Tip, FLinearColor(1, 1, 0.85f), 1);
+	if (bLabel)
+	{
+		++Layer; LastKind = 1;
+		Rc(X - 14, Y + 14, 28, 14, FLinearColor(0.06f, 0.04f, 0.03f, 0.85f));
+		TxC(X, Y + 14, TEXT("You"), 9, FLinearColor(1, 0.9f, 0.45f), true);
+	}
+}
+
 void SHLGameUI::DrawMap() const
 {
 	FHLGame& Gm = G();
 	const FHLData& D = FHLData::Get();
+	static bool bWasOpen = false;
+	if (bMap && !bWasOpen) MapK = 0; // every opening starts fitted to the whole zone
+	bWasOpen = bMap;
 	if (!Win(TEXT("map"), bWorldMap ? TEXT("World Map: Hollywood under the Dome") : TEXT("Map: ") + Gm.Areas[Gm.PlayerUnit()->Area].Def->Name, 900, 640, bMap, (VS.X - 900) * 0.5f, 90)) return;
 	const FHLUnit& P = *Gm.PlayerUnit();
 	if (Btn(WX, WY - 4, 90, 20, TEXT("Zone"), true, 10)) bWorldMap = false;
@@ -207,7 +248,18 @@ void SHLGameUI::DrawMap() const
 			if (Z.bBuilt && WB) { Rc(X + W * 0.5f - 42, Y + H + 2, 84, 15, FLinearColor(0.06f, 0.04f, 0.03f, 0.85f)); TxC(X + W * 0.5f, Y + H + 2, TEXT("You are here"), 9, ColGreen); }
 			else if (Z.bBuilt) TxC(X + W * 0.5f, Y + H - 16, TEXT("You are here"), 9, ColGreen);
 		}
-		Tx(Mx + 8, My + Mh - 20, TEXT("The dome's edge is the edge of the map. Pacific Electric red cars link the zones once you have discovered their stops."), 9, ColDim);
+		// the player: where they stand inside their zone's rectangle (a dungeon puts them at its zone's centre)
+		{
+			const FHLAreaDef& AD = *Gm.Areas[P.Area].Def;
+			const FHLZoneInfo* PZ = D.Zone(AD.Id);
+			FVector2D UV(0.5f, 0.5f);
+			if (PZ) UV = FVector2D(FMath::Clamp((P.Pos.X - AD.Min.X) / AD.Size.X, 0.05, 0.95), FMath::Clamp((P.Pos.Y - AD.Min.Y) / AD.Size.Y, 0.05, 0.95));
+			else for (const FHLZoneInfo& Z : D.Zones) if (Z.bBuilt) { PZ = &Z; break; }
+			if (PZ) DrawPlayerPin(Mx + (PZ->MapRect.X + UV.X * PZ->MapRect.Z) * Mw, My + (PZ->MapRect.Y + UV.Y * PZ->MapRect.W) * Mh, P.Yaw, true);
+		}
+		++Layer; LastKind = 1;
+		Rc(Mx, My + Mh - 22, Mw, 22, FLinearColor(0.05f, 0.035f, 0.03f, 0.88f));
+		Tx(Mx + 8, My + Mh - 19, TEXT("The dome's edge is the edge of the map. Pacific Electric red cars link the zones once you have discovered their stops."), 9, ColDim);
 		return;
 	}
 	const FHLAreaDef& Def = *Gm.Areas[P.Area].Def;
@@ -247,8 +299,10 @@ void SHLGameUI::DrawMap() const
 		MapK = FMath::Min(Vw / Bx.GetSize().X, Vh / Bx.GetSize().Y);
 	};
 	const float KMin = FMath::Min(Vw / Def.Size.X, Vh / Def.Size.Y), KMax = 8;
-	if (MapK <= 0 || MapArea != P.Area) { MapArea = P.Area; Fit(); }
-	if (Btn(WX + 192, WY - 4, 90, 20, TEXT("Fit town"), true, 10)) Fit();
+	// the whole zone, fitted to the view, is the default; "Town" zooms to the streets with the services
+	auto FitZone = [&] { MapCtr = Def.Min + Def.Size * 0.5f; MapK = KMin; };
+	if (MapK <= 0 || MapArea != P.Area) { MapArea = P.Area; FitZone(); }
+	if (Btn(WX + 192, WY - 4, 90, 20, MapK <= KMin * 1.01f ? TEXT("Town") : TEXT("Whole zone"), true, 10)) { if (MapK <= KMin * 1.01f) Fit(); else FitZone(); }
 	if (Btn(WX + 288, WY - 4, 90, 20, TEXT("Me"), true, 10)) { MapCtr = P.Pos; MapK = FMath::Max(MapK, 2.f); }
 	const bool bOverMap = Hover(Mx, My, Vw, Vh);
 	if (bOverMap && Wheel != 0)
@@ -300,7 +354,8 @@ void SHLGameUI::DrawMap() const
 	{
 		const FHLZoneInfo* Z = D.Zone(E.ToZone);
 		const FString Ex = FString::Printf(TEXT("to %s (%d-%d)"), Z ? *Z->Name : TEXT("?"), Z ? Z->LevelMin : 0, Z ? Z->LevelMax : 0);
-		const float X = FMath::Clamp(MX(E.Pos.X), Mx + 70.f, Mx + Vw - 70.f), Y = FMath::Clamp(MY(E.Pos.Y), My + 4.f, My + Vh - 18.f);
+		const float Half = TW(Ex, 9) * 0.5f + 6;
+		const float X = FMath::Clamp(MX(E.Pos.X), Mx + Half, Mx + Vw - Half), Y = FMath::Clamp(MY(E.Pos.Y), My + 4.f, My + Vh - 18.f);
 		Rc(X - TW(Ex, 9) * 0.5f - 4, Y, TW(Ex, 9) + 8, 14, FLinearColor(0.06f, 0.03f, 0.03f, 0.8f));
 		TxC(X, Y, Ex, 9, FLinearColor(1, 0.45f, 0.4f));
 	}
@@ -357,10 +412,7 @@ void SHLGameUI::DrawMap() const
 		Rc(X - 6, Y - 22, 12, 10, PinC);
 		Tx(X + 9, Y - 24, Gm.MarkLabel, 10, PinC, true);
 	}
-	const float PX = FMath::Clamp(MX(P.Pos.X), Mx + 4, Mx + Vw - 4), PY = FMath::Clamp(MY(P.Pos.Y), My + 4, My + Vh - 4);
-	Rc(PX - 4, PY - 4, 8, 8, ColWhite);
-	const float Rad = FMath::DegreesToRadians(P.Yaw);
-	Line(FVector2D(PX, PY), FVector2D(PX, PY) + FVector2D(FMath::Cos(Rad), FMath::Sin(Rad)) * 14, ColWhite, 2);
+	DrawPlayerPin(FMath::Clamp(MX(P.Pos.X), Mx + 10, Mx + Vw - 10), FMath::Clamp(MY(P.Pos.Y), My + 10, My + Vh - 10), P.Yaw, false);
 	Tx(WX + 392, WY - 1, TEXT("Wheel zooms, drag pans. Any patrolman gives directions."), 9, ColDim);
 }
 
@@ -901,8 +953,10 @@ void SHLGameUI::DrawNpc() const
 					const int32 Each = A.Buyout / FMath::Max(1, A.Count);
 					const FLinearColor Pc = Each <= Avg * 0.85f ? ColGreen : Each >= Avg * 1.3f ? FLinearColor(1, 0.45f, 0.35f) : ColDim;
 					Tx(WX + 34, Y + 16, FString::Printf(TEXT("recent sales avg %s%s"), *HLMoney(Avg), A.Count > 1 ? TEXT(" each") : TEXT("")), 8, Pc);
-					if (Hover(WX + 34, Y, 250, 28)) { TipText = FString::Printf(TEXT("%s\nLast %d sales: average %s, low %s, high %s%s.\nThis buyout: %s%s."), *A.Item->Name, Ns, *HLMoney(Avg), *HLMoney(Lo), *HLMoney(Hi), A.Count > 1 ? TEXT(" each") : TEXT(""), *HLMoney(Each), A.Count > 1 ? TEXT(" each") : TEXT("")); TipPos = Mouse; }
+					if (Hover(WX + 34, Y, 250, 28)) TipExtra = FString::Printf(TEXT("Last %d sales: average %s, low %s, high %s%s.\nThis buyout: %s%s."), Ns, *HLMoney(Avg), *HLMoney(Lo), *HLMoney(Hi), A.Count > 1 ? TEXT(" each") : TEXT(""), *HLMoney(Each), A.Count > 1 ? TEXT(" each") : TEXT(""));
 				}
+				// the name shows the item card (with the price history above, when there is one)
+				if (Hover(WX + 34, Y, 250, 28)) { TipItem = A.Item; TipPos = Mouse; }
 			}
 			Tx(WX + 290, Y + 5, A.Item->Req > 0 ? FString::FromInt(A.Item->Req) : TEXT("-"), 10, A.Item->Req > P.Level ? ColRed : ColWhite);
 			Tx(WX + 322, Y + 5, A.bMine ? Gm.Player.Name : Gm.Sims.IsValidIndex(A.SellerIdx) ? Gm.Sims[A.SellerIdx].P->Handle.Left(14) : FString(TEXT("?")), 10, ColDim);

@@ -50,7 +50,9 @@ private:
 	mutable FVector2D VS = FVector2D(1600, 900); // virtual size
 	mutable FVector2D ViewPx = FVector2D(1600, 900);
 	mutable class APlayerController* PC = nullptr;
-	static float ScaleFor(const FGeometry& Geo) { return FMath::Clamp(Geo.GetLocalSize().Y / 900.f, 0.5f, 3.f); }
+	// the UI is laid out for a 1600 x 900 virtual screen: scale so both fit (narrow or squarish windows shrink it instead of
+	// pushing the right-hand HUD and wide windows off the edge)
+	static float ScaleFor(const FGeometry& Geo) { const FVector2D S = Geo.GetLocalSize(); return FMath::Clamp(FMath::Min(S.Y / 900.f, S.X / 1600.f), 0.4f, 3.f); }
 
 	// ---- toolkit
 	void Rc(float X, float Y, float W, float H, const FLinearColor& C) const;
@@ -86,6 +88,7 @@ private:
 	void DrawQuestLog() const;
 	void DrawSpellbook() const;
 	void DrawMap() const;
+	void DrawPlayerPin(float X, float Y, float Yaw, bool bLabel) const; // pulsing ring + heading arrow on the maps
 	void DrawWho() const;
 	void DrawNpc() const;
 	void DrawInspect() const;
@@ -133,7 +136,7 @@ private:
 	void DrawPreview(float X, float Y, float W, float H, const FHLCharLook& L, const FString& Clip) const;
 	void DrawCreator(float X, float Y, float W) const;
 	// tooltip (set during paint, drawn last)
-	mutable const FHLItem* TipItem = nullptr; mutable FString TipText; mutable FVector2D TipPos;
+	mutable const FHLItem* TipItem = nullptr; mutable FString TipText, TipExtra; mutable FVector2D TipPos; // TipExtra: lines added to an item card
 	// world picks collected during the overlay pass
 	struct FPick { int32 UnitId = 0, Area = -1, Obj = -1; FVector2D Pos; float Radius = 0, Depth = 0; };
 	mutable TArray<FPick> Picks;

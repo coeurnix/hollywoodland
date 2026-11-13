@@ -434,6 +434,13 @@ UTextureRenderTarget2D* FHLCharVisuals::Atlas(UWorld* World, const FHLCharLook& 
 		FAtlas& A = Atlases[*Idx];
 		A.Used = Clock;
 		if (A.bDirty) A.bDirty = !Compose(World, A.RT, L);
+		// compose again a few times while the atlas is young: on a slow connection (itch's CDN) a layer can pass the
+		// resource check before its pixels reach the GPU, and the atlas would keep the black it drew
+		else
+		{
+			static const double Redo[] = { 0.5, 1.5, 4, 10, 25 };
+			if (A.Redo < (int32)UE_ARRAY_COUNT(Redo) && Clock - A.Born >= Redo[A.Redo]) { ++A.Redo; A.bDirty = !Compose(World, A.RT, L); }
+		}
 		return A.RT;
 	}
 	// reuse the longest-unused atlas of this size once the cache is full (none used in the last few seconds)
@@ -468,7 +475,8 @@ UTextureRenderTarget2D* FHLCharVisuals::Atlas(UWorld* World, const FHLCharLook& 
 		Slot = Atlases.Add(A);
 	}
 	Atlases[Slot].Key = L.TexKey();
-	Atlases[Slot].Used = Clock;
+	Atlases[Slot].Used = Atlases[Slot].Born = Clock;
+	Atlases[Slot].Redo = 0;
 	AtlasIndex.Add(Key, Slot);
 	Atlases[Slot].bDirty = !Compose(World, Atlases[Slot].RT, L);
 	if (Atlases[Slot].bDirty) UE_LOG(LogTemp, Log, TEXT("HL atlas %08x: textures not uploaded yet, composing again later"), L.TexKey());

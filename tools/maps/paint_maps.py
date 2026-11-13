@@ -56,13 +56,22 @@ JOBS = {
         'the Hollywood Hills across the middle (Cahuenga Pass, Hollywoodland with the HOLLYWOODLAND sign on Mount Lee, Griffith '
         'Park), the city flats in the south. The great translucent violet dome rim is the ellipse; outside it, dark violet blight. '
         'Each region keeps its rectangle position and size from the source but may have softened painted borders like '
-        'territories on a fantasy world map.']),
+        'territories on a fantasy world map.'],
+        style=("Style: a glamorous 1930 Hollywood studio-publicity map, a movie-palace poster crossed with a fantasy-MMO world "
+               "map. Gold Art Deco frame with stepped corners and sunburst fans; sweeping searchlight beams fanning up behind the "
+               "title; a thin film-strip border with sprocket holes along the top and bottom margins; the title in a lit "
+               "theatre-marquee cartouche with bulb lights; tiny painted landmarks inside their regions (the HOLLYWOODLAND sign on "
+               "Mount Lee, palm-lined boulevards and a movie palace in Hollywood Boulevard, sound stages and a water tower on the "
+               "studio lots of Universal City, Burbank and Gower Gulch, the river in Studio City, the observatory dome in Griffith "
+               "Park); warm parchment, black-and-gold Deco ornament, silver-screen glamour. The great violet dome rim and the dark "
+               "violet alien blight outside it stay. Strictly top-down map, no characters, no UI icons, no legend, no extra text "
+               "besides the listed labels.")),
 }
 
 
 def prompt(name, job):
     out = os.path.join('art', 'maps', 'painted', name + '.png')
-    return (f"Use your image generation tool to paint a game map. {RULES}\n\n{STYLE}\n\nLabels:\n- " + '\n- '.join(job['labels'])
+    return (f"Use your image generation tool to paint a game map. {RULES}\n\n{job.get('style', STYLE)}\n\nLabels:\n- " + '\n- '.join(job['labels'])
             + f"\n\nOutput: {job['size']}, exactly the source's size and aspect. Save the final image as `{out}` (PNG). If the "
               "generated image is a different size, scale it to the exact size without cropping (Python Pillow is available). "
               "Look at your result next to the source and regenerate if streets or buildings moved or a label is misspelt. "

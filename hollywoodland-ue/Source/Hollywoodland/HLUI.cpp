@@ -463,7 +463,7 @@ int32 SHLGameUI::OnPaint(const FPaintArgs& Args, const FGeometry& Geo, const FSl
 	VS = FVector2D(Geo.GetLocalSize()) / Sc;
 	PC = World && World->GetWorld() ? World->GetWorld()->GetFirstPlayerController() : nullptr;
 	if (GEngine && GEngine->GameViewport) { FVector2D V; GEngine->GameViewport->GetViewportSize(V); if (V.X > 0 && V.Y > 0) ViewPx = V; }
-	UiRectsNext.Reset(); Picks.Reset(); TipItem = nullptr; TipText.Reset();
+	UiRectsNext.Reset(); Picks.Reset(); TipItem = nullptr; TipText.Reset(); TipExtra.Reset();
 	FHLGame& Gm = G();
 	{ static bool bOnce = false; if (!bOnce && Gm.bInWorld) { bOnce = true; if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenBags"))) { bBags = true; bChar = true; } if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenTalents"))) bTalents = true; if (FParse::Param(FCommandLine::Get(), TEXT("HLCraftTest"))) bCraft = true; if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenSpells"))) bSpells = true; if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenFriends"))) { bWho = true; WhoTab = 1; } if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenNews"))) { bWho = true; WhoTab = 3; }
 		if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenAuction"))) for (const FHLUnit* N : Gm.UnitList) if (N->Npc && N->Npc->HasRole(TEXT("auctioneer"))) { Gm.OpenNpcUnitId = N->Id; Gm.OpenNpcMode = TEXT("auction"); AuctionSearch = TEXT("boots"); break; }
@@ -479,6 +479,9 @@ int32 SHLGameUI::OnPaint(const FPaintArgs& Args, const FGeometry& Geo, const FSl
 		DrawWindows();
 		DrawPopups();
 		HandleWorldClick();
+		// -HLTipTest: pin an item card (an equippable auction item) for screenshots
+		static const bool bTipTest = FParse::Param(FCommandLine::Get(), TEXT("HLTipTest"));
+		if (bTipTest && !TipItem) for (const FHLAuction& A : Gm.Auctions) if (A.Item && A.Item->IsEquip() && A.Item->Q >= 2) { TipItem = A.Item; TipPos = FVector2D(700, 620); TipExtra = TEXT("Last 6 sales: average 2.40, low 1.90, high 3.10."); break; }
 	}
 	DrawTooltip();
 	UiRects = UiRectsNext;
@@ -943,6 +946,14 @@ void SHLGameUI::DrawHud() const
 				Img(X + 3 + O, Y + 3 + O, Bsz - 6, Bsz - 6, IB, bH || bOn ? FLinearColor::White : FLinearColor(0.78f, 0.78f, 0.78f, 1));
 			else TxC(X + Bsz * 0.5f, Y + 11, FString(Lbl[i]).Left(4), 8, ColWhite);
 			if (bOn) { ++Layer; LastKind = 1; Rc(X + 3, Y + 3, Bsz - 6, 1, FLinearColor(1, 0.8f, 0.35f, 0.9f)); Rc(X + 3, Y + Bsz - 4, Bsz - 6, 1, FLinearColor(1, 0.8f, 0.35f, 0.9f)); }
+			// the key that opens it, in the bottom-right corner like an action-bar keybind
+			{
+				static const TCHAR* Keys[] = { TEXT("C"), TEXT("B"), TEXT("L"), TEXT("P"), TEXT("M"), TEXT("O"), TEXT("N"), TEXT("Esc") };
+				const float KW = TW(Keys[i], 8, true);
+				++Layer; LastKind = 1;
+				Rc(X + Bsz - KW - 6 + O, Y + Bsz - 14 + O, KW + 4, 11, FLinearColor(0, 0, 0, 0.6f));
+				Tx(X + Bsz - KW - 4 + O, Y + Bsz - 15 + O, Keys[i], 8, FLinearColor(1, 0.92f, 0.7f), true);
+			}
 			if (bH) { TipText = Lbl[i]; TipPos = Mouse; if (bLClick) { bLClick = false; *Flags[i] = !*Flags[i]; if (i == 5) Gm.bWhoOpen = bWho; } }
 		}
 		{
@@ -1392,7 +1403,6 @@ void SHLGameUI::DrawTooltip() const
 	{
 		const FHLItem& It = *TipItem;
 		const FHLGame& Gm = G();
-		Lines.Add({ It.Name, HLQualityColor(It.Q) });
 		if (It.IsEquip())
 		{
 			FString Slot = It.Slot; Slot[0] = FChar::ToUpper(Slot[0]);
@@ -1425,6 +1435,36 @@ void SHLGameUI::DrawTooltip() const
 		}
 		if (It.Kind == TEXT("ammo")) Lines.Add({ FString::Printf(TEXT("Ammunition (%s)    +%.1f dps"), *It.Ammo, It.AmmoDps), ColWhite });
 		if (It.Price > 0) Lines.Add({ It.Buy > 1 ? FString::Printf(TEXT("Sell price: %s per %d"), *HLMoney(It.Price), It.Buy) : FString::Printf(TEXT("Sell price: %s"), *HLMoney(It.Price)), ColDim });
+		if (!TipExtra.IsEmpty())
+		{
+			TArray<FString> Raw;
+			TipExtra.ParseIntoArray(Raw, TEXT("\n"), true);
+			for (const FString& R : Raw) { TArray<FString> Wr; Wrap(R, 10, 280, Wr); for (const FString& S : Wr) Lines.Add({ S, FLinearColor(0.6f, 0.85f, 1) }); }
+		}
+		// the card: icon and name in a header, quality-coloured frame, the details below a rule
+		static const TCHAR* QNames[] = { TEXT("Poor"), TEXT("Common"), TEXT("Uncommon"), TEXT("Rare"), TEXT("Epic"), TEXT("Legendary") };
+		const FLinearColor QC = HLQualityColor(It.Q);
+		FString What = It.Kind == TEXT("consumable") ? (It.UseType.IsEmpty() ? FString(TEXT("Consumable")) : It.UseType) : It.IsEquip() ? (It.Type.IsEmpty() ? It.Kind : It.Type) : It.Kind == TEXT("ammo") ? FString(TEXT("Ammunition")) : It.Kind;
+		if (What.Len()) What[0] = FChar::ToUpper(What[0]);
+		const FString Sub = FString::Printf(TEXT("%s %s%s"), QNames[FMath::Clamp(It.Q, 0, 5)], *What, It.bNamed ? TEXT("  -  named") : TEXT(""));
+		float W = FMath::Max3(270.f, TW(It.Name, 12, true) + 70, TW(Sub, 9) + 70);
+		for (const auto& L : Lines) W = FMath::Max(W, TW(L.Key, 10) + 20);
+		const float Head = 52, H = Head + Lines.Num() * 16 + 12;
+		float X = TipPos.X + 18, Y = TipPos.Y - H - 8;
+		if (X + W > VS.X - 4) X = TipPos.X - W - 14;
+		if (Y < 4) Y = FMath::Min(TipPos.Y + 22, VS.Y - H - 4);
+		Layer += 3; LastKind = 0;
+		Panel(X, Y, W, H, FLinearColor(0.025f, 0.022f, 0.035f, 0.96f), QC * 0.8f);
+		++Layer; LastKind = 1;
+		Rc(X + 1, Y + 1, W - 2, Head - 4, FLinearColor(QC.R * 0.18f, QC.G * 0.18f, QC.B * 0.18f, 0.9f)); // header wash in the quality colour
+		++Layer; LastKind = 1;
+		Rc(X + 8, Y + 7, 38, 38, QC); Rc(X + 9, Y + 8, 36, 36, FLinearColor(0, 0, 0, 1));
+		if (const FSlateBrush* IB = HLIconBrush(It.Icon)) Img(X + 10, Y + 9, 34, 34, IB);
+		Tx(X + 54, Y + 8, It.Name, 12, QC, true);
+		Tx(X + 54, Y + 28, Sub, 9, FLinearColor(0.85f, 0.8f, 0.7f));
+		Rc(X + 8, Y + Head - 2, W - 16, 1, QC * 0.6f);
+		for (int32 i = 0; i < Lines.Num(); ++i) Tx(X + 10, Y + Head + 4 + i * 16, Lines[i].Key, 10, Lines[i].Value);
+		return;
 	}
 	else
 	{

@@ -49,6 +49,9 @@ EM_JS(void, HL_JsStart, (double Slot, int Op, double TimeoutMs, double A, double
 	var a = A ? UTF8ToString(A) : "";
 	var b = B ? UTF8ToString(B) : "";
 	var c = C ? UTF8ToString(C) : "";
+	// the game owns the mouse wheel (map zoom, camera, lists): cancelled here, the wheel no longer scrolls the page that
+	// embeds the game (the itch.io page around the iframe). The engine still receives the event.
+	if (!window.__hlWheel) { window.__hlWheel = 1; window.addEventListener("wheel", function (e) { e.preventDefault(); }, { passive: false }); }
 	function publish(rec) {
 		if (!Slot) return;
 		try {
