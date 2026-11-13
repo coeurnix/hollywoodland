@@ -93,14 +93,14 @@ export const redcar = [
 ];
 
 export const guilds = [
-  { id: 'guild_gower_irregulars', name: 'Gower Irregulars', kind: 'raid', blurb: 'Raids Mount Lee Tue/Thu 8pm server.' },
-  { id: 'guild_post_43', name: 'Post Forty Three', kind: 'raid', blurb: 'Old-school raiding guild, clears United Airport weekly.' },
-  { id: 'guild_red_car_regulars', name: 'Red Car Regulars', kind: 'social', blurb: 'Casual, all levels, dungeon runs most nights.' },
-  { id: 'guild_brown_derby', name: 'Brown Derby Lunch Club', kind: 'social', blurb: 'Social guild. Mostly talks about food.' },
-  { id: 'guild_night_shift', name: 'Night Shift', kind: 'raid', blurb: 'Late-night raiders, Mount Lee progression.' },
-  { id: 'guild_stembridge', name: 'Stembridge Gun Club', kind: 'crafting', blurb: 'Gunsmiths and salvagers. Sells ammo cheap to members.' },
-  { id: 'guild_extras', name: 'Central Casting', kind: 'levelling', blurb: 'New players welcome. Levelling groups.' },
-  { id: 'guild_dome_patrol', name: 'Dome Patrol', kind: 'levelling', blurb: 'Questing and dungeon guild, levels 10-45.' },
+  { id: 'guild_gower_irregulars', name: 'Gower Irregulars', kind: 'raid', blurb: 'Raids Mount Lee Tue/Thu 8pm server.', motd: 'Raids Tue/Thu 8pm server. Repair before you come. No pulling for the tank.' },
+  { id: 'guild_post_43', name: 'Post Forty Three', kind: 'raid', blurb: 'Old-school raiding guild, clears United Airport weekly.', motd: 'Airport on reset. Consumables mandatory. Be nice in General, you represent us.' },
+  { id: 'guild_red_car_regulars', name: 'Red Car Regulars', kind: 'social', blurb: 'Casual, all levels, dungeon runs most nights.', motd: 'Welcome aboard. Egyptian runs most nights, ask in here. Nobody minds questions.' },
+  { id: 'guild_brown_derby', name: 'Brown Derby Lunch Club', kind: 'social', blurb: 'Social guild. Mostly talks about food.', motd: 'Lunch is at noon. Every day. Also we level sometimes.' },
+  { id: 'guild_night_shift', name: 'Night Shift', kind: 'raid', blurb: 'Late-night raiders, Mount Lee progression.', motd: 'Mount Lee Fri/Sat 11pm server. Sign up in here. Sleep is optional.' },
+  { id: 'guild_stembridge', name: 'Stembridge Gun Club', kind: 'crafting', blurb: 'Gunsmiths and salvagers. Sells ammo cheap to members.', motd: 'Members get ammo at cost from Skeets. Bring brass. Do not sell guns under 2c.' },
+  { id: 'guild_extras', name: 'Central Casting', kind: 'levelling', blurb: 'New players welcome. Levelling groups.', motd: 'New? Good. Ask anything. Levelling groups form in here first.' },
+  { id: 'guild_dome_patrol', name: 'Dome Patrol', kind: 'levelling', blurb: 'Questing and dungeon guild, levels 10-45.', motd: 'Quests and dungeons, 10-45. Help the new folks. Hive spreads get priority.' },
 ];
 
 // World map layout (normalised 0..1, north up) for the 13 zone outlines.

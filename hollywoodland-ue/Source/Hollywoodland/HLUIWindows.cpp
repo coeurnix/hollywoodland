@@ -190,9 +190,52 @@ void SHLGameUI::DrawWho() const
 {
 	FHLGame& Gm = G();
 	if (Gm.bWhoOpen && !bWho) bWho = true;
-	if (!Win(TEXT("who"), WhoTab == 0 ? FString::Printf(TEXT("Who  -  %d players online"), Gm.OnlineCount()) : FString::Printf(TEXT("Friends  -  %d"), Gm.Player.Friends.Num()), 640, 470, bWho, 380, 140)) { Gm.bWhoOpen = false; return; }
+	const FHLGuild* MyG = Gm.PlayerGuild();
+	const FString WhoTitle = WhoTab == 0 ? FString::Printf(TEXT("Who  -  %d players online"), Gm.OnlineCount()) : WhoTab == 1 ? FString::Printf(TEXT("Friends  -  %d"), Gm.Player.Friends.Num()) : MyG ? MyG->Name : FString(TEXT("Guild"));
+	if (!Win(TEXT("who"), WhoTitle, 640, 470, bWho, 380, 140)) { Gm.bWhoOpen = false; return; }
 	const FHLData& D = FHLData::Get();
-	for (int32 t = 0; t < 2; ++t) { if (WhoTab == t) Rc(WX + 418 + t * 100 - 2, WY - 4, 96, 22, ColGold); if (Btn(WX + 418 + t * 100, WY - 2, 92, 18, t == 0 ? TEXT("Who") : TEXT("Friends"), true, 9)) WhoTab = t; }
+	for (int32 t = 0; t < 3; ++t) { if (WhoTab == t) Rc(WX + 338 + t * 94 - 2, WY - 4, 90, 22, ColGold); if (Btn(WX + 338 + t * 94, WY - 2, 86, 18, t == 0 ? TEXT("Who") : t == 1 ? TEXT("Friends") : TEXT("Guild"), true, 9)) WhoTab = t; }
+	if (WhoTab == 2)
+	{
+		if (!MyG) { TxWrap(WX, WY + 30, 600, TEXT("You are not in a guild. Guilds recruit in General chat, and someone may invite you once you have a few levels. Accepting puts their name over your head and opens guild chat (/g)."), 11, ColDim); return; }
+		TArray<int32> M = Gm.GuildMembers(Gm.Player.Guild);
+		int32 On = 0; for (int32 i : M) if (Gm.Sims[i].bOnline) ++On;
+		M.Sort([&](int32 A, int32 B) { const FHLSim& Sa = Gm.Sims[A]; const FHLSim& Sb = Gm.Sims[B]; return Sa.bOnline != Sb.bOnline ? Sa.bOnline : Sa.Level != Sb.Level ? Sa.Level > Sb.Level : A < B; });
+		Tx(WX, WY, FString::Printf(TEXT("%d members, %d online"), M.Num() + 1, On + 1), 10, ColDim);
+		TxWrap(WX, WY + 18, 610, FString::Printf(TEXT("Message of the Day: %s"), *MyG->Motd), 10, FLinearColor(0.35f, 1, 0.35f));
+		const float Top = WY + 52;
+		Tx(WX, Top, TEXT("Name"), 10, ColGold); Tx(WX + 130, Top, TEXT("Rank"), 10, ColGold); Tx(WX + 230, Top, TEXT("Lvl"), 10, ColGold); Tx(WX + 270, Top, TEXT("Class"), 10, ColGold); Tx(WX + 360, Top, TEXT("Where"), 10, ColGold);
+		const int32 PerPage = 19;
+		if (Wheel != 0 && Hover(WX, WY, 620, 440)) WhoScroll -= (int32)(Wheel * 3);
+		WhoScroll = FMath::Clamp(WhoScroll, 0, FMath::Max(0, M.Num() + 1 - PerPage));
+		for (int32 r = 0; r < PerPage && r + WhoScroll < M.Num() + 1; ++r)
+		{
+			const int32 Row = r + WhoScroll;
+			const float Y = Top + 18 + r * 17;
+			if (Row == 0)
+			{
+				const FHLUnit* PU = Gm.PlayerUnit();
+				Tx(WX, Y + 1, Gm.Player.Name, 10, Gm.Player.Cls ? Gm.Player.Cls->Color * 1.4f : ColWhite); Tx(WX + 130, Y + 1, TEXT("Initiate"), 10, ColDim);
+				Tx(WX + 230, Y + 1, FString::FromInt(PU ? PU->Level : 1), 10, ColWhite); Tx(WX + 270, Y + 1, Gm.Player.Cls ? Gm.Player.Cls->Name : FString(), 10, ColWhite);
+				Tx(WX + 360, Y + 1, Gm.CurSubzone, 10, ColDim);
+				continue;
+			}
+			const int32 SI = M[Row - 1];
+			const FHLSim& S = Gm.Sims[SI];
+			const bool bHot = S.bOnline && Hover(WX - 4, Y, 620, 17);
+			if (bHot) { Rc(WX - 4, Y, 620, 17, FLinearColor(0.25f, 0.2f, 0.1f)); TipText = FString::Printf(TEXT("%s\n%s\nClick to whisper. Right-click to invite."), *S.P->Handle, *Gm.SimActivity(S)); TipPos = Mouse; }
+			const FLinearColor Cc = S.bOnline ? (S.P->Cls ? S.P->Cls->Color * 1.4f : ColWhite) : ColDim;
+			Tx(WX, Y + 1, S.P->Handle, 10, Cc); Tx(WX + 130, Y + 1, Gm.GuildRank(SI), 10, S.bOnline ? ColWhite : ColDim);
+			Tx(WX + 230, Y + 1, FString::FromInt(S.Level), 10, S.bOnline ? ColWhite : ColDim); Tx(WX + 270, Y + 1, S.P->Cls ? S.P->Cls->Name : FString(), 10, S.bOnline ? ColWhite : ColDim);
+			const FHLZoneInfo* Z = D.Zone(S.UnitId ? TEXT("zone_hollywood_blvd") : S.Zone);
+			Tx(WX + 360, Y + 1, S.bOnline ? (S.DungeonUntil > Gm.Now ? FString(TEXT("The Egyptian Theatre")) : Z ? Z->Name : FString()) : FString(TEXT("Offline")), 10, ColDim);
+			if (bHot && bLClick) { bLClick = false; bTyping = true; ChatEntry = FString::Printf(TEXT("/w %s "), *S.P->Handle); }
+			if (bHot && bRClick) { bRClick = false; Gm.InviteSim(SI); }
+		}
+		if (Btn(WX + 500, WY + 418, 110, 22, TEXT("Leave guild"), true, 9)) Gm.LeaveGuild();
+		if (Btn(WX + 380, WY + 418, 110, 22, TEXT("Guild chat"), true, 9)) { bTyping = true; ChatEntry = TEXT("/g "); }
+		return;
+	}
 	if (WhoTab == 1)
 	{
 		TArray<int32> Fr;

@@ -473,7 +473,7 @@ void FHLGame::TickCensus()
 				S.Activity = FString::Printf(TEXT("in %s"), *Dn.Name); S.Zone = Dn.Zone;
 				const float R = Rand();
 				const FString& Boss = Dn.Bosses[RandInt(0, Dn.Bosses.Num() - 1)];
-				if (R < 0.3f) Event(G ? FString::Printf(TEXT("<%s> cleared %s"), *G->Name, *Dn.Name) : FString::Printf(TEXT("%s's group cleared %s"), *S.P->Handle, *Dn.Name));
+				if (R < 0.3f) { Event(G ? FString::Printf(TEXT("<%s> cleared %s"), *G->Name, *Dn.Name) : FString::Printf(TEXT("%s's group cleared %s"), *S.P->Handle, *Dn.Name)); GuildEvent(TEXT("clear"), FString::Printf(TEXT("%d|%s"), CensusCursor, *Dn.Name)); }
 				else if (R < 0.55f) Event(FString::Printf(TEXT("%s's group wiped on %s in %s"), *S.P->Handle, *Boss, *Dn.Name));
 				else if (R < 0.8f)
 				{

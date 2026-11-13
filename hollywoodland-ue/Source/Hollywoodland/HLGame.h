@@ -146,8 +146,10 @@ struct FHLPlayer
 	int32 CorpseArea = 0; FVector2D CorpsePos = FVector2D::ZeroVector;
 	double SicknessUntil = 0; // resurrection sickness (-25% attributes)
 	TArray<FHLMail> Mail;
-	TArray<FString> Friends; // persona ids
-};
+		TArray<FString> Friends; // persona ids
+		FString Guild; // guild id, empty when unguilded
+		int32 GuildDeclines = 0;
+	};
 
 enum class EHLSimRole : uint8 { Away, Local, Transient, Idler };
 enum class EHLSimState : uint8 { Idle, Travel, Grind, Rest, Dead, Party, Leaving, Script, Gather };
@@ -426,6 +428,18 @@ public:
 	void PlaceFightCrowd(const FVector2D& Ring);
 	void EndFightNight(const TCHAR* Why);
 	void TickFightNight();
+	// guilds (HLGuild.cpp)
+	int32 GuildFromSim = -1, GuildRaidDay = -1; double GuildInviteAt = 0, GuildInviteUntil = 0, NextGuildTick = 0, NextGuildInvite = 0, NextGuildChat = 0;
+	TSet<int32> GuildSeen; bool bGuildSeenInit = false;
+	const FHLGuild* PlayerGuild() const;
+	TArray<int32> GuildMembers(const FString& GuildId) const;
+	FString GuildRank(int32 SimIdx) const;
+	int32 RandomGuildmate(int32 Except);
+	void GuildEvent(const TCHAR* Kind, const FString& Ctx = FString());
+	void JoinGuild(const FString& GuildId, int32 Inviter);
+	void LeaveGuild();
+	void AnswerGuildInvite(bool bAccept);
+	void TickGuild();
 	void FightNightDuelOver(bool bPlayerWon);
 	// ---- gunsmithing and escorts (HLCraft.cpp)
 	struct FHLRecipe { FString Product, Mat1, Mat2; int32 Yield = 1, Skill = 1, N1 = 0, N2 = 0; };

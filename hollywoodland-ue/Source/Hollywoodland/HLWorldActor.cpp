@@ -459,6 +459,7 @@ void AHLWorldActor::AutoTest(float Dt)
 	// -HLLifeTest: stand near whatever is happening on the street and watch
 	static const bool bLifeTest = FParse::Param(FCommandLine::Get(), TEXT("HLLifeTest"));
 	if (bLifeTest && Game.DuelFromSim >= 0) Game.AnswerDuel(true);
+	if (bLifeTest && Game.GuildFromSim >= 0 && Game.Now >= Game.GuildInviteAt + 2) { Game.AnswerGuildInvite(true); Game.PlayerChat(TEXT("/g hi all, thanks for the invite")); }
 	if (bLifeTest && Game.DuelState == 1) return;
 	if (bLifeTest && Game.DuelState == 2 && Game.Sims.IsValidIndex(Game.DuelSim))
 	{

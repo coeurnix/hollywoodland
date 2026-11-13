@@ -1062,6 +1062,7 @@ void SHLGameUI::ChatColor(const FHLChatLine& L, FLinearColor& C, FString& Text) 
 	else if (Ch == TEXT("zone")) { C = FLinearColor(1, 0.75f, 0.75f); Text = FString::Printf(TEXT("[1. General] [%s]: %s"), *L.From, *L.Text); }
 	else if (Ch == TEXT("trade")) { C = FLinearColor(1, 0.75f, 0.75f); Text = FString::Printf(TEXT("[2. Trade] [%s]: %s"), *L.From, *L.Text); }
 	else if (Ch == TEXT("lfg")) { C = FLinearColor(1, 0.75f, 0.75f); Text = FString::Printf(TEXT("[4. LookingForGroup] [%s]: %s"), *L.From, *L.Text); }
+	else if (Ch == TEXT("guild")) { C = FLinearColor(0.25f, 1, 0.25f); Text = L.From.IsEmpty() ? L.Text : FString::Printf(TEXT("[Guild] [%s]: %s"), *L.From, *L.Text); }
 	else if (Ch == TEXT("party")) { C = FLinearColor(0.65f, 0.65f, 1); Text = FString::Printf(TEXT("[Party] [%s]: %s"), *L.From, *L.Text); }
 	else if (Ch == TEXT("whisper")) { C = FLinearColor(1, 0.5f, 1); Text = FString::Printf(TEXT("[%s] whispers: %s"), *L.From, *L.Text); }
 	else if (Ch == TEXT("whisper_to")) { C = FLinearColor(1, 0.5f, 1); Text = FString::Printf(TEXT("To [%s]: %s"), *L.From, *L.Text); }
@@ -1120,7 +1121,7 @@ void SHLGameUI::DrawChat() const
 	if (bTyping)
 	{
 		const bool bBlink = FMath::Fmod(FPlatformTime::Seconds(), 1.0) < 0.5;
-		const FString Prefix = Gm.ChatChannel == TEXT("whisper") ? FString::Printf(TEXT("To %s: "), *Gm.WhisperTarget) : Gm.ChatChannel == TEXT("zone") ? TEXT("General: ") : Gm.ChatChannel == TEXT("party") ? TEXT("Party: ") : Gm.ChatChannel == TEXT("say") ? TEXT("Say: ") : Gm.ChatChannel + TEXT(": ");
+		const FString Prefix = Gm.ChatChannel == TEXT("whisper") ? FString::Printf(TEXT("To %s: "), *Gm.WhisperTarget) : Gm.ChatChannel == TEXT("zone") ? TEXT("General: ") : Gm.ChatChannel == TEXT("party") ? TEXT("Party: ") : Gm.ChatChannel == TEXT("guild") ? TEXT("Guild: ") : Gm.ChatChannel == TEXT("say") ? TEXT("Say: ") : Gm.ChatChannel + TEXT(": ");
 		FString Show = ChatEntry;
 		while (TW(Prefix + Show, 10) > W - 20 && Show.Len() > 1) Show.RightChopInline(1);
 		Tx(X + 6, Ey + 3, Prefix + Show + (bBlink ? TEXT("_") : TEXT("")), 10, ColWhite);
@@ -1168,6 +1169,18 @@ void SHLGameUI::DrawPopups() const
 		TxC(X + W * 0.5f, Y + 12, FString::Printf(TEXT("%s (level %d %s) invites you to a group."), *S.P->Handle, S.Level, S.P->Cls ? *S.P->Cls->Name : TEXT("")), 11, ColWhite);
 		if (Btn(X + 40, Y + 52, 110, 30, TEXT("Accept"), true, 12)) Gm.AnswerInvite(true);
 		if (Btn(X + 190, Y + 52, 110, 30, TEXT("Decline"), true, 12)) Gm.AnswerInvite(false);
+	}
+	if (Gm.GuildFromSim >= 0 && Gm.Sims.IsValidIndex(Gm.GuildFromSim) && Gm.Now >= Gm.GuildInviteAt)
+	{
+		const float W = 360, H = 112, X = (VS.X - W) * 0.5f, Y = 340;
+		Block(X, Y, W, H); Panel(X, Y, W, H);
+		const FHLSim& S = Gm.Sims[Gm.GuildFromSim];
+		const FHLGuild* Gd = FHLData::Get().Guild(S.P->Guild);
+		TxC(X + W * 0.5f, Y + 10, FString::Printf(TEXT("%s invites you to join the guild"), *S.P->Handle), 11, ColWhite);
+		TxC(X + W * 0.5f, Y + 28, Gd ? FString::Printf(TEXT("<%s>"), *Gd->Name) : FString(), 13, FLinearColor(0.35f, 1, 0.35f));
+		if (Gd) TxC(X + W * 0.5f, Y + 48, Gd->Blurb, 9, ColDim);
+		if (Btn(X + 50, Y + 70, 110, 28, TEXT("Accept"), true, 12)) Gm.AnswerGuildInvite(true);
+		if (Btn(X + 200, Y + 70, 110, 28, TEXT("Decline"), true, 12)) Gm.AnswerGuildInvite(false);
 	}
 	if (Gm.DuelFromSim >= 0 && Gm.Sims.IsValidIndex(Gm.DuelFromSim))
 	{

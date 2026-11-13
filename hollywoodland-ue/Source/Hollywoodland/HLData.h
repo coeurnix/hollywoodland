@@ -123,7 +123,7 @@ struct FHLPersona
 };
 struct FHLZoneInfo { FString Id, Name, Blurb; int32 LevelMin = 1, LevelMax = 60; bool bBuilt = false; TArray<FString> Hubs, Mobs, QuestTitles, Neighbours; FVector4f MapRect; };
 struct FHLDungeonInfo { FString Id, Name, Zone, Blurb; int32 LevelMin = 1, LevelMax = 60, Size = 5; bool bBuilt = false; TArray<FString> Bosses; };
-struct FHLGuild { FString Id, Name, Kind, Blurb; };
+struct FHLGuild { FString Id, Name, Kind, Blurb, Motd; };
 struct FHLRedcarLine { FString Name; TArray<FString> Stops; };
 struct FHLChatTemplate { FString Ch, S, Text; int32 Min = 1, Max = 60; bool bGuild = false; };
 struct FHLCorpusLine { FString S, T, Text; };

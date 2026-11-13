@@ -295,6 +295,7 @@ void FHLGame::GrantXp(int32 Amount, bool bQuest)
 		// people nearby and in the party say grats
 		int32 Said = 0;
 		for (int32 SI : Party) { if (Chance(0.8f)) SimSay(SI, TEXT("party"), TEXT("gz"), 1.5f + Rand() * 3); }
+		GuildEvent(TEXT("ding"));
 		for (FHLSim& S : Sims) if (Said < 2 && S.UnitId && !S.bInParty) if (FHLUnit* SU = Unit(S.UnitId)) if (Dist(*U, *SU) < 25 && Chance(0.5f)) { SimSay(int32(&S - Sims.GetData()), TEXT("say"), TEXT("gz"), 1.5f + Rand() * 3); ++Said; }
 		SaveNow();
 	}

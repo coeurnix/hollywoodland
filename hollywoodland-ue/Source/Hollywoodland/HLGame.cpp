@@ -273,6 +273,7 @@ void FHLGame::EnterWorld()
 	}
 	FHLUnit& U = *PlayerUnit();
 	U.Name = Player.Name; U.Cls = Player.Cls; U.Color = Player.Cls->Color; U.Yaw = -90;
+	if (const FHLGuild* Gd = PlayerGuild()) { U.Title = FString::Printf(TEXT("<%s>"), *Gd->Name); if (!Gd->Motd.IsEmpty()) AddChat(TEXT("guild"), FString(), FString::Printf(TEXT("Guild Message of the Day: %s"), *Gd->Motd)); }
 	RecalcPlayerStats();
 	U.Hp = U.MaxHp; U.Res = U.ResType == EHLRes::Adrenaline ? 0 : U.MaxRes;
 	bInWorld = true;
@@ -347,6 +348,7 @@ void FHLGame::Tick(float Dt)
 	TickEvents(Dt);
 	TickEscort(Dt);
 	TickSocial(Dt);
+	TickGuild();
 	TickDuel();
 	TickPendingMail();
 	TickChat(Dt);

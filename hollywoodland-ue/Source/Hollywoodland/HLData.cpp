@@ -327,7 +327,7 @@ bool FHLData::Load(FString& Err)
 			D.LevelMax = N(O, TEXT("level_max"), 60); D.Size = N(O, TEXT("size"), 5); D.bBuilt = B(O, TEXT("built")); D.Bosses = SA(O, TEXT("bosses"));
 			Dungeons.Add(MoveTemp(D));
 		}
-		for (auto& V : A(R, TEXT("guilds"))) { JObj O = V->AsObject(); Guilds.Add({ S(O, TEXT("id")), S(O, TEXT("name")), S(O, TEXT("kind")), S(O, TEXT("blurb")) }); }
+		for (auto& V : A(R, TEXT("guilds"))) { JObj O = V->AsObject(); Guilds.Add({ S(O, TEXT("id")), S(O, TEXT("name")), S(O, TEXT("kind")), S(O, TEXT("blurb")), S(O, TEXT("motd")) }); }
 		for (auto& V : A(R, TEXT("redcar"))) { JObj O = V->AsObject(); Redcar.Add({ S(O, TEXT("name")), SA(O, TEXT("stops")) }); }
 	}
 	// chat

@@ -14,7 +14,7 @@ void FHLGame::AddChat(const FString& Ch, const FString& From, const FString& Tex
 	FHLChatLine L; L.Ch = Ch; L.From = From; L.Text = Text; L.SimIdx = SimIdx; L.Time = Now + Delay;
 	if (Delay > 0) { PendingChat.Add({ Now + Delay, L }); return; }
 	if (Chat.Num() >= 400) Chat.RemoveAt(0, 100);
-	if (Ch.StartsWith(TEXT("whisper")) || Ch == TEXT("say")) UE_LOG(LogTemp, Verbose, TEXT("HL_CHAT [%s] %s: %s"), *Ch, *From, *Text);
+	if (Ch.StartsWith(TEXT("whisper")) || Ch == TEXT("say") || Ch == TEXT("guild")) UE_LOG(LogTemp, Verbose, TEXT("HL_CHAT [%s] %s: %s"), *Ch, *From, *Text);
 	Chat.Add(L);
 	if (Ch == TEXT("whisper")) LastWhisperFrom = From;
 	// speech bubbles for nearby say/yell
@@ -200,7 +200,9 @@ void FHLGame::PlayerChat(const FString& Raw)
 		if (Cmd == TEXT("/s") || Cmd == TEXT("/say")) Ch = TEXT("say");
 		else if (Cmd == TEXT("/y") || Cmd == TEXT("/yell")) Ch = TEXT("yell");
 		else if (Cmd == TEXT("/p") || Cmd == TEXT("/party")) Ch = TEXT("party");
-		else if (Cmd == TEXT("/1") || Cmd == TEXT("/g") || Cmd == TEXT("/general") || Cmd == TEXT("/zone")) Ch = TEXT("zone");
+		else if (Cmd == TEXT("/1") || Cmd == TEXT("/general") || Cmd == TEXT("/zone")) Ch = TEXT("zone");
+		else if (Cmd == TEXT("/g") || Cmd == TEXT("/gu") || Cmd == TEXT("/guild")) Ch = TEXT("guild");
+		else if (Cmd == TEXT("/gquit")) { LeaveGuild(); return; }
 		else if (Cmd == TEXT("/2") || Cmd == TEXT("/trade")) Ch = TEXT("trade");
 		else if (Cmd == TEXT("/4") || Cmd == TEXT("/lfg")) Ch = TEXT("lfg");
 		else if (Cmd == TEXT("/w") || Cmd == TEXT("/t") || Cmd == TEXT("/whisper") || Cmd == TEXT("/tell"))
@@ -248,7 +250,7 @@ void FHLGame::PlayerChat(const FString& Raw)
 		}
 		else if (Cmd == TEXT("/help") || Cmd == TEXT("/?"))
 		{
-			System(TEXT("Chat: /s say, /y yell, /1 general, /2 trade, /4 lfg, /p party, /w <name> <text>, /r reply. Other: /who, /invite <name>, /friend <name>, /unfriend <name>, /duel <name>, /leave, /roll, /sit, /dance, /played, /music."));
+			System(TEXT("Chat: /s say, /y yell, /1 general, /2 trade, /4 lfg, /p party, /g guild, /w <name> <text>, /r reply. Other: /who, /gquit, /invite <name>, /friend <name>, /unfriend <name>, /duel <name>, /leave, /roll, /sit, /dance, /played, /music."));
 			System(TEXT("Keys: WASD move, right-drag turn, Tab target, 1-0 abilities, right-click interact, C character, B bags, L quests, M map, P abilities, O who, N talents, Esc close."));
 			return;
 		}
@@ -272,9 +274,11 @@ void FHLGame::PlayerChat(const FString& Raw)
 	else
 	{
 		if (Ch == TEXT("party") && !Party.Num()) { System(TEXT("You are not in a party.")); return; }
+		if (Ch == TEXT("guild") && Player.Guild.IsEmpty()) { System(TEXT("You are not in a guild.")); ChatChannel = TEXT("say"); return; }
 		AddChat(Ch, Player.Name, Text);
 		if (P) AddFloat(P->Id, Ch == TEXT("say") || Ch == TEXT("yell") ? Text.Left(60) : FString(), FLinearColor::White);
 		if (Ch == TEXT("party")) { for (int32 SI : Party) if (Speakers.Num() < 3) Speakers.Add(SI); }
+		else if (Ch == TEXT("guild")) { for (int32 k = 0; k < 2; ++k) { const int32 SI = RandomGuildmate(Speakers.Num() ? Speakers[0] : -1); if (SI >= 0 && !Speakers.Contains(SI)) Speakers.Add(SI); } }
 		else if (Ch == TEXT("say") || Ch == TEXT("yell"))
 		{
 			const float Range = Ch == TEXT("yell") ? 60.f : 20.f;
@@ -307,6 +311,7 @@ void FHLGame::PlayerChat(const FString& Raw)
 		const float Delay = 1.5f + Rand() * 2.5f;
 		if (bAsksAi) SimSay(SI, Ch, TEXT("who_ai"), Delay);
 		else if (bDirect) SimSay(SI, Ch, TEXT("whisper_fallback"), Delay);
+		else if (Ch == TEXT("guild")) { if (Chance(0.65f)) SimSay(SI, Ch, TEXT("guild_reply"), Delay); }
 		else if (Chance(0.3f)) SimSay(SI, Ch, TEXT("whisper_fallback"), Delay);
 	});
 }
@@ -363,6 +368,7 @@ void FHLGame::WorkerSim(const FString& Kind, const TArray<int32>& Speakers, cons
 	TSharedRef<FJsonObject> Ctx = MakeShared<FJsonObject>();
 	TSharedRef<FJsonObject> Pl = MakeShared<FJsonObject>();
 	Pl->SetStringField(TEXT("name"), Player.Name); Pl->SetNumberField(TEXT("level"), P ? P->Level : 1); Pl->SetStringField(TEXT("class"), Player.Cls ? Player.Cls->Name : FString());
+	if (const FHLGuild* Gd = PlayerGuild()) Pl->SetStringField(TEXT("guild"), Gd->Name);
 	Ctx->SetObjectField(TEXT("player"), Pl);
 	Ctx->SetStringField(TEXT("zone"), P ? Areas[P->Area].Def->Name : FString()); Ctx->SetStringField(TEXT("hub"), CurSubzone); Ctx->SetBoolField(TEXT("in_combat"), P && InCombat(*P));
 	if (Party.Num() && P)

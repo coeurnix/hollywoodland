@@ -127,6 +127,7 @@ FString FHLGame::SaveJson() const
 		}
 		O->SetArrayField(TEXT("mail"), Ml);
 		O->SetArrayField(TEXT("friends"), Strs(Player.Friends));
+		O->SetStringField(TEXT("guild"), Player.Guild); O->SetNumberField(TEXT("gdecl"), Player.GuildDeclines);
 		TArray<TSharedPtr<FJsonValue>> Au;
 		for (const FHLAuction& A : Auctions)
 		{
@@ -225,6 +226,8 @@ bool FHLGame::LoadJson(const FString& Json)
 		Player.Mail.Add(M);
 	}
 	Player.Friends = Strs(TEXT("friends"));
+	Player.Guild.Reset(); O->TryGetStringField(TEXT("guild"), Player.Guild); if (!FHLData::Get().Guild(Player.Guild)) Player.Guild.Reset();
+	Player.GuildDeclines = (int32)O->GetIntegerField(TEXT("gdecl"));
 	Auctions.Reset(); bAuctionSeeded = false;
 	const TArray<TSharedPtr<FJsonValue>>* Au = nullptr;
 	if (O->TryGetArrayField(TEXT("auctions"), Au)) for (auto& V : *Au)

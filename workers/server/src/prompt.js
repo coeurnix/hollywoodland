@@ -32,7 +32,7 @@ function speakerLines(req) {
 function contextLines(req) {
   const c = req.context || {};
   const lines = [];
-  if (c.player) lines.push(`Player: "${clip(c.player.name, 24)}", level ${c.player.level | 0} ${clip(c.player.class, 16)}.`);
+  if (c.player) lines.push(`Player: "${clip(c.player.name, 24)}", level ${c.player.level | 0} ${clip(c.player.class, 16)}${c.player.guild ? `, a new member of the speakers' guild <${clip(c.player.guild, 32)}>` : ''}.`);
   if (c.zone) lines.push(`Place: ${clip(c.zone, 40)}${c.hub ? ` / ${clip(c.hub, 40)}` : ''}${c.in_combat ? ' (in combat)' : ''}.`);
   if (Array.isArray(c.party) && c.party.length) lines.push('Party: ' + c.party.slice(0, 5).map((p) =>
     `${clip(p.actor, 24)} hp ${Math.round((p.hp ?? 1) * 100)}%${p.power != null ? ` power ${Math.round(p.power * 100)}%` : ''}`).join(', ') + '.');
