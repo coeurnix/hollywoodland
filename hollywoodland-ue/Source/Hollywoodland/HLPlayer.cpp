@@ -108,12 +108,37 @@ FString FHLGame::SaveJson() const
 	TSharedRef<FJsonObject> Rel = MakeShared<FJsonObject>();
 	for (const auto& KV : Player.Relations)
 	{
-		if (KV.Value.Familiarity == 0 && KV.Value.Liking == 0 && KV.Value.Facts.Num() == 0) continue;
+		if (KV.Value.Familiarity == 0 && KV.Value.Liking == 0 && KV.Value.Facts.Num() == 0 && KV.Value.Bond.IsEmpty()) continue;
 		TSharedRef<FJsonObject> E = MakeShared<FJsonObject>();
 		E->SetNumberField(TEXT("f"), KV.Value.Familiarity); E->SetNumberField(TEXT("l"), KV.Value.Liking); E->SetArrayField(TEXT("facts"), Strs(KV.Value.Facts));
+		if (!KV.Value.Bond.IsEmpty()) E->SetStringField(TEXT("bond"), KV.Value.Bond);
 		Rel->SetObjectField(KV.Key, E);
 	}
 	O->SetObjectField(TEXT("relations"), Rel);
+	{
+		TArray<TSharedPtr<FJsonValue>> Ml;
+		for (const FHLMail& M : Player.Mail)
+		{
+			TSharedRef<FJsonObject> E = MakeShared<FJsonObject>();
+			E->SetStringField(TEXT("f"), M.From); E->SetStringField(TEXT("s"), M.Subject); E->SetStringField(TEXT("b"), M.Body);
+			E->SetNumberField(TEXT("c"), M.Cents); E->SetNumberField(TEXT("cod"), M.Cod); E->SetBoolField(TEXT("r"), M.bRead);
+			if (M.Item) { E->SetStringField(TEXT("i"), M.Item->Id); E->SetNumberField(TEXT("n"), M.Count); }
+			Ml.Add(MakeShared<FJsonValueObject>(E));
+		}
+		O->SetArrayField(TEXT("mail"), Ml);
+		O->SetArrayField(TEXT("friends"), Strs(Player.Friends));
+		TArray<TSharedPtr<FJsonValue>> Au;
+		for (const FHLAuction& A : Auctions)
+		{
+			if (!A.bMine && !A.bPlayerBid) continue;
+			TSharedRef<FJsonObject> E = MakeShared<FJsonObject>();
+			E->SetStringField(TEXT("i"), A.Item->Id); E->SetNumberField(TEXT("n"), A.Count); E->SetNumberField(TEXT("buy"), A.Buyout); E->SetNumberField(TEXT("min"), A.MinBid);
+			E->SetNumberField(TEXT("bid"), A.Bid); E->SetNumberField(TEXT("left"), FMath::Max(60.f, A.ExpiresAt - (float)Now)); E->SetBoolField(TEXT("mine"), A.bMine);
+			E->SetNumberField(TEXT("seller"), A.SellerIdx);
+			Au.Add(MakeShared<FJsonValueObject>(E));
+		}
+		O->SetArrayField(TEXT("auctions"), Au);
+	}
 	FString Out;
 	TSharedRef<TJsonWriter<TCHAR, TCondensedJsonPrintPolicy<TCHAR>>> Writer = TJsonWriterFactory<TCHAR, TCondensedJsonPrintPolicy<TCHAR>>::Create(&Out);
 	FJsonSerializer::Serialize(O, Writer);
@@ -183,10 +208,33 @@ bool FHLGame::LoadJson(const FString& Json)
 	{
 		const TSharedPtr<FJsonObject> E = KV.Value->AsObject();
 		if (!E.IsValid()) continue;
-		FHLRelation R; R.Familiarity = E->GetIntegerField(TEXT("f")); R.Liking = E->GetIntegerField(TEXT("l"));
+		FHLRelation R; R.Familiarity = E->GetIntegerField(TEXT("f")); R.Liking = E->GetIntegerField(TEXT("l")); E->TryGetStringField(TEXT("bond"), R.Bond);
 		const TArray<TSharedPtr<FJsonValue>>* Facts = nullptr;
 		if (E->TryGetArrayField(TEXT("facts"), Facts)) for (auto& F : *Facts) R.Facts.Add(F->AsString());
 		Player.Relations.Add(FString(KV.Key), R);
+	}
+	const TArray<TSharedPtr<FJsonValue>>* Ml = nullptr;
+	if (O->TryGetArrayField(TEXT("mail"), Ml)) for (auto& V : *Ml)
+	{
+		const TSharedPtr<FJsonObject> E = V->AsObject();
+		if (!E.IsValid()) continue;
+		FHLMail M; E->TryGetStringField(TEXT("f"), M.From); E->TryGetStringField(TEXT("s"), M.Subject); E->TryGetStringField(TEXT("b"), M.Body);
+		M.Cents = E->GetIntegerField(TEXT("c")); M.Cod = E->GetIntegerField(TEXT("cod")); E->TryGetBoolField(TEXT("r"), M.bRead);
+		FString Id; if (E->TryGetStringField(TEXT("i"), Id)) { M.Item = D.Item(Id); M.Count = M.Item ? FMath::Max(1, (int32)E->GetIntegerField(TEXT("n"))) : 0; }
+		Player.Mail.Add(M);
+	}
+	Player.Friends = Strs(TEXT("friends"));
+	Auctions.Reset(); bAuctionSeeded = false;
+	const TArray<TSharedPtr<FJsonValue>>* Au = nullptr;
+	if (O->TryGetArrayField(TEXT("auctions"), Au)) for (auto& V : *Au)
+	{
+		const TSharedPtr<FJsonObject> E = V->AsObject();
+		const FHLItem* It = E.IsValid() ? D.Item(E->GetStringField(TEXT("i"))) : nullptr;
+		if (!It) continue;
+		FHLAuction A; A.Item = It; A.Count = FMath::Max(1, (int32)E->GetIntegerField(TEXT("n"))); A.Buyout = E->GetIntegerField(TEXT("buy")); A.MinBid = E->GetIntegerField(TEXT("min"));
+		A.Bid = E->GetIntegerField(TEXT("bid")); A.ExpiresAt = Now + E->GetNumberField(TEXT("left")); A.bMine = E->GetBoolField(TEXT("mine")); A.bPlayerBid = !A.bMine;
+		A.SellerIdx = E->GetIntegerField(TEXT("seller"));
+		Auctions.Add(A);
 	}
 	// the unit
 	if (!PlayerUnit()) PlayerUnitId = AddUnit(EHLKind::Player, 0, Areas[0].Def->Spawn)->Id;
@@ -714,10 +762,12 @@ void FHLGame::TickAuctions()
 		if (!It) return;
 		FHLAuction A; A.Item = It; A.SellerIdx = SI; A.Count = It->Stack > 1 ? RandInt(1, 4) * 5 : 1;
 		A.Buyout = FMath::Max(2, FMath::RoundToInt32(MarketPrice(*It) * (0.8f + Rand() * 0.8f))) * A.Count;
+		A.MinBid = FMath::Max(1, FMath::RoundToInt32(A.Buyout * (0.55f + Rand() * 0.2f)));
+		if (Chance(0.3f)) A.Bid = A.MinBid + RandInt(0, A.MinBid / 10); // someone already bid
 		A.ExpiresAt = Now + 600 + Rand() * 3000;
 		Auctions.Add(A);
 	};
-	if (Auctions.Num() == 0) { for (int32 i = 0; i < 160; ++i) AddListing(); }
+	if (!bAuctionSeeded) { bAuctionSeeded = true; for (int32 i = 0; i < 160; ++i) AddListing(); }
 	for (int32 i = Auctions.Num() - 1; i >= 0; --i)
 	{
 		FHLAuction& A = Auctions[i];
@@ -725,14 +775,34 @@ void FHLGame::TickAuctions()
 		{
 			// a simulated player buys it if the price is fair
 			const int32 Fair = MarketPrice(*A.Item) * A.Count;
-			if (Chance(A.Buyout <= Fair * 1.3f ? 0.25f : A.Buyout <= Fair * 2 ? 0.05f : 0.f))
+			const bool bSold = Chance(A.Buyout <= Fair * 1.3f ? 0.25f : A.Buyout <= Fair * 2 ? 0.05f : 0.f);
+			if (bSold || (Now >= A.ExpiresAt && A.Bid > 0))
 			{
-				const int32 Net = FMath::RoundToInt32(A.Buyout * 0.95f);
-				Player.Cents += Net;
-				System(FString::Printf(TEXT("A buyer has been found for your auction of [%s]. %s arrives by mail (5%% cut)."), *A.Item->Name, *HLMoney(Net)));
+				const int32 Price = bSold ? A.Buyout : A.Bid;
+				const int32 Net = FMath::RoundToInt32(Price * 0.95f);
+				const FString Buyer = Sims[RandInt(0, Sims.Num() - 1)].P->Handle;
+				SendMail(TEXT("Hollywood Auction House"), FString::Printf(TEXT("Auction successful: %s"), *A.Item->Name),
+					FString::Printf(TEXT("Buyer: %s\nSale price: %s\nAuction house cut (5%%): %s"), *Buyer, *HLMoney(Price), *HLMoney(Price - Net)), Net);
 				Auctions.RemoveAt(i);
 			}
-			else if (Now >= A.ExpiresAt) { System(FString::Printf(TEXT("Your auction of [%s] has expired."), *A.Item->Name)); AddItem(A.Item, A.Count, false); Auctions.RemoveAt(i); }
+			else if (Now >= A.ExpiresAt) { SendMail(TEXT("Hollywood Auction House"), FString::Printf(TEXT("Auction expired: %s"), *A.Item->Name), TEXT("Your auction has expired without a buyer. The item is enclosed."), 0, A.Item, A.Count); Auctions.RemoveAt(i); }
+			else if (A.Bid == 0 && Chance(0.02f) && A.Buyout <= Fair * 2.5f) A.Bid = FMath::Max(1, FMath::RoundToInt32(Fair * (0.5f + Rand() * 0.3f))); // a sim bids on it
+			continue;
+		}
+		if (A.bPlayerBid)
+		{
+			// rival bidders: someone may outbid the player before the auction closes
+			if (Now >= A.ExpiresAt)
+			{
+				SendMail(TEXT("Hollywood Auction House"), FString::Printf(TEXT("Auction won: %s"), *A.Item->Name), FString::Printf(TEXT("You won an auction for %s with a bid of %s."), *A.Item->Name, *HLMoney(A.Bid)), 0, A.Item, A.Count);
+				Auctions.RemoveAt(i);
+			}
+			else if (Chance(A.Bid < MarketPrice(*A.Item) * A.Count * 0.9f ? 0.05f : 0.015f))
+			{
+				SendMail(TEXT("Hollywood Auction House"), FString::Printf(TEXT("Outbid on %s"), *A.Item->Name), FString::Printf(TEXT("You have been outbid on %s. Your bid of %s is returned."), *A.Item->Name, *HLMoney(A.Bid)), A.Bid);
+				A.Bid = NextBid(A); A.bPlayerBid = false;
+				if (A.Bid >= A.Buyout) Auctions.RemoveAt(i);
+			}
 			continue;
 		}
 		if (Now >= A.ExpiresAt || Chance(0.03f)) Auctions.RemoveAt(i);
@@ -745,23 +815,24 @@ bool FHLGame::BuyAuction(int32 Idx)
 	if (!Auctions.IsValidIndex(Idx)) return false;
 	const FHLAuction A = Auctions[Idx];
 	if (A.bMine) { AddItem(A.Item, A.Count, false); Auctions.RemoveAt(Idx); System(TEXT("Auction cancelled.")); return true; }
-	if (Player.Cents < A.Buyout) { Error(TEXT("You can't afford that.")); return false; }
+	const int32 Refund = A.bPlayerBid ? A.Bid : 0; // buying out over your own bid
+	if (Player.Cents + Refund < A.Buyout) { Error(TEXT("You can't afford that.")); return false; }
 	if (!AddItem(A.Item, A.Count, false)) return false;
-	Player.Cents -= A.Buyout;
+	Player.Cents += Refund - A.Buyout;
 	System(FString::Printf(TEXT("You won an auction for [%s]."), *A.Item->Name));
 	Auctions.RemoveAt(Idx);
 	return true;
 }
 
-bool FHLGame::ListAuction(int32 BagIdx, int32 Buyout)
+bool FHLGame::ListAuction(int32 BagIdx, int32 Buyout, float Hours)
 {
 	if (!Player.Bag.IsValidIndex(BagIdx) || !Player.Bag[BagIdx].Item) return false;
 	const FHLInvSlot S = Player.Bag[BagIdx];
 	if (S.Item->Kind == TEXT("quest") || S.Item->Price <= 0) { Error(TEXT("You can't auction that.")); return false; }
-	const int32 Deposit = FMath::Max(1, FMath::RoundToInt32(S.Item->Price * S.Count * 0.05f));
+	const int32 Deposit = FMath::Max(1, FMath::RoundToInt32(S.Item->Price * S.Count / S.Item->Buy * 0.05f * Hours));
 	if (Player.Cents < Deposit) { Error(TEXT("You can't afford the deposit.")); return false; }
 	Player.Cents -= Deposit;
-	FHLAuction A; A.Item = S.Item; A.Count = S.Count; A.Buyout = FMath::Max(1, Buyout); A.bMine = true; A.ExpiresAt = Now + 1800;
+	FHLAuction A; A.Item = S.Item; A.Count = S.Count; A.Buyout = FMath::Max(1, Buyout); A.MinBid = FMath::Max(1, A.Buyout * 7 / 10); A.bMine = true; A.ExpiresAt = Now + Hours * 3600.f;
 	Auctions.Insert(A, 0);
 	Player.Bag[BagIdx] = FHLInvSlot();
 	System(FString::Printf(TEXT("Auction created for [%s] at %s (deposit %s)."), *A.Item->Name, *HLMoney(A.Buyout), *HLMoney(Deposit)));

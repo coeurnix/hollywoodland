@@ -286,6 +286,12 @@ FReply SHLGameUI::OnKeyDown(const FGeometry& Geo, const FKeyEvent& E)
 	Down.Add(K);
 	static const FKey BarKeys[12] = { EKeys::One, EKeys::Two, EKeys::Three, EKeys::Four, EKeys::Five, EKeys::Six, EKeys::Seven, EKeys::Eight, EKeys::Nine, EKeys::Zero, EKeys::Hyphen, EKeys::Equals };
 	for (int32 i = 0; i < 12; ++i) if (K == BarKeys[i]) { Gm.UseBar(i); return FReply::Handled(); }
+	if (bSearchFocus)
+	{
+		if (K == EKeys::BackSpace && AuctionSearch.Len()) AuctionSearch.LeftChopInline(1);
+		else if (K == EKeys::Enter || K == EKeys::Escape) bSearchFocus = false;
+		return FReply::Handled();
+	}
 	if (K == EKeys::Enter) { bTyping = true; Down.Reset(); }
 	else if (K == EKeys::Slash) { bTyping = true; ChatEntry.Reset(); Down.Reset(); }
 	else if (K == EKeys::R && !Gm.LastWhisperFrom.IsEmpty()) { bTyping = true; bSwallowChar = true; ChatEntry = FString::Printf(TEXT("/w %s "), *Gm.LastWhisperFrom); Down.Reset(); }
@@ -319,6 +325,7 @@ FReply SHLGameUI::OnKeyChar(const FGeometry& Geo, const FCharacterEvent& E)
 	if (!G().bInWorld) { if (NameEntry.Len() < 12 && (FChar::IsAlpha(C))) NameEntry.AppendChar(C); return FReply::Handled(); }
 	if (bSwallowChar) { bSwallowChar = false; return FReply::Handled(); }
 	if (bTyping && ChatEntry.Len() < 240) { if (!(ChatEntry.IsEmpty() && C == '\r')) ChatEntry.AppendChar(C); }
+	else if (bSearchFocus && C >= 32 && AuctionSearch.Len() < 40) AuctionSearch.AppendChar(C);
 	return FReply::Handled();
 }
 FReply SHLGameUI::OnMouseButtonDown(const FGeometry& Geo, const FPointerEvent& E)
@@ -420,7 +427,8 @@ int32 SHLGameUI::OnPaint(const FPaintArgs& Args, const FGeometry& Geo, const FSl
 	if (GEngine && GEngine->GameViewport) { FVector2D V; GEngine->GameViewport->GetViewportSize(V); if (V.X > 0 && V.Y > 0) ViewPx = V; }
 	UiRectsNext.Reset(); Picks.Reset(); TipItem = nullptr; TipText.Reset();
 	FHLGame& Gm = G();
-	{ static bool bOnce = false; if (!bOnce && Gm.bInWorld) { bOnce = true; if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenBags"))) { bBags = true; bChar = true; } if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenTalents"))) bTalents = true; if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenSpells"))) bSpells = true; } } // screenshot checks
+	{ static bool bOnce = false; if (!bOnce && Gm.bInWorld) { bOnce = true; if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenBags"))) { bBags = true; bChar = true; } if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenTalents"))) bTalents = true; if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenSpells"))) bSpells = true; if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenFriends"))) { bWho = true; WhoTab = 1; }
+		if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenAuction"))) for (const FHLUnit* N : Gm.UnitList) if (N->Npc && N->Npc->HasRole(TEXT("auctioneer"))) { Gm.OpenNpcUnitId = N->Id; Gm.OpenNpcMode = TEXT("auction"); AuctionSearch = TEXT("boots"); break; } } } // screenshot checks
 	if (!Gm.Areas.Num()) { Tx(40, 40, TEXT("Hollywoodland failed to load its data: ") + World->LoadError, 14, ColRed); return Layer; }
 	if (!Gm.bInWorld) DrawTitle();
 	else
@@ -670,6 +678,11 @@ void SHLGameUI::DrawHud() const
 			if (Btn(262, 78, 72, 20, TEXT("Inspect"), true, 9)) { bInspect = true; InspectSim = T->SimIdx; }
 			if (Btn(340, 78, 72, 20, Gm.Sims[T->SimIdx].bInParty ? TEXT("In party") : TEXT("Invite"), !Gm.Sims[T->SimIdx].bInParty, 9)) Gm.InviteSim(T->SimIdx);
 			if (Btn(418, 78, 74, 20, TEXT("Whisper"), true, 9)) { bTyping = true; ChatEntry = FString::Printf(TEXT("/w %s "), *T->Name); }
+			Block(262, 100, 230, 22);
+			const bool bFr = Gm.IsFriend(Gm.Sims[T->SimIdx]);
+			if (Btn(262, 100, 72, 20, TEXT("Trade"), Gm.Dist(*P, *T) <= 11, 9)) Gm.OpenTrade(T->SimIdx);
+			if (Btn(340, 100, 72, 20, TEXT("Duel"), Gm.DuelState == 0, 9)) Gm.ChallengeDuel(T->SimIdx);
+			if (Btn(418, 100, 74, 20, bFr ? TEXT("Unfriend") : TEXT("Add friend"), true, 9)) { if (bFr) Gm.RemoveFriend(T->SimIdx); else Gm.AddFriend(T->SimIdx); }
 		}
 		else if (T->Kind == EHLKind::Mob && !T->Title.IsEmpty()) Tx(266, 94, T->Title, 9, ColDim);
 	}
@@ -929,6 +942,12 @@ void SHLGameUI::DrawMinimap() const
 	Rc(C.X - 3, C.Y - 3, 6, 6, ColWhite);
 	Line(C, C + FVector2D(FMath::Cos(Rad), FMath::Sin(Rad)) * 12, ColWhite, 2);
 	TxC(X + S * 0.5f, Y + S + 3, Gm.CurSubzone, 10, ColGold);
+	if (const int32 Unread = Gm.UnreadMail())
+	{
+		const FString M = FString::Printf(TEXT("New mail (%d)"), Unread);
+		Rc(X + 2, Y + S - 18, TW(M, 9) + 8, 16, FLinearColor(0, 0, 0, 0.7f));
+		Tx(X + 6, Y + S - 17, M, 9, ColGold, true);
+	}
 	Tx(X + 4, Y + 2, TEXT("N"), 9, ColDim);
 }
 
@@ -1097,6 +1116,16 @@ void SHLGameUI::DrawPopups() const
 		if (Btn(X + 40, Y + 52, 110, 30, TEXT("Accept"), true, 12)) Gm.AnswerInvite(true);
 		if (Btn(X + 190, Y + 52, 110, 30, TEXT("Decline"), true, 12)) Gm.AnswerInvite(false);
 	}
+	if (Gm.DuelFromSim >= 0 && Gm.Sims.IsValidIndex(Gm.DuelFromSim))
+	{
+		const float W = 340, H = 100, X = (VS.X - W) * 0.5f, Y = 230;
+		Block(X, Y, W, H); Panel(X, Y, W, H);
+		const FHLSim& S = Gm.Sims[Gm.DuelFromSim];
+		TxC(X + W * 0.5f, Y + 12, FString::Printf(TEXT("%s (level %d %s) challenges you to a duel."), *S.P->Handle, S.Level, S.P->Cls ? *S.P->Cls->Name : TEXT("")), 11, ColWhite);
+		if (Btn(X + 40, Y + 52, 110, 30, TEXT("Accept"), true, 12)) Gm.AnswerDuel(true);
+		if (Btn(X + 190, Y + 52, 110, 30, TEXT("Decline"), true, 12)) Gm.AnswerDuel(false);
+	}
+	if (Gm.TradeSim >= 0) DrawTrade();
 	if (Gm.Roll.bActive && Gm.Roll.Item)
 	{
 		const float W = 300, H = 96, X = (VS.X - W) * 0.5f, Y = VS.Y - 330;

@@ -398,10 +398,44 @@ void AHLWorldActor::AutoTest(float Dt)
 				for (const FHLTalent* Tl : Game.Player.Cls->Talents)
 					if (Tl->Spec == Spec && Tl->Tier == Tier) while (Game.CanLearnTalent(*Tl).IsEmpty()) Game.LearnTalent(*Tl);
 	// world events: defend a surging hub, sit in on picture night until the buff lands
+	// -HLSocialTest: exercise trade-chat C.O.D., auction bid/listing, a duel and the mailbox
+	static int32 SocialStep = FParse::Param(FCommandLine::Get(), TEXT("HLSocialTest")) ? 0 : 99;
+	if (SocialStep < 99 && Game.DuelState == 0 && !Game.InCombat(*P))
+	{
+		if (SocialStep == 0 && T > 25 && Game.SimWts.Num())
+		{
+			for (const auto& KV : Game.SimWts) { if (Game.Sims[KV.Key].bOnline) { Game.PlayerChat(FString::Printf(TEXT("/w %s wtb your %s"), *Game.Sims[KV.Key].P->Handle, *KV.Value.Item->Name)); break; } }
+			SocialStep = 1;
+		}
+		else if (SocialStep == 1 && T > 35)
+		{
+			Game.Player.Cents += 2000; // test money
+			int32 Best = -1;
+			for (int32 i = 0; i < Game.Auctions.Num(); ++i) if (!Game.Auctions[i].bMine && Game.Auctions[i].Bid > 0 && (Best < 0 || Game.Auctions[i].Bid < Game.Auctions[Best].Bid)) Best = i;
+			if (Best >= 0) Game.BidAuction(Best);
+			for (int32 i = 0; i < Game.Player.Bag.Num(); ++i) if (Game.Player.Bag[i].Item && Game.Player.Bag[i].Item->Kind == TEXT("consumable")) { Game.ListAuction(i, 2, 1); break; }
+			SocialStep = 2;
+		}
+		else if (SocialStep == 2 && T > 45 && Game.Now >= AutoSocialAt)
+		{
+			AutoSocialAt = Game.Now + 12;
+			int32 Pick = -1;
+			for (int32 i = 0; i < Game.Sims.Num(); ++i) if (const FHLUnit* SU = Game.Unit(Game.Sims[i].UnitId)) if (!SU->bDead && !Game.Sims[i].bInParty && Game.Dist(*SU, *P) < 25 && !Game.InCombat(*SU)) { Pick = i; break; }
+			if (Pick >= 0 && Game.CanDuelHere()) { Game.ChallengeDuel(Pick); if (Game.DuelState) SocialStep = 3; }
+			if (T > 140) SocialStep = 3;
+		}
+		else if (SocialStep == 3 && T > 160)
+		{
+			for (const FHLObjectState& O : Game.Areas[0].Objects) if (O.Def->Kind == TEXT("mailbox")) { AutoGoal = O.Def->Pos + FVector2D(1.5f, 1.5f); bAutoGoal = true; if (FVector2D::Distance(P->Pos, O.Def->Pos) < 4) { Game.ObjectInteract(0, int32(&O - Game.Areas[0].Objects.GetData())); for (int32 m = 1; m < Game.Player.Mail.Num(); ++m) Game.TakeMail(m); SocialStep = 4; AutoSocialAt = Game.Now + 30; } break; }
+			return;
+		}
+	}
+	if (SocialStep == 4) { if (Game.Now < AutoSocialAt) { P->bSitting = true; return; } SocialStep = 99; }
+	if (Game.DuelState == 2 && Game.Sims.IsValidIndex(Game.DuelSim)) { P->TargetId = Game.Sims[Game.DuelSim].UnitId; }
 	bAutoGoal = false;
 	const FHLUnit* Fighting = Game.Unit(P->TargetId);
 	const bool bBusy = Fighting && !Fighting->bDead && Game.InCombat(*P);
-	if (P->Area == 0 && Game.SurgeHub >= 0 && !bBusy)
+	if (P->Area == 0 && Game.SurgeHub >= 0 && !bBusy && Game.DuelState == 0)
 	{
 		const FHLUnit* Cur = Game.Unit(P->TargetId);
 		if (!Cur || Cur->bDead || !Game.SurgeMobs.Contains(Cur->Id))
@@ -412,7 +446,7 @@ void AHLWorldActor::AutoTest(float Dt)
 			else { AutoGoal = Game.Hubs[Game.SurgeHub].Pos; bAutoGoal = true; return; }
 		}
 	}
-	else if (P->Area == 0 && Game.FilmStart > 0 && !Game.bFilmBuffGiven && !Game.InCombat(*P))
+	else if (P->Area == 0 && Game.FilmStart > 0 && !Game.bFilmBuffGiven && !Game.InCombat(*P) && Game.DuelState == 0)
 	{
 		if (const FVector2D* Scr = Game.Areas[0].Def->Pois.Find(TEXT("forecourt"))) { P->TargetId = 0; P->bAutoAttack = false; if (FVector2D::Distance(P->Pos, *Scr) < 12) P->bSitting = true; else { AutoGoal = *Scr + FVector2D(0, -6); bAutoGoal = true; } return; }
 	}

@@ -66,7 +66,7 @@ browser ── itch.io page (iframe) ── hollywoodland Worker (R2 stage, COOP
 | Quests (§10, §14) | DONE 28 / PROTO 3 | Kill, drop-collect, world-collect, use, deliver work. Escort (`q_hb_14`) is a talk quest. `q_hb_29` (craft .38) absent. Breadcrumbs 30-32 accept-only. Class quests at 10 TODO. Counters only: quest items are not bag items. |
 | Items (§8) | DONE ~3,960 rows | Generator + formulas. Base list is ~70 bases (target ~680). 1,447 painted icons and tooltip descriptions (tools/itemgen; gloves vision-checked). On-use pocket items, on-equip effects TODO. |
 | Vendors, trainers, bank | DONE / PROTO | Buy/sell, class trainers, 24-slot bank. Bank slot purchase, inn rested XP are text only. |
-| Auction house (§9) | PROTO | 160 simulated listings following the population spread, buyout, list-at-market, sim buyers. No bidding, durations, search box. |
+| Auction house (§9) | DONE | 160 simulated listings following the population spread; name search, bids with rival bidders (outbid mail), buyout, 1/4/12 h listings, sim buyers and bidders, results by mail; your listings and bids persist in the save. Price history TODO. |
 | Professions (§9) | PROTO | Salvaging 1-75 on wreck nodes. Gunsmithing and all others DATA (names in trainer window). |
 | Dungeon: Egyptian (§14) | PROTO | One persistent "instance" area at +3000 m. 4 bosses with simplified mechanics (eggs hatch, charge, acid pool with LOS, add waves + egg sac heal). Loot 2 blues/boss, need/greed rolls. Untuned: run `-HLAuto` party tests (WP7 target: 3 of 5 clears). |
 | Simulated population (§11) | PROTO | 300 personas; ~40 locals + ≤8 transients + ≤6 idlers as full units (no crowd LOD yet; fine at this count). Census: logins, level-ups, dice dungeon runs → events. |
@@ -78,7 +78,7 @@ browser ── itch.io page (iframe) ── hollywoodland Worker (R2 stage, COOP
 | Talents (§5) | DONE | 3 trees × 16 per class (384), 5 tiers (5 points each), passive modifiers applied in stats and combat; respec at the class trainer ($1 doubling to $50). Tiers 1-2 hand-made, 3-5 designed with Claude and validated (`tools/artgen design`). |
 | World map / red car / inspect / who | DONE as facade | 13-zone map with blurbs and dungeons, route map, inspect shows persona gear. |
 | World events (§10) | DONE (3 of 7) | `HLEvents.cpp`. Hive surge every 30-50 min on a hub (warning in zone chat, 10 min of waves, up to 6 local sims hold the line, reward for 3+ kills, hub merchants close 15 min if overrun); picture night every ~45 min at the Chinese (pre-1930 public-domain titles, sims sit in rows and chat, +10% kill XP for 30 min after 45 s watching); sims call rare spawns in zone chat. Hive spread, fight night, fishing derby, red-car breakdown TODO. `-HLEventsSoon` for tests. |
-| Duels, trade window, mail, guild UI, friends list | TODO | Sims decline in text only. |
+| Duels, trade, mail, friends (§6, §9, §11) | DONE | `HLSocial.cpp`. Duels outside hubs (loser stops at 1 hp, forfeit at 40 m, rivals challenge you); face-to-face trade window (sims accept fair offers and gifts); whisper a trade-chat seller "wtb" and they send it C.O.D.; mailbox with auction proceeds, returns, outbid refunds and letters; friends list (Who window tab) with online/offline notices. Guild UI TODO. |
 | Mounts for transients | PROTO | A dark box under the rider, +60% speed. |
 | Music | DONE | `HLMusic.cpp`; 30 tracks streamed from R2 `music/` on the web (not in the pak), copied to `<pkg>\Music` natively. Menu volume + `/music`. |
 | Day/night, SFX/ambience, VFX, animation | TODO | None. |
@@ -103,13 +103,13 @@ browser ── itch.io page (iframe) ── hollywoodland Worker (R2 stage, COOP
 9. Escort quest type (follow-AI NPC, fail on death) for `q_hb_14`; class quests at 10; `q_hb_29` + Gunsmithing 1-75 with 6 recipes.
 10. Crowd LOD (§11 levels 0-3): only needed when population on screen exceeds ~60; implement as sims without `FHLUnit` combat.
 11. ~~World events: surge, rare calls, picture night~~ (done); hive spread, fight night (needs duels).
-12. Trade window, duel (outside hubs), mailbox with auction proceeds, friends list driven by `Relations.Familiarity`.
-13. Auction: bids, 12/24/48 h, name search, price history; sims undercut and re-list.
+12. ~~Trade window, duels, mailbox, friends list~~ (done).
+13. ~~Auction: bids, durations, search~~ (done); price history, sims undercutting the player.
 14. ~~Talents~~ (done: all 5 tiers).
 15. Interiors: Hollywood Hotel ballroom walls/roof, Egyptian rooms with height; rooftops for Spitters (needs Z in nav).
 
 ### P2 — population depth (the showcase, §11)
-16. **Persistent relationships:** on first login pick ~8 personas as this save's friends/rivals/flirt/nemesis (seeded by player
+16. ~~Persistent relationships~~ (done: each save seeds 3 pals, a rival, a flirt, a mentor and a gossip from the player id; they whisper, mail gifts, befriend, challenge; bonded sims are likelier to log in and appear on the Boulevard). Original note: on first login pick ~8 personas as this save's friends/rivals/flirt/nemesis (seeded by player
     id), bias Director events and whispers toward them, surface "X has come online".
 17. Sims use the auction house, trainers and vendors visibly (stand at NPC, emote), gather nodes, compete for quest objects.
 18. Sim-formed dungeon groups: LFG shout → walk to the Egyptian → enter (despawn) → return 20 min later with boss loot equipped.

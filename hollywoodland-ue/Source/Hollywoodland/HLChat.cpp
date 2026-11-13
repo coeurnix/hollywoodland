@@ -14,6 +14,7 @@ void FHLGame::AddChat(const FString& Ch, const FString& From, const FString& Tex
 	FHLChatLine L; L.Ch = Ch; L.From = From; L.Text = Text; L.SimIdx = SimIdx; L.Time = Now + Delay;
 	if (Delay > 0) { PendingChat.Add({ Now + Delay, L }); return; }
 	if (Chat.Num() >= 400) Chat.RemoveAt(0, 100);
+	if (Ch.StartsWith(TEXT("whisper")) || Ch == TEXT("say")) UE_LOG(LogTemp, Verbose, TEXT("HL_CHAT [%s] %s: %s"), *Ch, *From, *Text);
 	Chat.Add(L);
 	if (Ch == TEXT("whisper")) LastWhisperFrom = From;
 	// speech bubbles for nearby say/yell
@@ -99,7 +100,7 @@ FString FHLGame::FillTemplate(const FHLSim& S, const FString& In)
 	Rep(TEXT("{zone}"), [&] { return Zone->Name; });
 	Rep(TEXT("{ozone}"), [&] { const FHLZoneInfo& Z = D.Zones[RandInt(1, D.Zones.Num() - 1)]; return Z.Name; });
 	Rep(TEXT("{item}"), ItemLink);
-	Rep(TEXT("{price}"), [&] { return LastLinked ? HLMoney(FMath::Max(2, FMath::RoundToInt32(MarketPrice(*LastLinked) * (0.7f + Rand() * 0.6f)))) : FString(TEXT("20c")); });
+	Rep(TEXT("{price}"), [&] { LastPrice = LastLinked ? FMath::Max(2, FMath::RoundToInt32(MarketPrice(*LastLinked) * (0.7f + Rand() * 0.6f))) : 20; return HLMoney(LastPrice); });
 	Rep(TEXT("{role}"), [&] { static const TCHAR* R[] = { TEXT("tank"), TEXT("heals"), TEXT("dps"), TEXT("healer"), TEXT("tank and heals") }; return FString(R[RandInt(0, 4)]); });
 	Rep(TEXT("{guild}"), [&] { const FHLGuild* G = D.Guild(S.P->Guild); return G ? G->Name : FString(TEXT("Red Car Regulars")); });
 	Rep(TEXT("{mob}"), [&] { return Zone->Mobs.Num() ? Zone->Mobs[RandInt(0, Zone->Mobs.Num() - 1)] : FString(TEXT("Invader Drone")); });
@@ -154,7 +155,9 @@ void FHLGame::TickChat(float Dt)
 			}
 			if (!Fit.Num()) continue;
 			const FHLChatTemplate& T = *Fit[RandInt(0, Fit.Num() - 1)];
+			LastLinked = nullptr; LastPrice = 0;
 			AddChat(Ch, S.P->Handle, StyleText(*S.P, FillTemplate(S, T.Text)), SI);
+			if (T.S == TEXT("wts") && LastLinked) NoteWts(SI, LastLinked, LastPrice);
 			if (Ch == TEXT("zone")) LastZoneSituation = T.S;
 			break;
 		}
@@ -214,6 +217,13 @@ void FHLGame::PlayerChat(const FString& Raw)
 			return;
 		}
 		else if (Cmd == TEXT("/leave")) { LeaveParty(); return; }
+		else if (Cmd == TEXT("/friend") || Cmd == TEXT("/unfriend") || Cmd == TEXT("/duel"))
+		{
+			const int32 SI = Rest.IsEmpty() && P && Unit(P->TargetId) ? Unit(P->TargetId)->SimIdx : FindSimByHandle(Rest);
+			if (SI < 0) { System(TEXT("No player by that name.")); return; }
+			if (Cmd == TEXT("/friend")) AddFriend(SI); else if (Cmd == TEXT("/unfriend")) RemoveFriend(SI); else ChallengeDuel(SI);
+			return;
+		}
 		else if (Cmd == TEXT("/roll")) { AddChat(TEXT("system"), FString(), FString::Printf(TEXT("%s rolls %d (1-100)"), *Player.Name, RandInt(1, 100))); return; }
 		else if (Cmd == TEXT("/played")) { System(FString::Printf(TEXT("Total time played: %d minutes."), (int32)(Player.PlayedS / 60))); return; }
 		else if (Cmd == TEXT("/sit")) { if (P) P->bSitting = !P->bSitting; return; }
@@ -237,7 +247,7 @@ void FHLGame::PlayerChat(const FString& Raw)
 		}
 		else if (Cmd == TEXT("/help") || Cmd == TEXT("/?"))
 		{
-			System(TEXT("Chat: /s say, /y yell, /1 general, /2 trade, /4 lfg, /p party, /w <name> <text>, /r reply. Other: /who, /invite <name>, /leave, /roll, /sit, /dance, /played, /music."));
+			System(TEXT("Chat: /s say, /y yell, /1 general, /2 trade, /4 lfg, /p party, /w <name> <text>, /r reply. Other: /who, /invite <name>, /friend <name>, /unfriend <name>, /duel <name>, /leave, /roll, /sit, /dance, /played, /music."));
 			System(TEXT("Keys: WASD move, right-drag turn, Tab target, 1-0 abilities, right-click interact, C character, B bags, L quests, M map, P abilities, O who, N talents, Esc close."));
 			return;
 		}
@@ -255,6 +265,7 @@ void FHLGame::PlayerChat(const FString& Raw)
 		WhisperTarget = Sims[SI].P->Handle;
 		AddChat(TEXT("whisper_to"), Sims[SI].P->Handle, Text);
 		Relation(Sims[SI]).Familiarity++;
+		if (HandleWtbWhisper(SI, Text)) return;
 		Speakers.Add(SI);
 	}
 	else

@@ -248,6 +248,7 @@ void FHLGame::DealDamage(FHLUnit* Src, FHLUnit& Dst, float Amount, const FString
 		AddThreat(Dst, Src->Id, Amount + Absorbed);
 		if (Dst.MobState == EHLMobState::Idle || Dst.MobState == EHLMobState::Flee) MobEnterCombat(Dst, Src->Id);
 	}
+	if (Dst.Hp <= 0 && Src && InDuel(*Src, Dst)) { Dst.Hp = 1; EndDuel(Src->Id, TEXT("defeated")); return; }
 	if (Dst.Hp <= 0) KillUnit(Dst, Src);
 }
 

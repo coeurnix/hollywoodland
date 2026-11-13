@@ -122,7 +122,8 @@ struct FHLAreaState
 
 struct FHLInvSlot { const FHLItem* Item = nullptr; int32 Count = 0; };
 struct FHLQuestState { const FHLQuest* Q = nullptr; TArray<int32> Progress; bool bComplete = false; };
-struct FHLRelation { int32 Familiarity = 0, Liking = 0; TArray<FString> Facts; };
+struct FHLRelation { int32 Familiarity = 0, Liking = 0; TArray<FString> Facts; FString Bond; }; // Bond: pal rival flirt mentor gossip (seeded per save)
+struct FHLMail { FString From, Subject, Body; int32 Cents = 0, Count = 0, Cod = 0; const FHLItem* Item = nullptr; bool bRead = false; };
 
 struct FHLPlayer
 {
@@ -144,6 +145,8 @@ struct FHLPlayer
 	TMap<FString, float> Durability; // equip slot -> 0..1 (missing = 1); a broken item (0) gives nothing
 	int32 CorpseArea = 0; FVector2D CorpsePos = FVector2D::ZeroVector;
 	double SicknessUntil = 0; // resurrection sickness (-25% attributes)
+	TArray<FHLMail> Mail;
+	TArray<FString> Friends; // persona ids
 };
 
 enum class EHLSimRole : uint8 { Away, Local, Transient, Idler };
@@ -169,7 +172,7 @@ struct FHLChatLine
 	double Time = 0;
 };
 struct FHLFloatText { int32 UnitId = 0; FString Text; FLinearColor Color; float Age = 0; bool bCrit = false; };
-struct FHLAuction { const FHLItem* Item = nullptr; int32 Count = 1, Buyout = 0, SellerIdx = -1; float ExpiresAt = 0; bool bMine = false; };
+struct FHLAuction { const FHLItem* Item = nullptr; int32 Count = 1, Buyout = 0, SellerIdx = -1, MinBid = 0, Bid = 0; float ExpiresAt = 0; bool bMine = false, bPlayerBid = false; };
 struct FHLRoll { const FHLItem* Item = nullptr; float EndsAt = 0; int32 PlayerChoice = -1; bool bActive = false; };
 struct FHLCensusEvent { FString Text; double Time = 0; };
 
@@ -239,7 +242,13 @@ public:
 	static int32 XpToNext(int32 L) { return 40 * L * L + 360 * L; }
 
 	// ---- combat (HLCombat.cpp)
-	bool IsHostile(const FHLUnit& A, const FHLUnit& B) const { return !A.bGhost && !B.bGhost && A.IsFriendly() != B.IsFriendly(); }
+	bool IsHostile(const FHLUnit& A, const FHLUnit& B) const { return !A.bGhost && !B.bGhost && (A.IsFriendly() != B.IsFriendly() || InDuel(A, B)); }
+	bool InDuel(const FHLUnit& A, const FHLUnit& B) const
+	{
+		if (DuelState != 2 || !Sims.IsValidIndex(DuelSim)) return false;
+		const int32 S = Sims[DuelSim].UnitId;
+		return (A.Id == PlayerUnitId && B.Id == S) || (B.Id == PlayerUnitId && A.Id == S);
+	}
 	bool InCombat(const FHLUnit& U) const { return Now < U.CombatUntil; }
 	FString CanCast(const FHLUnit& U, const FHLAbility& Ab, const FHLUnit* Target) const; // empty = ok
 	bool TryCast(FHLUnit& U, const FHLAbility& Ab, int32 TargetId);
@@ -322,7 +331,7 @@ public:
 	float NextAuctionChurn = 0;
 	void TickAuctions();
 	bool BuyAuction(int32 Idx);
-	bool ListAuction(int32 BagIdx, int32 Buyout);
+	bool ListAuction(int32 BagIdx, int32 Buyout, float Hours = 1); // hours of play time
 	int32 MarketPrice(const FHLItem& It) const;
 	// loot roll
 	FHLRoll Roll;
@@ -401,4 +410,44 @@ public:
 	bool HubClosed(const FString& HubId) const;
 	int32 RandomLocalSim(const FVector2D& Near, float MaxD);
 	void EventSay(const FString& Situation, const FString& Ctx, const FString& Ch, const FVector2D& Near, float MaxD, float Delay);
+
+	// ---- social (HLSocial.cpp)
+	void SendMail(const FString& From, const FString& Subject, const FString& Body, int32 Cents, const FHLItem* Item = nullptr, int32 Count = 1, int32 Cod = 0);
+	int32 UnreadMail() const;
+	void TakeMail(int32 Idx);
+	void DeleteMail(int32 Idx);
+	struct FPendingCod { double At; FString From; const FHLItem* Item; int32 Count, Price; };
+	TArray<FPendingCod> PendingMail;
+	void TickPendingMail();
+	bool IsFriend(const FHLSim& S) const;
+	void AddFriend(int32 SimIdx, bool bQuiet = false);
+	void RemoveFriend(int32 SimIdx);
+	void SeedBonds();
+	int32 BondedAwaySim(int32 MinLevel, int32 MaxLevel);
+	void TickSocial(float Dt);
+	double NextSocial = 0;
+	TMap<FString, double> BondNext;
+	// duels (outside hubs; nobody dies: the loser stops at 1 health)
+	int32 DuelSim = -1, DuelState = 0, DuelFromSim = -1; // state 1 countdown, 2 fighting
+	double DuelAt = 0, DuelInviteUntil = 0; FVector2D DuelFlag = FVector2D::ZeroVector;
+	bool CanDuelHere() const;
+	void ChallengeDuel(int32 SimIdx);
+	void SimChallengesDuel(int32 SimIdx);
+	void AnswerDuel(bool bAccept);
+	void StartDuel(int32 SimIdx);
+	void EndDuel(int32 WinnerUnitId, const TCHAR* How);
+	void TickDuel();
+	// trades: face to face (trade window) or by C.O.D. mail after whispering someone selling in trade chat
+	struct FHLTradeOffer { const FHLItem* Item = nullptr; int32 Count = 1, Price = 0; double At = 0; };
+	TMap<int32, FHLTradeOffer> SimWts;
+	int32 LastPrice = 0;
+	void NoteWts(int32 SimIdx, const FHLItem* Item, int32 Price);
+	bool HandleWtbWhisper(int32 SimIdx, const FString& Text);
+	int32 TradeSim = -1, TradeCents = 0; TArray<int32> TradeBag;
+	void OpenTrade(int32 SimIdx);
+	void AcceptTrade();
+	// auction bids
+	bool bAuctionSeeded = false;
+	int32 NextBid(const FHLAuction& A) const;
+	bool BidAuction(int32 Idx);
 };

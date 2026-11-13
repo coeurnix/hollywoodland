@@ -237,6 +237,13 @@ void FHLGame::TickSimBrain(FHLSim& S, FHLUnit& U, float Dt)
 		return;
 	}
 
+	// ---- duel with the player
+	if (DuelState != 0 && SimIdx == DuelSim && P)
+	{
+		U.bSitting = false;
+		if (DuelState == 1) { StopMove(U); FaceTo(U, P->Pos); U.bAutoAttack = false; return; }
+		U.TargetId = P->Id; SimCombat(S, U); return;
+	}
 	// ---- party member
 	if (S.bInParty && P)
 	{
@@ -395,7 +402,8 @@ void FHLGame::TickSims(float Dt)
 	};
 	if (Transients < MAX_TRANSIENTS && Chance(0.6f))
 	{
-		const int32 i = RandomAway(13, 60);
+		int32 i = Chance(0.15f) ? BondedAwaySim(13, 60) : -1;
+		if (i < 0) i = RandomAway(13, 60);
 		if (i >= 0)
 		{
 			const FHLExit& Ex = Def.Exits[RandInt(0, Def.Exits.Num() - 1)];
@@ -412,7 +420,8 @@ void FHLGame::TickSims(float Dt)
 	}
 	if (Locals < MAX_LOCALS - 4 && Chance(0.3f))
 	{
-		const int32 i = RandomAway(1, 12);
+		int32 i = Chance(0.35f) ? BondedAwaySim(1, 14) : -1;
+		if (i < 0) i = RandomAway(1, 12);
 		if (i >= 0) { SpawnSim(i, EHLSimRole::Local, *Def.Pois.Find(TEXT("inn")) + FVector2D(Rand() * 6 - 3, -Rand() * 4)); if (Chance(0.3f)) SimSay(i, TEXT("zone"), TEXT("greet"), 2); }
 	}
 	if (Idlers < MAX_IDLERS && Chance(0.1f))
@@ -434,8 +443,8 @@ void FHLGame::TickCensus()
 		CensusCursor = (CensusCursor + 1) % Sims.Num();
 		FHLSim& S = Sims[CensusCursor];
 		if (S.UnitId) continue;
-		if (!S.bOnline) { if (Chance(0.01f)) { S.bOnline = true; if (Relation(S).Familiarity >= 3) System(FString::Printf(TEXT("%s has come online."), *S.P->Handle)); } continue; }
-		if (Chance(0.004f)) { S.bOnline = false; if (Relation(S).Familiarity >= 3) System(FString::Printf(TEXT("%s has gone offline."), *S.P->Handle)); continue; }
+		if (!S.bOnline) { if (Chance(0.01f)) { S.bOnline = true; if (IsFriend(S)) System(FString::Printf(TEXT("%s has come online."), *S.P->Handle)); } continue; }
+		if (Chance(0.004f)) { S.bOnline = false; if (IsFriend(S)) System(FString::Printf(TEXT("%s has gone offline."), *S.P->Handle)); continue; }
 		const FHLGuild* G = D.Guild(S.P->Guild);
 		// questing / grinding off-screen
 		if (S.Level < 60 && Chance(0.004f))

@@ -106,6 +106,11 @@ private:
 	mutable int32 ChatScroll = 0;
 	mutable bool bCombatLog = false;
 	// windows
+	void DrawTrade() const;
+	void DrawMail() const;
+	mutable int32 SelMail = 0, WhoTab = 0, AuctionHours = 1;
+	mutable bool bSearchFocus = false;
+	mutable FString AuctionSearch;
 	mutable bool bChar = false, bBags = false, bQuests = false, bSpells = false, bMap = false, bWho = false, bInspect = false, bTalents = false, bMenu = false, bWorldMap = false, bHelp = true;
 	mutable TMap<FName, FVector2D> WinPos;
 	mutable FName DragWin; mutable FVector2D DragOff;

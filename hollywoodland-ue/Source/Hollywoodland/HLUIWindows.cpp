@@ -58,12 +58,15 @@ void SHLGameUI::DrawBags() const
 	{
 		const FHLInvSlot& S = Gm.Player.Bag[i];
 		const int32 R = ItemIcon(WX + (i % 6) * 42, WY + (i / 6) * 42, 40, S.Item, S.Count);
+		if (Gm.TradeSim >= 0 && Gm.TradeBag.Contains(i)) { ++Layer; LastKind = 1; Rc(WX + (i % 6) * 42, WY + (i / 6) * 42, 40, 40, FLinearColor(0.2f, 0.8f, 0.3f, 0.35f)); }
 		if (R == 2 || R == 1)
 		{
-			if (Gm.OpenNpcMode == TEXT("auction")) { if (S.Item) Gm.ListAuction(i, Gm.MarketPrice(*S.Item) * S.Count); }
+			if (Gm.TradeSim >= 0) { if (S.Item && S.Item->Kind != TEXT("quest")) { if (Gm.TradeBag.Contains(i)) Gm.TradeBag.Remove(i); else if (Gm.TradeBag.Num() < 6) Gm.TradeBag.Add(i); } }
+			else if (Gm.OpenNpcMode == TEXT("auction")) { if (S.Item) Gm.ListAuction(i, Gm.MarketPrice(*S.Item) * S.Count, (float)AuctionHours); }
 			else if (R == 2) Gm.UseBag(i);
 		}
 	}
+	if (Gm.TradeSim >= 0) { Tx(WX, WY + 172, TEXT("Click items to add them to the trade."), 9, ColDim); return; }
 	Tx(WX, WY + 172, Gm.OpenNpcMode == TEXT("vendor") ? TEXT("Right-click an item to sell it.") : Gm.OpenNpcMode == TEXT("auction") ? TEXT("Click an item to auction it at market price.") : Gm.OpenNpcMode == TEXT("bank") ? TEXT("Right-click to deposit.") : TEXT("Right-click to use or equip."), 9, ColDim);
 }
 
@@ -185,8 +188,30 @@ void SHLGameUI::DrawWho() const
 {
 	FHLGame& Gm = G();
 	if (Gm.bWhoOpen && !bWho) bWho = true;
-	if (!Win(TEXT("who"), FString::Printf(TEXT("Who  -  %d players online"), Gm.OnlineCount()), 640, 470, bWho, 380, 140)) { Gm.bWhoOpen = false; return; }
+	if (!Win(TEXT("who"), WhoTab == 0 ? FString::Printf(TEXT("Who  -  %d players online"), Gm.OnlineCount()) : FString::Printf(TEXT("Friends  -  %d"), Gm.Player.Friends.Num()), 640, 470, bWho, 380, 140)) { Gm.bWhoOpen = false; return; }
 	const FHLData& D = FHLData::Get();
+	for (int32 t = 0; t < 2; ++t) { if (WhoTab == t) Rc(WX + 418 + t * 100 - 2, WY - 4, 96, 22, ColGold); if (Btn(WX + 418 + t * 100, WY - 2, 92, 18, t == 0 ? TEXT("Who") : TEXT("Friends"), true, 9)) WhoTab = t; }
+	if (WhoTab == 1)
+	{
+		TArray<int32> Fr;
+		for (int32 i = 0; i < Gm.Sims.Num(); ++i) if (Gm.IsFriend(Gm.Sims[i])) Fr.Add(i);
+		Fr.Sort([&](int32 A, int32 B) { return Gm.Sims[A].bOnline != Gm.Sims[B].bOnline ? Gm.Sims[A].bOnline : Gm.Sims[A].P->Handle < Gm.Sims[B].P->Handle; });
+		Tx(WX, WY, Fr.Num() ? TEXT("Target someone and press Add friend, or type /friend <name>.") : TEXT("No friends yet. Group with people, and target them to add them."), 10, ColDim);
+		for (int32 r = 0; r < Fr.Num() && r < 20; ++r)
+		{
+			const FHLSim& S = Gm.Sims[Fr[r]];
+			const float Y = WY + 24 + r * 21;
+			const FHLRelation* Rl = Gm.Player.Relations.Find(S.P->Id);
+			Tx(WX, Y + 2, S.P->Handle, 11, S.bOnline ? (S.P->Cls ? S.P->Cls->Color * 1.4f : ColWhite) : ColDim, true);
+			Tx(WX + 130, Y + 3, S.bOnline ? FString::Printf(TEXT("Level %d %s"), S.Level, S.P->Cls ? *S.P->Cls->Name : TEXT("")) : FString(TEXT("Offline")), 10, S.bOnline ? ColWhite : ColDim);
+			if (S.bOnline) Tx(WX + 270, Y + 3, Gm.SimActivity(S).Left(34), 9, ColDim);
+			if (Rl && !Rl->Bond.IsEmpty() && Rl->Bond != TEXT("pal") && Rl->Bond != TEXT("gossip")) Tx(WX + 270 + (S.bOnline ? 0 : 0), Y + 12, Rl->Bond == TEXT("rival") ? TEXT("rival") : Rl->Bond == TEXT("mentor") ? TEXT("mentor") : TEXT(""), 8, ColGold);
+			if (S.bOnline && Btn(WX + 470, Y, 50, 18, TEXT("/w"), true, 9)) { bTyping = true; ChatEntry = FString::Printf(TEXT("/w %s "), *S.P->Handle); }
+			if (S.bOnline && Btn(WX + 524, Y, 50, 18, TEXT("Invite"), !S.bInParty, 9)) Gm.InviteSim(Fr[r]);
+			if (Btn(WX + 578, Y, 40, 18, TEXT("x"), true, 9)) { Gm.RemoveFriend(Fr[r]); break; }
+		}
+		return;
+	}
 	TArray<int32> Rows;
 	const FString Q = Gm.WhoQuery.ToLower();
 	for (int32 i = 0; i < Gm.Sims.Num(); ++i)
@@ -203,7 +228,7 @@ void SHLGameUI::DrawWho() const
 	}
 	Rows.Sort([&](int32 A, int32 B) { return Gm.Sims[A].Level != Gm.Sims[B].Level ? Gm.Sims[A].Level > Gm.Sims[B].Level : A < B; });
 	Tx(WX, WY, Q.IsEmpty() ? FString::Printf(TEXT("%d shown. Filter with /who <text>  (name, class, zone or level)"), Rows.Num()) : FString::Printf(TEXT("%d match \"%s\""), Rows.Num(), *Gm.WhoQuery), 10, ColDim);
-	if (!Q.IsEmpty() && Btn(WX + 540, WY - 2, 70, 18, TEXT("Clear"), true, 9)) Gm.WhoQuery.Reset();
+	if (!Q.IsEmpty() && Btn(WX + 330, WY - 2, 70, 18, TEXT("Clear"), true, 9)) Gm.WhoQuery.Reset();
 	const int32 PerPage = 22;
 	if (Wheel != 0 && Hover(WX, WY, 620, 440)) WhoScroll -= (int32)(Wheel * 3);
 	WhoScroll = FMath::Clamp(WhoScroll, 0, FMath::Max(0, Rows.Num() - PerPage));
@@ -372,6 +397,7 @@ void SHLGameUI::DrawNpc() const
 		Tx(WX, Y + 42, TEXT("You can only ride to stops you have already visited on foot."), 10, ColDim);
 		return;
 	}
+	if (Gm.OpenNpcMode == TEXT("mail")) { DrawMail(); return; }
 	const FHLUnit* N = Gm.Unit(Gm.OpenNpcUnitId);
 	if (!N || !N->Npc) { if (Gm.OpenNpcUnitId) { Gm.OpenNpcUnitId = 0; Gm.OpenNpcMode.Reset(); } return; }
 	const FHLNpcDef& Np = *N->Npc;
@@ -517,7 +543,20 @@ void SHLGameUI::DrawNpc() const
 	{
 		if (!Win(TEXT("npc"), TEXT("Auction House  -  Taft Building"), 700, 500, bOpen, 240, 110)) { Close(); return; }
 		static const TCHAR* Filters[] = { TEXT("All"), TEXT("Usable"), TEXT("Weapons"), TEXT("Armour"), TEXT("Goods"), TEXT("Mine") };
-		for (int32 f = 0; f < 6; ++f) { if (f == AuctionFilter) Rc(WX + f * 84 - 2, WY - 4, 82, 24, ColGold); if (Btn(WX + f * 84, WY - 2, 78, 20, Filters[f], true, 10)) { AuctionFilter = f; AuctionPage = 0; } }
+		for (int32 f = 0; f < 6; ++f) { if (f == AuctionFilter) Rc(WX + f * 70 - 2, WY - 4, 68, 24, ColGold); if (Btn(WX + f * 70, WY - 2, 64, 20, Filters[f], true, 9)) { AuctionFilter = f; AuctionPage = 0; } }
+		// search box
+		{
+			const float Sx = WX + 430, Sw = 240;
+			if (Hover(Sx, WY - 2, Sw, 20) && bLClick) { bLClick = false; bSearchFocus = true; }
+			else if (bLClick && bSearchFocus && !Hover(Sx, WY - 2, Sw, 20)) bSearchFocus = false;
+			Rc(Sx, WY - 2, Sw, 20, bSearchFocus ? FLinearColor(0.85f, 0.7f, 0.35f) : FLinearColor(0.35f, 0.3f, 0.2f));
+			++Layer; LastKind = 1;
+			Rc(Sx + 1, WY - 1, Sw - 2, 18, FLinearColor(0.04f, 0.04f, 0.04f));
+			const bool bCaret = bSearchFocus && FMath::Fmod(Gm.Now, 1.0) < 0.5;
+			Tx(Sx + 6, WY, AuctionSearch.IsEmpty() && !bSearchFocus ? FString(TEXT("Search by name...")) : AuctionSearch + (bCaret ? TEXT("|") : TEXT("")), 10, AuctionSearch.IsEmpty() && !bSearchFocus ? ColDim : ColWhite);
+			if (!AuctionSearch.IsEmpty() && Btn(Sx + Sw - 20, WY, 18, 16, TEXT("x"), true, 8)) { AuctionSearch.Reset(); AuctionPage = 0; }
+		}
+		const FString Needle = AuctionSearch.ToLower();
 		TArray<int32> Rows;
 		for (int32 i = 0; i < Gm.Auctions.Num(); ++i)
 		{
@@ -526,28 +565,121 @@ void SHLGameUI::DrawNpc() const
 			if (AuctionFilter == 2 && A.Item->Kind != TEXT("weapon")) continue;
 			if (AuctionFilter == 3 && A.Item->Kind != TEXT("armor")) continue;
 			if (AuctionFilter == 4 && A.Item->IsEquip()) continue;
-			if (AuctionFilter == 5 && !A.bMine) continue;
+			if (AuctionFilter == 5 && !A.bMine && !A.bPlayerBid) continue;
+			if (!Needle.IsEmpty() && !A.Item->Name.ToLower().Contains(Needle)) continue;
 			Rows.Add(i);
 		}
 		Rows.Sort([&](int32 A, int32 B) { return Gm.Auctions[A].Item->Req != Gm.Auctions[B].Item->Req ? Gm.Auctions[A].Item->Req < Gm.Auctions[B].Item->Req : A < B; });
 		const int32 PerPage = 13, Pages = FMath::Max(1, (Rows.Num() + PerPage - 1) / PerPage);
 		if (Wheel != 0 && Hover(WX, WY, 680, 460)) AuctionPage -= (int32)FMath::Sign(Wheel);
 		AuctionPage = FMath::Clamp(AuctionPage, 0, Pages - 1);
-		Tx(WX + 34, WY + 26, TEXT("Item"), 10, ColGold); Tx(WX + 330, WY + 26, TEXT("Lvl"), 10, ColGold); Tx(WX + 380, WY + 26, TEXT("Seller"), 10, ColGold); Tx(WX + 500, WY + 26, TEXT("Buyout"), 10, ColGold);
+		Tx(WX + 34, WY + 26, TEXT("Item"), 10, ColGold); Tx(WX + 290, WY + 26, TEXT("Lvl"), 10, ColGold); Tx(WX + 322, WY + 26, TEXT("Seller"), 10, ColGold); Tx(WX + 422, WY + 26, TEXT("Bid"), 10, ColGold); Tx(WX + 498, WY + 26, TEXT("Buyout"), 10, ColGold);
 		for (int32 r = 0; r < PerPage && r + AuctionPage * PerPage < Rows.Num(); ++r)
 		{
 			const int32 Idx = Rows[r + AuctionPage * PerPage];
 			const FHLAuction& A = Gm.Auctions[Idx];
 			const float Y = WY + 44 + r * 30;
 			ItemIcon(WX, Y, 27, A.Item, A.Count);
-			Tx(WX + 34, Y + 5, A.Item->Name, 10, HLQualityColor(A.Item->Q));
-			Tx(WX + 330, Y + 5, A.Item->Req > 0 ? FString::FromInt(A.Item->Req) : TEXT("-"), 10, A.Item->Req > P.Level ? ColRed : ColWhite);
-			Tx(WX + 380, Y + 5, A.bMine ? Gm.Player.Name : Gm.Sims[A.SellerIdx].P->Handle, 10, ColDim);
-			Tx(WX + 500, Y + 5, HLMoney(A.Buyout), 10, Gm.Player.Cents >= A.Buyout ? ColWhite : ColRed);
-			if (Btn(WX + 590, Y + 2, 84, 22, A.bMine ? TEXT("Cancel") : TEXT("Buyout"), A.bMine || Gm.Player.Cents >= A.Buyout, 10)) { Gm.BuyAuction(Idx); break; }
+			Tx(WX + 34, Y + 5, A.Item->Name.Left(34), 10, HLQualityColor(A.Item->Q));
+			Tx(WX + 290, Y + 5, A.Item->Req > 0 ? FString::FromInt(A.Item->Req) : TEXT("-"), 10, A.Item->Req > P.Level ? ColRed : ColWhite);
+			Tx(WX + 322, Y + 5, A.bMine ? Gm.Player.Name : Gm.Sims.IsValidIndex(A.SellerIdx) ? Gm.Sims[A.SellerIdx].P->Handle.Left(14) : FString(TEXT("?")), 10, ColDim);
+			Tx(WX + 422, Y + 5, A.Bid > 0 ? HLMoney(A.Bid) : FString(TEXT("-")), 9, A.bPlayerBid ? ColGreen : ColDim);
+			Tx(WX + 498, Y + 5, HLMoney(A.Buyout), 10, Gm.Player.Cents >= A.Buyout ? ColWhite : ColRed);
+			if (A.bMine) { if (Btn(WX + 590, Y + 2, 84, 22, TEXT("Cancel"), A.Bid == 0, 10)) { Gm.BuyAuction(Idx); break; } }
+			else
+			{
+				const int32 Nb = Gm.NextBid(A);
+				if (Btn(WX + 572, Y + 2, 48, 22, A.bPlayerBid ? TEXT("High") : TEXT("Bid"), !A.bPlayerBid && Gm.Player.Cents >= Nb, 9)) { Gm.BidAuction(Idx); break; }
+				if (Hover(WX + 572, Y + 2, 48, 22) && !A.bPlayerBid) { TipText = FString::Printf(TEXT("Bid %s"), *HLMoney(Nb)); TipPos = Mouse; }
+				if (Btn(WX + 624, Y + 2, 52, 22, TEXT("Buy"), Gm.Player.Cents >= A.Buyout, 9)) { Gm.BuyAuction(Idx); break; }
+			}
 		}
-		Tx(WX, WY + 440, FString::Printf(TEXT("Page %d / %d   (%d auctions, mouse wheel pages)    You have %s.   To sell: click an item in your bags (5%% deposit, 5%% cut)."), AuctionPage + 1, Pages, Rows.Num(), *HLMoney(Gm.Player.Cents)), 9, ColDim);
+		Tx(WX, WY + 436, FString::Printf(TEXT("Page %d / %d   (%d auctions, mouse wheel pages)    You have %s."), AuctionPage + 1, Pages, Rows.Num(), *HLMoney(Gm.Player.Cents)), 9, ColDim);
+		Tx(WX, WY + 454, TEXT("To sell: click an item in your bags. Duration:"), 9, ColDim);
+		static const int32 Hrs[] = { 1, 4, 12 };
+		for (int32 h = 0; h < 3; ++h) { if (AuctionHours == Hrs[h]) Rc(WX + 250 + h * 60 - 2, WY + 450, 56, 22, ColGold); if (Btn(WX + 250 + h * 60, WY + 452, 52, 18, FString::Printf(TEXT("%d h"), Hrs[h]), true, 9)) AuctionHours = Hrs[h]; }
+		Tx(WX + 440, WY + 454, TEXT("Deposit 5% per hour, 5% cut on sale."), 9, ColDim);
 		return;
 	}
 	Gm.OpenNpcMode = TEXT("gossip");
+}
+
+void SHLGameUI::DrawTrade() const
+{
+	FHLGame& Gm = G();
+	if (!Gm.Sims.IsValidIndex(Gm.TradeSim)) { Gm.TradeSim = -1; return; }
+	const FHLSim& S = Gm.Sims[Gm.TradeSim];
+	const FHLUnit* U = Gm.Unit(S.UnitId);
+	const FHLUnit* P = Gm.PlayerUnit();
+	bool bOpen = true;
+	if (!U || !P || Gm.Dist(*U, *P) > 14) { Gm.TradeSim = -1; Gm.System(TEXT("Trade cancelled.")); return; }
+	if (!Win(TEXT("trade"), FString::Printf(TEXT("Trade  -  %s"), *S.P->Handle), 480, 300, bOpen, 360, 160) || !bOpen) { Gm.TradeSim = -1; Gm.TradeBag.Reset(); return; }
+	bBags = true;
+	const FHLGame::FHLTradeOffer* O = Gm.SimWts.Find(Gm.TradeSim);
+	// their side
+	Tx(WX, WY, S.P->Handle, 11, ColGold, true);
+	if (O && O->Item)
+	{
+		ItemIcon(WX, WY + 22, 36, O->Item, O->Count);
+		Tx(WX + 42, WY + 24, O->Item->Name, 10, HLQualityColor(O->Item->Q));
+		Tx(WX + 42, WY + 40, FString::Printf(TEXT("Asking %s"), *HLMoney(O->Price)), 10, ColWhite);
+	}
+	else TxWrap(WX, WY + 24, 200, TEXT("Nothing offered. Anything you put in will be a gift."), 10, ColDim);
+	// your side
+	const float Rx = WX + 240;
+	Tx(Rx, WY, Gm.Player.Name, 11, ColGold, true);
+	for (int32 k = 0; k < 6; ++k)
+	{
+		const int32 B = Gm.TradeBag.IsValidIndex(k) ? Gm.TradeBag[k] : -1;
+		const FHLInvSlot* Sl = B >= 0 && Gm.Player.Bag.IsValidIndex(B) ? &Gm.Player.Bag[B] : nullptr;
+		if (ItemIcon(Rx + (k % 3) * 40, WY + 22 + (k / 3) * 40, 36, Sl ? Sl->Item : nullptr, Sl ? Sl->Count : 0) && B >= 0) { Gm.TradeBag.Remove(B); break; }
+	}
+	Tx(Rx, WY + 110, FString::Printf(TEXT("Money: %s"), *HLMoney(Gm.TradeCents)), 11, ColWhite);
+	static const int32 Steps[] = { 1, 10, 100 };
+	for (int32 k = 0; k < 3; ++k)
+	{
+		if (Btn(Rx + k * 72, WY + 132, 34, 20, FString::Printf(TEXT("+%s"), *HLMoney(Steps[k])), true, 8)) Gm.TradeCents = FMath::Min(Gm.Player.Cents, Gm.TradeCents + Steps[k]);
+		if (Btn(Rx + k * 72 + 36, WY + 132, 34, 20, FString::Printf(TEXT("-%s"), *HLMoney(Steps[k])), true, 8)) Gm.TradeCents = FMath::Max(0, Gm.TradeCents - Steps[k]);
+	}
+	Tx(WX, WY + 170, TEXT("Click items in your bags to offer them."), 9, ColDim);
+	if (Btn(WX + 120, WY + 210, 110, 28, TEXT("Trade"), true, 12)) Gm.AcceptTrade();
+	if (Btn(WX + 250, WY + 210, 110, 28, TEXT("Cancel"), true, 12)) { Gm.TradeSim = -1; Gm.TradeBag.Reset(); }
+}
+
+void SHLGameUI::DrawMail() const
+{
+	FHLGame& Gm = G();
+	bool bOpen = true;
+	const FHLUnit* P = Gm.PlayerUnit();
+	// close when the player walks away from the mailbox
+	bool bNear = false;
+	if (P) for (const FHLObjectState& O : Gm.Areas[P->Area].Objects) if (O.Def->Kind == TEXT("mailbox") && FVector2D::Distance(O.Def->Pos, P->Pos) < 8) bNear = true;
+	if (!bNear || !Win(TEXT("npc"), FString::Printf(TEXT("Mailbox  -  %d letters"), Gm.Player.Mail.Num()), 620, 420, bOpen, 300, 140) || !bOpen) { Gm.OpenNpcMode.Reset(); return; }
+	TArray<FHLMail>& Mail = Gm.Player.Mail;
+	if (!Mail.Num()) { Tx(WX, WY, TEXT("You have no mail."), 11, ColDim); return; }
+	SelMail = FMath::Clamp(SelMail, 0, Mail.Num() - 1);
+	for (int32 i = 0; i < Mail.Num() && i < 12; ++i)
+	{
+		const FHLMail& M = Mail[i];
+		const float Y = WY + i * 32;
+		const bool bH = Hover(WX - 2, Y, 236, 28);
+		if (i == SelMail || bH) Rc(WX - 2, Y, 236, 28, i == SelMail ? FLinearColor(0.3f, 0.24f, 0.12f) : FLinearColor(0.2f, 0.16f, 0.08f));
+		ItemIcon(WX, Y + 1, 26, M.Item, M.Count);
+		Tx(WX + 32, Y + 1, M.From.Left(26), 10, M.bRead ? ColDim : ColGold, !M.bRead);
+		Tx(WX + 32, Y + 16, M.Subject.Left(32), 9, M.bRead ? ColDim : ColWhite);
+		if (bH && bLClick) { bLClick = false; SelMail = i; Mail[i].bRead = true; }
+	}
+	FHLMail& M = Mail[SelMail];
+	M.bRead = true;
+	const float Rx = WX + 250;
+	Tx(Rx, WY, M.Subject, 12, ColGold, true);
+	Tx(Rx, WY + 20, FString::Printf(TEXT("From: %s"), *M.From), 10, ColDim);
+	float Y = WY + 44;
+	TArray<FString> Paras; M.Body.ParseIntoArray(Paras, TEXT("\n"), false);
+	for (const FString& Pa : Paras) { Y += TxWrap(Rx, Y, 340, Pa, 10, ColWhite) + 4; }
+	Y = FMath::Max(Y + 10, WY + 220);
+	if (M.Item) { ItemIcon(Rx, Y, 36, M.Item, M.Count); Tx(Rx + 44, Y + 2, M.Item->Name, 10, HLQualityColor(M.Item->Q)); if (M.Cod > 0) Tx(Rx + 44, Y + 18, FString::Printf(TEXT("C.O.D. %s"), *HLMoney(M.Cod)), 10, ColRed); Y += 44; }
+	if (M.Cents > 0) { Tx(Rx, Y, FString::Printf(TEXT("Enclosed: %s"), *HLMoney(M.Cents)), 11, ColGreen); Y += 22; }
+	if ((M.Item || M.Cents > 0) && Btn(Rx, WY + 340, 150, 26, M.Cod > 0 && M.Item ? FString::Printf(TEXT("Pay %s"), *HLMoney(M.Cod)) : FString(TEXT("Take")), true, 11)) Gm.TakeMail(SelMail);
+	if (Btn(Rx + 170, WY + 340, 150, 26, M.Cod > 0 && M.Item ? TEXT("Return to sender") : TEXT("Delete"), !(M.Cod == 0 && (M.Item || M.Cents > 0)), 11)) Gm.DeleteMail(SelMail);
 }

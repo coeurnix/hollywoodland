@@ -341,6 +341,9 @@ void FHLGame::Tick(float Dt)
 	TickCensus();
 	TickDirector(Dt);
 	TickEvents(Dt);
+	TickSocial(Dt);
+	TickDuel();
+	TickPendingMail();
 	TickChat(Dt);
 	if (Now >= NextAuctionChurn) TickAuctions();
 	if (Roll.bActive && Now >= Roll.EndsAt) FinishRoll();

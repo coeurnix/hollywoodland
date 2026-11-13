@@ -55,6 +55,7 @@ private:
 	void AutoTest(float Dt); // -HLAuto=<class>: self-playing smoke test with screenshots (native and web)
 	FString AutoClass; float AutoQuit = 0, AutoNextShot = 4, AutoNextAct = 0; int32 AutoShots = 0;
 	FVector2D AutoGoal = FVector2D::ZeroVector; bool bAutoGoal = false; // bot walks here every frame
+	double AutoSocialAt = 0;
 	void SyncUnits();
 	void BuildUnit(const FHLUnit& U, FHLUnitVis& V);
 	TMap<int32, FHLUnitVis> Vis;
