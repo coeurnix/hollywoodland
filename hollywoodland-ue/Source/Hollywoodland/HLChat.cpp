@@ -13,6 +13,7 @@ void FHLGame::AddChat(const FString& Ch, const FString& From, const FString& Tex
 	if (Text.IsEmpty()) return;
 	FHLChatLine L; L.Ch = Ch; L.From = From; L.Text = Text; L.SimIdx = SimIdx; L.Time = Now + Delay;
 	if (Delay > 0) { PendingChat.Add({ Now + Delay, L }); return; }
+	if (SimIdx >= 0 && (Ch == TEXT("whisper") || Ch == TEXT("party"))) AwaitingReply.Remove(SimIdx);
 	if (Chat.Num() >= 400) Chat.RemoveAt(0, 100);
 	if (Ch.StartsWith(TEXT("whisper")) || Ch == TEXT("say") || Ch == TEXT("guild")) UE_LOG(LogTemp, Verbose, TEXT("HL_CHAT [%s] %s: %s"), *Ch, *From, *Text);
 	Chat.Add(L);
@@ -28,6 +29,20 @@ FString FHLGame::CorpusLine(const FHLSim& S, const FString& Situation)
 	for (const FHLCorpusLine& L : D.Corpus) if (L.S == Situation && (L.T == TEXT("any") || L.T == S.P->Temperament)) Fit.Add(&L);
 	if (!Fit.Num()) return FString();
 	return FillTemplate(S, Fit[RandInt(0, Fit.Num() - 1)]->Text);
+}
+
+FString FHLGame::WhoIsTyping() const
+{
+	// a whisper or party line on its way: the sender shows as typing for the stretch it takes to type it
+	for (const FPendingChat& Pc : PendingChat)
+	{
+		if (Pc.Line.SimIdx < 0 || !(Pc.Line.Ch == TEXT("whisper") || Pc.Line.Ch == TEXT("party"))) continue;
+		const double Typing = FMath::Clamp(Pc.Line.Text.Len() / 5.0, 1.5, 8.0);
+		if (Now >= Pc.At - Typing) return Pc.Line.From;
+	}
+	// someone the player whispered, still composing an answer (reading first, giving up after a while)
+	for (const auto& KV : AwaitingReply) if (Now > KV.Value + 2.5 && Now < KV.Value + 25 && Sims.IsValidIndex(KV.Key)) return Sims[KV.Key].P->Handle;
+	return FString();
 }
 
 void FHLGame::SimSay(int32 SimIdx, const FString& Ch, const FString& Situation, float Delay, const FString& Fallback)
@@ -270,6 +285,7 @@ void FHLGame::PlayerChat(const FString& Raw)
 		Relation(Sims[SI]).Familiarity++;
 		if (HandleWtbWhisper(SI, Text)) return;
 		Speakers.Add(SI);
+		if (!Sims[SI].bAfk) AwaitingReply.Add(SI, Now);
 	}
 	else
 	{
@@ -406,7 +422,9 @@ void FHLGame::WorkerSim(const FString& Kind, const TArray<int32>& Speakers, cons
 void FHLGame::ApplyWorkerActions(const TSharedPtr<FJsonObject>& Resp, const FString& DefaultChannel, const TArray<int32>& Speakers)
 {
 	const TArray<TSharedPtr<FJsonValue>>* Acts = nullptr;
-	if (!Resp.IsValid() || !Resp->TryGetArrayField(TEXT("actions"), Acts)) return;
+	for (int32 SI : Speakers) AwaitingReply.Remove(SI); // a reply (if any) is now queued with its own typing time
+	if (!Resp.IsValid() || !Resp->TryGetArrayField(TEXT("actions"), Acts)) { UE_LOG(LogTemp, Display, TEXT("HL_SYS worker reply without actions")); return; }
+	UE_LOG(LogTemp, Display, TEXT("HL_SYS worker reply: %d actions on %s"), Acts->Num(), *DefaultChannel);
 	float Stagger = 0;
 	for (auto& V : *Acts)
 	{

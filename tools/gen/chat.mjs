@@ -61,6 +61,13 @@ export const corpus = [
   ...L('party_join', ['hey', 'hi all', 'yo', 'ty for inv', 'sup', 'hello']),
   ...L('party_leave', ['gtg ty for group', 'thanks all', 'gotta go, gg', 'ty, cya', 'need to log, ty']),
   ...L('mob_tag', ['that was mine', 'really', 'ok', 'tagged it first but ok', 'lol take it']),
+  ...L('history_ref', ['anyone remember {ctx}? good times', 'still cant believe {ctx}', 'was talking about {ctx} last night lol', '{ctx} was peak server tbh', 'someone in guild brought up {ctx} again', 'the server hasnt been the same since {ctx}', 'i was there for {ctx}, never forget']),
+  ...L('dir_invite_new', ['doing the worker quest too? inv, faster together', 'hey ur on the same quest as me, wanna group?', 'inv? we can share the drones', 'group up? these spawns are slow', 'want to duo this? sent inv']),
+  ...L('dir_invite', ['want to group? faster together', 'inv for the quests here?', 'hey wanna group up for a bit', 'need a partner for these, inv sent', 'u doing the same quests? group?']),
+  ...L('dir_lost', ['hey do you know where {ctx} is?', 'sorry, where is {ctx}? been running in circles', 'anyone know where {ctx} stands?', 'where do i find {ctx}?', 'is {ctx} near here? im lost lol']),
+  ...L('dir_lost_bye', ['nvm found it, ty', 'ok ty', 'oh there it is, thanks', 'got it, cya', 'found it lol']),
+  ...L('dir_raid', ['<{ctx}> raid tonight Mount Lee 8pm server, need 2 heals', '<{ctx}> recruiting heals for the 8pm Mount Lee raid, whisper me', 'LF2M healers for {ctx} Mount Lee tonight 8 server', '{ctx} raiding Mount Lee at 8, need a healer and a ranged']),
+  ...L('dir_buddy', ['hey you want to do egyptian when we hit 8? add me, ill tank or dps whatever', 'we should run the egyptian at 8, ill bring a healer', 'yo egyptian at lvl 8? im down', 'add me, lets do the egyptian together when we can']),
   ...L('heal_passby', ['there you go', 'np', 'careful', 'you looked low']),
   // bonds (HLSocial.cpp): the handful of regulars each save gets
   ...L('bond_pal', ['hey {player}, how is the leveling going', 'you around later? could do the egyptian', 'found a nice spot for drones up on franklin if you need xp', 'yo. still alive?', 'how many levels you get today', 'lol saw you running from those workers earlier', 'bank is packed tonight, wild', 'got a new hat. feel like a movie star']),

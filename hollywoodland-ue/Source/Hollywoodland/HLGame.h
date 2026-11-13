@@ -149,6 +149,7 @@ struct FHLPlayer
 		TArray<FString> Friends; // persona ids
 		FString Guild; // guild id, empty when unguilded
 		int32 GuildDeclines = 0;
+		int32 BankBoxes = 0; float Rested = 0; bool bInnHome = false; int64 SavedAt = 0;
 	};
 
 enum class EHLSimRole : uint8 { Away, Local, Transient, Idler };
@@ -352,6 +353,8 @@ public:
 	int32 InviteFromSim = -1; float InviteUntil = 0; // pending invite to the player
 	int32 CensusCursor = 0; float NextCensus = 0, NextPopCheck = 0, NextDirector = 0;
 	int32 DirectorStep = 0; int32 BuddySim = -1;
+	// onboarding beats, shuffled per play: 0 invite, 1 passing heal, 2 Drone train, 3 lost newbie, 4 raid red car, 5 buddy whisper
+	TArray<int32> DirBeats; double DirBeatAt = 0; float DirPace = 1; int32 LostSim = -1; double LostUntil = 0;
 	void InitSims();
 	void TickSims(float Dt);
 	void TickSimBrain(FHLSim& S, FHLUnit& U, float Dt);
@@ -377,6 +380,8 @@ public:
 	TArray<FHLChatLine> Chat;
 	struct FPendingChat { double At; FHLChatLine Line; };
 	TArray<FPendingChat> PendingChat;
+	TMap<int32, double> AwaitingReply; // sims the player whispered, by when they started reading
+	FString WhoIsTyping() const;
 	float NextAmbient = 3, NextGossip = 150;
 	FString Session; bool bWorkerOk = false; float NextSessionTry = 0; int32 WorkerInFlight = 0, NextReqId = 1;
 	int32 WorkerCalls = 0, WorkerFails = 0;
@@ -440,6 +445,17 @@ public:
 	FString HiveSiteName(int32 Site) const;
 	void HiveEggBroken(int32 Site, bool bByPlayer);
 	void TickHive();
+	// server history (HLHistory.cpp)
+	struct FHLHistoryEvent { int32 Days = 1; FString Headline, Body, Ref; };
+	TArray<FHLHistoryEvent> History; double NextHistoryChat = 0;
+	void BuildHistory();
+	void TickHistory();
+	// rested experience and bank boxes (HLPlayer.cpp)
+	double NextRestTick = 0; bool bAtInn = false; FString PendingRestNote;
+	void TickRest();
+	void AddRested(float Amount);
+	static int32 BankBoxCost(int32 Owned);
+	void BuyBankBox();
 	// guilds (HLGuild.cpp)
 	int32 GuildFromSim = -1, GuildRaidDay = -1; double GuildInviteAt = 0, GuildInviteUntil = 0, NextGuildTick = 0, NextGuildInvite = 0, NextGuildChat = 0;
 	TSet<int32> GuildSeen; bool bGuildSeenInit = false;

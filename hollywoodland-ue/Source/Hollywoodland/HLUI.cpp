@@ -434,7 +434,7 @@ int32 SHLGameUI::OnPaint(const FPaintArgs& Args, const FGeometry& Geo, const FSl
 	if (GEngine && GEngine->GameViewport) { FVector2D V; GEngine->GameViewport->GetViewportSize(V); if (V.X > 0 && V.Y > 0) ViewPx = V; }
 	UiRectsNext.Reset(); Picks.Reset(); TipItem = nullptr; TipText.Reset();
 	FHLGame& Gm = G();
-	{ static bool bOnce = false; if (!bOnce && Gm.bInWorld) { bOnce = true; if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenBags"))) { bBags = true; bChar = true; } if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenTalents"))) bTalents = true; if (FParse::Param(FCommandLine::Get(), TEXT("HLCraftTest"))) bCraft = true; if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenSpells"))) bSpells = true; if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenFriends"))) { bWho = true; WhoTab = 1; }
+	{ static bool bOnce = false; if (!bOnce && Gm.bInWorld) { bOnce = true; if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenBags"))) { bBags = true; bChar = true; } if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenTalents"))) bTalents = true; if (FParse::Param(FCommandLine::Get(), TEXT("HLCraftTest"))) bCraft = true; if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenSpells"))) bSpells = true; if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenFriends"))) { bWho = true; WhoTab = 1; } if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenNews"))) { bWho = true; WhoTab = 3; }
 		if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenAuction"))) for (const FHLUnit* N : Gm.UnitList) if (N->Npc && N->Npc->HasRole(TEXT("auctioneer"))) { Gm.OpenNpcUnitId = N->Id; Gm.OpenNpcMode = TEXT("auction"); AuctionSearch = TEXT("boots"); break; } } } // screenshot checks
 	if (!Gm.Areas.Num()) { Tx(40, 40, TEXT("Hollywoodland failed to load its data: ") + World->LoadError, 14, ColRed); return Layer; }
 	if (!Gm.bInWorld) DrawTitle();
@@ -782,7 +782,13 @@ void SHLGameUI::DrawHud() const
 	{
 		const int32 Need = FHLGame::XpToNext(P->Level);
 		Block(Bx - 6, VS.Y - 18, Bw + 8, 12);
-		Bar(Bx - 6, VS.Y - 16, Bw + 8, 9, (float)Gm.Player.Xp / Need, FLinearColor(0.5f, 0.15f, 0.7f), FString::Printf(TEXT("Level %d   XP %d / %d"), P->Level, Gm.Player.Xp, Need), 7);
+		Bar(Bx - 6, VS.Y - 16, Bw + 8, 9, (float)Gm.Player.Xp / Need, Gm.Player.Rested >= 1 ? FLinearColor(0.2f, 0.35f, 0.85f) : FLinearColor(0.5f, 0.15f, 0.7f), Gm.Player.Rested >= 1 ? FString::Printf(TEXT("Level %d   XP %d / %d   Rested +%d"), P->Level, Gm.Player.Xp, Need, (int32)Gm.Player.Rested) : FString::Printf(TEXT("Level %d   XP %d / %d"), P->Level, Gm.Player.Xp, Need), 7);
+		if (Gm.Player.Rested >= 1)
+		{
+			const float Rx = Bx - 6 + (Bw + 8) * FMath::Min(1.f, (Gm.Player.Xp + Gm.Player.Rested) / (float)Need);
+			Rc(Rx - 1, VS.Y - 18, 3, 13, FLinearColor(0.45f, 0.7f, 1.f));
+			if (Hover(Bx - 6, VS.Y - 16, Bw + 8, 9)) { TipText = FString::Printf(TEXT("Rested\nThe next %d experience from kills is doubled.\nRest at an inn, or log out at your home inn, to earn more."), (int32)Gm.Player.Rested); TipPos = Mouse; }
+		}
 	}
 	// cast / interaction bar
 	if (P->Casting) Bar(VS.X * 0.5f - 130, VS.Y - 150, 260, 18, (Gm.Now - P->CastStart) / FMath::Max(0.1f, P->CastEnd - P->CastStart), FLinearColor(0.9f, 0.7f, 0.1f), P->Casting->Name, 10);
@@ -1136,9 +1142,16 @@ void SHLGameUI::DrawChat() const
 	}
 	else
 	{
-		Tx(X + 6, Ey + 3, TEXT("Press Enter to chat  (/help for commands, click a name to whisper)"), 10, ColDim);
-		if (Hover(X, Ey, W, 22) && bLClick) { bLClick = false; bTyping = true; }
-	}
+			Tx(X + 6, Ey + 3, TEXT("Press Enter to chat  (/help for commands, click a name to whisper)"), 10, ColDim);
+			if (Hover(X, Ey, W, 22) && bLClick) { bLClick = false; bTyping = true; }
+		}
+		const FString Typer = Gm.WhoIsTyping();
+		if (!Typer.IsEmpty())
+		{
+			const int32 Dots = (int32)FMath::Fmod(FPlatformTime::Seconds() * 2.5, 4.0);
+			const FString Msg = Typer + TEXT(" is typing") + FString::ChrN(Dots, '.');
+			Tx(X + W - TW(Typer + TEXT(" is typing..."), 9) - 8, Ey - 14, Msg, 9, FLinearColor(1.f, 0.55f, 1.f, 0.85f));
+		}
 }
 
 void SHLGameUI::DrawPopups() const

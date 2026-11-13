@@ -104,8 +104,9 @@ void FHLGame::InitSims()
 			if (U && !S.P->Mount.IsEmpty() && Chance(0.5f)) U->bMounted = true;
 		}
 	}
-	NextCensus = Now + 5; NextPopCheck = Now + 8; NextDirector = Now + 5;
-}
+		NextCensus = Now + 5; NextPopCheck = Now + 8; NextDirector = Now + 5;
+		BuildHistory();
+	}
 
 // ------------------------------------------------------------------------------------------------------------- brains
 const FHLAbility* FHLGame::SimPickAbility(FHLSim& S, FHLUnit& U, FHLUnit*& OutTarget)
@@ -618,26 +619,51 @@ void FHLGame::TickDirector(float Dt)
 		if (U->bDead) { if (Now - U->DeadAt > 6) { S.State = EHLSimState::Dead; S.StateUntil = Now + 10; } continue; }
 		if (Now >= S.StateUntil) { S.State = EHLSimState::Idle; S.StateUntil = Now + 5; continue; }
 	}
+	// the lost newbie wanders off once they have their answer (or give up waiting)
+	if (LostSim >= 0 && Now >= LostUntil)
+	{
+		if (Sims.IsValidIndex(LostSim) && Sims[LostSim].UnitId && Sims[LostSim].State == EHLSimState::Script) { SimSay(LostSim, TEXT("say"), TEXT("dir_lost_bye"), 0.5f, TEXT("nvm found it, ty")); Sims[LostSim].State = EHLSimState::Idle; Sims[LostSim].StateUntil = Now + 3; }
+		LostSim = -1;
+	}
 	if (P->Area != 0 || P->bDead) return;
-	switch (DirectorStep)
+	if (!DirBeats.Num())
+	{
+		// a fresh running order for this play: the invite opens and the raiders and the buddy close; the middle is shuffled
+		TArray<int32> Mid = { 1, 2, 3 };
+		if (Chance(0.4f)) Mid.Remove(Chance(0.5f) ? 2 : 3);
+		for (int32 k = Mid.Num() - 1; k > 0; --k) Mid.Swap(k, RandInt(0, k));
+		DirBeats.Add(0); DirBeats.Append(Mid); DirBeats.Add(4); DirBeats.Add(5);
+		DirPace = 0.75f + Rand() * 0.5f; DirBeatAt = T;
+		FString Ord; for (int32 B : DirBeats) Ord += FString::Printf(TEXT("%d "), B);
+		UE_LOG(LogTemp, Display, TEXT("HL_LIFE director order %s pace %.2f"), *Ord, DirPace);
+	}
+	if (!DirBeats.IsValidIndex(DirectorStep)) return;
+	const int32 Beat = DirBeats[DirectorStep];
+	static const float Gap[] = { 40, 100, 200, 120, 150, 0 };
+	const double Since = T - DirBeatAt, Ready = Gap[Beat] * DirPace;
+	auto Next = [&](const TCHAR* What) { UE_LOG(LogTemp, Display, TEXT("HL_LIFE director beat %d %s at %.0f s"), Beat, What, T); ++DirectorStep; DirBeatAt = T; };
+	if (Since < Ready) return;
+	const bool bGiveUp = Since > Ready + 300;
+	switch (Beat)
 	{
 	case 0: // a local doing the same first quest invites the player
-		if (T > 40 && P->Level <= 3 && !Party.Num() && InviteFromSim < 0 && !InCombat(*P))
+		if (P->Level <= 3 && !Party.Num() && InviteFromSim < 0 && !InCombat(*P))
 		{
 			const int32 i = NearestLocal([&](const FHLSim& S) { return FMath::Abs(S.Level - P->Level) <= 2 && S.P->Temperament != TEXT("quiet"); }, 45);
 			if (i >= 0)
 			{
 				BuddySim = i; InviteFromSim = i; InviteUntil = Now + 40;
-				AddChat(TEXT("whisper"), Sims[i].P->Handle, StyleText(*Sims[i].P, P->Level <= 1 ? TEXT("doing the worker quest too? inv, faster together") : TEXT("want to group? faster together")), i);
+				SimSay(i, TEXT("whisper"), P->Level <= 1 ? TEXT("dir_invite_new") : TEXT("dir_invite"), 0, TEXT("want to group? faster together"));
 				LastWhisperFrom = Sims[i].P->Handle;
 				System(FString::Printf(TEXT("%s has invited you to join a group."), *Sims[i].P->Handle));
-				DirectorStep = 1;
+				Next(TEXT("invite"));
 			}
-			else if (T > 150) DirectorStep = 1;
-		}
+				else if (Since > Ready + 150) Next(TEXT("skipped"));
+			}
+			else if (Since > Ready + 150 || P->Level > 3) Next(TEXT("skipped"));
 		break;
 	case 1: // a stranger heals the player in passing
-		if (T > 150 && P->HpPct() < 0.75f && !InCombat(*P))
+		if (P->HpPct() < 0.75f && !InCombat(*P))
 		{
 			const int32 i = NearestLocal([](const FHLSim& S) { return S.P->Cls->Role == TEXT("healer"); }, 60);
 			if (i >= 0)
@@ -647,72 +673,99 @@ void FHLGame::TickDirector(float Dt)
 				AddFloat(U->Id, TEXT("Dress Wound"), FLinearColor(0.6f, 1, 0.6f));
 				SimSay(i, TEXT("say"), TEXT("heal_passby"), 1.5f);
 				Relation(Sims[i]).Familiarity++;
-				DirectorStep = 2;
+				Next(TEXT("heal"));
 			}
-			else if (T > 420) DirectorStep = 2;
 		}
-		else if (T > 480) DirectorStep = 2;
+		if (bGiveUp && DirBeats[DirectorStep] == 1) Next(TEXT("skipped"));
 		break;
 	case 2: // someone trains a pack of Drones through the forecourt and dies
-		if (T > 420)
+	{
+		const FVector2D Forecourt = *Def.Pois.Find(TEXT("forecourt"));
+		if (FVector2D::Distance(P->Pos, Forecourt) < 90)
 		{
-			const FVector2D Forecourt = *Def.Pois.Find(TEXT("forecourt"));
-			if (FVector2D::Distance(P->Pos, Forecourt) < 90)
-			{
-				const int32 i = NearestLocal([&](const FHLSim& S) { return S.Level >= 3 && int32(&S - Sims.GetData()) != BuddySim; }, 400);
-				const FHLMobDef* Drone = FHLData::Get().Mob(TEXT("mob_invader_drone"));
-				if (i >= 0 && Drone)
-				{
-					FHLSim& S = Sims[i];
-					FHLUnit* U = Unit(S.UnitId);
-					const FVector2D Start(148, 150);
-					TeleportUnit(*U, 0, Start);
-					U->Hp = U->MaxHp * 0.45f; U->TargetId = 0; U->bAutoAttack = false; U->bSitting = false;
-					S.State = EHLSimState::Script; S.StateUntil = Now + 40;
-					for (int32 k = 0; k < 4; ++k)
-					{
-						FHLUnit* M = SpawnMob(Drone, 0, Start + FVector2D(4 + k * 2, -8 - k * 2));
-						M->bEvent = true; M->Leash = 400; M->TappedBy = U->Id; M->Level = S.Level + 2; InitMobStats(*M);
-						MobEnterCombat(*M, U->Id); M->Threat.Add(U->Id, 100000);
-					}
-					S.Dest = Forecourt + FVector2D(4, 2); StopMove(*U);
-					SimSay(i, TEXT("yell"), TEXT("train"), 0.5f);
-					SimSay(i, TEXT("zone"), TEXT("train"), 6);
-					DirectorStep = 3;
-				}
-			}
-			else if (T > 700) DirectorStep = 3;
-		}
-		break;
-	case 3: // raid talk and a red car full of raiders
-		if (T > 620)
-		{
-			const FHLExit* Car = Def.Exits.FindByPredicate([](const FHLExit& E) { return E.bRedcar; });
-			int32 Made = 0;
-			for (int32 i = 0; i < Sims.Num() && Made < 4 && Car; ++i)
+			const int32 i = NearestLocal([&](const FHLSim& S) { return S.Level >= 3 && int32(&S - Sims.GetData()) != BuddySim; }, 400);
+			const FHLMobDef* Drone = FHLData::Get().Mob(TEXT("mob_invader_drone"));
+			if (i >= 0 && Drone)
 			{
 				FHLSim& S = Sims[i];
-				if (S.UnitId || !S.bOnline || S.Level < 60 || S.P->Guild.IsEmpty()) continue;
-				SpawnSim(i, EHLSimRole::Transient, Car->Pos + FVector2D(Made * 2 - 3, 4 + Rand() * 2));
-				if (const FVector2D* Bank = Def.Pois.Find(TEXT("bank"))) S.Route.Add(*Bank + FVector2D(Rand() * 8 - 4, Rand() * 3));
-				if (const FVector2D* Auc = Def.Pois.Find(TEXT("auction"))) S.Route.Add(*Auc + FVector2D(Rand() * 8 - 4, Rand() * 3));
-				S.StateUntil = Now + 2 + Made;
-				if (Made == 0) { const FHLGuild* G = FHLData::Get().Guild(S.P->Guild); AddChat(TEXT("zone"), S.P->Handle, StyleText(*S.P, FString::Printf(TEXT("<%s> raid tonight Mount Lee 8pm server, need 2 heals"), G ? *G->Name : TEXT("guild"))), i, 4); }
-				++Made;
+				FHLUnit* U = Unit(S.UnitId);
+				const FVector2D Start(148, 150);
+				TeleportUnit(*U, 0, Start);
+				U->Hp = U->MaxHp * 0.45f; U->TargetId = 0; U->bAutoAttack = false; U->bSitting = false;
+				S.State = EHLSimState::Script; S.StateUntil = Now + 40;
+				const int32 Pack = RandInt(3, 5);
+				for (int32 k = 0; k < Pack; ++k)
+				{
+					FHLUnit* M = SpawnMob(Drone, 0, Start + FVector2D(4 + k * 2, -8 - k * 2));
+					M->bEvent = true; M->Leash = 400; M->TappedBy = U->Id; M->Level = S.Level + 2; InitMobStats(*M);
+					MobEnterCombat(*M, U->Id); M->Threat.Add(U->Id, 100000);
+				}
+				S.Dest = Forecourt + FVector2D(Rand() * 10 - 5, Rand() * 6 - 3); StopMove(*U);
+				SimSay(i, TEXT("yell"), TEXT("train"), 0.5f);
+				SimSay(i, TEXT("zone"), TEXT("train"), 6);
+				Next(TEXT("train"));
+				break;
 			}
-			AddChat(TEXT("emote"), FString(), TEXT("A Pacific Electric red car pulls in at Highland."));
-			DirectorStep = 4;
 		}
+		if (bGiveUp) Next(TEXT("skipped"));
 		break;
-	case 4: // the friend from step 0 asks about the Egyptian
+	}
+	case 3: // a lost newbie walks up and asks the player the way to their trainer
+	{
+		if (InCombat(*P)) { if (bGiveUp) Next(TEXT("skipped")); break; }
+		const int32 i = NearestLocal([&](const FHLSim& S) { return S.Level <= FMath::Max(2, P->Level) && int32(&S - Sims.GetData()) != BuddySim && S.P->Temperament != TEXT("quiet"); }, 120);
+		TArray<const FHLNpcDef*> Far;
+		for (const FHLNpcDef& N : Def.Npcs) if (!N.Trains.IsEmpty() && FVector2D::Distance(N.Pos, P->Pos) > 40) Far.Add(&N);
+		if (i >= 0 && Far.Num())
+		{
+			FHLSim& S = Sims[i];
+			const FHLNpcDef* N = Far[RandInt(0, Far.Num() - 1)];
+			for (const FHLNpcDef* F : Far) if (F->Trains == S.P->Cls->Id) N = F; // their own trainer if it is far enough
+			S.State = EHLSimState::Script; S.StateUntil = Now + 60;
+			S.Dest = P->Pos + FVector2D(Rand() * 4 - 2, Rand() * 4 - 2);
+			ChatCtx = N->Name;
+			SimSay(i, TEXT("say"), TEXT("dir_lost"), 6 + Rand() * 4, FString::Printf(TEXT("hey do you know where %s is?"), *N->Name));
+			ChatCtx.Reset();
+			LostSim = i; LostUntil = Now + 45 + Rand() * 15;
+			Next(TEXT("lost"));
+		}
+		else if (bGiveUp) Next(TEXT("skipped"));
+		break;
+	}
+	case 4: // raid talk and a red car full of raiders
+	{
+		const FHLExit* Car = Def.Exits.FindByPredicate([](const FHLExit& E) { return E.bRedcar; });
+		int32 Made = 0;
+		for (int32 i = 0; i < Sims.Num() && Made < RandInt(3, 5) && Car; ++i)
+		{
+			FHLSim& S = Sims[i];
+			if (S.UnitId || !S.bOnline || S.Level < 60 || S.P->Guild.IsEmpty()) continue;
+			SpawnSim(i, EHLSimRole::Transient, Car->Pos + FVector2D(Made * 2 - 3, 4 + Rand() * 2));
+			if (const FVector2D* Bank = Def.Pois.Find(TEXT("bank"))) S.Route.Add(*Bank + FVector2D(Rand() * 8 - 4, Rand() * 3));
+			if (const FVector2D* Auc = Def.Pois.Find(TEXT("auction"))) S.Route.Add(*Auc + FVector2D(Rand() * 8 - 4, Rand() * 3));
+			S.StateUntil = Now + 2 + Made;
+			if (Made == 0)
+			{
+				const FHLGuild* G = FHLData::Get().Guild(S.P->Guild);
+				ChatCtx = G ? G->Name : FString(TEXT("guild"));
+				SimSay(i, TEXT("zone"), TEXT("dir_raid"), 4, FString::Printf(TEXT("<%s> raid tonight Mount Lee 8pm server, need 2 heals"), *ChatCtx));
+				ChatCtx.Reset();
+			}
+			++Made;
+		}
+		AddChat(TEXT("emote"), FString(), TEXT("A Pacific Electric red car pulls in at Highland."));
+		Next(TEXT("raid"));
+		break;
+	}
+	case 5: // the friend from the invite asks about the Egyptian
 		if (P->Level >= 5 && BuddySim >= 0 && Sims[BuddySim].bOnline)
 		{
-			AddChat(TEXT("whisper"), Sims[BuddySim].P->Handle, StyleText(*Sims[BuddySim].P, TEXT("hey you want to do egyptian when we hit 8? add me, ill tank or dps whatever")), BuddySim, 3);
+			SimSay(BuddySim, TEXT("whisper"), TEXT("dir_buddy"), 3, TEXT("hey you want to do egyptian when we hit 8? add me, ill tank or dps whatever"));
 			LastWhisperFrom = Sims[BuddySim].P->Handle;
 			Relation(Sims[BuddySim]).Liking++;
-			DirectorStep = 5;
+			Next(TEXT("buddy"));
 		}
-		else if (P->Level >= 5) DirectorStep = 5;
+		else if (P->Level >= 5) Next(TEXT("skipped"));
 		break;
 	default: break;
 	}

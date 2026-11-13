@@ -128,6 +128,8 @@ FString FHLGame::SaveJson() const
 		O->SetArrayField(TEXT("mail"), Ml);
 		O->SetArrayField(TEXT("friends"), Strs(Player.Friends));
 		O->SetStringField(TEXT("guild"), Player.Guild); O->SetNumberField(TEXT("gdecl"), Player.GuildDeclines);
+				O->SetNumberField(TEXT("bankboxes"), Player.BankBoxes); O->SetNumberField(TEXT("rested"), Player.Rested); O->SetBoolField(TEXT("innhome"), Player.bInnHome);
+				O->SetNumberField(TEXT("saved_at"), (double)FDateTime::UtcNow().ToUnixTimestamp());
 		TArray<TSharedPtr<FJsonValue>> Au;
 		for (const FHLAuction& A : Auctions)
 		{
@@ -171,19 +173,20 @@ bool FHLGame::LoadJson(const FString& Json)
 	const TSharedPtr<FJsonObject>* Tal = nullptr;
 	if (O->TryGetObjectField(TEXT("talents"), Tal))
 		for (const auto& KV : (*Tal)->Values) if (const FHLTalent* T = D.Talent(FString(KV.Key))) if (T->Class == Cls->Id) Player.Talents.Add(FString(KV.Key), FMath::Clamp((int32)KV.Value->AsNumber(), 1, T->Ranks));
-	auto Inv = [&](const TCHAR* Key, TArray<FHLInvSlot>& Slots)
+	if (O->TryGetNumberField(TEXT("bankboxes"), Num)) Player.BankBoxes = FMath::Clamp((int32)Num, 0, 6);
+	auto Inv = [&](const TCHAR* Key, TArray<FHLInvSlot>& Slots, int32 Size)
 	{
-		Slots.SetNum(24);
+		Slots.SetNum(Size);
 		const TArray<TSharedPtr<FJsonValue>>* Arr = nullptr;
 		if (!O->TryGetArrayField(Key, Arr)) return;
-		for (int32 i = 0; i < Arr->Num() && i < 24; ++i)
+		for (int32 i = 0; i < Arr->Num() && i < Size; ++i)
 		{
 			const TSharedPtr<FJsonObject> E = (*Arr)[i]->AsObject();
 			FString Id;
 			if (E.IsValid() && E->TryGetStringField(TEXT("i"), Id)) { Slots[i].Item = D.Item(Id); Slots[i].Count = Slots[i].Item ? FMath::Max(1, (int32)E->GetNumberField(TEXT("n"))) : 0; }
 		}
 	};
-	Inv(TEXT("bag"), Player.Bag); Inv(TEXT("bank"), Player.Bank);
+	Inv(TEXT("bag"), Player.Bag, 24); Inv(TEXT("bank"), Player.Bank, 24 + 6 * Player.BankBoxes);
 	const TSharedPtr<FJsonObject>* Sub = nullptr;
 	if (O->TryGetObjectField(TEXT("equip"), Sub)) for (auto& KV : (*Sub)->Values) if (const FHLItem* It = D.Item(KV.Value->AsString())) Player.Equip.Add(FString(KV.Key), It);
 	auto Strs = [&](const TCHAR* Key) { TArray<FString> Out; const TArray<TSharedPtr<FJsonValue>>* Arr = nullptr; if (O->TryGetArrayField(Key, Arr)) for (auto& V : *Arr) Out.Add(V->AsString()); return Out; };
@@ -246,9 +249,62 @@ bool FHLGame::LoadJson(const FString& Json)
 	U.Level = FMath::Clamp((int32)O->GetIntegerField(TEXT("level")), 1, 60);
 	double X = 0, Y = 0;
 	if (O->TryGetNumberField(TEXT("x"), X) && O->TryGetNumberField(TEXT("y"), Y)) U.Pos = Areas[0].Nav.NearestFree(FVector2D(X, Y));
-	if (O->GetIntegerField(TEXT("v")) < 2) GiveStarterAmmo(); // saves from before ammunition existed
-	return true;
-}
+		if (O->GetIntegerField(TEXT("v")) < 2) GiveStarterAmmo(); // saves from before ammunition existed
+		// rested experience earned while logged out: quickly at the inn you call home, slowly anywhere else
+		O->TryGetBoolField(TEXT("innhome"), Player.bInnHome);
+		if (O->TryGetNumberField(TEXT("rested"), Num)) Player.Rested = FMath::Max(0.0, Num);
+		if (O->TryGetNumberField(TEXT("saved_at"), Num) && Num > 0)
+		{
+			const double Away = FMath::Max(0.0, (double)FDateTime::UtcNow().ToUnixTimestamp() - Num);
+			if (Away > 600 && U.Level < 60)
+			{
+				const float Before = Player.Rested;
+				AddRested(XpToNext(U.Level) * (Player.bInnHome ? 0.10f : 0.03f) * (float)(Away / 3600.0));
+				PendingRestNote = Player.Rested > Before + 1 ? FString::Printf(TEXT("You were away %s and feel rested: the next %d experience from kills is doubled."), Away >= 7200 ? *FString::Printf(TEXT("%d hours"), (int32)(Away / 3600)) : *FString::Printf(TEXT("%d minutes"), (int32)(Away / 60)), (int32)(Player.Rested * 1.0f)) : FString();
+			}
+		}
+		return true;
+	}
+
+	void FHLGame::AddRested(float Amount)
+	{
+		const FHLUnit* U = PlayerUnit();
+		if (!U || U->Level >= 60 || Amount <= 0) return;
+		const bool bWas = Player.Rested >= 1;
+		Player.Rested = FMath::Min(Player.Rested + Amount, XpToNext(U->Level) * 1.5f);
+		if (!bWas && Player.Rested >= 1 && bInWorld) System(TEXT("You feel rested."));
+	}
+
+	void FHLGame::TickRest()
+	{
+		if (Now < NextRestTick) return;
+		NextRestTick = Now + 10;
+		const FHLUnit* P = PlayerUnit();
+		if (!P || P->Area != 0 || P->bDead) { bAtInn = false; return; }
+		bool bInn = false;
+		for (const FHLNpcDef& N : Areas[0].Def->Npcs) if (N.HasRole(TEXT("innkeeper")) && FVector2D::Distance(N.Pos, P->Pos) < 18) bInn = true;
+		if (bInn != bAtInn && bInn) System(Player.bInnHome ? TEXT("You are resting at your home inn. Rested experience accrues while you stay or log out here.") : TEXT("You are resting at the inn. Rested experience accrues while you stay."));
+		bAtInn = bInn;
+		// half a percent of the level every ten seconds at the inn (out of combat): about a tenth of a level in three minutes
+		if (bInn && !InCombat(*P)) AddRested(XpToNext(P->Level) * 0.005f);
+	}
+
+	int32 FHLGame::BankBoxCost(int32 Owned)
+	{
+		static const int32 Cost[] = { 100, 500, 1000, 2500, 5000, 10000 };
+		return Owned >= 0 && Owned < 6 ? Cost[Owned] : 0;
+	}
+
+	void FHLGame::BuyBankBox()
+	{
+		const int32 Cost = BankBoxCost(Player.BankBoxes);
+		if (!Cost) return;
+		if (Player.Cents < Cost) { Error(TEXT("You don't have enough money.")); return; }
+		Player.Cents -= Cost; Player.BankBoxes++;
+		Player.Bank.SetNum(24 + 6 * Player.BankBoxes);
+		System(FString::Printf(TEXT("You rent another deposit box (%d slots in all)."), Player.Bank.Num()));
+		SaveNow();
+	}
 
 void FHLGame::SaveNow()
 {

@@ -191,10 +191,33 @@ void SHLGameUI::DrawWho() const
 	FHLGame& Gm = G();
 	if (Gm.bWhoOpen && !bWho) bWho = true;
 	const FHLGuild* MyG = Gm.PlayerGuild();
-	const FString WhoTitle = WhoTab == 0 ? FString::Printf(TEXT("Who  -  %d players online"), Gm.OnlineCount()) : WhoTab == 1 ? FString::Printf(TEXT("Friends  -  %d"), Gm.Player.Friends.Num()) : MyG ? MyG->Name : FString(TEXT("Guild"));
+	const FString WhoTitle = WhoTab == 0 ? FString::Printf(TEXT("Who  -  %d players online"), Gm.OnlineCount()) : WhoTab == 1 ? FString::Printf(TEXT("Friends  -  %d"), Gm.Player.Friends.Num()) : WhoTab == 3 ? FString(TEXT("The Dome Herald  -  server news")) : MyG ? MyG->Name : FString(TEXT("Guild"));
 	if (!Win(TEXT("who"), WhoTitle, 640, 470, bWho, 380, 140)) { Gm.bWhoOpen = false; return; }
 	const FHLData& D = FHLData::Get();
-	for (int32 t = 0; t < 3; ++t) { if (WhoTab == t) Rc(WX + 338 + t * 94 - 2, WY - 4, 90, 22, ColGold); if (Btn(WX + 338 + t * 94, WY - 2, 86, 18, t == 0 ? TEXT("Who") : t == 1 ? TEXT("Friends") : TEXT("Guild"), true, 9)) WhoTab = t; }
+	for (int32 t = 0; t < 4; ++t) { static const TCHAR* Tabs[] = { TEXT("Who"), TEXT("Friends"), TEXT("Guild"), TEXT("News") }; if (WhoTab == t) Rc(WX + 244 + t * 94 - 2, WY - 4, 90, 22, ColGold); if (Btn(WX + 244 + t * 94, WY - 2, 86, 18, Tabs[t], true, 9)) WhoTab = t; }
+	if (WhoTab == 3)
+	{
+		// the server's history as a newspaper: headline, a line of copy, how long ago
+		Tx(WX, WY + 26, TEXT("Thirty days of the dome, and more. Click a story to bring it up in General."), 9, ColDim);
+		if (Wheel != 0 && Hover(WX, WY, 620, 440)) WhoScroll -= (int32)(Wheel * 2);
+		const int32 PerPage = 9;
+		WhoScroll = FMath::Clamp(WhoScroll, 0, FMath::Max(0, Gm.History.Num() - PerPage));
+		for (int32 r = 0; r < PerPage && r + WhoScroll < Gm.History.Num(); ++r)
+		{
+			const FHLGame::FHLHistoryEvent& E = Gm.History[r + WhoScroll];
+			const float Y = WY + 46 + r * 42;
+			const bool bHot = Hover(WX - 4, Y - 2, 620, 40);
+			if (bHot) Rc(WX - 4, Y - 2, 620, 40, FLinearColor(0.25f, 0.2f, 0.1f));
+			Tx(WX, Y, E.Headline, 11, ColGold, true);
+			Tx(WX + 610 - TW(E.Days == 1 ? TEXT("yesterday") : *FString::Printf(TEXT("%d days ago"), E.Days), 9), Y + 2, E.Days == 1 ? FString(TEXT("yesterday")) : FString::Printf(TEXT("%d days ago"), E.Days), 9, ColDim);
+			FString Copy = E.Body;
+			if (TW(Copy, 9) > 600) { while (Copy.Len() > 10 && TW(Copy + TEXT("..."), 9) > 600) Copy.LeftChopInline(1); Copy += TEXT("..."); }
+			Tx(WX, Y + 18, Copy, 9, ColWhite);
+			if (bHot) { TipText = E.Body; TipPos = Mouse; }
+			if (bHot && bLClick) { bLClick = false; bTyping = true; ChatEntry = FString::Printf(TEXT("/1 anyone remember %s?"), *E.Ref); }
+		}
+		return;
+	}
 	if (WhoTab == 2)
 	{
 		if (!MyG) { TxWrap(WX, WY + 30, 600, TEXT("You are not in a guild. Guilds recruit in General chat, and someone may invite you once you have a few levels. Accepting puts their name over your head and opens guild chat (/g)."), 11, ColDim); return; }
@@ -479,7 +502,12 @@ void SHLGameUI::DrawNpc() const
 		Service(TEXT("banker"), TEXT("I'd like to check my deposit box."), TEXT("bank"));
 		Service(TEXT("auctioneer"), TEXT("Show me the auction listings."), TEXT("auction"));
 		Service(TEXT("redcar"), TEXT("Where do the red cars go?"), TEXT("redcar"));
-		if (Np.HasRole(TEXT("innkeeper"))) { if (Btn(WX, Y, 410, 24, TEXT("Make this inn my home."), true, 10)) { Gm.System(TEXT("The Roosevelt Hotel is now your home. Resting here earns rested experience.")); } Y += 30; }
+		if (Np.HasRole(TEXT("innkeeper")))
+				{
+					if (Gm.Player.bInnHome) Tx(WX, Y + 5, TEXT("\"Your room's kept made up. Rest easy.\""), 10, ColDim);
+					else if (Btn(WX, Y, 410, 24, TEXT("Make this inn my home."), true, 10)) { Gm.Player.bInnHome = true; Gm.System(TEXT("The Roosevelt Hotel is now your home. Logging out here earns rested experience three times faster.")); Gm.SaveNow(); }
+					Y += 30;
+				}
 		if (Np.HasRole(TEXT("repair")))
 		{
 			const int32 Cost = Gm.RepairCost();
@@ -604,14 +632,20 @@ void SHLGameUI::DrawNpc() const
 	}
 	if (Gm.OpenNpcMode == TEXT("bank"))
 	{
-		if (!Win(TEXT("npc"), Title, 290, 250, bOpen, 300, 140)) { Close(); return; }
+		const int32 Rows = (Gm.Player.Bank.Num() + 5) / 6;
+		if (!Win(TEXT("npc"), Title, 290, 90 + Rows * 42, bOpen, 300, 140)) { Close(); return; }
 		for (int32 i = 0; i < Gm.Player.Bank.Num(); ++i)
 		{
 			FHLInvSlot& S = Gm.Player.Bank[i];
 			if (ItemIcon(WX + (i % 6) * 42, WY + (i / 6) * 42, 40, S.Item, S.Count) && S.Item) { if (Gm.AddItem(S.Item, S.Count, false)) S = FHLInvSlot(); }
 		}
-		Tx(WX, WY + 174, TEXT("Click to withdraw. Right-click bag items to deposit."), 9, ColDim);
-		Tx(WX, WY + 190, TEXT("More boxes: $1, $5, $10, $25, $50, $100."), 9, ColDim);
+		const float By = WY + Rows * 42 + 6;
+		Tx(WX, By, TEXT("Click to withdraw. Right-click bag items to deposit."), 9, ColDim);
+		if (const int32 Cost = FHLGame::BankBoxCost(Gm.Player.BankBoxes))
+		{
+			if (Btn(WX, By + 16, 270, 22, FString::Printf(TEXT("Rent another box (6 slots)  %s"), *HLMoney(Cost)), Gm.Player.Cents >= Cost, 9)) Gm.BuyBankBox();
+		}
+		else Tx(WX, By + 20, TEXT("You rent every box the bank has."), 9, ColDim);
 		return;
 	}
 	if (Gm.OpenNpcMode == TEXT("auction"))

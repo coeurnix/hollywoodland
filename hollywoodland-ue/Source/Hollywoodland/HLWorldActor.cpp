@@ -468,6 +468,35 @@ void AHLWorldActor::AutoTest(float Dt)
 		}
 		return;
 	}
+	// -HLInnTest: rest at the inn (rested XP), whisper someone (typing indicator), then rent a bank box
+	static const bool bInnTest = FParse::Param(FCommandLine::Get(), TEXT("HLInnTest"));
+	if (bInnTest && P->Area == 0 && T > 8)
+	{
+		static int32 InnStep = 0;
+		const TCHAR* InnRole = T < 70 ? TEXT("innkeeper") : TEXT("banker");
+		for (const FHLNpcDef& N : Game.Areas[0].Def->Npcs) if (N.HasRole(InnRole))
+		{
+			if (FVector2D::Distance(P->Pos, N.Pos) > 7.5f) Game.TeleportUnit(*P, 0, Game.Areas[0].Nav.NearestFree(N.Pos + FVector2D(0, 4)));
+			P->TargetId = 0; P->bAutoAttack = false; bAutoGoal = false;
+			break;
+		}
+		if (InnStep == 0 && T > 20)
+		{
+			InnStep = 1;
+			for (const FHLSim& S : Game.Sims) if (S.bOnline && !S.bAfk) { Game.PlayerChat(FString::Printf(TEXT("/w %s hey, which way to the egyptian?"), *S.P->Handle)); break; }
+		}
+		if (InnStep == 1 && T > 75)
+		{
+			InnStep = 2;
+			Game.Player.Cents += 2000;
+			for (const FHLNpcDef& N : Game.Areas[0].Def->Npcs) if (N.HasRole(TEXT("banker"))) for (const auto& KV : Game.Units) if (KV.Value->Npc == &N) Game.OpenNpcUnitId = KV.Key;
+			Game.OpenNpcMode = TEXT("bank");
+			Game.BuyBankBox(); Game.BuyBankBox();
+			UE_LOG(LogTemp, Display, TEXT("HL_LIFE inn test: rested %.0f, bank %d slots, cents %d"), Game.Player.Rested, Game.Player.Bank.Num(), Game.Player.Cents);
+		}
+		if (InnStep == 2 && T > 95) { InnStep = 3; P->TargetId = 0; Game.OpenNpcUnitId = 0; UE_LOG(LogTemp, Display, TEXT("HL_LIFE inn test done")); }
+		if (InnStep < 3) return;
+	}
 	// -HLLifeTest: stand near whatever is happening on the street and watch
 	static const bool bLifeTest = FParse::Param(FCommandLine::Get(), TEXT("HLLifeTest"));
 	if (bLifeTest && Game.DuelFromSim >= 0) Game.AnswerDuel(true);

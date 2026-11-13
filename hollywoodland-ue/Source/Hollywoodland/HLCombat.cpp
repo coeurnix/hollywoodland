@@ -277,8 +277,15 @@ void FHLGame::GrantXp(int32 Amount, bool bQuest)
 	FHLUnit* U = PlayerUnit();
 	if (!U || Amount <= 0) return;
 	if (!bQuest) Amount = FMath::RoundToInt32(Amount * (1.f + U->BuffSum(TEXT("xp_pct"))));
+	int32 Bonus = 0;
+	if (!bQuest && Player.Rested >= 1 && U->Level < 60)
+	{
+		Bonus = FMath::Min(Amount, (int32)Player.Rested);
+		Player.Rested -= Bonus; Amount += Bonus;
+		if (Player.Rested < 1) { Player.Rested = 0; System(TEXT("You feel normal.")); }
+	}
 	Player.Xp += Amount;
-	AddChat(TEXT("system"), FString(), bQuest ? FString::Printf(TEXT("Experience gained: %d."), Amount) : FString::Printf(TEXT("You gain %d experience."), Amount));
+	AddChat(TEXT("system"), FString(), bQuest ? FString::Printf(TEXT("Experience gained: %d."), Amount) : Bonus ? FString::Printf(TEXT("You gain %d experience (+%d rested bonus)."), Amount, Bonus) : FString::Printf(TEXT("You gain %d experience."), Amount));
 	if (!bQuest) AddFloat(U->Id, FString::Printf(TEXT("+%d XP"), Amount), FLinearColor(0.8f, 0.5f, 1.f));
 	while (U->Level < 60 && Player.Xp >= XpToNext(U->Level))
 	{

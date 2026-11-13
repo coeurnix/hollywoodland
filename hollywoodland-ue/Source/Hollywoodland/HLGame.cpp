@@ -283,6 +283,7 @@ void FHLGame::EnterWorld()
 	Banner(Zone.Name, CurSubzone, 5);
 	System(TEXT("Welcome to Hollywoodland. This is a single-player game: every other player you meet is simulated by AI."));
 	System(FString::Printf(TEXT("There are %d players online. Type /help for chat commands."), OnlineCount()));
+	if (!PendingRestNote.IsEmpty()) { System(PendingRestNote); PendingRestNote.Reset(); }
 	TickAuctions();
 }
 
@@ -347,6 +348,8 @@ void FHLGame::Tick(float Dt)
 	TickFightNight();
 	TickEvents(Dt);
 	TickHive();
+	TickRest();
+	TickHistory();
 	TickEscort(Dt);
 	TickSocial(Dt);
 	TickGuild();
