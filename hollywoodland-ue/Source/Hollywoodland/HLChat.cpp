@@ -373,6 +373,12 @@ void FHLGame::WorkerSim(const FString& Kind, const TArray<int32>& Speakers, cons
 		O->SetStringField(TEXT("activity"), SimActivity(S));
 		if (const FHLGuild* G = D.Guild(Pe.Guild)) { O->SetStringField(TEXT("guild"), G->Name); Ids.AddUnique(G->Name); }
 		if (const FHLRelation* R = Player.Relations.Find(Pe.Id)) { O->SetNumberField(TEXT("liking"), R->Liking); O->SetArrayField(TEXT("memory"), Strs(R->Facts)); }
+		{
+			// their own last three lines, so the model keeps the voice
+			TArray<FString> Recent;
+			for (int32 k = Chat.Num() - 1; k >= 0 && Recent.Num() < 3; --k) if (Chat[k].SimIdx == SI && !Chat[k].Text.IsEmpty()) Recent.Insert(Chat[k].Text.Left(100), 0);
+			if (Recent.Num()) O->SetArrayField(TEXT("recent"), Strs(Recent));
+		}
 		Sp.Add(MakeShared<FJsonValueObject>(O));
 		if (const FHLZoneInfo* Z = D.Zone(S.Zone)) { World.AddUnique(FString::Printf(TEXT("%s (levels %d-%d): %s"), *Z->Name, Z->LevelMin, Z->LevelMax, *Z->Blurb)); Ids.AddUnique(Z->Name); }
 		for (const FHLDungeonInfo& Dn : D.Dungeons) if (S.Level >= Dn.LevelMin - 2 && S.Level <= Dn.LevelMax + 2 && World.Num() < 9) { World.AddUnique(Dn.Blurb); Ids.AddUnique(Dn.Name); }
@@ -457,5 +463,30 @@ void FHLGame::ApplyWorkerActions(const TSharedPtr<FJsonObject>& Resp, const FStr
 		}
 		FString Emote;
 		if (A->TryGetStringField(TEXT("emote"), Emote) && !Emote.IsEmpty()) if (FHLUnit* U = Unit(S.UnitId)) U->HopT = 0.5f;
+		// goals the model may set (allowed: GROUP, FOLLOW, IDLE); the game decides whether they are possible
+		const TSharedPtr<FJsonObject>* GoalObj = nullptr;
+		if (A->TryGetObjectField(TEXT("goal"), GoalObj) && GoalObj->IsValid())
+		{
+			const FString Goal = (*GoalObj)->GetStringField(TEXT("type"));
+			FHLUnit* PU = PlayerUnit();
+			FHLUnit* SU = Unit(S.UnitId);
+			if (Goal == TEXT("GROUP") && PU && !S.bInParty && Party.Num() < 4 && InviteFromSim < 0 && FMath::Abs(S.Level - PU->Level) <= 5 && S.State != EHLSimState::Script)
+			{
+				InviteFromSim = SI; InviteUntil = Now + 40;
+				System(FString::Printf(TEXT("%s has invited you to join a group."), *S.P->Handle));
+				UE_LOG(LogTemp, Display, TEXT("HL_LIFE worker goal GROUP from %s"), *S.P->Handle);
+			}
+			else if (Goal == TEXT("FOLLOW") && PU && SU && !SU->bDead && SU->Area == PU->Area && !S.bInParty && Dist(*SU, *PU) < 120 && S.State != EHLSimState::Script)
+			{
+				// they come over to the player (the Director's script state walks them to Dest)
+				S.State = EHLSimState::Script; S.StateUntil = Now + 30; SU->TargetId = 0; SU->bSitting = false;
+				S.Dest = PU->Pos + FVector2D(Rand() * 4 - 2, Rand() * 4 - 2);
+				UE_LOG(LogTemp, Display, TEXT("HL_LIFE worker goal FOLLOW from %s"), *S.P->Handle);
+			}
+			else if (Goal == TEXT("IDLE") && SU && !SU->bDead && !S.bInParty && !InCombat(*SU) && S.State != EHLSimState::Script)
+			{
+				S.State = EHLSimState::Idle; S.StateUntil = Now + 40 + Rand() * 40; StopMove(*SU); SU->bSitting = Chance(0.5f);
+			}
+		}
 	}
 }

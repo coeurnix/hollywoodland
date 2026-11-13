@@ -72,7 +72,7 @@ browser ── itch.io page (iframe) ── hollywoodland Worker (R2 stage, COOP
 | Simulated population (§11) | PROTO | 300 personas; ~40 locals + ≤8 transients + ≤6 idlers as full units (no crowd LOD yet; fine at this count). Census: logins, level-ups, dice dungeon runs → events. |
 | Party (§6) | DONE | Invite either way, follow/assist/heal/taunt, loot rolls, leave after 15-40 min. Sim tanks/healers use generic priority picker. |
 | Chat (§11) | DONE | 63 templates, ~790 corpus lines (237 hand-written + LLM cache), typing styles, item links, whisper-by-click, /who. |
-| Worker (§13) | DONE | `/v1/session`, `/v1/sim` (reply/decide/gossip), `/v1/save`. Per-isolate rate limit 20/min, 400/h; daily budget switch. |
+| Worker (§13) | DONE | `/v1/session`, `/v1/sim` (reply/decide/gossip), `/v1/save`. Rate limit 20/min, 400/h and daily budget in a Durable Object; gossip cache in KV. |
 | Director (§14) | DONE | 6 beats, shuffled per play: invite opens; passing heal, Drone train (3-5) and a lost newbie asking the player the way to a trainer are shuffled (one of train/newbie dropped 40% of the time); red-car raiders and the buddy whisper close. Pace 0.75-1.25x, corpus lines per beat. |
 | Honesty (§11) | DONE | Disclosure is the game's job: title notice, first system line, "Show simulated players" toggle. The characters stay in role (prompt + server-side guard that swaps fourth-wall breaks for in-character deflections). |
 | Talents (§5) | DONE | 3 trees × 16 per class (384), 5 tiers (5 points each), passive modifiers applied in stats and combat; respec at the class trainer ($1 doubling to $50). Tiers 1-2 hand-made, 3-5 designed with Claude and validated (`tools/artgen design`). |
@@ -116,9 +116,10 @@ browser ── itch.io page (iframe) ── hollywoodland Worker (R2 stage, COOP
 19. ~~Duel outside the Roosevelt, dance party on the bank steps, AFK chains~~ (done, plus a queue at the auctioneer: one random happening near the player every 2.5-5.5 minutes after the first 200 s). The onboarding Director is shuffled per play.
 20. ~~Multi-line conversations between sims~~ (done: 30 General and 10 spoken conversations in `chat.mjs`; spoken ones walk two nearby sims together with speech bubbles; each line waits for reading and typing time at the persona's reaction speed). "X is typing..." shows above the chat entry while a whisper/party reply is composed.
 21. ~~Census: guild rosters, raid schedules by server clock, wipes/clears feeding guild chat; 30 "server history" events at start.~~ Done: rosters and raid calls (HLGuild.cpp); `HLHistory.cpp` builds 30 events per save (first kills, level-60 firsts, guild foundings and feuds, breaches, Fight Night streaks, market corners, picture-night records, record runs) shown as the Dome Herald (News tab in the Who window; click a story to ask General about it); sims bring one up in General every 10-25 min.
-22. Worker: move rate limiting and the daily budget to a Durable Object; cache gossip per 2-min bucket in KV across players;
+22. ~~Worker: Durable Object limiter and gossip cache~~ (done: `Limiter` DO holds per-session windows and the daily budget, per-isolate fallback; gossip cached in KV by event hash per 2-min bucket). Original:
+    move rate limiting and the daily budget to a Durable Object; cache gossip per 2-min bucket in KV across players;
     add `kind:"decide"` for trades/duels; stream nothing (latency is hidden by typing time).
-23. Worker prompt: send the persona's last 3 lines to keep voice; add a `goal` application path client-side (`FOLLOW`, `IDLE`).
+23. ~~Worker prompt: persona's last 3 lines; client goals~~ (done: `recent` per speaker; GROUP invites the player, FOLLOW walks the sim over, IDLE parks them).
 
 ### P3 — content and presentation
 24. Art pass per `ASSETS.md` (10 landmarks first). Keep the data-driven box layout as collision; swap visuals per box label.
