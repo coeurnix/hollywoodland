@@ -534,6 +534,8 @@ def step_atlas(args, entries, id_to_key):
     for s, im in enumerate(sheets):
         name = f'item_icons_{s}.png'
         im.save(ATLAS_DIR / name, optimize=True)
+        # the game ships a JPEG copy (about a fifth of the size; the icons sit on black, so nothing needs alpha)
+        im.save(ATLAS_DIR / name.replace('.png', '.jpg'), quality=92, subsampling=0, optimize=True)
         names.append(name)
     items_map = {iid: k for iid, k in id_to_key.items() if k in icons}
     save_json(ATLAS_MAP, {'tile': TILE, 'sheet_size': SHEET, 'columns': per_row, 'per_sheet': per_sheet,

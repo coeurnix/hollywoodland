@@ -26,9 +26,11 @@ if (atlasMeta) {
   // the client reads the sheets plus a small layout file from Content/Data/Icons
   const iconDir = new URL('../hollywoodland-ue/Content/Data/Icons/', import.meta.url);
   mkdirSync(iconDir, { recursive: true });
-  for (const f of readdirSync(iconDir)) if (/^item_icons_\d+\.png$/.test(f) && !atlasMeta.sheets.includes(f)) rmSync(new URL(f, iconDir));
-  for (const f of atlasMeta.sheets) copyFileSync(new URL(`../item-art/atlas/${f}`, import.meta.url), new URL(f, iconDir));
-  writeFileSync(new URL('icons.json', iconDir), JSON.stringify({ tile: atlasMeta.tile, sheet_size: atlasMeta.sheet_size, columns: atlasMeta.columns, per_sheet: atlasMeta.per_sheet, sheets: atlasMeta.sheets }));
+  // ship the JPEG copy of each sheet when itemgen made one
+  const ship = atlasMeta.sheets.map((f) => (existsSync(new URL(`../item-art/atlas/${f.replace('.png', '.jpg')}`, import.meta.url)) ? f.replace('.png', '.jpg') : f));
+  for (const f of readdirSync(iconDir)) if (/^item_icons_\d+\.(png|jpg)$/.test(f) && !ship.includes(f)) rmSync(new URL(f, iconDir));
+  for (const f of ship) copyFileSync(new URL(`../item-art/atlas/${f}`, import.meta.url), new URL(f, iconDir));
+  writeFileSync(new URL('icons.json', iconDir), JSON.stringify({ tile: atlasMeta.tile, sheet_size: atlasMeta.sheet_size, columns: atlasMeta.columns, per_sheet: atlasMeta.per_sheet, sheets: ship }));
 }
 for (const it of items) {
   const k = nameKey(it.name);
