@@ -1,0 +1,12 @@
+{
+  "name": "hollywoodland-props",
+  "private": true,
+  "type": "module",
+  "description": "Prop optimisation (tools/props/optimize.mjs): weld + meshoptimizer simplify to an error bound, texture resize",
+  "dependencies": {
+    "@gltf-transform/core": "^4",
+    "@gltf-transform/extensions": "^4",
+    "@gltf-transform/functions": "^4",
+    "meshoptimizer": "^0.22"
+  }
+}

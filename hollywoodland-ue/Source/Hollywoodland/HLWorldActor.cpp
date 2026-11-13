@@ -3,6 +3,7 @@
 #include "HLUI.h"
 #include "Camera/CameraComponent.h"
 #include "Components/StaticMeshComponent.h"
+#include "Components/InstancedStaticMeshComponent.h"
 #include "Components/DirectionalLightComponent.h"
 #include "Engine/DirectionalLight.h"
 #include "Engine/Engine.h"
@@ -186,7 +187,26 @@ void AHLWorldActor::BuildWorld()
 		int32 gi = 0;
 		for (const FHLBox& B : Def.Ground) AddMesh(Geo, Cube, ToWorld(a, FVector2D(B.X + B.W * 0.5f, B.Y + B.D * 0.5f), 0.01f + 0.004f * (gi++ % 5)), FVector(B.W, B.D, 0.03f), B.Color);
 		for (const FHLBox& B : Def.Boxes) if (!AddProp(Geo, a, B.Prop)) AddMesh(Geo, Cube, ToWorld(a, FVector2D(B.X + B.W * 0.5f, B.Y + B.D * 0.5f), B.H * 0.5f), FVector(B.W, B.D, B.H), B.Color);
-		for (const FHLPropPlace& P : Def.Props) AddProp(Geo, a, P);
+		// building-kit modules (facade bays, pilasters, parapets: hundreds of each) draw as one instanced component per mesh
+		TMap<FString, UInstancedStaticMeshComponent*> Kit;
+		for (const FHLPropPlace& P : Def.Props)
+		{
+			if (!P.Mesh.StartsWith(TEXT("/Game/Buildings/BRK_")) && !P.Mesh.StartsWith(TEXT("/Game/Buildings/SM_BRK_"))) { AddProp(Geo, a, P); continue; }
+			UInstancedStaticMeshComponent*& I = Kit.FindOrAdd(P.Mesh);
+			if (!I)
+			{
+				UStaticMesh* Mesh = LoadObject<UStaticMesh>(nullptr, *P.Mesh, nullptr, LOAD_NoWarn);
+				if (!Mesh) { HLBridge::Log(FString::Printf(TEXT("HL kit mesh missing: %s"), *P.Mesh)); Kit.Remove(P.Mesh); continue; }
+				I = NewObject<UInstancedStaticMeshComponent>(Geo);
+				I->SetStaticMesh(Mesh);
+				I->SetMobility(EComponentMobility::Movable);
+				I->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+				I->SetCastShadow(false);
+				I->SetupAttachment(Geo->GetRootComponent());
+				I->RegisterComponent();
+			}
+			I->AddInstance(FTransform(FRotator(0, P.Yaw, 0), ToWorld(a, P.Pos, P.Z), P.Scale), /*bWorldSpace*/ true);
+		}
 		for (const FHLPortal& Po : Def.Portals) AddMesh(Geo, Cylinder, ToWorld(a, Po.Pos, 1.6f), FVector(Po.R * 1.2f, Po.R * 1.2f, 3.2f), FLinearColor(0.2f, 0.9f, 0.8f), true);
 		for (const FHLAidStation& Aid : Def.Aid) AddMesh(Geo, Cube, ToWorld(a, Aid.Pos, 0.05f), FVector(3, 3, 0.1f), FLinearColor(0.9f, 0.1f, 0.1f), true);
 		// interactable objects
@@ -536,6 +556,28 @@ void AHLWorldActor::AutoTest(float Dt)
 	}
 	if (AutoQuit > 0 && T > AutoQuit) { UKismetSystemLibrary::QuitGame(this, nullptr, EQuitPreference::Quit, false); return; }
 	FHLUnit* P = Game.PlayerUnit();
+	if (P && FParse::Param(FCommandLine::Get(), TEXT("HLViews")))
+	{
+		// building art check: a fixed tour of the boulevard fronts, one screenshot per stop (hl_view_NN.png)
+		struct FView { float X, Y, Yaw, Pitch, Dist; };
+		static const FView Views[] = { { 470, 204, -90, 8, 24 }, { 385, 204, -90, 8, 22 }, { 580, 204, -90, 14, 30 }, { 640, 196, 90, 8, 24 }, { 230, 196, 90, 8, 26 }, { 781, 200, 90, 6, 12 }, { 120, 205, -120, 18, 40 } };
+		static int32 Step = -1; static double NextStep = 0;
+		AutoNextShot = 1e9;
+		P->CombatUntil = 0; P->bAutoAttack = false; P->TargetId = 0;
+		if (T >= NextStep)
+		{
+			if (++Step >= (int32)UE_ARRAY_COUNT(Views)) { UKismetSystemLibrary::QuitGame(this, nullptr, EQuitPreference::Quit, false); return; }
+			const FView& V = Views[Step];
+			Game.TeleportUnit(*P, 0, FVector2D(V.X, V.Y));
+			NextStep = T + 2.5;
+		}
+		const FView& V = Views[FMath::Max(0, Step)];
+		CamYaw = V.Yaw; CamPitch = V.Pitch; CamDist = V.Dist; P->Yaw = V.Yaw; P->Pos = FVector2D(V.X, V.Y); // pinned: the self-play bot keeps walking
+#if !PLATFORM_WASM
+		static int32 Shot = -1;
+		if (Shot != Step && T > NextStep - 0.6) { Shot = Step; FScreenshotRequest::RequestScreenshot(FPaths::ProjectSavedDir() / FString::Printf(TEXT("Screenshots/hl_view_%02d.png"), Step), true, false); }
+#endif
+	}
 	if (P && FParse::Param(FCommandLine::Get(), TEXT("HLLineup")))
 	{
 		// character art check: camera in front of the player, a new body and outfit every 3 s, a screenshot of each

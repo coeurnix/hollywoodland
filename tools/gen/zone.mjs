@@ -1,6 +1,10 @@
 // Built slice (DESIGN-BIBLE §14): Hollywood Boulevard layout, the Egyptian Theatre, mob templates, NPCs, camps, objects.
 // Units: metres. x = east, y = south. The client turns this into gray-box geometry and a 2 m nav grid.
 // Each area has its own grid; `offset` places it in the single UE level.
+// Props (art/props, imported by tools/propprep.py): a box may carry `prop` (drawn instead of its cube, the box stays the collision),
+// an object may carry `prop` (drawn instead of its primitive), and `props` lists free-standing dressing (no collision).
+import { PROPS as PROPS_TABLE, placement, footprint, fitBox, rng } from './props.mjs';
+import { brkFront, landmark, signCard } from './facades.mjs';
 const C = { road: [0.13, 0.13, 0.14], walk: [0.3, 0.29, 0.27], lot: [0.34, 0.31, 0.24], hill: [0.36, 0.34, 0.22], shop: [0.48, 0.44, 0.38], shop2: [0.42, 0.4, 0.42],
   landmark: [0.72, 0.62, 0.42], hive: [0.22, 0.12, 0.26], civic: [0.6, 0.6, 0.62], wreck: [0.2, 0.22, 0.25], interior: [0.25, 0.2, 0.18], seat: [0.4, 0.1, 0.1] };
 
@@ -47,17 +51,61 @@ export const mobs = [
 
 // ---------- geometry helpers ----------
 const boxes = [], ground = [], labels = [];
-const box = (x0, y0, x1, y1, h, color, label, o = {}) => boxes.push({ x: x0, y: y0, w: x1 - x0, d: y1 - y0, h, color, label: label || '', ...o });
+const box = (x0, y0, x1, y1, h, color, label, o = {}) => { const b = { x: x0, y: y0, w: x1 - x0, d: y1 - y0, h, color, label: label || '', ...o }; boxes.push(b); return b; };
 const strip = (x0, y0, x1, y1, color) => ground.push({ x: x0, y: y0, w: x1 - x0, d: y1 - y0, color });
 function shops(x0, x1, y0, y1, seed, names = []) {
   // a row of storefronts of varying width/height along x
   let x = x0, i = 0;
+  const row = [];
   while (x < x1 - 6) {
     const w = Math.min(x1 - x, 14 + ((seed * 7 + i * 13) % 12));
     const h = 6 + ((seed * 5 + i * 11) % 4) * 3;
-    box(x, y0, x + w - 0.5, y1, h, i % 2 ? C.shop : C.shop2, names[i] || '');
+    row.push(box(x, y0, x + w - 0.5, y1, h, i % 2 ? C.shop : C.shop2, names[i] || ''));
     x += w; i++;
   }
+  return row;
+}
+// dressing: free props, and props that are their own collision box (axis-aligned yaw)
+const props = [];
+const deco = (id, x, y, yaw = 0, s = 1, z = 0) => props.push(placement(id, x, y, yaw, s, z));
+const propBox = (id, x, y, yaw, s, color) => { const [x0, y0, x1, y1] = footprint(id, x, y, yaw, s); const p = placement(id, x, y, yaw, s); return box(x0, y0, x1, y1, (PROP_H(id) * (Array.isArray(s) ? s[2] : s)), color, '', { prop: p }); };
+const PROP_H = (id) => PROPS_TABLE[id].max[2] - PROPS_TABLE[id].min[2];
+// shop signs: named shops get their own; a seeded share of the rest get a generic one. North fronts face +y, south fronts -y.
+const GENERIC_SIGNS = ['sign_fascia', 'sign_neon', 'sign_blade_tailor', 'sign_blade_photo', 'sign_cafe'];
+const NAMED_SIGNS = { 'Max Factor Salon': 'sign_max_factor', 'Hollywood Gun Shop': 'sign_gun_shop', Haberdashery: 'sign_haberdashery', Drugstore: 'sign_drugstore' };
+const signRand = rng(7);
+// building-kit fronts (tools/gen/facades.mjs): every shop gets a dressed BRK street face; the Drugstore is its own landmark
+let facadeSeed = 0;
+const KIT_SIGNS = { Haberdashery: 'SIGN_Haberdashery' };
+function facades(row, north) {
+  for (const b of row) {
+    facadeSeed++;
+    if (b.label === 'Drugstore') {
+      const { body, extra } = landmark(b, north, 'LM_Drugstore');
+      b.prop = body; b.noSign = true; props.push(...extra);
+      continue;
+    }
+    props.push(...brkFront(b, north, facadeSeed));
+    if (KIT_SIGNS[b.label]) { props.push(...signCard(b, north, KIT_SIGNS[b.label], b.w / 2, 3.55)); b.noSign = true; }
+  }
+}
+function signs(row, north) {
+  for (const b of row) {
+    if (b.noSign) continue;
+    const id = NAMED_SIGNS[b.label] || (signRand() < 0.6 ? GENERIC_SIGNS[Math.floor(signRand() * GENERIC_SIGNS.length)] : null);
+    if (!id) continue;
+    const blade = PROPS_TABLE[id].max[0] > 0.5;  // projects from the wall: hang it near one end of the shop
+    const x = blade ? b.x + 1.2 : b.x + b.w / 2, y = north ? b.y + b.d : b.y;
+    deco(id, x, y, north ? 90 : -90, 1, Math.min(b.h - 1.2, blade ? 4.6 : 4.2));
+  }
+}
+// fire escapes on the alley side of the taller shops
+function escapes(row, north, every = 2) {
+  row.filter((b) => b.h >= 9).forEach((b, i) => {
+    if (i % every) return;
+    const id = b.h >= 12 ? 'fire_escape' : 'fire_escape_wall';
+    deco(id, b.x + b.w / 2, north ? b.y - 1.4 : b.y + b.d + 1.4, north ? 180 : 0);
+  });
 }
 
 // Streets
@@ -76,30 +124,31 @@ strip(X0, 186, X1, 190, C.walk); strip(X0, 210, X1, 214, C.walk);
 strip(X0, 199.2, X1, 199.5, [0.5, 0.5, 0.52]); strip(X0, 200.5, X1, 200.8, [0.5, 0.5, 0.52]);
 
 // North side of the boulevard
-shops(30, 48, 150, 186, 1);
+{ const r = shops(30, 48, 150, 186, 1); facades(r, true); signs(r, true); escapes(r, true); }
 box(52, 108, 134, 166, 16, C.landmark, "Grauman's Chinese Theatre");
 box(52, 166, 58, 186, 5, C.landmark); box(128, 166, 134, 186, 5, C.landmark);                // forecourt walls
-shops(154, 168, 150, 186, 2, ['Max Factor Salon']);
+{ const r = shops(154, 168, 150, 186, 2, ['Max Factor Salon']); facades(r, true); signs(r, true); }
 box(170, 160, 286, 186, 14, C.landmark, 'Hollywood Hotel'); box(170, 108, 194, 160, 12, C.landmark); box(262, 108, 286, 160, 12, C.landmark);
 box(194, 104, 220, 110, 6, C.landmark); box(236, 104, 262, 110, 6, C.landmark);              // ballroom north wall with a 16 m gap
 box(310, 148, 352, 186, 22, C.civic, 'First National Bank');
-shops(356, 416, 150, 186, 3, ['Hollywood Gun Shop', 'Haberdashery']);
-shops(434, 516, 150, 186, 4, ['Drugstore']);
-shops(534, 606, 150, 186, 5);
-shops(626, 688, 150, 186, 6);
+{ const r = shops(356, 416, 150, 186, 3, ['Hollywood Gun Shop', 'Haberdashery']); facades(r, true); signs(r, true); escapes(r, true); }
+{ const r = shops(434, 516, 150, 186, 4, ['Drugstore']); facades(r, true); signs(r, true); escapes(r, true); }
+{ const r = shops(534, 606, 150, 186, 5); facades(r, true); signs(r, true); escapes(r, true); }
+{ const r = shops(626, 688, 150, 186, 6); facades(r, true); signs(r, true); escapes(r, true); }
 box(690, 128, 746, 186, 18, C.landmark, 'Pantages Theatre');
-shops(770, 840, 150, 186, 7);
+{ const r = shops(770, 840, 150, 186, 7); facades(r, true); signs(r, true); escapes(r, true); }
 // South side
-shops(30, 56, 214, 250, 8);
+{ const r = shops(30, 56, 214, 250, 8); facades(r, false); signs(r, false); escapes(r, false); }
 box(60, 214, 134, 272, 24, C.landmark, 'Roosevelt Hotel');
-shops(154, 286, 214, 250, 9);
-shops(310, 416, 214, 250, 10);
+{ const r = shops(154, 286, 214, 250, 9); facades(r, false); signs(r, false); escapes(r, false); }
+{ const r = shops(310, 416, 214, 250, 10); facades(r, false); signs(r, false); escapes(r, false); }
 box(434, 214, 460, 242, 7, C.landmark); box(490, 214, 516, 242, 7, C.landmark);              // Egyptian courtyard wings
 box(434, 242, 516, 292, 15, C.landmark, 'The Egyptian Theatre');
-shops(534, 606, 214, 252, 11);
+{ const r = shops(534, 606, 214, 252, 11); facades(r, false); signs(r, false); escapes(r, false); }
 box(538, 262, 584, 296, 10, C.civic, 'Hollywood Police Station');
-shops(626, 746, 214, 250, 12);
-box(770, 214, 812, 262, 36, C.landmark, 'Taft Building');
+{ const r = shops(626, 746, 214, 250, 12); facades(r, false); signs(r, false); escapes(r, false); }
+const taft = box(770, 214, 812, 262, 36, C.landmark, 'Taft Building');
+props.push(...signCard(taft, false, 'SIGN_Auction', 812 - 781, 3.3));   // the auction rooms on the Taft's ground floor (x 781)
 box(770, 274, 800, 298, 8, C.landmark, 'Brown Derby');
 box(470, 248, 482, 250, 5, C.hive);                                                           // (decor) hive growth at the Egyptian door
 // Hollywood High (Sunset & Highland)
@@ -107,8 +156,10 @@ box(196, 344, 262, 352, 9, C.civic, 'Hollywood High School'); box(196, 352, 204,
 // Aid stations and misc landmarks
 box(488, 300, 512, 318, 8, C.civic, 'Hollywood Receiving Hospital'); box(626, 256, 646, 280, 9, C.civic, 'Fire Station No. 27'); box(112, 440, 138, 470, 12, C.civic, 'Blessed Sacrament Church');
 // Wrecks and cover in the back lots
-for (const [x, y] of [[650, 276], [676, 290], [702, 272], [352, 340], [388, 372], [330, 396], [672, 352], [718, 384], [820, 352]]) box(x, y, x + 7, y + 3, 2.6, C.wreck, '');
-for (const [x, y] of [[90, 60], [250, 70], [470, 40], [560, 90], [660, 20], [760, 80], [380, 100], [820, -20], [180, -30]]) box(x, y, x + 5, y + 5, 2 + (x % 3), C.hill, '');
+// wrecks: each prop is its own cover box (the scrap objects sit just south of them)
+const WRECKS = ['wreck_rusted', 'wreck_charred', 'truck_wrecked', 'wreck_van', 'truck_starlight_wreck', 'wreck_charred', 'wreck_rusted', 'truck_wrecked', 'wreck_van'];
+[[650, 276], [676, 290], [702, 272], [352, 340], [388, 372], [330, 396], [672, 352], [718, 384], [820, 352]].forEach(([x, y], i) => propBox(WRECKS[i], x + 3.5, y + 1.5, i % 2 ? 180 : 0, 1, C.wreck));
+[[90, 60], [250, 70], [470, 40], [560, 90], [660, 20], [760, 80], [380, 100], [820, -20], [180, -30]].forEach(([x, y], i) => propBox('rock_mossy', x + 2.5, y + 2.5, (i % 4) * 90, [2.6, 3.4, 2 + (x % 3)].map((v, k) => k === 2 ? v / 0.65 : v), C.hill));
 
 // Hive walls: the perimeter, with one gap per road out. Gap guards are elites far above the zone.
 const WALL_H = 18;
@@ -121,19 +172,19 @@ box(OX0 - 8, OY0, OX0, OY1, 26, C.hive); box(OX1, OY0, OX1 + 8, OY1, 26, C.hive)
 // north: Cahuenga Pass (30-40), the Bowl up Highland, broken hills, hive spires
 box(250, -300, 350, -268, 14, C.landmark, 'Hollywood Bowl'); box(230, -290, 248, -262, 9, C.landmark); box(352, -290, 370, -262, 9, C.landmark);
 for (const [x, y, w, h] of [[-260, -230, 60, 8], [-120, -260, 50, 12], [40, -200, 70, 10], [150, -280, 60, 14], [430, -240, 80, 12], [600, -280, 70, 16], [760, -210, 60, 10], [900, -270, 90, 14], [1010, -200, 60, 8]]) box(x, y, x + w, y + w * 0.6, h, C.hill);
-for (const [x, y] of [[120, -150], [470, -160], [700, -150], [-60, -170], [880, -150], [330, -200]]) box(x, y, x + 5, y + 5, 22, C.hive);
+for (const [x, y] of [[120, -150], [470, -160], [700, -150], [-60, -170], [880, -150], [330, -200]]) box(x, y, x + 5, y + 5, 22, C.hive, '', { prop: fitBox('hive_spire_tall', x, y, x + 5, y + 5, 22) });
 // east: Gower Gulch (8-16): Columbia at Sunset & Gower, Poverty Row shacks
 box(1010, 120, 1090, 184, 16, C.landmark, 'Columbia Pictures'); box(1010, 216, 1040, 260, 7, C.shop, 'Poverty Row'); box(1050, 216, 1074, 250, 6, C.shop2); box(1080, 220, 1104, 262, 7, C.shop);
 box(940, 60, 980, 90, 6, C.shop2); box(950, 300, 990, 330, 6, C.shop); box(1040, 380, 1080, 420, 9, C.civic, 'Christie Studio');
-for (const [x, y] of [[960, 150], [960, 250], [1060, 330], [1000, 20], [990, 480]]) box(x, y, x + 5, y + 5, 22, C.hive);
+for (const [x, y] of [[960, 150], [960, 250], [1060, 330], [1000, 20], [990, 480]]) box(x, y, x + 5, y + 5, 22, C.hive, '', { prop: fitBox('hive_spire_tall', x, y, x + 5, y + 5, 22) });
 // south: Melrose (10-20): the cemetery gate, Paramount and RKO beyond
 box(330, 640, 400, 652, 8, C.civic, 'Hollywood Cemetery'); box(330, 652, 342, 700, 4, C.civic); box(400, 640, 470, 652, 4, C.civic);
 box(150, 690, 280, 750, 18, C.landmark, 'Paramount Pictures'); box(500, 680, 600, 750, 14, C.landmark, 'RKO Radio Pictures');
-for (const [x, y] of [[120, 600], [220, 610], [420, 600], [640, 620], [760, 600], [40, 680]]) box(x, y, x + 5, y + 5, 22, C.hive);
+for (const [x, y] of [[120, 600], [220, 610], [420, 600], [640, 620], [760, 600], [40, 680]]) box(x, y, x + 5, y + 5, 22, C.hive, '', { prop: fitBox('hive_spire_tall', x, y, x + 5, y + 5, 22) });
 // west: West Hollywood (20-30): La Brea & Sunset, Chaplin's studio
 box(-290, 230, -200, 300, 14, C.landmark, 'Chaplin Studios'); box(-300, 120, -240, 180, 9, C.shop, 'La Brea Avenue'); box(-230, 120, -180, 180, 7, C.shop2);
 box(-300, 400, -220, 450, 10, C.shop, 'Sunset & La Brea'); box(-200, 400, -150, 440, 7, C.shop2);
-for (const [x, y] of [[-150, 150], [-160, 260], [-260, 40], [-250, 350], [-170, 500]]) box(x, y, x + 5, y + 5, 22, C.hive);
+for (const [x, y] of [[-150, 150], [-160, 260], [-260, 40], [-250, 350], [-170, 500]]) box(x, y, x + 5, y + 5, 22, C.hive, '', { prop: fitBox('hive_spire_tall', x, y, x + 5, y + 5, 22) });
 
 const subzones = [
   { name: "Grauman's Chinese Forecourt", x: 30, y: 150, w: 120, d: 70 }, { name: 'Hollywood & Highland', x: 150, y: 150, w: 270, d: 70 },
@@ -231,9 +282,78 @@ const obj = (kind, name, x, y, o = {}) => objects.push({ id: `obj_${String(++obj
 obj('mailbox', 'Mailbox', 354, 188, { respawn: 0 });
 obj('redcar', 'Pacific Electric Red Car', 276, 200, { respawn: 0, big: true });
 
+// ---------- props for the interactables (the renderer falls back to primitives without them) ----------
+// kind -> (index, object) => [prop id, yaw, scale]
+const objRand = rng(11);
+const OBJ_PROPS = {
+  film_can: (i) => [i % 2 ? 'film_can_b' : 'film_can_a', objRand() * 360, 1.4],
+  reel: () => ['film_canister', objRand() * 360, 1.4],
+  coffee_tin: (i) => [i % 3 ? 'coffee_tin_a' : 'coffee_tin_b', objRand() * 360, 2.5],
+  arc_lamp: (i, o) => [i % 2 ? 'arc_lamp_b' : 'arc_lamp_a', o.y < 200 ? 90 : -90, 1],
+  spire: () => ['hive_spire', objRand() * 360, [1.8, 1.8, 3.7]],
+  egg: () => ['hive_eggs', objRand() * 360, 0.75],
+  spread_egg: () => ['hive_eggs_pale', objRand() * 360, 0.7],
+  boss_egg: () => ['hive_eggs', objRand() * 360, 0.9],
+  egg_sac: () => ['hive_eggs_pale', 0, [1.6, 1.6, 1.9]],
+  callbox: (i) => [['callbox', 'callbox_blue', 'callbox_alt'][i % 3], -90, 1],
+  scrap: () => ['scrap_pile', objRand() * 360, 0.8],
+  mailbox: () => ['mailbox', 90, 1],
+  redcar: () => ['red_car', 0, 1],
+  usher: () => ['hive_tendrils', objRand() * 360, 1.1],
+};
+function dressObjects(list) {
+  const seen = {};
+  for (const o of list) {
+    const f = OBJ_PROPS[o.kind];
+    if (!f) continue;
+    const [id, yaw, s] = f((seen[o.kind] = (seen[o.kind] ?? -1) + 1), o);
+    o.prop = placement(id, o.x, o.y, yaw, s);
+  }
+}
+dressObjects(objects);
+
+// ---------- dressing (no collision) ----------
+const CROSS = [[10, 26], [140, 150], [290, 306], [420, 430], [520, 530], [610, 622], [750, 766]];
+const onCross = (x, pad = 3) => CROSS.some(([a, b]) => x > a - pad && x < b + pad);
+const nearNpc = (x, y, r = 4) => npcs.some((n) => Math.hypot(n.x - x, n.y - y) < r) || objects.some((o) => Math.hypot(o.x - x, o.y - y) < r);
+// street lamps on both kerbs of the boulevard, trolley poles on the north kerb holding the red-car wire over the rails
+for (let x = -96; x < 900; x += 36) {
+  for (const y of [189.4, 210.6]) if (!onCross(x) && !nearNpc(x, y)) deco('street_lamp', x, y, 0);
+  const px = x + 18;
+  // the pole stands at the -x end of the mesh (bounds centred): shift it so the base is on the kerb and the arm reaches over the street
+  if (!onCross(px) && !nearNpc(px, 189.4) && (px < 250 || px > 310)) deco('trolley_pole', px, 189.4 + 2.6, 90);
+}
+// theatre marquees (hung from the front wall) and a theatre front on Vine
+deco('marquee', 718, 186 + 1.4, 90, 1, 6.2);                   // Pantages
+deco('marquee', 93, 166 + 1.4, 90, [1, 1.6, 1], 7);             // Grauman's, over the forecourt
+deco('marquee', 475, 242 - 1.4, -90, 1, 5.5);                   // the Egyptian, over the dungeon door
+deco('theatre_facade', 662, 214 + 1.2, -90);
+// cars abandoned along the kerbs (solid: they are cover), the newsreel truck and a delivery van
+[['car_tudor', 180, 192.4, 180], ['car_sedan_burgundy', 430, 207.6, 0], ['car_chevrolet', 560, 192.4, 180], ['car_chevrolet_blue', 650, 207.6, 0],
+  ['car_ford_a', 860, 192.4, 180], ['car_model_t', -60, 207.6, 0], ['truck_newsreel', 600, 207.4, 0], ['van_delivery', 520, 192.6, 180], ['car_chevrolet', 30, 192.4, 180]]
+  .forEach(([id, x, y, yaw]) => propBox(id, x, y, yaw, 1, C.wreck));
+// barricades at the gaps in the hive wall
+for (const [x, y, yaw] of [[284, -98, 90], [312, -98, 90], [284, 548, -90], [312, 548, -90], [-98, 186, 0], [-98, 214, 0], [898, 186, 180], [898, 214, 180]]) deco('sandbags', x, y, yaw);
+// aid stations: triage tents
+deco('tent_triage', 522, 326, 180); deco('tent_triage', 656, 290, 180); deco('tent_triage', 100, 450, 0);
+// the ballroom: a fallen chandelier and wrecked furniture around the brute
+deco('chandelier_rubble', 222, 130, 30);
+[[204, 118, 20], [252, 120, 160], [208, 150, 75], [250, 150, 300], [238, 146, 200], [214, 134, 110]].forEach(([x, y, yaw]) => deco('ballroom_furniture', x, y, yaw));
+deco('brick_rubble', 228, 112, 0, 1.4); deco('brick_rubble', 198, 140, 90, 1.2);
+// the Brown Derby kitchen yard and the back lots
+deco('coffee_sacks', 814, 284, 0); deco('coffee_sacks', 766, 306, 90); deco('crates', 812, 296, 0);
+[[592, 300, 0], [700, 360, 90], [828, 330, 0], [372, 300, 90], [456, 360, 0], [612, 408, 90]].forEach(([x, y, yaw]) => deco('crates', x, y, yaw));
+deco('shed_collapsed', 470, 400, 0); deco('wall_ruined', 600, 340, 90); deco('wall_ruined', 760, 400, 0); deco('pole_fallen', 452, 316, 20);
+deco('brick_rubble', 642, 316, 40, 1.4); deco('brick_rubble', 846, 316, 0, 1.4); deco('brick_rubble', 316, 352, 120, 1.4);
+deco('stair_wooden', 590, 146, 180); deco('stair_landing', 398, 254, 0);
+// hive growth spreading from the walls and around the egg fields
+for (const [x, y, id] of [[226, 372, 'hive_goo'], [300, 364, 'hive_goo'], [140, 388, 'hive_goo'], [334, 306, 'hive_goo'], [476, 254, 'hive_goo'],
+  [-96, 120, 'hive_arch'], [-96, 290, 'hive_arch'], [896, 100, 'hive_arch'], [896, 330, 'hive_arch'], [120, -96, 'hive_spire'], [640, -96, 'hive_spire'], [480, 546, 'hive_spire'], [120, 546, 'hive_spire']])
+  deco(id, x, y, objRand() * 360, id === 'hive_goo' ? 1.6 : id === 'hive_arch' ? 2.4 : [2, 2, 3]);
+
 const zone = {
   id: 'zone_hollywood_blvd', name: 'Hollywood Boulevard', min: [OX0 - 10, OY0 - 10], size: [OX1 - OX0 + 20, OY1 - OY0 + 20], cell: 2, offset: [0, 0], sky: [0.42, 0.32, 0.38], floor: C.lot,
-  boxes: boxes.splice(0), ground: ground.splice(0), subzones, npcs: npcs.splice(0), camps: camps.splice(0), objects: objects.splice(0),
+  boxes: boxes.splice(0), ground: ground.splice(0), props: props.splice(0), subzones, npcs: npcs.splice(0), camps: camps.splice(0), objects: objects.splice(0),
   spawn: [92, 184], aid: [{ name: 'Hollywood Receiving Hospital', x: 500, y: 322 }, { name: 'Fire Station No. 27', x: 636, y: 284 }, { name: 'Blessed Sacrament Church', x: 125, y: 436 }],
   portals: [{ id: 'portal_egyptian', x: 475, y: 238, r: 3, to_area: 'dng_egyptian', to: [60, 8], label: 'The Egyptian Theatre (Dungeon, 8-12)' }],
   pois: { bank: [330, 191], auction: [776, 208], mailbox: [354, 190], redcar: [284, 198], trainers: [92, 184], inn: [96, 210], vendor: [372, 190], police: [530, 276], forecourt: [92, 188], vine: [756, 200] },
@@ -264,13 +384,21 @@ dcamp('mob_boss_hive_mother', 1, 60, 242, 1);
 [[26, 176], [94, 176], [26, 198], [94, 198], [44, 198]].forEach(([x, y]) => obj('reel', 'Film Reel', x, y, { gives: 'Reel of Robin Hood', quest: 'q_hb_26', respawn: 0 }));
 [[44, 66], [76, 66], [44, 80], [76, 80]].forEach(([x, y]) => obj('boss_egg', 'Egg Cluster', x, y, { use: true, respawn: 0, boss: 'mob_boss_brood_keeper' }));
 obj('egg_sac', 'Egg Sac', 60, 250, { use: true, respawn: 0, boss: 'mob_boss_hive_mother' });
+dressObjects(objects);
+// the hive has taken the theatre: membranes hanging off the divider walls, goo, egg clutches and spires in the corners
+for (const y of [42, 86, 170, 204]) for (const x of [30, 44, 76, 90]) deco('hive_membrane', x, y - 0.2, 90, [1, 2, 2], 9);
+for (const [x, y] of [[36, 20], [84, 28], [30, 70], [88, 76], [60, 116], [34, 160], [86, 150], [60, 188], [36, 226], [84, 230]]) deco('hive_goo', x, y, objRand() * 360, 1.8);
+for (const [x, y] of [[24, 40], [96, 40], [24, 84], [96, 84], [24, 168], [96, 168], [24, 254], [96, 254]]) deco('hive_spire', x, y, objRand() * 360, [1.4, 1.4, 2.4]);
+for (const [x, y] of [[88, 12], [32, 52], [92, 196], [30, 214], [90, 246]]) deco('hive_eggs_pale', x, y, objRand() * 360, 0.8);
+deco('crates', 26, 190, 0); deco('crates', 94, 186, 90); deco('film_canister', 30, 186, 0, 1.2); deco('chandelier_rubble', 60, 118, 0, 1.2);
+deco('hive_tendrils', 50, 246, 0, 2); deco('hive_tendrils', 70, 246, 180, 2);
 
 const dungeon = {
   id: 'dng_egyptian', name: 'The Egyptian Theatre', min: [0, -10], size: [120, 280], cell: 2, offset: [3000, 0], sky: [0.05, 0.04, 0.06], floor: [0.2, 0.17, 0.15], dungeon: true,
   boxes: boxes.splice(0), ground: [{ x: 54, y: 0, w: 12, d: 256, color: [0.45, 0.12, 0.12] }], subzones: [
     { name: 'Forecourt', x: 20, y: 0, w: 80, d: 42 }, { name: 'Lobby', x: 20, y: 46, w: 80, d: 40 }, { name: 'Auditorium', x: 20, y: 90, w: 80, d: 80 },
     { name: 'Projection Booth', x: 20, y: 174, w: 80, d: 30 }, { name: 'Stage', x: 20, y: 208, w: 80, d: 48 }],
-  npcs: [], camps: camps.splice(0), objects: objects.splice(0), spawn: [60, 8], aid: [],
+  props: props.splice(0), npcs: [], camps: camps.splice(0), objects: objects.splice(0), spawn: [60, 8], aid: [],
   portals: [{ id: 'portal_egyptian_exit', x: 60, y: 2.5, r: 2.5, to_area: 'zone_hollywood_blvd', to: [475, 226], label: 'Exit to Hollywood Boulevard' }],
   pois: {}, exits: [], idle_spots: [],
 };
