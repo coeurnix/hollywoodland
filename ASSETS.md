@@ -15,6 +15,8 @@ submission (bible §2 rule 1).
 
 ## 3D models
 
+**Prop source models (not yet imported):** `art/props/` holds 66 Unreal-ready `.glb` props generated with Hyper3D Rodin. They're optimized for web, have real-world scale (1 unit = 1 m), and have pivots baked in. They cover the Riviera theatre facade, shop signs, street lamps, trolley poles, red-car track and the red car itself, period cars, newsreel trucks and wrecks, fire escapes, rubble and walls. They also cover the interactables (film cans, coffee tins, arc lamps, call boxes, mailbox, scrap pile) and the hive spire, egg clusters and other hive pieces. Import notes are in `art/props/README.txt`. None is wired into `BuildWorld` yet.
+
 | Needed | Count | Current placeholder | Where |
 |---|---|---|---|
 | Landmark exteriors: Grauman's Chinese, Egyptian, Roosevelt, Hollywood Hotel, First National Bank, Taft Building, Brown Derby, Pantages, Hollywood High, police station | 10 | labelled coloured boxes (`label` on boxes in `tools/gen/zone.mjs`) | `AHLWorldActor::BuildWorld` (swap mesh by `FHLBox::Label`) |
