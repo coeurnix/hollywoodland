@@ -571,9 +571,28 @@ void FHLGame::InteractUnit(int32 Id)
 	{
 		if (T->bDead) { Error(FString::Printf(TEXT("%s is dead."), *T->Name)); return; }
 		if (Dist(*U, *T) > 6) { Error(TEXT("You are too far away.")); return; }
-		if (T->Npc->HasRole(TEXT("guard")) && T->Npc->Roles.Num() == 1) { AddChat(TEXT("npc"), T->Name, TEXT("Keep to the boulevard after dark. The Egyptian is theirs, and so is everything past the wall.")); return; }
+		// clicking the same person over and over gets a WoW-style "stop poking me"
+		if (NpcClickUnit == Id && Now - NpcClickAt < 4) ++NpcClicks; else NpcClicks = 1;
+		NpcClickUnit = Id; NpcClickAt = Now;
+		const bool bAnnoyed = NpcClicks >= 5 && Say(*T, *T->Npc, TEXT("annoyed")) >= 0;
+		if (bAnnoyed) NpcClicks = 0;
+		if (T->Npc->HasRole(TEXT("guard")) && T->Npc->Roles.Num() == 1 && !FHLData::Get().LinesFor(*T->Npc))
+		{
+			AddChat(TEXT("npc"), T->Name, TEXT("Keep to the boulevard after dark. The Egyptian is theirs, and so is everything past the wall."));
+			return;
+		}
 		QuestEvent(TEXT("talk"), T->Npc->Id);
 		Gesture(*T, Chance(0.3f) ? TEXT("Wave") : TEXT("Talk"));
+		// the first visit opens with a full greeting, later ones with a short hello; the window shows a greeting either way
+		const FHLLines* L = FHLData::Get().LinesFor(*T->Npc);
+		const int32 NGreet = L && L->Get(TEXT("greet")) ? L->Get(TEXT("greet"))->Num() : 0;
+		NpcGreet = NGreet ? RandInt(0, NGreet - 1) : 0;
+		if (!bAnnoyed)
+		{
+			if (!TalkedTo.Contains(T->Npc->Id) && NGreet) Say(*T, *T->Npc, TEXT("greet"), NpcGreet, false);
+			else Say(*T, *T->Npc, TEXT("hello"));
+		}
+		TalkedTo.Add(T->Npc->Id);
 		OpenNpcUnitId = Id; OpenNpcMode = TEXT("gossip");
 	}
 }
@@ -845,7 +864,7 @@ void FHLGame::QuestEvent(const TCHAR* Type, const FString& Key, int32 Count, con
 		{
 			bool bAll = true;
 			for (int32 i = 0; i < QS.Progress.Num(); ++i) if (QS.Progress[i] < QS.Q->Objectives[i].Count) bAll = false;
-			if (bAll) { QS.bComplete = true; if (QS.Q->Type != TEXT("talk")) { AddChat(TEXT("quest"), FString(), FString::Printf(TEXT("%s (Complete)"), *QS.Q->Name)); AddFloat(PlayerUnitId, TEXT("Quest complete"), FLinearColor(1, 0.85f, 0.2f)); } }
+			if (bAll) { QS.bComplete = true; if (QS.Q->Type != TEXT("talk")) { AddChat(TEXT("quest"), FString(), FString::Printf(TEXT("%s (Complete)"), *QS.Q->Name)); AddFloat(PlayerUnitId, TEXT("Quest complete"), FLinearColor(1, 0.85f, 0.2f)); PlayerBark(TEXT("quest_done"), 0); } }
 		}
 	}
 }

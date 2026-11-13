@@ -114,6 +114,9 @@ private:
 	mutable bool bSearchFocus = false;
 	mutable FString AuctionSearch;
 	mutable bool bChar = false, bBags = false, bQuests = false, bSpells = false, bMap = false, bWho = false, bInspect = false, bTalents = false, bCraft = false, bMenu = false, bWorldMap = false, bHelp = true;
+	// zone map view: pixels per metre (0 = fit the town), centre in area coordinates, drag-to-pan
+	mutable float MapK = 0; mutable FVector2D MapCtr = FVector2D::ZeroVector; mutable int32 MapArea = -1;
+	mutable bool bMapPan = false; mutable FVector2D MapPanAt = FVector2D::ZeroVector;
 	mutable TMap<FName, FVector2D> WinPos;
 	mutable TMap<FName, double> WinSeen; // last paint time per window: a window not painted for a moment is opening again (sound)
 	mutable FName DragWin; mutable FVector2D DragOff;

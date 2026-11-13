@@ -356,6 +356,7 @@ void FHLGame::Tick(float Dt)
 	TickDuel();
 	TickPendingMail();
 	TickChat(Dt);
+	TickDialogue();
 	if (Now >= NextAuctionChurn) TickAuctions();
 	if (Roll.bActive && Now >= Roll.EndsAt) FinishRoll();
 	for (int32 i = Floats.Num() - 1; i >= 0; --i) { Floats[i].Age += Dt; if (Floats[i].Age > 1.6f) Floats.RemoveAt(i); }

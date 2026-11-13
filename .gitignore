@@ -33,3 +33,6 @@ hollywoodland-ue/Content/Characters/Rigs/
 
 # sfx masters (tools/gen-sfx.mjs): the 16-bit WAVs from fal stay local; sfx/*.mp3 ship
 sfx-src/
+
+# dialoguegen raw TTS originals
+vo-src/

@@ -251,6 +251,7 @@ void FHLGame::PlayerChat(const FString& Raw)
 		else if (Cmd == TEXT("/roll")) { AddChat(TEXT("system"), FString(), FString::Printf(TEXT("%s rolls %d (1-100)"), *Player.Name, RandInt(1, 100))); return; }
 		else if (Cmd == TEXT("/played")) { System(FString::Printf(TEXT("Total time played: %d minutes."), (int32)(Player.PlayedS / 60))); return; }
 		else if (Cmd == TEXT("/sit")) { if (P) P->bSitting = !P->bSitting; return; }
+		else if (DoEmote(Cmd.Mid(1), Rest)) return; // dialogue.json emotes (/train /silly /flirt /lol ...)
 		else if (Cmd == TEXT("/dance") || Cmd == TEXT("/wave") || Cmd == TEXT("/cheer") || Cmd == TEXT("/laugh") || Cmd == TEXT("/bow") || Cmd == TEXT("/point") || Cmd == TEXT("/shrug"))
 		{
 			const FString Verb = Cmd.Mid(1);
@@ -291,7 +292,8 @@ void FHLGame::PlayerChat(const FString& Raw)
 		}
 		else if (Cmd == TEXT("/help") || Cmd == TEXT("/?"))
 		{
-			System(TEXT("Chat: /s say, /y yell, /1 general, /2 trade, /4 lfg, /p party, /g guild, /w <name> <text>, /r reply. Other: /who, /gquit, /invite <name>, /friend <name>, /unfriend <name>, /duel <name>, /leave, /roll, /sit, /dance, /wave, /bow, /cheer, /laugh, /point, /shrug, /played, /music."));
+			System(TEXT("Chat: /s say, /y yell, /1 general, /2 trade, /4 lfg, /p party, /g guild, /w <name> <text>, /r reply. Other: /who, /gquit, /invite <name>, /friend <name>, /unfriend <name>, /duel <name>, /leave, /roll, /sit, /played, /music, /sfx."));
+			System(TEXT("Emotes: /dance, /wave, /bow, /cheer, /laugh (/lol), /silly, /flirt, /train, /chicken, /rasp, /charge, /cry, /spit, /rude, /point, /shrug. Target someone or add a name to aim it."));
 			System(TEXT("Keys: WASD move, right-drag turn, Tab target, 1-0 abilities, right-click interact, C character, B bags, L quests, M map, P abilities, O who, N talents, Esc close."));
 			return;
 		}

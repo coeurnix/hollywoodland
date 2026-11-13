@@ -1,0 +1,406 @@
+Job: the non-player character below. Write every array with exactly the count asked for. Quests: one entry per quest in the same order, id copied exactly; rewrite the current text so it is funnier, sharper and exactly consistent with the objectives (keep its facts; a quest whose turn-in is someone else still ends with a pointer to them). If 'directions' is asked for, give one line per place telling the player where it is and how to get there.
+Other people on the Boulevard you may mention: Max Factor (Pharmacy Trainer), Sgt. Walt Brenner (Veteran Trainer), Buck Tolliver (Stuntman Trainer), Annie Pruitt (Gunman Trainer), Lou Kessler (Electrician Trainer), Dutch Vanderhoek (Powder Man Trainer), Edith Collier, R.N. (Nurse Trainer), Rev. Amos Tully (Preacher Trainer), Hank Mulroney (Mechanic Trainer), Mickey Doyle (General Goods), Mr. Pennington (Roosevelt Hotel Front Desk), Miss Abigail Frost (Teller, First National Bank), Conductor Ruiz (Pacific Electric), Earl Tanner (Gunsmithing Trainer), Saul Hirsch (Haberdasher), Cornelius Vane (Auctioneer), Miss Opal Reed (Auctioneer), Ike Brandt (Salvaging Trainer), Gus Malloy (Brown Derby Kitchen), Mrs. Ida Walsh (Druggist, WCTU), Lloyd Carver (Pantages House Manager), Oscar Bell (Taft Building Doorman), Whitey Nolan (Pantages Stagehand), Chief James E. Davis (Los Angeles Police Department), Capt. William "Red" Hynes (LAPD Intelligence Squad), Patrolman Joe Kearney (Quartermaster), Boulevard Patrolman (any of the LAPD guards on the Boulevard) (LAPD).
+
+{
+ "id": "npc_sid_grauman",
+ "name": "Sid Grauman",
+ "title": "Showman",
+ "roles": [
+  "quest"
+ ],
+ "place": "Grauman's Chinese Forecourt",
+ "real_person": true,
+ "died": 1950,
+ "quests": [
+  {
+   "id": "q_hb_01",
+   "name": "Pests in the Forecourt",
+   "level": 1,
+   "giver": "Sid Grauman (Showman) [npc_sid_grauman]",
+   "turnin": "Sid Grauman (Showman) [npc_sid_grauman]",
+   "type": "kill",
+   "objectives": [
+    {
+     "type": "kill",
+     "mobs": [
+      "Invader Worker [mob_invader_worker]"
+     ],
+     "count": 6,
+     "label": "Invader Workers slain"
+    }
+   ],
+   "prereq": null,
+   "next": "The Newsreel Truck [q_hb_06]",
+   "hub": "Grauman's Chinese Forecourt",
+   "group": false,
+   "dungeon": false,
+   "rewards": {
+    "choice": [],
+    "rep": {}
+   },
+   "current_text": {
+    "offer": "Welcome to the Chinese, friend. I'd shake your hand but I've a theatre full of vermin. Those pale ones, the Workers, are carrying off my forecourt a brick at a time. They don't bite unless you start it. Start it. Six of them ought to make my point.",
+    "complete": "Six fewer. I can nearly hear the box office again. You'll do, kid."
+   }
+  },
+  {
+   "id": "q_hb_03",
+   "name": "A Note for the Roosevelt",
+   "level": 2,
+   "giver": "Sid Grauman (Showman) [npc_sid_grauman]",
+   "turnin": "Mr. Pennington (Roosevelt Hotel Front Desk) [npc_roosevelt_clerk]",
+   "type": "talk",
+   "objectives": [
+    {
+     "type": "talk",
+     "npc": "Mr. Pennington (Roosevelt Hotel Front Desk) [npc_roosevelt_clerk]",
+     "count": 1,
+     "label": "Deliver the note to the Roosevelt front desk"
+    }
+   ],
+   "prereq": "Pests in the Forecourt [q_hb_01]",
+   "next": "Dogs on Franklin [q_hb_04]",
+   "hub": "Grauman's Chinese Forecourt",
+   "group": false,
+   "dungeon": false,
+   "rewards": {
+    "choice": [],
+    "rep": {}
+   },
+   "current_text": {
+    "offer": "The Roosevelt across the way is holding rooms for my ushers and Pennington at the desk wants it in writing. Everything in writing, that man. Take him this note. Mind the streetcar tracks.",
+    "complete": "From Mr. Grauman? In writing, good. If you need a bed, a meal or a quiet hour, the Roosevelt is open to anyone fighting for the boulevard."
+   }
+  },
+  {
+   "id": "q_hb_06",
+   "name": "The Newsreel Truck",
+   "level": 3,
+   "giver": "Sid Grauman (Showman) [npc_sid_grauman]",
+   "turnin": "Sid Grauman (Showman) [npc_sid_grauman]",
+   "type": "object",
+   "objectives": [
+    {
+     "type": "object",
+     "kind": "film_can",
+     "item": "Newsreel Film Can",
+     "count": 6,
+     "label": "Newsreel film cans recovered",
+     "item_id": "Newsreel Film Can [item_q_newsreel_film_can]"
+    }
+   ],
+   "prereq": "Pests in the Forecourt [q_hb_01]",
+   "next": "Light the Boulevard [q_hb_07]",
+   "hub": "Grauman's Chinese Forecourt",
+   "group": false,
+   "dungeon": false,
+   "rewards": {
+    "choice": [],
+    "rep": {}
+   },
+   "current_text": {
+    "offer": "A Fox Movietone truck went over on Cahuenga, down by Selma, the night it all started. There is footage in those cans of the first hour and I mean to show it. Bring me six cans. The alleys there are crawling, so step lively.",
+    "complete": "Six cans, and not a dent that matters. Someday people will want to see this."
+   }
+  },
+  {
+   "id": "q_hb_07",
+   "name": "Light the Boulevard",
+   "level": 4,
+   "giver": "Sid Grauman (Showman) [npc_sid_grauman]",
+   "turnin": "Sid Grauman (Showman) [npc_sid_grauman]",
+   "type": "use",
+   "objectives": [
+    {
+     "type": "use",
+     "kind": "arc_lamp",
+     "count": 4,
+     "label": "Marquee arc lamps lit"
+    }
+   ],
+   "prereq": "The Newsreel Truck [q_hb_06]",
+   "next": "Selma Avenue Sweep [q_hb_08]",
+   "hub": "Grauman's Chinese Forecourt",
+   "group": false,
+   "dungeon": false,
+   "rewards": {
+    "choice": [],
+    "rep": {}
+   },
+   "current_text": {
+    "offer": "A dark boulevard belongs to them. A lit one belongs to us. There are four arc lamps between here and Wilcox that still have carbon in them. Strike them up, all four, and let the things see we're open for business.",
+    "complete": "Look at that. You can read a marquee from Highland again."
+   }
+  },
+  {
+   "id": "q_hb_08",
+   "name": "Selma Avenue Sweep",
+   "level": 4,
+   "giver": "Sid Grauman (Showman) [npc_sid_grauman]",
+   "turnin": "Sid Grauman (Showman) [npc_sid_grauman]",
+   "type": "kill",
+   "objectives": [
+    {
+     "type": "kill",
+     "mobs": [
+      "Invader Drone [mob_invader_drone]"
+     ],
+     "count": 10,
+     "label": "Invader Drones slain"
+    }
+   ],
+   "prereq": "Light the Boulevard [q_hb_07]",
+   "next": "Report to Chief Davis [q_hb_17]",
+   "hub": "Grauman's Chinese Forecourt",
+   "group": false,
+   "dungeon": false,
+   "rewards": {
+    "choice": [
+     "Work Boots of Agility [item_work_boots_of_agility_5]",
+     "Canvas Plimsolls of Intellect [item_canvas_plimsolls_of_intellect_5]",
+     "Hobnail Boots of Strength [item_hobnail_boots_of_strength_5]"
+    ],
+    "rep": {}
+   },
+   "current_text": {
+    "offer": "The Drones are a different animal from the Workers. They come at you, and they bring their friends. The alleys off Selma, behind the Egyptian, are thick with them. Ten would give my ushers room to breathe.",
+    "complete": "Ten Drones. You're earning a name on this street."
+   }
+  },
+  {
+   "id": "q_hb_10",
+   "name": "An Introduction at the Taft",
+   "level": 4,
+   "giver": "Sid Grauman (Showman) [npc_sid_grauman]",
+   "turnin": "Cornelius Vane (Auctioneer) [npc_auctioneer]",
+   "type": "talk",
+   "objectives": [
+    {
+     "type": "talk",
+     "npc": "Cornelius Vane (Auctioneer) [npc_auctioneer]",
+     "count": 1,
+     "label": "Speak to the auctioneer at the Taft Building"
+    }
+   ],
+   "prereq": null,
+   "next": null,
+   "hub": "Hollywood & Vine",
+   "group": false,
+   "dungeon": false,
+   "rewards": {
+    "choice": [],
+    "rep": {}
+   },
+   "current_text": {
+    "offer": "You've been picking things up off those creatures. Don't sell it all to shopkeepers. Cornelius Vane runs the auction floor at the Taft Building, Hollywood and Vine, and everyone on the hill sells through him. Tell him Sid sent you.",
+    "complete": "Grauman's word is good here. Everything that comes off a studio lot, a hive or a dead man's back is sold on this floor. Browse the listings, bid as you please."
+   }
+  },
+  {
+   "id": "q_hb_17",
+   "name": "Report to Chief Davis",
+   "level": 6,
+   "giver": "Sid Grauman (Showman) [npc_sid_grauman]",
+   "turnin": "Chief James E. Davis (Los Angeles Police Department) [npc_chief_davis]",
+   "type": "talk",
+   "objectives": [
+    {
+     "type": "talk",
+     "npc": "Chief James E. Davis (Los Angeles Police Department) [npc_chief_davis]",
+     "count": 1,
+     "label": "Report to Chief Davis at the Hollywood police station"
+    }
+   ],
+   "prereq": "Selma Avenue Sweep [q_hb_08]",
+   "next": "The School Gates [q_hb_18]",
+   "hub": "Hollywood Police Station",
+   "group": false,
+   "dungeon": false,
+   "rewards": {
+    "choice": [],
+    "rep": {}
+   },
+   "current_text": {
+    "offer": "The Chief of Police himself has set up at the Hollywood station on Wilcox. He asked me for anyone who can handle themselves, and you can. Go and see him. Stand up straight when you do.",
+    "complete": "Grauman sent you? Then you can shoot or you can run, and I need both. Hollywood High is a nest and I mean to clean it out."
+   }
+  },
+  {
+   "id": "q_hb_25",
+   "name": "Clear the Egyptian",
+   "level": 8,
+   "giver": "Sid Grauman (Showman) [npc_sid_grauman]",
+   "turnin": "Sid Grauman (Showman) [npc_sid_grauman]",
+   "type": "kill",
+   "objectives": [
+    {
+     "type": "kill",
+     "mobs": [
+      "The Egyptian Hive Mother [mob_boss_hive_mother]"
+     ],
+     "count": 1,
+     "label": "The Egyptian Hive Mother slain"
+    }
+   ],
+   "prereq": null,
+   "next": null,
+   "hub": "Grauman's Chinese Forecourt",
+   "group": true,
+   "dungeon": true,
+   "rewards": {
+    "choice": [
+     "Grauman's Usher Coat [item_grauman_s_usher_coat_10]",
+     "Usher's Flashlight Baton [item_usher_s_flashlight_baton_10]",
+     "Scarab Signet [item_scarab_signet_10]"
+    ],
+    "rep": {}
+   },
+   "current_text": {
+    "offer": "I built the Egyptian before I built this place. Opened it with Fairbanks in Robin Hood, in 'twenty-two. Now there's a queen of some kind on my stage. You'll want four friends. Go in through the courtyard and give me back my theatre.",
+    "complete": "She's dead? On my stage? Kid, the Egyptian reopens Friday and your name goes on the marquee."
+   }
+  },
+  {
+   "id": "q_hb_26",
+   "name": "Five Reels of Robin Hood",
+   "level": 8,
+   "giver": "Sid Grauman (Showman) [npc_sid_grauman]",
+   "turnin": "Sid Grauman (Showman) [npc_sid_grauman]",
+   "type": "object",
+   "objectives": [
+    {
+     "type": "object",
+     "kind": "reel",
+     "item": "Reel of Robin Hood",
+     "count": 5,
+     "label": "Reels of Robin Hood recovered",
+     "item_id": "Reel of Robin Hood [item_q_reel_of_robin_hood]"
+    }
+   ],
+   "prereq": null,
+   "next": null,
+   "hub": "Grauman's Chinese Forecourt",
+   "group": true,
+   "dungeon": true,
+   "rewards": {
+    "choice": [],
+    "rep": {}
+   },
+   "current_text": {
+    "offer": "The print of Robin Hood is still up in the Egyptian's projection booth. Five reels I care about. Nitrate burns if you look at it wrong, so carry them like eggs.",
+    "complete": "All five. We'll run it the night the Egyptian reopens."
+   }
+  },
+  {
+   "id": "q_hb_30",
+   "name": "Word from Melrose",
+   "level": 12,
+   "giver": "Sid Grauman (Showman) [npc_sid_grauman]",
+   "turnin": "npc_cemetery_gatekeeper",
+   "type": "talk",
+   "objectives": [
+    {
+     "type": "talk",
+     "npc": "npc_cemetery_gatekeeper",
+     "count": 1,
+     "label": "Report to the Hollywood Cemetery gate in Melrose"
+    }
+   ],
+   "prereq": null,
+   "next": null,
+   "hub": "Grauman's Chinese Forecourt",
+   "group": false,
+   "dungeon": false,
+   "rewards": {
+    "choice": [],
+    "rep": {}
+   },
+   "current_text": {
+    "offer": "You've outgrown my boulevard. The people at the Hollywood Cemetery gate, down in Melrose, are asking for help with the crypts. It's a hard road south through the wall. Don't go alone.",
+    "complete": ""
+   }
+  }
+ ],
+ "kinds": {
+  "hello": 4,
+  "greet": 3,
+  "bye": 3,
+  "annoyed": 2
+ }
+}
+
+SCHEMA:
+{
+ "type": "object",
+ "additionalProperties": false,
+ "required": [
+  "hello",
+  "greet",
+  "bye",
+  "annoyed",
+  "voice",
+  "quests"
+ ],
+ "properties": {
+  "hello": {
+   "type": "array",
+   "description": "exactly 4 entries; barks when the player clicks the NPC: 1-8 words each, the NPC noticing the player, each different",
+   "items": {
+    "type": "string"
+   }
+  },
+  "greet": {
+   "type": "array",
+   "description": "exactly 3 entries; the opening line of the talk window: 1-3 sentences, 12-45 words, personality, a hint of what is on their mind",
+   "items": {
+    "type": "string"
+   }
+  },
+  "bye": {
+   "type": "array",
+   "description": "exactly 3 entries; barks when the player walks off or closes the window: 1-8 words, like WoW merchants (\"Come back when your purse is fatter!\")",
+   "items": {
+    "type": "string"
+   }
+  },
+  "annoyed": {
+   "type": "array",
+   "description": "exactly 2 entries; barks after being clicked over and over: 4-15 words, exasperated, funny",
+   "items": {
+    "type": "string"
+   }
+  },
+  "voice": {
+   "type": "string",
+   "description": "casting note for a voice actor: sex, age, accent, timbre, pace, attitude; 15-40 words"
+  },
+  "quests": {
+   "type": "array",
+   "description": "exactly 10 entries, one per quest in order",
+   "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "id",
+     "offer",
+     "progress",
+     "complete"
+    ],
+    "properties": {
+     "id": {
+      "type": "string"
+     },
+     "offer": {
+      "type": "string"
+     },
+     "progress": {
+      "type": "string"
+     },
+     "complete": {
+      "type": "string"
+     }
+    }
+   }
+  }
+ }
+}

@@ -18,6 +18,7 @@ struct FHLSoundEvent
 	FVector2D Pos = FVector2D::ZeroVector;
 	float Z = 0, Vol = 1;
 	int32 UnitId = 0;             // throttles repeats per unit (hurt grunts, barks)
+	int32 Variant = -1;           // a voice line: the file that matches the subtitle (-1: random variant)
 };
 
 struct FHLSfxDef
@@ -57,6 +58,7 @@ private:
 	TMap<FString, FLoop> Loops;
 	TMap<uint64, double> LastByUnit;
 	TMap<FString, int32> ThisFrame;
+	TMap<int32, int32> VoiceByUnit; // speaker unit -> playing voice handle (a new line cuts the old one)
 	FString Folder;              // native: absolute folder with trailing slash; web: "sfx/"
 	float Volume = 0.7f;
 	int32 NextHandle = 1;

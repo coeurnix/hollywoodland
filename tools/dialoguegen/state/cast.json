@@ -1,0 +1,278 @@
+{
+ "npc_sid_grauman": {
+  "voice": "Eric",
+  "stability": 0.3,
+  "similarity": 0.8,
+  "why": "Salesman charm and polish suit a fast, teasing showman; low stability lets the barker's punch and jokes land."
+ },
+ "npc_max_factor": {
+  "voice": "George",
+  "stability": 0.55,
+  "similarity": 0.75,
+  "why": "Warm, measured craftsman's courtesy with gentle amusement; distinct from the Highland neighbours."
+ },
+ "npc_trainer_veteran": {
+  "voice": "Chris",
+  "stability": 0.6,
+  "similarity": 0.8,
+  "why": "Wry everyman voice suits a tired, deadpan drill sergeant."
+ },
+ "npc_trainer_stuntman": {
+  "voice": "Roger",
+  "stability": 0.5,
+  "similarity": 0.8,
+  "why": "Laid-back gravel fits a busted-up cowboy stuntman's unhurried, wry drawl."
+ },
+ "npc_trainer_gunman": {
+  "voice": "Lily",
+  "stability": 0.55,
+  "similarity": 0.75,
+  "why": "Middle-aged, slightly raspy and wry, good for a half-amused retired sharpshooter."
+ },
+ "npc_trainer_electrician": {
+  "voice": "Callum",
+  "stability": 0.55,
+  "similarity": 0.8,
+  "why": "Husky, gravelly tone with a conspiratorial edge for the gruff union electrician."
+ },
+ "npc_trainer_powderman": {
+  "voice": "Brian",
+  "stability": 0.65,
+  "similarity": 0.8,
+  "why": "Deep and resonant, slightly loud and deliberate; calm safety-fussy authority."
+ },
+ "npc_trainer_nurse": {
+  "voice": "Alice",
+  "stability": 0.65,
+  "similarity": 0.8,
+  "why": "Clear, confident and brisk for an unflappable former army nurse."
+ },
+ "npc_trainer_preacher": {
+  "voice": "Bill",
+  "stability": 0.5,
+  "similarity": 0.8,
+  "why": "Old, weathered, trustworthy drawl suits the kindly mid-sixties hill preacher."
+ },
+ "npc_trainer_mechanic": {
+  "voice": "Daniel",
+  "stability": 0.6,
+  "similarity": 0.7,
+  "why": "Remaining distinct middle-aged male in the forecourt; steady, dry delivery for a patient gruff mechanic."
+ },
+ "npc_newsie": {
+  "voice": "Charlie",
+  "stability": 0.3,
+  "similarity": 0.75,
+  "why": "Youngest, cheekiest voice available for a cocky, rapid-patter newsboy."
+ },
+ "npc_roosevelt_clerk": {
+  "voice": "George",
+  "stability": 0.7,
+  "similarity": 0.75,
+  "why": "Measured, precise diction for the polite, scandalised hotel clerk; varied stability from Max Factor in another location."
+ },
+ "npc_teller": {
+  "voice": "Rachel",
+  "stability": 0.65,
+  "similarity": 0.8,
+  "why": "Calm, clear, composed young woman for a prim, brisk teller."
+ },
+ "npc_conductor": {
+  "voice": "Roger",
+  "stability": 0.5,
+  "similarity": 0.75,
+  "why": "Warm, gravelly confidence with carrying cadence for the conductor."
+ },
+ "npc_gunsmith": {
+  "voice": "Bill",
+  "stability": 0.65,
+  "similarity": 0.8,
+  "why": "Low, weathered, slow drawl measuring every word."
+ },
+ "npc_haberdasher": {
+  "voice": "Chris",
+  "stability": 0.55,
+  "similarity": 0.75,
+  "why": "Dry, wry and warm underneath for a fussy, kindly tailor."
+ },
+ "npc_auctioneer": {
+  "voice": "Eric",
+  "stability": 0.35,
+  "similarity": 0.8,
+  "why": "Smooth, polished salesman charm for rattling patter and confidential purr."
+ },
+ "npc_auctioneer2": {
+  "voice": "Laura",
+  "stability": 0.35,
+  "similarity": 0.8,
+  "why": "Upbeat, sassy and quick for a brassy rapid-fire auctioneer."
+ },
+ "npc_salvage_trainer": {
+  "voice": "Chris",
+  "stability": 0.45,
+  "similarity": 0.8,
+  "why": "Wry everyman tone for a deadpan, thrifty haggler."
+ },
+ "npc_derby_cook": {
+  "voice": "Roger",
+  "stability": 0.45,
+  "similarity": 0.8,
+  "why": "Gravelly, laid-back confidence for a gruff, busy short-order cook."
+ },
+ "npc_druggist": {
+  "voice": "Alice",
+  "stability": 0.65,
+  "similarity": 0.8,
+  "why": "Brisk, crisp, schoolteacher snap for the disapproving but kind druggist."
+ },
+ "npc_pantages_manager": {
+  "voice": "Daniel",
+  "stability": 0.55,
+  "similarity": 0.75,
+  "why": "Crisp, formal precision for a fussy theatre manager smiling through disaster."
+ },
+ "npc_taft_doorman": {
+  "voice": "Bill",
+  "stability": 0.6,
+  "similarity": 0.75,
+  "why": "Weathered, courtly, trustworthy for the proud old doorman."
+ },
+ "npc_stagehand": {
+  "voice": "Callum",
+  "stability": 0.55,
+  "similarity": 0.8,
+  "why": "Husky, low intensity suits a half-whispered, scared but proud stagehand."
+ },
+ "npc_chief_davis": {
+  "voice": "Brian",
+  "stability": 0.75,
+  "similarity": 0.85,
+  "why": "Deep, resonant authority for the stern police chief."
+ },
+ "npc_capt_hynes": {
+  "voice": "Callum",
+  "stability": 0.7,
+  "similarity": 0.8,
+  "why": "Intense and faintly menacing for a suspicious intelligence captain."
+ },
+ "npc_kearney": {
+  "voice": "Chris",
+  "stability": 0.65,
+  "similarity": 0.8,
+  "why": "Wry, grumpy everyman for the inventory-counting quartermaster."
+ },
+ "npc_guard_v0": {
+  "voice": "Chris",
+  "stability": 0.6,
+  "similarity": 0.75,
+  "why": "Wry everyman beat cop, deadpan and tired."
+ },
+ "npc_guard_v1": {
+  "voice": "Callum",
+  "stability": 0.6,
+  "similarity": 0.75,
+  "why": "Husky, gravelly second patrolman, distinct from the others."
+ },
+ "npc_guard_v2": {
+  "voice": "Brian",
+  "stability": 0.6,
+  "similarity": 0.75,
+  "why": "Deep baritone third patrolman, clearly distinct from the other two."
+ },
+ "pc_veteran_m": {
+  "voice": "Chris",
+  "stability": 0.6,
+  "similarity": 0.8,
+  "why": "Dry barracks humour and steady deadpan from a wry everyman."
+ },
+ "pc_veteran_f": {
+  "voice": "Rachel",
+  "stability": 0.55,
+  "similarity": 0.8,
+  "why": "Clear, composed young woman for crisp switchboard diction and sardonic warmth."
+ },
+ "pc_stuntman_m": {
+  "voice": "Will",
+  "stability": 0.5,
+  "similarity": 0.8,
+  "why": "Friendly, relaxed, slightly goofy for a good-humoured, laconic stuntman."
+ },
+ "pc_stuntman_f": {
+  "voice": "Jessica",
+  "stability": 0.35,
+  "similarity": 0.8,
+  "why": "Playful, bright and expressive for a fast-talking ex-aerialist."
+ },
+ "pc_gunman_m": {
+  "voice": "Roger",
+  "stability": 0.55,
+  "similarity": 0.8,
+  "why": "Laid-back gravel for a dusty, laconic cowboy gunman."
+ },
+ "pc_gunman_f": {
+  "voice": "Charlotte",
+  "stability": 0.35,
+  "similarity": 0.75,
+  "why": "Theatrical, cool showgirl timing for a cocky trick shooter."
+ },
+ "pc_electrician_m": {
+  "voice": "Callum",
+  "stability": 0.55,
+  "similarity": 0.8,
+  "why": "Husky, worn baritone for a cigar-roughened gaffer."
+ },
+ "pc_electrician_f": {
+  "voice": "Laura",
+  "stability": 0.4,
+  "similarity": 0.8,
+  "why": "Upbeat, sassy and quick for a brassy Bronx wisecracker."
+ },
+ "pc_powderman_m": {
+  "voice": "George",
+  "stability": 0.55,
+  "similarity": 0.75,
+  "why": "Middle-aged, measured and proud; deadpan craftsman."
+ },
+ "pc_powderman_f": {
+  "voice": "River",
+  "stability": 0.6,
+  "similarity": 0.75,
+  "why": "Calm, even and precise; fills a gap for a dry stopwatch-precise powder woman."
+ },
+ "pc_nurse_m": {
+  "voice": "Liam",
+  "stability": 0.6,
+  "similarity": 0.75,
+  "why": "Articulate and earnest, steadied for a warm, deadpan orderly."
+ },
+ "pc_nurse_f": {
+  "voice": "Alice",
+  "stability": 0.7,
+  "similarity": 0.8,
+  "why": "Clear, brisk, confident middle-aged woman for a starched head nurse."
+ },
+ "pc_preacher_m": {
+  "voice": "Brian",
+  "stability": 0.35,
+  "similarity": 0.8,
+  "why": "Deep, resonant boom loosened for a theatrical tent revivalist."
+ },
+ "pc_preacher_f": {
+  "voice": "Sarah",
+  "stability": 0.5,
+  "similarity": 0.8,
+  "why": "Warm, sunny young voice for a choir alto with a sharp tongue."
+ },
+ "pc_mechanic_m": {
+  "voice": "Bill",
+  "stability": 0.55,
+  "similarity": 0.8,
+  "why": "Weathered slow drawl for a fond, grumbling old garage hand."
+ },
+ "pc_mechanic_f": {
+  "voice": "Aria",
+  "stability": 0.35,
+  "similarity": 0.75,
+  "why": "Expressive and worldly, played loose for a fast, laughing Brooklyn mechanic."
+ }
+}

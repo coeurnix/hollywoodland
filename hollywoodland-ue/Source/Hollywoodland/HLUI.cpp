@@ -442,7 +442,9 @@ int32 SHLGameUI::OnPaint(const FPaintArgs& Args, const FGeometry& Geo, const FSl
 	UiRectsNext.Reset(); Picks.Reset(); TipItem = nullptr; TipText.Reset();
 	FHLGame& Gm = G();
 	{ static bool bOnce = false; if (!bOnce && Gm.bInWorld) { bOnce = true; if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenBags"))) { bBags = true; bChar = true; } if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenTalents"))) bTalents = true; if (FParse::Param(FCommandLine::Get(), TEXT("HLCraftTest"))) bCraft = true; if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenSpells"))) bSpells = true; if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenFriends"))) { bWho = true; WhoTab = 1; } if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenNews"))) { bWho = true; WhoTab = 3; }
-		if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenAuction"))) for (const FHLUnit* N : Gm.UnitList) if (N->Npc && N->Npc->HasRole(TEXT("auctioneer"))) { Gm.OpenNpcUnitId = N->Id; Gm.OpenNpcMode = TEXT("auction"); AuctionSearch = TEXT("boots"); break; } } } // screenshot checks
+		if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenAuction"))) for (const FHLUnit* N : Gm.UnitList) if (N->Npc && N->Npc->HasRole(TEXT("auctioneer"))) { Gm.OpenNpcUnitId = N->Id; Gm.OpenNpcMode = TEXT("auction"); AuctionSearch = TEXT("boots"); break; }
+		if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenMap"))) { bMap = true; if (const FVector2D* B = Gm.Areas[0].Def->Pois.Find(TEXT("bank"))) Gm.SetMark(0, *B, TEXT("First National Bank")); }
+		if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenGuard"))) for (const FHLUnit* N : Gm.UnitList) if (N->Npc && N->Npc->HasRole(TEXT("guard"))) { Gm.OpenNpcUnitId = N->Id; Gm.OpenNpcMode = TEXT("gossip"); break; } } } // screenshot checks
 	if (!Gm.Areas.Num()) { Tx(40, 40, TEXT("Hollywoodland failed to load its data: ") + World->LoadError, 14, ColRed); return Layer; }
 	if (!Gm.bInWorld) DrawTitle();
 	else
@@ -999,14 +1001,24 @@ void SHLGameUI::DrawQuestMarkers() const
 	TArray<TPair<FVector2D, FLinearColor>> Goals;
 	if (P->bGhost && P->Area == Gm.Player.CorpseArea) Goals.Add({ Gm.Player.CorpsePos, FLinearColor(0.6f, 0.85f, 1.f) });
 	else if (Gm.SurgeHub >= 0 && P->Area == 0 && Gm.Hubs.IsValidIndex(Gm.SurgeHub)) Goals.Add({ Gm.Hubs[Gm.SurgeHub].Pos, FLinearColor(1, 0.35f, 0.25f) });
+	// the map mark (guard directions, the map's service list) leads; it clears on arrival
+	int32 MarkIdx = -1;
+	if (!P->bGhost && Gm.MarkArea == P->Area)
+	{
+		if (FVector2D::Distance(Gm.MarkPos, P->Pos) < 8) { Gm.System(FString::Printf(TEXT("You have reached %s."), *Gm.MarkLabel)); Gm.MarkArea = -1; }
+		else { MarkIdx = Goals.Num(); Goals.Add({ Gm.MarkPos, FLinearColor(0.45f, 0.9f, 1.f) }); }
+	}
 	if (!P->bGhost) for (const FHLQuestState& QS : Gm.Player.Quests)
 	{
 		FVector2D Goal;
 		if (Goals.Num() < 3 && HLQuestGoal(Gm, QS, *P, Goal)) Goals.Add({ Goal, QS.bComplete ? FLinearColor(1, 0.85f, 0.2f) : FLinearColor(1, 0.95f, 0.6f) });
 	}
-	for (const auto& GC : Goals)
+	for (int32 gi = 0; gi < Goals.Num(); ++gi)
 	{
+		const auto& GC = Goals[gi];
 		const FVector2D Goal = GC.Key;
+		const int32 Meters = (int32)FMath::RoundToInt(FVector2D::Distance(Goal, P->Pos));
+		const FString Dist = gi == MarkIdx ? FString::Printf(TEXT("%s  %d m"), *Gm.MarkLabel, Meters) : FString::Printf(TEXT("%d m"), Meters);
 		++Shown;
 		const float D = FVector2D::Distance(Goal, P->Pos);
 		if (D < 6) continue;
@@ -1020,7 +1032,7 @@ void SHLGameUI::DrawQuestMarkers() const
 			const float R = 7;
 			Line(S + FVector2D(0, -R), S + FVector2D(R, 0), C, 2); Line(S + FVector2D(R, 0), S + FVector2D(0, R), C, 2);
 			Line(S + FVector2D(0, R), S + FVector2D(-R, 0), C, 2); Line(S + FVector2D(-R, 0), S + FVector2D(0, -R), C, 2);
-			TxC(S.X, S.Y + 9, FString::Printf(TEXT("%d m"), (int32)FMath::RoundToInt(D)), 9, C);
+			TxC(S.X, S.Y + 9, Dist, 9, C);
 		}
 		else
 		{
@@ -1033,7 +1045,7 @@ void SHLGameUI::DrawQuestMarkers() const
 			const FVector2D Side(-Dir.Y, Dir.X);
 			const FVector2D Base = Tip - Dir * 16;
 			Line(Base + Side * 9, Tip, C, 3); Line(Base - Side * 9, Tip, C, 3); Line(Base + Side * 9, Base - Side * 9, C, 2);
-			TxC(Base.X - Dir.X * 14, Base.Y - Dir.Y * 14 - 6, FString::Printf(TEXT("%d m"), (int32)FMath::RoundToInt(D)), 9, C);
+			TxC(FMath::Clamp(Base.X - Dir.X * 14, TW(Dist, 9) * 0.5f + 8, VS.X - TW(Dist, 9) * 0.5f - 8), Base.Y - Dir.Y * 14 - 6, Dist, 9, C);
 		}
 	}
 }
@@ -1077,6 +1089,14 @@ void SHLGameUI::DrawMinimap() const
 		const FLinearColor QC = QS.bComplete ? FLinearColor(1, 0.85f, 0.2f) : FLinearColor(1, 0.95f, 0.6f);
 		Line(Q + FVector2D(0, -4), Q + FVector2D(4, 0), QC, 2); Line(Q + FVector2D(4, 0), Q + FVector2D(0, 4), QC, 2);
 		Line(Q + FVector2D(0, 4), Q + FVector2D(-4, 0), QC, 2); Line(Q + FVector2D(-4, 0), Q + FVector2D(0, -4), QC, 2);
+	}
+	if (Gm.MarkArea == P->Area)
+	{
+		FVector2D M((Gm.MarkPos.X - P->Pos.X) * K, (Gm.MarkPos.Y - P->Pos.Y) * K);
+		const float Over = FMath::Max(FMath::Abs(M.X), FMath::Abs(M.Y)) / (S * 0.5f - 6);
+		if (Over > 1) M /= Over;
+		const FVector2D Q(X + S * 0.5f + M.X, Y + S * 0.5f + M.Y);
+		Rc(Q.X - 4, Q.Y - 4, 8, 8, FLinearColor(0.05f, 0.1f, 0.15f)); Rc(Q.X - 3, Q.Y - 3, 6, 6, FLinearColor(0.45f, 0.9f, 1.f));
 	}
 	const float Rad = FMath::DegreesToRadians(P->Yaw);
 	const FVector2D C(X + S * 0.5f, Y + S * 0.5f);

@@ -357,6 +357,44 @@ bool FHLData::Load(FString& Err)
 			if (C.Lines.Num()) Convos.Add(MoveTemp(C));
 		}
 	}
+	// spoken dialogue (optional: tools/dialoguegen writes it; without it the game keeps its stock lines)
+	{
+		FString Opt;
+		if (JObj R = LoadFile(TEXT("dialogue.json"), Opt))
+		{
+			auto ReadLines = [&](const JObj& O, FHLLines& L)
+			{
+				for (auto& KV : O->Values)
+				{
+					if (KV.Key == TEXT("directions")) { if (JObj D = KV.Value->AsObject()) for (auto& DV : D->Values) L.Directions.Add(FString(DV.Key), DV.Value->AsString()); continue; }
+					const TArray<TSharedPtr<FJsonValue>>* Arr = nullptr;
+					if (KV.Value->TryGetArray(Arr)) { TArray<FString>& Out = L.Kinds.Add(FString(KV.Key)); for (auto& S2 : *Arr) Out.Add(S2->AsString()); }
+				}
+			};
+			if (JObj Np = Sub(R, TEXT("npcs"))) for (auto& KV : Np->Values) ReadLines(KV.Value->AsObject(), NpcLines.Add(FString(KV.Key)));
+			if (JObj Pl = Sub(R, TEXT("players"))) for (auto& KV : Pl->Values) ReadLines(KV.Value->AsObject(), PlayerLines.Add(FString(KV.Key)));
+			if (JObj Qs = Sub(R, TEXT("quests")))
+				for (auto& KV : Qs->Values)
+					for (FHLQuest& Q : Quests)
+						if (Q.Id == FString(KV.Key))
+						{
+							JObj O = KV.Value->AsObject();
+							if (!S(O, TEXT("offer")).IsEmpty()) Q.Text = S(O, TEXT("offer"));
+							if (!S(O, TEXT("complete")).IsEmpty()) Q.CompleteText = S(O, TEXT("complete"));
+							Q.ProgressText = S(O, TEXT("progress"));
+							Q.bVoiced = true;
+						}
+			if (JObj Em = Sub(R, TEXT("emotes")))
+				for (auto& KV : Em->Values)
+				{
+					JObj O = KV.Value->AsObject();
+					FHLEmote E; E.Id = FString(KV.Key);
+					E.Alone = S(O, TEXT("alone")); E.Target = S(O, TEXT("target")); E.SelfAlone = S(O, TEXT("self_alone")); E.SelfTarget = S(O, TEXT("self_target"));
+					E.Anim = S(O, TEXT("anim")); E.Voice = S(O, TEXT("voice")); E.Aliases = SA(O, TEXT("aliases"));
+					Emotes.Add(MoveTemp(E));
+				}
+		}
+	}
 	bLoaded = Err.IsEmpty() && Classes.Num() > 0 && Areas.Num() > 0;
 	return bLoaded;
 }

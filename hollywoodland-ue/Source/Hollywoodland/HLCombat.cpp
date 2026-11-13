@@ -304,6 +304,7 @@ void FHLGame::GrantXp(int32 Amount, bool bQuest)
 		U->Hp = U->MaxHp; if (U->ResType != EHLRes::Adrenaline) U->Res = U->MaxRes;
 		Banner(FString::Printf(TEXT("Level %d"), U->Level), TEXT("You have reached a new level."), 5);
 		Sound2D(TEXT("ui_levelup"));
+		PlayerBark(TEXT("level_up"), 0);
 		System(FString::Printf(TEXT("Congratulations, you have reached level %d!"), U->Level));
 		bool bNew = false;
 		for (const FHLAbility* Ab : Player.Cls->Abilities) if (Ab->Level == U->Level && !Player.Known.Contains(Ab)) bNew = true;

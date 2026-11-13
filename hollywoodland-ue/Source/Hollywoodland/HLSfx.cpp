@@ -297,6 +297,14 @@ void FHLSfx::Init(bool bMuteByDefault)
 		HLBridge::Log(TEXT("HL sfx: Content/Data/sfx.json missing or invalid; no sound effects"));
 		return;
 	}
+	// voice lines (tools/dialoguegen): same format, files beside the sound effects; optional
+	{
+		FString VoText;
+		TSharedPtr<FJsonObject> Vo;
+		if (FFileHelper::LoadFileToString(VoText, *(FPaths::ProjectContentDir() / TEXT("Data/vo.json"))) &&
+			FJsonSerializer::Deserialize(TJsonReaderFactory<>::Create(VoText), Vo) && Vo.IsValid() && Vo->HasTypedField<EJson::Object>(TEXT("sounds")))
+			for (const auto& KV : Vo->GetObjectField(TEXT("sounds"))->Values) Root->GetObjectField(TEXT("sounds"))->SetField(KV.Key, KV.Value);
+	}
 	for (const auto& KV : Root->GetObjectField(TEXT("sounds"))->Values)
 	{
 		const TSharedPtr<FJsonObject>* O = nullptr;
@@ -411,7 +419,17 @@ void FHLSfx::Event(FHLGame& G, const FHLSoundEvent& E)
 		Last = Clock;
 	}
 	++N;
-	if (Play(*D, FMath::RandRange(0, D->Files.Num() - 1), D->Vol * E.Vol * Gain, Pan, 1 + FMath::FRandRange(-D->Pitch, D->Pitch), 0)) ++Plays;
+	const int32 Var = E.Variant >= 0 ? E.Variant : FMath::RandRange(0, D->Files.Num() - 1);
+	if (!D->Files.IsValidIndex(Var) || D->Files[Var].IsEmpty()) return;
+	if (D->Cat == TEXT("voice"))
+	{
+		// one voice at a time per speaker: a new line cuts the previous one
+		if (int32* Prev = VoiceByUnit.Find(E.UnitId)) HLAudio::Stop(*Prev, 0.08f);
+		const int32 H = Play(*D, Var, D->Vol * E.Vol * Gain, Pan, 1, 0);
+		if (H) { VoiceByUnit.Add(E.UnitId, H); ++Plays; }
+		return;
+	}
+	if (Play(*D, Var, D->Vol * E.Vol * Gain, Pan, 1 + FMath::FRandRange(-D->Pitch, D->Pitch), 0)) ++Plays;
 }
 
 void FHLSfx::WantLoop(const FString& Key, const FString& Id, float Vol, float Pan)

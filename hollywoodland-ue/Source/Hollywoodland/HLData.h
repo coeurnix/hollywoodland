@@ -106,7 +106,8 @@ struct FHLAreaDef
 struct FHLObjective { FString Type, Item, Kind, Npc, Label; TArray<FString> Mobs, From; int32 Count = 1; float Rate = 1; FVector2D To = FVector2D::ZeroVector; };
 struct FHLQuest
 {
-	FString Id, Name, Giver, Turnin, Prereq, Next, Text, CompleteText, Hub, Breadcrumb, Type, Cls;
+	FString Id, Name, Giver, Turnin, Prereq, Next, Text, CompleteText, ProgressText, Hub, Breadcrumb, Type, Cls;
+	bool bVoiced = false; // dialogue.json rewrote it: vo_<id>_offer / _progress / _complete exist
 	int32 Level = 1, MinLevel = 1, Xp = 0, Cents = 0;
 	TArray<TPair<const FHLItem*, int32>> Takes; // handed in at turn-in (crafted goods)
 	bool bGroup = false, bDungeon = false;
@@ -132,6 +133,10 @@ struct FHLRedcarLine { FString Name; TArray<FString> Stops; };
 struct FHLChatTemplate { FString Ch, S, Text; int32 Min = 1, Max = 60; bool bGuild = false; };
 struct FHLCorpusLine { FString S, T, Text; };
 struct FHLConvo { FString Ch; int32 Min = 1, Max = 60, Speakers = 2; TArray<TPair<int32, FString>> Lines; };
+// spoken lines (Content/Data/dialogue.json, tools/dialoguegen): subtitles by kind; line n of kind K is the audio
+// vo_<speaker>_<K> variant n (vo.json). Guards share the speaker 'npc_guard' in three voices (variant = n * 3 + voice).
+struct FHLLines { TMap<FString, TArray<FString>> Kinds; TMap<FString, FString> Directions; const TArray<FString>* Get(const TCHAR* K) const { const TArray<FString>* P = Kinds.Find(K); return P && P->Num() ? P : nullptr; } };
+struct FHLEmote { FString Id, Alone, Target, SelfAlone, SelfTarget, Anim, Voice; TArray<FString> Aliases; };
 
 class FHLData
 {
@@ -155,6 +160,12 @@ public:
 	TArray<FHLChatTemplate> Templates;
 	TArray<FHLCorpusLine> Corpus;
 	TArray<FHLConvo> Convos;
+	TMap<FString, FHLLines> NpcLines;    // by speaker: npc id, or 'npc_guard'
+	TMap<FString, FHLLines> PlayerLines; // by '<class>_<m|f>'
+	TArray<FHLEmote> Emotes;
+	static FString NpcSpeaker(const FHLNpcDef& N) { return N.HasRole(TEXT("guard")) ? FString(TEXT("npc_guard")) : N.Id; }
+	const FHLLines* LinesFor(const FHLNpcDef& N) const { return NpcLines.Find(NpcSpeaker(N)); }
+	const FHLEmote* Emote(const FString& Cmd) const { for (const FHLEmote& E : Emotes) if (E.Id == Cmd || E.Aliases.Contains(Cmd)) return &E; return nullptr; }
 
 	const FHLAbility* Ability(const FString& Id) const { const FHLAbility* const* P = AbilityById.Find(Id); return P ? *P : nullptr; }
 	const FHLTalent* Talent(const FString& Id) const { const FHLTalent* const* P = TalentById.Find(Id); return P ? *P : nullptr; }

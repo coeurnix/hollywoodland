@@ -350,7 +350,28 @@ public:
 	FString OpenNpcMode;           // "", quest:<id>, vendor, trainer, bank, auction, redcar, inn, prof
 	FString ErrorText; float ErrorUntil = 0;
 	FString BannerText, BannerSub; float BannerUntil = 0; bool bBannerHostile = false;
-	void Error(const FString& T) { if (ErrorText != T || Now > ErrorUntil - 2.0) Sound2D(TEXT("ui_error")); ErrorText = T; ErrorUntil = Now + 2.5; }
+	void Error(const FString& T) { if (ErrorText != T || Now > ErrorUntil - 2.0) { Sound2D(TEXT("ui_error")); ErrorBark(T); } ErrorText = T; ErrorUntil = Now + 2.5; }
+	// spoken lines (HLDialogue.cpp): subtitles from dialogue.json, audio vo_<speaker>_<kind> variant n from vo.json
+	int32 Say(const FHLUnit& Speaker, const FHLNpcDef& Npc, const TCHAR* Kind, int32 Line = -1, bool bChat = true); // returns the line, -1 none
+	void SayQuest(const FHLQuest& Q, const TCHAR* Kind); // vo_<quest>_offer / _progress / _complete from the NPC being talked to
+	void PlayerBark(const TCHAR* Kind, float MinGapS = 6.f);
+	void ErrorBark(const FString& ErrorText);
+	bool DoEmote(const FString& Cmd, const FString& Rest); // /train /silly ... from dialogue.json; false: not an emote
+	FString PlayerVoiceKey() const;
+	TMap<FString, double> BarkAt;
+	TSet<FString> TalkedTo;   // NPCs greeted in full this session
+	int32 NpcGreet = 0;       // greeting line shown in the open talk window
+	int32 DlgUnit = 0; FString DlgMode; // what the NPC window showed last tick (voice on change)
+	void TickDialogue();
+	void AskDirections(const FString& Poi); // a guard answers and the map marks the place
+	static FString PoiName(const FString& Poi); // bank -> First National Bank
+	static FString PoiQuestion(const FString& Poi); // bank -> Where's the bank?
+	// the map mark (guard directions, a click on the map's service list): a pin on both maps and a HUD marker
+	int32 MarkArea = -1; FVector2D MarkPos = FVector2D::ZeroVector; FString MarkLabel;
+	void SetMark(int32 Area, const FVector2D& Pos, const FString& Label) { MarkArea = Area; MarkPos = Pos; MarkLabel = Label; }
+	double LowHpBarkAt = -100;
+	int32 NpcClicks = 0; int32 NpcClickUnit = 0; double NpcClickAt = 0;
+	void VoiceAt(const FString& Id, int32 Variant, const FHLUnit* At) { if (SoundQueue.Num() < 256) { FHLSoundEvent E; E.Id = Id; E.Variant = Variant; E.Vol = 1; if (At) { E.Area = At->Area; E.Pos = At->Pos; E.Z = At->Z + 1.6f; E.UnitId = At->Id; } SoundQueue.Add(MoveTemp(E)); } }
 	void Banner(const FString& T, const FString& Sub = FString(), float Dur = 4) { BannerText = T; BannerSub = Sub; BannerUntil = Now + Dur; bBannerHostile = false; }
 	TArray<FHLFloatText> Floats;
 	FString CurSubzone;

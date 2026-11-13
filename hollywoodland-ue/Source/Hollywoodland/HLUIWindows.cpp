@@ -190,26 +190,132 @@ void SHLGameUI::DrawMap() const
 		return;
 	}
 	const FHLAreaDef& Def = *Gm.Areas[P.Area].Def;
-	const float K = FMath::Min(Mw / Def.Size.X, Mh / Def.Size.Y);
-	const float Ox = Mx + (Mw - Def.Size.X * K) * 0.5f, Oy = My + (Mh - Def.Size.Y * K) * 0.5f;
-	auto MX = [&](float X) { return Ox + (X - Def.Min.X) * K; };
-	auto MY = [&](float Y) { return Oy + (Y - Def.Min.Y) * K; };
-	for (const FHLBox& B : Def.Ground) if (B.W > 3 && B.D > 3) Rc(MX(B.X), MY(B.Y), B.W * K, B.D * K, FLinearColor(0.22f, 0.22f, 0.22f));
+	// every service in the zone as an icon on the map and a row in the list beside it; clicking either marks it
+	struct FSvc { FString Label, Sub; FVector2D Pos; const TCHAR* Glyph; FLinearColor C; };
+	TArray<FSvc> Svcs;
+	{
+		const FLinearColor CBank(0.95f, 0.8f, 0.3f), CAuc(1, 0.55f, 0.2f), CInn(0.75f, 0.55f, 1), CTrain(0.4f, 0.9f, 0.4f), CProf(0.3f, 0.85f, 0.8f), CVend(0.92f, 0.92f, 0.85f), CCar(1, 0.35f, 0.3f), CMail(0.45f, 0.65f, 1), CCop(0.55f, 0.7f, 0.95f), CAid(1, 0.2f, 0.2f);
+		FVector2D TSum = FVector2D::ZeroVector; int32 TN = 0; bool bAuc = false;
+		for (const FHLNpcDef& N : Def.Npcs)
+		{
+			if (N.HasRole(TEXT("banker"))) Svcs.Add({ TEXT("Bank"), N.Name, N.Pos, TEXT("B"), CBank });
+			if (N.HasRole(TEXT("auctioneer")) && !bAuc) { bAuc = true; Svcs.Add({ TEXT("Auction House"), N.Name, Def.Pois.Contains(TEXT("auction")) ? Def.Pois[TEXT("auction")] : N.Pos, TEXT("A"), CAuc }); }
+			if (N.HasRole(TEXT("innkeeper"))) Svcs.Add({ TEXT("Inn: set your home"), N.Name, N.Pos, TEXT("I"), CInn });
+			if (N.HasRole(TEXT("trainer"))) { TSum += N.Pos; ++TN; }
+			if (N.HasRole(TEXT("redcar"))) Svcs.Add({ TEXT("Red Car (travel)"), N.Name, N.Pos, TEXT("C"), CCar });
+		}
+		if (TN) Svcs.Add({ TEXT("Class Trainers"), TEXT("Abilities for every class"), TSum / TN, TEXT("T"), CTrain });
+		for (const FHLNpcDef& N : Def.Npcs) if (N.HasRole(TEXT("trainer_prof"))) Svcs.Add({ N.Title.Replace(TEXT(" Trainer"), TEXT("")) + TEXT(" (profession)"), N.Name, N.Pos, TEXT("P"), CProf });
+		for (const FHLNpcDef& N : Def.Npcs) if (N.HasRole(TEXT("vendor")) && !N.HasRole(TEXT("innkeeper")))
+			Svcs.Add({ N.Name, N.HasRole(TEXT("repair")) ? N.Title + TEXT(", repairs") : N.Title, N.Pos, N.HasRole(TEXT("repair")) ? TEXT("R") : TEXT("V"), CVend });
+		if (const FVector2D* V = Def.Pois.Find(TEXT("mailbox"))) Svcs.Add({ TEXT("Mailbox"), TEXT("Letters and parcels"), *V, TEXT("M"), CMail });
+		if (const FVector2D* V = Def.Pois.Find(TEXT("police"))) Svcs.Add({ TEXT("Police Station"), TEXT("LAPD, Hollywood Division"), *V, TEXT("L"), CCop });
+		for (const FHLAidStation& A : Def.Aid) Svcs.Add({ A.Name.IsEmpty() ? FString(TEXT("Aid Station")) : A.Name, TEXT("Revive here after a fall"), A.Pos, TEXT("+"), CAid });
+	}
+	// view: fit the town (every NPC and service) by default; wheel zooms at the cursor, drag pans
+	const float LegW = 230, Vw = Mw - LegW - 10, Vh = Mh;
+	auto Fit = [&]
+	{
+		FBox2D Bx(ForceInit);
+		for (const FHLNpcDef& N : Def.Npcs) Bx += N.Pos;
+		for (const FSvc& S : Svcs) if (FCString::Strcmp(S.Glyph, TEXT("+")) != 0) Bx += S.Pos; // aid stations are outskirts
+		Bx += P.Pos;
+		if (!Bx.bIsValid) Bx = FBox2D(Def.Min, Def.Min + Def.Size);
+		Bx = Bx.ExpandBy(40);
+		MapCtr = Bx.GetCenter();
+		MapK = FMath::Min(Vw / Bx.GetSize().X, Vh / Bx.GetSize().Y);
+	};
+	const float KMin = FMath::Min(Vw / Def.Size.X, Vh / Def.Size.Y), KMax = 8;
+	if (MapK <= 0 || MapArea != P.Area) { MapArea = P.Area; Fit(); }
+	if (Btn(WX + 192, WY - 4, 90, 20, TEXT("Fit town"), true, 10)) Fit();
+	if (Btn(WX + 288, WY - 4, 90, 20, TEXT("Me"), true, 10)) { MapCtr = P.Pos; MapK = FMath::Max(MapK, 2.f); }
+	const bool bOverMap = Hover(Mx, My, Vw, Vh);
+	if (bOverMap && Wheel != 0)
+	{
+		const FVector2D At = MapCtr + (Mouse - FVector2D(Mx + Vw * 0.5f, My + Vh * 0.5f)) / MapK;
+		MapK = FMath::Clamp(MapK * FMath::Pow(1.25f, Wheel), KMin, KMax);
+		MapCtr = At - (Mouse - FVector2D(Mx + Vw * 0.5f, My + Vh * 0.5f)) / MapK;
+		Wheel = 0;
+	}
+	if (bLDown && (bMapPan || (bOverMap && DragWin.IsNone() && DownPos.X >= Mx && DownPos.X < Mx + Vw && DownPos.Y >= My && DownPos.Y < My + Vh)))
+	{
+		if (bMapPan) MapCtr -= (Mouse - MapPanAt) / MapK;
+		bMapPan = true; MapPanAt = Mouse;
+	}
+	else bMapPan = false;
+	const float K = MapK;
+	auto MX = [&](float X) { return Mx + Vw * 0.5f + (X - MapCtr.X) * K; };
+	auto MY = [&](float Y) { return My + Vh * 0.5f + (Y - MapCtr.Y) * K; };
+	auto In = [&](float X, float Y, float Pad = 0) { return X >= Mx + Pad && X < Mx + Vw - Pad && Y >= My + Pad && Y < My + Vh - Pad; };
+	auto RcC = [&](float X, float Y, float W, float H, const FLinearColor& C)
+	{
+		const float X0 = FMath::Max(X, Mx), Y0 = FMath::Max(Y, My), X1 = FMath::Min(X + W, Mx + Vw), Y1 = FMath::Min(Y + H, My + Vh);
+		if (X1 > X0 && Y1 > Y0) Rc(X0, Y0, X1 - X0, Y1 - Y0, C);
+	};
+	for (const FHLBox& B : Def.Ground) if (B.W > 3 && B.D > 3) RcC(MX(B.X), MY(B.Y), B.W * K, B.D * K, FLinearColor(0.22f, 0.22f, 0.22f));
 	++Layer; LastKind = 1;
-	for (const FHLBox& B : Def.Boxes) if (B.bSolid && B.H >= 1) Rc(MX(B.X), MY(B.Y), FMath::Max(1.f, B.W * K), FMath::Max(1.f, B.D * K), FLinearColor(B.Color.R * 0.85f, B.Color.G * 0.85f, B.Color.B * 0.85f));
-	for (const FHLSubzone& S : Def.Subzones) if (Gm.Player.Discovered.Contains(S.Name) && S.Name != TEXT("The Hive Wall")) TxC(MX(S.X + S.W * 0.5f), MY(S.Y + S.D * 0.5f) - 6, S.Name, 9, FLinearColor(1, 0.95f, 0.75f, 0.9f));
-	for (const FHLAidStation& A : Def.Aid) { Rc(MX(A.Pos.X) - 3, MY(A.Pos.Y) - 3, 7, 7, FLinearColor(0.9f, 0.1f, 0.1f)); }
-	for (const FHLExit& E : Def.Exits) if (!E.bRedcar) { const FHLZoneInfo* Z = D.Zone(E.ToZone); TxC(FMath::Clamp(MX(E.Pos.X), Mx + 70.f, Mx + Mw - 70.f), FMath::Clamp(MY(E.Pos.Y), My + 4.f, My + Mh - 18.f), FString::Printf(TEXT("to %s (%d-%d)"), Z ? *Z->Name : TEXT("?"), Z ? Z->LevelMin : 0, Z ? Z->LevelMax : 0), 9, ColRed); }
+	for (const FHLBox& B : Def.Boxes) if (B.bSolid && B.H >= 1) RcC(MX(B.X), MY(B.Y), FMath::Max(1.f, B.W * K), FMath::Max(1.f, B.D * K), FLinearColor(B.Color.R * 0.85f, B.Color.G * 0.85f, B.Color.B * 0.85f));
+	++Layer; LastKind = 1;
+	for (const FHLSubzone& S : Def.Subzones) if (Gm.Player.Discovered.Contains(S.Name) && S.Name != TEXT("The Hive Wall")) { const float X = MX(S.X + S.W * 0.5f), Y = MY(S.Y + S.D * 0.5f) - 6; if (In(X, Y, 30)) TxC(X, Y, S.Name, 9, FLinearColor(1, 0.95f, 0.75f, 0.75f)); }
+	for (const FHLExit& E : Def.Exits) if (!E.bRedcar) { const FHLZoneInfo* Z = D.Zone(E.ToZone); TxC(FMath::Clamp(MX(E.Pos.X), Mx + 70.f, Mx + Vw - 70.f), FMath::Clamp(MY(E.Pos.Y), My + 4.f, My + Vh - 18.f), FString::Printf(TEXT("to %s (%d-%d)"), Z ? *Z->Name : TEXT("?"), Z ? Z->LevelMin : 0, Z ? Z->LevelMax : 0), 9, ColRed); }
 	for (const FHLUnit* U : Gm.UnitList)
 	{
 		if (U->Area != P.Area || U->Kind != EHLKind::Npc || !U->Npc) continue;
 		const int32 Mk = Gm.NpcMarker(*U->Npc);
-		if (Mk == 1 || Mk == 2) TxC(MX(U->Pos.X), MY(U->Pos.Y) - 10, Mk == 1 ? TEXT("!") : TEXT("?"), 13, ColGold, true);
+		if ((Mk == 1 || Mk == 2) && In(MX(U->Pos.X), MY(U->Pos.Y), 6)) TxC(MX(U->Pos.X), MY(U->Pos.Y) - 22, Mk == 1 ? TEXT("!") : TEXT("?"), 13, ColGold, true);
 	}
-	for (int32 SI : Gm.Party) if (const FHLUnit* U = Gm.Unit(Gm.Sims[SI].UnitId)) Rc(MX(U->Pos.X) - 2, MY(U->Pos.Y) - 2, 5, 5, FLinearColor(0.3f, 1, 1));
-	Rc(MX(P.Pos.X) - 4, MY(P.Pos.Y) - 4, 8, 8, ColWhite);
+	// list rows first (hover there highlights the icon), then the icons
+	int32 HotSvc = -1;
+	const float Lx = Mx + Vw + 10;
+	Rc(Lx, My, LegW, Mh, FLinearColor(0.08f, 0.075f, 0.065f));
+	Tx(Lx + 8, My + 6, TEXT("Services  (click to mark)"), 10, ColGold, true);
+	const float RowH = FMath::Min(24.f, (Mh - 60) / FMath::Max(1, Svcs.Num()));
+	for (int32 i = 0; i < Svcs.Num(); ++i)
+	{
+		const FSvc& S = Svcs[i];
+		const float Ry = My + 28 + i * RowH;
+		const bool bHot = Hover(Lx, Ry, LegW, RowH);
+		const bool bMarked = Gm.MarkArea == P.Area && Gm.MarkPos.Equals(S.Pos, 0.5f);
+		if (bHot || bMarked) Rc(Lx + 2, Ry, LegW - 4, RowH - 2, bMarked ? FLinearColor(0.12f, 0.25f, 0.3f) : FLinearColor(0.22f, 0.18f, 0.1f));
+		Rc(Lx + 6, Ry + 3, 14, 14, S.C); TxC(Lx + 13, Ry + 3, S.Glyph, 9, FLinearColor(0.05f, 0.05f, 0.05f), true);
+		Tx(Lx + 26, Ry + 2, S.Label, 10, ColWhite);
+		if (bHot) { HotSvc = i; TipText = FString::Printf(TEXT("%s\n%s\n%d m away. Click to mark it on your map."), *S.Label, *S.Sub, (int32)FVector2D::Distance(S.Pos, P.Pos)); TipPos = Mouse; }
+		if (bHot && bLClick) { bLClick = false; Gm.SetMark(P.Area, S.Pos, S.Label); MapCtr = S.Pos; MapK = FMath::Max(MapK, 2.5f); Gm.Sound2D(TEXT("ui_click")); }
+	}
+	if (Gm.MarkArea == P.Area && Btn(Lx + 8, My + Mh - 28, LegW - 16, 22, TEXT("Clear the mark"), true, 10)) Gm.MarkArea = -1;
+	const bool bLabels = K >= 2.2f;
+	for (int32 i = 0; i < Svcs.Num(); ++i)
+	{
+		const FSvc& S = Svcs[i];
+		const float X = MX(S.Pos.X), Y = MY(S.Pos.Y);
+		if (!In(X, Y, 8)) continue;
+		const float R = i == HotSvc ? 10 : 7;
+		Rc(X - R - 1, Y - R - 1, R * 2 + 2, R * 2 + 2, i == HotSvc ? ColWhite : FLinearColor(0.05f, 0.05f, 0.05f));
+		Rc(X - R, Y - R, R * 2, R * 2, S.C);
+		TxC(X, Y - 7, S.Glyph, 9, FLinearColor(0.05f, 0.05f, 0.05f), true);
+		if (bLabels || i == HotSvc) TxC(X, Y + R + 1, S.Label, 9, S.C);
+		if (Hover(X - R, Y - R, R * 2, R * 2))
+		{
+			TipText = FString::Printf(TEXT("%s\n%s\nClick to mark it."), *S.Label, *S.Sub); TipPos = Mouse;
+			if (bLClick) { bLClick = false; bMapPan = false; Gm.SetMark(P.Area, S.Pos, S.Label); Gm.Sound2D(TEXT("ui_click")); }
+		}
+	}
+	++Layer; LastKind = 1;
+	for (int32 SI : Gm.Party) if (const FHLUnit* U = Gm.Unit(Gm.Sims[SI].UnitId)) if (In(MX(U->Pos.X), MY(U->Pos.Y), 3)) Rc(MX(U->Pos.X) - 2, MY(U->Pos.Y) - 2, 5, 5, FLinearColor(0.3f, 1, 1));
+	if (Gm.MarkArea == P.Area)
+	{
+		// the pin: clamped to the edge when off the view
+		const float X = FMath::Clamp(MX(Gm.MarkPos.X), Mx + 8, Mx + Vw - 8), Y = FMath::Clamp(MY(Gm.MarkPos.Y), My + 22, My + Vh - 8);
+		const FLinearColor PinC(0.45f, 0.9f, 1.f);
+		Line(FVector2D(X, Y), FVector2D(X, Y - 14), PinC, 2);
+		Rc(X - 6, Y - 22, 12, 10, PinC);
+		Tx(X + 9, Y - 24, Gm.MarkLabel, 10, PinC, true);
+	}
+	const float PX = FMath::Clamp(MX(P.Pos.X), Mx + 4, Mx + Vw - 4), PY = FMath::Clamp(MY(P.Pos.Y), My + 4, My + Vh - 4);
+	Rc(PX - 4, PY - 4, 8, 8, ColWhite);
 	const float Rad = FMath::DegreesToRadians(P.Yaw);
-	Line(FVector2D(MX(P.Pos.X), MY(P.Pos.Y)), FVector2D(MX(P.Pos.X), MY(P.Pos.Y)) + FVector2D(FMath::Cos(Rad), FMath::Sin(Rad)) * 14, ColWhite, 2);
+	Line(FVector2D(PX, PY), FVector2D(PX, PY) + FVector2D(FMath::Cos(Rad), FMath::Sin(Rad)) * 14, ColWhite, 2);
+	Tx(WX + 392, WY - 1, TEXT("Wheel zooms, drag pans. Any patrolman gives directions."), 9, ColDim);
 }
 
 void SHLGameUI::DrawWho() const
@@ -509,8 +615,29 @@ void SHLGameUI::DrawNpc() const
 	{
 		if (!Win(TEXT("npc"), Title, 440, 400, bOpen, 300, 140)) { Close(); return; }
 		float Y = WY;
-		static const TCHAR* Greetings[] = { TEXT("What can I do for you?"), TEXT("Keep your voice down. They hear better than you'd think."), TEXT("Another day under the glass. What'll it be?"), TEXT("Make it quick, friend.") };
-		Tx(WX, Y, Greetings[N->Id % 4], 11, ColWhite); Y += 26;
+		const FHLLines* Lines = D.LinesFor(Np);
+		const TArray<FString>* Greet = Lines ? Lines->Get(TEXT("greet")) : nullptr;
+		if (Greet && Greet->Num()) Y += TxWrap(WX, Y, 415, (*Greet)[FMath::Clamp(Gm.NpcGreet, 0, Greet->Num() - 1)], 11, ColWhite) + 12;
+		else
+		{
+			static const TCHAR* Greetings[] = { TEXT("What can I do for you?"), TEXT("Keep your voice down. They hear better than you'd think."), TEXT("Another day under the glass. What'll it be?"), TEXT("Make it quick, friend.") };
+			Tx(WX, Y, Greetings[N->Id % 4], 11, ColWhite); Y += 26;
+		}
+		// a guard knows the way to every service on the street; asking marks it on the map
+		if (Lines && Lines->Directions.Num())
+		{
+			static const TCHAR* Order[] = { TEXT("bank"), TEXT("auction"), TEXT("inn"), TEXT("trainers"), TEXT("vendor"), TEXT("redcar"), TEXT("mailbox"), TEXT("police") };
+			const FHLUnit* Me = Gm.PlayerUnit();
+			int32 k = 0;
+			for (const TCHAR* Poi : Order)
+			{
+				if (!Lines->Directions.Contains(Poi) || !Me || !Gm.Areas[Me->Area].Def->Pois.Contains(Poi)) continue;
+				if (Btn(WX + (k % 2) * 208, Y, 202, 24, FHLGame::PoiQuestion(Poi), true, 10)) Gm.AskDirections(Poi);
+				if (k++ % 2) Y += 30;
+			}
+			if (k % 2) Y += 30;
+			Y += 6;
+		}
 		for (const FHLQuest& Q : D.Quests)
 		{
 			const bool bReady = Gm.QuestReadyAt(Q, Np.Id);
@@ -536,7 +663,7 @@ void SHLGameUI::DrawNpc() const
 		if (Np.HasRole(TEXT("innkeeper")))
 				{
 					if (Gm.Player.bInnHome) Tx(WX, Y + 5, TEXT("\"Your room's kept made up. Rest easy.\""), 10, ColDim);
-					else if (Btn(WX, Y, 410, 24, TEXT("Make this inn my home."), true, 10)) { Gm.Player.bInnHome = true; Gm.System(TEXT("The Roosevelt Hotel is now your home. Logging out here earns rested experience three times faster.")); Gm.SaveNow(); }
+					else if (Btn(WX, Y, 410, 24, TEXT("Make this inn my home."), true, 10)) { Gm.Player.bInnHome = true; Gm.Say(*N, Np, TEXT("inn"), -1, false); Gm.System(TEXT("The Roosevelt Hotel is now your home. Logging out here earns rested experience three times faster.")); Gm.SaveNow(); }
 					Y += 30;
 				}
 		if (Np.HasRole(TEXT("repair")))
@@ -556,7 +683,7 @@ void SHLGameUI::DrawNpc() const
 		const FHLQuestState* QS = Gm.QuestState(Q->Id);
 		float Y = WY;
 		Tx(WX, Y, Q->Name, 14, ColGold, true); Y += 26;
-		Y += TxWrap(WX, Y, 415, bReady && !Q->CompleteText.IsEmpty() ? Q->CompleteText : Q->Text, 11, ColWhite) + 10;
+		Y += TxWrap(WX, Y, 415, bReady && !Q->CompleteText.IsEmpty() ? Q->CompleteText : QS && !Q->ProgressText.IsEmpty() ? Q->ProgressText : Q->Text, 11, ColWhite) + 10;
 		if (!bReady) for (int32 i = 0; i < Q->Objectives.Num(); ++i) { const FHLObjective& O = Q->Objectives[i]; Tx(WX, Y, QS ? FString::Printf(TEXT("- %s: %d/%d"), *O.Label, QS->Progress[i], O.Count) : (O.Count > 1 ? FString::Printf(TEXT("- %s: %d"), *O.Label, O.Count) : TEXT("- ") + O.Label), 10, ColDim); Y += 15; }
 		Y += 8;
 		Tx(WX, Y, FString::Printf(TEXT("Reward: %d experience, %s"), Q->Xp, *HLMoney(Q->Cents)), 10, ColGold); Y += 18;
