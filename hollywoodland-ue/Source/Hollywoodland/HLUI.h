@@ -12,6 +12,9 @@ class AHLWorldActor;
 const struct FSlateBrush* HLSkillBrush(int32 Icon);
 const struct FSlateBrush* HLMenuBrush(const FString& Name);
 const struct FSlateBrush* HLArtBrush(const FString& Name);
+// painted map Content/Data/UI/<Name>.jpg (tools/maps): Region is the UV box covering the area's Min..Min+Size (maps.json);
+// the caller sets the brush's UV region to the part it draws
+struct FSlateBrush* HLMapBrush(const FString& Name, FBox2f& Region);
 
 class SHLGameUI : public SLeafWidget
 {

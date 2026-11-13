@@ -168,23 +168,44 @@ void SHLGameUI::DrawMap() const
 	Rc(Mx, My, Mw, Mh, FLinearColor(0.13f, 0.12f, 0.1f));
 	if (bWorldMap)
 	{
+		// the painted world map names the regions (its rectangles are the zones' MapRects); level ranges and hover go on top
+		FBox2f WUV;
+		FSlateBrush* WB = HLMapBrush(TEXT("map_world"), WUV);
+		if (WB) { WB->SetUVRegion(WUV); Img(Mx, My, Mw, Mh, WB); }
 		for (const FHLZoneInfo& Z : D.Zones)
 		{
 			const float X = Mx + Z.MapRect.X * Mw, Y = My + Z.MapRect.Y * Mh, W = Z.MapRect.Z * Mw, H = Z.MapRect.W * Mh;
 			const int32 Diff = Z.LevelMin - P.Level;
-			const FLinearColor C = Z.bBuilt ? FLinearColor(0.35f, 0.3f, 0.12f) : Diff > 8 ? FLinearColor(0.3f, 0.1f, 0.1f) : Diff > 2 ? FLinearColor(0.32f, 0.2f, 0.08f) : FLinearColor(0.15f, 0.25f, 0.12f);
-			Rc(X, Y, W, H, FLinearColor(0.5f, 0.45f, 0.3f));
-			++Layer; LastKind = 1;
-			Rc(X + 1, Y + 1, W - 2, H - 2, C);
-			TxC(X + W * 0.5f, Y + H * 0.5f - 14, Z.Name, 10, ColWhite, true);
-			TxC(X + W * 0.5f, Y + H * 0.5f + 2, FString::Printf(TEXT("%d-%d"), Z.LevelMin, Z.LevelMax), 10, Diff > 8 ? ColRed : ColGold);
-			if (Hover(X, Y, W, H))
+			const bool bHot = Hover(X, Y, W, H);
+			if (WB)
+			{
+				++Layer; LastKind = 1;
+				if (bHot || Z.bBuilt)
+				{
+					const FLinearColor O = bHot ? ColWhite : ColGold;
+					Rc(X, Y, W, 2, O); Rc(X, Y + H - 2, W, 2, O); Rc(X, Y, 2, H, O); Rc(X + W - 2, Y, 2, H, O);
+				}
+				const FString Lv = FString::Printf(TEXT("Levels %d-%d"), Z.LevelMin, Z.LevelMax);
+				Rc(X + W * 0.5f - TW(Lv, 9) * 0.5f - 5, Y + H * 0.5f + 12, TW(Lv, 9) + 10, 15, FLinearColor(0.06f, 0.04f, 0.03f, 0.75f));
+				TxC(X + W * 0.5f, Y + H * 0.5f + 12, Lv, 9, Diff > 8 ? ColRed : Diff > 2 ? FLinearColor(1, 0.6f, 0.25f) : ColGold);
+			}
+			else
+			{
+				const FLinearColor C = Z.bBuilt ? FLinearColor(0.35f, 0.3f, 0.12f) : Diff > 8 ? FLinearColor(0.3f, 0.1f, 0.1f) : Diff > 2 ? FLinearColor(0.32f, 0.2f, 0.08f) : FLinearColor(0.15f, 0.25f, 0.12f);
+				Rc(X, Y, W, H, FLinearColor(0.5f, 0.45f, 0.3f));
+				++Layer; LastKind = 1;
+				Rc(X + 1, Y + 1, W - 2, H - 2, C);
+				TxC(X + W * 0.5f, Y + H * 0.5f - 14, Z.Name, 10, ColWhite, true);
+				TxC(X + W * 0.5f, Y + H * 0.5f + 2, FString::Printf(TEXT("%d-%d"), Z.LevelMin, Z.LevelMax), 10, Diff > 8 ? ColRed : ColGold);
+			}
+			if (bHot)
 			{
 				FString Dn;
 				for (const FHLDungeonInfo& Dg : D.Dungeons) if (Dg.Zone == Z.Id) Dn += FString::Printf(TEXT("\n%s (%d-%d, %d players)"), *Dg.Name, Dg.LevelMin, Dg.LevelMax, Dg.Size);
 				TipText = FString::Printf(TEXT("%s (levels %d-%d)\n%s\nHubs: %s%s"), *Z.Name, Z.LevelMin, Z.LevelMax, *Z.Blurb, *FString::Join(Z.Hubs, TEXT(", ")), *Dn); TipPos = Mouse;
 			}
-			if (Z.bBuilt) TxC(X + W * 0.5f, Y + H - 16, TEXT("You are here"), 9, ColGreen);
+			if (Z.bBuilt && WB) { Rc(X + W * 0.5f - 42, Y + H + 2, 84, 15, FLinearColor(0.06f, 0.04f, 0.03f, 0.85f)); TxC(X + W * 0.5f, Y + H + 2, TEXT("You are here"), 9, ColGreen); }
+			else if (Z.bBuilt) TxC(X + W * 0.5f, Y + H - 16, TEXT("You are here"), 9, ColGreen);
 		}
 		Tx(Mx + 8, My + Mh - 20, TEXT("The dome's edge is the edge of the map. Pacific Electric red cars link the zones once you have discovered their stops."), 9, ColDim);
 		return;
@@ -252,12 +273,37 @@ void SHLGameUI::DrawMap() const
 		const float X0 = FMath::Max(X, Mx), Y0 = FMath::Max(Y, My), X1 = FMath::Min(X + W, Mx + Vw), Y1 = FMath::Min(Y + H, My + Vh);
 		if (X1 > X0 && Y1 > Y0) Rc(X0, Y0, X1 - X0, Y1 - Y0, C);
 	};
-	for (const FHLBox& B : Def.Ground) if (B.W > 3 && B.D > 3) RcC(MX(B.X), MY(B.Y), B.W * K, B.D * K, FLinearColor(0.22f, 0.22f, 0.22f));
+	// the painted map (tools/maps, registered to the area's bounds) cropped to the view; without one, the layout as boxes
+	FBox2f MUV;
+	if (FSlateBrush* MB = HLMapBrush(TEXT("map_") + Def.Id, MUV))
+	{
+		const float AX0 = MX(Def.Min.X), AY0 = MY(Def.Min.Y), AW = Def.Size.X * K, AH = Def.Size.Y * K;
+		const float X0 = FMath::Max(Mx, AX0), Y0 = FMath::Max(My, AY0), X1 = FMath::Min(Mx + Vw, AX0 + AW), Y1 = FMath::Min(My + Vh, AY0 + AH);
+		if (X1 > X0 && Y1 > Y0)
+		{
+			auto U = [&](float X) { return MUV.Min.X + (X - AX0) / AW * (MUV.Max.X - MUV.Min.X); };
+			auto V = [&](float Y) { return MUV.Min.Y + (Y - AY0) / AH * (MUV.Max.Y - MUV.Min.Y); };
+			MB->SetUVRegion(FBox2f(FVector2f(U(X0), V(Y0)), FVector2f(U(X1), V(Y1))));
+			Img(X0, Y0, X1 - X0, Y1 - Y0, MB);
+		}
+	}
+	else
+	{
+		for (const FHLBox& B : Def.Ground) if (B.W > 3 && B.D > 3) RcC(MX(B.X), MY(B.Y), B.W * K, B.D * K, FLinearColor(0.22f, 0.22f, 0.22f));
+		++Layer; LastKind = 1;
+		for (const FHLBox& B : Def.Boxes) if (B.bSolid && B.H >= 1) RcC(MX(B.X), MY(B.Y), FMath::Max(1.f, B.W * K), FMath::Max(1.f, B.D * K), FLinearColor(B.Color.R * 0.85f, B.Color.G * 0.85f, B.Color.B * 0.85f));
+		++Layer; LastKind = 1;
+		for (const FHLSubzone& S : Def.Subzones) if (Gm.Player.Discovered.Contains(S.Name) && S.Name != TEXT("The Hive Wall")) { const float X = MX(S.X + S.W * 0.5f), Y = MY(S.Y + S.D * 0.5f) - 6; if (In(X, Y, 30)) TxC(X, Y, S.Name, 9, FLinearColor(1, 0.95f, 0.75f, 0.75f)); }
+	}
 	++Layer; LastKind = 1;
-	for (const FHLBox& B : Def.Boxes) if (B.bSolid && B.H >= 1) RcC(MX(B.X), MY(B.Y), FMath::Max(1.f, B.W * K), FMath::Max(1.f, B.D * K), FLinearColor(B.Color.R * 0.85f, B.Color.G * 0.85f, B.Color.B * 0.85f));
-	++Layer; LastKind = 1;
-	for (const FHLSubzone& S : Def.Subzones) if (Gm.Player.Discovered.Contains(S.Name) && S.Name != TEXT("The Hive Wall")) { const float X = MX(S.X + S.W * 0.5f), Y = MY(S.Y + S.D * 0.5f) - 6; if (In(X, Y, 30)) TxC(X, Y, S.Name, 9, FLinearColor(1, 0.95f, 0.75f, 0.75f)); }
-	for (const FHLExit& E : Def.Exits) if (!E.bRedcar) { const FHLZoneInfo* Z = D.Zone(E.ToZone); TxC(FMath::Clamp(MX(E.Pos.X), Mx + 70.f, Mx + Vw - 70.f), FMath::Clamp(MY(E.Pos.Y), My + 4.f, My + Vh - 18.f), FString::Printf(TEXT("to %s (%d-%d)"), Z ? *Z->Name : TEXT("?"), Z ? Z->LevelMin : 0, Z ? Z->LevelMax : 0), 9, ColRed); }
+	for (const FHLExit& E : Def.Exits) if (!E.bRedcar)
+	{
+		const FHLZoneInfo* Z = D.Zone(E.ToZone);
+		const FString Ex = FString::Printf(TEXT("to %s (%d-%d)"), Z ? *Z->Name : TEXT("?"), Z ? Z->LevelMin : 0, Z ? Z->LevelMax : 0);
+		const float X = FMath::Clamp(MX(E.Pos.X), Mx + 70.f, Mx + Vw - 70.f), Y = FMath::Clamp(MY(E.Pos.Y), My + 4.f, My + Vh - 18.f);
+		Rc(X - TW(Ex, 9) * 0.5f - 4, Y, TW(Ex, 9) + 8, 14, FLinearColor(0.06f, 0.03f, 0.03f, 0.8f));
+		TxC(X, Y, Ex, 9, FLinearColor(1, 0.45f, 0.4f));
+	}
 	for (const FHLUnit* U : Gm.UnitList)
 	{
 		if (U->Area != P.Area || U->Kind != EHLKind::Npc || !U->Npc) continue;

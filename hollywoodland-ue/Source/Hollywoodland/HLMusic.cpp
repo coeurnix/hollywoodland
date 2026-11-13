@@ -80,7 +80,7 @@ const FHLTrack* FHLMusic::Track(int32 N) { return N >= 1 && N <= UE_ARRAY_COUNT(
 void FHLMusic::Init(bool bMuteByDefault)
 {
 #if PLATFORM_WASM
-	Folder = TEXT("music/");
+	Folder = HLBridge::AudioBase() + TEXT("music/");
 #else
 	for (const FString& Dir : { FPaths::ProjectDir() / TEXT("Music"), FPaths::ProjectDir() / TEXT("../music") })
 	{

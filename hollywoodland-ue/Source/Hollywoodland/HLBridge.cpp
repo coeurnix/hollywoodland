@@ -4,6 +4,14 @@
 #include "Serialization/JsonSerializer.h"
 #include "Misc/FileHelper.h"
 #include "Misc/Paths.h"
+#include "Misc/ConfigCacheIni.h"
+
+FString HLBridge::AudioBase()
+{
+	FString Cfg;
+	if (GConfig && GConfig->GetString(TEXT("Hollywoodland"), TEXT("AudioBase"), Cfg, GEngineIni) && Cfg.Contains(TEXT("://"))) return Cfg.EndsWith(TEXT("/")) ? Cfg : Cfg + TEXT("/");
+	return FString(); // relative: the page's own host serves music/ and sfx/ (the itch package, or the Cloudflare Worker's shared prefixes)
+}
 
 #if PLATFORM_WASM
 #include <atomic>
@@ -107,10 +115,24 @@ EM_JS(void, HL_JsStart, (double Slot, int Op, double TimeoutMs, double A, double
 			S.unlock = function () { S.init(); if (S.ctx && S.ctx.state !== "running") S.ctx.resume(); };
 			document.addEventListener("pointerdown", S.unlock, true);
 			document.addEventListener("keydown", S.unlock, true);
+			// itch.io packages ship the sounds in bundles (tools/itch/audiopack.mjs: audio/index.json maps "sfx/<file>" to
+			// [bundle, offset, length]); a bundle is fetched once, the first time one of its sounds plays. Without the index
+			// (Cloudflare stage, local runs) each sound is its own file.
+			S.whole = function (u) { return fetch(new URL(u, location.href).href).then(function (r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.arrayBuffer(); }); };
+			S.packs = {};
+			S.index = fetch(new URL("audio/index.json", location.href).href).then(function (r) { return r.ok ? r.json() : {}; }).catch(function () { return {}; });
+			S.bytes = function (u) {
+				return S.index.then(function (ix) {
+					var e = ix[u];
+					if (!e) return S.whole(u);
+					var p = S.packs[e[0]] || (S.packs[e[0]] = S.whole(e[0]));
+					return p.then(function (ab) { return ab.slice(e[1], e[1] + e[2]); });
+				});
+			};
 			S.pump = function () {
 				while (S.active < 4 && S.loads.length) {
 					var b = S.loads.shift(); S.active++;
-					fetch(new URL(b.url, location.href).href).then(function (r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.arrayBuffer(); })
+					S.bytes(b.url)
 						.then(function (ab) { return new Promise(function (res, rej) { S.ctx.decodeAudioData(ab, res, rej); }); })
 						.then((function (b) { return function (buf) { b.buf = buf; var w = b.wait; b.wait = null; for (var i = 0; i < w.length; i++) w[i](); }; })(b),
 							(function (b) { return function (e) { console.warn("HL sfx " + b.url + ": " + e); b.wait = null; b.failed = true; }; })(b))

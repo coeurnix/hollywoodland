@@ -323,7 +323,7 @@ void FHLSfx::Init(bool bMuteByDefault)
 		if (D.Files.Num()) Defs.Add(D.Id, MoveTemp(D));
 	}
 #if PLATFORM_WASM
-	Folder = TEXT("sfx/");
+	Folder = HLBridge::AudioBase() + TEXT("sfx/");
 #else
 	for (const FString& Dir : { FPaths::ProjectDir() / TEXT("Sfx"), FPaths::ProjectDir() / TEXT("../sfx") })
 	{

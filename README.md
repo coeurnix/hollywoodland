@@ -1,7 +1,7 @@
 # Hollywoodland
 
 Simulated, player-populated MMORPG set in Hollywood, 1930 (alien insect occupation). Single-player; every other "player" is AI.
-UE 5.9.0 Preview (source build) → WebAssembly/WebGPU, served by a Cloudflare Worker, embedded on itch.io.
+UE 5.9.0 Preview (source build) → WebAssembly/WebGPU, hosted on itch.io (https://coeurnix.itch.io/hollywoodland); the API server is a Cloudflare Worker.
 Design reference: `DESIGN-BIBLE.md`. Roadmap and status: `PLAN.md`. Placeholder inventory: `ASSETS.md`. Character art order: `ART-CHARACTERS.md`.
 
 - Client: https://hollywoodland.coeurnix.workers.dev/
@@ -16,7 +16,9 @@ Design reference: `DESIGN-BIBLE.md`. Roadmap and status: `PLAN.md`. Placeholder 
 | `workers/server/` | `hollywoodland-server` Worker: sessions, `/v1/sim` (Rune decisions + DeepSeek chat via Fireworks), cloud saves (KV). |
 | `workers/client/` | `hollywoodland` Worker: serves the packaged Wasm stage from R2 with COOP/COEP, Brotli siblings and Range. |
 | `workers/deploy-stage.mjs` | Uploads a packaged stage to R2 under a new prefix and flips the live `DEPLOY` var. |
-| `itch/` | The itch.io HTML wrapper (iframe to the client Worker). |
+| `tools/itch/` | itch.io package: `package.mjs` (stage + music + bundled sfx, limit checks), `audiopack.mjs`. |
+| `tools/maps/` | Painted maps: `source_maps.py` (layout sources), `paint_maps.py` (Codex), `install_maps.py` (check + install). |
+| `itch/` | Older itch.io wrapper (iframe to the client Worker), kept as a fallback. |
 
 ## Build and deploy
 
@@ -38,8 +40,9 @@ Browser tests (Playwright venv at `C:\Users\theco\Projects\unreal59\tools-venv`)
 `node tools/serve-itch.mjs 8931` (serves `itch/index.html` with itch-style COOP/COEP to test the nested iframe).
 Server: `node tools/test-server.mjs`. Corpus: `FIREWORKS_API_KEY=... node tools/gen-corpus.mjs` then `node tools/gen-data.mjs`.
 
-itch.io: create an HTML project, upload `itch/hollywoodland-itch.zip` ("This file will be played in the browser"), set the
-viewport to 1280×720 with the fullscreen button, and enable Embed options → SharedArrayBuffer support.
+itch.io: `node tools/itch/package.mjs` after BuildWeb, then `butler push hollywoodland-ue/web-dist-Shipping/itch coeurnix/hollywoodland:html5
+--userversion <v>`. Page settings: HTML, "This file will be played in the browser", 1600×900 with the fullscreen button,
+Embed options → SharedArrayBuffer support.
 Engine: `C:\Users\theco\Projects\unreal59\UnrealEngine` (5.9.0-preview-1, MSVC 14.50, Emscripten 6.0.10).
 
 ## Engine/web constraints that shaped the code (do not rediscover)

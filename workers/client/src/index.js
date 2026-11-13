@@ -34,7 +34,8 @@ export default {
     const shared = path.startsWith('music/') || path.startsWith('sfx/');
     const key = shared ? path : `${env.DEPLOY}/${path}`;
     const headers = baseHeaders(path);
-    if (shared) headers.set('Cache-Control', 'public, max-age=604800');
+    // the itch.io-hosted client fetches these cross-origin (fetch() for sfx needs CORS; <audio> for music needs CORP)
+    if (shared) { headers.set('Cache-Control', 'public, max-age=604800'); headers.set('Access-Control-Allow-Origin', '*'); }
     const range = request.headers.get('Range');
     const acceptsBr = /\bbr\b/.test(request.headers.get('Accept-Encoding') || '');
 

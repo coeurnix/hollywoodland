@@ -6,7 +6,7 @@ Status legend: **DONE** works in the build · **PROTO** simplified stand-in, pla
 ## 1. Architecture (as built)
 
 ```
-browser ── itch.io page (iframe) ── hollywoodland Worker (R2 stage, COOP/COEP) ── UE 5.9 Wasm client
+browser ── itch.io page (iframe, SharedArrayBuffer support) ── UE 5.9 Wasm client + audio (butler package, tools/itch)
                                                                                    │ fetch (text/plain JSON)
                                                              hollywoodland-server Worker ── Fireworks (Rune + DeepSeek), KV
 ```
@@ -78,7 +78,7 @@ browser ── itch.io page (iframe) ── hollywoodland Worker (R2 stage, COOP
 | Director (§14) | DONE | 6 beats, shuffled per play: invite opens; passing heal, Drone train (3-5) and a lost newbie asking the player the way to a trainer are shuffled (one of train/newbie dropped 40% of the time); red-car raiders and the buddy whisper close. Pace 0.75-1.25x, corpus lines per beat. |
 | Honesty (§11) | DONE | Disclosure is the game's job: title notice, first system line, "Show simulated players" toggle. The characters stay in role (prompt + server-side guard that swaps fourth-wall breaks for in-character deflections). |
 | Talents (§5) | DONE | 3 trees × 16 per class (384), 5 tiers (5 points each), passive modifiers applied in stats and combat; respec at the class trainer ($1 doubling to $50). Tiers 1-2 hand-made, 3-5 designed with Claude and validated (`tools/artgen design`). |
-| World map / red car / inspect / who | DONE | Zone map zooms (wheel) and pans (drag), shows every service as a lettered icon with a clickable list (bank, auction, inn, class and profession trainers, vendors, repairs, red car, mailbox, police, aid stations) that sets a mark; the mark shows as a pin on both maps and a HUD marker with distance, and clears on arrival. Patrolmen give directions to every service (spoken, and marked). 13-zone world map with blurbs and dungeons, route map, inspect shows persona gear. |
+| World map / red car / inspect / who | DONE | Zone map zooms (wheel) and pans (drag), shows every service as a lettered icon with a clickable list (bank, auction, inn, class and profession trainers, vendors, repairs, red car, mailbox, police, aid stations) that sets a mark; the mark shows as a pin on both maps and a HUD marker with distance, and clears on arrival. Patrolmen give directions to every service (spoken, and marked). Painted maps (Codex image generation over exact layout sources, `tools/maps`; registration checked by edge correlation) under the zone, dungeon and 13-zone world views, with blurbs and dungeons, route map, inspect shows persona gear. |
 | World events (§10) | DONE (3 of 7) | `HLEvents.cpp`. Hive surge every 30-50 min on a hub (warning in zone chat, 10 min of waves, up to 6 local sims hold the line, reward for 3+ kills, hub merchants close 15 min if overrun); picture night every ~45 min at the Chinese (pre-1930 public-domain titles, sims sit in rows and chat, +10% kill XP for 30 min after 45 s watching); sims call rare spawns in zone chat. Hive spread, fight night, fishing derby, red-car breakdown TODO. `-HLEventsSoon` for tests. |
 | Duels, trade, mail, friends (§6, §9, §11) | DONE | `HLSocial.cpp`. Duels outside hubs (loser stops at 1 hp, forfeit at 40 m, rivals challenge you); face-to-face trade window (sims accept fair offers and gifts); whisper a trade-chat seller "wtb" and they send it C.O.D.; mailbox with auction proceeds, returns, outbid refunds and letters; friends list (Who window tab) with online/offline notices. Guilds: a social or levelling guild invites the player at level 4+ (bonded sims first); guild chat (/g) with MOTD, welcomes, logins, grats on dings and census dungeon clears; roster tab with ranks in the Who window; /gquit. |
 | Mounts for transients | PROTO | A dark box under the rider, +60% speed. |
@@ -167,7 +167,7 @@ quest-text name check, level-band rule for quest mobs.
 | GitHub | https://github.com/coeurnix/hollywoodland (public, MIT) |
 | Client Worker | `hollywoodland` → https://hollywoodland.coeurnix.workers.dev/ ; R2 bucket `hollywoodland-stage`; live prefix = `DEPLOY` var in `workers/client/wrangler.jsonc` |
 | Server Worker | `hollywoodland-server`; KV `HL_KV` (id in `workers/server/wrangler.jsonc`); secrets set |
-| itch.io | Upload `itch/hollywoodland-itch.zip` (just `index.html`) as an HTML game, viewport 1280×720+, enable fullscreen button and **SharedArrayBuffer support**. Butler: `butler push itch/hollywoodland-itch.zip <user>/hollywoodland:html5`. |
+| itch.io | https://coeurnix.itch.io/hollywoodland hosts the client itself: `node tools/itch/package.mjs` (stage minus .br/_headers, `music/*.mp3`, `sfx/*.mp3` bundled into `audio/*.bin` + `audio/index.json`; checks <500 MB and <1,000 files; ~399 MB, 119 files), then `butler push hollywoodland-ue/web-dist-Shipping/itch coeurnix/hollywoodland:html5 --userversion <v>`. Page: HTML, played in the browser, 1600×900, fullscreen button, **SharedArrayBuffer support**. The Cloudflare client Worker remains as a second host. |
 
 Music: `cd workers; node deploy-music.mjs` uploads `music/*.mp3` to R2 `music/` (shared by all prefixes; skips unchanged). `--sfx` does the same for `sfx/*.mp3`.
 Old R2 prefixes can be deleted once no tab runs them (`wrangler r2 object delete`, or bulk via dashboard).

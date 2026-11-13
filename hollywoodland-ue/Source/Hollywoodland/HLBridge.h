@@ -24,6 +24,9 @@ namespace HLBridge
 	void Poll();
 	/** console.log on the web (works in Shipping); UE_LOG natively. */
 	void Log(const FString& Line);
+	// web: prefix for music/ and sfx/ URLs; empty (relative to the page) unless [Hollywoodland] AudioBase in Engine.ini names
+	// another host. The itch package carries the audio (sfx bundled, see tools/itch/audiopack.mjs); Cloudflare serves R2 prefixes
+	FString AudioBase();
 
 	/** Streaming music, one track at a time with crossfades. Web: an <audio> element on the page (File is a URL relative to the
 	 *  page, played once the browser allows audio). Native: Windows MCI on an MP3 path. Volume 0..1. */

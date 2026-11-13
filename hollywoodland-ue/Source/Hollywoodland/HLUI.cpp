@@ -108,6 +108,30 @@ const FSlateBrush* HLArtBrush(const FString& Name)
 	Art.Add(Name, B);
 	return B.Get();
 }
+FSlateBrush* HLMapBrush(const FString& Name, FBox2f& Region)
+{
+	struct FMap { TSharedPtr<FSlateBrush> B; FBox2f UV; };
+	static TMap<FString, FMap> Maps;
+	if (FMap* M = Maps.Find(Name)) { Region = M->UV; return M->B.Get(); }
+	FMap M;
+	M.UV = FBox2f(FVector2f(0, 0), FVector2f(1, 1));
+	FString Text;
+	TSharedPtr<FJsonObject> J;
+	const FString Dir = FPaths::ProjectContentDir() / TEXT("Data/UI/");
+	const TSharedPtr<FJsonObject>* E = nullptr;
+	const TArray<TSharedPtr<FJsonValue>>* UV = nullptr;
+	if (FFileHelper::LoadFileToString(Text, *(Dir + TEXT("maps.json"))) && FJsonSerializer::Deserialize(TJsonReaderFactory<>::Create(Text), J) && J.IsValid()
+		&& J->TryGetObjectField(Name, E) && (*E)->TryGetArrayField(TEXT("uv"), UV) && UV->Num() == 4)
+	{
+		M.UV = FBox2f(FVector2f((*UV)[0]->AsNumber(), (*UV)[1]->AsNumber()), FVector2f((*UV)[2]->AsNumber(), (*UV)[3]->AsNumber()));
+		if (UTexture2D* T = HLLoadTexture(Dir + Name + TEXT(".jpg")))
+		{
+			M.B = MakeShared<FSlateBrush>(); M.B->SetResourceObject(T); M.B->ImageSize = FVector2D(T->GetSizeX(), T->GetSizeY()); M.B->DrawAs = ESlateBrushDrawType::Image;
+		}
+	}
+	Region = M.UV;
+	return Maps.Add(Name, M).B.Get();
+}
 void SHLGameUI::Img(float X, float Y, float W, float H, const FSlateBrush* B, const FLinearColor& Tint) const
 {
 	if (!B) return;
@@ -443,6 +467,7 @@ int32 SHLGameUI::OnPaint(const FPaintArgs& Args, const FGeometry& Geo, const FSl
 	FHLGame& Gm = G();
 	{ static bool bOnce = false; if (!bOnce && Gm.bInWorld) { bOnce = true; if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenBags"))) { bBags = true; bChar = true; } if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenTalents"))) bTalents = true; if (FParse::Param(FCommandLine::Get(), TEXT("HLCraftTest"))) bCraft = true; if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenSpells"))) bSpells = true; if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenFriends"))) { bWho = true; WhoTab = 1; } if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenNews"))) { bWho = true; WhoTab = 3; }
 		if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenAuction"))) for (const FHLUnit* N : Gm.UnitList) if (N->Npc && N->Npc->HasRole(TEXT("auctioneer"))) { Gm.OpenNpcUnitId = N->Id; Gm.OpenNpcMode = TEXT("auction"); AuctionSearch = TEXT("boots"); break; }
+		if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenWorldMap"))) { bMap = true; bWorldMap = true; }
 		if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenMap"))) { bMap = true; if (const FVector2D* B = Gm.Areas[0].Def->Pois.Find(TEXT("bank"))) Gm.SetMark(0, *B, TEXT("First National Bank")); }
 		if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenGuard"))) for (const FHLUnit* N : Gm.UnitList) if (N->Npc && N->Npc->HasRole(TEXT("guard"))) { Gm.OpenNpcUnitId = N->Id; Gm.OpenNpcMode = TEXT("gossip"); break; } } } // screenshot checks
 	if (!Gm.Areas.Num()) { Tx(40, 40, TEXT("Hollywoodland failed to load its data: ") + World->LoadError, 14, ColRed); return Layer; }
