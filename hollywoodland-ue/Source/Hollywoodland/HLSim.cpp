@@ -18,6 +18,7 @@ int32 FHLGame::FindSimByHandle(const FString& Handle) const
 FString FHLGame::SimActivity(const FHLSim& S) const
 {
 	if (!S.bOnline) return TEXT("offline");
+	if (!S.UnitId && S.DungeonUntil > Now) return TEXT("in The Egyptian Theatre (dungeon)");
 	const FHLZoneInfo* Z = FHLData::Get().Zone(S.Zone);
 	if (S.UnitId)
 	{
@@ -51,7 +52,7 @@ FHLUnit* FHLGame::SpawnSim(int32 SimIdx, EHLSimRole Role, const FVector2D& Pos)
 	FHLUnit* U = AddUnit(EHLKind::Sim, 0, Areas[0].Nav.NearestFree(Pos));
 	U->Name = S.P->Handle; U->SimIdx = SimIdx; U->Yaw = Rand() * 360;
 	if (const FHLGuild* G = FHLData::Get().Guild(S.P->Guild)) U->Title = FString::Printf(TEXT("<%s>"), *G->Name);
-	RecalcCharStats(*U, *S.P->Cls, S.Level, S.P->Equipped, true);
+	RecalcCharStats(*U, *S.P->Cls, S.Level, S.Gear, true);
 	U->Color = S.P->Cls->Color;
 	S.UnitId = U->Id; S.Role = Role; S.State = EHLSimState::Idle; S.StateUntil = Now + Rand() * 6; S.bInParty = false; S.Route.Reset(); S.RouteIdx = 0; S.CampIdx = -1;
 	S.Zone = TEXT("zone_hollywood_blvd"); S.bOnline = true;
@@ -77,7 +78,7 @@ void FHLGame::InitSims()
 	for (int32 i = 0; i < Sims.Num(); ++i)
 	{
 		FHLSim& S = Sims[i];
-		S.P = &D.Personas[i]; S.Level = S.P->Level; S.Zone = S.P->HomeZone; S.bOnline = Chance(0.86f);
+		S.P = &D.Personas[i]; S.Level = S.P->Level; S.Zone = S.P->HomeZone; S.bOnline = Chance(0.86f); S.Gear = S.P->Equipped;
 		S.Xp = Rand() * XpToNext(S.Level) * 0.8f;
 	}
 	for (int32 i = 0; i < Sims.Num(); ++i)
@@ -213,7 +214,7 @@ void FHLGame::TickSimBrain(FHLSim& S, FHLUnit& U, float Dt)
 	if (S.Level < 60 && S.Xp >= XpToNext(S.Level))
 	{
 		S.Xp -= XpToNext(S.Level); S.Level++;
-		RecalcCharStats(U, *S.P->Cls, S.Level, S.P->Equipped, true);
+		RecalcCharStats(U, *S.P->Cls, S.Level, S.Gear, true);
 		if (P && Dist(*P, U) < 40) { AddFloat(U.Id, TEXT("Level up!"), FLinearColor(1, 0.85f, 0.2f)); if (Chance(0.6f)) SimSay(SimIdx, S.bInParty ? TEXT("party") : TEXT("say"), TEXT("ding"), 1 + Rand() * 2); }
 	}
 	if (U.bDead)
@@ -405,7 +406,7 @@ void FHLGame::TickSims(float Dt)
 	for (const FHLSim& S : Sims) if (S.UnitId) { if (S.Role == EHLSimRole::Transient) ++Transients; else if (S.Role == EHLSimRole::Local) ++Locals; else if (S.Role == EHLSimRole::Idler) ++Idlers; }
 	auto RandomAway = [&](int32 MinLevel, int32 MaxLevel) -> int32
 	{
-		for (int32 Try = 0; Try < 40; ++Try) { const int32 i = RandInt(0, Sims.Num() - 1); const FHLSim& S = Sims[i]; if (S.bOnline && !S.UnitId && S.Level >= MinLevel && S.Level <= MaxLevel && S.P->Cls) return i; }
+		for (int32 Try = 0; Try < 40; ++Try) { const int32 i = RandInt(0, Sims.Num() - 1); const FHLSim& S = Sims[i]; if (S.bOnline && !S.UnitId && S.DungeonUntil <= Now && S.Level >= MinLevel && S.Level <= MaxLevel && S.P->Cls) return i; }
 		return -1;
 	};
 	if (Transients < MAX_TRANSIENTS && Chance(0.6f))
@@ -450,7 +451,7 @@ void FHLGame::TickCensus()
 	{
 		CensusCursor = (CensusCursor + 1) % Sims.Num();
 		FHLSim& S = Sims[CensusCursor];
-		if (S.UnitId) continue;
+		if (S.UnitId || S.DungeonUntil > Now) continue;
 		if (!S.bOnline) { if (Chance(0.01f)) { S.bOnline = true; if (IsFriend(S)) System(FString::Printf(TEXT("%s has come online."), *S.P->Handle)); } continue; }
 		if (Chance(0.004f)) { S.bOnline = false; if (IsFriend(S)) System(FString::Printf(TEXT("%s has gone offline."), *S.P->Handle)); continue; }
 		const FHLGuild* G = D.Guild(S.P->Guild);

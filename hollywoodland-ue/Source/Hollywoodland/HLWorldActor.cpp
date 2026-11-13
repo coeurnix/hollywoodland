@@ -356,7 +356,7 @@ void AHLWorldActor::AutoTest(float Dt)
 					if (Pass == 2 && (SimRole == TEXT("tank") || SimRole == TEXT("healer"))) continue;
 					if (SimRole == TEXT("tank")) bTank = true;
 					if (SimRole == TEXT("healer")) bHeal = true;
-					S.Level = 10; Game.RecalcCharStats(*Game.Unit(S.UnitId), *S.P->Cls, 10, S.P->Equipped, true);
+					S.Level = 10; Game.RecalcCharStats(*Game.Unit(S.UnitId), *S.P->Cls, 10, S.Gear, true);
 					Game.SimJoinParty(i);
 				}
 			Game.SpawnArea(1, true);
@@ -458,13 +458,26 @@ void AHLWorldActor::AutoTest(float Dt)
 	}
 	// -HLLifeTest: stand near whatever is happening on the street and watch
 	static const bool bLifeTest = FParse::Param(FCommandLine::Get(), TEXT("HLLifeTest"));
-	if (bLifeTest && P->Area == 0)
+	if (bLifeTest && Game.DuelFromSim >= 0) Game.AnswerDuel(true);
+	if (bLifeTest && Game.DuelState == 1) return;
+	if (bLifeTest && Game.DuelState == 2 && Game.Sims.IsValidIndex(Game.DuelSim))
+	{
+		if (FHLUnit* Du = Game.Unit(Game.Sims[Game.DuelSim].UnitId))
+		{
+			P->TargetId = Du->Id; P->bAutoAttack = true; Game.FaceTo(*P, Du->Pos); CamYaw = P->Yaw;
+			for (int32 i = 0; i < Game.Player.Bar.Num(); ++i) if (Game.Player.Bar[i] && Game.Player.Bar[i]->Target == TEXT("enemy") && Game.CanCast(*P, *Game.Player.Bar[i], Du).IsEmpty()) { Game.TryCast(*P, *Game.Player.Bar[i], Du->Id); break; }
+		}
+		return;
+	}
+	if (bLifeTest && P->Area == 0 && Game.DuelState == 0)
 	{
 		P->TargetId = 0; P->bAutoAttack = false;
 		const FVector2D* Inn = Game.Areas[0].Def->Pois.Find(TEXT("inn"));
-		const FVector2D Want = Game.Happen.Kind ? Game.Happen.Pos + FVector2D(0, Game.Happen.Kind == 4 ? -9.f : 9.f) : (Inn ? *Inn + FVector2D(0, -6) : P->Pos);
+		FVector2D Want = Game.Happen.Kind ? Game.Happen.Pos + FVector2D(0, Game.Happen.Kind == 4 ? -9.f : 9.f) : (Inn ? *Inn + FVector2D(0, -6) : P->Pos);
+		if ((Game.Fight.Stage || Game.Fight.bAnnounced) && Inn) Want = *Inn + FVector2D(0, -20);
+		else if (Game.SimRun.Stage == 1 || Game.SimRun.Stage == 2) for (const FHLPortal& Po : Game.Areas[0].Def->Portals) if (Po.ToArea == TEXT("dng_egyptian")) Want = Po.Pos + FVector2D(0, -18);
 		if (FVector2D::Distance(P->Pos, Want) > 6) { AutoGoal = Want; bAutoGoal = true; }
-		else { Game.FaceTo(*P, Game.Happen.Kind ? Game.Happen.Pos : P->Pos + FVector2D(0, -5)); CamYaw = P->Yaw; }
+		else { Game.FaceTo(*P, (Game.Fight.Stage && Inn) ? *Inn + FVector2D(0, -10) : Game.SimRun.Stage ? P->Pos + FVector2D(0, 10) : Game.Happen.Kind ? Game.Happen.Pos : P->Pos + FVector2D(0, -5)); CamYaw = P->Yaw; }
 		return;
 	}
 	// -HLEscortTest: take Whitey Comes Home and bring him back to the Pantages, fighting off the ambushes

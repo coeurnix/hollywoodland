@@ -96,7 +96,7 @@ int32 FHLGame::BondedAwaySim(int32 MinLevel, int32 MaxLevel)
 	{
 		const FHLSim& S = Sims[i];
 		const FHLRelation* R = Player.Relations.Find(S.P->Id);
-		if (R && !R->Bond.IsEmpty() && S.bOnline && !S.UnitId && S.Level >= MinLevel && S.Level <= MaxLevel && S.P->Cls) C.Add(i);
+		if (R && !R->Bond.IsEmpty() && S.bOnline && !S.UnitId && S.DungeonUntil <= Now && S.Level >= MinLevel && S.Level <= MaxLevel && S.P->Cls) C.Add(i);
 	}
 	return C.Num() ? C[RandInt(0, C.Num() - 1)] : -1;
 }
@@ -242,6 +242,7 @@ void FHLGame::EndDuel(int32 WinnerUnitId, const TCHAR* How)
 	if (R.Bond == TEXT("rival")) SimSay(DuelSim, TEXT("say"), bWon ? TEXT("duel_lose_rival") : TEXT("duel_win_rival"), 1.5f);
 	else SimSay(DuelSim, TEXT("say"), bWon ? TEXT("duel_lose") : TEXT("duel_win"), 1.5f, TEXT("gg"));
 	if (bWon) R.Facts.AddUnique(TEXT("lost a duel to them"));
+	if (DuelSim == Fight.Champ) FightNightDuelOver(bWon);
 	DuelState = 0; DuelSim = -1;
 }
 

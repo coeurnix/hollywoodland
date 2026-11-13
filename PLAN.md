@@ -95,14 +95,14 @@ browser ── itch.io page (iframe) ── hollywoodland Worker (R2 stage, COOP
 4. **Mouse look on the web:** verify pointer-lock behaviour of `UseHighPrecisionMouseMovement` in the itch iframe; fall back to
    plain capture if the browser refuses the lock.
 5. ~~Unit separation~~ (melee mobs spread around their target; sims step aside from each other, NPCs and the player).
-6. Restore from cloud save when localStorage is empty (GET `/v1/save/<player>` needs the player id → show a code in the menu).
+6. ~~Restore from cloud save~~ (done: the game menu shows the cloud code (player id); the title screen has a Restore box that fetches `/v1/save/<code>` into this browser).
 
 ### P1 — systems the bible calls for in the slice
 7. ~~Ghost run + durability + repair costs~~ (done).
 8. ~~Parry/block, shields, ammo~~ (done).
 9. ~~Escort quest type (follow-AI NPC, fail on death) for `q_hb_14`; class quests at 10; `q_hb_29` + Gunsmithing 1-75 with 6 recipes.~~ Done.
 10. Crowd LOD (§11 levels 0-3): only needed when population on screen exceeds ~60; implement as sims without `FHLUnit` combat.
-11. ~~World events: surge, rare calls, picture night~~ (done); hive spread, fight night (needs duels).
+11. ~~World events: surge, rare calls, picture night, fight night~~ (done: fight night every 20-35 min outside the Roosevelt, up to four sims near the player's level box semi-finals and a final with a crowd, then the champion challenges the player for a purse of 50c + 20c per level); hive spread.
 12. ~~Trade window, duels, mailbox, friends list~~ (done).
 13. ~~Auction: bids, durations, search; sims undercutting the player~~ (done: a sim at the auctioneer may list the same item 1-5% under the player's price, and undercut listings rarely sell); price history.
 14. ~~Talents~~ (done: all 5 tiers).
@@ -112,7 +112,7 @@ browser ── itch.io page (iframe) ── hollywoodland Worker (R2 stage, COOP
 16. ~~Persistent relationships~~ (done: each save seeds 3 pals, a rival, a flirt, a mentor and a gossip from the player id; they whisper, mail gifts, befriend, challenge; bonded sims are likelier to log in and appear on the Boulevard). Original note: on first login pick ~8 personas as this save's friends/rivals/flirt/nemesis (seeded by player
     id), bias Director events and whispers toward them, surface "X has come online".
 17. ~~Sims use the auction house, trainers and vendors visibly, gather nodes, compete for quest objects~~ (done: errands stop at the counter of a real NPC, who turns to face them; auction posts, ability learned at their own trainer, sitting at the inn; grinding sims take salvage and quest objects that are more than 10 m from the player).
-18. Sim-formed dungeon groups: LFG shout → walk to the Egyptian → enter (despawn) → return 20 min later with boss loot equipped.
+18. ~~Sim-formed dungeon groups~~ (done: every 8-14 min five sims level 8-14 form up in LFG, meet at the Egyptian door, go in, and come out 15-25 min later with Egyptian boss loot equipped (per-sim gear, visible on inspect) and a clear/wipe line in General; /who shows them in the dungeon).
 19. ~~Duel outside the Roosevelt, dance party on the bank steps, AFK chains~~ (done, plus a queue at the auctioneer: one random happening near the player every 2.5-5.5 minutes after the first 200 s). Still fixed: the onboarding Director steps 0-4.
 20. ~~Multi-line conversations between sims~~ (done: 30 General and 10 spoken conversations in `chat.mjs`; spoken ones walk two nearby sims together with speech bubbles; each line waits for reading and typing time at the persona's reaction speed). Typing indicator not shown.
 21. Census: guild rosters, raid schedules by server clock, wipes/clears feeding guild chat; 30 "server history" events at start.

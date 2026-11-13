@@ -263,7 +263,7 @@ void SHLGameUI::DrawInspect() const
 	for (int32 i = 0; i < 12; ++i)
 	{
 		const float Y = WY + 20 + i * 28;
-		const FHLItem* It = S.P->Equipped.FindRef(EquipSlots[i]);
+		const FHLItem* It = S.Gear.FindRef(EquipSlots[i]);
 		ItemIcon(WX, Y, 26, It);
 		Tx(WX + 32, Y + 5, It ? It->Name : FString(EquipNames[i]), 10, It ? HLQualityColor(It->Q) : ColDim);
 	}
@@ -368,7 +368,7 @@ void SHLGameUI::DrawTalents() const
 void SHLGameUI::DrawMenu() const
 {
 	FHLGame& Gm = G();
-	if (!Win(TEXT("menu"), TEXT("Game Menu"), 330, 300, bMenu, (VS.X - 330) * 0.5f, 240)) return;
+	if (!Win(TEXT("menu"), TEXT("Game Menu"), 330, 350, bMenu, (VS.X - 330) * 0.5f, 240)) return;
 	if (Btn(WX, WY, 300, 26, Gm.Player.bShowSim ? TEXT("Show simulated players: ON (tags every AI player)") : TEXT("Show simulated players: OFF"), true, 10)) Gm.Player.bShowSim = !Gm.Player.bShowSim;
 	if (Btn(WX, WY + 34, 300, 26, TEXT("Save now"), true, 10)) { Gm.SaveNow(); Gm.System(TEXT("Game saved.")); }
 	if (Btn(WX, WY + 68, 300, 26, TEXT("How to play (H)"), true, 10)) bHelp = true;
@@ -381,6 +381,8 @@ void SHLGameUI::DrawMenu() const
 		if (!Now.IsEmpty()) Tx(WX, WY + 166, FString::Printf(TEXT("Now playing: %s"), *Now), 9, ColDim);
 	}
 	TxWrap(WX, WY + 186, 300, TEXT("Single-player. Every other player is simulated by AI; the server only writes their chat. Your character is saved in this browser and backed up to the server."), 9, ColDim);
+	Tx(WX, WY + 238, TEXT("Cloud code (restore on another browser):"), 9, ColDim);
+	Tx(WX, WY + 254, Gm.Player.PlayerId, 12, ColGold, true);
 }
 
 void SHLGameUI::DrawNpc() const

@@ -272,7 +272,8 @@ FReply SHLGameUI::OnKeyDown(const FGeometry& Geo, const FKeyEvent& E)
 	FHLGame& Gm = G();
 	if (!Gm.bInWorld)
 	{
-		if (K == EKeys::BackSpace && NameEntry.Len()) NameEntry.LeftChopInline(1);
+		FString& Box = bRestoreFocus ? RestoreEntry : NameEntry;
+		if (K == EKeys::BackSpace && Box.Len()) Box.LeftChopInline(1);
 		return FReply::Handled();
 	}
 	if (bTyping)
@@ -323,7 +324,12 @@ FReply SHLGameUI::OnKeyChar(const FGeometry& Geo, const FCharacterEvent& E)
 {
 	const TCHAR C = E.GetCharacter();
 	if (C < 32 || C == 127) return FReply::Handled();
-	if (!G().bInWorld) { if (NameEntry.Len() < 12 && (FChar::IsAlpha(C))) NameEntry.AppendChar(C); return FReply::Handled(); }
+	if (!G().bInWorld)
+	{
+		if (bRestoreFocus) { if (RestoreEntry.Len() < 40 && (FChar::IsAlnum(C) || C == '_')) RestoreEntry.AppendChar(FChar::ToLower(C)); }
+		else if (NameEntry.Len() < 12 && (FChar::IsAlpha(C))) NameEntry.AppendChar(C);
+		return FReply::Handled();
+	}
 	if (bSwallowChar) { bSwallowChar = false; return FReply::Handled(); }
 	if (bTyping && ChatEntry.Len() < 240) { if (!(ChatEntry.IsEmpty() && C == '\r')) ChatEntry.AppendChar(C); }
 	else if (bSearchFocus && C >= 32 && AuctionSearch.Len() < 40) AuctionSearch.AppendChar(C);
@@ -484,7 +490,8 @@ void SHLGameUI::DrawTitle() const
 	++Layer; LastKind = 1;
 	Rc(X + 91, Cy + 1, 238, 28, FLinearColor(0.02f, 0.02f, 0.02f));
 	const bool bBlink = FMath::Fmod(FPlatformTime::Seconds(), 1.0) < 0.5;
-	Tx(X + 98, Cy + 5, NameEntry + (bBlink ? TEXT("_") : TEXT("")), 13, ColWhite);
+	if (Hover(X + 90, Cy, 240, 30) && bLClick) { bLClick = false; bRestoreFocus = false; }
+	Tx(X + 98, Cy + 5, NameEntry + (bBlink && !bRestoreFocus ? TEXT("_") : TEXT("")), 13, ColWhite);
 	Tx(X + 340, Cy + 8, TEXT("(type a name, letters only)"), 10, ColDim);
 	Cy += 44;
 	Tx(X + 30, Cy, TEXT("Class:"), 13, ColWhite);
@@ -504,6 +511,32 @@ void SHLGameUI::DrawTitle() const
 	FString Abil;
 	for (const FHLAbility* Ab : C.Abilities) Abil += FString::Printf(TEXT("%s (%d)   "), *Ab->Name, Ab->Level);
 	TxWrap(X + 30, Cy + 48, W - 60, TEXT("Abilities to level 12: ") + Abil, 10, ColDim);
+	{
+		// restore from the cloud copy on another browser: the code is shown in the game menu
+		const float Ry = Y + H - 142;
+		Tx(X + 30, Ry + 5, TEXT("Restore a save:"), 10, ColDim);
+		const float Bx = X + 140, Bw = 250;
+		if (Hover(Bx, Ry, Bw, 24) && bLClick) { bLClick = false; bRestoreFocus = true; }
+		Rc(Bx, Ry, Bw, 24, bRestoreFocus ? FLinearColor(0.85f, 0.7f, 0.35f) : FLinearColor(0.35f, 0.3f, 0.2f));
+		++Layer; LastKind = 1;
+		Rc(Bx + 1, Ry + 1, Bw - 2, 22, FLinearColor(0.02f, 0.02f, 0.02f));
+		Tx(Bx + 6, Ry + 4, RestoreEntry.IsEmpty() && !bRestoreFocus ? FString(TEXT("click, then type your cloud code")) : RestoreEntry + (bBlink && bRestoreFocus ? TEXT("_") : TEXT("")), 10, RestoreEntry.IsEmpty() && !bRestoreFocus ? ColDim : ColWhite);
+		if (Btn(Bx + Bw + 8, Ry, 80, 24, bRestoreBusy ? TEXT("...") : TEXT("Restore"), RestoreEntry.Len() >= 8 && !bRestoreBusy, 10))
+		{
+			bRestoreBusy = true; RestoreMsg = TEXT("Looking for that save...");
+			TWeakPtr<const SWidget> Weak = AsShared();
+			const SHLGameUI* Self = this;
+			AHLWorldActor* WA = World;
+			HLBridge::Fetch(TEXT("GET"), FString::Printf(TEXT("%s/v1/save/%s"), *Gm.ApiBase, *RestoreEntry), FString(), [Weak, Self, WA](const FHLBridgeResult& R)
+			{
+				if (!Weak.IsValid()) return;
+				Self->bRestoreBusy = false;
+				if (R.Ok() && R.Body.Contains(TEXT("\"name\""))) { WA->SavedJson = R.Body; HLBridge::StorageSet(TEXT("hollywoodland_save_v1"), R.Body); Self->RestoreMsg = TEXT("Save found. Press Continue saved character."); }
+				else Self->RestoreMsg = R.Status == 404 ? TEXT("No save with that code.") : TEXT("Could not reach the server. Try again.");
+			});
+		}
+		if (!RestoreMsg.IsEmpty()) Tx(Bx + Bw + 96, Ry + 5, RestoreMsg, 10, RestoreMsg.StartsWith(TEXT("Save found")) ? ColGreen : ColDim);
+	}
 	const bool bOk = NameEntry.Len() >= 2;
 	if (Btn(X + W * 0.5f - 130, Y + H - 96, 260, 40, TEXT("Enter Hollywood"), bOk, 15))
 	{
@@ -979,6 +1012,17 @@ void SHLGameUI::DrawTracker() const
 		Tx(X, Y, TEXT("Picture Night"), 10, FLinearColor(0.75f, 0.85f, 1.f), true); Y += 15;
 		Tx(X + 8, Y, FString::Printf(TEXT("%s at Grauman's Chinese"), *Gm.FilmShort), 9, ColWhite); Y += 14;
 		Tx(X + 8, Y, bOn ? (Gm.bFilmBuffGiven ? FString::Printf(TEXT("%s left (buff received)"), *Clock(Gm.FilmEnd - Gm.Now)) : FString::Printf(TEXT("%s left. Watch to be inspired"), *Clock(Gm.FilmEnd - Gm.Now))) : FString::Printf(TEXT("Starts in %s"), *Clock(Gm.NextFilmAt - Gm.Now)), 9, ColDim); Y += 18;
+	}
+	if (Gm.Fight.bAnnounced)
+	{
+		Tx(X, Y, TEXT("Fight Night"), 10, FLinearColor(1.f, 0.7f, 0.35f), true); Y += 15;
+		Tx(X + 8, Y, TEXT("Outside the Roosevelt Hotel"), 9, ColWhite); Y += 14;
+		int32 A = -1, B = -1;
+		if (Gm.Fight.Stage == 0) Tx(X + 8, Y, FString::Printf(TEXT("Starts in %s"), *Clock(Gm.Fight.NextAt - Gm.Now)), 9, ColDim);
+		else if (Gm.Fight.Stage == 1 && Gm.FightPair(A, B)) Tx(X + 8, Y, FString::Printf(TEXT("%s vs %s"), *Gm.Sims[A].P->Handle, *Gm.Sims[B].P->Handle), 9, ColDim);
+		else if (Gm.Sims.IsValidIndex(Gm.Fight.Champ)) Tx(X + 8, Y, FString::Printf(TEXT("Champion: %s. Beat them for a purse"), *Gm.Sims[Gm.Fight.Champ].P->Handle), 9, ColDim);
+		else Tx(X + 8, Y, TEXT("Final bout"), 9, ColDim);
+		Y += 18;
 	}
 	if (!Gm.Player.Quests.Num())
 	{

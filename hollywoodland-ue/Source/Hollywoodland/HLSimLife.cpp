@@ -271,7 +271,7 @@ void FHLGame::TickHappenings()
 	{
 		static const bool bLifeTest = FParse::Param(FCommandLine::Get(), TEXT("HLLifeTest"));
 		if (bLifeTest && NextHappening == 0) { NextHappening = Now + 25; NextSayConvo = Now + 15; NextZoneConvo = Now + 10; }
-		if ((Player.PlayedS < 200 && !bLifeTest) || Now < NextHappening || P->Area != 0 || P->bDead || SurgeHub >= 0) return;
+		if ((Player.PlayedS < 200 && !bLifeTest) || Now < NextHappening || P->Area != 0 || P->bDead || SurgeHub >= 0 || Fight.Stage != 0 || Fight.bAnnounced) return;
 		NextHappening = Now + (bLifeTest ? 20 + Rand() * 20 : 150 + Rand() * 180);
 		// a happening near the player, of a different kind from the last one
 		struct FOpt { int32 Kind; FVector2D Pos; };
@@ -412,4 +412,340 @@ FVector2D FHLGame::HappeningSpot(int32 K, int32 N) const
 	}
 	default: return Happen.Pos;
 	}
+}
+
+// ------------------------------------------------------------------------------------------------------------- dungeon groups
+// Five simulated players form a group in LFG, meet at the Egyptian's door, go in, and come back a quarter of an hour later
+// with boss loot equipped (or a wipe story). While inside they are online but not on the street (/who: in the dungeon).
+const FHLItem* FHLGame::SimDungeonLoot(const FHLSim& S) const
+{
+	const FHLData& D = FHLData::Get();
+	static const TCHAR* Bosses[] = { TEXT("mob_boss_brood_keeper"), TEXT("mob_boss_hive_warden"), TEXT("mob_boss_matriarch"), TEXT("mob_boss_hive_mother") };
+	static const TCHAR* Order[] = { TEXT("cloth"), TEXT("leather"), TEXT("padded"), TEXT("steel") };
+	auto Rank = [](const FString& T) { for (int32 i = 0; i < 4; ++i) if (T == Order[i]) return i; return 0; };
+	TArray<const FHLItem*> Fit;
+	for (const TCHAR* B : Bosses)
+		if (const FHLMobDef* M = D.Mob(B))
+			for (const FHLItem* It : M->BossLoot)
+			{
+				if (!It || !It->IsEquip() || It->Req > S.Level) continue;
+				if (It->Kind == TEXT("armor") && It->Type != TEXT("jewel") && Rank(It->Type) > Rank(S.P->Cls->Armour)) continue;
+				if (It->Kind == TEXT("weapon") && !S.P->Cls->Weapons.Contains(It->Type)) continue;
+				const FHLItem* Cur = S.Gear.FindRef(It->Slot);
+				if (Cur && Cur->ILvl >= It->ILvl) continue;
+				Fit.AddUnique(It);
+			}
+	return Fit.Num() ? Fit[FMath::RandRange(0, Fit.Num() - 1)] : nullptr;
+}
+
+void FHLGame::TickSimDungeon()
+{
+	const FHLUnit* P = PlayerUnit();
+	if (!P || !Sims.Num()) return;
+	const FHLAreaDef& Def = *Areas[0].Def;
+	const FHLPortal* Door = nullptr;
+	for (const FHLPortal& Po : Def.Portals) if (Po.ToArea == TEXT("dng_egyptian")) Door = &Po;
+	if (!Door) return;
+	static const bool bLifeTest = FParse::Param(FCommandLine::Get(), TEXT("HLLifeTest"));
+	FHLSimRun& R = SimRun;
+	auto Release = [&]() { for (int32 m : R.Members) if (Sims.IsValidIndex(m) && Sims[m].State == EHLSimState::Script) { Sims[m].State = EHLSimState::Idle; Sims[m].StateUntil = Now + 2; } };
+	const FVector2D Outside = Areas[0].Nav.NearestFree(Door->Pos + FVector2D(0, -9));
+	if (R.Stage == 0)
+	{
+		if (R.NextAt == 0) R.NextAt = Now + (bLifeTest ? 20 : 360 + Rand() * 240);
+		if (Now < R.NextAt) return;
+		R.NextAt = Now + (bLifeTest ? 400 : 480 + Rand() * 360);
+		TArray<int32> On, Off;
+		for (int32 i = 0; i < Sims.Num(); ++i)
+		{
+			const FHLSim& S = Sims[i];
+			if (!S.bOnline || S.bInParty || S.DungeonUntil > Now || S.Level < 8 || S.Level > 14 || !S.P->Cls || i == DuelSim || i == TradeSim) continue;
+			if (!S.UnitId) { Off.Add(i); continue; }
+			const FHLUnit* U = Unit(S.UnitId);
+			if (U && !U->bDead && U->Area == 0 && !InCombat(*U) && S.Role == EHLSimRole::Local && S.State != EHLSimState::Script && !S.EventRole && S.ChatUntil <= Now) On.Add(i);
+		}
+		if (On.Num() < 2 || On.Num() + Off.Num() < 5) return;
+		On.Sort([&](int32 A, int32 B) { return FVector2D::Distance(Unit(Sims[A].UnitId)->Pos, Door->Pos) < FVector2D::Distance(Unit(Sims[B].UnitId)->Pos, Door->Pos); });
+		R = FHLSimRun(); R.NextAt = Now + (bLifeTest ? 400 : 480 + Rand() * 360);
+		for (int32 k = 0; k < FMath::Min(3, On.Num()); ++k) R.Members.Add(On[k]);
+		while (R.Members.Num() < 5 && Off.Num()) { R.Members.Add(Off[0]); Off.RemoveAt(0); }
+		const FHLExit& Ex = Def.Exits[RandInt(0, Def.Exits.Num() - 1)];
+		for (int32 k = 0; k < R.Members.Num(); ++k)
+		{
+			const int32 m = R.Members[k];
+			FHLSim& S = Sims[m];
+			if (!S.UnitId) SpawnSim(m, EHLSimRole::Local, Ex.Pos + FVector2D(Rand() * 4 - 2, Rand() * 4 - 2));
+			S.State = EHLSimState::Script; S.StateUntil = Now + 400; S.Route.Reset(); S.RouteIdx = 0; S.CampIdx = -1;
+			const float A = 2 * PI * k / R.Members.Num();
+			S.Dest = Areas[0].Nav.NearestFree(Outside + FVector2D(FMath::Cos(A), FMath::Sin(A)) * 2.6f);
+		}
+		const FHLSim& Lead = Sims[R.Members[0]];
+		static const TCHAR* Need[] = { TEXT("heals"), TEXT("a tank"), TEXT("1 dps"), TEXT("heals and dps") };
+		AddChat(TEXT("lfg"), Lead.P->Handle, StyleText(*Lead.P, FString::Printf(TEXT("lfm egyptian theatre need %s, meet at the door"), Need[RandInt(0, 3)])), R.Members[0]);
+		AddChat(TEXT("lfg"), Lead.P->Handle, StyleText(*Lead.P, TEXT("egyptian full, ty all")), R.Members[0], 25 + Rand() * 20);
+		R.Stage = 1; R.At = Now + 240;
+		UE_LOG(LogTemp, Display, TEXT("HL_LIFE dungeon group of %d forming (%s)"), R.Members.Num(), *Lead.P->Handle);
+		return;
+	}
+	if (R.Stage == 1)
+	{
+		int32 Here = 0, Alive = 0;
+		for (int32 m : R.Members)
+		{
+			FHLSim& S = Sims[m];
+			FHLUnit* U = S.UnitId ? Unit(S.UnitId) : nullptr;
+			if (!U || U->bDead || S.State != EHLSimState::Script) continue;
+			++Alive;
+			if (FVector2D::Distance(U->Pos, S.Dest) < 3) { ++Here; FaceTo(*U, Outside); }
+		}
+		if (Alive < 4 || Now > R.At)
+		{
+			if (Sims.IsValidIndex(R.Members[0]) && Sims[R.Members[0]].bOnline) AddChat(TEXT("lfg"), Sims[R.Members[0]].P->Handle, StyleText(*Sims[R.Members[0]].P, TEXT("nvm egyptian group fell apart")), R.Members[0], 1);
+			Release(); R.Stage = 0; return;
+		}
+		if (Here < Alive) return;
+		if (R.GoAt == 0)
+		{
+			R.GoAt = Now + 7;
+			const int32 L = R.Members[0];
+			AddChat(TEXT("say"), Sims[L].P->Handle, StyleText(*Sims[L].P, Chance(0.5f) ? TEXT("everyone here? ok lets go, dont pull the spitters") : TEXT("all here, buff up and go")), L, 1);
+			if (R.Members.Num() > 1 && Chance(0.6f)) SimSay(R.Members[1], TEXT("say"), TEXT("ready"), 3, TEXT("rdy"));
+			return;
+		}
+		if (Now < R.GoAt) return;
+		R.bWin = Chance(0.7f);
+		R.At = Now + (bLifeTest ? 50 : (R.bWin ? 900 + Rand() * 600 : 420 + Rand() * 300));
+		for (int32 m : R.Members) { Sims[m].Dest = Door->Pos; Sims[m].DungeonUntil = R.At; }
+		R.Stage = 2;
+		return;
+	}
+	if (R.Stage == 2)
+	{
+		// walk in at the door one by one, then nothing until they come out
+		for (int32 m : R.Members)
+		{
+			FHLSim& S = Sims[m];
+			if (!S.UnitId) continue;
+			const FHLUnit* U = Unit(S.UnitId);
+			if (!U || FVector2D::Distance(U->Pos, Door->Pos) < 2.5f || U->bDead) { DespawnSim(m); S.Activity = TEXT("in The Egyptian Theatre"); }
+		}
+		if (Now < R.At) return;
+		TArray<FString> Loots;
+		for (int32 k = 0; k < R.Members.Num(); ++k)
+		{
+			const int32 m = R.Members[k];
+			FHLSim& S = Sims[m];
+			S.DungeonUntil = 0; S.Activity.Reset();
+			if (!S.bOnline || S.UnitId) continue;
+			FHLUnit* U = SpawnSim(m, EHLSimRole::Local, Areas[0].Nav.NearestFree(Door->Pos + FVector2D(Rand() * 4 - 2, -4 - Rand() * 3)));
+			if (!U) continue;
+			if (R.bWin && Chance(0.75f))
+				if (const FHLItem* It = SimDungeonLoot(S))
+				{
+					S.Gear.Add(It->Slot, It);
+					RecalcCharStats(*U, *S.P->Cls, S.Level, S.Gear, true);
+					Loots.Add(FString::Printf(TEXT("[%s]"), *It->Name));
+					if (S.Level < 14 && Chance(0.5f)) { S.Level++; RecalcCharStats(*U, *S.P->Cls, S.Level, S.Gear, true); }
+				}
+			S.StateUntil = Now + 8 + k * 3 + Rand() * 6; // stand about outside for a moment, then back to it
+		}
+		const int32 L = R.Members[0];
+		if (Sims.IsValidIndex(L) && Sims[L].bOnline)
+		{
+			const FHLSim& Lead = Sims[L];
+			if (R.bWin)
+			{
+				AddChat(TEXT("zone"), Lead.P->Handle, StyleText(*Lead.P, Chance(0.5f) ? TEXT("egyptian cleared, gg all") : TEXT("hive mother down. gg group")), L, 2);
+				if (Loots.Num()) { const int32 W = R.Members[RandInt(0, R.Members.Num() - 1)]; if (Sims[W].bOnline) AddChat(TEXT("zone"), Sims[W].P->Handle, StyleText(*Sims[W].P, FString::Printf(TEXT("%s finally"), *Loots[0])), W, 7 + Rand() * 4); }
+				for (int32 k = 1; k < R.Members.Num(); ++k) if (Chance(0.4f)) SimSay(R.Members[k], TEXT("say"), TEXT("duel_watch"), 3 + k * 1.5f, TEXT("gg"));
+				if (CensusEvents.Num() >= 16) CensusEvents.RemoveAt(0);
+				CensusEvents.Add({ FString::Printf(TEXT("%s's group cleared The Egyptian Theatre"), *Lead.P->Handle), Now });
+			}
+			else
+			{
+				AddChat(TEXT("zone"), Lead.P->Handle, StyleText(*Lead.P, Chance(0.5f) ? TEXT("wiped on the hive mother 3 times, calling it") : TEXT("egyptian is cursed. we wiped on the matriarch twice")), L, 2);
+				if (R.Members.Num() > 1) SimSay(R.Members[1], TEXT("say"), TEXT("death"), 5, TEXT("rip"));
+			}
+		}
+		UE_LOG(LogTemp, Display, TEXT("HL_LIFE dungeon group back (%s), loot: %s"), R.bWin ? TEXT("cleared") : TEXT("wiped"), *FString::Join(Loots, TEXT(", ")));
+		R.Stage = 0;
+		return;
+	}
+}
+
+// ------------------------------------------------------------------------------------------------------------- fight night
+// Announced two minutes ahead. Up to four simulated players near the player's level box in bouts outside the Roosevelt
+// (semi-finals, then a final) while others watch; the champion then calls the player out. Beat the champion for a purse.
+bool FHLGame::FightPair(int32& A, int32& B) const
+{
+	const TArray<int32>& Fi = Fight.Fighters;
+	const TArray<int32>& W = Fight.Winners;
+	A = B = -1;
+	if (Fight.Bout == 0 && Fi.Num() >= 2) { A = Fi[0]; B = Fi[1]; }
+	else if (Fi.Num() >= 4 && Fight.Bout == 1) { A = Fi[2]; B = Fi[3]; }
+	else if (Fi.Num() >= 4 && Fight.Bout == 2 && W.Num() >= 2) { A = W[0]; B = W[1]; }
+	else if (Fi.Num() == 3 && Fight.Bout == 1 && W.Num() >= 1) { A = W[0]; B = Fi[2]; }
+	return A >= 0 && B >= 0;
+}
+
+void FHLGame::PlaceFightCrowd(const FVector2D& Ring)
+{
+	int32 A, B;
+	const bool bPair = FightPair(A, B);
+	TArray<int32> Ringside;
+	for (int32 SI : Fight.Fighters) if (SI != A && SI != B) Ringside.Add(SI);
+	Ringside.Append(Fight.Watchers);
+	const FHLNav& Nav = Areas[0].Nav;
+	if (bPair) { Sims[A].Dest = Nav.NearestFree(Ring + FVector2D(-2.8f, 0)); Sims[B].Dest = Nav.NearestFree(Ring + FVector2D(2.8f, 0)); }
+	for (int32 k = 0; k < Ringside.Num(); ++k)
+	{
+		const float Ang = 2 * PI * (k + 0.5f) / FMath::Max(1, Ringside.Num()) + PI * 0.5f;
+		Sims[Ringside[k]].Dest = Nav.NearestFree(Ring + FVector2D(FMath::Cos(Ang) * 7.f, FMath::Sin(Ang) * 6.f));
+	}
+}
+
+void FHLGame::EndFightNight(const TCHAR* Why)
+{
+	for (int32 SI : Fight.Fighters) if (Sims.IsValidIndex(SI) && Sims[SI].State == EHLSimState::Script) { Sims[SI].State = EHLSimState::Rest; Sims[SI].StateUntil = Now + 10; }
+	for (int32 SI : Fight.Watchers) if (Sims.IsValidIndex(SI) && Sims[SI].State == EHLSimState::Script) { Sims[SI].State = EHLSimState::Idle; Sims[SI].StateUntil = Now + 2 + Rand() * 5; }
+	static const bool bLifeTest = FParse::Param(FCommandLine::Get(), TEXT("HLLifeTest"));
+	const double Next = Now + (bLifeTest ? 600 : 2400 + Rand() * 1200);
+	UE_LOG(LogTemp, Display, TEXT("HL_LIFE fight night over (%s)"), Why);
+	Fight = FHLFight();
+	Fight.NextAt = Next;
+}
+
+void FHLGame::TickFightNight()
+{
+	FHLUnit* P = PlayerUnit();
+	const FVector2D* Inn = Areas[0].Def->Pois.Find(TEXT("inn"));
+	if (!P || !Inn || !Sims.Num()) return;
+	static const bool bLifeTest = FParse::Param(FCommandLine::Get(), TEXT("HLLifeTest"));
+	FHLFight& F = Fight;
+	const FVector2D Ring = Areas[0].Nav.NearestFree(*Inn + FVector2D(0, -10));
+	const bool bNear = P->Area == 0 && FVector2D::Distance(P->Pos, Ring) < 60;
+	if (F.Stage == 0)
+	{
+		if (F.NextAt == 0) F.NextAt = Now + (bLifeTest ? 150 : 1200 + Rand() * 900);
+		if (!F.bAnnounced && Now >= F.NextAt - 120 && SurgeHub < 0)
+		{
+			F.bAnnounced = true;
+			System(TEXT("Fight night: bouts outside the Roosevelt in 2 minutes. The champion takes on all comers."));
+			for (int32 Try = 0; Try < 30; ++Try) { const int32 SI = RandInt(0, Sims.Num() - 1); if (Sims[SI].bOnline && !Sims[SI].bInParty && Sims[SI].Level <= 20) { AddChat(TEXT("zone"), Sims[SI].P->Handle, StyleText(*Sims[SI].P, Chance(0.5f) ? TEXT("fight night at the roosevelt, who's in") : TEXT("fight night soon, outside the roosevelt. bring money for bets lol")), SI, 3); break; } }
+		}
+		if (!F.bAnnounced || Now < F.NextAt) return;
+		if (SurgeHub >= 0 || Happen.Kind) { F.NextAt = Now + 30; return; }
+		// fighters near the player's level, nearest the ring first; then a crowd
+		TArray<int32> Free;
+		for (int32 i = 0; i < Sims.Num(); ++i)
+		{
+			const FHLSim& S = Sims[i];
+			if (!S.UnitId || S.bInParty || S.bAfk || S.Role == EHLSimRole::Idler || S.EventRole || S.State == EHLSimState::Script || S.State == EHLSimState::Gather || S.DungeonUntil > Now || i == DuelSim || i == TradeSim) continue;
+			const FHLUnit* U = Unit(S.UnitId);
+			if (U && !U->bDead && U->Area == 0 && !InCombat(*U) && FVector2D::Distance(U->Pos, Ring) < 260) Free.Add(i);
+		}
+		Free.Sort([&](int32 A, int32 B) { return FMath::Abs(Sims[A].Level - P->Level) * 20 + FVector2D::Distance(Unit(Sims[A].UnitId)->Pos, Ring) < FMath::Abs(Sims[B].Level - P->Level) * 20 + FVector2D::Distance(Unit(Sims[B].UnitId)->Pos, Ring); });
+		if (Free.Num() < 2) { EndFightNight(TEXT("nobody came")); return; }
+		for (int32 k = 0; k < Free.Num() && F.Fighters.Num() < 4; ++k) if (FMath::Abs(Sims[Free[k]].Level - P->Level) <= 4 || F.Fighters.Num() < 2) F.Fighters.Add(Free[k]);
+		for (int32 SI : Free) if (!F.Fighters.Contains(SI) && F.Watchers.Num() < 5) F.Watchers.Add(SI);
+		for (int32 SI : F.Fighters) { FHLSim& S = Sims[SI]; S.State = EHLSimState::Script; S.StateUntil = Now + 900; S.Route.Reset(); S.RouteIdx = 0; }
+		for (int32 SI : F.Watchers) { FHLSim& S = Sims[SI]; S.State = EHLSimState::Script; S.StateUntil = Now + 900; S.Route.Reset(); S.RouteIdx = 0; }
+		F.Stage = 1; F.Bout = 0; F.BoutStart = 0; F.Until = Now + 600;
+		PlaceFightCrowd(Ring);
+		if (bNear) Banner(TEXT("Fight Night"), TEXT("Outside the Roosevelt Hotel"), 4);
+		UE_LOG(LogTemp, Display, TEXT("HL_LIFE fight night: %d fighters, %d watching"), F.Fighters.Num(), F.Watchers.Num());
+		return;
+	}
+	if (Now > F.Until) { EndFightNight(TEXT("timed out")); return; }
+	auto Ready = [&](int32 SI, FHLUnit*& U) { U = Sims.IsValidIndex(SI) ? Unit(Sims[SI].UnitId) : nullptr; return U && !U->bDead && Sims[SI].State == EHLSimState::Script && FVector2D::Distance(U->Pos, Sims[SI].Dest) < 2.5f; };
+	if (F.Stage == 1)
+	{
+		if (Now < F.BeatAt) return;
+		F.BeatAt = Now + 1.3f + Rand() * 0.6f;
+		for (int32 SI : F.Watchers) { FHLUnit* W = nullptr; if (Ready(SI, W)) FaceTo(*W, Ring); }
+		int32 A, B;
+		if (!FightPair(A, B)) { F.Stage = 2; F.StageAt = Now + 3; return; }
+		FHLUnit* UA = nullptr; FHLUnit* UB = nullptr;
+		const bool bA = Ready(A, UA), bB = Ready(B, UB);
+		for (int32 SI : F.Fighters) if (SI != A && SI != B) { FHLUnit* W = nullptr; if (Ready(SI, W)) FaceTo(*W, Ring); }
+		if (!bA || !bB)
+		{
+			// a fighter who can't make it forfeits
+			if ((UA && UA->bDead) || (UB && UB->bDead) || !Sims[A].UnitId || !Sims[B].UnitId) { F.Winners.Add(UA && !UA->bDead && Sims[A].UnitId ? A : B); ++F.Bout; PlaceFightCrowd(Ring); }
+			return;
+		}
+		FaceTo(*UA, UB->Pos); FaceTo(*UB, UA->Pos);
+		if (F.BoutStart == 0)
+		{
+			F.BoutStart = Now + 3.5;
+			UA->Hp = UA->MaxHp; UB->Hp = UB->MaxHp;
+			const TCHAR* Name = F.Fighters.Num() >= 4 ? (F.Bout == 2 ? TEXT("The final") : TEXT("A semi-final")) : (F.Fighters.Num() == 3 && F.Bout == 1 ? TEXT("The final") : TEXT("The bout"));
+			if (bNear) AddChat(TEXT("system"), FString(), FString::Printf(TEXT("%s: %s (level %d) against %s (level %d)."), Name, *Sims[A].P->Handle, Sims[A].Level, *Sims[B].P->Handle, Sims[B].Level));
+			return;
+		}
+		if (Now < F.BoutStart) return;
+		if (F.bBoutDone)
+		{
+			if (Now >= F.NextBout) { F.bBoutDone = false; F.BoutStart = 0; ++F.Bout; PlaceFightCrowd(Ring); }
+			return;
+		}
+		FHLUnit* Att = Chance(0.5f) ? UA : UB; FHLUnit* Def2 = Att == UA ? UB : UA;
+		Att->HopT = 0.3f;
+		const float Hit = Def2->MaxHp * (0.05f + Rand() * 0.07f) * FMath::Clamp((float)Att->Level / FMath::Max(1, Def2->Level), 0.6f, 1.7f);
+		if (Def2->Hp - Hit <= Def2->MaxHp * 0.08f)
+		{
+			Def2->Hp = FMath::Max(1.f, Def2->MaxHp * 0.08f);
+			const int32 WinSI = Att == UA ? A : B, LoseSI = Att == UA ? B : A;
+			F.Winners.Add(WinSI); F.bBoutDone = true; F.NextBout = Now + 7;
+			if (bNear) System(FString::Printf(TEXT("%s has defeated %s."), *Sims[WinSI].P->Handle, *Sims[LoseSI].P->Handle));
+			for (int32 SI : F.Watchers) if (Chance(0.3f)) SimSay(SI, TEXT("say"), TEXT("duel_watch"), 1 + Rand() * 3);
+			SimSay(LoseSI, TEXT("say"), TEXT("duel_sim_lost"), 2.5f + Rand());
+			return;
+		}
+		DealDamage(Att, *Def2, Hit, TEXT("physical"), Chance(0.15f), TEXT("punch"));
+		if (bNear && Chance(0.15f) && F.Watchers.Num()) { static const TCHAR* Cheer[] = { TEXT("cheers."), TEXT("whistles."), TEXT("shouts encouragement."), TEXT("winces.") }; AddChat(TEXT("emote"), FString(), Sims[F.Watchers[RandInt(0, F.Watchers.Num() - 1)]].P->Handle + TEXT(" ") + Cheer[RandInt(0, 3)]); }
+		return;
+	}
+	if (F.Stage == 2)
+	{
+		// the champion calls the player out
+		if (Now < F.StageAt) return;
+		F.Champ = F.Winners.Num() ? F.Winners.Last() : -1;
+		if (!Sims.IsValidIndex(F.Champ) || !Sims[F.Champ].UnitId) { EndFightNight(TEXT("no champion")); return; }
+		const FHLSim& C = Sims[F.Champ];
+		FHLUnit* CU = Unit(C.UnitId);
+		CU->Hp = CU->MaxHp;
+		if (bNear) Banner(TEXT("Fight Night"), FString::Printf(TEXT("%s is the champion"), *C.P->Handle), 4);
+		if (bNear && !P->bDead && DuelState == 0 && !InCombat(*P) && FMath::Abs(C.Level - P->Level) <= 6)
+		{
+			AddChat(TEXT("say"), C.P->Handle, StyleText(*C.P, FString::Printf(TEXT("who's next? %s, you want some?"), *Player.Name)), F.Champ, 1);
+			SimChallengesDuel(F.Champ);
+			F.Stage = 3; F.Until = Now + 150;
+			return;
+		}
+		AddChat(TEXT("zone"), C.P->Handle, StyleText(*C.P, TEXT("fight night champ, undefeated. who wants it next time")), F.Champ, 3);
+		EndFightNight(TEXT("champion crowned"));
+		return;
+	}
+	if (F.Stage == 3)
+	{
+		// the duel itself runs through the normal duel system; EndDuel pays the purse
+		if (DuelFromSim == F.Champ || DuelState != 0) return;
+		EndFightNight(TEXT("challenge answered"));
+	}
+}
+
+void FHLGame::FightNightDuelOver(bool bPlayerWon)
+{
+	if (Fight.Stage != 3) return;
+	FHLUnit* P = PlayerUnit();
+	if (bPlayerWon && P)
+	{
+		const int32 Purse = 50 + 20 * P->Level;
+		Player.Cents += Purse;
+		Banner(TEXT("Fight Night"), TEXT("You are the champion"), 4);
+		System(FString::Printf(TEXT("You win the fight night purse: %s."), *HLMoney(Purse)));
+		for (int32 SI : Fight.Watchers) if (Chance(0.4f)) SimSay(SI, TEXT("say"), TEXT("duel_watch"), 1 + Rand() * 3);
+	}
+	else for (int32 SI : Fight.Watchers) if (Chance(0.3f)) SimSay(SI, TEXT("say"), TEXT("duel_watch"), 1 + Rand() * 3);
 }

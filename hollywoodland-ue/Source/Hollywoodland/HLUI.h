@@ -102,7 +102,8 @@ private:
 	mutable TArray<FSlateRect> UiRects, UiRectsNext;
 	// chat entry / text fields
 	mutable bool bTyping = false, bNameFocus = true, bSwallowChar = false;
-	mutable FString ChatEntry, NameEntry;
+	mutable FString ChatEntry, NameEntry, RestoreEntry, RestoreMsg;
+	mutable bool bRestoreFocus = false, bRestoreBusy = false;
 	mutable int32 ChatScroll = 0;
 	mutable bool bCombatLog = false;
 	// windows

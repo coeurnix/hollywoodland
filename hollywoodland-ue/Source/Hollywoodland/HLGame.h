@@ -165,7 +165,8 @@ struct FHLSim
 		FVector2D Dest = FVector2D::ZeroVector;
 		// street life (HLSimLife.cpp)
 		int32 ChatWith = -1, GatherObj = -1;
-		double ChatUntil = 0, GatherEnd = 0, NextGather = 0;
+		double ChatUntil = 0, GatherEnd = 0, NextGather = 0, DungeonUntil = 0;
+		TMap<FString, const FHLItem*> Gear; // equipped items (the persona's, plus dungeon loot)
 		bool bChatWalker = false;
 	};
 
@@ -415,6 +416,17 @@ public:
 	void TickHappenings();
 	void EndHappening();
 	FVector2D HappeningSpot(int32 K, int32 N) const;
+	struct FHLSimRun { int32 Stage = 0; TArray<int32> Members; double NextAt = 0, At = 0, GoAt = 0; bool bWin = false; };
+	FHLSimRun SimRun;
+	const FHLItem* SimDungeonLoot(const FHLSim& S) const;
+	void TickSimDungeon();
+	struct FHLFight { int32 Stage = 0, Bout = 0, Champ = -1; TArray<int32> Fighters, Watchers, Winners; double NextAt = 0, BeatAt = 0, BoutStart = 0, NextBout = 0, StageAt = 0, Until = 0; bool bAnnounced = false, bBoutDone = false; };
+	FHLFight Fight;
+	bool FightPair(int32& A, int32& B) const;
+	void PlaceFightCrowd(const FVector2D& Ring);
+	void EndFightNight(const TCHAR* Why);
+	void TickFightNight();
+	void FightNightDuelOver(bool bPlayerWon);
 	// ---- gunsmithing and escorts (HLCraft.cpp)
 	struct FHLRecipe { FString Product, Mat1, Mat2; int32 Yield = 1, Skill = 1, N1 = 0, N2 = 0; };
 	static const TArray<FHLRecipe>& GunRecipes();

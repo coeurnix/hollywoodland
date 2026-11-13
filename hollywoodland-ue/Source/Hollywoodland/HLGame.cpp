@@ -342,6 +342,8 @@ void FHLGame::Tick(float Dt)
 	TickDirector(Dt);
 	TickNpcFacing();
 	TickHappenings();
+	TickSimDungeon();
+	TickFightNight();
 	TickEvents(Dt);
 	TickEscort(Dt);
 	TickSocial(Dt);
