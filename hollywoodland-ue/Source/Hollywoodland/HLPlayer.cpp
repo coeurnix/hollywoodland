@@ -741,6 +741,35 @@ int32 FHLGame::NpcMarker(const FHLNpcDef& N) const
 }
 
 // ------------------------------------------------------------------------------------------------------------- auction house
+void FHLGame::NoteSale(const FHLItem* It, int32 PerUnit)
+{
+	if (!It || PerUnit <= 0) return;
+	int32 A, L, H, N; PriceStats(*It, A, L, H, N); // seeds the history first
+	TArray<int32>& Hs = SaleHistory.FindOrAdd(It);
+	Hs.Add(PerUnit);
+	if (Hs.Num() > 12) Hs.RemoveAt(0);
+}
+
+bool FHLGame::PriceStats(const FHLItem& It, int32& Avg, int32& Lo, int32& Hi, int32& N) const
+{
+	TArray<int32>* Hs = SaleHistory.Find(&It);
+	if (!Hs)
+	{
+		// the market existed before the player arrived: a few past sales around today's price, stable per item
+		FRandomStream R(GetTypeHash(It.Id));
+		TArray<int32>& New = SaleHistory.Add(&It);
+		const int32 Base = MarketPrice(It);
+		for (int32 k = 0, Cnt = R.RandRange(3, 8); k < Cnt; ++k) New.Add(FMath::Max(1, FMath::RoundToInt32(Base * R.FRandRange(0.7f, 1.35f))));
+		Hs = &New;
+	}
+	N = Hs->Num();
+	if (!N) return false;
+	int64 Sum = 0; Lo = MAX_int32; Hi = 0;
+	for (int32 V : *Hs) { Sum += V; Lo = FMath::Min(Lo, V); Hi = FMath::Max(Hi, V); }
+	Avg = (int32)(Sum / N);
+	return true;
+}
+
 int32 FHLGame::MarketPrice(const FHLItem& It) const
 {
 	// vendor price x demand multiplier (1.5..8): rises with the number of simulated players in the item's level band
@@ -792,6 +821,7 @@ void FHLGame::TickAuctions()
 			if (bSold || (Now >= A.ExpiresAt && A.Bid > 0))
 			{
 				const int32 Price = bSold ? A.Buyout : A.Bid;
+				NoteSale(A.Item, Price / FMath::Max(1, A.Count));
 				const int32 Net = FMath::RoundToInt32(Price * 0.95f);
 				const FString Buyer = Sims[RandInt(0, Sims.Num() - 1)].P->Handle;
 				SendMail(TEXT("Hollywood Auction House"), FString::Printf(TEXT("Auction successful: %s"), *A.Item->Name),
@@ -818,7 +848,8 @@ void FHLGame::TickAuctions()
 			}
 			continue;
 		}
-		if (Now >= A.ExpiresAt || Chance(0.03f)) Auctions.RemoveAt(i);
+		if (Now >= A.ExpiresAt) { if (A.Bid > 0) NoteSale(A.Item, A.Bid / FMath::Max(1, A.Count)); Auctions.RemoveAt(i); }
+		else if (Chance(0.03f)) { NoteSale(A.Item, A.Buyout / FMath::Max(1, A.Count)); Auctions.RemoveAt(i); } // a simulated buyer
 	}
 	for (int32 i = 0; i < 6 && Auctions.Num() < 170; ++i) AddListing();
 }

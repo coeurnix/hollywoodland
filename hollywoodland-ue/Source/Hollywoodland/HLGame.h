@@ -428,6 +428,10 @@ public:
 	void PlaceFightCrowd(const FVector2D& Ring);
 	void EndFightNight(const TCHAR* Why);
 	void TickFightNight();
+	// auction price history: per-unit prices of recent sales (seeded per item on first look)
+	mutable TMap<const FHLItem*, TArray<int32>> SaleHistory;
+	void NoteSale(const FHLItem* It, int32 PerUnit);
+	bool PriceStats(const FHLItem& It, int32& Avg, int32& Lo, int32& Hi, int32& N) const;
 	// hive spread (HLHive.cpp)
 	struct FHLHiveSite { bool bActive = false; double Since = 0, NextSpawn = 0; int32 PlayerBroke = 0; TArray<int32> Mobs; };
 	TArray<FHLHiveSite> HiveSites; double HiveGrowth = 0, NextHiveTick = 0;

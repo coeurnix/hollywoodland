@@ -456,6 +456,18 @@ void AHLWorldActor::AutoTest(float Dt)
 		if (CraftStep == 3) { if (Game.Now < AutoSocialAt) return; CraftStep = 99; }
 		if (CraftStep == 0) return;
 	}
+	// -HLAuctionTest: walk to the auctioneer and keep the auction house open
+	static const bool bAuctionTest = FParse::Param(FCommandLine::Get(), TEXT("HLAuctionTest"));
+	if (bAuctionTest && P->Area == 0 && T > 8)
+	{
+		for (const FHLNpcDef& N : Game.Areas[0].Def->Npcs) if (N.HasRole(TEXT("auctioneer")))
+		{
+			if (FVector2D::Distance(P->Pos, N.Pos) > 7.5f) Game.TeleportUnit(*P, 0, Game.Areas[0].Nav.NearestFree(N.Pos + FVector2D(0, 4)));
+			P->TargetId = 0; P->bAutoAttack = false;
+			if (FVector2D::Distance(P->Pos, N.Pos) < 7.5f) { for (const auto& KV : Game.Units) if (KV.Value->Npc == &N) Game.OpenNpcUnitId = KV.Key; Game.OpenNpcMode = TEXT("auction"); bAutoGoal = false; }
+		}
+		return;
+	}
 	// -HLLifeTest: stand near whatever is happening on the street and watch
 	static const bool bLifeTest = FParse::Param(FCommandLine::Get(), TEXT("HLLifeTest"));
 	if (bLifeTest && Game.DuelFromSim >= 0) Game.AnswerDuel(true);

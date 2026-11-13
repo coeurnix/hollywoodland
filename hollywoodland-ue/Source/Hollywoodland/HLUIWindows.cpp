@@ -64,7 +64,7 @@ void SHLGameUI::DrawBags() const
 		if (R == 2 || R == 1)
 		{
 			if (Gm.TradeSim >= 0) { if (S.Item && S.Item->Kind != TEXT("quest")) { if (Gm.TradeBag.Contains(i)) Gm.TradeBag.Remove(i); else if (Gm.TradeBag.Num() < 6) Gm.TradeBag.Add(i); } }
-			else if (Gm.OpenNpcMode == TEXT("auction")) { if (S.Item) Gm.ListAuction(i, Gm.MarketPrice(*S.Item) * S.Count, (float)AuctionHours); }
+			else if (Gm.OpenNpcMode == TEXT("auction")) { if (S.Item) { int32 Avg = 0, Lo, Hi, Ns; const int32 Each = Gm.PriceStats(*S.Item, Avg, Lo, Hi, Ns) ? FMath::Max(2, (Avg + Gm.MarketPrice(*S.Item)) / 2) : Gm.MarketPrice(*S.Item); Gm.ListAuction(i, Each * S.Count, (float)AuctionHours); } }
 			else if (R == 2) Gm.UseBag(i);
 		}
 	}
@@ -655,7 +655,17 @@ void SHLGameUI::DrawNpc() const
 			const FHLAuction& A = Gm.Auctions[Idx];
 			const float Y = WY + 44 + r * 30;
 			ItemIcon(WX, Y, 27, A.Item, A.Count);
-			Tx(WX + 34, Y + 5, A.Item->Name.Left(34), 10, HLQualityColor(A.Item->Q));
+			Tx(WX + 34, Y + 2, A.Item->Name.Left(34), 10, HLQualityColor(A.Item->Q));
+			{
+				int32 Avg = 0, Lo = 0, Hi = 0, Ns = 0;
+				if (Gm.PriceStats(*A.Item, Avg, Lo, Hi, Ns))
+				{
+					const int32 Each = A.Buyout / FMath::Max(1, A.Count);
+					const FLinearColor Pc = Each <= Avg * 0.85f ? ColGreen : Each >= Avg * 1.3f ? FLinearColor(1, 0.45f, 0.35f) : ColDim;
+					Tx(WX + 34, Y + 16, FString::Printf(TEXT("recent sales avg %s%s"), *HLMoney(Avg), A.Count > 1 ? TEXT(" each") : TEXT("")), 8, Pc);
+					if (Hover(WX + 34, Y, 250, 28)) { TipText = FString::Printf(TEXT("%s\nLast %d sales: average %s, low %s, high %s%s.\nThis buyout: %s%s."), *A.Item->Name, Ns, *HLMoney(Avg), *HLMoney(Lo), *HLMoney(Hi), A.Count > 1 ? TEXT(" each") : TEXT(""), *HLMoney(Each), A.Count > 1 ? TEXT(" each") : TEXT("")); TipPos = Mouse; }
+				}
+			}
 			Tx(WX + 290, Y + 5, A.Item->Req > 0 ? FString::FromInt(A.Item->Req) : TEXT("-"), 10, A.Item->Req > P.Level ? ColRed : ColWhite);
 			Tx(WX + 322, Y + 5, A.bMine ? Gm.Player.Name : Gm.Sims.IsValidIndex(A.SellerIdx) ? Gm.Sims[A.SellerIdx].P->Handle.Left(14) : FString(TEXT("?")), 10, ColDim);
 			Tx(WX + 422, Y + 5, A.Bid > 0 ? HLMoney(A.Bid) : FString(TEXT("-")), 9, A.bPlayerBid ? ColGreen : ColDim);
@@ -670,7 +680,7 @@ void SHLGameUI::DrawNpc() const
 			}
 		}
 		Tx(WX, WY + 436, FString::Printf(TEXT("Page %d / %d   (%d auctions, mouse wheel pages)    You have %s."), AuctionPage + 1, Pages, Rows.Num(), *HLMoney(Gm.Player.Cents)), 9, ColDim);
-		Tx(WX, WY + 454, TEXT("To sell: click an item in your bags. Duration:"), 9, ColDim);
+		Tx(WX, WY + 454, TEXT("Sell: click a bag item. Duration:"), 9, ColDim);
 		static const int32 Hrs[] = { 1, 4, 12 };
 		for (int32 h = 0; h < 3; ++h) { if (AuctionHours == Hrs[h]) Rc(WX + 250 + h * 60 - 2, WY + 450, 56, 22, ColGold); if (Btn(WX + 250 + h * 60, WY + 452, 52, 18, FString::Printf(TEXT("%d h"), Hrs[h]), true, 9)) AuctionHours = Hrs[h]; }
 		Tx(WX + 440, WY + 454, TEXT("Deposit 5% per hour, 5% cut on sale."), 9, ColDim);
