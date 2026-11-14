@@ -1730,5 +1730,54 @@
     "complete_since_date": "2026-11-13",
     "matched_charged_tasks": 65,
     "unassigned_tasks_in_window": 11
+  },
+  "session_2026_11_13": {
+    "budget": 20.0,
+    "credits_used": 1.0,
+    "calls": [
+      {
+        "asset": "HV_WallSeg",
+        "attempt": 1,
+        "task_uuid": null,
+        "options": {
+          "tier": "Gen-2",
+          "geometry_file_format": "glb",
+          "material": "Shaded",
+          "quality": "medium",
+          "mesh_mode": "Raw",
+          "texture_delight": "true"
+        },
+        "reference": "concept/HV_WallSeg_ref2.png",
+        "credits_consumed": 0.5,
+        "status": "downloaded",
+        "utc": "2026-11-14T07:52:45Z",
+        "downloads": [
+          "base_basic_shaded.glb",
+          "preview.webp"
+        ],
+        "note": "task uuid lost: a parallel job overwrote this entry before the merge-on-save fix; credits from the submit response (0.5)"
+      },
+      {
+        "asset": "HV_WallEnd",
+        "attempt": 1,
+        "task_uuid": "fa5ef3e1-5647-40fb-a0b9-728deecbfb86",
+        "options": {
+          "tier": "Gen-2",
+          "geometry_file_format": "glb",
+          "material": "Shaded",
+          "quality": "medium",
+          "mesh_mode": "Raw",
+          "texture_delight": "true"
+        },
+        "reference": "concept/HV_WallEnd_ref.png",
+        "credits_consumed": 0.5,
+        "status": "downloaded",
+        "utc": "2026-11-14T07:52:48Z",
+        "downloads": [
+          "base_basic_shaded.glb",
+          "preview.webp"
+        ]
+      }
+    ]
   }
 }

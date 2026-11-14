@@ -1,0 +1,23 @@
+{
+  "id": "HV_WallSeg_ref3",
+  "provider": "fal.ai",
+  "model": "blackforestlabs/flux-3/klein/text-to-image",
+  "prompt": "Game asset reference: one block-shaped segment of an alien hive wall, a massive slab that is TALLER than it is long and half as thick as it is long, built of fused glossy purple-black resin and dark ribbed chitin armour plates with glowing amber veins, a few pieces of 1920s debris half-swallowed in it (a rusted old car door, splintered wooden beams, a bent steel girder), a jagged top edge of curved spikes and horns, flat vertical cut ends on the left and right so it can tile. Clean three-quarter view from slightly above showing the front face and one end, single isolated object filling the frame, plain pure white background, no shadow, no ground. Hand-painted stylized classic early World of Warcraft art style, chunky readable forms, painted highlights. No people, no text.",
+  "references": [],
+  "image_size": {
+    "width": 1024,
+    "height": 1024
+  },
+  "seed": 1203,
+  "output": "concept/HV_WallSeg_ref3.png",
+  "status": "downloaded",
+  "request_id": "01a1d90b-23d3-71b3-ad50-034de39a097e",
+  "elapsed_seconds": 3.77,
+  "timings": {
+    "prompt_expansion": 4.646999514079653e-06,
+    "inference": 0.5608849489999557,
+    "safety_checker": 0.018182212999818148
+  },
+  "width": 1024,
+  "height": 1024
+}

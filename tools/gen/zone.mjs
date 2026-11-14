@@ -175,12 +175,27 @@ const WRECKS = ['wreck_rusted', 'wreck_charred', 'truck_wrecked', 'wreck_van', '
 
 // Hive walls: the perimeter, with one gap per road out. Gap guards are elites far above the zone.
 const WALL_H = 18;
-function wallX(x, gaps) { let y = Y0; for (const [a, b] of gaps) { box(x - 4, y, x + 4, a, WALL_H, C.hive); y = b; } box(x - 4, y, x + 4, Y1, WALL_H, C.hive); }
-function wallY(y, gaps) { let x = X0; for (const [a, b] of gaps) { box(x, y - 4, a, y + 4, WALL_H, C.hive); x = b; } box(x, y - 4, X1, y + 4, WALL_H, C.hive); }
+// art/buildings hive kit: each wall box is dressed with 16 m HV_WallSeg segments (every other one mirrored, so the
+// repeat reads less), stretched a little to fill the run; ends: an HV_WallEnd post just inside each gap edge.
+function hiveRun(b, id = 'HV_WallSeg', ends = []) {
+  const alongX = b.w >= b.d, L = alongX ? b.w : b.d, n = Math.max(1, Math.round(L / 16)), seg = L / n;
+  for (let i = 0; i < n; i++) {
+    const s = alongX ? { x: b.x + i * seg, y: b.y, w: seg, d: b.d } : { x: b.x, y: b.y + i * seg, w: b.w, d: seg };
+    const { body } = landmark(s, alongX ? 'S' : 'E', id, { mirror: i % 2 === 1 });
+    if (i === 0) b.prop = body; else props.push(body);
+  }
+  for (const e of ends) {   // 0: the run's start (low x / low y), 1: its end; the 10 m post sits inside the run
+    const t = e ? L - 5 : 5;
+    props.push(...landmarkDeco('HV_WallEnd', alongX ? b.x + t : b.x + b.w / 2, alongX ? b.y + b.d / 2 : b.y + t, alongX ? 'S' : 'E'));
+  }
+  return b;
+}
+function wallX(x, gaps) { let y = Y0, k = 0; for (const [a, b] of gaps) { hiveRun(box(x - 4, y, x + 4, a, WALL_H, C.hive), undefined, k++ ? [0, 1] : [1]); y = b; } hiveRun(box(x - 4, y, x + 4, Y1, WALL_H, C.hive), undefined, gaps.length ? [0] : []); }
+function wallY(y, gaps) { let x = X0, k = 0; for (const [a, b] of gaps) { hiveRun(box(x, y - 4, a, y + 4, WALL_H, C.hive), undefined, k++ ? [0, 1] : [1]); x = b; } hiveRun(box(x, y - 4, X1, y + 4, WALL_H, C.hive), undefined, gaps.length ? [0] : []); }
 wallX(-110, [[192, 208]]); wallX(910, [[192, 208]]); wallY(-110, [[290, 306]]); wallY(560, [[290, 306]]);
 // the hive's second ring seals the band (the edge of the playable map)
-box(OX0 - 8, OY0 - 8, OX1 + 8, OY0, 26, C.hive); box(OX0 - 8, OY1, OX1 + 8, OY1 + 8, 26, C.hive);
-box(OX0 - 8, OY0, OX0, OY1, 26, C.hive); box(OX1, OY0, OX1 + 8, OY1, 26, C.hive);
+hiveRun(box(OX0 - 8, OY0 - 8, OX1 + 8, OY0, 26, C.hive), 'HV_WallSeg_Outer'); hiveRun(box(OX0 - 8, OY1, OX1 + 8, OY1 + 8, 26, C.hive), 'HV_WallSeg_Outer');
+hiveRun(box(OX0 - 8, OY0, OX0, OY1, 26, C.hive), 'HV_WallSeg_Outer'); hiveRun(box(OX1, OY0, OX1 + 8, OY1, 26, C.hive), 'HV_WallSeg_Outer');
 // north: Cahuenga Pass (30-40), the Bowl up Highland, broken hills, hive spires
 box(250, -300, 350, -268, 14, C.landmark, 'Hollywood Bowl'); box(230, -290, 248, -262, 9, C.landmark); box(352, -290, 370, -262, 9, C.landmark);
 for (const [x, y, w, h] of [[-260, -230, 60, 8], [-120, -260, 50, 12], [40, -200, 70, 10], [150, -280, 60, 14], [430, -240, 80, 12], [600, -280, 70, 16], [760, -210, 60, 10], [900, -270, 90, 14], [1010, -200, 60, 8]]) box(x, y, x + w, y + w * 0.6, h, C.hill);

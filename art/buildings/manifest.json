@@ -3,7 +3,7 @@
   "units": "meters",
   "up": "+Z",
   "front": "-Y",
-  "texture_sets": 29,
+  "texture_sets": 31,
   "atlases": {
     "ATL_BRK": {
       "texture": "textures/T_ATL_BRK.png",
@@ -9280,6 +9280,127 @@
         ]
       ],
       "tris": 2
+    },
+    {
+      "id": "HV_WallSeg",
+      "kind": "hive",
+      "material": "M_HV_WallSeg",
+      "texture": "textures/T_HV_WallSeg.png",
+      "emissive": null,
+      "nominal": [
+        16,
+        8,
+        18
+      ],
+      "origin": "ground-centre",
+      "file": "meshes/HV_WallSeg.fbx",
+      "bounds": [
+        [
+          -8.0,
+          -4.0,
+          0.0
+        ],
+        [
+          8.0,
+          4.0,
+          18.0
+        ]
+      ],
+      "tris": 1164,
+      "concept": [
+        "concept/HV_WallSeg_ref2.png"
+      ],
+      "rodin": {
+        "used": true,
+        "material": "Shaded",
+        "mode": "full generation",
+        "baked_to_own_uvs": false
+      },
+      "notes": "Hive wall segment, 16 m long (X) x 8 m thick x 18 m high, tiles end to end; alternate mirrored copies to hide repetition. Rodin Gen-2 full generation decimated to budget, Rodin UVs kept.",
+      "fits_box": null,
+      "also_fits": [],
+      "recess": [],
+      "quest_object": null
+    },
+    {
+      "id": "HV_WallSeg_Outer",
+      "kind": "hive",
+      "material": "M_HV_WallSeg",
+      "texture": "textures/T_HV_WallSeg.png",
+      "emissive": null,
+      "nominal": [
+        16,
+        8,
+        26
+      ],
+      "origin": "ground-centre",
+      "file": "meshes/HV_WallSeg_Outer.fbx",
+      "bounds": [
+        [
+          -8.0,
+          -4.000001,
+          0.0
+        ],
+        [
+          8.0,
+          4.0,
+          26.0
+        ]
+      ],
+      "tris": 872,
+      "concept": [
+        "concept/HV_WallSeg_ref2.png"
+      ],
+      "rodin": {
+        "used": true,
+        "material": "Shaded",
+        "mode": "full generation (shared with HV_WallSeg)"
+      },
+      "notes": "Outer-ring segment, 26 m high: the HV_WallSeg scan mirrored, stretched and decimated further; shares T_HV_WallSeg.",
+      "fits_box": null,
+      "also_fits": [],
+      "recess": [],
+      "quest_object": null
+    },
+    {
+      "id": "HV_WallEnd",
+      "kind": "hive",
+      "material": "M_HV_WallEnd",
+      "texture": "textures/T_HV_WallEnd.png",
+      "emissive": null,
+      "nominal": [
+        10,
+        10,
+        22
+      ],
+      "origin": "ground-centre",
+      "file": "meshes/HV_WallEnd.fbx",
+      "bounds": [
+        [
+          -5.0,
+          -5.0,
+          0.0
+        ],
+        [
+          5.0,
+          5.0,
+          22.0
+        ]
+      ],
+      "tris": 1454,
+      "concept": [
+        "concept/HV_WallEnd_ref.png"
+      ],
+      "rodin": {
+        "used": true,
+        "material": "Shaded",
+        "mode": "full generation"
+      },
+      "notes": "Wall end post, 10 x 10 x 22 m, for the edges of the gaps; place it just inside the end of a run.",
+      "fits_box": null,
+      "also_fits": [],
+      "recess": [],
+      "quest_object": null
     }
   ],
   "signs": [
@@ -16917,7 +17038,12 @@
     "work/roof_clutter/RF_WaterTank/RF_WaterTank_input.glb",
     "work/roof_clutter/RF_WaterTank/preparation.json",
     "work/sign_assets.json",
-    "work/sign_records.json"
+    "work/sign_records.json",
+    "meshes/HV_WallSeg.fbx",
+    "textures/T_HV_WallSeg.png",
+    "meshes/HV_WallSeg_Outer.fbx",
+    "meshes/HV_WallEnd.fbx",
+    "textures/T_HV_WallEnd.png"
   ],
   "integration_notes": [
     "Phase2 neutral atlas was repacked to prioritize legible notice lettering. Reimport all19 RF_/DR_ meshes together with T_ATL_NEUTRAL.png."
@@ -16932,5 +17058,9 @@
     "SIGN_03": {
       "texture": "signs/T_SIGN_03.png"
     }
-  }
+  },
+  "texture_sets_added_2026_11_13": [
+    "textures/T_HV_WallEnd.png",
+    "textures/T_HV_WallSeg.png"
+  ]
 }

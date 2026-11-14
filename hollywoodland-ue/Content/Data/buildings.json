@@ -3776,6 +3776,42 @@
     0.0,
     0.95
    ]
+  },
+  "HV_WallSeg": {
+   "mesh": "/Game/Buildings/SM_HV_WallSeg.SM_HV_WallSeg",
+   "kind": "hive",
+   "nominal": [
+    16,
+    8,
+    18
+   ],
+   "tris": 1164,
+   "origin": "ground-centre",
+   "attachments": []
+  },
+  "HV_WallSeg_Outer": {
+   "mesh": "/Game/Buildings/SM_HV_WallSeg_Outer.SM_HV_WallSeg_Outer",
+   "kind": "hive",
+   "nominal": [
+    16,
+    8,
+    26
+   ],
+   "tris": 872,
+   "origin": "ground-centre",
+   "attachments": []
+  },
+  "HV_WallEnd": {
+   "mesh": "/Game/Buildings/SM_HV_WallEnd.SM_HV_WallEnd",
+   "kind": "hive",
+   "nominal": [
+    10,
+    10,
+    22
+   ],
+   "tris": 1454,
+   "origin": "ground-centre",
+   "attachments": []
   }
  },
  "recipes": {
