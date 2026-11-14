@@ -592,7 +592,7 @@ These run on timers and at random, whether or not the player is nearby. Simulate
 
 ## 11. Simulated player population
 
-About 300 personas spread across all 60 levels and 13 zones, with 40–60 of them on the Boulevard at any moment. High-level characters passing through the capital are what make the unbuilt 95% of the world feel real.
+About 300 personas, with 40–60 of them on the Boulevard at any moment. **Revised for the jam build:** the game is days old and its players know it is a jam entry, so about 70% of personas are level 1–12, and only a handful are far ahead (a rider on a mount every couple of minutes is the glimpse of the unbuilt world, and a talking point). The table and spread below describe the original "established server" fiction; `tools/gen/personas.mjs` holds the current numbers.
 
 ### Who is on the Boulevard
 
@@ -663,7 +663,7 @@ Zone chat runs at about 0.3 lines per minute per online player in the zone, capp
 
 - The jam page and the first launch state plainly that this is a single-player game and every other player is an AI.
 - A **show simulated players** setting marks them all; it is off by default.
-- In chat the characters stay in role, as players of the game. Asked whether they are bots, they react the way a player would (amused, teasing, a shrug) rather than breaking the fourth wall; disclosure is the game's job, not the characters'.
+- In chat the characters are people who found a game-jam entry and are trying it (most are jam entrants themselves; see `AI-IMPROVEMENTS-PLAN.md` §4.8). Asked whether they are bots, each answers by a fixed stance: most dodge with a joke, some flatly deny it, a few say yes. Disclosure remains the game's job, not the characters'.
 - Simulated players never ask for real personal details, never try to move the relationship outside the game, and never use slurs or sexual content.
 
 ## 12. Data schemas and content pipeline

@@ -8,7 +8,7 @@ Status legend: **DONE** works in the build · **PROTO** simplified stand-in, pla
 ```
 browser ── itch.io page (iframe, SharedArrayBuffer support) ── UE 5.9 Wasm client + audio (butler package, tools/itch)
                                                                                    │ fetch (text/plain JSON)
-                                                             hollywoodland-server Worker ── Fireworks (Rune + DeepSeek), KV
+                                                             hollywoodland-server Worker ── Fireworks (Rune + DeepSeek), OpenAI (fallback; Sol for plans), KV
 ```
 
 - **Client = one C++ module, no Blueprints, no authored maps.** `AHLGameMode` spawns `AHLWorldActor`, which owns `FHLGame`
@@ -35,6 +35,8 @@ browser ── itch.io page (iframe, SharedArrayBuffer support) ── UE 5.9 Wa
 | `HLMobs.cpp` | mob AI (aggro, social pull, leash, flee, evade), boss scripts, loot, camp respawn, object interaction |
 | `HLPlayer.cpp` | character creation, save/load JSON, inventory/equip/vendor, targeting, quests, auction house, loot rolls |
 | `HLSim.cpp` | Census tick, sim brains (local/transient/idler/party), ability picker, invites, Director (first 15 min) |
+| `HLMind.cpp` | sim goals and plans, their own quests, noticing the player, memory (episodes, decay, gist), party beliefs and frustration; self-play drivers `-HLAiTest=observe|party|memory` |
+| `HLMotor.cpp` | how a sim sees (delayed), walks, follows and types |
 | `HLSfx.*` | sound effects: sim sound-event queue (`FHLGame::Sound/SoundAt/Sound2D`, `Sfx*` helpers), variants/pitch/attenuation/pan against the listener, managed loops (ambience beds per subzone, cast loops, wings, burrowing, spires, crafting) and footsteps; web WebAudio via `HLBridge::Audio` (op 6), native dr_mp3 decode + waveOut mixer thread |
 | `HLMusic.*` | music director (title, subzone playlists day/night, notable-fight/boss/death/victory tracks); playback via `HLBridge::MusicPlay` (web `<audio>`, native MCI) |
 | `HLChat.cpp` | ambient chat (templates + corpus), typing-style filter, slash commands, Worker client + action application |
@@ -72,12 +74,12 @@ browser ── itch.io page (iframe, SharedArrayBuffer support) ── UE 5.9 Wa
 | Auction house (§9) | DONE | 160 simulated listings following the population spread; name search, bids with rival bidders (outbid mail), buyout, 1/4/12 h listings, sim buyers and bidders, results by mail; your listings and bids persist in the save. Price history: last 12 sales per item. |
 | Professions (§9) | DONE 2 / DATA rest | Salvaging 1-75 on wreck nodes. Gunsmithing 1-75 from Earl Tanner (level 5, 25c): six recipes (.38, birdshot, Zip Gun, .30-30, .45, Sawed-off Coach Gun) from Scrap Metal and Brass Casings (wrecks, looters, Earl's stock), workbench window (K), cast bar, orange/yellow/green/grey skill-ups. Other professions DATA. |
 | Dungeon: Egyptian (§14) | PROTO | One persistent "instance" area at +3000 m. 4 bosses with simplified mechanics (eggs hatch, charge, acid pool with LOS, add waves + egg sac heal). Loot 2 blues/boss, need/greed rolls. Tuned by self-play (`-HLAuto=<class> -HLAutoDungeon -HLTimeScale=8`, five classes): Hive Mother hp 1.7 / dmg 0.9 gives 5/5 eventual clears with the player dying to her in 2 of 5 runs (1.8/0.9: 0/2 clears, 1.6/0.85: no deaths to her); deaths mostly at the Matriarch's acid pool and the Hive Mother. Bosses hold their room (threat from outside leash+10 m is ignored), so a wipe resets the fight. |
-| Simulated population (§11) | PROTO | 300 personas; ~40 locals + ≤8 transients + ≤6 idlers as full units (no crowd LOD yet; fine at this count). Census: logins, level-ups, dice dungeon runs → events. |
+| Simulated population (§11) | DONE | 300 personas with an archetype, traits, a country and English level, a jam story and a stance on the bot question (`tools/gen/archetypes.mjs`); ~40 locals + ≤8 transients + ≤6 idlers as full units. A mind (`HLMind.cpp`: goals with reasons, their own quests, plans judged by the Worker's careful model, noticing what the player does, memory that fades, party beliefs that can be wrong) over a motor layer (`HLMotor.cpp`: a delayed view of the player, human movement and following, hands that type or play, not both). See `AI-IMPROVEMENTS-PLAN.md`. Census: logins, level-ups, dice dungeon runs → events. |
 | Party (§6) | DONE | Invite either way, follow/assist/heal/taunt, loot rolls, leave after 15-40 min. Sim tanks/healers use generic priority picker. |
 | Chat (§11) | DONE | 63 templates, ~790 corpus lines (237 hand-written + LLM cache), typing styles, item links, whisper-by-click, /who. |
-| Worker (§13) | DONE | `/v1/session`, `/v1/sim` (reply/decide/gossip), `/v1/save`. Rate limit 20/min, 400/h and daily budget in a Durable Object; gossip cache in KV. |
+| Worker (§13) | DONE | `/v1/session`, `/v1/sim` (reply, decide, gossip, observe, interpret, plan, consolidate), `/v1/save`. Providers (`providers.js`): Fireworks Rune decides and DeepSeek flash writes; OpenAI (Decisions API, `gpt-6.1-terra`) answers a call when Fireworks is slow or down; `gpt-6.1-sol` plans and consolidates memory. Lore pack with per-persona knowledge grading (`lore.js`), news digest. 60 calls/min and 2,000/h per session in a Durable Object; no budget cap. |
 | Director (§14) | DONE | 6 beats, shuffled per play: invite opens; passing heal, Drone train (3-5) and a lost newbie asking the player the way to a trainer are shuffled (one of train/newbie dropped 40% of the time); red-car raiders and the buddy whisper close. Pace 0.75-1.25x, corpus lines per beat. |
-| Honesty (§11) | DONE | Disclosure is the game's job: title notice, first system line, "Show simulated players" toggle. The characters stay in role (prompt + server-side guard that swaps fourth-wall breaks for in-character deflections). |
+| Honesty (§11) | DONE | Disclosure is the game's job: title notice, first system line, "Show simulated players" toggle. The simulated players present as jam-goers; asked whether they are bots, each answers by its stance: most dodge, some deny, about one in ten says yes. Assistant phrasing is always replaced. |
 | Talents (§5) | DONE | 3 trees × 16 per class (384), 5 tiers (5 points each), passive modifiers applied in stats and combat; respec at the class trainer ($1 doubling to $50). Tiers 1-2 hand-made, 3-5 designed with Claude and validated (`tools/artgen design`). |
 | World map / red car / inspect / who | DONE | Zone map zooms (wheel) and pans (drag), shows every service as a lettered icon with a clickable list (bank, auction, inn, class and profession trainers, vendors, repairs, red car, mailbox, police, aid stations) that sets a mark; the mark shows as a pin on both maps and a HUD marker with distance, and clears on arrival. Patrolmen give directions to every service (spoken, and marked). Painted maps (Codex image generation over exact layout sources, `tools/maps`; registration checked by edge correlation) under the zone, dungeon and 13-zone world views, with blurbs and dungeons, route map, inspect shows persona gear. |
 | World events (§10) | DONE (3 of 7) | `HLEvents.cpp`. Hive surge every 30-50 min on a hub (warning in zone chat, 10 min of waves, up to 6 local sims hold the line, reward for 3+ kills, hub merchants close 15 min if overrun); picture night every ~45 min at the Chinese (pre-1930 public-domain titles, sims sit in rows and chat, +10% kill XP for 30 min after 45 s watching); sims call rare spawns in zone chat. Hive spread, fight night, fishing derby, red-car breakdown TODO. `-HLEventsSoon` for tests. |
@@ -167,7 +169,7 @@ browser ── itch.io page (iframe, SharedArrayBuffer support) ── UE 5.9 Wa
   suffers: cache `TW()` measurements, drop shadows on small text, cull nameplates beyond 40 m.
 - **A\*** is capped at 40k expansions and runs synchronously; if many sims repath in one frame add a per-frame budget queue.
 - **Save schema** is versioned (`"v":1`); bump and migrate in `LoadJson` when fields change.
-- **Secrets:** `FIREWORKS_API_KEY`, `SESSION_SECRET` are Worker secrets. `tools/gen-corpus.mjs` reads the key from env only.
+- **Secrets:** `FIREWORKS_API_KEY`, `OPENAI_API_KEY`, `SESSION_SECRET`, `DEBUG_KEY` (lets tests force a provider) are Worker secrets. `tools/gen-corpus.mjs` reads the key from env only.
 
 ## 5. Data pipeline (bible §12) — status
 

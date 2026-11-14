@@ -511,4 +511,17 @@ Risks I am watching:
 
 | Step | State |
 | --- | --- |
-| 1 Provider router | done (`workers/server/src/providers.js`; `AI_PRIMARY`, `AI_HARD` Worker variables switch providers) |
+| 1 Provider router | done: `workers/server/src/providers.js`; `AI_PRIMARY`, `AI_HARD` Worker variables switch providers; a provider that fails four times in a minute is skipped for five |
+| 2 Archetypes, population | done: `tools/gen/archetypes.mjs` (18 archetypes, 24 countries, jam stories, stance on the bot question), `tools/gen/personas.mjs`; 211 of 300 personas at level 1-12, 17 at 40+; a mounted rider every 100-170 s |
+| 3 Jam frame | done: `workers/server/src/prompt.js`, `data/news.json` (digest of 2026-11-14 and the jam's own facts and deadline clock), templates, conversations and a regenerated corpus in each archetype's voice (`tools/gen-corpus.mjs`) |
+| 4 Motor layer | done: `HLMotor.cpp` (delayed view of the player, start delay, pace, scatter on arrival, jump habits, loose following with "where did you go", typing takes the hands: `AddChat` stretches a line to the persona's typing time and the brain stands still for it, deferring up to 10 s in a fight; five characters or fewer may be typed mid-action); combat errors, overload and panic, accidental kiting in `HLSim.cpp` |
+| 5 Mind and plans | done: `HLMind.cpp` `MindNextGoal` (options with cost, gain, risk; utility by traits; commitment), each local's own quest (`SimQuestPick`), Worker kind `plan` on `gpt-6.1-sol` for players within 55 m when the choice is close |
+| 6 World tools | done: `tools/gen/lore.mjs` -> `workers/server/src/data/lore.json` (240 entries, 3,986 items), `lore.js` grades every fact per persona (knows / vague / wrong / none); names in the player's text are linked without a model call; `find`, `how`, `news` tools for the careful model |
+| 7 Observation | done: `FHLGame::Notice` (emotes, aimed emotes, jumping on the spot, staring, dying, levelling): look, mirror, remark (kind `observe`), or deliberately ignore |
+| 8 Memory | done: `FHLRelation` episodes with weights, decay by days (`DecayMemories`), gist by kind `consolidate`, the tail of the last talk, a greeting after a login; saved with the character |
+| 9 Party beliefs | done: `PartyHeard` (kind `interpret` classifies the player's party line; each member may miss or misread it), `TickPartyMind` (spoken needs, impatient pulls), `PartyFrustrate` (gripes, leaving) |
+| 10 Tests, docs, build | `tools/ai-eval.mjs` (15 scenarios), `tools/dev/aitest.ps1 -Mode observe|party|memory`, `tools/ai-bench.mjs`, `tools/ai-edge-bench.mjs` |
+
+Not done, deliberately: per-persona lane offsets while walking (pathing risk in narrow alleys); the scripted set pieces
+(Director beats, fight night, dungeon groups, happenings) still run as scripts rather than as goals, with the motor
+layer applied to them; Tier B plans through the Decisions API (local utility is used instead).

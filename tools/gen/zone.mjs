@@ -46,8 +46,8 @@ export const mobs = [
   M('mob_egy_soldier', 'Stage Soldier', 'invader_soldier', 11, 11, { rank: 'elite', hp: 1.0, dmg: 0.8, armor: 2, social: 10, color: [0.2, 0.3, 0.15], scale: 1.25, junk: ['Cracked Mandible'], respawn: 0 }),
   M('mob_boss_brood_keeper', 'Brood Keeper', 'invader_brute', 9, 9, { rank: 'boss', hp: 1.3, dmg: 0.7, armor: 1.5, color: [0.4, 0.25, 0.35], scale: 2.0, script: 'brood_keeper', abilities: ['ab_mob_knockback'], respawn: 0 }),
   M('mob_boss_hive_warden', 'Hive Warden', 'invader_soldier', 10, 10, { rank: 'boss', hp: 1.3, dmg: 0.75, armor: 2, color: [0.15, 0.3, 0.3], scale: 1.9, script: 'hive_warden', abilities: ['ab_mob_charge'], respawn: 0 }),
-  M('mob_boss_matriarch', 'Spitter Matriarch', 'invader_spitter', 11, 11, { rank: 'boss', hp: 1.3, dmg: 0.75, armor: 0.8, ranged: true, color: [0.7, 0.75, 0.1], scale: 1.8, script: 'matriarch', abilities: ['ab_mob_acid_spit', 'ab_mob_acid_pool'], respawn: 0 }),
-  M('mob_boss_hive_mother', 'The Egyptian Hive Mother', 'invader_queen', 12, 12, { rank: 'boss', hp: 1.7, dmg: 0.9, armor: 1.5, color: [0.55, 0.1, 0.45], scale: 2.6, script: 'hive_mother', abilities: ['ab_mob_knockback'], respawn: 0 }),
+  M('mob_boss_matriarch', 'Spitter Matriarch', 'invader_spitter', 11, 11, { rank: 'boss', hp: 1.25, dmg: 0.7, armor: 0.8, ranged: true, color: [0.7, 0.75, 0.1], scale: 1.8, script: 'matriarch', abilities: ['ab_mob_acid_spit', 'ab_mob_acid_pool'], respawn: 0 }),
+  M('mob_boss_hive_mother', 'The Egyptian Hive Mother', 'invader_queen', 12, 12, { rank: 'boss', hp: 1.4, dmg: 0.78, armor: 1.5, color: [0.55, 0.1, 0.45], scale: 2.6, script: 'hive_mother', abilities: ['ab_mob_knockback'], respawn: 0 }),
 ];
 
 // ---------- geometry helpers ----------

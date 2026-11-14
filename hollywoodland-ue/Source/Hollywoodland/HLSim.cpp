@@ -662,7 +662,7 @@ void FHLGame::PartyEvent(const FString& What)
 	for (int32 SI : Party)
 	{
 		Remember(SI, Situation == TEXT("wipe") ? TEXT("wipe") : TEXT("party"), What.Left(120), 0.55f);
-		if (Situation == TEXT("wipe")) PartyFrustrate(SI, 1.6f, TEXT("the group wiped")); else Sims[SI].Frust = FMath::Max(0.f, Sims[SI].Frust - 2.f);
+		if (Situation == TEXT("wipe")) PartyFrustrate(SI, 0.9f, TEXT("the group wiped")); else Sims[SI].Frust = FMath::Max(0.f, Sims[SI].Frust - 2.f);
 	}
 	WorkerSim(TEXT("reply"), Sp, TEXT("event"), TEXT("party"), What, {}, [this, Sp, Situation](bool bOk, const TSharedPtr<FJsonObject>& Resp)
 	{
