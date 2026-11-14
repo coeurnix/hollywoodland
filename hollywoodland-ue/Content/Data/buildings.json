@@ -488,11 +488,11 @@
     2,
     1.5
    ],
-   "tris": 6,
+   "tris": 26,
    "origin": "front-plane-bottom-left",
    "attachments": [],
    "min": [
-    -0.0,
+    -0.25,
     -2.0,
     0.0
    ],
@@ -509,11 +509,11 @@
     4,
     1.5
    ],
-   "tris": 6,
+   "tris": 26,
    "origin": "front-plane-bottom-left",
    "attachments": [],
    "min": [
-    -0.0,
+    -0.25,
     -4.0,
     0.0
    ],
@@ -530,17 +530,17 @@
     4,
     2
    ],
-   "tris": 10,
+   "tris": 42,
    "origin": "front-plane-bottom-left",
    "attachments": [],
    "min": [
-    0.12,
+    -0.13,
     -4.0,
     0.0
    ],
    "max": [
     0.12,
-    -0.0,
+    0.0,
     2.0
    ]
   },
@@ -551,17 +551,17 @@
     4,
     2
    ],
-   "tris": 10,
+   "tris": 42,
    "origin": "front-plane-bottom-left",
    "attachments": [],
    "min": [
-    0.12,
+    -0.13,
     -4.0,
     0.0
    ],
    "max": [
     0.12,
-    -0.0,
+    0.0,
     2.0
    ]
   },
@@ -572,18 +572,18 @@
     4,
     3.5
    ],
-   "tris": 4,
+   "tris": 18,
    "origin": "front-plane-bottom-left",
    "attachments": [],
    "min": [
-    -0.0,
+    -0.01,
     -4.0,
     2.7
    ],
    "max": [
-    1.25,
+    1.26,
     0.0,
-    3.5
+    3.51
    ]
   },
   "BRK_Awning6": {
@@ -593,18 +593,18 @@
     6,
     3.5
    ],
-   "tris": 4,
+   "tris": 18,
    "origin": "front-plane-bottom-left",
    "attachments": [],
    "min": [
-    -0.0,
+    -0.01,
     -6.0,
     2.7
    ],
    "max": [
-    1.25,
+    1.26,
     0.0,
-    3.5
+    3.51
    ]
   },
   "BRK_Wall": {
@@ -690,6 +690,2125 @@
     0.0,
     3.5
    ]
+  },
+  "DECO_G_Bay4A": {
+   "mesh": "/Game/Buildings/SM_DECO_G_Bay4A.SM_DECO_G_Bay4A",
+   "kind": "module",
+   "nominal": [
+    4,
+    4.5
+   ],
+   "tris": 100,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -4.0,
+    0.0
+   ],
+   "max": [
+    0.25,
+    0.0,
+    4.5
+   ]
+  },
+  "DECO_G_Bay4B": {
+   "mesh": "/Game/Buildings/SM_DECO_G_Bay4B.SM_DECO_G_Bay4B",
+   "kind": "module",
+   "nominal": [
+    4,
+    4.5
+   ],
+   "tris": 100,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -4.0,
+    0.0
+   ],
+   "max": [
+    0.25,
+    0.0,
+    4.5
+   ]
+  },
+  "DECO_G_Bay6A": {
+   "mesh": "/Game/Buildings/SM_DECO_G_Bay6A.SM_DECO_G_Bay6A",
+   "kind": "module",
+   "nominal": [
+    6,
+    4.5
+   ],
+   "tris": 100,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -6.0,
+    0.0
+   ],
+   "max": [
+    0.25,
+    0.0,
+    4.5
+   ]
+  },
+  "DECO_G_Bay6B": {
+   "mesh": "/Game/Buildings/SM_DECO_G_Bay6B.SM_DECO_G_Bay6B",
+   "kind": "module",
+   "nominal": [
+    6,
+    4.5
+   ],
+   "tris": 100,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -6.0,
+    0.0
+   ],
+   "max": [
+    0.25,
+    0.0,
+    4.5
+   ]
+  },
+  "DECO_G_Bay8A": {
+   "mesh": "/Game/Buildings/SM_DECO_G_Bay8A.SM_DECO_G_Bay8A",
+   "kind": "module",
+   "nominal": [
+    8,
+    4.5
+   ],
+   "tris": 100,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -8.0,
+    0.0
+   ],
+   "max": [
+    0.25,
+    0.0,
+    4.5
+   ]
+  },
+  "DECO_G_Bay8B": {
+   "mesh": "/Game/Buildings/SM_DECO_G_Bay8B.SM_DECO_G_Bay8B",
+   "kind": "module",
+   "nominal": [
+    8,
+    4.5
+   ],
+   "tris": 100,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -8.0,
+    0.0
+   ],
+   "max": [
+    0.25,
+    0.0,
+    4.5
+   ]
+  },
+  "DECO_G_Entry4": {
+   "mesh": "/Game/Buildings/SM_DECO_G_Entry4.SM_DECO_G_Entry4",
+   "kind": "module",
+   "nominal": [
+    4,
+    4.5
+   ],
+   "tris": 86,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -1.0,
+    -4.0,
+    0.0
+   ],
+   "max": [
+    0.25,
+    0.0,
+    4.5
+   ]
+  },
+  "DECO_U_Bay2A": {
+   "mesh": "/Game/Buildings/SM_DECO_U_Bay2A.SM_DECO_U_Bay2A",
+   "kind": "module",
+   "nominal": [
+    2,
+    3.5
+   ],
+   "tris": 6,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -2.0,
+    0.0
+   ],
+   "max": [
+    0.12,
+    0.0,
+    3.5
+   ]
+  },
+  "DECO_U_Bay2B": {
+   "mesh": "/Game/Buildings/SM_DECO_U_Bay2B.SM_DECO_U_Bay2B",
+   "kind": "module",
+   "nominal": [
+    2,
+    3.5
+   ],
+   "tris": 12,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -2.0,
+    0.0
+   ],
+   "max": [
+    0.12,
+    0.0,
+    3.5
+   ]
+  },
+  "DECO_U_Bay3A": {
+   "mesh": "/Game/Buildings/SM_DECO_U_Bay3A.SM_DECO_U_Bay3A",
+   "kind": "module",
+   "nominal": [
+    3,
+    3.5
+   ],
+   "tris": 6,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -3.0,
+    0.0
+   ],
+   "max": [
+    0.12,
+    0.0,
+    3.5
+   ]
+  },
+  "DECO_U_Bay3B": {
+   "mesh": "/Game/Buildings/SM_DECO_U_Bay3B.SM_DECO_U_Bay3B",
+   "kind": "module",
+   "nominal": [
+    3,
+    3.5
+   ],
+   "tris": 12,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -3.0,
+    0.0
+   ],
+   "max": [
+    0.12,
+    0.0,
+    3.5
+   ]
+  },
+  "DECO_U_Bay4A": {
+   "mesh": "/Game/Buildings/SM_DECO_U_Bay4A.SM_DECO_U_Bay4A",
+   "kind": "module",
+   "nominal": [
+    4,
+    3.5
+   ],
+   "tris": 6,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -4.0,
+    0.0
+   ],
+   "max": [
+    0.12,
+    0.0,
+    3.5
+   ]
+  },
+  "DECO_U_Bay4B": {
+   "mesh": "/Game/Buildings/SM_DECO_U_Bay4B.SM_DECO_U_Bay4B",
+   "kind": "module",
+   "nominal": [
+    4,
+    3.5
+   ],
+   "tris": 12,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -4.0,
+    0.0
+   ],
+   "max": [
+    0.12,
+    0.0,
+    3.5
+   ]
+  },
+  "DECO_Pilaster1_G": {
+   "mesh": "/Game/Buildings/SM_DECO_Pilaster1_G.SM_DECO_Pilaster1_G",
+   "kind": "module",
+   "nominal": [
+    1,
+    4.5
+   ],
+   "tris": 2,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    0.12,
+    -1.0,
+    0.0
+   ],
+   "max": [
+    0.12,
+    -0.0,
+    4.5
+   ]
+  },
+  "DECO_Corner_G": {
+   "mesh": "/Game/Buildings/SM_DECO_Corner_G.SM_DECO_Corner_G",
+   "kind": "module",
+   "nominal": [
+    1,
+    4.5
+   ],
+   "tris": 4,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.5,
+    -0.5,
+    0.0
+   ],
+   "max": [
+    0.0,
+    0.0,
+    4.5
+   ]
+  },
+  "DECO_Pilaster1_U": {
+   "mesh": "/Game/Buildings/SM_DECO_Pilaster1_U.SM_DECO_Pilaster1_U",
+   "kind": "module",
+   "nominal": [
+    1,
+    3.5
+   ],
+   "tris": 2,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    0.12,
+    -1.0,
+    0.0
+   ],
+   "max": [
+    0.12,
+    -0.0,
+    3.5
+   ]
+  },
+  "DECO_Corner_U": {
+   "mesh": "/Game/Buildings/SM_DECO_Corner_U.SM_DECO_Corner_U",
+   "kind": "module",
+   "nominal": [
+    1,
+    3.5
+   ],
+   "tris": 4,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.5,
+    -0.5,
+    0.0
+   ],
+   "max": [
+    0.0,
+    0.0,
+    3.5
+   ]
+  },
+  "DECO_Parapet2": {
+   "mesh": "/Game/Buildings/SM_DECO_Parapet2.SM_DECO_Parapet2",
+   "kind": "module",
+   "nominal": [
+    2,
+    1.5
+   ],
+   "tris": 26,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.25,
+    -2.0,
+    0.0
+   ],
+   "max": [
+    0.0,
+    0.0,
+    1.5
+   ]
+  },
+  "DECO_Parapet4": {
+   "mesh": "/Game/Buildings/SM_DECO_Parapet4.SM_DECO_Parapet4",
+   "kind": "module",
+   "nominal": [
+    4,
+    1.5
+   ],
+   "tris": 26,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.25,
+    -4.0,
+    0.0
+   ],
+   "max": [
+    0.0,
+    0.0,
+    1.5
+   ]
+  },
+  "DECO_CrestA": {
+   "mesh": "/Game/Buildings/SM_DECO_CrestA.SM_DECO_CrestA",
+   "kind": "module",
+   "nominal": [
+    4,
+    2
+   ],
+   "tris": 42,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.13,
+    -4.0,
+    0.0
+   ],
+   "max": [
+    0.12,
+    0.0,
+    2.0
+   ]
+  },
+  "DECO_CrestB": {
+   "mesh": "/Game/Buildings/SM_DECO_CrestB.SM_DECO_CrestB",
+   "kind": "module",
+   "nominal": [
+    4,
+    2
+   ],
+   "tris": 42,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.13,
+    -4.0,
+    0.0
+   ],
+   "max": [
+    0.12,
+    0.0,
+    2.0
+   ]
+  },
+  "DECO_Awning4": {
+   "mesh": "/Game/Buildings/SM_DECO_Awning4.SM_DECO_Awning4",
+   "kind": "module",
+   "nominal": [
+    4,
+    3.5
+   ],
+   "tris": 18,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.01,
+    -4.0,
+    2.7
+   ],
+   "max": [
+    1.26,
+    0.0,
+    3.51
+   ]
+  },
+  "DECO_Awning6": {
+   "mesh": "/Game/Buildings/SM_DECO_Awning6.SM_DECO_Awning6",
+   "kind": "module",
+   "nominal": [
+    6,
+    3.5
+   ],
+   "tris": 18,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.01,
+    -6.0,
+    2.7
+   ],
+   "max": [
+    1.26,
+    0.0,
+    3.51
+   ]
+  },
+  "DECO_Wall": {
+   "mesh": "/Game/Buildings/SM_DECO_Wall.SM_DECO_Wall",
+   "kind": "wall",
+   "nominal": [
+    4,
+    3.5
+   ],
+   "tris": 2,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -4.0,
+    0.0
+   ],
+   "max": [
+    0.0,
+    0.0,
+    3.5
+   ]
+  },
+  "DECO_Roof": {
+   "mesh": "/Game/Buildings/SM_DECO_Roof.SM_DECO_Roof",
+   "kind": "roof",
+   "nominal": [
+    4,
+    4
+   ],
+   "tris": 2,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -4.0,
+    -4.0,
+    0.0
+   ],
+   "max": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  "DECO_Damaged_G_Bay6": {
+   "mesh": "/Game/Buildings/SM_DECO_Damaged_G_Bay6.SM_DECO_Damaged_G_Bay6",
+   "kind": "module",
+   "nominal": [
+    6,
+    4.5
+   ],
+   "tris": 94,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -6.0,
+    0.0
+   ],
+   "max": [
+    0.25,
+    0.0,
+    4.5
+   ]
+  },
+  "DECO_Damaged_U_Bay3": {
+   "mesh": "/Game/Buildings/SM_DECO_Damaged_U_Bay3.SM_DECO_Damaged_U_Bay3",
+   "kind": "module",
+   "nominal": [
+    3,
+    3.5
+   ],
+   "tris": 10,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -3.0,
+    0.0
+   ],
+   "max": [
+    0.12,
+    0.0,
+    3.5
+   ]
+  },
+  "MSN_G_Bay4A": {
+   "mesh": "/Game/Buildings/SM_MSN_G_Bay4A.SM_MSN_G_Bay4A",
+   "kind": "module",
+   "nominal": [
+    4,
+    4.5
+   ],
+   "tris": 100,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -4.0,
+    0.0
+   ],
+   "max": [
+    0.25,
+    0.0,
+    4.5
+   ]
+  },
+  "MSN_G_Bay4B": {
+   "mesh": "/Game/Buildings/SM_MSN_G_Bay4B.SM_MSN_G_Bay4B",
+   "kind": "module",
+   "nominal": [
+    4,
+    4.5
+   ],
+   "tris": 100,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -4.0,
+    0.0
+   ],
+   "max": [
+    0.25,
+    0.0,
+    4.5
+   ]
+  },
+  "MSN_G_Bay6A": {
+   "mesh": "/Game/Buildings/SM_MSN_G_Bay6A.SM_MSN_G_Bay6A",
+   "kind": "module",
+   "nominal": [
+    6,
+    4.5
+   ],
+   "tris": 100,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -6.0,
+    0.0
+   ],
+   "max": [
+    0.25,
+    0.0,
+    4.5
+   ]
+  },
+  "MSN_G_Bay6B": {
+   "mesh": "/Game/Buildings/SM_MSN_G_Bay6B.SM_MSN_G_Bay6B",
+   "kind": "module",
+   "nominal": [
+    6,
+    4.5
+   ],
+   "tris": 100,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -6.0,
+    0.0
+   ],
+   "max": [
+    0.25,
+    0.0,
+    4.5
+   ]
+  },
+  "MSN_G_Bay8A": {
+   "mesh": "/Game/Buildings/SM_MSN_G_Bay8A.SM_MSN_G_Bay8A",
+   "kind": "module",
+   "nominal": [
+    8,
+    4.5
+   ],
+   "tris": 100,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -8.0,
+    0.0
+   ],
+   "max": [
+    0.25,
+    0.0,
+    4.5
+   ]
+  },
+  "MSN_G_Bay8B": {
+   "mesh": "/Game/Buildings/SM_MSN_G_Bay8B.SM_MSN_G_Bay8B",
+   "kind": "module",
+   "nominal": [
+    8,
+    4.5
+   ],
+   "tris": 100,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -8.0,
+    0.0
+   ],
+   "max": [
+    0.25,
+    0.0,
+    4.5
+   ]
+  },
+  "MSN_G_Entry4": {
+   "mesh": "/Game/Buildings/SM_MSN_G_Entry4.SM_MSN_G_Entry4",
+   "kind": "module",
+   "nominal": [
+    4,
+    4.5
+   ],
+   "tris": 86,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -1.0,
+    -4.0,
+    0.0
+   ],
+   "max": [
+    0.25,
+    0.0,
+    4.5
+   ]
+  },
+  "MSN_U_Bay2A": {
+   "mesh": "/Game/Buildings/SM_MSN_U_Bay2A.SM_MSN_U_Bay2A",
+   "kind": "module",
+   "nominal": [
+    2,
+    3.5
+   ],
+   "tris": 6,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -2.0,
+    0.0
+   ],
+   "max": [
+    0.12,
+    0.0,
+    3.5
+   ]
+  },
+  "MSN_U_Bay2B": {
+   "mesh": "/Game/Buildings/SM_MSN_U_Bay2B.SM_MSN_U_Bay2B",
+   "kind": "module",
+   "nominal": [
+    2,
+    3.5
+   ],
+   "tris": 12,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -2.0,
+    0.0
+   ],
+   "max": [
+    0.12,
+    0.0,
+    3.5
+   ]
+  },
+  "MSN_U_Bay3A": {
+   "mesh": "/Game/Buildings/SM_MSN_U_Bay3A.SM_MSN_U_Bay3A",
+   "kind": "module",
+   "nominal": [
+    3,
+    3.5
+   ],
+   "tris": 6,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -3.0,
+    0.0
+   ],
+   "max": [
+    0.12,
+    0.0,
+    3.5
+   ]
+  },
+  "MSN_U_Bay3B": {
+   "mesh": "/Game/Buildings/SM_MSN_U_Bay3B.SM_MSN_U_Bay3B",
+   "kind": "module",
+   "nominal": [
+    3,
+    3.5
+   ],
+   "tris": 12,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -3.0,
+    0.0
+   ],
+   "max": [
+    0.12,
+    0.0,
+    3.5
+   ]
+  },
+  "MSN_U_Bay4A": {
+   "mesh": "/Game/Buildings/SM_MSN_U_Bay4A.SM_MSN_U_Bay4A",
+   "kind": "module",
+   "nominal": [
+    4,
+    3.5
+   ],
+   "tris": 6,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -4.0,
+    0.0
+   ],
+   "max": [
+    0.12,
+    0.0,
+    3.5
+   ]
+  },
+  "MSN_U_Bay4B": {
+   "mesh": "/Game/Buildings/SM_MSN_U_Bay4B.SM_MSN_U_Bay4B",
+   "kind": "module",
+   "nominal": [
+    4,
+    3.5
+   ],
+   "tris": 12,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -4.0,
+    0.0
+   ],
+   "max": [
+    0.12,
+    0.0,
+    3.5
+   ]
+  },
+  "MSN_Pilaster1_G": {
+   "mesh": "/Game/Buildings/SM_MSN_Pilaster1_G.SM_MSN_Pilaster1_G",
+   "kind": "module",
+   "nominal": [
+    1,
+    4.5
+   ],
+   "tris": 2,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    0.12,
+    -1.0,
+    0.0
+   ],
+   "max": [
+    0.12,
+    -0.0,
+    4.5
+   ]
+  },
+  "MSN_Corner_G": {
+   "mesh": "/Game/Buildings/SM_MSN_Corner_G.SM_MSN_Corner_G",
+   "kind": "module",
+   "nominal": [
+    1,
+    4.5
+   ],
+   "tris": 4,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.5,
+    -0.5,
+    0.0
+   ],
+   "max": [
+    0.0,
+    0.0,
+    4.5
+   ]
+  },
+  "MSN_Pilaster1_U": {
+   "mesh": "/Game/Buildings/SM_MSN_Pilaster1_U.SM_MSN_Pilaster1_U",
+   "kind": "module",
+   "nominal": [
+    1,
+    3.5
+   ],
+   "tris": 2,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    0.12,
+    -1.0,
+    0.0
+   ],
+   "max": [
+    0.12,
+    -0.0,
+    3.5
+   ]
+  },
+  "MSN_Corner_U": {
+   "mesh": "/Game/Buildings/SM_MSN_Corner_U.SM_MSN_Corner_U",
+   "kind": "module",
+   "nominal": [
+    1,
+    3.5
+   ],
+   "tris": 4,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.5,
+    -0.5,
+    0.0
+   ],
+   "max": [
+    0.0,
+    0.0,
+    3.5
+   ]
+  },
+  "MSN_Parapet2": {
+   "mesh": "/Game/Buildings/SM_MSN_Parapet2.SM_MSN_Parapet2",
+   "kind": "module",
+   "nominal": [
+    2,
+    1.5
+   ],
+   "tris": 22,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.25,
+    -2.0,
+    0.0
+   ],
+   "max": [
+    0.0,
+    0.0,
+    1.5
+   ]
+  },
+  "MSN_Parapet4": {
+   "mesh": "/Game/Buildings/SM_MSN_Parapet4.SM_MSN_Parapet4",
+   "kind": "module",
+   "nominal": [
+    4,
+    1.5
+   ],
+   "tris": 22,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.25,
+    -4.0,
+    0.0
+   ],
+   "max": [
+    0.0,
+    0.0,
+    1.5
+   ]
+  },
+  "MSN_CrestA": {
+   "mesh": "/Game/Buildings/SM_MSN_CrestA.SM_MSN_CrestA",
+   "kind": "module",
+   "nominal": [
+    4,
+    2
+   ],
+   "tris": 42,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.13,
+    -4.0,
+    0.0
+   ],
+   "max": [
+    0.12,
+    0.0,
+    2.0
+   ]
+  },
+  "MSN_CrestB": {
+   "mesh": "/Game/Buildings/SM_MSN_CrestB.SM_MSN_CrestB",
+   "kind": "module",
+   "nominal": [
+    4,
+    2
+   ],
+   "tris": 58,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.13,
+    -4.0,
+    0.0
+   ],
+   "max": [
+    0.12,
+    0.0,
+    2.0
+   ]
+  },
+  "MSN_Awning4": {
+   "mesh": "/Game/Buildings/SM_MSN_Awning4.SM_MSN_Awning4",
+   "kind": "module",
+   "nominal": [
+    4,
+    3.5
+   ],
+   "tris": 18,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.01,
+    -4.0,
+    2.7
+   ],
+   "max": [
+    1.26,
+    0.0,
+    3.51
+   ]
+  },
+  "MSN_Awning6": {
+   "mesh": "/Game/Buildings/SM_MSN_Awning6.SM_MSN_Awning6",
+   "kind": "module",
+   "nominal": [
+    6,
+    3.5
+   ],
+   "tris": 18,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.01,
+    -6.0,
+    2.7
+   ],
+   "max": [
+    1.26,
+    0.0,
+    3.51
+   ]
+  },
+  "MSN_Wall": {
+   "mesh": "/Game/Buildings/SM_MSN_Wall.SM_MSN_Wall",
+   "kind": "wall",
+   "nominal": [
+    4,
+    3.5
+   ],
+   "tris": 2,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -4.0,
+    0.0
+   ],
+   "max": [
+    0.0,
+    0.0,
+    3.5
+   ]
+  },
+  "MSN_Roof": {
+   "mesh": "/Game/Buildings/SM_MSN_Roof.SM_MSN_Roof",
+   "kind": "roof",
+   "nominal": [
+    4,
+    4
+   ],
+   "tris": 2,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -4.0,
+    -4.0,
+    0.0
+   ],
+   "max": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  "MSN_Damaged_G_Bay6": {
+   "mesh": "/Game/Buildings/SM_MSN_Damaged_G_Bay6.SM_MSN_Damaged_G_Bay6",
+   "kind": "module",
+   "nominal": [
+    6,
+    4.5
+   ],
+   "tris": 94,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -6.0,
+    0.0
+   ],
+   "max": [
+    0.25,
+    0.0,
+    4.5
+   ]
+  },
+  "MSN_Damaged_U_Bay3": {
+   "mesh": "/Game/Buildings/SM_MSN_Damaged_U_Bay3.SM_MSN_Damaged_U_Bay3",
+   "kind": "module",
+   "nominal": [
+    3,
+    3.5
+   ],
+   "tris": 10,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -3.0,
+    0.0
+   ],
+   "max": [
+    0.12,
+    0.0,
+    3.5
+   ]
+  },
+  "SPN_G_Bay4A": {
+   "mesh": "/Game/Buildings/SM_SPN_G_Bay4A.SM_SPN_G_Bay4A",
+   "kind": "module",
+   "nominal": [
+    4,
+    4.5
+   ],
+   "tris": 90,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -4.0,
+    0.0
+   ],
+   "max": [
+    0.25,
+    0.0,
+    4.5
+   ]
+  },
+  "SPN_G_Bay4B": {
+   "mesh": "/Game/Buildings/SM_SPN_G_Bay4B.SM_SPN_G_Bay4B",
+   "kind": "module",
+   "nominal": [
+    4,
+    4.5
+   ],
+   "tris": 90,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -4.0,
+    0.0
+   ],
+   "max": [
+    0.25,
+    0.0,
+    4.5
+   ]
+  },
+  "SPN_G_Bay6A": {
+   "mesh": "/Game/Buildings/SM_SPN_G_Bay6A.SM_SPN_G_Bay6A",
+   "kind": "module",
+   "nominal": [
+    6,
+    4.5
+   ],
+   "tris": 90,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -6.0,
+    0.0
+   ],
+   "max": [
+    0.25,
+    0.0,
+    4.5
+   ]
+  },
+  "SPN_G_Bay6B": {
+   "mesh": "/Game/Buildings/SM_SPN_G_Bay6B.SM_SPN_G_Bay6B",
+   "kind": "module",
+   "nominal": [
+    6,
+    4.5
+   ],
+   "tris": 90,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -6.0,
+    0.0
+   ],
+   "max": [
+    0.25,
+    0.0,
+    4.5
+   ]
+  },
+  "SPN_G_Bay8A": {
+   "mesh": "/Game/Buildings/SM_SPN_G_Bay8A.SM_SPN_G_Bay8A",
+   "kind": "module",
+   "nominal": [
+    8,
+    4.5
+   ],
+   "tris": 90,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -8.0,
+    0.0
+   ],
+   "max": [
+    0.25,
+    0.0,
+    4.5
+   ]
+  },
+  "SPN_G_Bay8B": {
+   "mesh": "/Game/Buildings/SM_SPN_G_Bay8B.SM_SPN_G_Bay8B",
+   "kind": "module",
+   "nominal": [
+    8,
+    4.5
+   ],
+   "tris": 90,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -8.0,
+    0.0
+   ],
+   "max": [
+    0.25,
+    0.0,
+    4.5
+   ]
+  },
+  "SPN_G_Entry4": {
+   "mesh": "/Game/Buildings/SM_SPN_G_Entry4.SM_SPN_G_Entry4",
+   "kind": "module",
+   "nominal": [
+    4,
+    4.5
+   ],
+   "tris": 76,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -1.0,
+    -4.0,
+    0.0
+   ],
+   "max": [
+    0.25,
+    0.0,
+    4.5
+   ]
+  },
+  "SPN_U_Bay2A": {
+   "mesh": "/Game/Buildings/SM_SPN_U_Bay2A.SM_SPN_U_Bay2A",
+   "kind": "module",
+   "nominal": [
+    2,
+    3.5
+   ],
+   "tris": 254,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -2.0,
+    0.0
+   ],
+   "max": [
+    0.43,
+    0.0,
+    3.5
+   ]
+  },
+  "SPN_U_Bay2B": {
+   "mesh": "/Game/Buildings/SM_SPN_U_Bay2B.SM_SPN_U_Bay2B",
+   "kind": "module",
+   "nominal": [
+    2,
+    3.5
+   ],
+   "tris": 262,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -2.0,
+    0.0
+   ],
+   "max": [
+    0.43,
+    0.0,
+    3.5
+   ]
+  },
+  "SPN_U_Bay3A": {
+   "mesh": "/Game/Buildings/SM_SPN_U_Bay3A.SM_SPN_U_Bay3A",
+   "kind": "module",
+   "nominal": [
+    3,
+    3.5
+   ],
+   "tris": 254,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -3.0,
+    0.0
+   ],
+   "max": [
+    0.43,
+    0.0,
+    3.5
+   ]
+  },
+  "SPN_U_Bay3B": {
+   "mesh": "/Game/Buildings/SM_SPN_U_Bay3B.SM_SPN_U_Bay3B",
+   "kind": "module",
+   "nominal": [
+    3,
+    3.5
+   ],
+   "tris": 262,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -3.0,
+    0.0
+   ],
+   "max": [
+    0.43,
+    0.0,
+    3.5
+   ]
+  },
+  "SPN_U_Bay4A": {
+   "mesh": "/Game/Buildings/SM_SPN_U_Bay4A.SM_SPN_U_Bay4A",
+   "kind": "module",
+   "nominal": [
+    4,
+    3.5
+   ],
+   "tris": 254,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -4.0,
+    0.0
+   ],
+   "max": [
+    0.43,
+    0.0,
+    3.5
+   ]
+  },
+  "SPN_U_Bay4B": {
+   "mesh": "/Game/Buildings/SM_SPN_U_Bay4B.SM_SPN_U_Bay4B",
+   "kind": "module",
+   "nominal": [
+    4,
+    3.5
+   ],
+   "tris": 262,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -4.0,
+    0.0
+   ],
+   "max": [
+    0.43,
+    0.0,
+    3.5
+   ]
+  },
+  "SPN_Pilaster1_G": {
+   "mesh": "/Game/Buildings/SM_SPN_Pilaster1_G.SM_SPN_Pilaster1_G",
+   "kind": "module",
+   "nominal": [
+    1,
+    4.5
+   ],
+   "tris": 2,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    0.12,
+    -1.0,
+    0.0
+   ],
+   "max": [
+    0.12,
+    -0.0,
+    4.5
+   ]
+  },
+  "SPN_Corner_G": {
+   "mesh": "/Game/Buildings/SM_SPN_Corner_G.SM_SPN_Corner_G",
+   "kind": "module",
+   "nominal": [
+    1,
+    4.5
+   ],
+   "tris": 4,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.5,
+    -0.5,
+    0.0
+   ],
+   "max": [
+    0.0,
+    0.0,
+    4.5
+   ]
+  },
+  "SPN_Pilaster1_U": {
+   "mesh": "/Game/Buildings/SM_SPN_Pilaster1_U.SM_SPN_Pilaster1_U",
+   "kind": "module",
+   "nominal": [
+    1,
+    3.5
+   ],
+   "tris": 2,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    0.12,
+    -1.0,
+    0.0
+   ],
+   "max": [
+    0.12,
+    -0.0,
+    3.5
+   ]
+  },
+  "SPN_Corner_U": {
+   "mesh": "/Game/Buildings/SM_SPN_Corner_U.SM_SPN_Corner_U",
+   "kind": "module",
+   "nominal": [
+    1,
+    3.5
+   ],
+   "tris": 4,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.5,
+    -0.5,
+    0.0
+   ],
+   "max": [
+    0.0,
+    0.0,
+    3.5
+   ]
+  },
+  "SPN_Parapet2": {
+   "mesh": "/Game/Buildings/SM_SPN_Parapet2.SM_SPN_Parapet2",
+   "kind": "module",
+   "nominal": [
+    2,
+    1.5
+   ],
+   "tris": 38,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.25,
+    -2.0,
+    0.0
+   ],
+   "max": [
+    0.0,
+    0.0,
+    1.5
+   ]
+  },
+  "SPN_Parapet4": {
+   "mesh": "/Game/Buildings/SM_SPN_Parapet4.SM_SPN_Parapet4",
+   "kind": "module",
+   "nominal": [
+    4,
+    1.5
+   ],
+   "tris": 70,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.25,
+    -4.0,
+    0.0
+   ],
+   "max": [
+    0.0,
+    0.0,
+    1.5
+   ]
+  },
+  "SPN_CrestA": {
+   "mesh": "/Game/Buildings/SM_SPN_CrestA.SM_SPN_CrestA",
+   "kind": "module",
+   "nominal": [
+    4,
+    2
+   ],
+   "tris": 50,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.13,
+    -4.0,
+    0.0
+   ],
+   "max": [
+    0.12,
+    0.0,
+    2.0
+   ]
+  },
+  "SPN_CrestB": {
+   "mesh": "/Game/Buildings/SM_SPN_CrestB.SM_SPN_CrestB",
+   "kind": "module",
+   "nominal": [
+    4,
+    2
+   ],
+   "tris": 42,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.13,
+    -4.0,
+    0.0
+   ],
+   "max": [
+    0.12,
+    0.0,
+    2.0
+   ]
+  },
+  "SPN_Awning4": {
+   "mesh": "/Game/Buildings/SM_SPN_Awning4.SM_SPN_Awning4",
+   "kind": "module",
+   "nominal": [
+    4,
+    3.5
+   ],
+   "tris": 18,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.01,
+    -4.0,
+    2.7
+   ],
+   "max": [
+    1.26,
+    0.0,
+    3.51
+   ]
+  },
+  "SPN_Awning6": {
+   "mesh": "/Game/Buildings/SM_SPN_Awning6.SM_SPN_Awning6",
+   "kind": "module",
+   "nominal": [
+    6,
+    3.5
+   ],
+   "tris": 18,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.01,
+    -6.0,
+    2.7
+   ],
+   "max": [
+    1.26,
+    0.0,
+    3.51
+   ]
+  },
+  "SPN_Wall": {
+   "mesh": "/Game/Buildings/SM_SPN_Wall.SM_SPN_Wall",
+   "kind": "wall",
+   "nominal": [
+    4,
+    3.5
+   ],
+   "tris": 2,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -4.0,
+    0.0
+   ],
+   "max": [
+    0.0,
+    0.0,
+    3.5
+   ]
+  },
+  "SPN_Roof": {
+   "mesh": "/Game/Buildings/SM_SPN_Roof.SM_SPN_Roof",
+   "kind": "roof",
+   "nominal": [
+    4,
+    4
+   ],
+   "tris": 2,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -4.0,
+    -4.0,
+    0.0
+   ],
+   "max": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  "SPN_Damaged_G_Bay6": {
+   "mesh": "/Game/Buildings/SM_SPN_Damaged_G_Bay6.SM_SPN_Damaged_G_Bay6",
+   "kind": "module",
+   "nominal": [
+    6,
+    4.5
+   ],
+   "tris": 94,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -6.0,
+    0.0
+   ],
+   "max": [
+    0.25,
+    0.0,
+    4.5
+   ]
+  },
+  "SPN_Damaged_U_Bay3": {
+   "mesh": "/Game/Buildings/SM_SPN_Damaged_U_Bay3.SM_SPN_Damaged_U_Bay3",
+   "kind": "module",
+   "nominal": [
+    3,
+    3.5
+   ],
+   "tris": 258,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -3.0,
+    0.0
+   ],
+   "max": [
+    0.43,
+    0.0,
+    3.5
+   ]
+  },
+  "RF_WaterTank": {
+   "mesh": "/Game/Buildings/SM_RF_WaterTank.SM_RF_WaterTank",
+   "kind": "prop",
+   "nominal": [
+    3.45,
+    3.45,
+    5.38
+   ],
+   "tris": 1218,
+   "origin": "ground-centre",
+   "attachments": [],
+   "min": [
+    -1.73,
+    -1.73,
+    0.0
+   ],
+   "max": [
+    1.73,
+    1.73,
+    5.38
+   ]
+  },
+  "RF_Billboard8x4": {
+   "mesh": "/Game/Buildings/SM_RF_Billboard8x4.SM_RF_Billboard8x4",
+   "kind": "prop",
+   "nominal": [
+    8.44,
+    3.38,
+    6.1975
+   ],
+   "tris": 980,
+   "origin": "ground-centre",
+   "attachments": [],
+   "min": [
+    -1.69,
+    -4.22,
+    0.0
+   ],
+   "max": [
+    1.69,
+    4.22,
+    6.2
+   ]
+  },
+  "RF_Billboard12x5": {
+   "mesh": "/Game/Buildings/SM_RF_Billboard12x5.SM_RF_Billboard12x5",
+   "kind": "prop",
+   "nominal": [
+    12.44,
+    4.280002,
+    7.4975
+   ],
+   "tris": 1274,
+   "origin": "ground-centre",
+   "attachments": [],
+   "min": [
+    -2.14,
+    -6.22,
+    0.0
+   ],
+   "max": [
+    2.14,
+    6.22,
+    7.5
+   ]
+  },
+  "RF_StairBulkhead": {
+   "mesh": "/Game/Buildings/SM_RF_StairBulkhead.SM_RF_StairBulkhead",
+   "kind": "prop",
+   "nominal": [
+    3.22,
+    4.59,
+    3.0
+   ],
+   "tris": 262,
+   "origin": "ground-centre",
+   "attachments": [],
+   "min": [
+    -2.3,
+    -1.61,
+    0.0
+   ],
+   "max": [
+    2.3,
+    1.61,
+    3.0
+   ]
+  },
+  "RF_ChimneyBrick": {
+   "mesh": "/Game/Buildings/SM_RF_ChimneyBrick.SM_RF_ChimneyBrick",
+   "kind": "prop",
+   "nominal": [
+    1.24,
+    1.24,
+    2.15
+   ],
+   "tris": 118,
+   "origin": "ground-centre",
+   "attachments": [],
+   "min": [
+    -0.62,
+    -0.62,
+    0.0
+   ],
+   "max": [
+    0.62,
+    0.62,
+    2.15
+   ]
+  },
+  "RF_VentMetal": {
+   "mesh": "/Game/Buildings/SM_RF_VentMetal.SM_RF_VentMetal",
+   "kind": "prop",
+   "nominal": [
+    1.16,
+    1.16,
+    1.8
+   ],
+   "tris": 262,
+   "origin": "ground-centre",
+   "attachments": [],
+   "min": [
+    -0.58,
+    -0.58,
+    0.0
+   ],
+   "max": [
+    0.58,
+    0.58,
+    1.8
+   ]
+  },
+  "RF_Skylight": {
+   "mesh": "/Game/Buildings/SM_RF_Skylight.SM_RF_Skylight",
+   "kind": "prop",
+   "nominal": [
+    3.15,
+    4.15,
+    1.31
+   ],
+   "tris": 434,
+   "origin": "ground-centre",
+   "attachments": [],
+   "min": [
+    -2.08,
+    -1.58,
+    0.0
+   ],
+   "max": [
+    2.08,
+    1.58,
+    1.31
+   ]
+  },
+  "DR_BoardedWindow15": {
+   "mesh": "/Game/Buildings/SM_DR_BoardedWindow15.SM_DR_BoardedWindow15",
+   "kind": "dressing",
+   "nominal": [
+    1.5,
+    0.12,
+    1.5
+   ],
+   "tris": 108,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -1.5,
+    0.0
+   ],
+   "max": [
+    0.12,
+    -0.0,
+    1.5
+   ]
+  },
+  "DR_BoardedWindow23": {
+   "mesh": "/Game/Buildings/SM_DR_BoardedWindow23.SM_DR_BoardedWindow23",
+   "kind": "dressing",
+   "nominal": [
+    2,
+    0.16,
+    3
+   ],
+   "tris": 174,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -2.0,
+    0.0
+   ],
+   "max": [
+    0.16,
+    -0.0,
+    3.0
+   ]
+  },
+  "DR_SandbagStack3": {
+   "mesh": "/Game/Buildings/SM_DR_SandbagStack3.SM_DR_SandbagStack3",
+   "kind": "dressing",
+   "nominal": [
+    3.0,
+    0.3,
+    1.0
+   ],
+   "tris": 440,
+   "origin": "ground-centre",
+   "attachments": [],
+   "min": [
+    -0.15,
+    -1.5,
+    0.0
+   ],
+   "max": [
+    0.15,
+    1.5,
+    1.0
+   ]
+  },
+  "DR_SandbagDoorway4": {
+   "mesh": "/Game/Buildings/SM_DR_SandbagDoorway4.SM_DR_SandbagDoorway4",
+   "kind": "dressing",
+   "nominal": [
+    4.0,
+    0.3,
+    3.25
+   ],
+   "tris": 902,
+   "origin": "ground-centre",
+   "attachments": [],
+   "min": [
+    -0.15,
+    -2.0,
+    0.0
+   ],
+   "max": [
+    0.15,
+    2.0,
+    3.25
+   ]
+  },
+  "DR_FallenAwning": {
+   "mesh": "/Game/Buildings/SM_DR_FallenAwning.SM_DR_FallenAwning",
+   "kind": "dressing",
+   "nominal": [
+    4.0,
+    1.5,
+    0.6
+   ],
+   "tris": 48,
+   "origin": "ground-centre",
+   "attachments": [],
+   "min": [
+    -0.75,
+    -2.0,
+    0.0
+   ],
+   "max": [
+    0.75,
+    2.0,
+    0.6
+   ]
+  },
+  "DR_SootA": {
+   "mesh": "/Game/Buildings/SM_DR_SootA.SM_DR_SootA",
+   "kind": "dressing",
+   "nominal": [
+    2,
+    0.01,
+    1.5
+   ],
+   "tris": 13,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    0.01,
+    -2.0,
+    0.0
+   ],
+   "max": [
+    0.01,
+    -0.0,
+    1.5
+   ]
+  },
+  "DR_SootB": {
+   "mesh": "/Game/Buildings/SM_DR_SootB.SM_DR_SootB",
+   "kind": "dressing",
+   "nominal": [
+    1.5,
+    0.01,
+    2.5
+   ],
+   "tris": 11,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    0.01,
+    -1.5,
+    0.0
+   ],
+   "max": [
+    0.01,
+    -0.0,
+    2.5
+   ]
+  },
+  "DR_Crack": {
+   "mesh": "/Game/Buildings/SM_DR_Crack.SM_DR_Crack",
+   "kind": "dressing",
+   "nominal": [
+    2,
+    0.01,
+    2
+   ],
+   "tris": 17,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    0.01,
+    -2.0,
+    0.0
+   ],
+   "max": [
+    0.01,
+    -0.0,
+    2.0
+   ]
+  },
+  "DR_MayorNotice": {
+   "mesh": "/Game/Buildings/SM_DR_MayorNotice.SM_DR_MayorNotice",
+   "kind": "dressing",
+   "nominal": [
+    0.75,
+    0.01,
+    1
+   ],
+   "tris": 2,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    0.01,
+    -0.75,
+    0.0
+   ],
+   "max": [
+    0.01,
+    -0.0,
+    1.0
+   ]
+  },
+  "DR_Rubble2": {
+   "mesh": "/Game/Buildings/SM_DR_Rubble2.SM_DR_Rubble2",
+   "kind": "dressing",
+   "nominal": [
+    2.0,
+    1.5,
+    0.65
+   ],
+   "tris": 128,
+   "origin": "ground-centre",
+   "attachments": [],
+   "min": [
+    -0.75,
+    -1.0,
+    0.0
+   ],
+   "max": [
+    0.75,
+    1.0,
+    0.65
+   ]
+  },
+  "DR_Rubble4": {
+   "mesh": "/Game/Buildings/SM_DR_Rubble4.SM_DR_Rubble4",
+   "kind": "dressing",
+   "nominal": [
+    4.0,
+    2.0,
+    0.85
+   ],
+   "tris": 304,
+   "origin": "ground-centre",
+   "attachments": [],
+   "min": [
+    -1.0,
+    -2.0,
+    0.0
+   ],
+   "max": [
+    1.0,
+    2.0,
+    0.85
+   ]
+  },
+  "DR_BrokenGlass": {
+   "mesh": "/Game/Buildings/SM_DR_BrokenGlass.SM_DR_BrokenGlass",
+   "kind": "dressing",
+   "nominal": [
+    3,
+    0.01,
+    2.5
+   ],
+   "tris": 26,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    0.01,
+    -3.0,
+    0.0
+   ],
+   "max": [
+    0.01,
+    -0.0,
+    2.5
+   ]
   }
  },
  "recipes": {
@@ -734,6 +2853,147 @@
    "damaged": [
     "BRK_Damaged_G_Bay6",
     "BRK_Damaged_U_Bay3"
+   ],
+   "ground_h": 4.5,
+   "upper_h": 3.5,
+   "parapet_h": 1.5,
+   "height_fit_note": "12 m and 15 m recipe/parapet scale conflict is documented in README; exported modules retain exact nominal heights."
+  },
+  "SPN": {
+   "ground": [
+    "SPN_G_Bay8A",
+    "SPN_G_Bay8B",
+    "SPN_G_Bay6A",
+    "SPN_G_Bay6B",
+    "SPN_G_Bay4A",
+    "SPN_G_Bay4B"
+   ],
+   "upper": [
+    "SPN_U_Bay4A",
+    "SPN_U_Bay4B",
+    "SPN_U_Bay3A",
+    "SPN_U_Bay3B",
+    "SPN_U_Bay2A",
+    "SPN_U_Bay2B"
+   ],
+   "entry": "SPN_G_Entry4",
+   "pilaster": "SPN_Pilaster1_G",
+   "pilaster_upper": "SPN_Pilaster1_U",
+   "corner": "SPN_Corner_G",
+   "corner_upper": "SPN_Corner_U",
+   "corner_front_m": 0.5,
+   "corner_return_m": 0.5,
+   "parapet": [
+    "SPN_Parapet2",
+    "SPN_Parapet4"
+   ],
+   "crest": [
+    "SPN_CrestA",
+    "SPN_CrestB"
+   ],
+   "awning": [
+    "SPN_Awning4",
+    "SPN_Awning6"
+   ],
+   "wall": "SPN_Wall",
+   "roof": "SPN_Roof",
+   "damaged": [
+    "SPN_Damaged_G_Bay6",
+    "SPN_Damaged_U_Bay3"
+   ],
+   "ground_h": 4.5,
+   "upper_h": 3.5,
+   "parapet_h": 1.5,
+   "height_fit_note": "12 m and 15 m recipe/parapet scale conflict is documented in README; exported modules retain exact nominal heights."
+  },
+  "DECO": {
+   "ground": [
+    "DECO_G_Bay8A",
+    "DECO_G_Bay8B",
+    "DECO_G_Bay6A",
+    "DECO_G_Bay6B",
+    "DECO_G_Bay4A",
+    "DECO_G_Bay4B"
+   ],
+   "upper": [
+    "DECO_U_Bay4A",
+    "DECO_U_Bay4B",
+    "DECO_U_Bay3A",
+    "DECO_U_Bay3B",
+    "DECO_U_Bay2A",
+    "DECO_U_Bay2B"
+   ],
+   "entry": "DECO_G_Entry4",
+   "pilaster": "DECO_Pilaster1_G",
+   "pilaster_upper": "DECO_Pilaster1_U",
+   "corner": "DECO_Corner_G",
+   "corner_upper": "DECO_Corner_U",
+   "corner_front_m": 0.5,
+   "corner_return_m": 0.5,
+   "parapet": [
+    "DECO_Parapet2",
+    "DECO_Parapet4"
+   ],
+   "crest": [
+    "DECO_CrestA",
+    "DECO_CrestB"
+   ],
+   "awning": [
+    "DECO_Awning4",
+    "DECO_Awning6"
+   ],
+   "wall": "DECO_Wall",
+   "roof": "DECO_Roof",
+   "damaged": [
+    "DECO_Damaged_G_Bay6",
+    "DECO_Damaged_U_Bay3"
+   ],
+   "ground_h": 4.5,
+   "upper_h": 3.5,
+   "parapet_h": 1.5,
+   "height_fit_note": "12 m and 15 m recipe/parapet scale conflict is documented in README; exported modules retain exact nominal heights."
+  },
+  "MSN": {
+   "ground": [
+    "MSN_G_Bay8A",
+    "MSN_G_Bay8B",
+    "MSN_G_Bay6A",
+    "MSN_G_Bay6B",
+    "MSN_G_Bay4A",
+    "MSN_G_Bay4B"
+   ],
+   "upper": [
+    "MSN_U_Bay4A",
+    "MSN_U_Bay4B",
+    "MSN_U_Bay3A",
+    "MSN_U_Bay3B",
+    "MSN_U_Bay2A",
+    "MSN_U_Bay2B"
+   ],
+   "entry": "MSN_G_Entry4",
+   "pilaster": "MSN_Pilaster1_G",
+   "pilaster_upper": "MSN_Pilaster1_U",
+   "corner": "MSN_Corner_G",
+   "corner_upper": "MSN_Corner_U",
+   "corner_front_m": 0.5,
+   "corner_return_m": 0.5,
+   "parapet": [
+    "MSN_Parapet2",
+    "MSN_Parapet4"
+   ],
+   "crest": [
+    "MSN_CrestA",
+    "MSN_CrestB"
+   ],
+   "awning": [
+    "MSN_Awning4",
+    "MSN_Awning6"
+   ],
+   "wall": "MSN_Wall",
+   "roof": "MSN_Roof",
+   "damaged": [
+    "MSN_Damaged_G_Bay6",
+    "MSN_Damaged_U_Bay3"
    ],
    "ground_h": 4.5,
    "upper_h": 3.5,

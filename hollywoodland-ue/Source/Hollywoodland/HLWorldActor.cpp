@@ -191,7 +191,11 @@ void AHLWorldActor::BuildWorld()
 		TMap<FString, UInstancedStaticMeshComponent*> Kit;
 		for (const FHLPropPlace& P : Def.Props)
 		{
-			if (!P.Mesh.StartsWith(TEXT("/Game/Buildings/BRK_")) && !P.Mesh.StartsWith(TEXT("/Game/Buildings/SM_BRK_"))) { AddProp(Geo, a, P); continue; }
+			// every repeated kit family batches; one-off landmarks (LM_) and signs go through the normal prop path
+			static const TCHAR* KitFams[] = { TEXT("SM_BRK_"), TEXT("SM_DECO_"), TEXT("SM_MSN_"), TEXT("SM_SPN_"), TEXT("SM_DR_"), TEXT("SM_RF_"), TEXT("BRK_") };
+			bool bKit = false;
+			for (const TCHAR* F : KitFams) if (P.Mesh.StartsWith(FString(TEXT("/Game/Buildings/")) + F)) { bKit = true; break; }
+			if (!bKit) { AddProp(Geo, a, P); continue; }
 			UInstancedStaticMeshComponent*& I = Kit.FindOrAdd(P.Mesh);
 			if (!I)
 			{

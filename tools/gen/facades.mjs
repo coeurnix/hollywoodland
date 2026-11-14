@@ -30,9 +30,23 @@ function frame(b, north) {
 }
 const at = (f, t, out = OUT) => [f.S[0] + f.u[0] * t + f.F[0] * out, f.S[1] + f.u[1] * t + f.F[1] * out];
 
-// Lay a BRK front on box b; returns placements. seed varies variants, awnings, crests and damage per shop.
-export function brkFront(b, north, seed, opts = {}) {
-  const rec = R.BRK, out = [], rnd = rng(seed * 7919 + 17), f = frame(b, north);
+// The four storefront families (brick, Spanish revival, Art Deco, masonry); a shop's family comes from its seed.
+export const FAMILIES = Object.keys(R).filter((k) => R[k].ground);
+const WEIGHTS = { DECO: 0.3, SPN: 0.25, BRK: 0.25, MSN: 0.2 };
+export function pickFamily(seed) {
+  const fams = FAMILIES.filter((k) => WEIGHTS[k]);
+  let x = rng(seed * 104729 + 3)() * fams.reduce((s, k) => s + WEIGHTS[k], 0);
+  for (const k of fams) { x -= WEIGHTS[k]; if (x <= 0) return k; }
+  return fams[0];
+}
+const has = (id) => !!KIT[id];
+// a ground-centre piece (dressing, roof props) at distance t along the face, `out` metres in front of it (negative: on the roof)
+function putC(arr, f, id, t, out, z, yaw = 0, s = [1, 1, 1]) { if (has(id)) put(arr, id, at(f, t, out), f.yaw + yaw, s, z); }
+
+// Lay a storefront on box b; returns placements. seed varies family, variants, awnings, crests, damage and dressing per shop.
+export function kitFront(b, north, seed, opts = {}) {
+  const fam = opts.family || pickFamily(seed);
+  const rec = R[fam], out = [], rnd = rng(seed * 7919 + 17), f = frame(b, north);
   const W = f.W, h = b.h;
   const rows = Math.max(0, Math.min(3, Math.round((h - rec.ground_h - 0.5) / rec.upper_h)));
   const ph = Math.max(0, h - rec.ground_h - rows * rec.upper_h);
@@ -40,10 +54,12 @@ export function brkFront(b, north, seed, opts = {}) {
   const n = Math.max(1, Math.round((L + 1) / 7));
   const bw = (L - (n - 1)) / n;
   const varG = rnd() < 0.5 ? 'A' : 'B', varU = rnd() < 0.5 ? 'A' : 'B';
-  const ground = [4, 6, 8].map((w) => ({ w, id: `BRK_G_Bay${w}${varG}` }));
-  const upper = [2, 3, 4].map((w) => ({ w, id: `BRK_U_Bay${w}${varU}` }));
+  const bay = (ids, v) => ids.filter((id) => id.endsWith(v)).map((id) => ({ w: width(id), id }));
+  const ground = bay(rec.ground, varG), upper = bay(rec.upper, varU);
   const awnings = rnd() < (opts.awning ?? 0.45);
   const damaged = rnd() < (opts.damaged ?? 0.15);
+  const [dmgG, dmgU] = rec.damaged;
+  const [aw4, aw6] = rec.awning, [pp2, pp4] = rec.parapet;
   const rowZ = (r) => rec.ground_h + (r - 1) * rec.upper_h; // r = 0 ground, 1.. upper rows
 
   for (let r = 0; r <= rows; r++) {
@@ -57,10 +73,10 @@ export function brkFront(b, north, seed, opts = {}) {
       const t0 = rec.corner_front_m + i * (bw + 1);
       if (r === 0) {
         let m = nearest(bw, ground);
-        if (damaged && m.w === 6 && i === n - 1) m = { w: 6, id: 'BRK_Damaged_G_Bay6' };
+        if (damaged && m.w === 6 && i === n - 1) m = { w: 6, id: dmgG };
         put(out, m.id, at(f, t0), f.yaw, [1, bw / m.w, 1], 0);
         if (awnings && !(damaged && i === n - 1)) {
-          const a = bw <= 5 ? 'BRK_Awning4' : 'BRK_Awning6';
+          const a = bw <= 5 ? aw4 : aw6;
           put(out, a, at(f, t0), f.yaw, [1, bw / width(a), 1], 0);
         }
       } else {
@@ -68,8 +84,10 @@ export function brkFront(b, north, seed, opts = {}) {
         const uw = bw / k;
         for (let j = 0; j < k; j++) {
           let m = nearest(uw, upper);
-          if (damaged && r === rows && m.w === 3 && i === 0 && j === 0) m = { w: 3, id: 'BRK_Damaged_U_Bay3' };
+          if (damaged && r === rows && m.w === 3 && i === 0 && j === 0) m = { w: 3, id: dmgU };
           put(out, m.id, at(f, t0 + j * uw), f.yaw, [1, uw / m.w, 1], z);
+          // a boarded-up upper window on a hard-hit shop
+          if (damaged && r === 1 && j === k - 1 && i === Math.floor(n / 2) && has('DR_BoardedWindow15')) put(out, 'DR_BoardedWindow15', at(f, t0 + j * uw + (uw - 1.5) / 2, OUT + 0.04), f.yaw, [1, 1, 1], z + 1.0);
         }
       }
       if (i < n - 1) put(out, r ? rec.pilaster_upper : rec.pilaster, at(f, t0 + bw), f.yaw, [1, 1, 1], z);
@@ -79,12 +97,53 @@ export function brkFront(b, north, seed, opts = {}) {
   const top = rec.ground_h + rows * rec.upper_h;
   if (ph >= 0.4) {
     const np = Math.max(1, Math.round(W / 4)), pw = W / np;
-    for (let i = 0; i < np; i++) put(out, pw < 3 ? 'BRK_Parapet2' : 'BRK_Parapet4', at(f, i * pw), f.yaw, [1, pw / (pw < 3 ? 2 : 4), ph / rec.parapet_h], top);
+    for (let i = 0; i < np; i++) put(out, pw < 3 ? pp2 : pp4, at(f, i * pw), f.yaw, [1, pw / (pw < 3 ? 2 : 4), ph / rec.parapet_h], top);
     if (ph >= 1 && rnd() < (opts.crest ?? 0.35)) {
-      const c = rnd() < 0.5 ? 'BRK_CrestA' : 'BRK_CrestB';
-      put(out, c, at(f, W / 2 - 2), f.yaw, [1, 1, 1], h - 0.6);
+      const c = rec.crest[rnd() < 0.5 ? 0 : 1];
+      put(out, c, at(f, W / 2 - width(c) / 2), f.yaw, [1, 1, 1], h - 0.6);
     }
   }
+  // the occupation on the street: soot, cracks, broken glass, rubble and a fallen awning on damaged shops; sandbagged
+  // doorways and the mayor's notices here and there
+  if (damaged) {
+    const tD = rec.corner_front_m + (n - 1) * (bw + 1); // the damaged bay
+    if (rnd() < 0.7) put(out, rnd() < 0.5 ? 'DR_SootA' : 'DR_SootB', at(f, tD + 0.5 + rnd() * Math.max(0, bw - 2.5), OUT + 0.03), f.yaw, [1, 1, 1], rec.ground_h - 0.4 + rnd() * 1.5);
+    if (rows > 0 && rnd() < 0.6) put(out, 'DR_Crack', at(f, rec.corner_front_m + rnd() * Math.max(0, L - 2), OUT + 0.03), f.yaw, [1, 1, 1], rec.ground_h + 0.6 + rnd() * 1.2);
+    if (rnd() < 0.5) putC(out, f, 'DR_Rubble2', tD + bw / 2, 1.3, 0, Math.round(rnd() * 40 - 20));
+    else putC(out, f, 'DR_FallenAwning', tD + bw / 2, 1.0, 0, Math.round(rnd() * 16 - 8));
+  } else if (n > 1 && rnd() < (opts.glass ?? 0.08)) {
+    const i = Math.floor(rnd() * n);
+    put(out, 'DR_BrokenGlass', at(f, rec.corner_front_m + i * (bw + 1) + (bw - 3) / 2, OUT + 0.05), f.yaw, [1, 1, 1], 0.9);
+  }
+  if (rnd() < (opts.sandbags ?? 0.06) && bw >= 4) putC(out, f, 'DR_SandbagDoorway4', rec.corner_front_m + bw / 2, 0.75, 0);
+  else if (rnd() < 0.06) putC(out, f, 'DR_SandbagStack3', rec.corner_front_m + 1.5 + rnd() * Math.max(0, L - 3), 0.6, 0);
+  if (n > 1 && rnd() < (opts.notice ?? 0.18)) put(out, 'DR_MayorNotice', at(f, rec.corner_front_m + bw + 0.5 - 0.375, OUT + 0.25), f.yaw, [1, 1, 1], 1.3);
+  return out;
+}
+export const brkFront = (b, north, seed, opts = {}) => kitFront(b, north, seed, { ...opts, family: 'BRK' });
+
+// Roof clutter on a shop box: water tanks, chimneys, vents, skylights and stair huts, kept back from the parapet.
+export function roofProps(b, north, seed) {
+  const out = [], rnd = rng(seed * 6151 + 29), f = frame(b, north);
+  if (b.d < 6 || b.w < 5 || rnd() < 0.3) return out;
+  const spots = [];
+  const tryPut = (id, r, prob) => {
+    if (!has(id) || rnd() >= prob) return;
+    for (let k = 0; k < 6; k++) {
+      const t = r + 0.6 + rnd() * (b.w - 2 * r - 1.2), d = -(Math.max(2.5, r + 1.5) + rnd() * Math.max(0, b.d - 2 * Math.max(2.5, r + 1.5)));
+      if (t < r || t > b.w - r || -d > b.d - r) continue;
+      if (spots.some((s) => Math.hypot(s[0] - t, s[1] - d) < s[2] + r + 0.5)) continue;
+      spots.push([t, d, r]);
+      putC(out, f, id, t, d, b.h, Math.round(rnd() * 4) * 90);
+      return;
+    }
+  };
+  tryPut('RF_WaterTank', 1.8, b.h >= 9 ? 0.45 : 0.15);
+  tryPut('RF_Skylight', 2.2, b.w >= 10 && b.d >= 10 ? 0.35 : 0);
+  tryPut('RF_StairBulkhead', 2.4, b.w >= 9 ? 0.3 : 0);
+  tryPut('RF_ChimneyBrick', 0.7, 0.55);
+  tryPut('RF_VentMetal', 0.6, 0.5);
+  tryPut('RF_VentMetal', 0.6, 0.3);
   return out;
 }
 

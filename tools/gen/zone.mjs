@@ -4,7 +4,7 @@
 // Props (art/props, imported by tools/propprep.py): a box may carry `prop` (drawn instead of its cube, the box stays the collision),
 // an object may carry `prop` (drawn instead of its primitive), and `props` lists free-standing dressing (no collision).
 import { PROPS as PROPS_TABLE, placement, footprint, fitBox, rng } from './props.mjs';
-import { brkFront, landmark, signCard } from './facades.mjs';
+import { kitFront, roofProps, landmark, signCard } from './facades.mjs';
 const C = { road: [0.13, 0.13, 0.14], walk: [0.3, 0.29, 0.27], lot: [0.34, 0.31, 0.24], hill: [0.36, 0.34, 0.22], shop: [0.48, 0.44, 0.38], shop2: [0.42, 0.4, 0.42],
   landmark: [0.72, 0.62, 0.42], hive: [0.22, 0.12, 0.26], civic: [0.6, 0.6, 0.62], wreck: [0.2, 0.22, 0.25], interior: [0.25, 0.2, 0.18], seat: [0.4, 0.1, 0.1] };
 
@@ -85,7 +85,8 @@ function facades(row, north) {
       b.prop = body; b.noSign = true; props.push(...extra);
       continue;
     }
-    props.push(...brkFront(b, north, facadeSeed));
+    props.push(...kitFront(b, north, facadeSeed));
+    props.push(...roofProps(b, north, facadeSeed));
     if (KIT_SIGNS[b.label]) { props.push(...signCard(b, north, KIT_SIGNS[b.label], b.w / 2, 3.55)); b.noSign = true; }
   }
 }
