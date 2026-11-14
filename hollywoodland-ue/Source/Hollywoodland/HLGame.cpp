@@ -291,7 +291,6 @@ void FHLGame::EnterWorld()
 	WorkerSession();
 	CurSubzone = SubzoneAt(U.Area, U.Pos);
 	Banner(Zone.Name, CurSubzone, 5);
-	System(TEXT("Welcome to Hollywoodland. This is a single-player game: every other player you meet is simulated by AI."));
 	System(FString::Printf(TEXT("There are %d players online. Type /help for chat commands."), OnlineCount()));
 	if (!PendingRestNote.IsEmpty()) { System(PendingRestNote); PendingRestNote.Reset(); }
 	TickAuctions();

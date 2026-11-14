@@ -135,6 +135,8 @@ strip(X0, 199.2, X1, 199.5, [0.5, 0.5, 0.52]); strip(X0, 200.5, X1, 200.8, [0.5,
 const LM = (b, face, id, opts) => { const { body, extra } = landmark(b, face, id, opts); b.prop = body; b.noSign = true; props.push(...extra); return b; };
 LM(box(52, 108, 134, 166, 16, C.landmark, "Grauman's Chinese Theatre"), 'S', 'LM_Graumans');
 LM(box(52, 166, 58, 186, 5, C.landmark), 'S', 'LM_Graumans_ForecourtWall'); LM(box(128, 166, 134, 186, 5, C.landmark), 'S', 'LM_Graumans_ForecourtWall', { mirror: true }); // forecourt walls
+// the mesh's entrance recess has its two side walls facing inward (culled from the forecourt): plaster returns close it
+box(78.75, 164, 79.02, 166, 11.5, [0.62, 0.54, 0.33], '', { noSign: true }); box(106.98, 164, 107.25, 166, 11.5, [0.62, 0.54, 0.33], '', { noSign: true });
  strip(58, 166, 128, 186, C.walk); // the forecourt is paved (the cement of the footprints), not lawn
 { const r = shops(154, 168, 150, 186, 2, ['Max Factor Salon']); facades(r, true); signs(r, true); }
 LM(box(170, 160, 286, 186, 14, C.landmark, 'Hollywood Hotel'), 'S', 'LM_HollywoodHotel');

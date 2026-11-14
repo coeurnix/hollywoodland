@@ -29,6 +29,13 @@ const MODERN = ('noodle pixel kiwi tofu mango glitch voxel shader lambda quokka 
 const MDECOR = [(n) => n, (n) => n + '_dev', (n) => n + r2(), (n) => 'the' + n, (n) => n + 'games', (n) => 'x' + n, (n) => n + '_', (n) => n[0].toUpperCase() + n.slice(1) + 'Boi',
   (n) => 'not' + n, (n) => n + 'Enjoyer', (n) => 'mr_' + n, (n) => n + 'chan', (n) => n.replace(/o/g, '0').replace(/e/g, '3')];
 let r2 = () => '42';
+const EXTRA_MODERN = ('cactus marmot axolotl capybara narwhal pangolin lychee wasabi miso udon churro paprika saffron basil fennel clover thistle bramblejam ' +
+  'quasar nebula pulsar photon quark boson tensor vector bitshift kernel sprite tilemap polygon raycast hitbox lerp shaderz ' +
+  'pebble pixie gremlin goblin sprocketz banjo kazoo ukulele tuba cello bongo marimba yodel loaf scone crumpet bagel pretzel ' +
+  'tundra canyon delta lagoon mesa geyser glacier boreal monsoon sirocco zephyr cobalt umber sienna teal ochre magenta ' +
+  'beetle hornet heron puffin lemur tapir okapi ibex yak sloth koala dingo badger mole vole stoat').split(' ');
+const EXTRA_NAMES = ('Clarence Mildred Eustace Winifred Horace Beatrix Ambrose Lavinia Cornelius Philomena Thaddeus Ottoline Barnaby Henrietta ' +
+  'Mortimer Josephine Archibald Florence Percival Dorothea Leopold Gertrude Rufus Imogen Silas Augusta Virgil Cordelia Jasper Prudence').split(' ');
 const pickW = (r, list, wOf = (x) => x.w) => { let x = r() * list.reduce((s, e) => s + wOf(e), 0); for (const e of list) if ((x -= wOf(e)) <= 0) return e; return list[list.length - 1]; };
 
 // The game has only been up for the jam: nearly everyone is new. A few no-lifers are far ahead (and are talked about).
@@ -46,7 +53,28 @@ export function buildPersonas({ zones, dungeons, guilds, items, classes }, seed 
   const r = rng(seed);
   r2 = () => String(r.int(2, 99));
   const clamp = (v) => Math.max(0, Math.min(1, v));
-  const used = new Set();
+  const used = new Set(), oldUsed = new Set();
+  // Handles: their own random stream. A root word ("tofu", "Mabel") is used once, and a decoration ("…Enjoyer", "xX…Xx",
+  // "Lil…") at most twice in the whole list, so the who list never reads like tofuEnjoyer, waffleEnjoyer, pestoEnjoyer.
+  const hr = rng(seed ^ 0x5eed), roots = new Set(), decorN = new Map();
+  const H_MODERN = [...MODERN, ...EXTRA_MODERN], H_NAMES = [...NAMES, ...EXTRA_NAMES];
+  const H_MDECOR = [[(n) => n, 99], [(n) => n + '_dev', 2], [(n) => n + String(hr.int(2, 99)), 3], [(n) => 'the' + n, 2], [(n) => n + 'games', 2], [(n) => 'x' + n, 2], [(n) => n + '_', 2],
+    [(n) => n[0].toUpperCase() + n.slice(1) + 'Boi', 1], [(n) => 'not' + n, 1], [(n) => n + 'Enjoyer', 1], [(n) => 'mr_' + n, 2], [(n) => n + 'chan', 1], [(n) => n.replace(/o/g, '0').replace(/e/g, '3'), 2],
+    [(n) => n[0].toUpperCase() + n.slice(1), 99], [(n) => n + 'fan', 1], [(n) => 'its' + n, 1], [(n) => n + 'Main', 1], [(n) => n + 'IRL', 1]];
+  const H_DECOR = DECOR.map((f, i) => [f, i < 3 ? 99 : 2]);
+  const makeHandle = () => {
+    for (let t = 0; ; t++) {
+      const modern = hr.chance(0.45);
+      const root = hr.pick(modern ? H_MODERN : H_NAMES);
+      const di = hr.int(0, (modern ? H_MDECOR : H_DECOR).length - 1), [f, cap] = (modern ? H_MDECOR : H_DECOR)[di];
+      const key = (modern ? 'm' : 'n') + di;
+      const h = f(root);
+      if (t < 5000 && (roots.has(root.toLowerCase()) || (decorN.get(key) ?? 0) >= cap)) continue;
+      if (used.has(h.toLowerCase()) || h.length > 14 || h.length < 3) continue;
+      roots.add(root.toLowerCase()); decorN.set(key, (decorN.get(key) ?? 0) + 1); used.add(h.toLowerCase());
+      return h;
+    }
+  };
   const personas = [];
   const armourSlots = ['hat', 'coat', 'trousers', 'shoes', 'gloves', 'belt', 'wrist', 'neck', 'ring'];
   const bandFor = (lvl) => { let b = 0; BANDS.forEach((req, i) => { if (req <= lvl) b = i; }); return b; };
@@ -58,8 +86,10 @@ export function buildPersonas({ zones, dungeons, guilds, items, classes }, seed 
     let handle;
     const arch = pickW(r, ARCHETYPES);
     const home_c = pickW(r, COUNTRIES);
-    do { handle = r.chance(0.45) ? r.pick(MDECOR)(r.pick(MODERN)) : r.pick(DECOR)(r.pick(NAMES)); } while (used.has(handle.toLowerCase()) || handle.length > 14 || handle.length < 3);
-    used.add(handle.toLowerCase());
+    // the old draw still runs (and is thrown away) so every other persona field keeps its value from earlier builds
+    do { handle = r.chance(0.45) ? r.pick(MDECOR)(r.pick(MODERN)) : r.pick(DECOR)(r.pick(NAMES)); } while (oldUsed.has(handle.toLowerCase()) || handle.length > 14 || handle.length < 3);
+    oldUsed.add(handle.toLowerCase());
+    handle = makeHandle();
     const cls = classes[i % 8 === 0 ? r.int(0, 7) : CLASSES.indexOf(r.pick(CLASSES))];
     const level = levelFor(r, arch);
     const fits = zones.filter((z) => level >= z.level_min && level <= z.level_max + (z.id === 'zone_mount_lee' ? 0 : 1));

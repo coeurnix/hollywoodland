@@ -1501,10 +1501,12 @@ void AHLWorldActor::AutoTest(float Dt)
  			// second building pass: Hollywood High, the aid stations, the hive wall, a backdrop over the wall, the Egyptian walls
  			{ 229, 322, 90, 12, 44 }, { 500, 284, 90, 12, 34 }, { 608, 268, 0, 12, 34 }, { 125, 424, 90, 14, 36 },
  			{ 878, 170, 0, 14, 34 }, { 298, -92, -90, 4, 30 }, { 60, 140, 90, 18, 30, 1 }, { 60, 30, 90, 14, 26, 1 } };
-		const bool bNature = bSet && Set == TEXT("nature"), bLandmarks = bSet && Set == TEXT("landmarks");
-		const FView* Views = bNature ? Nature : bLandmarks ? Landmarks : Fronts;
+		// -HLViewSet=forecourt: the Chinese Theatre's entrance recess from the forecourt (both returns)
+		static const FView Forecourt[] = { { 96, 178, -70, 6, 9 }, { 90, 178, -110, 6, 9 }, { 93, 172, -90, 4, 6 } };
+		const bool bNature = bSet && Set == TEXT("nature"), bLandmarks = bSet && Set == TEXT("landmarks"), bFore = bSet && Set == TEXT("forecourt");
+		const FView* Views = bFore ? Forecourt : bNature ? Nature : bLandmarks ? Landmarks : Fronts;
 		if (FParse::Param(FCommandLine::Get(), TEXT("HLFilmTest")) && Game.FilmStart <= 0) { Game.FilmStart = Game.Now; Game.FilmEnd = Game.Now + 1e6; } // picture night on (views of the screen)
-		const int32 NViews = bNature ? UE_ARRAY_COUNT(Nature) : bLandmarks ? UE_ARRAY_COUNT(Landmarks) : UE_ARRAY_COUNT(Fronts);
+		const int32 NViews = bFore ? UE_ARRAY_COUNT(Forecourt) : bNature ? UE_ARRAY_COUNT(Nature) : bLandmarks ? UE_ARRAY_COUNT(Landmarks) : UE_ARRAY_COUNT(Fronts);
 		static int32 Step = -1; static double NextStep = 0;
 		AutoNextShot = 1e9;
 		P->CombatUntil = 0; P->bAutoAttack = false; P->TargetId = 0;

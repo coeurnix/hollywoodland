@@ -259,7 +259,7 @@ void FHLGame::BossScript(FHLUnit& U, float Dt)
 			int32 Hatched = 0;
 			for (FHLObjectState& O : Area.Objects)
 				if (O.bActive && O.Def->Boss == M.Id && CountAdds() < 8) { SpawnAdd(TEXT("mob_egy_broodling"), O.Def->Pos); SpawnAdd(TEXT("mob_egy_broodling"), O.Def->Pos); ++Hatched; }
-			if (Hatched) { AddChat(TEXT("emote"), FString(), TEXT("The egg clusters hatch! Break them to stop the Broodlings.")); Sound(TEXT("brood_spawn"), U); Sound(TEXT("invader_brute_aggro"), U); }
+			if (Hatched) { AddChat(TEXT("emote"), FString(), TEXT("The egg clusters hatch! Break them to stop the Broodlings.")); Notice(TEXT("The eggs are hatching! Break the clusters!"), FLinearColor(1.f, 0.55f, 0.2f)); Sound(TEXT("brood_spawn"), U); Sound(TEXT("invader_brute_aggro"), U); }
 		}
 	}
 	else if (M.Script == TEXT("hive_warden"))

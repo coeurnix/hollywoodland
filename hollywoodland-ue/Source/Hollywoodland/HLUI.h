@@ -90,6 +90,9 @@ private:
 	void DrawQuestMarkers() const;
 	void DrawTracker() const;
 	void DrawTour() const;
+	mutable TArray<FBox2D> HudReserve;
+	struct FRouteCache { FVector2D Goal = FVector2D::ZeroVector, From = FVector2D::ZeroVector, Way = FVector2D::ZeroVector; double T = -100; int32 Area = -1; };
+	mutable FRouteCache Routes[4]; // screen boxes world labels keep out of (filled by the HUD, read next frame)
 	mutable bool bTourHidden = false;
 	void DrawWindows() const;
 	void DrawCharacter() const;

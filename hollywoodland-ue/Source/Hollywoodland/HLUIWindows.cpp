@@ -441,9 +441,10 @@ void SHLGameUI::DrawWho() const
 	if (Gm.bWhoOpen && !bWho) bWho = true;
 	const FHLGuild* MyG = Gm.PlayerGuild();
 	const FString WhoTitle = WhoTab == 0 ? FString::Printf(TEXT("Who  -  %d players online"), Gm.OnlineCount()) : WhoTab == 1 ? FString::Printf(TEXT("Friends  -  %d"), Gm.Player.Friends.Num()) : WhoTab == 3 ? FString(TEXT("The Dome Herald  -  server news")) : MyG ? MyG->Name : FString(TEXT("Guild"));
-	if (!Win(TEXT("who"), WhoTitle, 640, 470, bWho, 380, 140)) { Gm.bWhoOpen = false; return; }
+	if (!Win(TEXT("who"), WhoTitle, 640, 496, bWho, 380, 140)) { Gm.bWhoOpen = false; return; }
 	const FHLData& D = FHLData::Get();
-	for (int32 t = 0; t < 4; ++t) { static const TCHAR* Tabs[] = { TEXT("Who"), TEXT("Friends"), TEXT("Guild"), TEXT("News") }; if (WhoTab == t) Rc(WX + 244 + t * 94 - 2, WY - 4, 90, 22, ColGold); if (Btn(WX + 244 + t * 94, WY - 2, 86, 18, Tabs[t], true, 9)) WhoTab = t; }
+	for (int32 t = 0; t < 4; ++t) { static const TCHAR* Tabs[] = { TEXT("Who"), TEXT("Friends"), TEXT("Guild"), TEXT("News") }; if (WhoTab == t) Rc(WX + t * 94 - 2, WY - 4, 90, 22, ColGold); if (Btn(WX + t * 94, WY - 2, 86, 18, Tabs[t], true, 9)) WhoTab = t; }
+	WY += 28; // the tabs have their own row
 	if (WhoTab == 3)
 	{
 		// the server's history as a newspaper: headline, a line of copy, how long ago
@@ -683,9 +684,8 @@ void SHLGameUI::DrawTalents() const
 void SHLGameUI::DrawMenu() const
 {
 	FHLGame& Gm = G();
-	if (!Win(TEXT("menu"), TEXT("Game Menu"), 330, 418, bMenu, (VS.X - 330) * 0.5f, 220)) return;
+	if (!Win(TEXT("menu"), TEXT("Game Menu"), 330, 462, bMenu, (VS.X - 330) * 0.5f, 200)) return;
 	if (Btn(WX, WY + 384, 300, 26, TEXT("Settings: interface, keys, sound, graphics"), true, 10)) { bSettings = true; bMenu = false; }
-	if (Btn(WX, WY, 300, 26, Gm.Player.bShowSim ? TEXT("Show simulated players: ON (tags every AI player)") : TEXT("Show simulated players: OFF"), true, 10)) Gm.Player.bShowSim = !Gm.Player.bShowSim;
 	if (Btn(WX, WY + 34, 300, 26, TEXT("Save now"), true, 10)) { Gm.SaveNow(); Gm.System(TEXT("Game saved.")); }
 	if (Btn(WX, WY + 68, 300, 26, TEXT("How to play (H)"), true, 10)) bHelp = true;
 	if (Btn(WX, WY + 102, 300, 26, TEXT("Unstuck: return to the Chinese forecourt"), true, 10)) { if (FHLUnit* U = Gm.PlayerUnit()) if (!Gm.InCombat(*U)) Gm.TeleportUnit(*U, 0, Gm.Areas[0].Def->Spawn); }
@@ -701,8 +701,13 @@ void SHLGameUI::DrawMenu() const
 		if (Btn(WX, WY + 184, 300, 26, Pct ? FString::Printf(TEXT("Sound effects: %d%%"), Pct) : FString(TEXT("Sound effects: off")), true, 10))
 			Gm.Sfx.SetVolume(Pct >= 100 ? 0.f : Pct < 25 ? 0.25f : FMath::Min(1.f, (Pct / 25 + 1) * 0.25f));
 	}
-	TxWrap(WX, WY + 220, 300, TEXT("Single-player. Every other player is simulated by AI; the server only writes their chat. Your character is saved in this browser and backed up to the server."), 9, ColDim);
+#if PLATFORM_WASM
+	TxWrap(WX, WY + 220, 300, TEXT("Your character is saved in this browser and backed up to the server."), 9, ColDim);
 	Tx(WX, WY + 272, TEXT("Cloud code (restore on another browser):"), 9, ColDim);
+#else
+	TxWrap(WX, WY + 220, 300, TEXT("Your character is saved on this device and backed up to the server."), 9, ColDim);
+	Tx(WX, WY + 272, TEXT("Cloud code (restore on another device):"), 9, ColDim);
+#endif
 	Tx(WX, WY + 288, Gm.Player.PlayerId, 12, ColGold, true);
 }
 
@@ -1276,13 +1281,8 @@ void SHLGameUI::DrawSettings() const
 		Toggle(Y0 + 36, TEXT("Names over other people and creatures"), St.bNameplates);
 		Toggle(Y0 + 66, TEXT("Floating combat numbers"), St.bFloatText);
 		Toggle(Y0 + 96, TEXT("Combat effects (projectiles always show)"), St.bEffects);
-		{
-			bool B = Gm.Player.bShowSim;
-			Toggle(Y0 + 126, TEXT("Tag every simulated player <AI>"), B);
-			Gm.Player.bShowSim = B;
-		}
-		Toggle(Y0 + 156, TEXT("Left-drag turns your character with the camera"), St.bFaceCamera);
-		Toggle(Y0 + 186, TEXT("Right-click the ground to walk there"), St.bClickMove);
+		Toggle(Y0 + 126, TEXT("Left-drag turns your character with the camera"), St.bFaceCamera);
+		Toggle(Y0 + 156, TEXT("Right-click the ground to walk there"), St.bClickMove);
 		{
 			float H = St.TextHold;
 			bDrag |= Pct(Y0 + 220, TEXT("Message time"), H, 1.f, 3.f, FMath::RoundToInt(H * 100));

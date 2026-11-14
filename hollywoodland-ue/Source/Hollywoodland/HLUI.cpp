@@ -20,6 +20,7 @@
 #include "Dom/JsonObject.h"
 #include "Serialization/JsonReader.h"
 #include "Serialization/JsonSerializer.h"
+#include "Misc/ScopeExit.h"
 
 #ifndef HL_UI_COLORS // shared by HLUI.cpp and HLUIWindows.cpp (one unity file may hold both)
 #define HL_UI_COLORS
@@ -381,14 +382,14 @@ FReply SHLGameUI::OnKeyDown(const FGeometry& Geo, const FKeyEvent& E)
 	else if (St.Is(K, EHLAct::Interact)) Interact();
 	else if (St.Is(K, EHLAct::Sit)) { if (FHLUnit* U = Gm.PlayerUnit()) U->bSitting = !U->bSitting; }
 	else if (St.Is(K, EHLAct::AutoAttack)) { if (FHLUnit* U = Gm.PlayerUnit()) { const FHLUnit* T = Gm.Unit(U->TargetId); if (T && T->Kind == EHLKind::Mob && !T->bDead) U->bAutoAttack = !U->bAutoAttack; } }
-	else if (St.Is(K, EHLAct::Character)) bChar = !bChar;
-	else if (St.Is(K, EHLAct::Bags)) bBags = !bBags;
-	else if (St.Is(K, EHLAct::Quests)) bQuests = !bQuests;
-	else if (St.Is(K, EHLAct::Spellbook)) bSpells = !bSpells;
-	else if (St.Is(K, EHLAct::Map)) bMap = !bMap;
-	else if (St.Is(K, EHLAct::Social)) { bWho = !bWho; Gm.bWhoOpen = bWho; }
-	else if (St.Is(K, EHLAct::Talents)) bTalents = !bTalents;
-	else if (St.Is(K, EHLAct::Workbench)) bCraft = !bCraft;
+	else if (St.Is(K, EHLAct::Character)) { bChar = !bChar; bMenu = false; }
+	else if (St.Is(K, EHLAct::Bags)) { bBags = !bBags; bMenu = false; }
+	else if (St.Is(K, EHLAct::Quests)) { bQuests = !bQuests; bMenu = false; }
+	else if (St.Is(K, EHLAct::Spellbook)) { bSpells = !bSpells; bMenu = false; }
+	else if (St.Is(K, EHLAct::Map)) { bMap = !bMap; bMenu = false; }
+	else if (St.Is(K, EHLAct::Social)) { bWho = !bWho; Gm.bWhoOpen = bWho; bMenu = false; }
+	else if (St.Is(K, EHLAct::Talents)) { bTalents = !bTalents; bMenu = false; }
+	else if (St.Is(K, EHLAct::Workbench)) { bCraft = !bCraft; bMenu = false; }
 	else if (St.Is(K, EHLAct::Help)) bHelp = !bHelp;
 	else if (K == EKeys::Escape)
 	{
@@ -699,12 +700,6 @@ void SHLGameUI::DrawTitle() const
 	Tx(24 + 2, 14 + 2, TEXT("HOLLYWOODLAND"), 34, FLinearColor(0, 0, 0, 0.75f), true);
 	Tx(24, 14, TEXT("HOLLYWOODLAND"), 34, ColGold, true);
 	Tx(26, 64, TEXT("Hollywood, autumn 1930. The dome is down. The studios belong to the hive."), 10, FLinearColor(1, 0.95f, 0.85f), true);
-	// the AI disclosure, always on screen
-	{
-		const float W = 420, X = 16, Y = VS.Y - 96;
-		Block(X, Y, W, 80); Panel(X, Y, W, 80, FLinearColor(0.06f, 0.05f, 0.02f, 0.9f));
-		TxWrap(X + 10, Y + 8, W - 20, TEXT("This is a single-player game. Every other \"player\" you meet (in chat, in groups, at the auction house) is simulated by AI. Nothing you type is seen by another human. They play their parts in character, so enjoy the show."), 10, FLinearColor(1, 0.9f, 0.6f));
-	}
 	if (SelSlot < 0) { SelSlot = 0; for (int32 s = 0; s < 3; ++s) if (!World->SavedSlots[s].IsEmpty()) { SelSlot = s; break; } }
 	// drag on the open scene turns the figure
 	{
@@ -907,10 +902,13 @@ void SHLGameUI::DrawWorldOverlay() const
 		FPick Pk; Pk.Area = P->Area; Pk.Obj = o; Pk.Pos = S + FVector2D(0, 24); Pk.Radius = FMath::Clamp(500.f / FMath::Max(4.f, D), 16.f, 70.f); Pk.Depth = D;
 		Picks.Add(Pk);
 	}
-	// nameplates
-	for (FHLUnit* U : Gm.UnitList)
+	// nameplates: the target first, then nearest first; a label that would overlap one already drawn (or the HUD) waits
+	TArray<FHLUnit*> Order;
+	for (FHLUnit* U : Gm.UnitList) if (U->Area == P->Area) Order.Add(U);
+	Order.Sort([&](const FHLUnit& A, const FHLUnit& B) { auto K = [&](const FHLUnit& U) { return U.Id == P->TargetId ? -1.f : (float)FVector2D::DistSquared(U.Pos, P->Pos); }; return K(A) < K(B); });
+	TArray<FBox2D> Used = HudReserve;
+	for (FHLUnit* U : Order)
 	{
-		if (U->Area != P->Area) continue;
 		const float D = FVector2D::Distance(U->Pos, P->Pos);
 		const bool bTarget = U->Id == P->TargetId;
 		if (D > 80 && !bTarget) continue;
@@ -941,6 +939,15 @@ void SHLGameUI::DrawWorldOverlay() const
 		else if (U->Kind == EHLKind::Npc) C = FLinearColor(0.4f, 1, 0.4f);
 		else { C = U->SimIdx >= 0 && Gm.Sims[U->SimIdx].bInParty ? FLinearColor(0.5f, 0.8f, 1) : FLinearColor(0.55f, 0.65f, 1); if (Gm.Player.bShowSim) Name += TEXT(" <AI>"); if (U->SimIdx >= 0 && Gm.Sims[U->SimIdx].bAfk) Name = TEXT("<AFK> ") + Name; }
 		const int32 Sz = bTarget ? 12 : D < 25 ? 11 : 9;
+		{
+			const bool bMarked = U->Kind == EHLKind::Npc && U->Npc && Gm.NpcMarker(*U->Npc) != 0;
+			const float Lw = TW(Name, Sz, bTarget) + 6;
+			const FBox2D R(FVector2D(S.X - Lw * 0.5f, S.Y - 11), FVector2D(S.X + Lw * 0.5f, S.Y + Sz * 1.5f));
+			bool bClash = false;
+			for (const FBox2D& Bx : Used) if (Bx.Intersect(R)) { bClash = true; break; }
+			if (bClash && !bTarget && !bMarked) continue;
+			Used.Add(R);
+		}
 		float Yy = S.Y;
 		TxC(S.X, Yy, Name, Sz, C, bTarget);
 		if (!U->Title.IsEmpty() && D < 30) { Yy -= Sz * 1.4f; TxC(S.X, Yy + Sz * 2.8f, U->Title, 9, FLinearColor(C.R, C.G, C.B, 0.8f)); }
@@ -958,14 +965,17 @@ void SHLGameUI::DrawWorldOverlay() const
 		}
 	}
 	// floating combat text
+	TMap<int32, int32> FloatN;
 	for (const FHLFloatText& F : Gm.Floats)
 	{
+		const int32 Nth = FloatN.FindOrAdd(F.UnitId)++;
+		if (Nth >= 5) continue; // a unit shows its five newest
 		const FHLUnit* U = Gm.Unit(F.UnitId);
 		if (!U || U->Area != P->Area || F.Text.IsEmpty() || !FHLSettings::Get().bFloatText) continue;
 		FVector2D S;
 		if (!Project(World->ToWorld(U->Area, U->Pos, 2.3f * FMath::Max(1.f, U->Scale * 0.8f) + U->Lift + F.Age * 1.2f), S)) continue;
 		const float A = FMath::Clamp(1.6f - F.Age, 0.f, 1.f);
-		TxC(S.X + (F.UnitId % 3 - 1) * 14, S.Y, F.Text, F.bCrit ? 17 : 12, FLinearColor(F.Color.R, F.Color.G, F.Color.B, A), true);
+		TxC(S.X + ((Nth + F.UnitId) % 3 - 1) * 22, S.Y - (Nth % 2) * 8, F.Text, F.bCrit ? 17 : 12, FLinearColor(F.Color.R, F.Color.G, F.Color.B, A), true);
 	}
 	// speech balloons: cream paper, dark ink, a tail down to the speaker; nearer speakers draw on top
 	{
@@ -1406,8 +1416,27 @@ void SHLGameUI::DrawQuestMarkers() const
 		}
 		else
 		{
-			// arrow on an ellipse around the screen centre, pointing the way relative to the camera
-			const FVector L = CamRot.UnrotateVector(Wp - CamLoc);
+			// arrow on an ellipse around the screen centre, pointing the way relative to the camera (along the route: a
+			// path is found once a second and the arrow aims at the farthest point of it in plain sight)
+			FVector Aim = Wp;
+			if (gi < 4 && D > 20)
+			{
+				FRouteCache& Rt = Routes[gi];
+				if (Rt.Area != P->Area || FVector2D::Distance(Rt.Goal, Goal) > 4 || Gm.Now - Rt.T > 1.0 || FVector2D::Distance(Rt.From, P->Pos) > 6)
+				{
+					const FHLNav& Nv = Gm.Areas[P->Area].Nav;
+					TArray<FVector2D> Path;
+					Rt.Way = Goal;
+					if (!Nv.LineClear(P->Pos, Goal) && Nv.FindPath(P->Pos, Goal, Path) && Path.Num() > 0)
+					{
+						Rt.Way = Path[0];
+						for (int32 k = 0; k < Path.Num() && k < 60; ++k) { if (Nv.LineClear(P->Pos, Path[k])) Rt.Way = Path[k]; else break; }
+					}
+					Rt.Goal = Goal; Rt.From = P->Pos; Rt.T = Gm.Now; Rt.Area = P->Area;
+				}
+				if (FVector2D::Distance(Rt.Way, P->Pos) > 3) Aim = World->ToWorld(P->Area, Rt.Way, 3);
+			}
+			const FVector L = CamRot.UnrotateVector(Aim - CamLoc);
 			const float Ang = FMath::Atan2(L.Y, L.X); // 0 = straight ahead, + = right
 			const FVector2D Dir(FMath::Sin(Ang), -FMath::Cos(Ang));
 			const FVector2D Ctr(VS.X * 0.5f, VS.Y * 0.45f);
@@ -1423,6 +1452,8 @@ void SHLGameUI::DrawQuestMarkers() const
 void SHLGameUI::DrawMinimap() const
 {
 	FHLGame& Gm = G();
+	HudReserve.Reset();
+	HudReserve.Add(FBox2D(FVector2D(VS.X - 236, 0), FVector2D(VS.X, 236)));
 	const FHLUnit* P = Gm.PlayerUnit();
 	const FHLAreaState& Area = Gm.Areas[P->Area];
 	const float S = 170, X = VS.X - S - 16, Y = 16, Range = 80, K = S / (Range * 2);
@@ -1480,6 +1511,13 @@ void SHLGameUI::DrawMinimap() const
 		Tx(X + 6, Y + S - 17, M, 9, ColGold, true);
 	}
 	Tx(X + 4, Y + 2, TEXT("N"), 9, ColDim);
+	Rc(X + S - 15, Y + 2, 13, 13, FLinearColor(0, 0, 0, 0.6f));
+	TxC(X + S - 8.5f, Y + 2, TEXT("?"), 9, ColGold, true);
+	if (Hover(X + S - 16, Y + 1, 15, 15))
+	{
+		TipText = TEXT("Minimap\nWhite arrow: you\nGold dot: a quest to take or hand in\nGreen dot: a townsperson\nBlue dot: another player (cyan: your party)\nRed dot: an enemy nearby\nGold diamond: where your quest goal is\nBlue square: your map marker");
+		TipPos = Mouse;
+	}
 }
 
 // Opening Night: a card at the top of the screen for the reel in progress, and a pulsing frame round the part of the
@@ -1575,6 +1613,7 @@ void SHLGameUI::DrawTour() const
 	const float TextH = Wrapped.Num() * 10 * 1.55f;
 	const float H = 46 + TextH + 8;
 	Block(X, Y, W, H);
+	HudReserve.Add(FBox2D(FVector2D(X, Y), FVector2D(X + W, Y + H)));
 	Panel(X, Y, W, H, FLinearColor(0.06f, 0.05f, 0.04f, 0.96f), FLinearColor(0.85f, 0.66f, 0.3f));
 	++Layer; LastKind = 1;
 	Tx(X + 12, Y + 7, FString::Printf(TEXT("OPENING NIGHT   Reel %d of 9"), Q.Tour), 9, FLinearColor(0.9f, 0.3f, 0.2f), true);
@@ -1611,6 +1650,7 @@ void SHLGameUI::DrawTracker() const
 {
 	FHLGame& Gm = G();
 	float X = VS.X - 250, Y = 222;
+	ON_SCOPE_EXIT { if (Y > 224) HudReserve.Add(FBox2D(FVector2D(X - 8, 214), FVector2D(VS.X, Y + 4))); };
 	auto Clock = [](double S) { const int32 T = FMath::Max(0, (int32)S); return FString::Printf(TEXT("%d:%02d"), T / 60, T % 60); };
 	if (Gm.SurgeHub >= 0 && Gm.Hubs.IsValidIndex(Gm.SurgeHub))
 	{
@@ -1649,7 +1689,7 @@ void SHLGameUI::DrawTracker() const
 	}
 	if (!Gm.Player.Quests.Num())
 	{
-		if (Gm.PlayerUnit()->Level <= 2 && Gm.Player.Done.Num() == 0) { Tx(X, Y, TEXT("Speak to Sid Grauman (the gold ! nearby)."), 10, ColGold); Tx(X, Y + 16, TEXT("Right-click him, or stand close and press F."), 10, ColDim); }
+		if (Gm.PlayerUnit()->Level <= 2 && Gm.Player.Done.Num() == 0 && bTourHidden) { Tx(X, Y, TEXT("Speak to Sid Grauman (the gold !)."), 10, ColGold); Tx(X, Y + 16, TEXT("Right-click him, or stand close"), 10, ColDim); Tx(X, Y + 32, TEXT("and press F."), 10, ColDim); }
 		return;
 	}
 	for (const FHLQuestState& QS : Gm.Player.Quests)
@@ -1857,18 +1897,26 @@ void SHLGameUI::DrawPopups() const
 	}
 	if (bHelp)
 	{
-		const float W = 430, H = 250, X = VS.X - W - 16, Y = VS.Y - H - 84;
+		auto K = [](EHLAct A) { return FHLSettings::Get().KeyName(A); };
+		const TPair<FString, FString> Rows[] = {
+			{ K(EHLAct::Forward) + TEXT(" ") + K(EHLAct::TurnLeft) + TEXT(" ") + K(EHLAct::Back) + TEXT(" ") + K(EHLAct::TurnRight), TEXT("Move (right-drag to steer)") },
+			{ K(EHLAct::Jump), TEXT("Jump") },
+			{ K(EHLAct::Target) + TEXT(" / left-click"), TEXT("Pick a target") },
+			{ TEXT("Right-click / ") + K(EHLAct::Interact), TEXT("Attack, talk, loot, use") },
+			{ K(EHLAct::Bar1) + TEXT(" - ") + K(EHLAct::Bar12), TEXT("Abilities on the action bar") },
+			{ K(EHLAct::Sit), TEXT("Sit (eat and drink to recover)") },
+			{ K(EHLAct::Bags) + TEXT("  ") + K(EHLAct::Character) + TEXT("  ") + K(EHLAct::Quests), TEXT("Bags, character, quest log") },
+			{ K(EHLAct::Spellbook) + TEXT("  ") + K(EHLAct::Talents) + TEXT("  ") + K(EHLAct::Map), TEXT("Abilities, talents, map") },
+			{ K(EHLAct::Social) + TEXT("  ") + K(EHLAct::Workbench), TEXT("Who's online, workbench") },
+			{ TEXT("Enter"), TEXT("Chat (click a name to whisper)") },
+			{ TEXT("Gold !  /  gold ?"), TEXT("A quest to take / to hand in") },
+		};
+		const float W = 360, H = 40 + UE_ARRAY_COUNT(Rows) * 17 + 8, X = VS.X - W - 16, Y = VS.Y - H - 84;
 		Block(X, Y, W, H); Panel(X, Y, W, H);
 		Tx(X + 10, Y + 8, TEXT("How to play"), 13, ColGold, true);
-		TxWrap(X + 10, Y + 32, W - 20,
-			TEXT("Move: W A S D (Q/E strafe). Hold the right mouse button and drag to turn; left-drag looks around; wheel zooms. Space jumps.\n")
-			TEXT("Fight: Tab or left-click selects a target; right-click it (or press 1) to attack; number keys use abilities.\n")
-			TEXT("Interact: right-click people, corpses and objects, or stand close and press F. Gold ! means a quest, gold ? means hand it in.\n")
-			TEXT("Rest: use food from your bags (B), or press X to sit. Train new abilities every 2 levels at your class trainer.\n")
-			TEXT("People: Enter to chat, click a name to whisper, target someone and Invite them. /who lists everyone online.\n")
-			TEXT("Professions: Salvaging from Ike Brandt at Vine, Gunsmithing from Earl Tanner at Highland. K opens your workbench.\n")
-			TEXT("Press H to hide or show this panel."), 10, ColWhite);
-		if (Btn(X + W - 80, Y + 6, 70, 20, TEXT("Hide (H)"), true, 9)) bHelp = false;
+		float Ry = Y + 34;
+		for (const auto& R : Rows) { Tx(X + 12, Ry, R.Key, 10, ColGold); Tx(X + 140, Ry, R.Value, 10, ColWhite); Ry += 17; }
+		if (Btn(X + W - 80, Y + 6, 70, 20, TEXT("Hide (") + K(EHLAct::Help) + TEXT(")"), true, 9)) bHelp = false;
 	}
 }
 

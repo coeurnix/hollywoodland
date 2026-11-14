@@ -181,6 +181,7 @@ struct FHLPlayer
 	double SicknessUntil = 0; // resurrection sickness (-25% attributes)
 	TArray<FHLMail> Mail;
 		TArray<FString> Friends; // persona ids
+		TMap<FString, int32> SimLevels; // persona id -> level reached past the persona's start (saved; InitSims applies it)
 		FString Guild; // guild id, empty when unguilded
 		int32 GuildDeclines = 0;
 		int32 BankBoxes = 0; float Rested = 0; bool bInnHome = false; int64 SavedAt = 0;

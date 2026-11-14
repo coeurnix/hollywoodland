@@ -91,7 +91,7 @@ void FHLGame::InitSims()
 	for (int32 i = 0; i < Sims.Num(); ++i)
 	{
 		FHLSim& S = Sims[i];
-		S.P = &D.Personas[i]; S.Level = S.P->Level; S.Zone = S.P->HomeZone; S.bOnline = Chance(0.86f); S.Gear = S.P->Equipped;
+		S.P = &D.Personas[i]; S.Level = FMath::Max(S.P->Level, Player.SimLevels.FindRef(S.P->Id)); S.Zone = S.P->HomeZone; S.bOnline = Chance(0.86f); S.Gear = S.P->Equipped;
 		S.Xp = Rand() * XpToNext(S.Level) * 0.8f;
 	}
 	for (int32 i = 0; i < Sims.Num(); ++i)

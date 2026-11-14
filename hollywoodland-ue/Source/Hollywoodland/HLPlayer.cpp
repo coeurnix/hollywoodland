@@ -107,6 +107,13 @@ FString FHLGame::SaveJson() const
 	TSharedRef<FJsonObject> Rep = MakeShared<FJsonObject>();
 	for (const auto& KV : Player.Rep) Rep->SetNumberField(KV.Key, KV.Value);
 	O->SetObjectField(TEXT("rep"), Rep);
+	{
+		TMap<FString, int32> Lv = Player.SimLevels;
+		for (const FHLSim& Sm : Sims) if (Sm.P && Sm.Level > Sm.P->Level) Lv.Add(Sm.P->Id, Sm.Level);
+		TSharedRef<FJsonObject> Sl = MakeShared<FJsonObject>();
+		for (const auto& KV : Lv) Sl->SetNumberField(KV.Key, KV.Value);
+		O->SetObjectField(TEXT("sim_levels"), Sl);
+	}
 	TSharedRef<FJsonObject> Rel = MakeShared<FJsonObject>();
 	for (const auto& KV : Player.Relations)
 	{
@@ -190,7 +197,7 @@ bool FHLGame::LoadJson(const FString& Json)
 	if (O->TryGetNumberField(TEXT("played"), Num)) Player.PlayedS = Num;
 	if (O->TryGetNumberField(TEXT("deaths"), Num)) Player.Deaths = Num;
 	if (O->TryGetNumberField(TEXT("kills"), Num)) Player.Kills = Num;
-	O->TryGetBoolField(TEXT("show_sim"), Player.bShowSim);
+	Player.bShowSim = false; // (the old tag option is gone)
 	if (O->TryGetNumberField(TEXT("respecs"), Num)) Player.Respecs = Num;
 	if (O->TryGetNumberField(TEXT("bonus_talents"), Num)) Player.BonusTalents = FMath::Clamp((int32)Num, 0, 3);
 	const TSharedPtr<FJsonObject>* Dur = nullptr;
@@ -244,6 +251,8 @@ bool FHLGame::LoadJson(const FString& Json)
 		Player.Quests.Add(QS);
 	}
 	if (O->TryGetObjectField(TEXT("rep"), Sub)) for (auto& KV : (*Sub)->Values) Player.Rep.Add(FString(KV.Key), (int32)KV.Value->AsNumber());
+	Player.SimLevels.Reset();
+	if (O->TryGetObjectField(TEXT("sim_levels"), Sub)) for (auto& KV : (*Sub)->Values) Player.SimLevels.Add(FString(KV.Key), FMath::Clamp((int32)KV.Value->AsNumber(), 1, 60));
 	if (O->TryGetObjectField(TEXT("relations"), Sub)) for (auto& KV : (*Sub)->Values)
 	{
 		const TSharedPtr<FJsonObject> E = KV.Value->AsObject();
