@@ -5,6 +5,7 @@
 // an object may carry `prop` (drawn instead of its primitive), and `props` lists free-standing dressing (no collision).
 import { PROPS as PROPS_TABLE, placement, footprint, fitBox, rng } from './props.mjs';
 import { kitFront, roofProps, landmark, signCard } from './facades.mjs';
+import { propCols } from './collide.mjs';
 const C = { road: [0.13, 0.13, 0.14], walk: [0.3, 0.29, 0.27], lot: [0.34, 0.31, 0.24], hill: [0.36, 0.34, 0.22], shop: [0.48, 0.44, 0.38], shop2: [0.42, 0.4, 0.42],
   landmark: [0.72, 0.62, 0.42], hive: [0.22, 0.12, 0.26], civic: [0.6, 0.6, 0.62], wreck: [0.2, 0.22, 0.25], interior: [0.25, 0.2, 0.18], seat: [0.4, 0.1, 0.1] };
 
@@ -357,7 +358,7 @@ for (const [x, y, id] of [[226, 372, 'hive_goo'], [300, 364, 'hive_goo'], [140, 
 
 const zone = {
   id: 'zone_hollywood_blvd', name: 'Hollywood Boulevard', min: [OX0 - 10, OY0 - 10], size: [OX1 - OX0 + 20, OY1 - OY0 + 20], cell: 2, offset: [0, 0], sky: [0.42, 0.32, 0.38], floor: C.lot, floor_kind: 'Lot',
-  boxes: boxes.splice(0), ground: ground.splice(0), props: props.splice(0), subzones, npcs: npcs.splice(0), camps: camps.splice(0), objects: objects.splice(0),
+  boxes: boxes.splice(0), ground: ground.splice(0), cols: propCols(props), props: props.splice(0), subzones, npcs: npcs.splice(0), camps: camps.splice(0), objects: objects.splice(0),
   spawn: [92, 184], aid: [{ name: 'Hollywood Receiving Hospital', x: 500, y: 322 }, { name: 'Fire Station No. 27', x: 636, y: 284 }, { name: 'Blessed Sacrament Church', x: 125, y: 436 }],
   portals: [{ id: 'portal_egyptian', x: 475, y: 238, r: 3, to_area: 'dng_egyptian', to: [60, 8], label: 'The Egyptian Theatre (Dungeon, 8-12)' }],
   pois: { bank: [330, 191], auction: [776, 208], mailbox: [354, 190], redcar: [284, 198], trainers: [92, 184], inn: [96, 210], vendor: [372, 190], police: [530, 276], forecourt: [92, 188], vine: [756, 200] },
@@ -402,7 +403,7 @@ const dungeon = {
   boxes: boxes.splice(0), ground: [{ x: 54, y: 0, w: 12, d: 256, color: [0.45, 0.12, 0.12], kind: 'Theatre' }], subzones: [
     { name: 'Forecourt', x: 20, y: 0, w: 80, d: 42 }, { name: 'Lobby', x: 20, y: 46, w: 80, d: 40 }, { name: 'Auditorium', x: 20, y: 90, w: 80, d: 80 },
     { name: 'Projection Booth', x: 20, y: 174, w: 80, d: 30 }, { name: 'Stage', x: 20, y: 208, w: 80, d: 48 }],
-  props: props.splice(0), npcs: [], camps: camps.splice(0), objects: objects.splice(0), spawn: [60, 8], aid: [],
+  cols: propCols(props), props: props.splice(0), npcs: [], camps: camps.splice(0), objects: objects.splice(0), spawn: [60, 8], aid: [],
   portals: [{ id: 'portal_egyptian_exit', x: 60, y: 2.5, r: 2.5, to_area: 'zone_hollywood_blvd', to: [475, 226], label: 'Exit to Hollywood Boulevard' }],
   pois: {}, exits: [], idle_spots: [],
 };

@@ -315,9 +315,17 @@ FReply SHLGameUI::OnKeyDown(const FGeometry& Geo, const FKeyEvent& E)
 		return FReply::Handled();
 	}
 	if (E.IsRepeat()) return FReply::Handled();
+	FHLSettings& St = FHLSettings::Get();
+	// settings window waiting for a key to bind: this key is the answer (Esc cancels, Backspace clears)
+	if (BindWait >= 0)
+	{
+		if (K == EKeys::BackSpace) St.Bind((EHLAct)BindWait, EKeys::Invalid, bBindAlt);
+		else if (K != EKeys::Escape && K != EKeys::Enter && K != EKeys::Slash) St.Bind((EHLAct)BindWait, K, bBindAlt);
+		BindWait = -1;
+		return FReply::Handled();
+	}
 	Down.Add(K);
-	static const FKey BarKeys[12] = { EKeys::One, EKeys::Two, EKeys::Three, EKeys::Four, EKeys::Five, EKeys::Six, EKeys::Seven, EKeys::Eight, EKeys::Nine, EKeys::Zero, EKeys::Hyphen, EKeys::Equals };
-	for (int32 i = 0; i < 12; ++i) if (K == BarKeys[i]) { Gm.UseBar(i); return FReply::Handled(); }
+	for (int32 i = 0; i < 12; ++i) if (St.Is(K, EHLAct((int32)EHLAct::Bar1 + i))) { Gm.UseBar(i); return FReply::Handled(); }
 	if (bSearchFocus)
 	{
 		if (K == EKeys::BackSpace && AuctionSearch.Len()) AuctionSearch.LeftChopInline(1);
@@ -326,25 +334,25 @@ FReply SHLGameUI::OnKeyDown(const FGeometry& Geo, const FKeyEvent& E)
 	}
 	if (K == EKeys::Enter) { bTyping = true; Down.Reset(); }
 	else if (K == EKeys::Slash) { bTyping = true; ChatEntry.Reset(); Down.Reset(); }
-	else if (K == EKeys::R && !Gm.LastWhisperFrom.IsEmpty()) { bTyping = true; bSwallowChar = true; ChatEntry = FString::Printf(TEXT("/w %s "), *Gm.LastWhisperFrom); Down.Reset(); }
-	else if (K == EKeys::Tab) Gm.TabTarget();
-	else if (K == EKeys::SpaceBar) Gm.Input.bJump = true;
-	else if (K == EKeys::F) Interact();
-	else if (K == EKeys::X) { if (FHLUnit* U = Gm.PlayerUnit()) U->bSitting = !U->bSitting; }
-	else if (K == EKeys::T) { if (FHLUnit* U = Gm.PlayerUnit()) { const FHLUnit* T = Gm.Unit(U->TargetId); if (T && T->Kind == EHLKind::Mob && !T->bDead) U->bAutoAttack = !U->bAutoAttack; } }
-	else if (K == EKeys::C) bChar = !bChar;
-	else if (K == EKeys::B) bBags = !bBags;
-	else if (K == EKeys::L) bQuests = !bQuests;
-	else if (K == EKeys::P) bSpells = !bSpells;
-	else if (K == EKeys::M) bMap = !bMap;
-	else if (K == EKeys::O) { bWho = !bWho; Gm.bWhoOpen = bWho; }
-	else if (K == EKeys::N) bTalents = !bTalents;
-	else if (K == EKeys::K) bCraft = !bCraft;
-	else if (K == EKeys::H) bHelp = !bHelp;
+	else if (St.Is(K, EHLAct::Reply) && !Gm.LastWhisperFrom.IsEmpty()) { bTyping = true; bSwallowChar = true; ChatEntry = FString::Printf(TEXT("/w %s "), *Gm.LastWhisperFrom); Down.Reset(); }
+	else if (St.Is(K, EHLAct::Target)) Gm.TabTarget();
+	else if (St.Is(K, EHLAct::Jump)) Gm.Input.bJump = true;
+	else if (St.Is(K, EHLAct::Interact)) Interact();
+	else if (St.Is(K, EHLAct::Sit)) { if (FHLUnit* U = Gm.PlayerUnit()) U->bSitting = !U->bSitting; }
+	else if (St.Is(K, EHLAct::AutoAttack)) { if (FHLUnit* U = Gm.PlayerUnit()) { const FHLUnit* T = Gm.Unit(U->TargetId); if (T && T->Kind == EHLKind::Mob && !T->bDead) U->bAutoAttack = !U->bAutoAttack; } }
+	else if (St.Is(K, EHLAct::Character)) bChar = !bChar;
+	else if (St.Is(K, EHLAct::Bags)) bBags = !bBags;
+	else if (St.Is(K, EHLAct::Quests)) bQuests = !bQuests;
+	else if (St.Is(K, EHLAct::Spellbook)) bSpells = !bSpells;
+	else if (St.Is(K, EHLAct::Map)) bMap = !bMap;
+	else if (St.Is(K, EHLAct::Social)) { bWho = !bWho; Gm.bWhoOpen = bWho; }
+	else if (St.Is(K, EHLAct::Talents)) bTalents = !bTalents;
+	else if (St.Is(K, EHLAct::Workbench)) bCraft = !bCraft;
+	else if (St.Is(K, EHLAct::Help)) bHelp = !bHelp;
 	else if (K == EKeys::Escape)
 	{
 		if (Gm.OpenNpcUnitId || !Gm.OpenNpcMode.IsEmpty()) { Gm.OpenNpcUnitId = 0; Gm.OpenNpcMode.Reset(); }
-		else if (bChar || bBags || bQuests || bSpells || bMap || bWho || bInspect || bTalents || bHelp || bCraft) { bChar = bBags = bQuests = bSpells = bMap = bWho = bInspect = bTalents = bHelp = bCraft = false; Gm.bWhoOpen = false; }
+		else if (bChar || bBags || bQuests || bSpells || bMap || bWho || bInspect || bTalents || bHelp || bCraft || bSettings) { bChar = bBags = bQuests = bSpells = bMap = bWho = bInspect = bTalents = bHelp = bCraft = bSettings = false; Gm.bWhoOpen = false; }
 		else if (Gm.PlayerUnit() && Gm.PlayerUnit()->TargetId) Gm.TargetUnit(0);
 		else bMenu = !bMenu;
 	}
@@ -416,11 +424,12 @@ void SHLGameUI::PreTick(float Dt)
 	const bool bJump = In.bJump;
 	In = FHLInput(); In.bJump = bJump;
 	if (!Gm.bInWorld || bTyping) return;
-	auto K = [&](const FKey& Key) { return Down.Contains(Key) ? 1.f : 0.f; };
+	const FHLSettings& St = FHLSettings::Get();
+	auto K = [&](EHLAct A) { return St.Held(Down, A) ? 1.f : 0.f; };
 	const bool bSteer = bRDown && bDragging;
-	In.Forward = FMath::Clamp(K(EKeys::W) + K(EKeys::Up) + ((bLDown && bRDown && bDragging) ? 1.f : 0.f), 0.f, 1.f) - FMath::Max(K(EKeys::S), K(EKeys::Down));
-	In.Strafe = K(EKeys::E) - K(EKeys::Q);
-	const float AD = FMath::Max(K(EKeys::D), K(EKeys::Right)) - FMath::Max(K(EKeys::A), K(EKeys::Left));
+	In.Forward = FMath::Clamp(K(EHLAct::Forward) + ((bLDown && bRDown && bDragging) ? 1.f : 0.f), 0.f, 1.f) - K(EHLAct::Back);
+	In.Strafe = K(EHLAct::StrafeRight) - K(EHLAct::StrafeLeft);
+	const float AD = K(EHLAct::TurnRight) - K(EHLAct::TurnLeft);
 	if (bSteer) In.Strafe += AD; else In.Turn = AD;
 	In.bMouseSteer = bSteer; In.CamYaw = World->CamYaw;
 	if (!bSteer && In.Turn != 0) World->CamYaw += In.Turn * 200.f * Dt;
@@ -469,6 +478,7 @@ int32 SHLGameUI::OnPaint(const FPaintArgs& Args, const FGeometry& Geo, const FSl
 		if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenAuction"))) for (const FHLUnit* N : Gm.UnitList) if (N->Npc && N->Npc->HasRole(TEXT("auctioneer"))) { Gm.OpenNpcUnitId = N->Id; Gm.OpenNpcMode = TEXT("auction"); AuctionSearch = TEXT("boots"); break; }
 		if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenWorldMap"))) { bMap = true; bWorldMap = true; }
 		if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenChar"))) bChar = true;
+		{ int32 Tab = -1; if (FParse::Value(FCommandLine::Get(), TEXT("HLOpenSettings="), Tab)) { bSettings = true; SettingsTab = FMath::Clamp(Tab, 0, 3); bHelp = false; } }
 		if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenMap"))) { bMap = true; if (const FVector2D* B = Gm.Areas[0].Def->Pois.Find(TEXT("bank"))) Gm.SetMark(0, *B, TEXT("First National Bank")); }
 		if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenGuard"))) for (const FHLUnit* N : Gm.UnitList) if (N->Npc && N->Npc->HasRole(TEXT("guard"))) { Gm.OpenNpcUnitId = N->Id; Gm.OpenNpcMode = TEXT("gossip"); break; } } } // screenshot checks
 	if (!Gm.Areas.Num()) { Tx(40, 40, TEXT("Hollywoodland failed to load its data: ") + World->LoadError, 14, ColRed); return Layer; }
@@ -717,6 +727,7 @@ void SHLGameUI::DrawWorldOverlay() const
 		if (U->Id == Gm.PlayerUnitId) continue;
 		if (U->bDead) { if (U->Kind == EHLKind::Mob && U->bLootable && U->TappedBy == Gm.PlayerUnitId && D < 40) TxC(S.X, S.Y, TEXT("* loot *"), 10, ColGold); continue; }
 		if (D > 55 && !bTarget && U->Kind != EHLKind::Npc) continue;
+		if (!FHLSettings::Get().bNameplates && !bTarget && U->Kind != EHLKind::Npc) continue;
 		FLinearColor C = ColWhite; FString Name = U->Name;
 		if (U->Kind == EHLKind::Mob)
 		{
@@ -749,6 +760,7 @@ void SHLGameUI::DrawWorldOverlay() const
 		if (!U || U->Area != P->Area || F.Text.IsEmpty()) continue;
 		FVector2D S;
 		const bool bSpeech = F.Text.Len() > 14 && !F.Text.StartsWith(TEXT("+"));
+		if (!bSpeech && !FHLSettings::Get().bFloatText) continue;
 		if (!Project(World->ToWorld(U->Area, U->Pos, 2.3f * FMath::Max(1.f, U->Scale * 0.8f) + (bSpeech ? 0.6f : F.Age * 1.2f)), S)) continue;
 		const float A = FMath::Clamp(1.6f - F.Age, 0.f, 1.f);
 		if (bSpeech) { const float Wd = TW(F.Text, 10) + 12; Rc(S.X - Wd * 0.5f, S.Y - 4, Wd, 20, FLinearColor(0, 0, 0, 0.55f * A)); TxC(S.X, S.Y - 2, F.Text, 10, FLinearColor(1, 1, 1, A)); }
@@ -923,7 +935,7 @@ void SHLGameUI::DrawHud() const
 	}
 	// micro menu
 	{
-		static const TCHAR* Lbl[] = { TEXT("Char (C)"), TEXT("Bags (B)"), TEXT("Quests (L)"), TEXT("Skills (P)"), TEXT("Map (M)"), TEXT("Who (O)"), TEXT("Talent (N)"), TEXT("Menu") };
+		static const TCHAR* Lbl[] = { TEXT("Character"), TEXT("Bags"), TEXT("Quests"), TEXT("Abilities"), TEXT("Map"), TEXT("Who"), TEXT("Talents"), TEXT("Menu") };
 		bool* Flags[] = { &bChar, &bBags, &bQuests, &bSpells, &bMap, &bWho, &bTalents, &bMenu };
 		// one framed strip of adjacent bevelled buttons (classic micro menu): 8 x 38 px, 6 px frame
 		const float Bsz = 36, Gap = 2, Pad = 5, Mw = 8 * Bsz + 7 * Gap + Pad * 2, Mh = Bsz + Pad * 2;
@@ -949,11 +961,12 @@ void SHLGameUI::DrawHud() const
 			if (bOn) { ++Layer; LastKind = 1; Rc(X + 3, Y + 3, Bsz - 6, 1, FLinearColor(1, 0.8f, 0.35f, 0.9f)); Rc(X + 3, Y + Bsz - 4, Bsz - 6, 1, FLinearColor(1, 0.8f, 0.35f, 0.9f)); }
 			// the key that opens it, in the bottom-right corner like an action-bar keybind
 			{
-				static const TCHAR* Keys[] = { TEXT("C"), TEXT("B"), TEXT("L"), TEXT("P"), TEXT("M"), TEXT("O"), TEXT("N"), TEXT("Esc") };
-				const float KW = TW(Keys[i], 8, true);
+				static const EHLAct Acts[] = { EHLAct::Character, EHLAct::Bags, EHLAct::Quests, EHLAct::Spellbook, EHLAct::Map, EHLAct::Social, EHLAct::Talents, EHLAct::Count };
+				const FString KeyL = Acts[i] == EHLAct::Count ? FString(TEXT("Esc")) : FHLSettings::Get().KeyName(Acts[i]);
+				const float KW = TW(KeyL, 8, true);
 				++Layer; LastKind = 1;
 				Rc(X + Bsz - KW - 6 + O, Y + Bsz - 14 + O, KW + 4, 11, FLinearColor(0, 0, 0, 0.6f));
-				Tx(X + Bsz - KW - 4 + O, Y + Bsz - 15 + O, Keys[i], 8, FLinearColor(1, 0.92f, 0.7f), true);
+				Tx(X + Bsz - KW - 4 + O, Y + Bsz - 15 + O, KeyL, 8, FLinearColor(1, 0.92f, 0.7f), true);
 			}
 			if (bH) { TipText = Lbl[i]; TipPos = Mouse; if (bLClick) { bLClick = false; *Flags[i] = !*Flags[i]; if (i == 5) Gm.bWhoOpen = bWho; } }
 		}

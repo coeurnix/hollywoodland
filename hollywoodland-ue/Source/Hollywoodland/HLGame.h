@@ -48,6 +48,7 @@ struct FHLNav
 	int32 BW = 0, BH = 0;
 	static constexpr float BucketSize = 16.f;
 	template <typename F> void ForRects(float X0, float Y0, float X1, float Y1, F&& Fn) const;
+	void AddRect(float X0, float Y0, float X1, float Y1, float Hgt);
 private:
 	mutable TArray<uint32> RectStamp;
 	mutable uint32 RectCur = 0;

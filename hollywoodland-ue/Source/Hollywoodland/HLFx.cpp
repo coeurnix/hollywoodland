@@ -8,6 +8,7 @@
 #include "Engine/StaticMesh.h"
 #include "Engine/World.h"
 #include "Materials/MaterialInstanceDynamic.h"
+#include "HLSettings.h"
 
 static const float M = 100.f;
 
@@ -45,6 +46,7 @@ void AHLWorldActor::FxPiece(UStaticMesh* Mesh, const FVector& Loc, const FRotato
 		NC->SetMobility(EComponentMobility::Movable);
 		NC->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		NC->SetCastShadow(false);
+		NC->ComponentTags.Add(TEXT("NoShadow"));
 		NC->SetUsingAbsoluteLocation(true); NC->SetUsingAbsoluteRotation(true); NC->SetUsingAbsoluteScale(true);
 		NC->SetupAttachment(FxActor->GetRootComponent());
 		NC->RegisterComponent();
@@ -201,8 +203,8 @@ void AHLWorldActor::TickFx(float Dt)
 	}
 	FxLive.Append(Born);
 
-	// 3. lasting states on the units in view
-	if (P)
+	// 3. lasting states on the units in view (the effects setting turns these off; projectiles and bursts stay)
+	if (P && FHLSettings::Get().bEffects)
 	{
 		for (const FHLUnit* U : Game.UnitList)
 		{

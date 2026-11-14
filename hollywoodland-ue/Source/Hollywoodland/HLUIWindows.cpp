@@ -19,8 +19,9 @@ void SHLGameUI::DrawWindows() const
 	DrawInspect();
 	DrawTalents();
 	DrawCraft();
-	DrawMenu();
-}
+		DrawMenu();
+		DrawSettings();
+	}
 
 void SHLGameUI::DrawCharacter() const
 {
@@ -664,7 +665,8 @@ void SHLGameUI::DrawTalents() const
 void SHLGameUI::DrawMenu() const
 {
 	FHLGame& Gm = G();
-	if (!Win(TEXT("menu"), TEXT("Game Menu"), 330, 384, bMenu, (VS.X - 330) * 0.5f, 240)) return;
+	if (!Win(TEXT("menu"), TEXT("Game Menu"), 330, 418, bMenu, (VS.X - 330) * 0.5f, 220)) return;
+	if (Btn(WX, WY + 384, 300, 26, TEXT("Settings: interface, keys, sound, graphics"), true, 10)) { bSettings = true; bMenu = false; }
 	if (Btn(WX, WY, 300, 26, Gm.Player.bShowSim ? TEXT("Show simulated players: ON (tags every AI player)") : TEXT("Show simulated players: OFF"), true, 10)) Gm.Player.bShowSim = !Gm.Player.bShowSim;
 	if (Btn(WX, WY + 34, 300, 26, TEXT("Save now"), true, 10)) { Gm.SaveNow(); Gm.System(TEXT("Game saved.")); }
 	if (Btn(WX, WY + 68, 300, 26, TEXT("How to play (H)"), true, 10)) bHelp = true;
@@ -1114,4 +1116,121 @@ void SHLGameUI::DrawMail() const
 	if (M.Cents > 0) { Tx(Rx, Y, FString::Printf(TEXT("Enclosed: %s"), *HLMoney(M.Cents)), 11, ColGreen); Y += 22; }
 	if ((M.Item || M.Cents > 0) && Btn(Rx, WY + 340, 150, 26, M.Cod > 0 && M.Item ? FString::Printf(TEXT("Pay %s"), *HLMoney(M.Cod)) : FString(TEXT("Take")), true, 11)) Gm.TakeMail(SelMail);
 	if (Btn(Rx + 170, WY + 340, 150, 26, M.Cod > 0 && M.Item ? TEXT("Return to sender") : TEXT("Delete"), !(M.Cod == 0 && (M.Item || M.Cents > 0)), 11)) Gm.DeleteMail(SelMail);
+}
+
+// ------------------------------------------------------------------------------------------------------------ settings
+bool SHLGameUI::Slider(float X, float Y, float W, float& V, float Lo, float Hi) const
+{
+	const int32 Id = FMath::RoundToInt(X) * 4096 + FMath::RoundToInt(Y);
+	const bool bHot = Hover(X - 6, Y - 6, W + 12, 20);
+	if (bHot && bLDown && SliderDrag < 0) SliderDrag = Id;
+	const bool bDrag = SliderDrag == Id && bLDown;
+	if (SliderDrag == Id && !bLDown) SliderDrag = -1;
+	if (bDrag) { V = FMath::Lerp(Lo, Hi, FMath::Clamp((Mouse.X - X) / W, 0.f, 1.f)); bLClick = false; }
+	const float A = FMath::Clamp((V - Lo) / (Hi - Lo), 0.f, 1.f);
+	Rc(X, Y + 3, W, 4, FLinearColor(0.12f, 0.1f, 0.08f));
+	++Layer; LastKind = 1;
+	Rc(X, Y + 3, W * A, 4, FLinearColor(0.75f, 0.58f, 0.25f));
+	++Layer; LastKind = 1;
+	Rc(X + W * A - 5, Y - 2, 10, 14, bHot || bDrag ? FLinearColor(1, 0.86f, 0.5f) : FLinearColor(0.8f, 0.65f, 0.35f));
+	return bDrag;
+}
+
+void SHLGameUI::DrawSettings() const
+{
+	FHLGame& Gm = G();
+	FHLSettings& St = FHLSettings::Get();
+	if (!Win(TEXT("settings"), TEXT("Settings"), 560, 470, bSettings, (VS.X - 560) * 0.5f, 170)) { BindWait = -1; return; }
+	static const TCHAR* Tabs[] = { TEXT("Interface"), TEXT("Key bindings"), TEXT("Sound"), TEXT("Graphics") };
+	for (int32 i = 0; i < 4; ++i)
+	{
+		const float X = WX + i * 134;
+		if (SettingsTab == i) { Rc(X - 2, WY - 2, 132, 28, FLinearColor(0.95f, 0.78f, 0.38f)); ++Layer; LastKind = 1; }
+		if (Btn(X, WY, 128, 24, Tabs[i], true, 10)) { SettingsTab = i; BindWait = -1; }
+	}
+	const float Y0 = WY + 40;
+	auto Toggle = [&](float Y, const TCHAR* Label, bool& B) { Tx(WX, Y + 4, Label, 10, ColWhite); if (Btn(WX + 400, Y, 120, 22, B ? TEXT("On") : TEXT("Off"), true, 10)) { B = !B; St.Changed(); } };
+	auto Pct = [&](float Y, const TCHAR* Label, float& V, float Lo, float Hi, int32 Shown) -> bool
+	{
+		Tx(WX, Y, Label, 10, ColWhite);
+		Tx(WX + 470, Y, FString::Printf(TEXT("%d%%"), Shown), 10, ColGold);
+		return Slider(WX + 200, Y + 2, 250, V, Lo, Hi);
+	};
+	static bool bWasDrag = false;
+	bool bDrag = false;
+	if (SettingsTab == 0)
+	{
+		float S = St.UiScale;
+		bDrag |= Pct(Y0, TEXT("Interface size"), S, 0.8f, 1.2f, FMath::RoundToInt(S * 100));
+		if (S != St.UiScale) { St.UiScale = FMath::RoundToFloat(S * 20.f) / 20.f; ++St.Version; }
+		Toggle(Y0 + 36, TEXT("Names over other people and creatures"), St.bNameplates);
+		Toggle(Y0 + 66, TEXT("Floating combat numbers"), St.bFloatText);
+		Toggle(Y0 + 96, TEXT("Combat effects (projectiles always show)"), St.bEffects);
+		{
+			bool B = Gm.Player.bShowSim;
+			Toggle(Y0 + 126, TEXT("Tag every simulated player <AI>"), B);
+			Gm.Player.bShowSim = B;
+		}
+		TxWrap(WX, Y0 + 170, 520, TEXT("The interface already shrinks to fit small windows; the size slider is applied on top of that."), 9, ColDim);
+	}
+	else if (SettingsTab == 1)
+	{
+		TxWrap(WX, Y0 - 4, 520, BindWait >= 0 ? FString::Printf(TEXT("Press a key for \"%s\" (Backspace clears it, Esc cancels)."), St.Binds[BindWait].Label) : FString(TEXT("Click a key to change it, then press the new key. Esc, Enter and / are fixed.")), 10, BindWait >= 0 ? ColGold : ColDim);
+		const int32 N = (int32)EHLAct::Count, Rows = 14;
+		if (Wheel != 0 && Hover(WX, Y0, 540, Rows * 24 + 30)) { BindScroll = FMath::Clamp(BindScroll - (int32)(Wheel * 2), 0, N - Rows); Wheel = 0; }
+		BindScroll = FMath::Clamp(BindScroll, 0, N - Rows);
+		Tx(WX + 250, Y0 + 18, TEXT("Key"), 9, ColDim); Tx(WX + 390, Y0 + 18, TEXT("Second key"), 9, ColDim);
+		for (int32 r = 0; r < Rows; ++r)
+		{
+			const int32 i = BindScroll + r;
+			if (i >= N) break;
+			const float Y = Y0 + 34 + r * 24;
+			const FHLBind& B = St.Binds[i];
+			Tx(WX, Y + 3, B.Label, 10, ColWhite);
+			auto Name = [](const FKey& K) { return K.IsValid() ? K.GetDisplayName(false).ToString() : FString(TEXT("-")); };
+			const bool bW0 = BindWait == i && !bBindAlt, bW1 = BindWait == i && bBindAlt;
+			if (Btn(WX + 230, Y, 130, 20, bW0 ? FString(TEXT("press a key...")) : Name(B.Key), true, 9)) { BindWait = i; bBindAlt = false; }
+			if (Btn(WX + 370, Y, 130, 20, bW1 ? FString(TEXT("press a key...")) : Name(B.Alt), true, 9)) { BindWait = i; bBindAlt = true; }
+		}
+		Tx(WX, Y0 + 34 + Rows * 24 + 4, FString::Printf(TEXT("%d-%d of %d (wheel scrolls)"), BindScroll + 1, FMath::Min(N, BindScroll + Rows), N), 9, ColDim);
+		if (Btn(WX + 370, Y0 + 34 + Rows * 24, 130, 22, TEXT("Reset to defaults"), true, 9)) { St.ResetKeys(); St.Changed(); BindWait = -1; }
+	}
+	else if (SettingsTab == 2)
+	{
+		float Mu = Gm.Music.GetVolume(), Fx = Gm.Sfx.GetVolume();
+		const bool bM = Pct(Y0, TEXT("Music"), Mu, 0.f, 1.f, FMath::RoundToInt(Mu * 100));
+		const bool bS = Pct(Y0 + 36, TEXT("Sound effects and voices"), Fx, 0.f, 1.f, FMath::RoundToInt(Fx * 100));
+		if (Mu != Gm.Music.GetVolume()) Gm.Music.SetVolume(Mu, false);
+		if (Fx != Gm.Sfx.GetVolume()) Gm.Sfx.SetVolume(Fx, false);
+		bDrag |= bM || bS;
+		if (bWasDrag && !bDrag) { Gm.Music.SetVolume(Gm.Music.GetVolume(), true); Gm.Sfx.SetVolume(Gm.Sfx.GetVolume(), true); }
+		const FString Now = Gm.Music.NowPlaying();
+		if (!Now.IsEmpty()) Tx(WX, Y0 + 80, FString::Printf(TEXT("Now playing: %s"), *Now), 9, ColDim);
+	}
+	else
+	{
+		static const TCHAR* Q[] = { TEXT("Low"), TEXT("Medium"), TEXT("High"), TEXT("Ultra") };
+		Tx(WX, Y0 + 4, TEXT("Quality"), 10, ColWhite);
+		for (int32 i = 0; i < 4; ++i)
+		{
+			const float X = WX + 140 + i * 96;
+			if (St.Quality == i) { Rc(X - 2, Y0 - 2, 92, 26, FLinearColor(0.95f, 0.78f, 0.38f)); ++Layer; LastKind = 1; }
+			if (Btn(X, Y0, 88, 22, Q[i], true, 10)) { St.ApplyPreset(i); St.Changed(); }
+		}
+		static const TCHAR* Sh[] = { TEXT("Off"), TEXT("Characters"), TEXT("Everything") };
+		Tx(WX, Y0 + 44, TEXT("Shadows"), 10, ColWhite);
+		for (int32 i = 0; i < 3; ++i)
+		{
+			const float X = WX + 140 + i * 128;
+			if (St.Shadows == i) { Rc(X - 2, Y0 + 38, 124, 26, FLinearColor(0.95f, 0.78f, 0.38f)); ++Layer; LastKind = 1; }
+			if (Btn(X, Y0 + 40, 120, 22, Sh[i], true, 10)) { St.Shadows = i; St.Changed(); }
+		}
+		float Vd = St.ViewDist, Rs = (float)St.ResScale;
+		bDrag |= Pct(Y0 + 84, TEXT("View distance"), Vd, 0.6f, 1.5f, FMath::RoundToInt(Vd * 100));
+		bDrag |= Pct(Y0 + 120, TEXT("Render resolution"), Rs, 50.f, 100.f, FMath::RoundToInt(Rs));
+		if (Vd != St.ViewDist || FMath::RoundToInt(Rs) != St.ResScale) { St.ViewDist = FMath::RoundToFloat(Vd * 20.f) / 20.f; St.ResScale = FMath::RoundToInt(Rs / 5.f) * 5; ++St.Version; }
+		TxWrap(WX, Y0 + 160, 520, TEXT("Shadows come from the sun and the moon in real time. \"Characters\" is cheap; \"Everything\" also lets buildings, lamps and dressing cast shadows and suits a mid-range graphics card. Lower the render resolution if the game stutters."), 9, ColDim);
+	}
+	if (bWasDrag && !bDrag) St.Save();
+	bWasDrag = bDrag;
 }

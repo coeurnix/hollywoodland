@@ -93,6 +93,7 @@ struct FHLAreaDef
 	FLinearColor Sky, Floor;
 	FString FloorKind; // ground texture of the floor (T_GND_<Kind>); empty: flat colour
 	TArray<FHLBox> Boxes, Ground;
+	TArray<FBox2f> Cols; TArray<float> ColH; // free-standing dressing: exact slide rects (not on the A* grid), and their heights
 	TArray<FHLPropPlace> Props;
 	TArray<FHLSubzone> Subzones;
 	TArray<FHLNpcDef> Npcs;

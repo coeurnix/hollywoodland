@@ -24,6 +24,8 @@
 #include "Components/SceneCaptureComponent2D.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Engine/TextureRenderTarget2D.h"
+#include "HAL/IConsoleManager.h"
+#include "HLSettings.h"
 
 static const float M = 100.f; // metres -> UE units
 
@@ -113,6 +115,7 @@ UStaticMeshComponent* AHLWorldActor::AddMesh(AActor* InOwner, UStaticMesh* Mesh,
 	C->SetMobility(EComponentMobility::Movable);
 	C->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	C->SetCastShadow(bShadow);
+	if (bUnlit) C->ComponentTags.Add(TEXT("NoShadow")); // sky, markers, rings: never cast
 	C->SetMaterial(0, Mid(Color, bUnlit));
 	if (InOwner->GetRootComponent()) C->SetupAttachment(InOwner->GetRootComponent()); else InOwner->SetRootComponent(C);
 	C->RegisterComponent();
@@ -159,6 +162,8 @@ void AHLWorldActor::BeginPlay()
 		PC->SetViewTarget(this);
 		PC->bShowMouseCursor = true;
 	}
+	FHLSettings::Get().Load();
+	{ int32 Sh = -1; if (FParse::Value(FCommandLine::Get(), TEXT("HLShadows="), Sh)) { FHLSettings::Get().Shadows = FMath::Clamp(Sh, 0, 2); ++FHLSettings::Get().Version; } }
 	FParse::Value(FCommandLine::Get(), TEXT("HLAuto="), AutoClass);
 	FParse::Value(FCommandLine::Get(), TEXT("HLAutoQuit="), AutoQuit);
 	// native self-play runs are silent unless -HLMusic; the browser probe keeps music on to exercise it
@@ -213,6 +218,7 @@ void AHLWorldActor::BuildWorld()
 		// floor (top at z = 0) and sky/dome shell
 		UStaticMeshComponent* Floor = AddMesh(Geo, Cube, ToWorld(a, Ctr, -0.5f), FVector(Def.Size.X + 400, Def.Size.Y + 400, 1), Def.Floor);
 		if (UMaterialInstanceDynamic* G = GroundMid(Def.FloorKind, Def.Floor)) Floor->SetMaterial(0, G);
+		Floor->ComponentTags.Add(TEXT("NoShadow"));
 		const float SkyR = Def.bDungeon ? 400.f : 2600.f;
 		UStaticMeshComponent* SkyC = AddMesh(Geo, Sphere, ToWorld(a, Ctr, 0), FVector(SkyR * 2), Def.Sky, true);
 		if (!Def.bDungeon && MatSkyDome)
@@ -225,6 +231,7 @@ void AHLWorldActor::BuildWorld()
 		{
 			UStaticMeshComponent* GC = AddMesh(Geo, Cube, ToWorld(a, FVector2D(B.X + B.W * 0.5f, B.Y + B.D * 0.5f), 0.01f + 0.004f * (gi++ % 5)), FVector(B.W, B.D, 0.03f), B.Color);
 			if (UMaterialInstanceDynamic* G = GroundMid(B.Kind, B.Color)) GC->SetMaterial(0, G);
+			GC->ComponentTags.Add(TEXT("NoShadow"));
 		}
 		for (const FHLBox& B : Def.Boxes) if (!AddProp(Geo, a, B.Prop)) AddMesh(Geo, Cube, ToWorld(a, FVector2D(B.X + B.W * 0.5f, B.Y + B.D * 0.5f), B.H * 0.5f), FVector(B.W, B.D, B.H), B.Color);
 		// building-kit modules (facade bays, pilasters, parapets: hundreds of each) draw as one instanced component per mesh
@@ -398,6 +405,34 @@ void AHLWorldActor::TickStage()
 	Stage->SetActorHiddenInGame(true);
 }
 
+void AHLWorldActor::ShadowActor(AActor* A, bool bCast)
+{
+	if (!A) return;
+	TInlineComponentArray<UPrimitiveComponent*> Comps(A);
+	for (UPrimitiveComponent* P : Comps)
+		if (!P->ComponentHasTag(TEXT("NoShadow")) && P->CastShadow != bCast) P->SetCastShadow(bCast);
+}
+
+void AHLWorldActor::ApplyGraphics()
+{
+	// settings window (HLSettings.h): real-time sun/moon shadows, draw distance, render resolution
+	const FHLSettings& St = FHLSettings::Get();
+	GfxVersion = St.Version;
+	auto Set = [](const TCHAR* Name, float V) { if (IConsoleVariable* Cv = IConsoleManager::Get().FindConsoleVariable(Name)) Cv->Set(V, ECVF_SetByGameSetting); };
+	Set(TEXT("r.ViewDistanceScale"), St.ViewDist);
+	Set(TEXT("r.ScreenPercentage"), (float)St.ResScale);
+	if (SunLight)
+	{
+		SunLight->SetCastShadows(St.Shadows > 0);
+		SunLight->SetDynamicShadowDistanceMovableLight(St.Shadows >= 2 ? (St.Quality >= 3 ? 12000.f : 8000.f) : 4500.f);
+		SunLight->SetDynamicShadowCascades(St.Shadows >= 2 && St.Quality >= 3 ? 3 : St.Shadows >= 2 ? 2 : 1);
+	}
+	Set(TEXT("r.Shadow.MaxResolution"), St.Quality >= 3 ? 2048.f : 1024.f);
+	for (AActor* A : Spawned) ShadowActor(A, St.Shadows >= 2);
+	for (auto& KV : Vis) ShadowActor(KV.Value.Actor.Get(), St.Shadows >= 1);
+	HLBridge::Log(FString::Printf(TEXT("HL graphics: quality %d shadows %d view %.2f res %d"), St.Quality, St.Shadows, St.ViewDist, St.ResScale));
+}
+
 void AHLWorldActor::TickSky()
 {
 	// Day/night on the world clock (FHLGame::Hour): one movable sun that becomes a cool moon at night, the sky dome
@@ -454,7 +489,7 @@ void AHLWorldActor::SyncUnits()
 		const bool bVisible = U->Area == ViewArea && FVector2D::DistSquared(U->Pos, ViewPos) < 170.f * 170.f;
 		FHLUnitVis* V = Vis.Find(U->Id);
 		if (!bVisible) { if (V && V->Actor.IsValid()) V->Actor->SetActorHiddenInGame(true); if (V) Alive.Add(U->Id); continue; }
-		if (!V) { V = &Vis.Add(U->Id); BuildUnit(*U, *V); }
+		if (!V) { V = &Vis.Add(U->Id); BuildUnit(*U, *V); ShadowActor(V->Actor.Get(), FHLSettings::Get().Shadows >= 1); }
 		Alive.Add(U->Id);
 		AActor* A = V->Actor.Get();
 		if (!A) continue;
@@ -534,6 +569,13 @@ void AHLWorldActor::Tick(float Dt)
 	SyncUnits();
 	TickStage();
 	TickSky();
+	if (FHLSettings::Get().Version != GfxVersion) ApplyGraphics();
+	// rigs rebuild parts when gear changes (and those start unshadowed): keep the people casting
+	if (FHLSettings::Get().Shadows >= 1 && FPlatformTime::Seconds() > NextShadowSweep)
+	{
+		NextShadowSweep = FPlatformTime::Seconds() + 2.0;
+		for (auto& KV : Vis) if (KV.Value.Actor.IsValid() && !KV.Value.Actor->IsHidden()) ShadowActor(KV.Value.Actor.Get(), true);
+	}
 	TickFx(Dt);
 	// camera: orbit the player (or the forecourt on the title screen)
 	const FHLUnit* P = Game.PlayerUnit();

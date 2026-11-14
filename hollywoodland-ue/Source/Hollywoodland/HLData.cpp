@@ -218,6 +218,13 @@ bool FHLData::Load(FString& Err)
 			};
 			ReadBoxes(A(O, TEXT("boxes")), Ar.Boxes);
 			ReadBoxes(A(O, TEXT("ground")), Ar.Ground);
+			for (auto& CV : A(O, TEXT("cols")))
+			{
+				const TArray<TSharedPtr<FJsonValue>>& C = CV->AsArray();
+				if (C.Num() < 5) continue;
+				Ar.Cols.Add(FBox2f(FVector2f(C[0]->AsNumber(), C[1]->AsNumber()), FVector2f(C[2]->AsNumber(), C[3]->AsNumber())));
+				Ar.ColH.Add(C[4]->AsNumber());
+			}
 			for (auto& PV : A(O, TEXT("props"))) ReadProp(PV->AsObject(), Ar.Props.AddDefaulted_GetRef());
 			for (auto& SV : A(O, TEXT("subzones"))) { JObj Z = SV->AsObject(); Ar.Subzones.Add({ S(Z, TEXT("name")), (float)N(Z, TEXT("x")), (float)N(Z, TEXT("y")), (float)N(Z, TEXT("w")), (float)N(Z, TEXT("d")), S(Z, TEXT("levels")), B(Z, TEXT("hostile")) }); }
 			for (auto& NV : A(O, TEXT("npcs")))

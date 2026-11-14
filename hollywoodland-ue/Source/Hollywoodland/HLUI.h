@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Widgets/SLeafWidget.h"
 #include "HLGame.h"
+#include "HLSettings.h"
 
 class AHLWorldActor;
 
@@ -52,7 +53,7 @@ private:
 	mutable class APlayerController* PC = nullptr;
 	// the UI is laid out for a 1600 x 900 virtual screen: scale so both fit (narrow or squarish windows shrink it instead of
 	// pushing the right-hand HUD and wide windows off the edge)
-	static float ScaleFor(const FGeometry& Geo) { const FVector2D S = Geo.GetLocalSize(); return FMath::Clamp(FMath::Min(S.Y / 900.f, S.X / 1600.f), 0.4f, 3.f); }
+	static float ScaleFor(const FGeometry& Geo) { const FVector2D S = Geo.GetLocalSize(); return FMath::Clamp(FMath::Min(S.Y / 900.f, S.X / 1600.f) * FHLSettings::Get().UiScale, 0.4f, 3.f); }
 
 	// ---- toolkit
 	void Rc(float X, float Y, float W, float H, const FLinearColor& C) const;
@@ -94,6 +95,9 @@ private:
 	void DrawInspect() const;
 	void DrawTalents() const;
 	void DrawMenu() const;
+	void DrawSettings() const; // interface, keys, audio, graphics
+	bool Slider(float X, float Y, float W, float& V, float Lo, float Hi) const; // true while dragged
+	mutable int32 SettingsTab = 0, BindWait = -1, BindScroll = 0; mutable bool bBindAlt = false, bSettings = false; mutable int32 SliderDrag = -1;
 	void DrawPopups() const;
 	void DrawTooltip() const;
 	void HandleWorldClick() const;

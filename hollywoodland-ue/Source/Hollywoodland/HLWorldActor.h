@@ -97,6 +97,10 @@ private:
 	TArray<FHLFxLive> FxLive;
 	int32 FxUsed = 0;
 	float BaseExposure = 0;
+	int32 GfxVersion = -1;
+	double NextShadowSweep = 0;
+	void ApplyGraphics();
+	void ShadowActor(AActor* A, bool bCast);
 	// art/props static mesh at a placement (null when the mesh is missing: the caller falls back to a primitive)
 	UStaticMeshComponent* AddProp(AActor* InOwner, int32 Area, const struct FHLPropPlace& P);
 	UPROPERTY() TMap<FString, TObjectPtr<UStaticMesh>> PropMeshes;

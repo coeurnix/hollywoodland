@@ -30,12 +30,18 @@ void FHLNav::Init(const FHLAreaDef& Def)
 	for (const FHLBox& B : Def.Boxes)
 	{
 		if (!B.bSolid || B.H < 1.0f) continue;
-		const int32 Ri = Rects.Add({ B.X, B.Y, B.X + B.W, B.Y + B.D, B.H });
-		const int32 X0 = FMath::Clamp(FMath::FloorToInt32((B.X - Min.X) / BucketSize), 0, BW - 1), X1 = FMath::Clamp(FMath::FloorToInt32((B.X + B.W - Min.X) / BucketSize), 0, BW - 1);
-		const int32 Y0 = FMath::Clamp(FMath::FloorToInt32((B.Y - Min.Y) / BucketSize), 0, BH - 1), Y1 = FMath::Clamp(FMath::FloorToInt32((B.Y + B.D - Min.Y) / BucketSize), 0, BH - 1);
-		for (int32 Y = Y0; Y <= Y1; ++Y) for (int32 X = X0; X <= X1; ++X) Buckets[Y * BW + X].Add(Ri);
+		AddRect(B.X, B.Y, B.X + B.W, B.Y + B.D, B.H);
 	}
+	for (int32 i = 0; i < Def.Cols.Num(); ++i) AddRect(Def.Cols[i].Min.X, Def.Cols[i].Min.Y, Def.Cols[i].Max.X, Def.Cols[i].Max.Y, Def.ColH[i]);
 	RectStamp.Init(0, Rects.Num()); RectCur = 0;
+}
+
+void FHLNav::AddRect(float X0, float Y0, float X1, float Y1, float Hgt)
+{
+	const int32 Ri = Rects.Add({ X0, Y0, X1, Y1, Hgt });
+	const int32 BX0 = FMath::Clamp(FMath::FloorToInt32((X0 - Min.X) / BucketSize), 0, BW - 1), BX1 = FMath::Clamp(FMath::FloorToInt32((X1 - Min.X) / BucketSize), 0, BW - 1);
+	const int32 BY0 = FMath::Clamp(FMath::FloorToInt32((Y0 - Min.Y) / BucketSize), 0, BH - 1), BY1 = FMath::Clamp(FMath::FloorToInt32((Y1 - Min.Y) / BucketSize), 0, BH - 1);
+	for (int32 Y = BY0; Y <= BY1; ++Y) for (int32 X = BX0; X <= BX1; ++X) Buckets[Y * BW + X].Add(Ri);
 }
 
 template <typename F> void FHLNav::ForRects(float X0, float Y0, float X1, float Y1, F&& Fn) const
