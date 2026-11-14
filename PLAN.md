@@ -153,7 +153,10 @@ browser ── itch.io page (iframe, SharedArrayBuffer support) ── UE 5.9 Wa
     dithers out between the camera and the player (`Scripts/camera_fade.py`, MPC `Focus`); paved Grauman's forecourt;
     no spell glow on physical casts; nights lifted; soot decals dropped (no alpha). Self-play logs `HL_POSE` for any
     rendered person or creature showing its bind pose (a user saw one A-pose in combat; not reproduced in a 200 s
-    gunman run). Still to check by hand: the new-player flow, frame time on the web with ~80k grass and 20k bigger instances.
+    gunman run). Found after: the retargeted Shoot_Pistol/Shoot_Rifle/HitReact clips were imported additive, and a
+    single-node player applies an additive clip to the bind pose, so the player twisted into a skewed A-pose after every
+    shot; now plain clips (`retarget_anims.py`, `fix_additive_anims.py`), and self-play flags any additive clip played whole
+    and saves `hl_swing_*.png` stills mid-attack. Still to check by hand: the new-player flow, frame time on the web with ~80k grass and 20k bigger instances.
 
 ## 4. Technical dependencies and risks
 

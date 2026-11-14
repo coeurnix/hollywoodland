@@ -109,6 +109,11 @@ def main():
             if isinstance(seq, unreal.AnimSequence):
                 seq.set_editor_property('enable_root_motion', False)
                 seq.set_editor_property('force_root_lock', True)
+                # the mannequin's fire and hit-react clips are additive (offsets layered on an aim pose in an anim
+                # graph); the game plays clips whole on a single node, where an additive clip is applied to the bind
+                # pose and the character twists into a skewed A-pose after each shot. Their keys are full poses: play
+                # them as ordinary clips.
+                seq.set_editor_property('additive_anim_type', unreal.AdditiveAnimationType.AAT_NONE)
             eal.save_asset(want, only_if_is_dirty=False)
         log(f'{sex}: clips done')
     eal.delete_directory(f'{BASE}/Anim/Retarget_Male')

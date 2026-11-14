@@ -1184,12 +1184,32 @@ void AHLWorldActor::AutoTest(float Dt)
 			const USkeletalMeshComponent* C = V.bHuman ? V.Rig.Leader.Get() : V.bEnemy ? V.Enemy.Comp.Get() : nullptr;
 			if (!C || !C->IsVisible() || !C->WasRecentlyRendered(0.5f) || !V.Actor.IsValid() || V.Actor->IsHidden()) continue;
 			const UAnimSingleNodeInstance* I = C->GetSingleNodeInstance();
+			// an additive clip on a single node is applied to the bind pose: a skewed A-pose (the fire clips once did this)
+			if (const UAnimSequence* Q = I ? Cast<UAnimSequence>(I->GetAnimationAsset()) : nullptr; Q && Q->IsValidAdditive())
+				HLBridge::Log(FString::Printf(TEXT("HL_POSE additive clip played whole: unit %d %s"), KV.Key, *Q->GetName()));
 			if (I && I->GetAnimationAsset()) continue;
 			const FHLUnit* U = Game.Unit(KV.Key);
 			HLBridge::Log(FString::Printf(TEXT("HL_POSE bind pose: unit %d %s (%s) base '%s' shot '%s' dead %d"), KV.Key, U ? *U->Name : TEXT("?"),
 				V.bHuman ? TEXT("human") : TEXT("creature"), V.bHuman ? *V.Rig.Base : *V.Enemy.Base, V.bHuman ? *V.Rig.Shot : *V.Enemy.Shot, U ? int32(U->bDead) : -1));
 		}
 	}
+	// a still of the player mid-shot or mid-swing, twice per run (the pose check above cannot judge a bad-looking pose)
+	static int32 SwingShots = 0;
+	if (Game.bInWorld && SwingShots < 3)
+		if (const FHLUnitVis* PV = Vis.Find(Game.PlayerUnitId))
+		{
+			static double ShotAt = 0;
+			if (!PV->Rig.Shot.IsEmpty() && !PV->Rig.Shot.StartsWith(TEXT("Cast")) && ShotAt == 0) ShotAt = T + 0.18;
+			if (ShotAt > 0 && T >= ShotAt)
+			{
+				ShotAt = -(T + 8.0);
+	#if !PLATFORM_WASM
+				FScreenshotRequest::RequestScreenshot(FPaths::ProjectSavedDir() / FString::Printf(TEXT("Screenshots/hl_swing_%02d.png"), SwingShots), true, false);
+	#endif
+				HLBridge::Log(FString::Printf(TEXT("HL_POSE swing still %d: %s"), SwingShots++, *PV->Rig.Shot));
+			}
+			if (ShotAt < 0 && T > -ShotAt) ShotAt = 0;
+		}
 	if (!Game.bInWorld)
 	{
 		if (!bSaveChecked || T < 2) return;
