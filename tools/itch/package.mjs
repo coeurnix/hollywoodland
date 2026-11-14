@@ -18,7 +18,8 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const stage = resolve(process.argv[2] || join(ROOT, 'hollywoodland-ue', 'web-dist-Shipping', 'Wasm'));
 const out = join(dirname(stage), 'itch');
 const SKIP = [/\.br$/, /^_headers$/, /\.js\.symbols$/, /\.pdb$/, /^Manifest_.*\.txt$/, /\.bat$/, /\.sh$/, /^build-stamp\.json$/];
-const LIMIT_BYTES = 500e6, LIMIT_FILES = 1000, LIMIT_FILE = 200 * 1024 * 1024;
+// itch counts in MiB: its error for a 213,310,656-byte file read "203.43 MB"
+const LIMIT_BYTES = 500 * 1024 * 1024, LIMIT_FILES = 1000, LIMIT_FILE = 200 * 1024 * 1024;
 
 function walk(dir) {
   return readdirSync(dir).flatMap((n) => {
@@ -38,7 +39,7 @@ for (const [f, dst] of copies) {
 const audio = packAudio(ROOT, out);
 const files = walk(out);
 const total = files.reduce((s, f) => s + statSync(f).size, 0);
-const mb = (b) => (b / 1e6).toFixed(1);
+const mb = (b) => (b / 1048576).toFixed(1); // MiB, as itch reports
 console.log(`itch package: ${out}`);
 console.log(`  audio: ${audio.sounds} sounds in ${audio.files} bundle files (${mb(audio.bytes)} MB), music ${mb(walk(join(out, 'music')).reduce((s, f) => s + statSync(f).size, 0))} MB`);
 console.log(`  ${files.length} files, ${mb(total)} MB (limits: ${LIMIT_FILES} files, ${mb(LIMIT_BYTES)} MB)`);
