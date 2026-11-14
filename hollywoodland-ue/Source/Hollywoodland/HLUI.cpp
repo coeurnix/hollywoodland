@@ -1590,6 +1590,7 @@ void SHLGameUI::DrawTooltip() const
 			if (It.Speed > 0) Lines.Add({ FString::Printf(TEXT("%d - %d damage    speed %.1f    (%.1f dps)"), It.DMin, It.DMax, It.Speed, (It.DMin + It.DMax) * 0.5f / It.Speed), ColWhite });
 			if (It.Armor > 0) Lines.Add({ FString::Printf(TEXT("%d Armour"), It.Armor), ColWhite });
 			for (int32 i = 0; i < HL_NUM_STATS; ++i) if (It.Stats[i]) Lines.Add({ FString::Printf(TEXT("+%d %s"), It.Stats[i], HLStatNames[i]), ColGreen });
+			if (!It.EquipText.IsEmpty()) Lines.Add({ TEXT("Equip: ") + It.EquipText, ColGreen });
 			FString Why;
 			const bool bCan = Gm.CanEquip(It, &Why);
 			Lines.Add({ FString::Printf(TEXT("Requires level %d"), It.Req), Gm.PlayerUnit() && Gm.PlayerUnit()->Level >= It.Req ? ColWhite : ColRed });

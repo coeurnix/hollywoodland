@@ -17602,5 +17602,53 @@
   "file": "stolen_auto_parts.png",
   "brief": "A small bundle of auto parts tied with twine: a grimy brass carburettor, two white porcelain spark plugs, and a coiled black rubber fan belt, smudged with dark engine oil.",
   "at": "2026-11-12 21:38:21"
+ },
+ "mk_ii_fragmentation_grenade": {
+  "attempt": 0,
+  "seed": 1551640793,
+  "prompt": "Hand-painted inventory icon for a classic fantasy MMORPG, 1930s Hollywood Art Deco flavour. Subject: Olive-drab cast-iron pineapple grenade with deep segmented grooves, steel spoon lever along one side, brass pull ring hanging from the top fuze, faint rust at the seams. A single object, centred, filling about 80 percent of a square frame, whole object visible, bold clean silhouette with a thin dark outline, chunky simplified forms that stay readable when tiny, confident painterly brush strokes, warm golden key light from the upper left, cool teal rim light, rich saturated colour, high contrast against a plain dark warm-brown radial vignette background. No text, no letters, no numbers, no logo, no border, no frame, no people, no hands.",
+  "request_id": null,
+  "status_url": "https://queue.fal.run/blackforestlabs/flux-3/requests/01a1d8e0-0ebe-7ed2-b95d-094e26b6d1d9/status",
+  "response_url": "https://queue.fal.run/blackforestlabs/flux-3/requests/01a1d8e0-0ebe-7ed2-b95d-094e26b6d1d9",
+  "status": "done",
+  "file": "mk_ii_fragmentation_grenade.png",
+  "brief": "Olive-drab cast-iron pineapple grenade with deep segmented grooves, steel spoon lever along one side, brass pull ring hanging from the top fuze, faint rust at the seams.",
+  "at": "2026-11-13 23:05:30"
+ },
+ "smoke_pot": {
+  "attempt": 0,
+  "seed": 393244369,
+  "prompt": "Hand-painted inventory icon for a classic fantasy MMORPG, 1930s Hollywood Art Deco flavour. Subject: Squat round tin canister painted dull grey with a crimped lid, short black cotton fuse poking from the top, scorched soot ring around the rim, thin curl of white smoke. A single object, centred, filling about 80 percent of a square frame, whole object visible, bold clean silhouette with a thin dark outline, chunky simplified forms that stay readable when tiny, confident painterly brush strokes, warm golden key light from the upper left, cool teal rim light, rich saturated colour, high contrast against a plain dark warm-brown radial vignette background. No text, no letters, no numbers, no logo, no border, no frame, no people, no hands.",
+  "request_id": null,
+  "status_url": "https://queue.fal.run/blackforestlabs/flux-3/requests/01a1d8e0-0ebd-7603-8f83-45e771f08b5a/status",
+  "response_url": "https://queue.fal.run/blackforestlabs/flux-3/requests/01a1d8e0-0ebd-7603-8f83-45e771f08b5a",
+  "status": "done",
+  "file": "smoke_pot.png",
+  "brief": "Squat round tin canister painted dull grey with a crimped lid, short black cotton fuse poking from the top, scorched soot ring around the rim, thin curl of white smoke.",
+  "at": "2026-11-13 23:05:30"
+ },
+ "smelling_salts": {
+  "attempt": 0,
+  "seed": 358213872,
+  "prompt": "Hand-painted inventory icon for a classic fantasy MMORPG, 1930s Hollywood Art Deco flavour. Subject: Small ribbed cobalt-blue glass vial with a cork stopper, tiny white crystals visible inside, wrapped with a twist of faded pink ribbon around the neck. A single object, centred, filling about 80 percent of a square frame, whole object visible, bold clean silhouette with a thin dark outline, chunky simplified forms that stay readable when tiny, confident painterly brush strokes, warm golden key light from the upper left, cool teal rim light, rich saturated colour, high contrast against a plain dark warm-brown radial vignette background. No text, no letters, no numbers, no logo, no border, no frame, no people, no hands.",
+  "request_id": null,
+  "status_url": "https://queue.fal.run/blackforestlabs/flux-3/requests/01a1d8e0-0ea7-7a72-a5f7-5cc58d75bbbc/status",
+  "response_url": "https://queue.fal.run/blackforestlabs/flux-3/requests/01a1d8e0-0ea7-7a72-a5f7-5cc58d75bbbc",
+  "status": "done",
+  "file": "smelling_salts.png",
+  "brief": "Small ribbed cobalt-blue glass vial with a cork stopper, tiny white crystals visible inside, wrapped with a twist of faded pink ribbon around the neck.",
+  "at": "2026-11-13 23:05:30"
+ },
+ "patent_tonic": {
+  "attempt": 0,
+  "seed": 1488361523,
+  "prompt": "Hand-painted inventory icon for a classic fantasy MMORPG, 1930s Hollywood Art Deco flavour. Subject: Tall amber glass bottle with sloped shoulders and a cork, blank cream paper label edged in red, wax seal dripping down the neck, dark liquid half full. A single object, centred, filling about 80 percent of a square frame, whole object visible, bold clean silhouette with a thin dark outline, chunky simplified forms that stay readable when tiny, confident painterly brush strokes, warm golden key light from the upper left, cool teal rim light, rich saturated colour, high contrast against a plain dark warm-brown radial vignette background. No text, no letters, no numbers, no logo, no border, no frame, no people, no hands.",
+  "request_id": null,
+  "status_url": "https://queue.fal.run/blackforestlabs/flux-3/requests/01a1d8e0-0ebb-7dd0-970b-9d60befcc0c0/status",
+  "response_url": "https://queue.fal.run/blackforestlabs/flux-3/requests/01a1d8e0-0ebb-7dd0-970b-9d60befcc0c0",
+  "status": "done",
+  "file": "patent_tonic.png",
+  "brief": "Tall amber glass bottle with sloped shoulders and a cork, blank cream paper label edged in red, wax seal dripping down the neck, dark liquid half full.",
+  "at": "2026-11-13 23:05:30"
  }
 }

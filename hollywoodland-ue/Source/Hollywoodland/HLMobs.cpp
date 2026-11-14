@@ -115,10 +115,14 @@ void FHLGame::TickMob(FHLUnit& U, float Dt)
 		if (!T)
 		{
 			float Best = -1;
+			// a boss holds its room: threat from units that left it (survivors who ran, the dead running back) does not count, so a
+			// wipe resets the fight at full health instead of the boss chasing the party down the hall
+			const bool bBoss = M.Rank == TEXT("boss");
 			for (auto It = U.Threat.CreateIterator(); It; ++It)
 			{
 				FHLUnit* O = Unit(It.Key());
 				if (!O || O->bDead || O->Area != U.Area) { It.RemoveCurrent(); continue; }
+				if (bBoss && FVector2D::Distance(O->Pos, U.Home) > U.Leash + 10) continue;
 				if (It.Value() > Best) { Best = It.Value(); T = O; }
 			}
 		}

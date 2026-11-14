@@ -2378,14 +2378,24 @@
   "loop_radio": {
    "cat": "world",
    "files": [
-    "loop_radio_0.mp3"
+    "loop_radio_0.mp3",
+    "loop_radio_1.mp3",
+    "loop_radio_2.mp3",
+    "loop_radio_3.mp3",
+    "loop_radio_4.mp3",
+    "loop_radio_5.mp3"
    ],
-   "vol": 0.237,
-   "range": 15,
+   "vol": 0.253,
+   "range": 16,
    "pitch": 0,
    "loop": true,
    "samples": [
-    705600
+    15095808,
+    13414400,
+    17530880,
+    18539520,
+    18988176,
+    16791552
    ]
   },
   "loop_fountain": {

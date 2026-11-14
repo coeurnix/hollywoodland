@@ -365,7 +365,12 @@ void FHLGame::KillUnit(FHLUnit& U, FHLUnit* Killer)
 			}
 			for (int32 SI : Party) Sims[SI].Xp += Xp;
 			GenerateLoot(U);
-			if (M.Rank == TEXT("boss")) { PartyEvent(FString::Printf(TEXT("the party killed the boss %s"), *U.Name)); if (M.Script == TEXT("hive_mother")) bDungeonCleared = true; }
+			if (M.Rank == TEXT("boss"))
+			{
+				PartyEvent(FString::Printf(TEXT("the party killed the boss %s"), *U.Name));
+				if (M.Script == TEXT("hive_mother")) bDungeonCleared = true;
+				UE_LOG(LogTemp, Display, TEXT("HL_BOSS t=%.0f killed %s deaths=%d"), Now, *M.Id, Player.Deaths);
+			}
 		}
 		else if (FHLUnit* Owner = Unit(U.TappedBy))
 		{
@@ -384,6 +389,7 @@ void FHLGame::KillUnit(FHLUnit& U, FHLUnit* Killer)
 	else if (U.Kind == EHLKind::Player)
 	{
 		Player.Deaths++;
+		UE_LOG(LogTemp, Display, TEXT("HL_DEATH t=%.0f area=%d at %.0f,%.0f"), Now, U.Area, U.Pos.X, U.Pos.Y);
 		Player.CorpseArea = U.Area; Player.CorpsePos = U.Pos;
 		bool bBroke = false;
 		for (const auto& KV : Player.Equip) { float& D = Player.Durability.FindOrAdd(KV.Key, 1.f); const bool bWas = D > 0; D = FMath::Max(0.f, D - 0.1f); bBroke |= bWas && D <= 0; }

@@ -51,6 +51,7 @@ struct FHLItem
 	float Speed = 0, UseAmount = 0, UseValue = 0, UseDur = 0, AmmoDps = 0;
 	int32 Buy = 1; // vendor sells this many per purchase (ammo boxes); Price is per purchase
 	int32 Stats[HL_NUM_STATS] = { 0, 0, 0, 0, 0 };
+	FString EquipMod, EquipText; float EquipValue = 0; // on-equip effect (a FHLUnit::Mods key; tools/gen/items.mjs EQUIP_FX)
 	bool bNamed = false;
 	bool IsEquip() const { return Kind == TEXT("armor") || Kind == TEXT("weapon"); }
 	FString Calibre() const { return Type == TEXT("rifle") ? TEXT("rifle") : Type == TEXT("shotgun") ? TEXT("shotgun") : Slot == TEXT("ranged") ? TEXT("pistol") : FString(); }
@@ -102,9 +103,11 @@ struct FHLAreaDef
 	TArray<FHLPortal> Portals;
 	TArray<FHLExit> Exits;
 	TArray<FHLAidStation> Aid;
-	TArray<FVector2D> IdleSpots;
-	TMap<FString, FVector2D> Pois;
-};
+		TArray<FVector2D> IdleSpots;
+		TMap<FString, FVector2D> Pois;
+		struct FSoundSpot { FString Id; FVector2D Pos; float Z = 0; };
+		TArray<FSoundSpot> Sounds; // looping positional sounds (radios)
+	};
 struct FHLObjective { FString Type, Item, Kind, Npc, Label; TArray<FString> Mobs, From; int32 Count = 1; float Rate = 1; FVector2D To = FVector2D::ZeroVector; };
 struct FHLQuest
 {

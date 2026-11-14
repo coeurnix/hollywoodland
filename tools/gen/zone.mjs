@@ -47,7 +47,7 @@ export const mobs = [
   M('mob_boss_brood_keeper', 'Brood Keeper', 'invader_brute', 9, 9, { rank: 'boss', hp: 1.3, dmg: 0.7, armor: 1.5, color: [0.4, 0.25, 0.35], scale: 2.0, script: 'brood_keeper', abilities: ['ab_mob_knockback'], respawn: 0 }),
   M('mob_boss_hive_warden', 'Hive Warden', 'invader_soldier', 10, 10, { rank: 'boss', hp: 1.3, dmg: 0.75, armor: 2, color: [0.15, 0.3, 0.3], scale: 1.9, script: 'hive_warden', abilities: ['ab_mob_charge'], respawn: 0 }),
   M('mob_boss_matriarch', 'Spitter Matriarch', 'invader_spitter', 11, 11, { rank: 'boss', hp: 1.3, dmg: 0.75, armor: 0.8, ranged: true, color: [0.7, 0.75, 0.1], scale: 1.8, script: 'matriarch', abilities: ['ab_mob_acid_spit', 'ab_mob_acid_pool'], respawn: 0 }),
-  M('mob_boss_hive_mother', 'The Egyptian Hive Mother', 'invader_queen', 12, 12, { rank: 'boss', hp: 1.8, dmg: 0.9, armor: 1.5, color: [0.55, 0.1, 0.45], scale: 2.6, script: 'hive_mother', abilities: ['ab_mob_knockback'], respawn: 0 }),
+  M('mob_boss_hive_mother', 'The Egyptian Hive Mother', 'invader_queen', 12, 12, { rank: 'boss', hp: 1.7, dmg: 0.9, armor: 1.5, color: [0.55, 0.1, 0.45], scale: 2.6, script: 'hive_mother', abilities: ['ab_mob_knockback'], respawn: 0 }),
 ];
 
 // ---------- geometry helpers ----------
@@ -382,6 +382,8 @@ const zone = {
   spawn: [92, 184], aid: [{ name: 'Hollywood Receiving Hospital', x: 500, y: 322 }, { name: 'Fire Station No. 27', x: 636, y: 284 }, { name: 'Blessed Sacrament Church', x: 125, y: 436 }],
   portals: [{ id: 'portal_egyptian', x: 475, y: 238, r: 3, to_area: 'dng_egyptian', to: [60, 8], label: 'The Egyptian Theatre (Dungeon, 8-12)' }],
   pois: { bank: [330, 191], auction: [776, 208], mailbox: [354, 190], redcar: [284, 198], trainers: [92, 184], inn: [96, 210], vendor: [372, 190], police: [530, 276], forecourt: [92, 188], vine: [756, 200] },
+  // sound spots [sfx id, x, y, z]: radios playing 1920s records (tools/gen-sfx.mjs loop_radio) at the inn desk, the drugstore and the Derby kitchen
+  sounds: [['loop_radio', 97, 216, 1.2], ['loop_radio', 731, 215, 1.2], ['loop_radio', 769, 289, 1.2]],
   exits: [{ id: 'exit_cahuenga', name: 'Highland north', to_zone: 'zone_cahuenga_pass', x: 298, y: OY0 + 6 }, { id: 'exit_gower', name: 'Hollywood Blvd east', to_zone: 'zone_gower_gulch', x: OX1 - 6, y: 200 },
     { id: 'exit_melrose', name: 'Highland south', to_zone: 'zone_melrose', x: 298, y: OY1 - 6 }, { id: 'exit_west', name: 'La Brea west', to_zone: 'zone_west_hollywood', x: OX0 + 6, y: 200 },
     { id: 'exit_redcar', name: 'Red car', to_zone: 'zone_east_hollywood', x: 276, y: 200, redcar: true }],
@@ -421,7 +423,7 @@ for (const y of [42, 86, 170, 204]) for (const x of [30, 44, 76, 90]) deco('hive
 for (const [x, y] of [[36, 20], [84, 28], [30, 70], [88, 76], [60, 116], [34, 160], [86, 150], [60, 188], [36, 226], [84, 230]]) deco('hive_goo', x, y, objRand() * 360, 1.8);
 for (const [x, y] of [[24, 40], [96, 40], [24, 84], [96, 84], [24, 168], [96, 168], [24, 254], [96, 254]]) deco('hive_spire', x, y, objRand() * 360, [1.4, 1.4, 2.4]);
 for (const [x, y] of [[88, 12], [32, 52], [92, 196], [30, 214], [90, 246]]) deco('hive_eggs_pale', x, y, objRand() * 360, 0.8);
-deco('crates', 26, 190, 0); deco('crates', 94, 186, 90); deco('film_canister', 30, 186, 0, 1.2); deco('chandelier_rubble', 60, 118, 0, 1.2);
+deco('crates', 26, 190, 0); deco('crates', 94, 186, 90); deco('film_canister', 30, 186, 0, 1.2); deco('chandelier_rubble', 36, 121, 0, 1.2); // between seat rows, clear of the centre aisle (its exact col snagged units walking the aisle)
 deco('hive_tendrils', 50, 246, 0, 2); deco('hive_tendrils', 70, 246, 180, 2);
 // the theatre itself (art/world Egyptian kit): sphinxes along the forecourt path, pharaohs at the pylons, the box office,
 // lotus columns down the lobby, hieroglyph panels on the auditorium walls, the projector, the organ and the proscenium

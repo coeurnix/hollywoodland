@@ -1,4 +1,4 @@
-#include "HLWorldActor.h"
+﻿#include "HLWorldActor.h"
 #include "HLBridge.h"
 #include "HLUI.h"
 #include "Camera/CameraComponent.h"
@@ -851,8 +851,14 @@ void AHLWorldActor::Tick(float Dt)
 	HLBridge::Poll();
 	if (!Game.Areas.Num()) return;
 	if (UI.IsValid()) UI->PreTick(Dt);
-	if (!AutoClass.IsEmpty()) AutoTest(Dt);
-	Game.Tick(Dt);
+	// -HLTimeScale=N (self-play tests only): N bot + simulation steps per frame, for long soak runs (dungeon, pacing)
+	static int32 TimeScale = -1;
+	if (TimeScale < 0) { TimeScale = 1; if (!AutoClass.IsEmpty()) FParse::Value(FCommandLine::Get(), TEXT("HLTimeScale="), TimeScale); TimeScale = FMath::Clamp(TimeScale, 1, 16); }
+	for (int32 Step = 0; Step < TimeScale; ++Step)
+	{
+		if (!AutoClass.IsEmpty()) AutoTest(Dt);
+		Game.Tick(Dt);
+	}
 	Game.Music.Tick(Game, Dt);
 	CharVis.Tick(Game.Now);
 	SyncUnits();
@@ -1373,6 +1379,28 @@ void AHLWorldActor::AutoTest(float Dt)
 		if (const FVector2D* Scr = Game.Areas[0].Def->Pois.Find(TEXT("forecourt"))) { P->TargetId = 0; P->bAutoAttack = false; if (FVector2D::Distance(P->Pos, *Scr) < 12) P->bSitting = true; else { AutoGoal = *Scr + FVector2D(0, -6); bAutoGoal = true; } return; }
 	}
 	FHLUnit* Tg = Game.Unit(P->TargetId);
+	{
+		// bot state every 20 s (why a soak run stalls)
+		static double NextBotLog = 0;
+		static FVector2D LastLogPos(1e9, 1e9);
+		if (Game.Now > NextBotLog)
+		{
+			NextBotLog = Game.Now + 20;
+			FString Party;
+			for (int32 SI : Game.Party) if (const FHLUnit* Mb = Game.Unit(Game.Sims[SI].UnitId)) Party += FString::Printf(TEXT(" %s:%s%.0f/%.0f%s"), *Mb->Name, Mb->bDead ? TEXT("DEAD ") : TEXT(""), Mb->HpPct() * 100, Mb->MaxRes > 0 ? Mb->Res * 100 / Mb->MaxRes : 0.f, Mb->ResType == EHLRes::Power ? TEXT("p") : TEXT(""));
+			UE_LOG(LogTemp, Display, TEXT("HL_BOT t=%.0f at %.0f,%.0f ghost=%d sit=%d target=%s d=%.0f goal=%d party:%s"), Game.Now, P->Pos.X, P->Pos.Y, P->bGhost, P->bSitting,
+					Tg ? *Tg->Name : TEXT("-"), Tg ? Game.Dist(*P, *Tg) : 0.f, bAutoGoal ? 1 : 0, *Party);
+				if (!Tg && FVector2D::Distance(LastLogPos, P->Pos) < 1) // stalled without a target: what is the bot walking to?
+				{
+					const FHLUnit* Far = nullptr; float FD = 1e9f;
+					for (const FHLUnit* U : Game.UnitList) if (U->Kind == EHLKind::Mob && !U->bDead && U->Area == P->Area && !U->Mob->bGuard && (U->TappedBy == 0 || U->TappedBy == Game.PlayerUnitId) && Game.Dist(*P, *U) < FD) { Far = U; FD = Game.Dist(*P, *U); }
+					if (Far) UE_LOG(LogTemp, Display, TEXT("HL_BOT   stalled: nearest %s lvl %d d=%.0f at %.0f,%.0f z=%.1f path=%d/%d"), *Far->Name, Far->Level, FD, Far->Pos.X, Far->Pos.Y, Far->Z, P->PathIdx, P->Path.Num());
+				}
+				LastLogPos = P->Pos;
+				if (!Tg) for (const FHLUnit* B : Game.UnitList) if (B->Kind == EHLKind::Mob && !B->bDead && B->Area == P->Area && B->Mob->Rank == TEXT("boss"))
+					UE_LOG(LogTemp, Display, TEXT("HL_BOT   boss %s state=%d tapped=%d(me %d) threat=%d hp=%.0f at %.0f,%.0f"), *B->Name, (int32)B->MobState, B->TappedBy, Game.PlayerUnitId, B->Threat.Num(), B->HpPct() * 100, B->Pos.X, B->Pos.Y);
+		}
+	}
 	if (!Tg || Tg->bDead || Tg->Kind != EHLKind::Mob)
 	{
 		for (FHLUnit* U : Game.UnitList) if (U->Kind == EHLKind::Mob && U->bDead && U->bLootable && U->TappedBy == Game.PlayerUnitId && Game.Dist(*P, *U) < 6) Game.LootCorpse(*U);
@@ -1381,10 +1409,27 @@ void AHLWorldActor::AutoTest(float Dt)
 		const int32 MaxLvl = P->Area == 0 ? P->Level + 1 : 99;
 		if (P->Area != 0) { bool bRest = false; for (int32 SI : Game.Party) if (const FHLUnit* Mb = Game.Unit(Game.Sims[SI].UnitId)) if (Mb->bDead || Mb->HpPct() < 0.6f || (Mb->ResType == EHLRes::Power && Mb->Res < Mb->MaxRes * 0.4f)) bRest = true; if (bRest && !Game.InCombat(*P)) { P->bSitting = true; return; } }
 		for (FHLUnit* U : Game.UnitList) if (U->Kind == EHLKind::Mob && !U->bDead && U->Area == P->Area && U->Level <= MaxLvl && !U->Mob->bGuard && (U->TappedBy == 0 || U->TappedBy == Game.PlayerUnitId) && Game.Dist(*P, *U) < BestD) { Best = U; BestD = Game.Dist(*P, *U); }
-		if (Best) Game.TargetUnit(Best->Id);
+		// targets drop past 90 m (TickPlayer): walk toward a far one first
+		if (Best && BestD > 70) { AutoGoal = Best->Pos; bAutoGoal = true; }
+		else if (Best) Game.TargetUnit(Best->Id);
 		return;
 	}
-	P->bAutoAttack = true;
-	CamYaw = P->Yaw;
-	for (int32 i = 0; i < Game.Player.Bar.Num(); ++i) if (Game.Player.Bar[i] && Game.Player.Bar[i]->Target == TEXT("enemy") && Game.CanCast(*P, *Game.Player.Bar[i], Tg).IsEmpty()) { Game.TryCast(*P, *Game.Player.Bar[i], Tg->Id); break; }
-}
+		// boss mechanics a player handles: burn the egg sac / egg clusters tied to the boss being fought
+		if (Tg->Mob && Tg->Mob->Rank == TEXT("boss") && Game.InCombat(*Tg))
+		{
+			FHLAreaState& Ar = Game.Areas[P->Area];
+			int32 Best = -1; float BestD = 1e9f;
+			for (int32 i = 0; i < Ar.Objects.Num(); ++i) if (Ar.Objects[i].bActive && Ar.Objects[i].Def->Boss == Tg->Mob->Id && FVector2D::Distance(P->Pos, Ar.Objects[i].Def->Pos) < BestD) { Best = i; BestD = FVector2D::Distance(P->Pos, Ar.Objects[i].Def->Pos); }
+			if (Best >= 0)
+			{
+				if (Game.InteractObj == Best && Game.InteractArea == P->Area && Game.Now < Game.InteractEnd) return; // channelling
+				const FVector2D At = Ar.Objects[Best].Def->Pos;
+				if (BestD > 3.5f) { P->bAutoAttack = false; Game.MoveTo(*P, At, 3); return; }
+				Game.ObjectInteract(P->Area, Best);
+				return;
+			}
+		}
+		P->bAutoAttack = true;
+		CamYaw = P->Yaw;
+		for (int32 i = 0; i < Game.Player.Bar.Num(); ++i) if (Game.Player.Bar[i] && Game.Player.Bar[i]->Target == TEXT("enemy") && Game.CanCast(*P, *Game.Player.Bar[i], Tg).IsEmpty()) { Game.TryCast(*P, *Game.Player.Bar[i], Tg->Id); break; }
+	}

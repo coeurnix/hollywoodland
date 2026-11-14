@@ -12,6 +12,8 @@
 //   opts.pitch    random pitch spread per play (0.06 = +-6%)
 //   opts.inf      prompt_influence (default 0.45)
 //   opts.stereo   keep stereo (loops default to stereo when range is 0)
+//   opts.files    existing recordings (repo-relative) used as the sources instead of generated ones (one per variant)
+//   opts.af       extra ffmpeg filter for the master (e.g. a radio band-pass); opts.kbps overrides the bitrate
 import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync, unlinkSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -254,7 +256,11 @@ add('loop_spire', 'world', 8, 1, 'Alien organic spire pulsing with a low throbbi
 add('loop_eggsac', 'world', 8, 1, 'Giant alien egg sac pulsing, slow wet heartbeat and squelching, steady', { ...wl, range: 40, vol: 0.5 });
 add('loop_projector', 'world', 6, 1, `${ERA} film projector running, mechanical clatter of the reel, steady`, { ...wl, range: 25 });
 add('loop_redcar', 'world', 6, 1, 'Electric streetcar running on rails, motor hum and wheel clatter, steady', { ...wl, range: 60, vol: 0.5 });
-add('loop_radio', 'world', 8, 1, `${ERA} radio playing scratchy jazz faintly through a speaker, steady`, { ...wl, range: 15, vol: 0.3 });
+// radios: public-domain 78 rpm records (Wikimedia Commons, see ASSETS.md) mastered to a small AM speaker; sources in sfx-src/radio/
+const RADIO = ['Ill_See_You_In_My_Dreams_-_Isham_Jones__Ray_Miller_Orch_1924.ogg', 'Riverboat_Shuffle_-_Bix_Beiderbecke__Wolverine_Orchestra_1924.ogg',
+  'Tea_For_Two_-_Marion_Harris_1924.ogg', 'Wreck_Of_The_Old_97_Vernon_Dalhart_1924.oga', 'Louisville_-_California_Ramblers_1923.opus', 'ODJB_Livery_Stable_Blues_1917.ogg'];
+add('loop_radio', 'world', 0, RADIO.length, '', { ...wl, range: 16, vol: 0.32, files: RADIO.map((f) => `sfx-src/radio/${f}`),
+  af: 'highpass=f=280,lowpass=f=3400,acompressor=threshold=0.1:ratio=3:attack=10:release=200', kbps: 32 });
 add('loop_fountain', 'world', 8, 1, 'Small stone fountain trickling water, steady', { ...wl, range: 20 });
 
 // ambience (2D beds, seamless, stereo; the game crossfades by subzone and time of day)
@@ -356,14 +362,14 @@ async function master(src, dst, o)
   const stereo = o.stereo ?? (o.loop && !o.range);
   const ch = stereo ? 2 : 1;
   const last = (txt, re) => { const m = [...txt.matchAll(re)]; return m.length ? Number(m[m.length - 1][1]) : 0; };
-  const probe = await run('ffmpeg', ['-hide_banner', '-nostats', '-i', src, '-ac', String(ch), '-af', 'volumedetect', '-f', 'null', '-']);
+  const probe = await run('ffmpeg', ['-hide_banner', '-nostats', '-i', src, '-ac', String(ch), '-ar', '44100', '-af', `${o.af ? o.af + ',' : ''}volumedetect`, '-f', 'null', '-']);
   const peak = last(probe, /max_volume:\s*(-?[\d.]+) dB/g);
   const gain = `volume=${((o.loop ? -2 : -1) - peak).toFixed(2)}dB`;
   if (o.loop)
   {
-    const lu = integrated(await verbose(src, `aformat=channel_layouts=${stereo ? 'stereo' : 'mono'},ebur128=framelog=verbose`));
+    const lu = integrated(await verbose(src, `${o.af ? o.af + ',' : ''}aformat=channel_layouts=${stereo ? 'stereo' : 'mono'},ebur128=framelog=verbose`));
     const g = Math.min(LOOP_LUFS - lu, -2 - peak);
-    await run('ffmpeg', ['-hide_banner', '-y', '-loglevel', 'error', '-i', src, '-ac', String(ch), '-ar', '44100', '-af', `volume=${g.toFixed(2)}dB`, '-c:a', 'libmp3lame', '-b:a', stereo ? '128k' : '96k', dst]);
+    await run('ffmpeg', ['-hide_banner', '-y', '-loglevel', 'error', '-i', src, '-ac', String(ch), '-ar', '44100', '-af', `${o.af ? o.af + ',' : ''}volume=${g.toFixed(2)}dB`, '-c:a', 'libmp3lame', '-b:a', o.kbps ? `${o.kbps}k` : stereo ? '128k' : '96k', dst]);
     return { samples: Math.round(last(probe, /n_samples:\s*(\d+)/g) / ch), lufs: lu + g };
   }
   // one-shots: normalise first, then trim silence relative to the normalised level, then short fades
@@ -389,6 +395,7 @@ let seconds = 0;
 for (const [id, cat, dur, n, prompt, o] of C)
   for (let v = 0; v < n; ++v)
   {
+    if (o.files) continue; // recordings, not generated
     const src = join(SRC, `${id}_${v}.wav`);
     const fresh = ONLY ? ONLY.test(id) && (REDO || !existsSync(src)) : (REDO || !existsSync(src));
     // under ~1 s the model tends to return near-silence; one-shots are trimmed afterwards anyway
@@ -420,7 +427,7 @@ for (const [id, cat, dur, n, prompt, o] of C)
   if (o.loop) { e.loop = true; e.samples = []; }
   for (let v = 0; v < n; ++v)
   {
-    const src = join(SRC, `${id}_${v}.wav`);
+    const src = o.files ? join(ROOT, o.files[v]) : join(SRC, `${id}_${v}.wav`);
     if (!existsSync(src)) continue;
     const name = `${id}_${v}.mp3`;
     keep.add(name);
@@ -439,7 +446,8 @@ await Promise.all(Array.from({ length: 6 }, async () =>
     if (m.o.loop) m.e.samples[m.idx] = r.samples;
   }
 }));
-for (const f of readdirSync(OUT)) if (f.endsWith('.mp3') && !keep.has(f)) { unlinkSync(join(OUT, f)); console.log(`removed stale ${f}`); }
+// (vo_*.mp3 share the folder: tools/dialoguegen owns them)
+for (const f of readdirSync(OUT)) if (f.endsWith('.mp3') && !f.startsWith('vo_') && !keep.has(f)) { unlinkSync(join(OUT, f)); console.log(`removed stale ${f}`); }
 for (const id of Object.keys(index)) if (!index[id].files.length) delete index[id];
 writeFileSync(INDEX, JSON.stringify({ note: 'Generated by tools/gen-sfx.mjs (fal.ai ElevenLabs SFX v3). Do not edit by hand.', sounds: index }, null, 1) + '\n');
 console.log(`wrote ${Object.keys(index).length} sounds to Content/Data/sfx.json; ${failed} failed`);

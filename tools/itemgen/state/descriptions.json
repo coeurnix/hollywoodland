@@ -10267,5 +10267,33 @@
   "icon": "A small bundle of auto parts tied with twine: a grimy brass carburettor, two white porcelain spark plugs, and a coiled black rubber fan belt, smudged with dark engine oil.",
   "model": "claude-opus-5-5",
   "at": "2026-11-12 21:38:05"
+ },
+ "mk_ii_fragmentation_grenade": {
+  "name": "Mk II Fragmentation Grenade",
+  "description": "Left over from the Argonne and sold by the crate out of a Legion storeroom. The veterans at Post 43 say to count before throwing, and to count faster than you did in France.",
+  "icon": "Olive-drab cast-iron pineapple grenade with deep segmented grooves, steel spoon lever along one side, brass pull ring hanging from the top fuze, faint rust at the seams.",
+  "model": "claude-opus-5-5",
+  "at": "2026-11-13 23:05:25"
+ },
+ "smoke_pot": {
+  "name": "Smoke Pot",
+  "description": "Borrowed from a Columbia effects crew, who were promised it back. One good puff and the director cannot find his star, which on most sets counts as a mercy.",
+  "icon": "Squat round tin canister painted dull grey with a crimped lid, short black cotton fuse poking from the top, scorched soot ring around the rim, thin curl of white smoke.",
+  "model": "claude-opus-5-5",
+  "at": "2026-11-13 23:05:25"
+ },
+ "smelling_salts": {
+  "name": "Smelling Salts",
+  "description": "Every wardrobe mistress keeps a vial for leading ladies and studio accountants. Ammonia strong enough to wake a fainted extra or a man who just met his first Drone.",
+  "icon": "Small ribbed cobalt-blue glass vial with a cork stopper, tiny white crystals visible inside, wrapped with a twist of faded pink ribbon around the neck.",
+  "model": "claude-opus-5-5",
+  "at": "2026-11-13 23:05:25"
+ },
+ "patent_tonic": {
+  "name": "Patent Tonic",
+  "description": "A druggist on Highland swears it is mostly herbs. The rest is the reason it sells so briskly under Prohibition and the reason nobody asks for the recipe.",
+  "icon": "Tall amber glass bottle with sloped shoulders and a cork, blank cream paper label edged in red, wax seal dripping down the neck, dark liquid half full.",
+  "model": "claude-opus-5-5",
+  "at": "2026-11-13 23:05:25"
  }
 }

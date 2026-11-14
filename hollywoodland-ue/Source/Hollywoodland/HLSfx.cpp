@@ -439,7 +439,7 @@ void FHLSfx::WantLoop(const FString& Key, const FString& Id, float Vol, float Pa
 	FLoop& L = Loops.FindOrAdd(Key);
 	if (L.Id != Id && L.Handle) { HLAudio::Stop(L.Handle, 0.3f); L.Handle = 0; }
 	L.Id = Id; L.bWanted = true;
-	if (!L.Handle) { L.Handle = Play(*D, 0, Vol, Pan, 1, 0.4f); L.Vol = Vol; L.Pan = Pan; return; }
+	if (!L.Handle) { L.Handle = Play(*D, D->Files.Num() > 1 ? int32(GetTypeHash(Key) % uint32(D->Files.Num())) : 0, Vol, Pan, 1, 0.4f); L.Vol = Vol; L.Pan = Pan; return; } // several takes: each spot keeps its own
 	if (FMath::Abs(Vol - L.Vol) > 0.015f || FMath::Abs(Pan - L.Pan) > 0.04f) { HLAudio::Set(L.Handle, Vol, Pan, 0.12f); L.Vol = Vol; L.Pan = Pan; }
 }
 
@@ -535,6 +535,9 @@ void FHLSfx::TickLoops(FHLGame& G, float Dt)
 				if (O.Def->Kind == TEXT("spire")) WantLoopAt(FString::Printf(TEXT("o%d"), i), TEXT("loop_spire"), LArea, O.Def->Pos, 2);
 				else if (O.Def->Kind == TEXT("egg_sac") || O.Def->Kind == TEXT("boss_egg")) WantLoopAt(FString::Printf(TEXT("o%d"), i), TEXT("loop_eggsac"), LArea, O.Def->Pos, 1);
 			}
+		// radios and other fixed sound spots
+		if (G.Areas.IsValidIndex(LArea))
+			for (int32 i = 0; i < G.Areas[LArea].Def->Sounds.Num(); ++i) { const auto& Sp = G.Areas[LArea].Def->Sounds[i]; WantLoopAt(FString::Printf(TEXT("s%d"), i), Sp.Id, LArea, Sp.Pos, Sp.Z); }
 		// the gunsmith's bench
 		if (G.CraftIdx >= 0 && G.Now < G.CraftEnd) WantLoop(TEXT("craft"), TEXT("craft_work"), Defs.Contains(TEXT("craft_work")) ? Defs[TEXT("craft_work")].Vol : 0.4f, 0);
 	}

@@ -1,9 +1,9 @@
 // Built quests for zone_hollywood_blvd and dng_egyptian (DESIGN-BIBLE §14). Text: giver's first person, plain 1930 voice.
 // Objective types: kill{mobs[],count} item{item,count,from[],rate} object{kind,count,(item)} use{kind,count} talk{npc}
-// Rewards: xp = 8 x same-level kill XP per step (x12 at a chain end), 10c x level. choice entries are [item name, req level].
+// Rewards: xp = 6 x same-level kill XP per step (x9 at a chain end; was 8/12: level 6 came at ~32 min of questing against the 45 min target), 10c x level. choice entries are [item name, req level].
 const killXp = (L) => 45 + 5 * L;
 const Q = (id, name, level, giver, turnin, objectives, text, done, o = {}) => ({ id, name, level, min_level: Math.max(1, level - 2), giver, turnin: turnin || giver, type: objectives[0].type, objectives, prereq: null, next: null,
-  rewards: { xp: Math.round((o.end ? 12 : 8) * killXp(level)), cents: 10 * level * (o.end ? 2 : 1), choice: o.choice || [], rep: o.rep || {} }, text, complete_text: done, built: true, hub: o.hub || 'hub_chinese_forecourt', group: !!o.group, dungeon: !!o.dungeon, ...(o.extra || {}) });
+  rewards: { xp: Math.round((o.end ? 9 : 6) * killXp(level)), cents: 10 * level * (o.end ? 2 : 1), choice: o.choice || [], rep: o.rep || {} }, text, complete_text: done, built: true, hub: o.hub || 'hub_chinese_forecourt', group: !!o.group, dungeon: !!o.dungeon, ...(o.extra || {}) });
 const kill = (mobs, count, label) => ({ type: 'kill', mobs: [].concat(mobs), count, label });
 const item = (name, count, from, rate, label) => ({ type: 'item', item: name, count, from: [].concat(from), rate, label: label || name });
 const object = (kind, count, name, label) => ({ type: 'object', kind, item: name, count, label: label || name });

@@ -163,8 +163,9 @@ bool FHLData::Load(FString& Err)
 			}
 			if (JObj U = Sub(O, TEXT("use")))
 			{
-				It.UseType = S(U, TEXT("type")); It.UseAmount = N(U, TEXT("amount")); It.UseStat = S(U, TEXT("stat")); It.UseValue = N(U, TEXT("value")); It.UseDur = N(U, TEXT("dur"));
-			}
+					It.UseType = S(U, TEXT("type")); It.UseAmount = N(U, TEXT("amount")); It.UseStat = S(U, TEXT("stat")); It.UseValue = N(U, TEXT("value")); It.UseDur = N(U, TEXT("dur"));
+				}
+				if (JObj Eq = Sub(O, TEXT("equip"))) { It.EquipMod = S(Eq, TEXT("mod")); It.EquipValue = N(Eq, TEXT("value")); It.EquipText = S(Eq, TEXT("text")); }
 			Items.Add(MoveTemp(It));
 		}
 		for (const FHLItem& It : Items) { ItemById.Add(It.Id, &It); if (!ItemByNameMap.Contains(It.Name)) ItemByNameMap.Add(It.Name, &It); }
@@ -266,6 +267,7 @@ bool FHLData::Load(FString& Err)
 			}
 			for (auto& EV : A(O, TEXT("exits"))) { JObj Ee = EV->AsObject(); Ar.Exits.Add({ S(Ee, TEXT("id")), S(Ee, TEXT("name")), S(Ee, TEXT("to_zone")), FVector2D(N(Ee, TEXT("x")), N(Ee, TEXT("y"))), B(Ee, TEXT("redcar")) }); }
 			for (auto& AV : A(O, TEXT("aid"))) { JObj Aa = AV->AsObject(); Ar.Aid.Add({ S(Aa, TEXT("name")), FVector2D(N(Aa, TEXT("x")), N(Aa, TEXT("y"))) }); }
+			for (auto& SV : A(O, TEXT("sounds"))) { const auto& P = SV->AsArray(); if (P.Num() >= 4) Ar.Sounds.Add({ P[0]->AsString(), FVector2D(P[1]->AsNumber(), P[2]->AsNumber()), float(P[3]->AsNumber()) }); }
 			for (auto& IV : A(O, TEXT("idle_spots"))) { const auto& P = IV->AsArray(); if (P.Num() >= 2) Ar.IdleSpots.Add(FVector2D(P[0]->AsNumber(), P[1]->AsNumber())); }
 			if (JObj Pois = Sub(O, TEXT("pois"))) for (auto& KV : Pois->Values) { const auto& P = KV.Value->AsArray(); if (P.Num() >= 2) Ar.Pois.Add(FString(KV.Key), FVector2D(P[0]->AsNumber(), P[1]->AsNumber())); }
 			Areas.Add(MoveTemp(Ar));

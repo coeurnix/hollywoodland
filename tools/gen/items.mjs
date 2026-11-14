@@ -146,6 +146,48 @@ const NAMED_WEAPONS = [
   ['Zip Gun', 'pistol', 1, 2, { agi: 0.6, sta: 0.4 }], ['Sawed-off Coach Gun', 'shotgun', 2, 2, { agi: 0.6, str: 0.4 }],
 ];
 
+// On-equip effects (bible §8): a blue or epic may trade 25% of its stat points for one effect from a fixed list, picked to
+// suit its main stat. `per` is the effect per traded point; keys are FHLUnit::Mods keys (fractions unless flat).
+// Epics always carry one, two blues in three (by a hash of the name), so the effect is fixed per item.
+const EQUIP_FX = {
+  crit: { per: 0.004, text: (v) => `Improves your chance to land a critical hit by ${pct(v)}.` },
+  dodge: { per: 0.004, text: (v) => `Increases your chance to dodge an attack by ${pct(v)}.` },
+  parry: { per: 0.004, text: (v) => `Increases your chance to parry an attack by ${pct(v)}.` },
+  block: { per: 0.005, text: (v) => `Increases your chance to block attacks with a riot shield by ${pct(v)}.` },
+  dmg_pct: { per: 0.004, text: (v) => `Increases all damage you deal by ${pct(v)}.` },
+  heal_pct: { per: 0.006, text: (v) => `Increases the healing you do by ${pct(v)}.` },
+  threat_pct: { per: 0.02, text: (v) => `Invaders hate you ${pct(v)} more for the harm you do.` },
+  taken_pct: { per: -0.0025, text: (v) => `Reduces all damage you take by ${pct(-v)}.` },
+  regen_pct: { per: 0.03, text: (v) => `Increases your health and Power regeneration by ${pct(v)}.` },
+  res_pct: { per: 0.015, text: (v) => `Increases your maximum Power by ${pct(v)}.` },
+  hp_pct: { per: 0.006, text: (v) => `Increases your maximum health by ${pct(v)}.` },
+  armor_pct: { per: 0.02, text: (v) => `Increases your armour by ${pct(v)}.` },
+  speed_pct: { per: 0.01, max: 0.08, text: (v) => `Increases your running speed by ${pct(v)}.` },
+  ap: { per: 2, flat: true, text: (v) => `+${v} attack power.` },
+  spell: { per: 1.2, flat: true, text: (v) => `Increases the damage and healing of your abilities by up to ${v}.` },
+};
+const pct = (v) => `${Math.round(v * 1000) / 10}%`;
+const FX_FOR = { str: ['ap', 'parry', 'armor_pct', 'threat_pct', 'crit'], agi: ['crit', 'dodge', 'ap', 'speed_pct', 'dmg_pct'],
+  sta: ['hp_pct', 'taken_pct', 'armor_pct'], int: ['spell', 'crit', 'res_pct', 'dmg_pct'], spi: ['heal_pct', 'regen_pct', 'spell'] };
+const hashName = (s) => [...s].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7);
+function withEquip(row, split) {
+  const h = hashName(row.name);
+  if (row.q < 3 || (row.q === 3 && h % 3 === 0)) return row;
+  const main = Object.keys(split).sort((a, b) => split[b] - split[a])[0];
+  let choices = FX_FOR[main];
+  if (row.type === 'shield') choices = ['block', ...choices];
+  const key = choices[(h >>> 3) % choices.length];
+  const points = Object.values(row.stats).reduce((a, b) => a + b, 0);
+  const traded = Math.min(points - 1, Math.max(2, Math.round(points * 0.25)));
+  row.stats = statsFor(points - traded, split);
+  const fx = EQUIP_FX[key];
+  let v = traded * fx.per;
+  if (fx.max) v = Math.sign(v) * Math.min(Math.abs(v), fx.max);
+  v = fx.flat ? Math.max(1, Math.round(v)) : Math.round(v * 1000) / 1000;
+  row.equip = { mod: key, value: v, text: fx.text(v) };
+  return row;
+}
+
 export function buildItems() {
   const items = [];
   const seen = new Set();
@@ -176,8 +218,8 @@ export function buildItems() {
       for (const suf of SUFFIX_FOR[w.fam]) add(weaponRow(`${base} ${suf}`, type, 2, req, SUFFIXES[suf], { base: 'base_' + slug(base) }));
     }
   });
-  for (const [name, slot, type, band, q, split] of NAMED) add(armourRow(name, slot, type, q, BANDS[band], split, { named: true }));
-  for (const [name, type, band, q, split] of NAMED_WEAPONS) add(weaponRow(name, type, q, BANDS[band], split, { named: true }));
+  for (const [name, slot, type, band, q, split] of NAMED) add(withEquip(armourRow(name, slot, type, q, BANDS[band], split, { named: true }), split));
+  for (const [name, type, band, q, split] of NAMED_WEAPONS) add(withEquip(weaponRow(name, type, q, BANDS[band], split, { named: true }), split));
 
   // Consumables: food restores health, drink restores Power, over 18 s out of combat (sitting).
   const food = [['Hot Dog', 'Coffee', 1, 60], ['Ham Sandwich', 'Coca-Cola', 5, 150], ['Blue Plate Special', 'Hires Root Beer', 15, 400], ['Chili Size', 'Egg Cream', 25, 800], ['Cobb Salad', 'Orange Julep', 35, 1400], ['Musso & Frank Steak Dinner', 'Brown Derby Coffee', 45, 2200]];

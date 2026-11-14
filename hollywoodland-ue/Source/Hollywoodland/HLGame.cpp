@@ -476,6 +476,7 @@ void FHLGame::RecalcCharStats(FHLUnit& U, const FHLClass& C, int32 Level, const 
 		if (!It) continue;
 		for (int32 i = 0; i < HL_NUM_STATS; ++i) U.Stats[i] += It->Stats[i];
 		Armor += It->Armor;
+		if (!It->EquipMod.IsEmpty()) U.Mods.FindOrAdd(It->EquipMod) += It->EquipValue;
 		if (KV.Key == TEXT("main")) Main = It;
 		if (KV.Key == TEXT("ranged")) Ranged = It;
 	}
@@ -498,6 +499,7 @@ void FHLGame::RecalcCharStats(FHLUnit& U, const FHLClass& C, int32 Level, const 
 	if (Weapon && Weapon->Speed > 0) { U.WeaponMin = Weapon->DMin; U.WeaponMax = Weapon->DMax; U.WeaponSpeed = Weapon->Speed; }
 	else { U.WeaponMin = 1; U.WeaponMax = 2; U.WeaponSpeed = 2; }
 	U.AbilityBonus = 0.5f * (C.Id == TEXT("preacher") ? FMath::Max(U.Stats[HL_INT], U.Stats[HL_SPI]) : U.Stats[HL_INT]);
+	U.AttackPower += U.Mod(TEXT("ap")); U.AbilityBonus += U.Mod(TEXT("spell")); // flat on-equip effects
 	U.Crit = C.bCaster ? 0.05f + U.Stats[HL_INT] / 6000.f : 0.05f + U.Stats[HL_AGI] / 2000.f;
 	U.Dodge = 0.05f + U.Stats[HL_AGI] / 2000.f;
 	// parry for melee fighters with a weapon in hand; block with a riot shield (bible §8 off-hands)

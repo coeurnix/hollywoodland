@@ -8811,6 +8811,30 @@
    "sheet": 3,
    "x": 1632,
    "y": 576
+  },
+  "mk_ii_fragmentation_grenade": {
+   "index": 1467,
+   "sheet": 3,
+   "x": 1728,
+   "y": 576
+  },
+  "smoke_pot": {
+   "index": 1468,
+   "sheet": 3,
+   "x": 1824,
+   "y": 576
+  },
+  "smelling_salts": {
+   "index": 1469,
+   "sheet": 3,
+   "x": 1920,
+   "y": 576
+  },
+  "patent_tonic": {
+   "index": 1470,
+   "sheet": 3,
+   "x": 0,
+   "y": 672
   }
  },
  "items": {
@@ -12760,6 +12784,10 @@
   "item_linen_bandage": "linen_bandage",
   "item_johnson_and_johnson_gauze_roll": "johnson_johnson_gauze_roll",
   "item_bootleg_gin": "bootleg_gin",
+  "item_mk_ii_fragmentation_grenade": "mk_ii_fragmentation_grenade",
+  "item_smoke_pot": "smoke_pot",
+  "item_smelling_salts": "smelling_salts",
+  "item_patent_tonic": "patent_tonic",
   "item_38_special_lead_round_nose": "38_special_lead_round_nose",
   "item_45_acp_full_metal_jacket": "45_acp_full_metal_jacket",
   "item_30_30_winchester_soft_point": "30_30_winchester_soft_point",

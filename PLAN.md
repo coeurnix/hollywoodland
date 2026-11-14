@@ -67,11 +67,11 @@ browser ── itch.io page (iframe, SharedArrayBuffer support) ── UE 5.9 Wa
 | Mobs (§7) | DONE | 9 open-world templates, 2 rares, 2 elites, 4 gap guards, 4 dungeon trash, 4 bosses. Burrowers (`script: burrower`: wait under the street as a mound, erupt with a 1.5 s stun, tunnel under the target at half health; immune while underground) and fliers (`script: flier`: 8 s diving, 4 s climbing overhead at half damage taken, a swoop hit each dive; the Cahuenga Pass patrol). Patrols anchor their leash where a fight starts. |
 | Death (§6) | DONE | Release as a ghost at the nearest aid station, run back to the corpse (marker, 1.25x speed) and revive at 50%, or revive at the station for -25% durability and 10 min sickness (-25% attributes). Dungeon deaths respawn at the portal. |
 | Quests (§10, §14) | DONE 38 / PROTO 3 | Kill, drop-collect, world-collect, use, deliver, escort and craft objectives work. `q_hb_14` finds Whitey Nolan, `q_hb_14b` escorts him to the Pantages (follows the player, three ambushes, fails if he dies or is left 60 m behind). `q_hb_29` crafts 20 .38 rounds (handed in). Eight class quests at level 10 from the class trainers, each with a named blue class weapon. Breadcrumbs 30-32 accept-only. Counters only: quest items are not bag items. |
-| Items (§8) | DONE ~3,960 rows | Generator + formulas. Base list is ~70 bases (target ~680). 1,447 painted icons and tooltip descriptions (tools/itemgen; gloves vision-checked). Pocket items (usable in combat, shared 60 s cooldown): Mk II grenade (6 m splash), Smoke Pot (drops threat within 30 m), Smelling Salts (clears stun/daze/slow), Patent Tonic (30% heal); sold by the newsie, quartermaster and Max Factor; no painted icons yet. On-equip effects TODO. |
+| Items (§8) | DONE ~3,960 rows | Generator + formulas. Base list is ~70 bases (target ~680). 1,447 painted icons and tooltip descriptions (tools/itemgen; gloves vision-checked). Pocket items (usable in combat, shared 60 s cooldown): Mk II grenade (6 m splash), Smoke Pot (drops threat within 30 m), Smelling Salts (clears stun/daze/slow), Patent Tonic (30% heal); sold by the newsie, quartermaster and Max Factor; painted icons. On-equip effects: 61 named blues/epics carry one ("Equip: +1.2% critical strike", +attack power, +healing, -damage taken, ...), paid for by ~25% of the item's stat points (`EQUIP_FX` in `tools/gen/items.mjs`; they add to the unit `Mods`, shown green in the tooltip). |
 | Vendors, trainers, bank | DONE | Buy/sell, class trainers, 24-slot bank plus six rentable boxes of 6 ($1 to $100). Rested XP: kill XP doubled from a pool (cap 1.5 levels) earned at the inn (0.5% of a level per 10 s) and while logged out (3%/h, 10%/h with the inn as home); blue XP bar and marker. |
 | Auction house (§9) | DONE | 160 simulated listings following the population spread; name search, bids with rival bidders (outbid mail), buyout, 1/4/12 h listings, sim buyers and bidders, results by mail; your listings and bids persist in the save. Price history: last 12 sales per item. |
 | Professions (§9) | DONE 2 / DATA rest | Salvaging 1-75 on wreck nodes. Gunsmithing 1-75 from Earl Tanner (level 5, 25c): six recipes (.38, birdshot, Zip Gun, .30-30, .45, Sawed-off Coach Gun) from Scrap Metal and Brass Casings (wrecks, looters, Earl's stock), workbench window (K), cast bar, orange/yellow/green/grey skill-ups. Other professions DATA. |
-| Dungeon: Egyptian (§14) | PROTO | One persistent "instance" area at +3000 m. 4 bosses with simplified mechanics (eggs hatch, charge, acid pool with LOS, add waves + egg sac heal). Loot 2 blues/boss, need/greed rolls. Untuned: run `-HLAuto` party tests (WP7 target: 3 of 5 clears). |
+| Dungeon: Egyptian (§14) | PROTO | One persistent "instance" area at +3000 m. 4 bosses with simplified mechanics (eggs hatch, charge, acid pool with LOS, add waves + egg sac heal). Loot 2 blues/boss, need/greed rolls. Tuned by self-play (`-HLAuto=<class> -HLAutoDungeon -HLTimeScale=8`, five classes): Hive Mother hp 1.7 / dmg 0.9 gives 5/5 eventual clears with the player dying to her in 2 of 5 runs (1.8/0.9: 0/2 clears, 1.6/0.85: no deaths to her); deaths mostly at the Matriarch's acid pool and the Hive Mother. Bosses hold their room (threat from outside leash+10 m is ignored), so a wipe resets the fight. |
 | Simulated population (§11) | PROTO | 300 personas; ~40 locals + ≤8 transients + ≤6 idlers as full units (no crowd LOD yet; fine at this count). Census: logins, level-ups, dice dungeon runs → events. |
 | Party (§6) | DONE | Invite either way, follow/assist/heal/taunt, loot rolls, leave after 15-40 min. Sim tanks/healers use generic priority picker. |
 | Chat (§11) | DONE | 63 templates, ~790 corpus lines (237 hand-written + LLM cache), typing styles, item links, whisper-by-click, /who. |
@@ -96,13 +96,16 @@ browser ── itch.io page (iframe, SharedArrayBuffer support) ── UE 5.9 Wa
 ## 3. TODO (ordered; each item is independently shippable)
 
 ### P0 — correctness and feel (do first)
-1. **Tune the Egyptian.** Run 5-sim parties through it (extend `AutoTest` to form a party and path through portals); adjust
-   `hp/dmg` in `tools/gen/zone.mjs` dungeon mobs until 3/5 clears with ~1 wipe at the Hive Mother.
-2. **Tune 1-6 pacing** to 45 min with quests (bible §14 target). Levers: quest XP multiplier (`quests.mjs`), mob respawn (90 s),
-   sim kill-stealing density (`MAX_LOCALS`, `PickCampFor`).
+1. ~~Tune the Egyptian~~ (done, see the Dungeon row: self-play soak with `-HLTimeScale`; the bot burns boss objects, a rubble col
+   that snagged units in the centre aisle moved, bosses reset after a wipe instead of chasing the party out of the room).
+2. **Tune 1-6 pacing** to 45 min with quests (bible §14 target). Measured (`-HLAuto=veteran -HLTimeScale=8`, kills only, the bot
+   does not quest): level 6 at 30 game-minutes, 191 kills (~40 XP each). The 13 level 1-5 quests paid 6,980 of the 7,600 XP to
+   level 6, so a questing player (est. ~4 min a quest, kills included) reached 6 in ~32 min; quest XP is now 6x/9x kill XP (was
+   8x/12x), est. ~38 min. Still to do: a human run to confirm (other levers: mob respawn 90 s, sim density `MAX_LOCALS`).
 3. ~~Camera collision~~ (done: exact box ray). Click-to-move is absent.
-4. **Mouse look on the web:** verify pointer-lock behaviour of `UseHighPrecisionMouseMovement` in the itch iframe; fall back to
-   plain capture if the browser refuses the lock.
+4. **Mouse look on the web:** verify pointer-lock behaviour of `UseHighPrecisionMouseMovement` in the itch iframe. The fallback is
+   already in the code: the drag uses `GetCursorDelta` under mouse capture, so a refused lock still turns the camera (the cursor
+   just stays visible), and pointer-lock warps (>250 px) are dropped. Still to confirm by hand on the itch page.
 5. ~~Unit separation~~ (melee mobs spread around their target; sims step aside from each other, NPCs and the player).
 6. ~~Restore from cloud save~~ (done: the game menu shows the cloud code (player id); the title screen has a Restore box that fetches `/v1/save/<code>` into this browser).
 
@@ -135,8 +138,10 @@ browser ── itch.io page (iframe, SharedArrayBuffer support) ── UE 5.9 Wa
     storefront kit and the hub landmarks are in (`art/buildings`, taken in house 2026-11-14); what is left, and the prompt
     for whoever continues, is in `art/buildings/HANDOVER.md` (hive wall kit, Hollywood High, aid stations, backdrops).
 25. Items: grow base list to ~680 (bible §8), icons (~700), pocket items, epics set looks; validator rule for unique names.
-26. Quest text to 60-120 words (LLM expand with cache, human spot-check 20). Unbuilt-zone quest titles to ~45/zone.
-27. Audio (music, SFX and ambience done): 1925-and-earlier recordings on radios; voice-over once the dialogue scripts exist. Public-domain film on the Chinese screen (§14 assets).
+26. ~~Quest text to 60-120 words~~ (done: every offer in `dialogue.json` is 67-100 words). Unbuilt-zone quest titles to ~45/zone.
+27. Audio (music, SFX, ambience and voice-over done): ~~1925-and-earlier recordings on radios~~ (done: six 1917-24 records on
+    radios at the Roosevelt desk, the Vine drugstore and the Brown Derby; zone `sounds` spots, ASSETS.md). Public-domain film on the
+    Chinese screen (§14 assets: *Hell's Angels* (1930) is US public domain since 2026; a low-res flipbook atlas would fit the budget).
 28. ~~Day/night cycle; skybox~~ (done); ~~HOLLYWOODLAND sign on the north horizon~~ (done: `art/world` letters on the HLTerrain north ridge).
 
 ## 4. Technical dependencies and risks
