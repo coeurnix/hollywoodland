@@ -1,6 +1,6 @@
 # ART-SONGS.md
 
-30 instrumental tracks generated with Lyria 3 Pro (`fal-ai/lyria3/pro`) via fal.ai, stored in `music/`. All target ~2:30, late-1920s / 1930 acoustic period style, no vocals.
+30 instrumental tracks generated with Lyria 3 Pro (`fal-ai/lyria3/pro`) via fal.ai, stored in `music/`. All target ~2:30, late-1920s / 1930 acoustic period style, no vocals. Shipped as 128 kbps MP3 (re-encoded from 192 kbps on 2026-11-14 to keep the itch package under 500 MiB).
 
 | # | Title | File | Intended scene use | Style | BPM |
 |---|---|---|---|---|---|
