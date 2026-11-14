@@ -590,7 +590,7 @@ void FHLGame::TickPartyMind(FHLSim& S, FHLUnit& U)
 	// nothing is happening and there are things to kill right there: the impatient pull
 	if (T.Aggr < 0.7f || Now < S.BelWaitUntil - (1.f - T.Pati) * 14) { S.ImpatientAt = 0; return; }
 	if (S.ImpatientAt == 0) { S.ImpatientAt = Now + 14 + T.Pati * 40 + Rand() * 10; return; }
-	if (Now < S.ImpatientAt || InCombat(*P) || P->bSitting == false && Dist(U, *P) > 30) return;
+	if (Now < S.ImpatientAt || InCombat(*P) || Dist(U, *P) > 30) return;
 	S.ImpatientAt = 0;
 	FHLUnit* Best = nullptr; float BestD = 32;
 	for (FHLUnit* O : UnitList)
