@@ -398,6 +398,7 @@ void AHLWorldActor::ScatterFoliage(AActor* Geo, int32 Area)
 	for (const FHLPropPlace& Pp : Def.Props) if (!Pp.Mesh.Contains(TEXT("/Buildings/"))) Mark(Pp.Pos - FVector2D(3.f), Pp.Pos + FVector2D(3.f));
 	for (const FHLObjectDef& Ob : Def.Objects) Mark(Ob.Pos - FVector2D(3.f), Ob.Pos + FVector2D(3.f));
 	for (const FHLAidStation& Ai : Def.Aid) Mark(Ai.Pos - FVector2D(8.f), Ai.Pos + FVector2D(8.f));
+	if (Def.Id == TEXT("zone_hollywood_blvd")) Mark(FVector2D(255.f, -470.f), FVector2D(345.f, -322.f)); // the character-select stage and its view (Showcase)
 	auto Clear = [&](const FVector2D& P) { return !Taken.Contains(FIntPoint(FMath::FloorToInt32(P.X / 4.f), FMath::FloorToInt32(P.Y / 4.f))); };
 	auto Big = [&](const TCHAR* Name, float CullM, const FVector2D& P, float S, float Sink) { if (!Clear(P)) return; Add(Comp(Name, CullM, false), P, S, Sink); ++NBig; };
 	// where the biggest orchard and the thickest grove fell (logged: a view to check them, -HLViewSet=nature)
@@ -498,7 +499,12 @@ void AHLWorldActor::BeginPlay()
 	Game.Sfx.Init(!PLATFORM_WASM && !AutoClass.IsEmpty() && !FParse::Param(FCommandLine::Get(), TEXT("HLSfx")));
 	// browser test hook: localStorage hl_auto=<class> starts the self-playing test (tools/probe.py --auto)
 	HLBridge::StorageGet(TEXT("hl_auto"), [this](const FHLBridgeResult& R) { if (R.Ok() && !R.Body.IsEmpty() && AutoClass.IsEmpty()) AutoClass = R.Body.TrimStartAndEnd(); });
-	HLBridge::StorageGet(TEXT("hollywoodland_save_v1"), [this](const FHLBridgeResult& R) { bSaveChecked = true; if (R.Ok()) SavedJson = R.Body; });
+	for (int32 Slot = 0; Slot < 3; ++Slot)
+		HLBridge::StorageGet(FHLGame::SaveKey(Slot), [this, Slot](const FHLBridgeResult& R)
+		{
+			if (R.Ok() && R.Body.Contains(TEXT("\"name\""))) SavedSlots[Slot] = R.Body;
+			if (--SlotsPending <= 0) bSaveChecked = true;
+		});
 	if (GEngine && GEngine->GameViewport)
 	{
 		UI = SNew(SHLGameUI).World(this);
@@ -837,6 +843,12 @@ UTextureRenderTarget2D* AHLWorldActor::Preview(const FHLCharLook& L, float Yaw, 
 		Key->SetIntensityUnits(ELightUnits::Unitless); Key->SetIntensity(2500.f); Key->SetAttenuationRadius(900.f);
 		Key->SetLightColor(FLinearColor(1.f, 0.97f, 0.92f)); Key->SetCastShadows(false);
 		Key->RegisterComponent();
+		UPointLightComponent* Fill = NewObject<UPointLightComponent>(Stage);
+		Fill->SetupAttachment(Root); Fill->SetMobility(EComponentMobility::Movable);
+		Fill->SetRelativeLocation(FVector(240, -160, 150));
+		Fill->SetIntensityUnits(ELightUnits::Unitless); Fill->SetIntensity(1300.f); Fill->SetAttenuationRadius(800.f);
+		Fill->SetLightColor(FLinearColor(0.95f, 0.95f, 1.f)); Fill->SetCastShadows(false);
+		Fill->RegisterComponent();
 		StageRT = NewObject<UTextureRenderTarget2D>(this);
 		StageRT->RenderTargetFormat = ETextureRenderTargetFormat::RTF_RGBA8_SRGB;
 		StageRT->ClearColor = FLinearColor(0.16f, 0.13f, 0.1f, 1);
@@ -879,8 +891,98 @@ UTextureRenderTarget2D* AHLWorldActor::Preview(const FHLCharLook& L, float Yaw, 
 	return StageRT;
 }
 
+void AHLWorldActor::Showcase(const FHLCharLook* L, float Yaw, const FString& Clip)
+{
+	if (!GetWorld() || !Game.Areas.Num()) return;
+	if (!Show)
+	{
+		// where everything stands (2D zone metres): find the spot on the slopes south of the sign that sees most of its
+		// letters over the hills (terrain samples along each sight line), then put the figure a few metres in front
+		TArray<FVector> Letters; // x, y, mid-height (absolute metres)
+		for (const FHLPropPlace& Pp : Game.Areas[0].Def->Props)
+			if (Pp.Pos.Y < -650.f && Pp.Pos.Y > -750.f && Pp.Mesh.Contains(TEXT("sign_")))
+				Letters.Add(FVector(Pp.Pos.X, Pp.Pos.Y, GroundZ(0, Pp.Pos) + Pp.Z + 9.f));
+		if (Letters.IsEmpty()) for (int32 k = 0; k < 9; ++k) Letters.Add(FVector(190.f + k * 27.f, -700.f, GroundZ(0, FVector2D(190.f + k * 27.f, -700.f)) + 9.f));
+		FVector2D SignP(0, 0); for (const FVector& Lt : Letters) SignP += FVector2D(Lt.X, Lt.Y); SignP /= Letters.Num();
+		float Best = -1e9f; FVector2D BestCam(300.f, -470.f);
+		for (float Y = -380.f; Y <= -335.f; Y += 5.f)
+			for (float X = SignP.X - 20.f; X <= SignP.X + 20.f; X += 5.f)
+			{
+				const FVector2D C(X, Y);
+				const float Cz = GroundZ(0, C) + 1.2f;
+				int32 Seen = 0;
+				for (const FVector& Lt : Letters)
+				{
+					const FVector2D T(Lt.X, Lt.Y);
+					const float Len = FVector2D::Distance(C, T);
+					bool bClear = true;
+					for (float s = 6.f; s < Len - 10.f && bClear; s += 4.f)
+					{
+						const float A = s / Len;
+						if (GroundZ(0, FMath::Lerp(C, T, A)) + 0.5f > FMath::Lerp(Cz, Lt.Z, A)) bClear = false;
+					}
+					Seen += bClear;
+				}
+				const float Dist = FVector2D::Distance(C, SignP);
+				const float Elev = FMath::RadiansToDegrees(FMath::Atan2(Letters[0].Z - Cz, Dist));
+				const float Score = Seen * 10.f - FMath::Abs(Elev - 22.f) * 0.8f - FMath::Abs(X - SignP.X) * 0.03f;
+				if (Score > Best) { Best = Score; BestCam = C; }
+			}
+		// the frame is ~50 degrees tall: the camera pitches up toward the sign (the letters about 16 degrees above the
+		// centre), the feet sit 23 degrees under it, and the figure's distance follows (eye 0.9 m over its feet)
+		const FVector2D Dir = (SignP - BestCam).GetSafeNormal();
+		const float Elev = FMath::RadiansToDegrees(FMath::Atan2(Letters[0].Z - GroundZ(0, BestCam) - 1.f, FVector2D::Distance(BestCam, SignP)));
+		ShowPitch = 5.f; (void)Elev;
+		const float Dch = 0.9f / FMath::Tan(FMath::DegreesToRadians(23.f - ShowPitch));
+		ShowCamP = BestCam; ShowCharP = BestCam + Dir * Dch;
+		UE_LOG(LogTemp, Display, TEXT("HL_STATUS showcase cam %.0f,%.0f score %.1f of %d letters, sign at %.0f,%.0f"), BestCam.X, BestCam.Y, Best, Letters.Num(), SignP.X, SignP.Y);
+		ShowSignP = SignP;
+	}
+	const FVector2D CharP = ShowCharP, CamP = ShowCamP, SignP = ShowSignP;
+	if (!Show)
+	{
+		Show = GetWorld()->SpawnActor<AActor>(AActor::StaticClass(), FTransform(ToWorld(0, CharP, 0.f)));
+		USceneComponent* Root = NewObject<USceneComponent>(Show);
+		Root->SetMobility(EComponentMobility::Movable);
+		Show->SetRootComponent(Root); Root->RegisterComponent();
+		Show->SetActorLocation(ToWorld(0, CharP, 0.f));
+		ShowChar = NewObject<USceneComponent>(Show);
+		ShowChar->SetMobility(EComponentMobility::Movable);
+		ShowChar->SetupAttachment(Root); ShowChar->RegisterComponent();
+		// a soft fill from the camera side so the face reads under any sky
+		ShowFill = NewObject<UPointLightComponent>(Show);
+		ShowFill->SetupAttachment(Root); ShowFill->SetMobility(EComponentMobility::Movable);
+		const FVector2D ToCam = (CamP - CharP).GetSafeNormal();
+		ShowFill->SetRelativeLocation(FVector(ToCam.X * 180.f, ToCam.Y * 180.f, 210.f));
+		ShowFill->SetIntensityUnits(ELightUnits::Unitless); ShowFill->SetIntensity(1400.f); ShowFill->SetAttenuationRadius(520.f);
+		ShowFill->SetLightColor(FLinearColor(1.f, 0.9f, 0.8f)); ShowFill->SetCastShadows(false);
+		ShowFill->RegisterComponent();
+		Spawned.Add(Show);
+		// eye level a little under the figure's head, looking toward the sign and only slightly up: the whole figure in
+		// the lower half of the frame, the ridge and the letters above
+		const float Gc = GroundZ(0, CharP);
+		ShowCamLoc = FVector(CamP.X * M, CamP.Y * M, FMath::Max(Gc + 0.9f, GroundZ(0, CamP) + 0.4f) * M);
+		FRotator R = (ToWorld(0, SignP, 0.f) - ShowCamLoc).Rotation();
+		const float Dh = FVector2D::Distance(CamP, CharP);
+		R.Pitch = FMath::RadiansToDegrees(FMath::Atan2(Gc - ShowCamLoc.Z / M, Dh)) + 23.f;
+		ShowCamRot = R;
+		Show->SetActorLocation(ToWorld(0, CharP, 0.f));
+	}
+	ShowWantUntil = FPlatformTime::Seconds() + 0.3;
+	if (!L) { Show->SetActorHiddenInGame(true); return; }
+	Show->SetActorHiddenInGame(false);
+	if (!FHLChars::Get().Ready()) return;
+	CharVis.Apply(GetWorld(), Show, ShowChar, ShowRig, *L, 1024);
+	if (USkeletalMeshComponent* Ld = ShowRig.Leader.Get()) Ld->VisibilityBasedAnimTickOption = EVisibilityBasedAnimTickOption::AlwaysTickPoseAndRefreshBones;
+	CharVis.Play(ShowRig, Clip.IsEmpty() ? FString(TEXT("Idle")) : Clip, true);
+	const float Face = FMath::RadiansToDegrees(FMath::Atan2(CamP.Y - CharP.Y, CamP.X - CharP.X));
+	ShowChar->SetWorldRotation(FRotator(0, Face + Yaw, 0));
+	ShadowActor(Show, true);
+}
+
 void AHLWorldActor::TickStage()
 {
+	if (Show && FPlatformTime::Seconds() > ShowWantUntil && !Show->IsHidden()) Show->SetActorHiddenInGame(true);
 	if (!Stage || !StageCap || FPlatformTime::Seconds() < StageWantUntil || Stage->IsHidden()) return;
 	// nobody looked for a moment: stop filming and hide the stage
 	StageCap->bCaptureEveryFrame = false;
@@ -931,7 +1033,7 @@ void AHLWorldActor::TickSky()
 	// Dungeons keep a neutral grade.
 	const FHLUnit* P = Game.PlayerUnit();
 	const bool bIndoors = P && Game.Areas.IsValidIndex(P->Area) && Game.Areas[P->Area].Def->bDungeon;
-	const float H = Game.Hour();
+	const float H = Game.bInWorld ? Game.Hour() : 17.6f; // the title and character select: late afternoon
 	const float D = FHLGame::Daylight(H);
 	const float Elev = (H >= 5.f && H <= 21.f) ? FMath::Sin(PI * (H - 5.f) / 16.f) : 0.f;
 	const float Gold = D * (1.f - FMath::SmoothStep(0.12f, 0.5f, Elev)); // low sun
@@ -943,6 +1045,13 @@ void AHLWorldActor::TickSky()
 		const FLinearColor SunC = FMath::Lerp(FLinearColor(1.f, 0.92f, 0.8f), FLinearColor(1.f, 0.62f, 0.38f), Gold);
 		SunLight->SetLightColor(FMath::Lerp(FLinearColor(0.55f, 0.65f, 1.f), SunC, D));
 		SunLight->SetIntensity(D > 0.35f ? FMath::Lerp(1.05f, 2.0f, FMath::SmoothStep(0.35f, 1.f, D)) : FMath::Lerp(0.95f, 1.05f, D / 0.35f));
+		if (!Game.bInWorld)
+		{
+			// clouds rolling over the hills: the sun dims and returns in long, uneven swells
+			const float Ts = GetWorld()->GetTimeSeconds();
+			const float Cl = 0.5f + 0.5f * FMath::PerlinNoise1D(Ts * 0.09f) + 0.25f * FMath::PerlinNoise1D(Ts * 0.31f + 7.f);
+			SunLight->SetIntensity(2.6f * FMath::Lerp(0.45f, 1.1f, FMath::SmoothStep(0.2f, 0.75f, Cl)));
+		}
 	}
 	const FLinearColor SkyTint = FMath::Lerp(FLinearColor(1, 1, 1), FLinearColor(1.08f, 0.78f, 0.66f), Gold);
 	for (UMaterialInstanceDynamic* S : SkyMids)
@@ -976,6 +1085,7 @@ void AHLWorldActor::TickSky()
 	if (Fog)
 	{
 		Fog->SetVisibility(!bIndoors);
+		Fog->SetFogDensity(Game.bInWorld ? 0.009f : 0.0035f); // the character select: clear air to the sign
 		const FLinearColor Day = FMath::Lerp(FLinearColor(0.55f, 0.62f, 0.74f), FLinearColor(0.85f, 0.6f, 0.42f), Gold);
 		Fog->SetFogInscatteringColor(FMath::Lerp(FLinearColor(0.035f, 0.045f, 0.08f), Day, D));
 	}
@@ -1238,6 +1348,13 @@ void AHLWorldActor::Tick(float Dt)
 		Loc.Z = FMath::Max(Loc.Z, (GroundZ(CA, FVector2D(Loc.X / M, Loc.Y / M) - Off) + 0.6f) * M);
 	}
 	Camera->SetWorldLocationAndRotation(Loc, (Focus - Loc).Rotation());
+	if (!Game.bInWorld && Show && FPlatformTime::Seconds() < ShowWantUntil)
+	{
+		// character select: a slow breathing drift so the scene is alive
+		const float Ts = GetWorld()->GetTimeSeconds();
+		const FVector Drift(FMath::Sin(Ts * 0.13f) * 18.f, 0.f, FMath::Sin(Ts * 0.21f) * 6.f);
+		Camera->SetWorldLocationAndRotation(ShowCamLoc + Drift, ShowCamRot + FRotator(FMath::Sin(Ts * 0.17f) * 0.3f, FMath::Sin(Ts * 0.11f) * 0.6f, 0));
+	}
 	// sound: the listener is the player's head, facing the camera
 	if (P && Game.bInWorld) Game.Sfx.Tick(Game, Dt, P->Area, P->Pos, P->Z + 1.7f, Yaw);
 	else Game.Sfx.Tick(Game, Dt, -1, FVector2D::ZeroVector, 0, Yaw);
@@ -1302,10 +1419,10 @@ void AHLWorldActor::AutoTest(float Dt)
 		#if !PLATFORM_WASM
 		if (FParse::Param(FCommandLine::Get(), TEXT("HLAutoTitleShot")) && AutoShots == 0)
 		{
-			static bool bShot = false;
-			if (T < 3) return;
+			static bool bShot = false; static float Wait = 3; static bool bW = FParse::Value(FCommandLine::Get(), TEXT("HLTitleWait="), Wait);
+			if (T < Wait) return;
 			if (!bShot) { bShot = true; FScreenshotRequest::RequestScreenshot(FPaths::ProjectSavedDir() / TEXT("Screenshots/hl_title.png"), true, false); }
-			if (T < 5) return;
+			if (T < Wait + 2) return;
 		}
 		#endif
 		const FHLClass* C = FHLData::Get().Class(AutoClass);
@@ -1490,7 +1607,7 @@ void AHLWorldActor::AutoTest(float Dt)
 	{
 		// enemy art check: each rigged model in its idle beside the player (both facing +X), seen from the side, one
 		// screenshot each (hl_enemy_NN.png); then the walk clip a step later
-		static TArray<FString> MobIds; static int32 Step = -1; static double NextStep = 0; static TWeakObjectPtr<AActor> Show; static FHLEnemyRig Rig;
+		static TArray<FString> MobIds; static int32 Step = -1; static double NextStep = 0; static TWeakObjectPtr<AActor> Lineup; static FHLEnemyRig Rig;
 		FHLEnemyArt& EA = FHLEnemyArt::Get();
 		if (MobIds.IsEmpty() && EA.Load())
 		{
@@ -1506,7 +1623,7 @@ void AHLWorldActor::AutoTest(float Dt)
 		{
 			if (++Step >= MobIds.Num() * 2) { UKismetSystemLibrary::QuitGame(this, nullptr, EQuitPreference::Quit, false); return; }
 			NextStep = T + 2;
-			if (Show.IsValid()) Show->Destroy();
+			if (Lineup.IsValid()) Lineup->Destroy();
 			const FHLMobDef* LM = FHLData::Get().Mob(MobIds[Step / 2]);
 			AActor* A = GetWorld()->SpawnActor<AActor>(AActor::StaticClass(), FTransform::Identity);
 			USceneComponent* R = NewObject<USceneComponent>(A); A->SetRootComponent(R); R->RegisterComponent();
@@ -1515,7 +1632,7 @@ void AHLWorldActor::AutoTest(float Dt)
 			A->SetActorLocationAndRotation(ToWorld(P->Area, At + FVector2D(0, -3.5f), 0), FRotator::ZeroRotator);
 			A->SetActorScale3D(FVector(FMath::Min(LM->Scale, 1.6f)));
 			if (Rig.Model) EA.Play(Rig, Rig.Model->Role(Step % 2 ? TEXT("walk") : TEXT("idle")), true);
-			Show = A;
+			Lineup = A;
 			HLBridge::Log(FString::Printf(TEXT("HL lineup %d %s (%s)"), Step, *LM->Id, Rig.Model ? *Rig.Model->Id : TEXT("none")));
 		}
 #if !PLATFORM_WASM

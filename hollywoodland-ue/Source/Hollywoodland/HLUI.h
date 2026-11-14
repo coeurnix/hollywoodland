@@ -147,7 +147,8 @@ private:
 	mutable float PreviewYaw = -18.f, PreviewLastX = 0; mutable bool bPreviewDrag = false;
 	mutable TSharedPtr<struct FSlateBrush> PreviewBrush;
 	void DrawPreview(float X, float Y, float W, float H, const FHLCharLook& L, const FString& Clip) const;
-	void DrawCreator(float X, float Y, float W) const;
+	void DrawCreator(float X, float Y, float W, bool bPreview = true) const;
+	mutable int32 TitleMode = 0, SelSlot = -1; mutable bool bDelArmed = false; // character select (0) or create (1)
 	// tooltip (set during paint, drawn last)
 	mutable const FHLItem* TipItem = nullptr; mutable FString TipText, TipExtra; mutable FVector2D TipPos; // TipExtra: lines added to an item card
 	// world picks collected during the overlay pass

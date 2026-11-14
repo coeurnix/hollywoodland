@@ -369,11 +369,11 @@ for (let x = -96; x < 900; x += 36) if (!onCross(x + 18, 5) && !nearNpc(x + 18, 
 for (let y = -80; y < 540; y += 30) for (const x of [288.6, 307.4]) if ((y < 180 || y > 222) && !nearNpc(x, y, 6)) palm(x, y, palmN++);
 // the HOLLYWOODLAND sign on the north ridge (past the hive ring, on the hills HLTerrain raises there), facing the city
 {
-  const S = 2, GAP = 4, letters = 'HOLLYWOODLAND'.split('');
+  const S = 1.2, GAP = 2.2, letters = 'HOLLYWOODLAND'.split(''); // ~16 m letters, as built (HLTerrain cuts the bench they stand on)
   const w = (c) => (PROPS_TABLE[`sign_${c.toLowerCase()}`].max[1] - PROPS_TABLE[`sign_${c.toLowerCase()}`].min[1]) * S;
   const total = letters.reduce((a, c) => a + w(c) + GAP, -GAP);
   let x = 300 - total / 2;
-  letters.forEach((c, i) => { deco(`sign_${c.toLowerCase()}`, x + w(c) / 2, -700 + [0, 5, 2][i % 3], 90, S, -2); x += w(c) + GAP; });
+  letters.forEach((c) => { deco(`sign_${c.toLowerCase()}`, x + w(c) / 2, -700, 90, S, -0.6); x += w(c) + GAP; });
 }
 // theatre marquees (hung from the front wall) and a theatre front on Vine
 // (the Pantages, Grauman's and the Egyptian carry their own marquees: art/buildings sign cards)

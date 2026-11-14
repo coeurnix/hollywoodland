@@ -413,6 +413,9 @@ public:
 	double TestDriveUntil = 0;
 	void StartTestDrive(int32 Kind);
 	void EndTestDrive(const TCHAR* Why);
+	// three character slots in local storage: slot 0 keeps the original key, so older saves appear in it
+	int32 SaveSlot = 0;
+	static FString SaveKey(int32 Slot) { return Slot <= 0 ? FString(TEXT("hollywoodland_save_v1")) : FString::Printf(TEXT("hollywoodland_save_s%d"), Slot); }
 	// the opening: true while the Opening Night chain is still running (the Director and other prompts wait)
 	bool InOpening() const;
 	int32 NearestStop(float MaxD = 1e9f) const;

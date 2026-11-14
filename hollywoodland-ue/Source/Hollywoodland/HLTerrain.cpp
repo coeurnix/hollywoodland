@@ -73,9 +73,23 @@ void FHLTerrain::Build(const FHLAreaDef& Def)
 			// past the hive ring the ground climbs into a ridge of hills that closes the horizon, highest in the north
 			// (the Hollywood Hills: the sign stands up there)
 			const float Ridge = FMath::SmoothStep(60.f, 380.f, -E) * (22.f + 30.f * N1 + 10.f * N2) * (Y < Lo.Y ? 1.5f : 1.f);
-			H[k] = Amp * (Base + Edge * (5.f + 9.f * N1) + Ridge);
+				// Mount Lee: a long mountain north of the boulevard that the sign stands on (seen from the street and from
+				// the character select)
+				const float Lee = 118.f * FMath::Exp(-FMath::Square((X - 300.f) / 430.f) - FMath::Square((Y + 805.f) / 165.f));
+				H[k] = Amp * (Base + Edge * (5.f + 9.f * N1) + Ridge + Lee);
 					Wild[k] = FMath::SmoothStep(1.f, 8.f, D); // scatter density: grass reaches nearly to the kerb, ahead of the swells
 				}
+			// the sign's bench: the face of Mount Lee is cut level along the row of letters, so they stand in one straight line
+			if (Def.Id == TEXT("zone_hollywood_blvd"))
+			{
+				const float Hb = Sample(H, FVector2D(300.f, -700.f));
+				for (int32 j = 0; j < NY; ++j) for (int32 i = 0; i < NX; ++i)
+				{
+					const float X = Origin.X + i * Cell, Y = Origin.Y + j * Cell;
+					const float W = (1.f - FMath::SmoothStep(6.f, 26.f, FMath::Abs(Y + 700.f))) * (1.f - FMath::SmoothStep(115.f, 150.f, FMath::Abs(X - 300.f)));
+					if (W > 0) H[j * NX + i] = FMath::Lerp(H[j * NX + i], Hb, W);
+				}
+			}
 			// relief inside the bounds (the log line lets a run check the hills are there)
 			float HMin = 1e9f, HMax = -1e9f; int32 NHill = 0, NIn = 0;
 			for (int32 j = 0; j < NY; ++j) for (int32 i = 0; i < NX; ++i)

@@ -604,18 +604,18 @@ void SHLGameUI::DrawPreview(float X, float Y, float W, float H, const FHLCharLoo
 	if (Hover(X, Y, W, H) && !bPreviewDrag) TxC(X + W * 0.5f, Y + H - 18, TEXT("drag to turn"), 9, FLinearColor(1, 0.9f, 0.7f, 0.7f));
 }
 
-void SHLGameUI::DrawCreator(float X, float Y, float W) const
+void SHLGameUI::DrawCreator(float X, float Y, float W, bool bPreview) const
 {
 	FHLChars& C = FHLChars::Get();
 	if (!C.Ready()) return;
 	if (!bNewLookSet) { NewLook = FHLAppearance::FromSeed(FMath::Rand()); bNewLookSet = true; }
 	FHLAppearance& A = NewLook;
 	const FHLChars::FSex& Sx = C.Sexes[A.Sex & 1];
-	const float Pw = 210, Ph = 315;
-	TxC(X + W * 0.5f, Y, TEXT("Appearance"), 13, ColGold, true);
+	const float Pw = bPreview ? 210 : 0, Ph = bPreview ? 315 : 0;
+	Tx(X + 4, Y, TEXT("Appearance"), 14, ColGold, true);
 	const TMap<FString, const FHLItem*> NoGear;
-	DrawPreview(X + (W - Pw) * 0.5f, Y + 24, Pw, Ph, C.LookFromGear(A, NoGear, false), TEXT("Idle"));
-	float Ry = Y + 24 + Ph + 10;
+	if (bPreview) DrawPreview(X + (W - Pw) * 0.5f, Y + 24, Pw, Ph, C.LookFromGear(A, NoGear, false), TEXT("Idle"));
+	float Ry = Y + 28 + (bPreview ? Ph + 6 : 0);
 	const float Bx = X + 96;
 	Tx(X + 6, Ry + 4, TEXT("Body"), 11, ColDim);
 	for (int32 s = 0; s < 2; ++s)
@@ -645,109 +645,230 @@ void SHLGameUI::DrawCreator(float X, float Y, float W) const
 	if (Btn(Bx, Ry + 2, 212, 24, TEXT("Surprise me"), true, 11)) A = FHLAppearance::FromSeed(FMath::Rand(), A.Sex);
 }
 
+// what the character-select cards show for a saved slot, read from the save JSON (cached per slot)
+struct FHLSlotInfo { bool bValid = false; FString Name, ClsId; int32 Level = 1; double Played = 0; FHLAppearance Look; TMap<FString, const FHLItem*> Equip; };
+static const FHLSlotInfo& HLSlotInfo(int32 Slot, const FString& Json)
+{
+	static FHLSlotInfo Cache[3]; static uint32 Hash[3] = { 1, 1, 1 };
+	FHLSlotInfo& I = Cache[FMath::Clamp(Slot, 0, 2)];
+	const uint32 H = Json.IsEmpty() ? 0 : GetTypeHash(Json);
+	if (Hash[Slot] == H) return I;
+	Hash[Slot] = H; I = FHLSlotInfo();
+	TSharedPtr<FJsonObject> O;
+	if (Json.IsEmpty() || !FJsonSerializer::Deserialize(TJsonReaderFactory<>::Create(Json), O) || !O.IsValid()) return I;
+	I.bValid = O->TryGetStringField(TEXT("name"), I.Name) && !I.Name.IsEmpty();
+	O->TryGetStringField(TEXT("class"), I.ClsId);
+	double N = 1; if (O->TryGetNumberField(TEXT("level"), N)) I.Level = (int32)N;
+	O->TryGetNumberField(TEXT("played"), I.Played);
+	const TSharedPtr<FJsonObject>* Lk = nullptr;
+	if (O->TryGetObjectField(TEXT("look"), Lk))
+	{
+		auto Get = [&](const TCHAR* K, int32 Max) { double V = 0; (*Lk)->TryGetNumberField(K, V); return FMath::Clamp((int32)V, 0, Max); };
+		I.Look.Sex = Get(TEXT("sex"), 1); I.Look.Skin = Get(TEXT("skin"), 7); I.Look.Face = Get(TEXT("face"), 11);
+		I.Look.Hair = Get(TEXT("hair"), 11); I.Look.HairColor = Get(TEXT("hairc"), 7); I.Look.Outfit = Get(TEXT("outfit"), 7);
+	}
+	else { FString Pid; O->TryGetStringField(TEXT("player_id"), Pid); I.Look = FHLAppearance::FromSeed(GetTypeHash(Pid)); }
+	const TSharedPtr<FJsonObject>* Eq = nullptr;
+	if (O->TryGetObjectField(TEXT("equip"), Eq)) for (auto& KV : (*Eq)->Values) if (const FHLItem* It = FHLData::Get().Item(KV.Value->AsString())) I.Equip.Add(FString(KV.Key), It);
+	return I;
+}
+
 void SHLGameUI::DrawTitle() const
 {
 	FHLGame& Gm = G();
 	const FHLData& D = FHLData::Get();
-	if (const FSlateBrush* Art = HLArtBrush(TEXT("ui_title")))
+	FHLChars& Chars = FHLChars::Get();
+	static bool bArgs = false;
+	if (!bArgs) { bArgs = true; if (FParse::Param(FCommandLine::Get(), TEXT("HLCreateShot"))) { TitleMode = 1; NameEntry = TEXT("Ruby"); } }
+	const bool b3D = Chars.Ready() && World && World->bSaveChecked;
+	// until the character art and the saves are in: the poster
+	if (!b3D)
 	{
-		// cover the screen, keep the aspect
-		const float Ar = 16.f / 9.f, Cw = FMath::Max(VS.X, VS.Y * Ar), Ch = Cw / Ar;
-		Img((VS.X - Cw) * 0.5f, (VS.Y - Ch) * 0.5f, Cw, Ch, Art);
-		TxC(VS.X * 0.5f + 3, 24 + 3, TEXT("HOLLYWOODLAND"), 64, FLinearColor(0, 0, 0, 0.8f), true);
+		if (const FSlateBrush* Art = HLArtBrush(TEXT("ui_title")))
+		{
+			const float Ar = 16.f / 9.f, Cw = FMath::Max(VS.X, VS.Y * Ar), Ch = Cw / Ar;
+			Img((VS.X - Cw) * 0.5f, (VS.Y - Ch) * 0.5f, Cw, Ch, Art);
+		}
+		TxC(VS.X * 0.5f + 3, 27, TEXT("HOLLYWOODLAND"), 64, FLinearColor(0, 0, 0, 0.8f), true);
 		TxC(VS.X * 0.5f, 24, TEXT("HOLLYWOODLAND"), 64, ColGold, true);
-		if (const FSlateBrush* Hd = HLArtBrush(TEXT("ui_header"))) { const float Hw = 300, Hh = Hw * Hd->ImageSize.Y / FMath::Max(1.0, Hd->ImageSize.X); Img(VS.X * 0.5f - Hw * 0.5f, 104, Hw, Hh, Hd); }
+		const float Dots = FMath::Fmod(FPlatformTime::Seconds(), 1.5) / 0.5;
+		TxC(VS.X * 0.5f, VS.Y - 80, FString(TEXT("Raising the curtain")) + FString::ChrN((int32)Dots + 1, '.'), 14, FLinearColor(1, 0.92f, 0.75f));
+		return;
 	}
-	const bool bArt = HLArtBrush(TEXT("ui_title")) != nullptr;
-	// the new character's looks sit in a column to the right when the character art is in and there is room
-	const bool bCreator = FHLChars::Get().Ready() && VS.X >= 1110;
-	const float W = 760, H = 640, FullW = W + (bCreator ? 330 : 0), X = (VS.X - FullW) * 0.5f, Y = bArt ? FMath::Max(VS.Y - H - 30, 110.f) : (VS.Y - H) * 0.5f, Top = bArt ? 58 : 0;
-	Panel(X, Y + Top, FullW, H - Top, FLinearColor(0.03f, 0.03f, 0.04f, 0.9f));
-	if (bCreator && World->bSaveChecked)
+	// the title in the top-left corner (the sign has the top of the frame)
+	Tx(24 + 2, 14 + 2, TEXT("HOLLYWOODLAND"), 34, FLinearColor(0, 0, 0, 0.75f), true);
+	Tx(24, 14, TEXT("HOLLYWOODLAND"), 34, ColGold, true);
+	Tx(26, 64, TEXT("Hollywood, autumn 1930. The dome is down. The studios belong to the hive."), 10, FLinearColor(1, 0.95f, 0.85f), true);
+	// the AI disclosure, always on screen
 	{
-		Rc(X + W - 4, Y + Top + 14, 1, H - Top - 28, FLinearColor(0.55f, 0.45f, 0.25f, 0.5f));
-		DrawCreator(X + W + 4, Y + Top + 12, 310);
+		const float W = 420, X = 16, Y = VS.Y - 96;
+		Block(X, Y, W, 80); Panel(X, Y, W, 80, FLinearColor(0.06f, 0.05f, 0.02f, 0.9f));
+		TxWrap(X + 10, Y + 8, W - 20, TEXT("This is a single-player game. Every other \"player\" you meet (in chat, in groups, at the auction house) is simulated by AI. Nothing you type is seen by another human. They play their parts in character, so enjoy the show."), 10, FLinearColor(1, 0.9f, 0.6f));
 	}
-	if (!HLArtBrush(TEXT("ui_title"))) TxC(X + W * 0.5f, Y + 16, TEXT("HOLLYWOODLAND"), 34, ColGold, true);
-	TxC(X + W * 0.5f, Y + 70, TEXT("Hollywood, autumn 1930. The dome is down. The studios belong to the hive."), 12, ColWhite);
-	Rc(X + 20, Y + 100, W - 40, 62, FLinearColor(0.12f, 0.1f, 0.03f));
-	TxWrap(X + 30, Y + 106, W - 60, TEXT("This is a single-player game. Every other \"player\" you meet (in chat, in groups, at the auction house) is simulated by AI. Nothing you type is seen by another human. They play their parts in character, so enjoy the show."), 11, FLinearColor(1, 0.9f, 0.6f));
-	if (!World->bSaveChecked) { TxC(X + W * 0.5f, Y + 300, TEXT("Checking for a saved character..."), 13, ColDim); return; }
-	float Cy = Y + 176;
-	if (!World->SavedJson.IsEmpty())
+	if (SelSlot < 0) { SelSlot = 0; for (int32 s = 0; s < 3; ++s) if (!World->SavedSlots[s].IsEmpty()) { SelSlot = s; break; } }
+	// drag on the open scene turns the figure
 	{
-		if (Btn(X + W * 0.5f - 150, Cy, 300, 36, TEXT("Continue saved character"), true, 13))
-		{
-			if (Gm.LoadJson(World->SavedJson)) { Gm.EnterWorld(); return; }
-			World->SavedJson.Reset();
-		}
-		Cy += 46;
-		TxC(X + W * 0.5f, Cy, TEXT("or create a new character (replaces the save):"), 10, ColDim);
-		Cy += 20;
+		const bool bFree = !Hover(VS.X - 380, 0, 380, VS.Y) && !Hover(0, 0, 440, VS.Y) && Mouse.Y > 100 && Mouse.Y < VS.Y - 110;
+		if (bLDown && (bPreviewDrag || bFree)) { if (bPreviewDrag) PreviewYaw += (Mouse.X - PreviewLastX) * 0.8f; bPreviewDrag = true; PreviewLastX = Mouse.X; }
+		else bPreviewDrag = false;
 	}
-	Tx(X + 30, Cy + 6, TEXT("Name:"), 13, ColWhite);
-	Rc(X + 90, Cy, 240, 30, FLinearColor(0.4f, 0.35f, 0.2f));
-	++Layer; LastKind = 1;
-	Rc(X + 91, Cy + 1, 238, 28, FLinearColor(0.02f, 0.02f, 0.02f));
 	const bool bBlink = FMath::Fmod(FPlatformTime::Seconds(), 1.0) < 0.5;
-	if (Hover(X + 90, Cy, 240, 30) && bLClick) { bLClick = false; bRestoreFocus = false; }
-	Tx(X + 98, Cy + 5, NameEntry + (bBlink && !bRestoreFocus ? TEXT("_") : TEXT("")), 13, ColWhite);
-	Tx(X + 340, Cy + 8, TEXT("(type a name, letters only)"), 10, ColDim);
-	Cy += 44;
-	Tx(X + 30, Cy, TEXT("Class:"), 13, ColWhite);
-	Cy += 24;
-	for (int32 i = 0; i < D.Classes.Num(); ++i)
+	if (TitleMode == 0)
 	{
-		const FHLClass& C = D.Classes[i];
-		const float Bx = X + 30 + (i % 4) * 176, By = Cy + (i / 4) * 40;
-		if (i == SelClass) Rc(Bx - 3, By - 3, 172, 36, C.Color);
-		if (Btn(Bx, By, 166, 30, C.Name, true, 12)) SelClass = i;
-	}
-	Cy += 92;
-	const FHLClass& C = D.Classes[FMath::Clamp(SelClass, 0, D.Classes.Num() - 1)];
-	Tx(X + 30, Cy, C.Name, 16, C.Color, true);
-	FString Role = C.Role == TEXT("tank") ? TEXT("Tank and melee damage") : C.Role == TEXT("healer") ? TEXT("Healer") : C.Role == TEXT("caster") ? TEXT("Ranged caster") : C.Role == TEXT("ranged") ? TEXT("Ranged damage") : TEXT("Melee damage");
-	Tx(X + 30, Cy + 26, FString::Printf(TEXT("%s.  Armour: %s.  Resource: %s.  Specialisations: %s."), *Role, *C.Armour, *C.Resource, *FString::Join(C.Specs, TEXT(", "))), 11, ColWhite);
-	FString Abil;
-	for (const FHLAbility* Ab : C.Abilities) Abil += FString::Printf(TEXT("%s (%d)   "), *Ab->Name, Ab->Level);
-	TxWrap(X + 30, Cy + 48, W - 60, TEXT("Abilities to level 12: ") + Abil, 10, ColDim);
-	{
-		// restore from the cloud copy on another browser: the code is shown in the game menu
-		const float Ry = Y + H - 142;
-		Tx(X + 30, Ry + 5, TEXT("Restore a save:"), 10, ColDim);
-		const float Bx = X + 140, Bw = 250;
-		if (Hover(Bx, Ry, Bw, 24) && bLClick) { bLClick = false; bRestoreFocus = true; }
-		Rc(Bx, Ry, Bw, 24, bRestoreFocus ? FLinearColor(0.85f, 0.7f, 0.35f) : FLinearColor(0.35f, 0.3f, 0.2f));
-		++Layer; LastKind = 1;
-		Rc(Bx + 1, Ry + 1, Bw - 2, 22, FLinearColor(0.02f, 0.02f, 0.02f));
-		Tx(Bx + 6, Ry + 4, RestoreEntry.IsEmpty() && !bRestoreFocus ? FString(TEXT("click, then type your cloud code")) : RestoreEntry + (bBlink && bRestoreFocus ? TEXT("_") : TEXT("")), 10, RestoreEntry.IsEmpty() && !bRestoreFocus ? ColDim : ColWhite);
-		if (Btn(Bx + Bw + 8, Ry, 80, 24, bRestoreBusy ? TEXT("...") : TEXT("Restore"), RestoreEntry.Len() >= 8 && !bRestoreBusy, 10))
+		// ---------------------------------------------------------------- character select
+		const FHLSlotInfo& Sel = HLSlotInfo(SelSlot, World->SavedSlots[SelSlot]);
+		if (Sel.bValid) { const FHLCharLook L = Chars.LookFromGear(Sel.Look, Sel.Equip, false); World->Showcase(&L, PreviewYaw, TEXT("Idle")); }
+		else World->Showcase(nullptr, 0, FString());
+		const float W = 350, X = VS.X - W - 16, Y = 110, H = 3 * 78 + 190;
+		Block(X, Y, W, H); Panel(X, Y, W, H, FLinearColor(0.04f, 0.035f, 0.03f, 0.9f), FLinearColor(0.72f, 0.56f, 0.28f));
+		TxC(X + W * 0.5f, Y + 10, TEXT("Your Characters"), 15, ColGold, true);
+		for (int32 s = 0; s < 3; ++s)
 		{
-			bRestoreBusy = true; RestoreMsg = TEXT("Looking for that save...");
-			TWeakPtr<const SWidget> Weak = AsShared();
-			const SHLGameUI* Self = this;
-			AHLWorldActor* WA = World;
-			HLBridge::Fetch(TEXT("GET"), FString::Printf(TEXT("%s/v1/save/%s"), *Gm.ApiBase, *RestoreEntry), FString(), [Weak, Self, WA](const FHLBridgeResult& R)
+			const FHLSlotInfo& I = HLSlotInfo(s, World->SavedSlots[s]);
+			const float Cy = Y + 40 + s * 78;
+			const bool bSel = s == SelSlot, bH = Hover(X + 12, Cy, W - 24, 70);
+			Rc(X + 12, Cy, W - 24, 70, bSel ? FLinearColor(0.85f, 0.66f, 0.3f) : bH ? FLinearColor(0.5f, 0.4f, 0.22f) : FLinearColor(0.25f, 0.2f, 0.12f));
+			++Layer; LastKind = 1;
+			Rc(X + 14, Cy + 2, W - 28, 66, bSel ? FLinearColor(0.16f, 0.12f, 0.07f) : FLinearColor(0.07f, 0.06f, 0.05f));
+			if (I.bValid)
 			{
-				if (!Weak.IsValid()) return;
-				Self->bRestoreBusy = false;
-				if (R.Ok() && R.Body.Contains(TEXT("\"name\""))) { WA->SavedJson = R.Body; HLBridge::StorageSet(TEXT("hollywoodland_save_v1"), R.Body); Self->RestoreMsg = TEXT("Save found. Press Continue saved character."); }
-				else Self->RestoreMsg = R.Status == 404 ? TEXT("No save with that code.") : TEXT("Could not reach the server. Try again.");
-			});
+				const FHLClass* C = D.Class(I.ClsId);
+				Tx(X + 26, Cy + 9, I.Name, 15, ColGold, true);
+				Tx(X + 26, Cy + 31, FString::Printf(TEXT("Level %d %s"), I.Level, C ? *C->Name : TEXT("")), 11, C ? C->Color : ColWhite);
+				Tx(X + 26, Cy + 48, FString::Printf(TEXT("Hollywood Boulevard    %dh %02dm played"), (int32)(I.Played / 3600), ((int32)I.Played / 60) % 60), 9, ColDim);
+			}
+			else
+			{
+				Tx(X + 26, Cy + 14, TEXT("Empty slot"), 13, FLinearColor(0.7f, 0.65f, 0.55f), true);
+				Tx(X + 26, Cy + 38, TEXT("Create a new character here"), 10, ColDim);
+			}
+			if (bH && bLClick) { bLClick = false; if (SelSlot != s) { SelSlot = s; bDelArmed = false; PreviewYaw = -18.f; } }
 		}
-		if (!RestoreMsg.IsEmpty()) Tx(Bx + Bw + 96, Ry + 5, RestoreMsg, 10, RestoreMsg.StartsWith(TEXT("Save found")) ? ColGreen : ColDim);
+		float By = Y + 40 + 3 * 78 + 8;
+		if (Sel.bValid)
+		{
+			if (Btn(X + 12, By, W - 24, 40, TEXT("Enter Hollywood"), true, 16))
+			{
+				Gm.SaveSlot = SelSlot;
+				if (Gm.LoadJson(World->SavedSlots[SelSlot])) { Gm.EnterWorld(); return; }
+				World->SavedSlots[SelSlot].Reset();
+			}
+			By += 48;
+			if (Btn(X + 12, By, 150, 24, bDelArmed ? TEXT("Click again to delete") : TEXT("Delete character"), true, 9))
+			{
+				if (bDelArmed) { HLBridge::StorageSet(FHLGame::SaveKey(SelSlot), FString()); World->SavedSlots[SelSlot].Reset(); bDelArmed = false; }
+				else bDelArmed = true;
+			}
+			if (bDelArmed) Tx(X + 172, By + 5, TEXT("This cannot be undone."), 9, ColRed);
+		}
+		else
+		{
+			if (Btn(X + 12, By, W - 24, 40, TEXT("Create New Character"), true, 15)) { TitleMode = 1; bNewLookSet = false; NameEntry.Reset(); PreviewYaw = -18.f; }
+			By += 48;
+			// restore from the cloud copy on another browser (the code is shown in the game menu) into this empty slot
+			const float Bw = 220;
+			if (Hover(X + 12, By, Bw, 24) && bLClick) { bLClick = false; bRestoreFocus = true; }
+			Rc(X + 12, By, Bw, 24, bRestoreFocus ? FLinearColor(0.85f, 0.7f, 0.35f) : FLinearColor(0.35f, 0.3f, 0.2f));
+			++Layer; LastKind = 1;
+			Rc(X + 13, By + 1, Bw - 2, 22, FLinearColor(0.02f, 0.02f, 0.02f));
+			Tx(X + 18, By + 4, RestoreEntry.IsEmpty() && !bRestoreFocus ? FString(TEXT("restore: type your cloud code")) : RestoreEntry + (bBlink && bRestoreFocus ? TEXT("_") : TEXT("")), 10, RestoreEntry.IsEmpty() && !bRestoreFocus ? ColDim : ColWhite);
+			if (Btn(X + 20 + Bw, By, W - Bw - 32, 24, bRestoreBusy ? TEXT("...") : TEXT("Restore"), RestoreEntry.Len() >= 8 && !bRestoreBusy, 10))
+			{
+				bRestoreBusy = true; RestoreMsg = TEXT("Looking for that save...");
+				TWeakPtr<const SWidget> Weak = AsShared();
+				const SHLGameUI* Self = this;
+				AHLWorldActor* WA = World;
+				const int32 Slot = SelSlot;
+				HLBridge::Fetch(TEXT("GET"), FString::Printf(TEXT("%s/v1/save/%s"), *Gm.ApiBase, *RestoreEntry), FString(), [Weak, Self, WA, Slot](const FHLBridgeResult& R)
+				{
+					if (!Weak.IsValid()) return;
+					Self->bRestoreBusy = false;
+					if (R.Ok() && R.Body.Contains(TEXT("\"name\""))) { WA->SavedSlots[Slot] = R.Body; HLBridge::StorageSet(FHLGame::SaveKey(Slot), R.Body); Self->RestoreMsg = TEXT("Save found."); }
+					else Self->RestoreMsg = R.Status == 404 ? TEXT("No save with that code.") : TEXT("Could not reach the server. Try again.");
+				});
+			}
+			if (!RestoreMsg.IsEmpty()) Tx(X + 12, By + 30, RestoreMsg, 9, RestoreMsg.StartsWith(TEXT("Save found")) ? ColGreen : ColDim);
+		}
+		if (Sel.bValid) TxC(VS.X * 0.5f, VS.Y - 20, TEXT("drag the figure to turn"), 9, FLinearColor(1, 0.95f, 0.85f, 0.6f));
+		return;
 	}
-	const bool bOk = NameEntry.Len() >= 2;
-	if (Btn(X + W * 0.5f - 130, Y + H - 96, 260, 40, TEXT("Enter Hollywood"), bOk, 15))
+	// ---------------------------------------------------------------- create: the class on the left, the looks on the right
+	if (!bNewLookSet) { NewLook = FHLAppearance::FromSeed(FMath::Rand()); bNewLookSet = true; }
+	const FHLClass& C = D.Classes[FMath::Clamp(SelClass, 0, D.Classes.Num() - 1)];
 	{
-		FString Name = NameEntry.ToLower(); Name[0] = FChar::ToUpper(Name[0]);
-		Gm.NewCharacter(Name, &C);
-		if (bNewLookSet) Gm.Player.Look = NewLook;
-		if (FHLUnit* U = Gm.PlayerUnit()) { U->Level = 1; U->Pos = Gm.Areas[0].Def->Spawn; U->Area = 0; U->bDead = false; }
-		Gm.EnterWorld();
+		TMap<FString, const FHLItem*> Gear;
+		for (const FString& Id : C.StartItems) if (const FHLItem* It = D.Item(Id)) if (It->IsEquip()) Gear.Add(It->Slot, It);
+		const FHLCharLook L = Chars.LookFromGear(NewLook, Gear, false);
+		World->Showcase(&L, PreviewYaw, TEXT("Idle"));
 	}
-	TxC(X + W * 0.5f, Y + H - 46, TEXT("WASD move  |  hold right mouse to turn  |  Tab target  |  1-0 abilities  |  right-click or F to interact  |  Enter to chat"), 10, ColDim);
-	TxC(X + W * 0.5f, Y + H - 26, TEXT("Proof of concept: gray-box art. Hollywood Boulevard (levels 1-12) and the Egyptian Theatre are playable."), 10, ColDim);
+	{
+		const float W = 420, X = 16, Y = 110, H = VS.Y - Y - 112;
+		Block(X, Y, W, H); Panel(X, Y, W, H, FLinearColor(0.04f, 0.035f, 0.03f, 0.92f), FLinearColor(0.72f, 0.56f, 0.28f));
+		Tx(X + 14, Y + 10, TEXT("Choose your class"), 14, ColGold, true);
+		for (int32 i = 0; i < D.Classes.Num(); ++i)
+		{
+			const FHLClass& K = D.Classes[i];
+			const float Bx = X + 14 + (i % 2) * 198, Byy = Y + 36 + (i / 2) * 34;
+			if (i == SelClass) Rc(Bx - 3, Byy - 3, 194, 32, K.Color);
+			if (Btn(Bx, Byy, 188, 26, K.Name, true, 11)) SelClass = i;
+		}
+		float Cy = Y + 36 + ((D.Classes.Num() + 1) / 2) * 34 + 8;
+		Rc(X + 14, Cy, W - 28, 1, FLinearColor(0.55f, 0.45f, 0.25f, 0.6f)); Cy += 10;
+		Tx(X + 14, Cy, C.Name, 18, C.Color, true);
+		const FString Role = C.Role == TEXT("tank") ? TEXT("Tank: holds the enemy's attention up front") : C.Role == TEXT("healer") ? TEXT("Healer: keeps the group alive, fights from range") : C.Role == TEXT("caster") ? TEXT("Ranged caster: spells from a distance") : C.Role == TEXT("ranged") ? TEXT("Ranged damage: guns from a distance") : TEXT("Melee damage: up close and quick");
+		Tx(X + 14, Cy + 26, Role, 10, ColWhite); Cy += 46;
+		if (!C.Desc.IsEmpty()) Cy += TxWrap(X + 14, Cy, W - 28, C.Desc, 10, FLinearColor(0.85f, 0.82f, 0.75f)) + 8;
+		auto Row = [&](const TCHAR* K, const FString& V) { Tx(X + 14, Cy, K, 10, ColDim); Tx(X + 110, Cy, V, 10, ColWhite); Cy += 17; };
+		FString Res = C.Resource; if (Res.Len()) Res[0] = FChar::ToUpper(Res[0]);
+		FString Arm = C.Armour; if (Arm.Len()) Arm[0] = FChar::ToUpper(Arm[0]);
+		Row(TEXT("Resource"), Res); Row(TEXT("Armour"), Arm); Row(TEXT("Talent trees"), FString::Join(C.Specs, TEXT(", ")));
+		Cy += 8;
+		Tx(X + 14, Cy, TEXT("Abilities"), 12, ColGold, true);
+		Tx(X + 96, Cy + 2, TEXT("(the number is the level it unlocks)"), 9, ColDim); Cy += 22;
+		for (const FHLAbility* Ab : C.Abilities)
+		{
+			if (Cy > Y + H - 24) break;
+			RRc(X + 14, Cy - 1, 26, 17, FLinearColor(0.3f, 0.24f, 0.12f), 4);
+			TxC(X + 27, Cy, FString::FromInt(Ab->Level), 10, ColGold, true);
+			Tx(X + 48, Cy, Ab->Name, 10, ColWhite, true);
+			const float Nw = TW(Ab->Name, 10, true);
+			FString Desc = Ab->Desc;
+			const float Room = W - 28 - 34 - Nw - 12;
+			while (Desc.Len() > 4 && TW(Desc, 9) > Room) Desc = Desc.LeftChop(5) + TEXT("...");
+			Tx(X + 48 + Nw + 10, Cy + 1, Desc, 9, ColDim);
+			if (Hover(X + 14, Cy - 1, W - 28, 18)) AbilityTip(*Ab);
+			Cy += 21;
+		}
+	}
+	{
+		const float W = 340, X = VS.X - W - 16, Y = 110, H = 470;
+		Block(X, Y, W, H); Panel(X, Y, W, H, FLinearColor(0.04f, 0.035f, 0.03f, 0.92f), FLinearColor(0.72f, 0.56f, 0.28f));
+		Tx(X + 14, Y + 10, TEXT("Name"), 14, ColGold, true);
+		Rc(X + 14, Y + 34, W - 28, 30, FLinearColor(0.4f, 0.35f, 0.2f));
+		++Layer; LastKind = 1;
+		Rc(X + 15, Y + 35, W - 30, 28, FLinearColor(0.02f, 0.02f, 0.02f));
+		if (Hover(X + 14, Y + 34, W - 28, 30) && bLClick) { bLClick = false; bRestoreFocus = false; }
+		Tx(X + 22, Y + 39, NameEntry.IsEmpty() && !bBlink ? FString(TEXT("type a name (letters only)")) : NameEntry + (bBlink ? TEXT("_") : TEXT("")), 13, NameEntry.IsEmpty() ? ColDim : ColWhite);
+		Rc(X + 14, Y + 76, W - 28, 1, FLinearColor(0.55f, 0.45f, 0.25f, 0.6f));
+		DrawCreator(X + 10, Y + 86, W - 20, false);
+	}
+	{
+		const bool bOk = NameEntry.Len() >= 2;
+		// under the looks panel, clear of the figure
+		const float Bw = 340, Bx = VS.X - Bw - 16, By = 110 + 480;
+		if (Btn(Bx, By + 52, 120, 28, TEXT("Back"), true, 11)) { TitleMode = 0; return; }
+		if (Btn(Bx, By, Bw, 44, bOk ? TEXT("Enter Hollywood") : TEXT("Name your character"), bOk, 16))
+		{
+			FString Name = NameEntry.ToLower(); Name[0] = FChar::ToUpper(Name[0]);
+			Gm.SaveSlot = FMath::Clamp(SelSlot, 0, 2);
+			Gm.NewCharacter(Name, &C);
+			Gm.Player.Look = NewLook;
+			if (FHLUnit* U = Gm.PlayerUnit()) { U->Level = 1; U->Pos = Gm.Areas[0].Def->Spawn; U->Area = 0; U->bDead = false; }
+			Gm.EnterWorld();
+			Gm.SaveNow();
+		}
+		TxC(VS.X * 0.5f, VS.Y - 20, TEXT("drag the figure to turn"), 9, FLinearColor(1, 0.95f, 0.85f, 0.6f));
+	}
 }
 
 void SHLGameUI::DrawWorldOverlay() const

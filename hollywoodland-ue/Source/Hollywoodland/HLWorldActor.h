@@ -53,7 +53,8 @@ public:
 	FHLGame Game;
 	FString LoadError;
 	bool bSaveChecked = false;
-	FString SavedJson;
+	FString SavedSlots[3]; // character select: the saved JSON in each slot ("" = empty)
+	int32 SlotsPending = 3;
 	// camera (driven by the UI)
 	float CamYaw = -90, CamPitch = 22, CamDist = 14, CamCollideDist = 40;
 	FVector ToWorld(int32 Area, const FVector2D& P, float Z = 0) const; // Z above the ground (terrain included)
@@ -98,6 +99,12 @@ public:
 	// character preview (creator, paper doll): one rig on a little stage far off the map, filmed by a capture that sees
 	// only the stage. The UI calls Preview every frame it shows one; the capture stops when nobody asks.
 	UTextureRenderTarget2D* Preview(const FHLCharLook& L, float Yaw, const FString& Clip);
+	// character select: the camera stands on the hillside under the HOLLYWOODLAND sign and the character (null: an empty
+	// slot) stands in the foreground, lit by the real sun with passing cloud shadows. Called every frame it is shown.
+	void Showcase(const FHLCharLook* L, float Yaw, const FString& Clip);
+	UPROPERTY() TObjectPtr<AActor> Show;
+	UPROPERTY() TObjectPtr<USceneComponent> ShowChar;
+	UPROPERTY() TObjectPtr<class UPointLightComponent> ShowFill;
 	UPROPERTY() TObjectPtr<AActor> Stage;
 	UPROPERTY() TObjectPtr<class USceneCaptureComponent2D> StageCap;
 	UPROPERTY() TObjectPtr<UTextureRenderTarget2D> StageRT;
@@ -109,6 +116,10 @@ public:
 private:
 	FHLCharRig StageRig;
 	double StageWantUntil = 0;
+	FHLCharRig ShowRig;
+	double ShowWantUntil = 0;
+	FVector ShowCamLoc = FVector::ZeroVector; FRotator ShowCamRot = FRotator::ZeroRotator;
+	FVector2D ShowCamP = FVector2D::ZeroVector, ShowCharP = FVector2D::ZeroVector, ShowSignP = FVector2D::ZeroVector; float ShowPitch = 6.f;
 	void TickStage();
 	UMaterialInstanceDynamic* Mid(const FLinearColor& C, bool bUnlit = false, float Glow = 0.22f);
 	UStaticMeshComponent* AddMesh(AActor* InOwner, UStaticMesh* Mesh, const FVector& Loc, const FVector& Scale, const FLinearColor& Color, bool bUnlit = false, bool bShadow = false);

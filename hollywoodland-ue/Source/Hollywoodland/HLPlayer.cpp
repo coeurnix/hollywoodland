@@ -6,7 +6,6 @@
 #include "Serialization/JsonSerializer.h"
 #include "Serialization/JsonWriter.h"
 
-static const TCHAR* SAVE_KEY = TEXT("hollywoodland_save_v1");
 static const TCHAR* ARMOUR_ORDER[] = { TEXT("cloth"), TEXT("leather"), TEXT("padded"), TEXT("steel") };
 static int32 ArmourRank(const FString& T) { for (int32 i = 0; i < 4; ++i) if (T == ARMOUR_ORDER[i]) return i; return 0; }
 
@@ -362,7 +361,7 @@ void FHLGame::SaveNow()
 {
 	if (!Player.bCreated || !bInWorld) return;
 	const FString Json = SaveJson();
-	HLBridge::StorageSet(SAVE_KEY, Json);
+	HLBridge::StorageSet(SaveKey(SaveSlot), Json);
 	static double LastCloud = -1e9;
 	if (bWorkerOk && !Session.IsEmpty() && Now - LastCloud > 120)
 	{

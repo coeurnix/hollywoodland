@@ -9,7 +9,7 @@
 // <audio>), sfx/*.mp3 (1,800+ files) bundled into audio/*.bin by audiopack.mjs to stay under the file limit.
 // itch limits checked here: the whole package under 500 MB, under 1,000 files, no single file over 200 MB (the pak's IoStore
 // container is split into 128 MB partitions by MaxIoStorePartitionSizeMB in Config/DefaultGame.ini), index.html at the top.
-import { readdirSync, statSync, mkdirSync, rmSync, copyFileSync, existsSync } from 'node:fs';
+import { readdirSync, statSync, mkdirSync, rmSync, copyFileSync, existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { join, relative, dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { packAudio } from './audiopack.mjs';
@@ -35,6 +35,16 @@ for (const n of readdirSync(join(ROOT, 'music')).filter((n) => n.endsWith('.mp3'
 for (const [f, dst] of copies) {
   mkdirSync(dirname(dst), { recursive: true });
   copyFileSync(f, dst);
+}
+// the loading cover: the title poster behind the engine's start-up bar (the page is the engine's generic one)
+copyFileSync(join(ROOT, 'hollywoodland-ue', 'Content', 'Data', 'UI', 'ui_title.jpg'), join(out, 'splash.jpg'));
+{
+  const page = join(out, 'index.html');
+  const css = '<style>#art{background:#0d1418 url(splash.jpg) center 70%/cover no-repeat}'
+    + '#art .title{top:6cqh}#art h1{font:700 min(10cqh,8cqw)/1 Georgia,"Times New Roman",serif;letter-spacing:.06em;color:#f3d27a;text-shadow:0 .04em .14em #000,0 0 .5em #0009}'
+    + '#progress-text{color:#f6ead0;text-shadow:0 1px 3px #000}.bar{background:#000c;border-color:#c9a24a}'
+    + '#steps{background:#0d1418cc}</style>';
+  writeFileSync(page, readFileSync(page, 'utf8').replace('</head>', css + '</head>'));
 }
 const audio = packAudio(ROOT, out);
 const files = walk(out);
