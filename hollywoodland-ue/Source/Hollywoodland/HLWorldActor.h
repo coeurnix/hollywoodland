@@ -147,6 +147,13 @@ private:
 	TArray<TArray<TWeakObjectPtr<UStaticMeshComponent>>> ObjectDead;
 	TArray<TArray<TWeakObjectPtr<class USkeletalMeshComponent>>> ObjectLive;
 	TMap<TWeakObjectPtr<UStaticMeshComponent>, TWeakObjectPtr<class UPointLightComponent>> LampLights;
+	// street lamps (SM_StreetLamp, SM_LampSingle props): head positions, glow meshes, a few movable lights; the player's light
+	TArray<FVector> LampHeads;
+	UPROPERTY() TArray<TObjectPtr<UStaticMeshComponent>> LampGlows;
+	TArray<TWeakObjectPtr<class UPointLightComponent>> StreetLights;
+	UPROPERTY() TObjectPtr<class UPointLightComponent> PlayerLight;
+	double NextLampSort = 0;
+	bool bLampsOn = false;
 	TSharedPtr<class SHLGameUI> UI;
 	TSharedPtr<class SWidget> UIContainer;
 };

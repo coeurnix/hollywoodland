@@ -406,6 +406,10 @@ public:
 	int32 NpcMarker(const FHLNpcDef& N) const; // 0 none, 1 available (!), 2 ready (?), 3 in progress (grey ?)
 	// UI-facing state
 	int32 OpenNpcUnitId = 0;       // NPC dialog open
+	// the red car inside the dome: a short ride between stops the player has walked to (HLPlayer.cpp)
+	int32 RideStop = -1; double RideUntil = 0, RideStart = 0;
+	int32 NearestStop(float MaxD = 1e9f) const;
+	void RideRedcar(int32 StopIdx);
 	FString OpenNpcMode;           // "", quest:<id>, vendor, trainer, bank, auction, redcar, inn, prof
 	FString ErrorText; float ErrorUntil = 0;
 	FString BannerText, BannerSub; float BannerUntil = 0; bool bBannerHostile = false;
@@ -524,6 +528,9 @@ public:
 	TMap<int32, double> AwaitingReply; // sims the player whispered, by when they started reading
 	FString WhoIsTyping() const;
 	float NextAmbient = 3, NextGossip = 150;
+	/** When each canned line (corpus, template, convo opener) was last used by anyone: no two handles say the same thing within half an hour. */
+	TMap<uint32, double> LineUsedAt;
+	bool FreshLine(const FString& Raw, bool bMark = true);
 	FString Session; bool bWorkerOk = false; float NextSessionTry = 0; int32 WorkerInFlight = 0, NextReqId = 1;
 	int32 WorkerCalls = 0, WorkerFails = 0;
 	FString ApiBase;

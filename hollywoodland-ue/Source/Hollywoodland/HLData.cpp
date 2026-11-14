@@ -267,6 +267,7 @@ bool FHLData::Load(FString& Err)
 			}
 			for (auto& EV : A(O, TEXT("exits"))) { JObj Ee = EV->AsObject(); Ar.Exits.Add({ S(Ee, TEXT("id")), S(Ee, TEXT("name")), S(Ee, TEXT("to_zone")), FVector2D(N(Ee, TEXT("x")), N(Ee, TEXT("y"))), B(Ee, TEXT("redcar")) }); }
 			for (auto& AV : A(O, TEXT("aid"))) { JObj Aa = AV->AsObject(); Ar.Aid.Add({ S(Aa, TEXT("name")), FVector2D(N(Aa, TEXT("x")), N(Aa, TEXT("y"))) }); }
+			for (auto& SV : A(O, TEXT("redcar_stops"))) { JObj Ss = SV->AsObject(); Ar.Stops.Add({ S(Ss, TEXT("id")), S(Ss, TEXT("name")), S(Ss, TEXT("note")), FVector2D(N(Ss, TEXT("x")), N(Ss, TEXT("y"))) }); }
 			for (auto& SV : A(O, TEXT("sounds"))) { const auto& P = SV->AsArray(); if (P.Num() >= 4) Ar.Sounds.Add({ P[0]->AsString(), FVector2D(P[1]->AsNumber(), P[2]->AsNumber()), float(P[3]->AsNumber()) }); }
 			for (auto& IV : A(O, TEXT("idle_spots"))) { const auto& P = IV->AsArray(); if (P.Num() >= 2) Ar.IdleSpots.Add(FVector2D(P[0]->AsNumber(), P[1]->AsNumber())); }
 			if (JObj Pois = Sub(O, TEXT("pois"))) for (auto& KV : Pois->Values) { const auto& P = KV.Value->AsArray(); if (P.Num() >= 2) Ar.Pois.Add(FString(KV.Key), FVector2D(P[0]->AsNumber(), P[1]->AsNumber())); }

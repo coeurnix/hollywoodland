@@ -737,10 +737,57 @@ void FHLGame::RepairAll()
 	System(FString::Printf(TEXT("Repaired for %s."), *HLMoney(Cost)));
 }
 
+int32 FHLGame::NearestStop(float MaxD) const
+{
+	const FHLUnit* U = PlayerUnit();
+	if (!U || U->Area != 0) return -1;
+	int32 Best = -1;
+	for (int32 i = 0; i < Areas[0].Def->Stops.Num(); ++i) { const float D = FVector2D::Distance(Areas[0].Def->Stops[i].Pos, U->Pos); if (D < MaxD) { MaxD = D; Best = i; } }
+	return Best;
+}
+
+void FHLGame::RideRedcar(int32 StopIdx)
+{
+	FHLUnit* U = PlayerUnit();
+	if (!U || U->Area != 0 || !Areas[0].Def->Stops.IsValidIndex(StopIdx) || RideStop >= 0) return;
+	const FHLRedcarStop& St = Areas[0].Def->Stops[StopIdx];
+	if (InCombat(*U)) { Error(TEXT("You can't board while in combat.")); return; }
+	if (!Player.Discovered.Contains(TEXT("stop:") + St.Id)) { Error(TEXT("Walk to that stop once before riding there.")); return; }
+	if (Player.Cents < 5) { Error(TEXT("The fare is 5 cents.")); return; }
+	Player.Cents -= 5;
+	RideStop = StopIdx; RideStart = Now; RideUntil = Now + 4.0;
+	OpenNpcMode.Reset(); OpenNpcUnitId = 0;
+	U->bSitting = false; U->bAutoAttack = false; bClickGoal = false;
+	Sound2D(TEXT("obj_redcar_bell"));
+	System(FString::Printf(TEXT("You board the red car for %s. Fare: 5c."), *St.Name));
+}
+
 void FHLGame::TickPlayer(float Dt)
 {
 	FHLUnit* U = PlayerUnit();
 	if (!U) return;
+	// riding the red car: hands off the controls until it pulls in
+	if (RideStop >= 0)
+	{
+		Input = FHLInput();
+		if (Now >= RideUntil)
+		{
+			const FHLRedcarStop St = Areas[0].Def->Stops[RideStop];
+			RideStop = -1;
+			U->Pos = St.Pos + FVector2D(0, -11); U->Area = 0; U->Yaw = 90;
+			System(FString::Printf(TEXT("The car pulls in at %s: %s."), *St.Name, *St.Note));
+			QuestEvent(TEXT("do"), TEXT("ride_redcar"), 1, nullptr);
+			Sound2D(TEXT("obj_redcar_bell"));
+		}
+	}
+	// red car stops: walking past one makes it a destination
+	if (U->Area == 0 && !U->bGhost)
+		for (const FHLRedcarStop& St : Areas[0].Def->Stops)
+			if (FVector2D::Distance(St.Pos, U->Pos) < 24 && !Player.Discovered.Contains(TEXT("stop:") + St.Id))
+			{
+				Player.Discovered.Add(TEXT("stop:") + St.Id);
+				System(FString::Printf(TEXT("Red car stop discovered: %s. You can now ride here from any other stop."), *St.Name));
+			}
 	FHLAreaState& Area = Areas[U->Area];
 	if (!U->bDead && !U->Stunned())
 	{

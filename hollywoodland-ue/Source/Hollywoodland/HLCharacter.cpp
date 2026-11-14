@@ -412,7 +412,12 @@ bool FHLCharVisuals::Compose(UWorld* World, UTextureRenderTarget2D* RT, const FH
 		else Canvas->K2_DrawTexture(T, Pos, Sz, FVector2D::ZeroVector, FVector2D::UnitVector, Mul, BLEND_Translucent);
 	};
 	if (UTexture2D* Skin = Ok(C.Tex(Sx.Skins.IsValidIndex(L.App.Skin) ? Sx.Skins[L.App.Skin] : Sx.Skins[0])))
-		Canvas->K2_DrawTexture(Skin, FVector2D::ZeroVector, Size, FVector2D::ZeroVector, FVector2D::UnitVector, FLinearColor::White, BLEND_Opaque);
+	{
+		// the darkest tones read almost black under the game's lighting: lift Brown a little and Deep more (complexion kept, detail back)
+		static const float Lift[] = { 1.f, 1.f, 1.f, 1.f, 1.f, 1.f, 1.12f, 1.5f };
+		const float K = Lift[FMath::Clamp(L.App.Skin, 0, 7)];
+		Canvas->K2_DrawTexture(Skin, FVector2D::ZeroVector, Size, FVector2D::ZeroVector, FVector2D::UnitVector, FLinearColor(K, K * 0.97f, K * 0.94f, 1.f), BLEND_Opaque);
+	}
 	Draw(Sx.Underwear, FLinearColor::White, nullptr, nullptr);
 	if (Sx.Faces.IsValidIndex(L.App.Face)) Draw(Sx.Faces[L.App.Face], FLinearColor::White, nullptr, nullptr);
 	if (Sx.Hair.IsValidIndex(L.App.Hair)) Draw(Sx.Hair[L.App.Hair].Scalp, FHLChars::HairTint(L.App.HairColor), nullptr, nullptr);

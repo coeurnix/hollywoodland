@@ -714,12 +714,26 @@ void SHLGameUI::DrawNpc() const
 	bool bOpen = true;
 	if (Gm.OpenNpcMode == TEXT("redcar"))
 	{
-		if (!Win(TEXT("npc"), TEXT("Pacific Electric Railway: Route Map"), 520, 360, bOpen, 300, 140)) { Gm.OpenNpcMode.Reset(); return; }
+		if (!Win(TEXT("npc"), TEXT("Pacific Electric Railway"), 540, 420, bOpen, 300, 140)) { Gm.OpenNpcMode.Reset(); return; }
 		float Y = WY;
-		for (const FHLRedcarLine& L : D.Redcar) { Tx(WX, Y, L.Name, 11, ColGold, true); Y += 17; Tx(WX + 12, Y, FString::Join(L.Stops, TEXT("  -  ")), 10, ColWhite); Y += 24; }
-		Tx(WX, Y + 6, TEXT("Fare: 5c per stop."), 10, ColWhite);
-		Tx(WX, Y + 24, TEXT("You have discovered: Hollywood Blvd (Highland)."), 10, ColGreen);
-		Tx(WX, Y + 42, TEXT("You can only ride to stops you have already visited on foot."), 10, ColDim);
+		const TArray<FHLRedcarStop>& Stops = Gm.Areas[0].Def->Stops;
+		const int32 Here = Gm.NearestStop(40);
+		Tx(WX, Y, TEXT("Hollywood Blvd Line (inside the dome)"), 12, ColGold, true); Y += 20;
+		for (int32 i = 0; i < Stops.Num(); ++i)
+		{
+			const FHLRedcarStop& St = Stops[i];
+			const bool bKnown = Gm.Player.Discovered.Contains(TEXT("stop:") + St.Id);
+			Rc(WX - 4, Y - 2, 516, 40, i % 2 ? FLinearColor(0.1f, 0.09f, 0.08f, 0.6f) : FLinearColor(0.14f, 0.12f, 0.1f, 0.6f));
+			Tx(WX + 4, Y + 2, St.Name, 11, bKnown ? ColWhite : ColDim, true);
+			Tx(WX + 4, Y + 19, St.Note, 9, ColDim);
+			if (i == Here) Tx(WX + 410, Y + 10, TEXT("You are here"), 10, ColGreen);
+			else if (!bKnown) Tx(WX + 360, Y + 10, TEXT("Walk there once first"), 9, ColDim);
+			else if (Btn(WX + 400, Y + 6, 104, 26, TEXT("Ride  (5c)"), Gm.Player.Cents >= 5, 10)) { Gm.RideRedcar(i); return; }
+			Y += 44;
+		}
+		Y += 6;
+		Tx(WX, Y, TEXT("Beyond the dome (service suspended since the sky closed)"), 11, ColDim, true); Y += 18;
+		for (const FHLRedcarLine& L : D.Redcar) { Tx(WX + 4, Y, FString::Printf(TEXT("%s:  %s"), *L.Name, *FString::Join(L.Stops, TEXT(" - "))), 9, FLinearColor(0.5f, 0.5f, 0.5f)); Y += 15; }
 		return;
 	}
 	if (Gm.OpenNpcMode == TEXT("mail")) { DrawMail(); return; }

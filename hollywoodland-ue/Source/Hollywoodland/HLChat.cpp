@@ -60,7 +60,18 @@ FString FHLGame::CorpusLine(const FHLSim& S, const FString& Situation)
 	TArray<const FHLCorpusLine*> Fit;
 	for (const FHLCorpusLine& L : D.Corpus) if (L.S == Situation && (L.T == TEXT("any") || L.T == S.P->Temperament || L.T == S.P->Archetype)) Fit.Add(&L);
 	if (!Fit.Num()) return FString();
-	return FillTemplate(S, Fit[RandInt(0, Fit.Num() - 1)]->Text);
+	for (int32 Try = 0; Try < 10; ++Try) { const FHLCorpusLine* L = Fit[RandInt(0, Fit.Num() - 1)]; if (FreshLine(L->Text)) return FillTemplate(S, L->Text); }
+	// short reactions ("gz", "ok") may repeat; a long line that has been used up is better left unsaid
+	const FHLCorpusLine* L = Fit[RandInt(0, Fit.Num() - 1)];
+	return L->Text.Len() <= 12 ? FillTemplate(S, L->Text) : FString();
+}
+
+bool FHLGame::FreshLine(const FString& Raw, bool bMark)
+{
+	const uint32 H = GetTypeHash(Raw.ToLower());
+	if (const double* At = LineUsedAt.Find(H)) if (Now - *At < 1800) return false;
+	if (bMark) LineUsedAt.Add(H, Now);
+	return true;
 }
 
 FString FHLGame::WhoIsTyping() const
@@ -186,10 +197,12 @@ void FHLGame::TickChat(float Dt)
 	TickConvos();
 	if (Now >= NextAmbient && Sims.Num())
 	{
-		// about 10 lines a minute across the capital's channels
-		NextAmbient = Now + 3.5f + Rand() * 6;
+		// about four lines a minute across the capital's channels, mostly General; quieter still while the player is in a fight or a dungeon
+		const FHLUnit* PU = PlayerUnit();
+		const bool bBusy = PU && (InCombat(*PU) || PU->Area != 0);
+		NextAmbient = Now + (9.f + Rand() * 11.f) * (bBusy ? 1.8f : 1.f);
 		const float R = Rand();
-		const FString Ch = R < 0.42f ? TEXT("zone") : R < 0.7f ? TEXT("lfg") : TEXT("trade");
+		const FString Ch = R < 0.72f ? TEXT("zone") : R < 0.86f ? TEXT("lfg") : TEXT("trade");
 		static FString LastZoneSituation;
 		for (int32 Try = 0; Try < 12; ++Try)
 		{
@@ -198,7 +211,14 @@ void FHLGame::TickChat(float Dt)
 			if (!S.bOnline || S.bInParty) continue;
 			if (Ch == TEXT("zone") && !(S.UnitId || S.Level <= 14)) continue; // General is zone-wide; trade and LFG are capital-wide
 			if (Ch == TEXT("lfg") && S.Level < 7) continue;
-			if (Ch == TEXT("zone") && Chance(0.5f)) { const FString Line = CorpusLine(S, Chance(0.3f) ? TEXT("jam") : TEXT("idle")); if (!Line.IsEmpty()) { AddChat(Ch, S.P->Handle, StyleText(*S.P, Line), SI); LastZoneSituation = TEXT("idle"); break; } }
+			// General is mostly people: the game as a game they found, their evening, the jam; some of it about play itself
+			if (Ch == TEXT("zone") && Chance(0.72f))
+			{
+				const float Tp = Rand();
+				const TCHAR* Sit = Tp < 0.34f ? TEXT("itch") : Tp < 0.6f ? TEXT("life") : Tp < 0.76f ? TEXT("jam") : TEXT("idle");
+				const FString Line = CorpusLine(S, Sit);
+				if (!Line.IsEmpty()) { AddChat(Ch, S.P->Handle, StyleText(*S.P, Line), SI); LastZoneSituation = TEXT("idle"); break; }
+			}
 			TArray<const FHLChatTemplate*> Fit;
 			const bool bWantAnswer = Ch == TEXT("zone") && LastZoneSituation == TEXT("question") && Chance(0.6f);
 			for (const FHLChatTemplate& T : D.Templates)
@@ -208,7 +228,10 @@ void FHLGame::TickChat(float Dt)
 				Fit.Add(&T);
 			}
 			if (!Fit.Num()) continue;
-			const FHLChatTemplate& T = *Fit[RandInt(0, Fit.Num() - 1)];
+			const FHLChatTemplate* Pick = nullptr;
+			for (int32 k = 0; k < 8 && !Pick; ++k) { const FHLChatTemplate* Tt = Fit[RandInt(0, Fit.Num() - 1)]; if (Tt->S == TEXT("wts") || Tt->S == TEXT("wtb") || FreshLine(Tt->Text)) Pick = Tt; }
+			if (!Pick) break;
+			const FHLChatTemplate& T = *Pick;
 			LastLinked = nullptr; LastPrice = 0;
 			AddChat(Ch, S.P->Handle, StyleText(*S.P, FillTemplate(S, T.Text)), SI);
 			if (T.S == TEXT("wts") && LastLinked) NoteWts(SI, LastLinked, LastPrice);
@@ -219,8 +242,9 @@ void FHLGame::TickChat(float Dt)
 	// gossip: one batched Worker call turns recent Census events into zone chat
 	if (Now >= NextGossip)
 	{
-		NextGossip = Now + 70 + Rand() * 60;
-		if (bWorkerOk)
+		NextGossip = Now + 170 + Rand() * 130;
+		const FHLUnit* PU = PlayerUnit();
+		if (bWorkerOk && !(PU && PU->Area != 0))
 		{
 			TArray<FString> Ev;
 			for (int32 i = FMath::Max(0, CensusEvents.Num() - 3); i < CensusEvents.Num(); ++i) Ev.Add(CensusEvents[i].Text);

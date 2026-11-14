@@ -85,6 +85,7 @@ struct FHLPortal { FString Id, ToArea, Label; FVector2D Pos, To; float R = 3; };
 struct FHLSubzone { FString Name; float X, Y, W, D; FString Levels; bool bHostile = false; };
 struct FHLExit { FString Id, Name, ToZone; FVector2D Pos; bool bRedcar = false; };
 struct FHLAidStation { FString Name; FVector2D Pos; };
+struct FHLRedcarStop { FString Id, Name, Note; FVector2D Pos; };
 struct FHLAreaDef
 {
 	FString Id, Name;
@@ -103,6 +104,7 @@ struct FHLAreaDef
 	TArray<FHLPortal> Portals;
 	TArray<FHLExit> Exits;
 	TArray<FHLAidStation> Aid;
+	TArray<FHLRedcarStop> Stops;
 		TArray<FVector2D> IdleSpots;
 		TMap<FString, FVector2D> Pois;
 		struct FSoundSpot { FString Id; FVector2D Pos; float Z = 0; };

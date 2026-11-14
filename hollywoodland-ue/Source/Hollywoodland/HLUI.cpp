@@ -530,6 +530,19 @@ int32 SHLGameUI::OnPaint(const FPaintArgs& Args, const FGeometry& Geo, const FSl
 		DrawHud();
 		DrawWindows();
 		DrawPopups();
+		if (Gm.RideStop >= 0 && Gm.Areas[0].Def->Stops.IsValidIndex(Gm.RideStop))
+		{
+			// the ride: the street fades to a title card and back
+			const float T = float(Gm.Now - Gm.RideStart), L = float(Gm.RideUntil - Gm.RideStart);
+			const float A = FMath::Clamp(FMath::Min(T / 0.6f, (L - T) / 0.6f), 0.f, 1.f);
+			++Layer; LastKind = 1;
+			Rc(0, 0, VS.X, VS.Y, FLinearColor(0.02f, 0.015f, 0.01f, 0.94f * A));
+			++Layer; LastKind = 1;
+			const FHLRedcarStop& St = Gm.Areas[0].Def->Stops[Gm.RideStop];
+			TxC(VS.X * 0.5f, VS.Y * 0.42f, TEXT("PACIFIC ELECTRIC"), 30, FLinearColor(0.85f, 0.2f, 0.15f, A), true);
+			TxC(VS.X * 0.5f, VS.Y * 0.42f + 46, FString::Printf(TEXT("Next stop: %s"), *St.Name), 16, FLinearColor(1, 0.92f, 0.75f, A));
+			TxC(VS.X * 0.5f, VS.Y * 0.42f + 72, St.Note, 11, FLinearColor(0.75f, 0.7f, 0.6f, A));
+		}
 		{
 			// -HLClickTest (with -HLAuto=<class>): right-click the ground below the screen centre with click-to-move on, log where the player went
 			static const bool bClickTest = FParse::Param(FCommandLine::Get(), TEXT("HLClickTest"));

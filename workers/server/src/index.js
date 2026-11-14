@@ -277,6 +277,22 @@ async function plan(request, env, req) {
   const opts = Array.isArray(req.report?.options) ? req.report.options : [];
   const ids = new Set(opts.map((o) => String(o.id)));
   if (!ids.size) return json(request, { error: 'options' }, 400);
+  // Most plans are a typed choice for the decision model (fast, cheap); the careful model only when the client asks for
+  // it (the player is right there, and it may say something about the choice).
+  if (!req.careful) {
+    try {
+      const sp = req.speakers[0] || {}, me = req.report?.me || {};
+      const choices = Object.fromEntries(opts.slice(0, 6).map((o) => [String(o.id), `${String(o.goal || '').slice(0, 80)}${o.gain ? `; gain: ${String(o.gain).slice(0, 60)}` : ''}${o.risk ? `; risk: ${String(o.risk).slice(0, 60)}` : ''}${o.cost_s ? `; takes about ${o.cost_s | 0} s` : ''}`]));
+      const state = `A player of the browser MMO Hollywoodland, ${sp.handle || 'someone'} (level ${me.level ?? sp.level ?? '?'} ${me.class || sp.class || ''}, a ${sp.archetype || sp.temperament || 'casual'} player, ${sp.country || ''}), health ${me.health || '?'}, bags ${me.bags || '?'}, ${me.session_min ?? '?'} min into the session${me.mood ? `, feeling ${me.mood}` : ''}, just finished: ${String(req.report?.just_finished || 'nothing').slice(0, 40)}. Nearby: ${(req.report?.nearby || []).slice(0, 4).join('; ') || 'nobody'}.`;
+      const out = await decide(env, state, [{ id: 'choice', type: 'choice', text: 'What would this player most likely do next?', choices }], { provider: req._provider });
+      const pr = out.answers.choice?.probabilities || {};
+      const ranked = Object.entries(pr).sort((x, y) => y[1] - x[1]);
+      const pick = sample(out.answers.choice) || ranked[0]?.[0];
+      if (!ids.has(String(pick))) return json(request, { id: req.id, fallback: true });
+      const then = ranked.find(([k]) => k !== pick)?.[0];
+      return json(request, { id: req.id, choice: String(pick), then: then && ids.has(then) ? then : null, why: '', say: null, mood: '', via: { decide: { provider: out.provider, ms: out.ms } } });
+    } catch (e) { console.log('plan (decide) failed', String(e)); return json(request, { id: req.id, fallback: true }); }
+  }
   try {
     const { tools, callTool } = toolsFor(req.speakers[0], req);
     const out = await hard(env, { system: PLAN_SYSTEM, user: buildPlanPrompt(req), tools, callTool, rounds: 2, max: 300 }, { provider: req._provider });

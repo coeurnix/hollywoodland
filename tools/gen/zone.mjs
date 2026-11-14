@@ -312,6 +312,9 @@ const obj = (kind, name, x, y, o = {}) => objects.push({ id: `obj_${String(++obj
 [[354, 338], [390, 370], [332, 394], [674, 350], [720, 382], [822, 350], [652, 274], [704, 270], [560, 330], [480, 330], [600, 280], [860, 300], [420, 300], [300, 330]].forEach(([x, y]) => obj('scrap', 'Wreckage', x + 1, y + 4, { gives: 'Scrap Metal', salvage: true, respawn: 120 }));
 obj('mailbox', 'Mailbox', 354, 188, { respawn: 0 });
 obj('redcar', 'Pacific Electric Red Car', 276, 200, { respawn: 0, big: true });
+// the Hollywood Blvd line inside the dome: a car waits at each stop (HLPlayer.cpp RideRedcar)
+obj('redcar', 'Pacific Electric Red Car', 505, 200, { respawn: 0, big: true });
+obj('redcar', 'Pacific Electric Red Car', 736, 200, { respawn: 0, big: true });
 
 // ---------- props for the interactables (the renderer falls back to primitives without them) ----------
 // kind -> (index, object) => [prop id, yaw, scale]
@@ -381,6 +384,9 @@ deco('theatre_facade', 662, 214 + 1.2, -90);
 for (const [x, y, yaw] of [[284, -98, 90], [312, -98, 90], [284, 548, -90], [312, 548, -90], [-98, 186, 0], [-98, 214, 0], [898, 186, 180], [898, 214, 180]]) deco('sandbags', x, y, yaw);
 // aid stations: triage tents
 deco('tent_triage', 522, 326, 180); deco('tent_triage', 656, 290, 180); deco('tent_triage', 100, 450, 0);
+// (two more on Franklin, so a death to the first Workers, dogs or coyotes does not walk you back past the Soldiers)
+deco('tent_triage', 115, 93, 0); deco('sandbags', 108, 100, 90); deco('crates', 122, 99, 30);
+deco('tent_triage', 480, 133, 0); deco('sandbags', 473, 140, 90); deco('crates', 487, 139, 200);
 // the ballroom: a fallen chandelier and wrecked furniture around the brute
 deco('chandelier_rubble', 222, 130, 30);
 [[204, 118, 20], [252, 120, 160], [208, 150, 75], [250, 150, 300], [238, 146, 200], [214, 134, 110]].forEach(([x, y, yaw]) => deco('ballroom_furniture', x, y, yaw));
@@ -418,7 +424,10 @@ for (const [x, y, id] of [[226, 372, 'hive_goo'], [300, 364, 'hive_goo'], [140, 
 const zone = {
   id: 'zone_hollywood_blvd', name: 'Hollywood Boulevard', min: [OX0 - 10, OY0 - 10], size: [OX1 - OX0 + 20, OY1 - OY0 + 20], cell: 2, offset: [0, 0], sky: [0.42, 0.32, 0.38], floor: C.lot, floor_kind: 'Lot',
   boxes: boxes.splice(0), ground: ground.splice(0), cols: propCols(props), props: props.splice(0), subzones, npcs: npcs.splice(0), camps: camps.splice(0), objects: objects.splice(0),
-  spawn: [92, 184], aid: [{ name: 'Hollywood Receiving Hospital', x: 500, y: 322 }, { name: 'Fire Station No. 27', x: 636, y: 284 }, { name: 'Blessed Sacrament Church', x: 125, y: 436 }],
+  redcar_stops: [{ id: 'stop_highland', name: 'Highland Avenue', note: "the bank, the gunsmith and the outfitter", x: 276, y: 200 },
+    { id: 'stop_wilcox', name: 'Wilcox Avenue', note: 'the police station and Hollywood High', x: 505, y: 200 },
+    { id: 'stop_vine', name: 'Vine Street', note: 'the Taft Building auction house, the Pantages, the Brown Derby', x: 736, y: 200 }],
+  spawn: [92, 184], aid: [{ name: 'Franklin Slopes Aid Tent', x: 115, y: 100 }, { name: 'Franklin & Wilcox Aid Post', x: 480, y: 140 }, { name: 'Hollywood Receiving Hospital', x: 500, y: 322 }, { name: 'Fire Station No. 27', x: 636, y: 284 }, { name: 'Blessed Sacrament Church', x: 125, y: 436 }],
   portals: [{ id: 'portal_egyptian', x: 475, y: 238, r: 3, to_area: 'dng_egyptian', to: [60, 8], label: 'The Egyptian Theatre (Dungeon, 8-12)' }],
   pois: { bank: [330, 191], auction: [776, 208], mailbox: [354, 190], redcar: [284, 198], trainers: [92, 184], inn: [96, 210], vendor: [372, 190], police: [530, 276], forecourt: [92, 188], vine: [756, 200] },
   // sound spots [sfx id, x, y, z]: radios playing 1920s records (tools/gen-sfx.mjs loop_radio) at the inn desk, the drugstore and the Derby kitchen

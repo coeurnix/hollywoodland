@@ -339,8 +339,8 @@ float FHLGame::Hour() const
 
 float FHLGame::Daylight(float H)
 {
-	// sunrise 6:00, sunset 19:00; dark from about 20:30 to 4:30
-	const float E = (H >= 6.f && H <= 19.f) ? FMath::Sin(PI * (H - 6.f) / 13.f) : -FMath::Sin(PI * FMath::Fmod(H - 19.f + 24.f, 24.f) / 11.f);
+	// a game day is a real hour: sunrise 5:00, sunset 21:00, dark from about 21:45 to 4:15 (some 15 real minutes)
+	const float E = (H >= 5.f && H <= 21.f) ? FMath::Sin(PI * (H - 5.f) / 16.f) : -FMath::Sin(PI * FMath::Fmod(H - 21.f + 24.f, 24.f) / 8.f);
 	return FMath::SmoothStep(-0.3f, 0.15f, E);
 }
 

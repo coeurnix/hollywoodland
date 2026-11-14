@@ -22,7 +22,16 @@ FString FHLGame::SimActivity(const FHLSim& S) const
 	const FHLZoneInfo* Z = FHLData::Get().Zone(S.Zone);
 	if (S.UnitId)
 	{
-		if (S.bInParty) return TEXT("in your party");
+		if (S.bInParty)
+		{
+			// where they really are and what they are doing, so a line never claims to be somewhere else
+			const FHLUnit* U = Unit(S.UnitId);
+			const FHLUnit* T = U ? Unit(U->TargetId) : nullptr;
+			const FString Where = U && Areas.IsValidIndex(U->Area) && U->Area != 0 ? FString::Printf(TEXT("inside %s"), *Areas[U->Area].Def->Name) : FString::Printf(TEXT("on Hollywood Boulevard near %s"), *CurSubzone);
+			if (U && U->bDead) return FString::Printf(TEXT("in your party, %s, dead and waiting to be revived"), *Where);
+			if (U && InCombat(*U)) return FString::Printf(TEXT("in your party, %s, in a fight right now%s"), *Where, T && T->Kind == EHLKind::Mob ? *FString::Printf(TEXT(" with %s"), *T->Name) : TEXT(""));
+			return FString::Printf(TEXT("in your party, %s, a few steps from you"), *Where);
+		}
 		if (S.Role == EHLSimRole::Idler) return S.bAfk ? TEXT("AFK on Hollywood Boulevard") : TEXT("hanging around Hollywood Boulevard");
 		if (S.Role == EHLSimRole::Transient) return TEXT("running errands on Hollywood Boulevard (bank, auction house)");
 		if (S.bAfk) return TEXT("AFK on Hollywood Boulevard");
@@ -664,6 +673,9 @@ void FHLGame::PartyEvent(const FString& What)
 		Remember(SI, Situation == TEXT("wipe") ? TEXT("wipe") : TEXT("party"), What.Left(120), 0.55f);
 		if (Situation == TEXT("wipe")) PartyFrustrate(SI, 0.9f, TEXT("the group wiped")); else Sims[SI].Frust = FMath::Max(0.f, Sims[SI].Frust - 2.f);
 	}
+	// a boss kill is a moment worth a written line (the last boss always; others half the time); deaths and wipes are routine
+	const bool bMajor = Situation == TEXT("boss_kill") && (What.Contains(TEXT("Hive Mother")) || Chance(0.5f));
+	if (!bWorkerOk || !bMajor) { for (int32 SI : Sp) if (Chance(0.55f)) SimSay(SI, TEXT("party"), Situation, 1.5f + Rand() * 4); return; }
 	WorkerSim(TEXT("reply"), Sp, TEXT("event"), TEXT("party"), What, {}, [this, Sp, Situation](bool bOk, const TSharedPtr<FJsonObject>& Resp)
 	{
 		if (bOk && Resp.IsValid()) ApplyWorkerActions(Resp, TEXT("party"), Sp);

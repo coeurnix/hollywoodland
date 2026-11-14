@@ -183,6 +183,8 @@ void FHLGame::MindNextGoal(FHLSim& S, FHLUnit& U)
 	for (const FHLSim& O : Sims) if (O.UnitId && &O != &S && Near.Num() < 4) if (const FHLUnit* OU = Unit(O.UnitId)) if (Dist(U, *OU) < 30) Near.Add(FString::Printf(TEXT("%s (level %d), %s"), *O.P->Handle, O.Level, InCombat(*OU) ? TEXT("fighting") : TEXT("nearby")));
 	Rep->SetArrayField(TEXT("nearby"), Strs(Near));
 	Req->SetObjectField(TEXT("report"), Rep);
+	// the decision model picks; the careful (writing) model only now and then, with the player right beside them
+	if (P && Dist(U, *P) < 15 && Chance(0.2f)) Req->SetBoolField(TEXT("careful"), true);
 	struct FKept { FString Kind, Arg; };
 	TArray<FKept> Kept; for (int32 i = 0; i < NOpt; ++i) Kept.Add({ Opts[i].Kind, Opts[i].Arg });
 	const double Stamp = S.GoalSince;
@@ -251,7 +253,7 @@ void FHLGame::Notice(const TCHAR* Kind, const FString& Text, int32 AimedUnitId, 
 	Saw.SetNum(FMath::Min(2, Saw.Num()));
 	if (bWorkerOk && Now >= NextObserveCall)
 	{
-		NextObserveCall = Now + 20 + Rand() * 16;
+		NextObserveCall = Now + 80 + Rand() * 40;
 		const FString What = Text.Left(200);
 		WorkerSim(TEXT("observe"), Saw, TEXT("observe"), TEXT("say"), What, {}, [this, Saw, What](bool bOk, const TSharedPtr<FJsonObject>& Resp)
 		{
@@ -260,7 +262,7 @@ void FHLGame::Notice(const TCHAR* Kind, const FString& Text, int32 AimedUnitId, 
 			for (int32 SI : Saw) Remember(SI, TEXT("saw"), FString::Printf(TEXT("saw this: %s"), *What.Left(110)), 0.25f);
 		});
 	}
-	else if (!bWorkerOk && AimedUnitId && Chance(0.5f)) SimSay(Saw[0], TEXT("say"), TEXT("obs_react"), 1.5f + Rand() * 2, TEXT("lol"));
+	else if (AimedUnitId && Chance(0.5f)) SimSay(Saw[0], TEXT("say"), TEXT("obs_react"), 1.5f + Rand() * 2, TEXT("lol"));
 }
 
 void FHLGame::TickMind()
@@ -509,6 +511,7 @@ void FHLGame::PartyFrustrate(int32 SimIdx, float Amount, const TCHAR* Why)
 	Remember(SimIdx, TEXT("slight"), FString::Printf(TEXT("got annoyed in a group with the player: %s"), Why), bLeave ? 0.7f : 0.45f);
 	UE_LOG(LogTemp, Display, TEXT("HL_MIND %s is %s: %s (%.1f)"), *S.P->Handle, bLeave ? TEXT("leaving, fed up") : TEXT("annoyed"), Why, S.Frust);
 	TArray<int32> Sp = { SimIdx };
+	if (!bLeave || !bWorkerOk) { SimSay(SimIdx, TEXT("party"), bLeave ? TEXT("gripe_leave") : TEXT("gripe"), 1 + Rand() * 2, bLeave ? TEXT("ok im done, gl") : TEXT("come on")); if (bLeave) { S.StateUntil = Now + 9; S.Frust = 2; } return; }
 	const FString What = FString::Printf(TEXT("%s is %s with the group because: %s.%s"), *S.P->Handle, bLeave ? TEXT("fed up") : TEXT("annoyed"), Why, bLeave ? TEXT(" They say so and are about to leave the party.") : TEXT(" They say so, their way."));
 	WorkerSim(TEXT("reply"), Sp, TEXT("event"), TEXT("party"), What, {}, [this, Sp, bLeave](bool bOk, const TSharedPtr<FJsonObject>& Resp)
 	{

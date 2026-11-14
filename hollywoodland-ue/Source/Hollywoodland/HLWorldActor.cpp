@@ -391,7 +391,15 @@ void AHLWorldActor::ScatterFoliage(AActor* Geo, int32 Area)
 			}
 		}
 	const FVector2D TLo = T.Origin, THi = T.Origin + FVector2D((T.NX - 1) * T.Cell, (T.NY - 1) * T.Cell);
-	auto Big = [&](const TCHAR* Name, float CullM, const FVector2D& P, float S, float Sink) { Add(Comp(Name, CullM, false), P, S, Sink); ++NBig; };
+	// trees, rocks and scrub keep clear of placed props (tents, wrecks, sandbags, lamps): a 4 m occupancy grid
+	TSet<FIntPoint> Taken;
+	auto Mark = [&](const FVector2D& A, const FVector2D& Bv) { for (int32 j = FMath::FloorToInt32(A.Y / 4.f); j <= FMath::FloorToInt32(Bv.Y / 4.f); ++j) for (int32 i = FMath::FloorToInt32(A.X / 4.f); i <= FMath::FloorToInt32(Bv.X / 4.f); ++i) Taken.Add(FIntPoint(i, j)); };
+	for (const FBox2f& Cb : Def.Cols) Mark(FVector2D(Cb.Min) - FVector2D(2.5f), FVector2D(Cb.Max) + FVector2D(2.5f));
+	for (const FHLPropPlace& Pp : Def.Props) if (!Pp.Mesh.Contains(TEXT("/Buildings/"))) Mark(Pp.Pos - FVector2D(3.f), Pp.Pos + FVector2D(3.f));
+	for (const FHLObjectDef& Ob : Def.Objects) Mark(Ob.Pos - FVector2D(3.f), Ob.Pos + FVector2D(3.f));
+	for (const FHLAidStation& Ai : Def.Aid) Mark(Ai.Pos - FVector2D(8.f), Ai.Pos + FVector2D(8.f));
+	auto Clear = [&](const FVector2D& P) { return !Taken.Contains(FIntPoint(FMath::FloorToInt32(P.X / 4.f), FMath::FloorToInt32(P.Y / 4.f))); };
+	auto Big = [&](const TCHAR* Name, float CullM, const FVector2D& P, float S, float Sink) { if (!Clear(P)) return; Add(Comp(Name, CullM, false), P, S, Sink); ++NBig; };
 	// where the biggest orchard and the thickest grove fell (logged: a view to check them, -HLViewSet=nature)
 	FVector2D OrchardAt = FVector2D::ZeroVector, GroveAt = FVector2D::ZeroVector; float BestO = -1, BestG = -1;
 	for (float Y = Lo.Y + 40; Y < Hi.Y - 40; Y += 10.f)
@@ -454,7 +462,7 @@ void AHLWorldActor::ScatterFoliage(AActor* Geo, int32 Area)
 				else Big(TEXT("OakLive"), 1600.f, P, R.FRandRange(0.75f, 1.25f), 0.3f);
 				if (R.FRand() < 0.12f) { if (UHierarchicalInstancedStaticMeshComponent* LC = Comp(TEXT("LogFallen"), 300.f, false)) LC->AddInstance(FTransform(FRotator(0, R.FRand() * 360.f, 0), ToWorld(Area, P + FVector2D(R.FRandRange(-6.f, 6.f), R.FRandRange(-6.f, 6.f)), -0.15f), FVector(R.FRandRange(0.8f, 1.3f))), true); ++NBig; }
 			}
-			else if (Roll < PTree + PScrub)
+			else if (Roll < PTree + PScrub && Clear(P))
 			{
 				// scrub grows in clumps of two to four of a kind
 				UHierarchicalInstancedStaticMeshComponent* SC = Comp(Scrub[R.RandRange(0, UE_ARRAY_COUNT(Scrub) - 1)], 300.f, false);
@@ -604,7 +612,28 @@ void AHLWorldActor::BuildWorld()
 			static const TCHAR* KitFams[] = { TEXT("SM_BRK_"), TEXT("SM_DECO_"), TEXT("SM_MSN_"), TEXT("SM_SPN_"), TEXT("SM_DR_"), TEXT("SM_RF_"), TEXT("SM_HV_"), TEXT("SM_EGY_"), TEXT("SM_ST_"), TEXT("BRK_") }; // repeated modules: instanced (hive wall 550, dungeon walls 110, kerbs)
 			bool bKit = false;
 			for (const TCHAR* F : KitFams) if (P.Mesh.StartsWith(FString(TEXT("/Game/Buildings/")) + F)) { bKit = true; break; }
-			if (!bKit) { AddProp(Geo, a, P); continue; }
+			if (!bKit)
+			{
+				UStaticMeshComponent* Pc = AddProp(Geo, a, P);
+				if (Pc && a == 0 && (P.Mesh.Contains(TEXT("SM_StreetLamp")) || P.Mesh.Contains(TEXT("SM_LampSingle"))))
+				{
+					const FBox Bx = Pc->Bounds.GetBox();
+					const FVector Head(Bx.GetCenter().X, Bx.GetCenter().Y, Bx.Max.Z - 25.f);
+					LampHeads.Add(Head);
+					const FVector Base = Geo->GetActorLocation();
+					UStaticMeshComponent* Gl = AddMesh(Geo, Sphere, Head - Base, FVector(0.3f), FLinearColor(1.f, 0.86f, 0.55f) * 2.2f, true);
+					Gl->SetVisibility(false); LampGlows.Add(Gl);
+					if (MatAdd)
+					{
+						// a faint warm pool on the pavement below (additive, no lighting cost)
+						UStaticMeshComponent* Pool = AddMesh(Geo, Cylinder, FVector(Head.X, Head.Y, Bx.Min.Z + 4.f) - Base, FVector(5.5f, 5.5f, 0.01f), FLinearColor::White, true);
+						UMaterialInstanceDynamic* Md = UMaterialInstanceDynamic::Create(MatAdd, this);
+						Md->SetVectorParameterValue(TEXT("Color"), FLinearColor(0.16f, 0.11f, 0.05f));
+						Pool->SetMaterial(0, Md); Pool->SetVisibility(false); LampGlows.Add(Pool);
+					}
+				}
+				continue;
+			}
 			UInstancedStaticMeshComponent*& I = Kit.FindOrAdd(P.Mesh);
 			if (!I)
 			{
@@ -622,7 +651,21 @@ void AHLWorldActor::BuildWorld()
 		}
 		ScatterFoliage(Geo, a);
 		for (const FHLPortal& Po : Def.Portals) AddMesh(Geo, Cylinder, ToWorld(a, Po.Pos, 1.6f), FVector(Po.R * 1.2f, Po.R * 1.2f, 3.2f), FLinearColor(0.2f, 0.9f, 0.8f), true);
-		for (const FHLAidStation& Aid : Def.Aid) AddMesh(Geo, Cube, ToWorld(a, Aid.Pos, 0.05f), FVector(3, 3, 0.1f), FLinearColor(0.9f, 0.1f, 0.1f), true);
+		for (const FHLAidStation& Aid : Def.Aid)
+		{
+			AddMesh(Geo, Cylinder, ToWorld(a, Aid.Pos, 0.03f), FVector(2.6f, 2.6f, 0.02f), FLinearColor(0.78f, 0.74f, 0.64f));
+			AddMesh(Geo, Cube, ToWorld(a, Aid.Pos, 0.05f), FVector(2.6f, 0.75f, 0.02f), FLinearColor(0.75f, 0.08f, 0.07f));
+			AddMesh(Geo, Cube, ToWorld(a, Aid.Pos, 0.05f), FVector(0.75f, 2.6f, 0.02f), FLinearColor(0.75f, 0.08f, 0.07f));
+			// a lantern on a post at the sheet's edge, lit day and night so the station is easy to find
+			const FVector2D Lp = Aid.Pos + FVector2D(1.9f, -1.9f);
+			AddMesh(Geo, Cylinder, ToWorld(a, Lp, 1.1f), FVector(0.07f, 0.07f, 2.2f), FLinearColor(0.25f, 0.2f, 0.15f));
+			AddMesh(Geo, Sphere, ToWorld(a, Lp, 2.25f), FVector(0.22f), FLinearColor(1.f, 0.75f, 0.45f) * 2.f, true);
+			UPointLightComponent* L = NewObject<UPointLightComponent>(Geo);
+			L->SetupAttachment(Geo->GetRootComponent()); L->SetMobility(EComponentMobility::Movable);
+			L->SetRelativeLocation(ToWorld(a, Lp, 2.0f));
+			L->SetIntensity(2500.f); L->SetAttenuationRadius(900.f); L->SetLightColor(FLinearColor(1.f, 0.8f, 0.55f)); L->SetCastShadows(false);
+			L->RegisterComponent();
+		}
 		// interactable objects
 		for (const FHLObjectDef& O : Def.Objects)
 		{
@@ -700,6 +743,20 @@ void AHLWorldActor::BuildWorld()
 			ObjectMeshes[a].Add(AddMesh(Geo, Mesh, ToWorld(a, O.Pos, Z), Scale, C, bUnlit));
 		}
 	}
+	// the moving street lights and the player's light
+	if (LampHeads.Num())
+		for (int32 k = 0; k < 6; ++k)
+		{
+			UPointLightComponent* L = NewObject<UPointLightComponent>(this);
+			L->SetupAttachment(RootComponent); L->SetMobility(EComponentMobility::Movable);
+			L->SetAttenuationRadius(1500.f); L->SetLightColor(FLinearColor(1.f, 0.85f, 0.6f)); L->SetCastShadows(false); L->SetSourceRadius(20.f);
+			L->SetVisibility(false); L->RegisterComponent();
+			StreetLights.Add(L);
+		}
+	PlayerLight = NewObject<UPointLightComponent>(this);
+	PlayerLight->SetupAttachment(RootComponent); PlayerLight->SetMobility(EComponentMobility::Movable);
+	PlayerLight->SetAttenuationRadius(1100.f); PlayerLight->SetLightColor(FLinearColor(1.f, 0.9f, 0.75f)); PlayerLight->SetCastShadows(false);
+	PlayerLight->SetVisibility(false); PlayerLight->RegisterComponent();
 	// target ring
 	AActor* RingActor = W->SpawnActor<AActor>(AActor::StaticClass(), FTransform::Identity);
 	Spawned.Add(RingActor);
@@ -876,16 +933,16 @@ void AHLWorldActor::TickSky()
 	const bool bIndoors = P && Game.Areas.IsValidIndex(P->Area) && Game.Areas[P->Area].Def->bDungeon;
 	const float H = Game.Hour();
 	const float D = FHLGame::Daylight(H);
-	const float Elev = (H >= 6.f && H <= 19.f) ? FMath::Sin(PI * (H - 6.f) / 13.f) : 0.f;
+	const float Elev = (H >= 5.f && H <= 21.f) ? FMath::Sin(PI * (H - 5.f) / 16.f) : 0.f;
 	const float Gold = D * (1.f - FMath::SmoothStep(0.12f, 0.5f, Elev)); // low sun
 	if (SunLight)
 	{
-		const FRotator SunRot(-FMath::Max(10.f, Elev * 62.f), 180.f - FMath::Clamp((H - 6.f) / 13.f, 0.f, 1.f) * 180.f + 35.f, 0.f);
+		const FRotator SunRot(-FMath::Max(10.f, Elev * 62.f), 180.f - FMath::Clamp((H - 5.f) / 16.f, 0.f, 1.f) * 180.f + 35.f, 0.f);
 		const FRotator MoonRot(-42.f, 60.f, 0.f);
 		SunLight->SetWorldRotation(D > 0.35f ? SunRot : MoonRot);
 		const FLinearColor SunC = FMath::Lerp(FLinearColor(1.f, 0.92f, 0.8f), FLinearColor(1.f, 0.62f, 0.38f), Gold);
 		SunLight->SetLightColor(FMath::Lerp(FLinearColor(0.55f, 0.65f, 1.f), SunC, D));
-		SunLight->SetIntensity(D > 0.35f ? FMath::Lerp(0.9f, 2.0f, FMath::SmoothStep(0.35f, 1.f, D)) : FMath::Lerp(0.55f, 0.9f, D / 0.35f));
+		SunLight->SetIntensity(D > 0.35f ? FMath::Lerp(1.05f, 2.0f, FMath::SmoothStep(0.35f, 1.f, D)) : FMath::Lerp(0.95f, 1.05f, D / 0.35f));
 	}
 	const FLinearColor SkyTint = FMath::Lerp(FLinearColor(1, 1, 1), FLinearColor(1.08f, 0.78f, 0.66f), Gold);
 	for (UMaterialInstanceDynamic* S : SkyMids)
@@ -895,20 +952,20 @@ void AHLWorldActor::TickSky()
 	}
 	FPostProcessSettings& PP = Camera->PostProcessSettings;
 	const float Dg = bIndoors ? 1.f : D, Gg = bIndoors ? 0.f : Gold;
-	PP.AutoExposureBias = BaseExposure + FMath::Lerp(-0.85f, 0.f, Dg); // night reads as night, but the streets stay legible
+	PP.AutoExposureBias = BaseExposure + FMath::Lerp(-0.4f, 0.f, Dg); // night reads as night, but the streets stay legible
 	PP.bOverride_ColorGain = true;
-	const FLinearColor Gain = FMath::Lerp(FLinearColor(0.78f, 0.88f, 1.15f), FLinearColor(1, 1, 1), Dg) * FMath::Lerp(FLinearColor(1, 1, 1), FLinearColor(1.06f, 0.97f, 0.88f), Gg);
+	const FLinearColor Gain = FMath::Lerp(FLinearColor(0.86f, 0.92f, 1.1f), FLinearColor(1, 1, 1), Dg) * FMath::Lerp(FLinearColor(1, 1, 1), FLinearColor(1.06f, 0.97f, 0.88f), Gg);
 	PP.ColorGain = FVector4(Gain.R, Gain.G, Gain.B, 1.f);
 	PP.bOverride_ColorSaturation = true;
-	const float Sat = FMath::Lerp(0.78f, 1.f, Dg) * (1.f + 0.08f * Gg);
+	const float Sat = FMath::Lerp(0.85f, 1.f, Dg) * (1.f + 0.08f * Gg);
 	PP.ColorSaturation = FVector4(Sat, Sat, Sat, 1.f);
 	// hemisphere ambient (materials, MPC_HLAmbient): a cool sky fill from above and a warm, darker bounce from below,
 	// blue and dim at night, warmer at golden hour, neutral indoors
 	if (Ambient)
 		if (UMaterialParameterCollectionInstance* AI = GetWorld()->GetParameterCollectionInstance(Ambient))
 		{
-			FLinearColor SkyA = FMath::Lerp(FLinearColor(0.7f, 0.8f, 1.12f), FLinearColor(1.2f, 1.24f, 1.34f), Dg);
-			FLinearColor GndA = FMath::Lerp(FLinearColor(0.38f, 0.38f, 0.46f), FLinearColor(0.64f, 0.58f, 0.5f), Dg);
+			FLinearColor SkyA = FMath::Lerp(FLinearColor(0.9f, 0.98f, 1.22f), FLinearColor(1.2f, 1.24f, 1.34f), Dg);
+			FLinearColor GndA = FMath::Lerp(FLinearColor(0.5f, 0.5f, 0.58f), FLinearColor(0.64f, 0.58f, 0.5f), Dg);
 			SkyA = FMath::Lerp(SkyA, FLinearColor(1.3f, 1.12f, 0.98f), Gg * 0.6f);
 			if (bIndoors) { SkyA = FLinearColor(1.12f, 1.08f, 1.04f); GndA = FLinearColor(0.7f, 0.65f, 0.6f); }
 			AI->SetVectorParameterValue(TEXT("SkyAmb"), SkyA);
@@ -921,6 +978,35 @@ void AHLWorldActor::TickSky()
 		Fog->SetVisibility(!bIndoors);
 		const FLinearColor Day = FMath::Lerp(FLinearColor(0.55f, 0.62f, 0.74f), FLinearColor(0.85f, 0.6f, 0.42f), Gold);
 		Fog->SetFogInscatteringColor(FMath::Lerp(FLinearColor(0.035f, 0.045f, 0.08f), Day, D));
+	}
+	// street lamps after dusk: every lamp head glows (an unlit bulb and a faint additive pool on the pavement), and a few
+	// real point lights move to the lamps nearest the camera (the web renderer cannot afford one light per lamp)
+	{
+		const float On = bIndoors ? 0.f : 1.f - FMath::SmoothStep(0.25f, 0.6f, D);
+		const bool bOn = On > 0.05f;
+		if (bOn != bLampsOn) { bLampsOn = bOn; for (UStaticMeshComponent* G : LampGlows) if (G) G->SetVisibility(bOn); }
+		const double Tn = FPlatformTime::Seconds();
+		if (StreetLights.Num() && Tn > NextLampSort)
+		{
+			NextLampSort = Tn + 0.5;
+			const FVector Cam = Camera->GetComponentLocation();
+			TArray<TPair<float, int32>> Near;
+			for (int32 i = 0; i < LampHeads.Num(); ++i) Near.Add({ float(FVector::DistSquared(LampHeads[i], Cam)), i });
+			Near.Sort([](const TPair<float, int32>& A, const TPair<float, int32>& B) { return A.Key < B.Key; });
+			for (int32 k = 0; k < StreetLights.Num(); ++k)
+				if (UPointLightComponent* L = StreetLights[k].Get())
+				{
+					const bool bUse = k < Near.Num() && bOn;
+					if (bUse) { L->SetWorldLocation(LampHeads[Near[k].Value] - FVector(0, 0, 40)); L->SetIntensity(5200.f * On); }
+					L->SetVisibility(bUse);
+				}
+		}
+		// the player's own small pool of light at night (only the player: everyone else is lit by the lamps)
+		if (PlayerLight)
+		{
+			PlayerLight->SetVisibility(bOn && P != nullptr);
+			if (P && bOn) { PlayerLight->SetWorldLocation(ToWorld(P->Area, P->Pos, 3.2f + P->Z)); PlayerLight->SetIntensity(2600.f * On); }
+		}
 	}
 	// lamps carry the night
 	static float LastLamp = -1;
@@ -1030,7 +1116,7 @@ void AHLWorldActor::SyncUnits()
 	const FHLUnit* T = P ? Game.Unit(P->TargetId) : nullptr;
 	if (Ring)
 	{
-		Ring->SetVisibility(T != nullptr);
+		Ring->SetVisibility(false); // drawn as a thin glowing band in TickFx
 		if (T)
 		{
 			Ring->SetWorldLocation(ToWorld(T->Area, T->Pos, 0.06f));

@@ -9,6 +9,7 @@ bool FHLGame::StartConvo(const FHLConvo& C, const TArray<int32>& Speakers, float
 {
 	if (!Speakers.Num()) return false;
 	RecentConvos.Add(&C); if (RecentConvos.Num() > 12) RecentConvos.RemoveAt(0);
+	if (C.Lines.Num()) FreshLine(C.Lines[0].Value); // marks the opener as used
 	const FHLSim& A = Sims[Speakers[0]];
 	// fill every line in one pass from speaker a, so the tokens agree from line to line
 	FString Joined;
@@ -39,9 +40,9 @@ void FHLGame::TickConvos()
 	// General: two or three players talk it out, about one every minute and a half
 	if (Now >= NextZoneConvo && Now >= ConvoEndsAt)
 	{
-		NextZoneConvo = Now + 60 + Rand() * 70;
+		NextZoneConvo = Now + 120 + Rand() * 110;
 		TArray<const FHLConvo*> Fit;
-		for (const FHLConvo& C : D.Convos) if (C.Ch == TEXT("zone") && !RecentConvos.Contains(&C)) Fit.Add(&C);
+		for (const FHLConvo& C : D.Convos) if (C.Ch == TEXT("zone") && !RecentConvos.Contains(&C) && C.Lines.Num() && FreshLine(C.Lines[0].Value, false)) Fit.Add(&C);
 		if (Fit.Num())
 		{
 			const FHLConvo& C = *Fit[RandInt(0, Fit.Num() - 1)];

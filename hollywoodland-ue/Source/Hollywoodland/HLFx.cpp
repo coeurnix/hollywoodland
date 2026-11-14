@@ -253,6 +253,35 @@ void AHLWorldActor::TickFx(float Dt)
 			}
 		}
 	}
+	// 3b. ground rings (thin glowing bands, not flat discs): the target, faint red under hostile creatures close by (so they
+	// read against the grass), and a soft marker under the player in a group
+	if (P && !P->bDead)
+	{
+		auto Band = [&](const FHLUnit& U, float R, const FLinearColor& C, float Op)
+		{
+			const FVector Feet = ToWorld(U.Area, U.Pos, U.Z + 0.05f);
+			FxPiece(Cylinder, Feet, FRotator::ZeroRotator, FVector(R * 2.f, R * 2.f, 0.09f), C, Op, 1.f);
+		};
+		const FHLUnit* Tg = Game.Unit(P->TargetId);
+		if (Tg && !Tg->bDead && Tg->Area == P->Area)
+		{
+			const bool bFoe = Tg->Kind == EHLKind::Mob;
+			const FLinearColor C = bFoe ? (Tg->Mob && !Tg->Mob->bAggressive ? FLinearColor(1.f, 0.85f, 0.2f) : FLinearColor(1.f, 0.22f, 0.12f)) : FLinearColor(0.35f, 1.f, 0.4f);
+			const float Pulse = 0.85f + 0.15f * FMath::Sin(float(T) * 4.f);
+			Band(*Tg, 0.85f * FMath::Max(1.f, Tg->Scale), C, 1.25f * Pulse);
+		}
+		int32 Marked = 0;
+		for (const FHLUnit* U : Game.UnitList)
+		{
+			if (Marked >= 18 || U == Tg || U->Kind != EHLKind::Mob || U->bDead || U->Area != P->Area || !U->Mob || U->Mob->bGuard) continue;
+			const float Dm = FVector2D::Distance(U->Pos, P->Pos);
+			if (Dm > 38.f) continue;
+			const float Fade = 1.f - FMath::SmoothStep(26.f, 38.f, Dm);
+			Band(*U, 0.6f * FMath::Max(1.f, U->Scale), U->Mob->bAggressive ? FLinearColor(1.f, 0.25f, 0.15f) : FLinearColor(1.f, 0.8f, 0.3f), 0.42f * Fade);
+			++Marked;
+		}
+		if (Game.Party.Num()) Band(*P, 0.55f, FLinearColor(0.55f, 0.85f, 1.f), 0.55f);
+	}
 	// 4. park what nobody used this frame
 	for (int32 i = FxUsed; i < FxPool.Num(); ++i) if (FxPool[i] && FxPool[i]->IsVisible()) FxPool[i]->SetVisibility(false);
 }
