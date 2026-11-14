@@ -1128,6 +1128,8 @@ void AHLWorldActor::AutoTest(float Dt)
 	#endif
 		return;
 	}
+	static const bool bClickTest = FParse::Param(FCommandLine::Get(), TEXT("HLClickTest"));
+	if (bClickTest) return; // -HLClickTest: the UI drives the player (SHLGameUI::OnPaint)
 	if (P && P->bGhost && FVector2D::Distance(P->Pos, Game.Player.CorpsePos) > 8) Game.MoveTo(*P, Game.Player.CorpsePos, 4); // every frame
 	else if (P && bAutoGoal && !P->bDead && Game.MoveTo(*P, AutoGoal, 5)) bAutoGoal = false;
 		if (!P || Game.Now < AutoNextAct) { if (P && !P->bDead && !P->bGhost) if (FHLUnit* Tg = Game.Unit(P->TargetId)) if (!Tg->bDead && Tg->Kind == EHLKind::Mob) Game.MoveTo(*P, Tg->Pos, P->AutoRange - 1); return; }

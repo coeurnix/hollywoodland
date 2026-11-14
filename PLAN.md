@@ -102,7 +102,8 @@ browser ── itch.io page (iframe, SharedArrayBuffer support) ── UE 5.9 Wa
    does not quest): level 6 at 30 game-minutes, 191 kills (~40 XP each). The 13 level 1-5 quests paid 6,980 of the 7,600 XP to
    level 6, so a questing player (est. ~4 min a quest, kills included) reached 6 in ~32 min; quest XP is now 6x/9x kill XP (was
    8x/12x), est. ~38 min. Still to do: a human run to confirm (other levers: mob respawn 90 s, sim density `MAX_LOCALS`).
-3. ~~Camera collision~~ (done: exact box ray). Click-to-move is absent.
+3. ~~Camera collision~~ (done: exact box ray). ~~Click-to-move~~ (done, off by default: Settings > Interface "Right-click the ground
+   to walk there"; pathfinds, any movement key cancels; self-test `-HLAuto=<class> -HLClickTest`).
 4. **Mouse look on the web:** verify pointer-lock behaviour of `UseHighPrecisionMouseMovement` in the itch iframe. The fallback is
    already in the code: the drag uses `GetCursorDelta` under mouse capture, so a refused lock still turns the camera (the cursor
    just stays visible), and pointer-lock warps (>250 px) are dropped. Still to confirm by hand on the itch page.

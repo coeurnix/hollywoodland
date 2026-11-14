@@ -530,6 +530,29 @@ int32 SHLGameUI::OnPaint(const FPaintArgs& Args, const FGeometry& Geo, const FSl
 		DrawHud();
 		DrawWindows();
 		DrawPopups();
+		{
+			// -HLClickTest (with -HLAuto=<class>): right-click the ground below the screen centre with click-to-move on, log where the player went
+			static const bool bClickTest = FParse::Param(FCommandLine::Get(), TEXT("HLClickTest"));
+			static int32 Step = 0; static double At = 0;
+			if (bClickTest && Gm.PlayerUnit())
+			{
+				const FHLUnit& P = *Gm.PlayerUnit();
+				if (Step == 0 && At == 0) At = Gm.Now + 4;
+				if (Step == 0 && Gm.Now > At)
+				{
+					FHLSettings::Get().bClickMove = true;
+					DownPos = FVector2D(VS.X * 0.5f, VS.Y * 0.8f); bRClick = true; bDownOverUi = false; Picks.Reset();
+					UE_LOG(LogTemp, Display, TEXT("HL_CLICK start at %.1f,%.1f yaw=%.0f"), P.Pos.X, P.Pos.Y, P.Yaw);
+					Step = 1; At = Gm.Now + 8;
+				}
+				else if (Step == 1 && Gm.Now > At)
+				{
+					UE_LOG(LogTemp, Display, TEXT("HL_CLICK goal %.1f,%.1f (set=%d) now at %.1f,%.1f d=%.1f"), Gm.ClickGoal.X, Gm.ClickGoal.Y, Gm.bClickGoal ? 1 : 0, P.Pos.X, P.Pos.Y, FVector2D::Distance(P.Pos, Gm.ClickGoal));
+					FHLSettings::Get().bClickMove = false;
+					Step = 2;
+				}
+			}
+		}
 		HandleWorldClick();
 		// -HLTipTest: pin an item card (an equippable auction item) for screenshots
 		static const bool bTipTest = FParse::Param(FCommandLine::Get(), TEXT("HLTipTest"));
@@ -866,12 +889,26 @@ void SHLGameUI::HandleWorldClick() const
 		if (Best && Best->UnitId) Gm.TargetUnit(Best->UnitId);
 		else if (!Best) Gm.TargetUnit(0);
 	}
-	else if (bRClick && Best)
-	{
-		if (Best->UnitId) Gm.InteractUnit(Best->UnitId);
-		else Gm.ObjectInteract(Best->Area, Best->Obj);
+		else if (bRClick && Best)
+		{
+			if (Best->UnitId) Gm.InteractUnit(Best->UnitId);
+			else Gm.ObjectInteract(Best->Area, Best->Obj);
+		}
+		else if (bRClick && FHLSettings::Get().bClickMove)
+		{
+			// ray from the click to the ground plane at the player's feet
+			FHLUnit* P = Gm.PlayerUnit();
+			FVector O, D;
+			if (P && !P->bDead && PC && ViewPx.X > 0 && PC->DeprojectScreenPositionToWorld(DownPos.X / VS.X * ViewPx.X, DownPos.Y / VS.Y * ViewPx.Y, O, D) && D.Z < -0.01f)
+			{
+				const FVector Feet = World->ToWorld(P->Area, P->Pos);
+				const FVector Hit = O + D * ((Feet.Z - O.Z) / D.Z);
+				const FVector2D Off = Gm.Areas[P->Area].Def->Offset;
+				const FVector2D Goal(Hit.X / 100.f - Off.X, Hit.Y / 100.f - Off.Y);
+				if (FVector2D::Distance(Goal, P->Pos) < 120) { Gm.ClickGoal = Goal; Gm.bClickGoal = true; Gm.bClickGhost = P->bGhost; Gm.StopMove(*P); }
+			}
+		}
 	}
-}
 
 // ------------------------------------------------------------------------------------------------------------- HUD
 static FLinearColor ResColor(EHLRes R) { return R == EHLRes::Power ? FLinearColor(0.15f, 0.35f, 0.95f) : R == EHLRes::Energy ? FLinearColor(0.95f, 0.85f, 0.1f) : R == EHLRes::Focus ? FLinearColor(0.9f, 0.5f, 0.15f) : FLinearColor(0.8f, 0.1f, 0.1f); }

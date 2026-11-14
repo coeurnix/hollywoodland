@@ -280,6 +280,7 @@ public:
 
 	// ---- movement (HLGame.cpp)
 	FHLInput Input;
+	bool bClickGoal = false, bClickGhost = false; FVector2D ClickGoal = FVector2D::ZeroVector; // click-to-move destination (settings: bClickMove)
 	bool MoveTo(FHLUnit& U, const FVector2D& Goal, float StopDist = 0.5f); // returns true when arrived
 	void StopMove(FHLUnit& U) { U.Path.Reset(); U.PathIdx = 0; }
 	void FaceTo(FHLUnit& U, const FVector2D& P);

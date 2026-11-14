@@ -1239,12 +1239,13 @@ void SHLGameUI::DrawSettings() const
 			Gm.Player.bShowSim = B;
 		}
 		Toggle(Y0 + 156, TEXT("Left-drag turns your character with the camera"), St.bFaceCamera);
+		Toggle(Y0 + 186, TEXT("Right-click the ground to walk there"), St.bClickMove);
 		{
 			float H = St.TextHold;
-			bDrag |= Pct(Y0 + 190, TEXT("Message time"), H, 1.f, 3.f, FMath::RoundToInt(H * 100));
+			bDrag |= Pct(Y0 + 220, TEXT("Message time"), H, 1.f, 3.f, FMath::RoundToInt(H * 100));
 			if (H != St.TextHold) { St.TextHold = FMath::RoundToFloat(H * 4.f) / 4.f; ++St.Version; }
 		}
-		TxWrap(WX, Y0 + 230, 520, TEXT("The interface already shrinks to fit small windows; the size slider is applied on top of that."), 9, ColDim);
+		TxWrap(WX, Y0 + 260, 520, TEXT("The interface already shrinks to fit small windows; the size slider is applied on top of that."), 9, ColDim);
 	}
 	else if (SettingsTab == 1)
 	{

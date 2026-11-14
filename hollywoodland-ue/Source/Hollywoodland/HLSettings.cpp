@@ -90,6 +90,7 @@ void FHLSettings::Save() const
 	O->SetBoolField(TEXT("float"), bFloatText);
 	O->SetBoolField(TEXT("help"), bHelpOnStart);
 	O->SetBoolField(TEXT("facecam"), bFaceCamera);
+	O->SetBoolField(TEXT("clickmove"), bClickMove);
 	O->SetNumberField(TEXT("hold"), TextHold);
 	O->SetNumberField(TEXT("q"), Quality);
 	O->SetNumberField(TEXT("shadows"), Shadows);
@@ -120,6 +121,7 @@ void FHLSettings::Load()
 		if (O->TryGetBoolField(TEXT("float"), b)) S.bFloatText = b;
 		if (O->TryGetBoolField(TEXT("help"), b)) S.bHelpOnStart = b;
 		if (O->TryGetBoolField(TEXT("facecam"), b)) S.bFaceCamera = b;
+		if (O->TryGetBoolField(TEXT("clickmove"), b)) S.bClickMove = b;
 		if (O->TryGetNumberField(TEXT("hold"), D)) S.TextHold = FMath::Clamp((float)D, 1.f, 3.f);
 		if (O->TryGetNumberField(TEXT("q"), D)) S.Quality = FMath::Clamp((int32)D, 0, 3);
 		if (O->TryGetNumberField(TEXT("shadows"), D)) S.Shadows = FMath::Clamp((int32)D, 0, 2);

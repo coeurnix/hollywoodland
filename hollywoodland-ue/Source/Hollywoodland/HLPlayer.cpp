@@ -721,6 +721,16 @@ void FHLGame::TickPlayer(float Dt)
 			if (U->bAutoAttack && U->TargetId && Move.X >= 0) Want *= 0.5f; // fighting: keep mostly squared to the target
 			U->FaceOfs += (Want - U->FaceOfs) * FMath::Min(1.f, Dt * 12.f);
 		}
+		// click-to-move: walk the path to the clicked spot until a movement key or a mouse-steer takes over
+		if (!Move.IsNearlyZero() || Input.bMouseSteer || U->bGhost != bClickGhost) bClickGoal = false;
+		else if (bClickGoal)
+		{
+			if (U->Casting) { U->Casting = nullptr; U->GcdUntil = Now; Error(TEXT("Interrupted.")); }
+			if (InteractObj >= 0) InteractObj = -1;
+			if (CraftIdx >= 0) { CraftIdx = -1; Error(TEXT("Interrupted.")); }
+			if (MoveTo(*U, ClickGoal, 0.6f)) bClickGoal = false;
+			if (OpenNpcUnitId) if (FHLUnit* N = Unit(OpenNpcUnitId)) if (Dist(*U, *N) > 8) { OpenNpcUnitId = 0; OpenNpcMode.Reset(); }
+		}
 		if (!Move.IsNearlyZero())
 		{
 			if (Move.SizeSquared() > 1) Move.Normalize();

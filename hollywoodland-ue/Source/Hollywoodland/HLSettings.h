@@ -25,6 +25,7 @@ struct FHLSettings
 	bool bFloatText = true;       // floating combat numbers
 	bool bHelpOnStart = true;
 	bool bFaceCamera = true;      // dragging with the left button turns the character too (off: it only orbits the camera)
+	bool bClickMove = false;      // right-click on open ground walks there (any movement key cancels)
 	float TextHold = 1.5f;        // how long on-screen messages stay, x the base time (1 .. 3)
 	// graphics
 	int32 Quality = 1;            // 0 low, 1 medium, 2 high, 3 ultra (presets for the four below)
