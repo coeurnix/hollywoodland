@@ -3,6 +3,7 @@
 // invite decisions and periodic gossip. Every Worker failure falls back to the corpus silently.
 #include "HLGame.h"
 #include "HLBridge.h"
+#include "HLSettings.h"
 #include "Dom/JsonObject.h"
 #include "Serialization/JsonReader.h"
 #include "Serialization/JsonSerializer.h"
@@ -19,8 +20,27 @@ void FHLGame::AddChat(const FString& Ch, const FString& From, const FString& Tex
 	Chat.Add(L);
 	if (Ch == TEXT("whisper")) { LastWhisperFrom = From; Sound2D(TEXT("ui_whisper")); }
 	// speech bubbles for nearby say/yell
-	if ((Ch == TEXT("say") || Ch == TEXT("yell")) && SimIdx >= 0 && Sims.IsValidIndex(SimIdx) && Sims[SimIdx].UnitId) AddFloat(Sims[SimIdx].UnitId, Text.Left(60), FLinearColor(1, 1, 1));
-}
+	if ((Ch == TEXT("say") || Ch == TEXT("yell")) && SimIdx >= 0 && Sims.IsValidIndex(SimIdx) && Sims[SimIdx].UnitId) Say(Sims[SimIdx].UnitId, Text, Ch == TEXT("yell"));
+		// NPCs and monsters that talk: the nearest unit of that name close to the player
+		else if ((Ch == TEXT("npc") || Ch == TEXT("say") || Ch == TEXT("yell")) && !From.IsEmpty())
+			if (const FHLUnit* P = PlayerUnit())
+			{
+				const FHLUnit* Best = nullptr; float BestD = 60;
+				for (const FHLUnit* U : UnitList) if (U->Area == P->Area && U->Name == From && !U->bDead) { const float D = FVector2D::Distance(U->Pos, P->Pos); if (D < BestD) { BestD = D; Best = U; } }
+				if (Best) Say(Best->Id, Text, Ch == TEXT("yell"));
+			}
+	}
+
+	void FHLGame::Say(int32 UnitId, const FString& Text, bool bYell)
+	{
+		if (!UnitId || Text.IsEmpty()) return;
+		Speech.RemoveAll([&](const FHLSpeech& S) { return S.UnitId == UnitId || S.Until < Now; });
+		if (Speech.Num() > 24) Speech.RemoveAt(0);
+		FHLSpeech S; S.UnitId = UnitId; S.Text = Text.Left(180); S.bYell = bYell; S.Start = Now;
+		// long enough to read: 3 s plus a beat per word, stretched by the message-time setting
+		S.Until = Now + FMath::Min(14.f, (3.f + Text.Len() * 0.055f) * FHLSettings::Get().TextHold);
+		Speech.Add(S);
+	}
 
 FString FHLGame::CorpusLine(const FHLSim& S, const FString& Situation)
 {
@@ -320,7 +340,7 @@ void FHLGame::PlayerChat(const FString& Raw)
 		if (Ch == TEXT("party") && !Party.Num()) { System(TEXT("You are not in a party.")); return; }
 		if (Ch == TEXT("guild") && Player.Guild.IsEmpty()) { System(TEXT("You are not in a guild.")); ChatChannel = TEXT("say"); return; }
 		AddChat(Ch, Player.Name, Text);
-		if (P) AddFloat(P->Id, Ch == TEXT("say") || Ch == TEXT("yell") ? Text.Left(60) : FString(), FLinearColor::White);
+		if (P && (Ch == TEXT("say") || Ch == TEXT("yell"))) Say(P->Id, Text, Ch == TEXT("yell"));
 		if (Ch == TEXT("party")) { for (int32 SI : Party) if (Speakers.Num() < 3) Speakers.Add(SI); }
 		else if (Ch == TEXT("guild")) { for (int32 k = 0; k < 2; ++k) { const int32 SI = RandomGuildmate(Speakers.Num() ? Speakers[0] : -1); if (SI >= 0 && !Speakers.Contains(SI)) Speakers.Add(SI); } }
 		else if (Ch == TEXT("say") || Ch == TEXT("yell"))

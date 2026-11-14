@@ -101,7 +101,7 @@ void FHLGame::InitSims()
 			++Idlers;
 			FHLUnit* U = SpawnSim(i, EHLSimRole::Idler, Def.IdleSpots[RandInt(0, Def.IdleSpots.Num() - 1)] + FVector2D(Rand() * 5 - 2.5f, Rand() * 4 - 2));
 			S.bAfk = Chance(0.4f); S.StateUntil = Now + 200 + Rand() * 900;
-			if (U && !S.P->Mount.IsEmpty() && Chance(0.5f)) U->bMounted = true;
+			if (U && !S.P->Mount.IsEmpty() && Chance(0.5f)) { U->bMounted = true; U->MountKind = HLMountKind(S.P->Mount); }
 		}
 	}
 		NextCensus = Now + 5; NextPopCheck = Now + 8; NextDirector = Now + 5;
@@ -427,7 +427,7 @@ void FHLGame::TickSims(float Dt)
 			const FHLExit& Ex = Def.Exits[RandInt(0, Def.Exits.Num() - 1)];
 			FHLUnit* U = SpawnSim(i, EHLSimRole::Transient, Ex.Pos + FVector2D(Rand() * 4 - 2, Rand() * 4 - 2));
 			FHLSim& S = Sims[i];
-			if (U && !S.P->Mount.IsEmpty() && !Ex.bRedcar) U->bMounted = true;
+			if (U && !S.P->Mount.IsEmpty() && !Ex.bRedcar) { U->bMounted = true; U->MountKind = HLMountKind(S.P->Mount); }
 			static const TCHAR* Errands[] = { TEXT("bank"), TEXT("auction"), TEXT("trainers"), TEXT("vendor"), TEXT("mailbox"), TEXT("inn") };
 			TArray<FString> Pick = { TEXT("bank"), TEXT("auction") };
 			Pick.Add(Errands[RandInt(2, 5)]);

@@ -26,6 +26,15 @@ for job in jobs:
     # front (Blender -Y) to Blender +X, which Unreal's FBX import keeps as +X
     ob.rotation_euler = (0, 0, math.radians(90))
     bpy.ops.object.transform_apply(location=False, rotation=True, scale=True)
+    if job.get('ground'):
+        # generated foliage: pivot at the bottom centre (Rodin centres its meshes)
+        import mathutils
+        vs = [v.co for v in ob.data.vertices]
+        mn = mathutils.Vector((min(v.x for v in vs), min(v.y for v in vs), min(v.z for v in vs)))
+        mx = mathutils.Vector((max(v.x for v in vs), max(v.y for v in vs), max(v.z for v in vs)))
+        off = mathutils.Vector(((mn.x + mx.x) / 2, (mn.y + mx.y) / 2, mn.z))
+        for v in ob.data.vertices:
+            v.co -= off
     tris = sum(len(p.vertices) - 2 for p in ob.data.polygons)
     if tris > job['tris']:
         mod = ob.modifiers.new('decimate', 'DECIMATE')

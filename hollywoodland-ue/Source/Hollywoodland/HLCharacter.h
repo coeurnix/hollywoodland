@@ -107,6 +107,7 @@ struct FHLCharRig
 	float Rate = 1;
 	FVector2D LastPos = FVector2D::ZeroVector;
 	float Speed = 0, LastSwing = 0;
+		int32 CueSeq = 0; // last ability cue played (FHLUnit::AnimCueSeq)
 	bool bWasCasting = false, bHasLast = false, bWasSitting = false, bDancing = false;
 	int32 LastAttack = 0, GestureSeq = 0;
 };

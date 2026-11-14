@@ -762,7 +762,7 @@ void FHLCharVisuals::Drive(FHLCharRig& Rig, const FHLUnit& U, const FHLCharLook&
 	if (!Rig.Leader.IsValid() || Rig.Sex < 0) return;
 	const int32 S = Rig.Sex;
 	// ground speed from the simulated position (units move in metres)
-	if (!Rig.bHasLast) { Rig.LastPos = U.Pos; Rig.bHasLast = true; Rig.GestureSeq = U.GestureSeq; Rig.bWasSitting = U.bSitting; }
+	if (!Rig.bHasLast) { Rig.LastPos = U.Pos; Rig.bHasLast = true; Rig.GestureSeq = U.GestureSeq; Rig.bWasSitting = U.bSitting; Rig.CueSeq = U.AnimCueSeq; }
 	const FVector2D Delta = U.Pos - Rig.LastPos;
 	Rig.LastPos = U.Pos;
 	const float Inst = Dt > 0 ? (float)Delta.Size() / Dt : 0.f;
@@ -783,19 +783,36 @@ void FHLCharVisuals::Drive(FHLCharRig& Rig, const FHLUnit& U, const FHLCharLook&
 			else { Rig.bDancing = false; PlayOnce(Rig, U.Gesture, Now); }
 		}
 	}
-	// one-shots: melee swings and shots (the swing timer restarts on each auto attack), cast releases
-	if (U.bAutoAttack && U.SwingTimer > Rig.LastSwing + 0.25f && Rig.Speed < 1.f)
+	// one-shots: melee swings and shots (the swing timer restarts on each auto attack), abilities, cast releases
+	static const TCHAR* Unarmed[3] = { TEXT("Attack_Unarmed"), TEXT("Attack_Unarmed_B"), TEXT("Attack_Unarmed_C") };
+	auto SwingClip = [&]() -> FString
 	{
-		static const TCHAR* Unarmed[3] = { TEXT("Attack_Unarmed"), TEXT("Attack_Unarmed_B"), TEXT("Attack_Unarmed_C") };
-		FString Clip;
 		switch (L.Stance)
 		{
-		case EHLStance::Pistol: Clip = ClipFor(S, { TEXT("Shoot_Pistol") }); break;
-		case EHLStance::Rifle: Clip = ClipFor(S, { TEXT("Shoot_Rifle") }); break;
-		case EHLStance::TwoHand: Clip = ClipFor(S, { TEXT("Attack_2H"), TEXT("Attack_1H_A"), TEXT("Attack_Unarmed_C") }); break;
-		case EHLStance::OneHand: Clip = ClipFor(S, { (Rig.LastAttack++ % 2) ? TEXT("Attack_1H_B") : TEXT("Attack_1H_A"), TEXT("Attack_1H_A"), TEXT("Attack_Unarmed") }); break;
-		default: Clip = ClipFor(S, { Unarmed[Rig.LastAttack++ % 3] }); break;
+		case EHLStance::Pistol: return ClipFor(S, { TEXT("Shoot_Pistol") });
+		case EHLStance::Rifle: return ClipFor(S, { TEXT("Shoot_Rifle") });
+		case EHLStance::TwoHand: return ClipFor(S, { TEXT("Attack_2H"), TEXT("Attack_1H_A"), TEXT("Attack_Unarmed_C") });
+		case EHLStance::OneHand: return ClipFor(S, { (Rig.LastAttack++ % 2) ? TEXT("Attack_1H_B") : TEXT("Attack_1H_A"), TEXT("Attack_1H_A"), TEXT("Attack_Unarmed") });
+		default: return ClipFor(S, { Unarmed[Rig.LastAttack++ % 3] });
 		}
+	};
+	if (U.AnimCueSeq != Rig.CueSeq)
+	{
+		Rig.CueSeq = U.AnimCueSeq;
+		// an instant ability: blows and shots swing the weapon, everything else (spells, heals, thrown bottles) is a cast release
+		if (const FHLAbility* Ab = FHLData::Get().Ability(U.AnimCue))
+			if (Ab->Cast <= 0 && Rig.Speed < 2.5f)
+			{
+				const bool bBlow = Ab->Target == TEXT("enemy") && Ab->School == TEXT("physical") && Ab->Range <= 8;
+				const bool bShot = Ab->Target == TEXT("enemy") && Ab->School == TEXT("physical") && (L.Stance == EHLStance::Pistol || L.Stance == EHLStance::Rifle);
+				PlayOnce(Rig, bBlow || bShot ? SwingClip() : ClipFor(S, { TEXT("CastRelease") }), Now, 1.2f);
+				Rig.LastSwing = U.SwingTimer;
+			}
+	}
+	if (U.bAutoAttack && U.SwingTimer > Rig.LastSwing + 0.25f && Rig.Speed < 2.f)
+	{
+		FString Clip;
+		Clip = SwingClip();
 		PlayOnce(Rig, Clip, Now, 1.15f);
 	}
 	Rig.LastSwing = U.SwingTimer;
@@ -815,6 +832,7 @@ void FHLCharVisuals::Drive(FHLCharRig& Rig, const FHLUnit& U, const FHLCharLook&
 	}
 	// base loop
 	if (U.Z > 0.15f || U.VelZ > 0.5f) { Play(Rig, ClipFor(S, { TEXT("JumpLoop"), TEXT("Idle") }), true); return; }
+	if (U.bMounted) { Play(Rig, ClipFor(S, { TEXT("SitLoop"), TEXT("Idle") }), true); return; } // in the saddle / at the wheel (AHLWorldActor::SyncUnits)
 	if (bMoving)
 	{
 		Rig.bDancing = false;

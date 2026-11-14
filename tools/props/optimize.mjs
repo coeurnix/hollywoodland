@@ -24,7 +24,7 @@ for (const job of JSON.parse(readFileSync(process.argv[2], 'utf8'))) {
     doc = await io.read(job.in);
     await doc.transform(weld(), simplify({ simplifier: MeshoptSimplifier, ratio: 0, error: err, lockBorder: false }), dedup(), prune());
     after = tris(doc);
-    if (after <= job.max_tris || err >= job.error * 4) break;
+    if (after <= job.max_tris || (!job.hard && err >= job.error * 4) || err > 0.08) break;
     err *= 1.5;
   }
   await io.write(job.out, doc);

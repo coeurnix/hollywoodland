@@ -4,6 +4,7 @@
 #include "Camera/CameraComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/InstancedStaticMeshComponent.h"
+#include "Components/HierarchicalInstancedStaticMeshComponent.h"
 #include "Components/DirectionalLightComponent.h"
 #include "Engine/DirectionalLight.h"
 #include "Engine/Engine.h"
@@ -28,6 +29,11 @@
 #include "Engine/TextureRenderTarget2D.h"
 #include "HAL/IConsoleManager.h"
 #include "HLSettings.h"
+#include "ProceduralMeshComponent.h"
+#include "Materials/MaterialParameterCollection.h"
+#include "Materials/MaterialParameterCollectionInstance.h"
+#include "Components/ExponentialHeightFogComponent.h"
+#include "Engine/ExponentialHeightFog.h"
 
 static const float M = 100.f; // metres -> UE units
 
@@ -65,6 +71,8 @@ AHLWorldActor::AHLWorldActor()
 	MatSkyDome = SkyDomeF.Succeeded() ? SkyDomeF.Object : nullptr;
 	static ConstructorHelpers::FObjectFinder<UMaterialInterface> AddF(TEXT("/Game/HL/M_HLAdd.M_HLAdd"));
 	MatAdd = AddF.Succeeded() ? AddF.Object : nullptr;
+	static ConstructorHelpers::FObjectFinder<UMaterialParameterCollection> AmbF(TEXT("/Game/HL/MPC_HLAmbient.MPC_HLAmbient"));
+	Ambient = AmbF.Succeeded() ? AmbF.Object : nullptr;
 	Cube = CubeF.Object; Sphere = SphereF.Object; Cylinder = CylF.Object; Cone = ConeF.Object;
 	MatLit = LitF.Succeeded() ? LitF.Object : BasicF.Object;
 	MatUnlit = UnlitF.Succeeded() ? UnlitF.Object : BasicF.Object;
@@ -72,9 +80,47 @@ AHLWorldActor::AHLWorldActor()
 
 FVector AHLWorldActor::ToWorld(int32 Area, const FVector2D& P, float Z) const
 {
-	const FVector2D Off = Game.Areas.IsValidIndex(Area) ? Game.Areas[Area].Def->Offset : FVector2D::ZeroVector;
-	return FVector((P.X + Off.X) * M, (P.Y + Off.Y) * M, Z * M);
-}
+		const FVector2D Off = Game.Areas.IsValidIndex(Area) ? Game.Areas[Area].Def->Offset : FVector2D::ZeroVector;
+		return FVector((P.X + Off.X) * M, (P.Y + Off.Y) * M, (Z + GroundZ(Area, P)) * M);
+	}
+
+	UProceduralMeshComponent* AHLWorldActor::TerrainMesh(AActor* InOwner, int32 Area, const FVector2D& Lo, const FVector2D& Hi, float ZOff, UMaterialInterface* Mat)
+	{
+		if (!Terrain.IsValidIndex(Area) || !Terrain[Area].IsValid()) return nullptr;
+		const FHLTerrain& T = Terrain[Area];
+		// vertices on the terrain grid inside [Lo, Hi], plus the exact edges so patches line up with their boxes
+		TArray<float> Xs, Ys;
+		Xs.Add(Lo.X); for (float X = T.Origin.X + FMath::CeilToFloat((Lo.X - T.Origin.X) / T.Cell + 0.01f) * T.Cell; X < Hi.X - 0.01f; X += T.Cell) Xs.Add(X); Xs.Add(Hi.X);
+		Ys.Add(Lo.Y); for (float Y = T.Origin.Y + FMath::CeilToFloat((Lo.Y - T.Origin.Y) / T.Cell + 0.01f) * T.Cell; Y < Hi.Y - 0.01f; Y += T.Cell) Ys.Add(Y); Ys.Add(Hi.Y);
+		const int32 Nx = Xs.Num(), Ny = Ys.Num();
+		TArray<FVector> V; TArray<FVector> Nrm; TArray<FVector2D> UV; TArray<int32> Tri;
+		V.Reserve(Nx * Ny); Nrm.Reserve(Nx * Ny); UV.Reserve(Nx * Ny); Tri.Reserve((Nx - 1) * (Ny - 1) * 6);
+		const FVector Base = ToWorld(Area, FVector2D::ZeroVector, 0) - FVector(0, 0, GroundZ(Area, FVector2D::ZeroVector) * M);
+		for (int32 j = 0; j < Ny; ++j)
+			for (int32 i = 0; i < Nx; ++i)
+			{
+				const FVector2D P(Xs[i], Ys[j]);
+				V.Add(FVector(P.X * M, P.Y * M, (T.Height(P) + ZOff) * M) + Base);
+				Nrm.Add(T.Normal(P));
+				UV.Add(P / 10.f);
+			}
+		for (int32 j = 0; j + 1 < Ny; ++j)
+			for (int32 i = 0; i + 1 < Nx; ++i)
+			{
+				const int32 A = j * Nx + i, B = A + 1, C = A + Nx, D = C + 1;
+				Tri.Append({ A, C, B, B, C, D });
+			}
+		UProceduralMeshComponent* C = NewObject<UProceduralMeshComponent>(InOwner);
+		C->SetMobility(EComponentMobility::Movable);
+		C->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		C->SetCastShadow(false);
+		C->ComponentTags.Add(TEXT("NoShadow"));
+		C->SetupAttachment(InOwner->GetRootComponent());
+		C->RegisterComponent();
+		C->CreateMeshSection_LinearColor(0, V, Tri, Nrm, UV, TArray<FLinearColor>(), TArray<FProcMeshTangent>(), false);
+		if (Mat) C->SetMaterial(0, Mat);
+		return C;
+	}
 
 UMaterialInstanceDynamic* AHLWorldActor::Mid(const FLinearColor& C, bool bUnlit, float Glow)
 {
@@ -149,9 +195,94 @@ UStaticMeshComponent* AHLWorldActor::AddProp(AActor* InOwner, int32 Area, const 
 	C->SetRelativeScale3D(P.Scale);
 	// small things vanish early; lamp posts and cars carry further; the Red Car and the hive spires carry across the zone
 	const float R = Mesh->GetBounds().SphereRadius * P.Scale.GetMax();
-	C->SetCullDistance(FMath::Clamp(R * 90.f, 5000.f, 60000.f));
+	C->SetCullDistance(FMath::Clamp(R * 90.f, 5000.f, R > 1500.f ? 400000.f : 60000.f));
 	C->RegisterComponent();
 	return C;
+}
+
+void AHLWorldActor::ScatterFoliage(AActor* Geo, int32 Area)
+{
+	if (!Terrain.IsValidIndex(Area) || !Terrain[Area].IsValid()) return;
+	const FHLTerrain& T = Terrain[Area];
+	const FHLAreaDef& Def = *Game.Areas[Area].Def;
+	// one hierarchical instanced component per mesh (art/foliage via tools/propprep.py), culled per cluster
+	TMap<FString, UHierarchicalInstancedStaticMeshComponent*> Comps;
+	auto Comp = [&](const TCHAR* Name, float CullM, bool bGrass) -> UHierarchicalInstancedStaticMeshComponent*
+	{
+		if (UHierarchicalInstancedStaticMeshComponent** F = Comps.Find(Name)) return *F;
+		const FString Path = FString::Printf(TEXT("/Game/Props/SM_%s.SM_%s"), Name, Name);
+		UHierarchicalInstancedStaticMeshComponent* C = nullptr;
+		if (UStaticMesh* Mesh = LoadObject<UStaticMesh>(nullptr, *Path, nullptr, LOAD_NoWarn))
+		{
+			C = NewObject<UHierarchicalInstancedStaticMeshComponent>(Geo);
+			C->SetStaticMesh(Mesh);
+			C->SetMobility(EComponentMobility::Movable);
+			C->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+			C->SetCastShadow(false);
+			C->ComponentTags.Add(TEXT("NoShadow"));
+			C->SetCullDistances(0, FMath::RoundToInt32(CullM * M));
+			C->SetupAttachment(Geo->GetRootComponent());
+			C->RegisterComponent();
+			if (bGrass) FoliageGrass.Add(C);
+		}
+		else HLBridge::Log(FString::Printf(TEXT("HL foliage mesh missing: %s"), *Path));
+		Comps.Add(Name, C);
+		return C;
+	};
+	FRandomStream R(7919 + Area * 977);
+	auto Add = [&](UHierarchicalInstancedStaticMeshComponent* C, const FVector2D& P, float Scale, float Sink)
+	{
+		if (C) C->AddInstance(FTransform(FRotator(0, R.FRand() * 360.f, 0), ToWorld(Area, P, -Sink), FVector(Scale)), /*bWorldSpace*/ true);
+	};
+	TArray<const FHLBox*> Blight;
+	for (const FHLBox& B : Def.Ground) if (B.Kind == TEXT("Blight")) Blight.Add(&B);
+	auto InBlight = [&](const FVector2D& P) { for (const FHLBox* B : Blight) if (P.X >= B->X && P.X <= B->X + B->W && P.Y >= B->Y && P.Y <= B->Y + B->D) return true; return false; };
+	const FVector2D Lo = Def.Min, Hi = Def.Min + Def.Size;
+	const float GrassCull = 70.f;
+
+	// tufts of grass over the open lots, with drifts of wildflowers; the blight keeps only dry grass
+	static const TCHAR* Flowers[] = { TEXT("FlowerPoppy"), TEXT("FlowerLupine"), TEXT("FlowerDaisy"), TEXT("FlowerMustard") };
+	int32 NGrass = 0, NBig = 0;
+	for (float Y = Lo.Y; Y < Hi.Y; Y += 6.f)
+		for (float X = Lo.X; X < Hi.X; X += 6.f)
+		{
+			const FVector2D C0(X + R.FRand() * 6.f, Y + R.FRand() * 6.f);
+			const float W = T.Wildness(C0);
+			if (W < 0.1f || R.FRand() > W * 0.7f) continue;
+			const bool bBlight = InBlight(C0);
+			UHierarchicalInstancedStaticMeshComponent* G = Comp(bBlight || R.FRand() < 0.35f ? TEXT("GrassDry") : TEXT("GrassGreen"), GrassCull, true);
+			for (int32 k = R.RandRange(3, 7); k > 0; --k, ++NGrass) Add(G, C0 + FVector2D(R.FRandRange(-1.8f, 1.8f), R.FRandRange(-1.8f, 1.8f)), R.FRandRange(0.7f, 1.35f), 0.05f);
+			if (!bBlight && W > 0.4f && R.FRand() < 0.2f)
+			{
+				UHierarchicalInstancedStaticMeshComponent* F = Comp(Flowers[R.RandRange(0, 3)], GrassCull * 0.8f, true);
+				const FVector2D FC = C0 + FVector2D(R.FRandRange(-3.f, 3.f), R.FRandRange(-3.f, 3.f));
+				for (int32 k = R.RandRange(3, 8); k > 0; --k, ++NGrass) Add(F, FC + FVector2D(R.FRandRange(-1.5f, 1.5f), R.FRandRange(-1.5f, 1.5f)), R.FRandRange(0.8f, 1.25f), 0.03f);
+			}
+		}
+	// shrubs, rocks and trees: sparse in the lots, a scrubby woodland on the hills past the hive ring
+	static const TCHAR* Trees[] = { TEXT("TreeEucalyptus"), TEXT("TreeEucalyptus"), TEXT("TreePepper"), TEXT("TreePepper"), TEXT("PalmCanary") };
+	static const TCHAR* Shrubs[] = { TEXT("ShrubChaparral"), TEXT("ShrubChaparral"), TEXT("ShrubChaparral"), TEXT("ShrubOleander"), TEXT("Agave"), TEXT("Yucca"), TEXT("CactusPear"), TEXT("CactusPear") };
+	const FVector2D TLo = T.Origin, THi = T.Origin + FVector2D((T.NX - 1) * T.Cell, (T.NY - 1) * T.Cell);
+	for (float Y = TLo.Y; Y < THi.Y; Y += 14.f)
+		for (float X = TLo.X; X < THi.X; X += 14.f)
+		{
+			const FVector2D P(X + R.FRand() * 14.f, Y + R.FRand() * 14.f);
+			if (T.Wildness(P) < 0.75f) continue;
+			const bool bOut = P.X < Lo.X || P.Y < Lo.Y || P.X > Hi.X || P.Y > Hi.Y;
+			const float Roll = R.FRand();
+			if (!bOut && InBlight(P))
+			{
+				if (Roll < 0.06f) { Add(Comp(R.FRand() < 0.5f ? TEXT("RockBoulder") : TEXT("RockFlat"), 300.f, false), P, R.FRandRange(0.6f, 1.5f), 0.15f); ++NBig; }
+				continue;
+			}
+			const float PTree = bOut ? 0.05f : 0.02f, PShrub = bOut ? 0.25f : 0.08f, PRock = 0.04f;
+			if (Roll < PTree) Add(Comp(Trees[R.RandRange(0, UE_ARRAY_COUNT(Trees) - 1)], 1600.f, false), P, R.FRandRange(0.75f, 1.2f), 0.25f);
+			else if (Roll < PTree + PShrub) Add(Comp(Shrubs[R.RandRange(0, UE_ARRAY_COUNT(Shrubs) - 1)], 260.f, false), P, R.FRandRange(0.7f, 1.3f), 0.1f);
+			else if (Roll < PTree + PShrub + PRock) Add(Comp(R.FRand() < 0.6f ? TEXT("RockBoulder") : TEXT("RockFlat"), 320.f, false), P, R.FRandRange(0.5f, 1.6f), 0.2f);
+			else continue;
+			++NBig;
+		}
+	HLBridge::Log(FString::Printf(TEXT("HL foliage: area %d, %d grass and flowers, %d shrubs, rocks and trees"), Area, NGrass, NBig));
 }
 
 void AHLWorldActor::BeginPlay()
@@ -208,6 +339,20 @@ void AHLWorldActor::BuildWorld()
 		SunLight = Cast<UDirectionalLightComponent>(Sun->GetLightComponent());
 		Spawned.Add(Sun);
 	}
+	// a light distance haze: depth for the streets and the hills; the sky dome (2.6 km out) stays clear of it
+	if (AExponentialHeightFog* F = W->SpawnActor<AExponentialHeightFog>(FVector(0, 0, 0), FRotator::ZeroRotator))
+	{
+		Fog = F->GetComponent();
+		Fog->SetMobility(EComponentMobility::Movable);
+		Fog->SetFogDensity(0.009f);
+		Fog->SetFogHeightFalloff(0.08f);
+		Fog->SetStartDistance(3500.f);
+		Fog->SetFogMaxOpacity(0.55f);
+		Fog->SetFogCutoffDistance(200000.f);
+		Spawned.Add(F);
+	}
+	Terrain.SetNum(Game.Areas.Num());
+	for (int32 a = 0; a < Game.Areas.Num(); ++a) Terrain[a].Build(*Game.Areas[a].Def);
 	ObjectMeshes.SetNum(Game.Areas.Num());
 	ObjectDead.SetNum(Game.Areas.Num());
 	ObjectLive.SetNum(Game.Areas.Num());
@@ -218,13 +363,24 @@ void AHLWorldActor::BuildWorld()
 		const FHLAreaDef& Def = *Game.Areas[a].Def;
 		AActor* Geo = W->SpawnActor<AActor>(AActor::StaticClass(), FTransform::Identity);
 		Spawned.Add(Geo);
+		AreaGeo.Add(Geo);
 		USceneComponent* Root = NewObject<USceneComponent>(Geo);
 		Geo->SetRootComponent(Root); Root->RegisterComponent();
 		const FVector2D Ctr = Def.Min + Def.Size * 0.5f;
 		// floor (top at z = 0) and sky/dome shell
-		UStaticMeshComponent* Floor = AddMesh(Geo, Cube, ToWorld(a, Ctr, -0.5f), FVector(Def.Size.X + 400, Def.Size.Y + 400, 1), Def.Floor);
-		if (UMaterialInstanceDynamic* G = GroundMid(Def.FloorKind, Def.Floor)) Floor->SetMaterial(0, G);
-		Floor->ComponentTags.Add(TEXT("NoShadow"));
+		// outdoors the floor rolls with the terrain; indoors it is a slab
+		const FVector2D FloorLo = Def.Min - FVector2D(FHLTerrain::Margin), FloorHi = Def.Min + Def.Size + FVector2D(FHLTerrain::Margin);
+		if (Terrain[a].IsValid())
+		{
+			UMaterialInterface* FM = GroundMid(Def.FloorKind, Def.Floor);
+			TerrainMesh(Geo, a, FloorLo, FloorHi, 0.f, FM ? FM : static_cast<UMaterialInterface*>(Mid(Def.Floor)));
+		}
+		else
+		{
+			UStaticMeshComponent* Floor = AddMesh(Geo, Cube, ToWorld(a, Ctr, -0.5f), FVector(Def.Size.X + 400, Def.Size.Y + 400, 1), Def.Floor);
+			if (UMaterialInstanceDynamic* G = GroundMid(Def.FloorKind, Def.Floor)) Floor->SetMaterial(0, G);
+			Floor->ComponentTags.Add(TEXT("NoShadow"));
+		}
 		const float SkyR = Def.bDungeon ? 400.f : 2600.f;
 		UStaticMeshComponent* SkyC = AddMesh(Geo, Sphere, ToWorld(a, Ctr, 0), FVector(SkyR * 2), Def.Sky, true);
 		if (!Def.bDungeon && MatSkyDome)
@@ -235,6 +391,13 @@ void AHLWorldActor::BuildWorld()
 		int32 gi = 0;
 		for (const FHLBox& B : Def.Ground)
 		{
+			// wild ground (blight, grass) follows the hills; made ground stays a flat slab
+			if (Terrain[a].IsValid() && (B.Kind == TEXT("Blight") || B.Kind == TEXT("Grass")))
+			{
+				UMaterialInterface* GM = GroundMid(B.Kind, B.Color);
+				TerrainMesh(Geo, a, FVector2D(B.X, B.Y), FVector2D(B.X + B.W, B.Y + B.D), 0.03f + 0.01f * (gi++ % 3), GM ? GM : static_cast<UMaterialInterface*>(Mid(B.Color)));
+				continue;
+			}
 			UStaticMeshComponent* GC = AddMesh(Geo, Cube, ToWorld(a, FVector2D(B.X + B.W * 0.5f, B.Y + B.D * 0.5f), 0.01f + 0.004f * (gi++ % 5)), FVector(B.W, B.D, 0.03f), B.Color);
 			if (UMaterialInstanceDynamic* G = GroundMid(B.Kind, B.Color)) GC->SetMaterial(0, G);
 			GC->ComponentTags.Add(TEXT("NoShadow"));
@@ -264,6 +427,7 @@ void AHLWorldActor::BuildWorld()
 			}
 			I->AddInstance(FTransform(FRotator(0, P.Yaw, 0), ToWorld(a, P.Pos, P.Z), P.Scale), /*bWorldSpace*/ true);
 		}
+		ScatterFoliage(Geo, a);
 		for (const FHLPortal& Po : Def.Portals) AddMesh(Geo, Cylinder, ToWorld(a, Po.Pos, 1.6f), FVector(Po.R * 1.2f, Po.R * 1.2f, 3.2f), FLinearColor(0.2f, 0.9f, 0.8f), true);
 		for (const FHLAidStation& Aid : Def.Aid) AddMesh(Geo, Cube, ToWorld(a, Aid.Pos, 0.05f), FVector(3, 3, 0.1f), FLinearColor(0.9f, 0.1f, 0.1f), true);
 		// interactable objects
@@ -394,6 +558,13 @@ void AHLWorldActor::BuildUnit(const FHLUnit& U, FHLUnitVis& V)
 	Spawned.Add(A);
 }
 
+FLinearColor AHLWorldActor::StageBackColor(int32 Skin)
+{
+	// skins run Porcelain (0) .. Deep (7): a dark umber curtain for the light ones, a warm parchment for the dark ones
+	const float T = FMath::Clamp((Skin - 2.5f) / 4.f, 0.f, 1.f);
+	return FMath::Lerp(FLinearColor(0.07f, 0.06f, 0.05f), FLinearColor(0.62f, 0.55f, 0.44f), T);
+}
+
 UTextureRenderTarget2D* AHLWorldActor::Preview(const FHLCharLook& L, float Yaw, const FString& Clip)
 {
 	if (!GetWorld() || !FHLChars::Get().Ready()) return nullptr;
@@ -408,7 +579,7 @@ UTextureRenderTarget2D* AHLWorldActor::Preview(const FHLCharLook& L, float Yaw, 
 		StageChar->SetMobility(EComponentMobility::Movable);
 		StageChar->SetupAttachment(Root); StageChar->RegisterComponent();
 		// a backdrop and a round floor, so the figure stands somewhere
-		AddMesh(Stage, Cube, FVector(-160, 0, 150), FVector(0.1f, 9.f, 6.f), FLinearColor(0.07f, 0.06f, 0.05f), true);
+		StageBack = AddMesh(Stage, Cube, FVector(-160, 0, 150), FVector(0.1f, 9.f, 6.f), FLinearColor(0.07f, 0.06f, 0.05f), true);
 		AddMesh(Stage, Cylinder, FVector(0, 0, -2), FVector(1.6f, 1.6f, 0.04f), FLinearColor(0.3f, 0.26f, 0.2f));
 		UPointLightComponent* Key = NewObject<UPointLightComponent>(Stage);
 		Key->SetupAttachment(Root); Key->SetMobility(EComponentMobility::Movable);
@@ -440,6 +611,13 @@ UTextureRenderTarget2D* AHLWorldActor::Preview(const FHLCharLook& L, float Yaw, 
 		StageCap->ShowFlags.SetAtmosphere(false);
 		StageCap->RegisterComponent();
 		Spawned.Add(Stage);
+	}
+	if (StageSkin != L.App.Skin && StageBack)
+	{
+		StageSkin = L.App.Skin;
+		const FLinearColor Bg = StageBackColor(L.App.Skin);
+		StageBack->SetMaterial(0, Mid(Bg, true));
+		StageRT->ClearColor = Bg;
 	}
 	StageWantUntil = FPlatformTime::Seconds() + 0.3;
 	Stage->SetActorHiddenInGame(false);
@@ -481,7 +659,16 @@ void AHLWorldActor::ApplyGraphics()
 		SunLight->SetDynamicShadowDistanceMovableLight(St.Shadows >= 2 ? (St.Quality >= 3 ? 12000.f : 8000.f) : 4500.f);
 		SunLight->SetDynamicShadowCascades(St.Shadows >= 2 && St.Quality >= 3 ? 3 : St.Shadows >= 2 ? 2 : 1);
 	}
-	Set(TEXT("r.Shadow.MaxResolution"), St.Quality >= 3 ? 2048.f : 1024.f);
+	Set(TEXT("r.Shadow.MaxResolution"), St.Quality >= 2 ? 2048.f : 1024.f);
+	// a soft bloom lifts lamps, muzzle flashes and glowing eggs; none on Low
+	Camera->PostProcessSettings.BloomIntensity = St.Quality == 0 ? 0.f : St.Quality == 1 ? 0.25f : 0.35f;
+	Camera->PostProcessSettings.bOverride_BloomThreshold = true; Camera->PostProcessSettings.BloomThreshold = 1.2f;
+	if (Fog) Fog->SetFogMaxOpacity(St.Quality == 0 ? 0.35f : 0.55f);
+	{
+		// grass and flower cards: the cheapest thing to trim on a slow machine
+		const int32 GrassCull = FMath::RoundToInt32((St.Quality == 0 ? 30.f : St.Quality == 1 ? 50.f : St.Quality == 2 ? 70.f : 90.f) * M);
+		for (const TWeakObjectPtr<UInstancedStaticMeshComponent>& C : FoliageGrass) if (C.IsValid()) C->SetCullDistances(0, GrassCull);
+	}
 	for (AActor* A : Spawned) ShadowActor(A, St.Shadows >= 2);
 	for (auto& KV : Vis) ShadowActor(KV.Value.Actor.Get(), St.Shadows >= 1);
 	HLBridge::Log(FString::Printf(TEXT("HL graphics: quality %d shadows %d view %.2f res %d"), St.Quality, St.Shadows, St.ViewDist, St.ResScale));
@@ -522,6 +709,24 @@ void AHLWorldActor::TickSky()
 	PP.bOverride_ColorSaturation = true;
 	const float Sat = FMath::Lerp(0.78f, 1.f, Dg) * (1.f + 0.08f * Gg);
 	PP.ColorSaturation = FVector4(Sat, Sat, Sat, 1.f);
+	// hemisphere ambient (materials, MPC_HLAmbient): a cool sky fill from above and a warm, darker bounce from below,
+	// blue and dim at night, warmer at golden hour, neutral indoors
+	if (Ambient)
+		if (UMaterialParameterCollectionInstance* AI = GetWorld()->GetParameterCollectionInstance(Ambient))
+		{
+			FLinearColor SkyA = FMath::Lerp(FLinearColor(0.7f, 0.8f, 1.12f), FLinearColor(1.2f, 1.24f, 1.34f), Dg);
+			FLinearColor GndA = FMath::Lerp(FLinearColor(0.38f, 0.38f, 0.46f), FLinearColor(0.64f, 0.58f, 0.5f), Dg);
+			SkyA = FMath::Lerp(SkyA, FLinearColor(1.3f, 1.12f, 0.98f), Gg * 0.6f);
+			if (bIndoors) { SkyA = FLinearColor(1.12f, 1.08f, 1.04f); GndA = FLinearColor(0.7f, 0.65f, 0.6f); }
+			AI->SetVectorParameterValue(TEXT("SkyAmb"), SkyA);
+			AI->SetVectorParameterValue(TEXT("GroundAmb"), GndA);
+		}
+	if (Fog)
+	{
+		Fog->SetVisibility(!bIndoors);
+		const FLinearColor Day = FMath::Lerp(FLinearColor(0.55f, 0.62f, 0.74f), FLinearColor(0.85f, 0.6f, 0.42f), Gold);
+		Fog->SetFogInscatteringColor(FMath::Lerp(FLinearColor(0.035f, 0.045f, 0.08f), Day, D));
+	}
 	// lamps carry the night
 	static float LastLamp = -1;
 	const float Lamp = FMath::Lerp(11000.f, 3500.f, D);
@@ -532,11 +737,20 @@ void AHLWorldActor::TickSky()
 	}
 }
 
+// where the rider sits on each mount kind (HLMountKind), metres from the mount's pivot (bottom centre, front +X):
+// the saddle, the motorcycle seat, the driver's seat of the Model A (left-hand drive) and of the police car
+const FVector AHLWorldActor::MountSeat[4] = { FVector(-0.1f, 0, 0.85f), FVector(-0.2f, 0, 0.35f), FVector(-0.3f, -0.35f, 0.2f), FVector(-0.3f, -0.35f, 0.2f) };
+
 void AHLWorldActor::SyncUnits()
 {
 	const FHLUnit* P = Game.PlayerUnit();
 	const int32 ViewArea = P ? P->Area : 0;
 	const FVector2D ViewPos = P ? P->Pos : Game.Areas[0].Def->Spawn;
+	if (GeoShownArea != ViewArea)
+	{
+		GeoShownArea = ViewArea;
+		for (int32 a = 0; a < AreaGeo.Num(); ++a) if (AActor* G = AreaGeo[a].Get()) G->SetActorHiddenInGame(a != ViewArea);
+	}
 	TSet<int32> Alive;
 	for (FHLUnit* U : Game.UnitList)
 	{
@@ -550,11 +764,11 @@ void AHLWorldActor::SyncUnits()
 		A->SetActorHiddenInGame(false);
 		float Z = U->Z + (U->HopT > 0 && !V->bHuman ? FMath::Sin(U->HopT * PI * 2) * 0.5f : 0.f);
 		if (U->bSitting && !U->bDead && !V->bHuman && !V->bEnemy) Z -= 0.45f;
-		if (U->bMounted) Z += 0.9f;
+		if (U->bMounted) Z += MountSeat[FMath::Min<int32>(U->MountKind, 3)].Z;
 		Z += U->Lift;
 		// only the back shows, a mound in the street (the rigged burrower's BurrowedIdle sinks itself)
 		if (U->bBurrowed && !(V->bEnemy && V->Enemy.Model && V->Enemy.Model->Has(TEXT("BurrowedIdle")))) Z -= 0.85f * U->Scale;
-		A->SetActorLocationAndRotation(ToWorld(U->Area, U->Pos, Z), FRotator(0, U->Yaw, U->bDead && !V->bHuman && !V->bEnemy ? 90 : 0));
+		A->SetActorLocationAndRotation(ToWorld(U->Area, U->Pos, Z), FRotator(0, U->Yaw + U->FaceOfs, U->bDead && !V->bHuman && !V->bEnemy ? 90 : 0));
 		if (V->bEnemy) FHLEnemyArt::Get().Drive(V->Enemy, *U, Game.Now, Game.FrameDt);
 		if (V->bHuman)
 		{
@@ -576,8 +790,24 @@ void AHLWorldActor::SyncUnits()
 		if (U->bMounted != V->bMountLook)
 		{
 			V->bMountLook = U->bMounted;
-			if (U->bMounted && !V->Extra.IsValid()) V->Extra = AddMesh(A, Cube, FVector(0, 0, -45), FVector(2.2f, 0.8f, 0.8f), FLinearColor(0.12f, 0.12f, 0.14f));
-			else if (U->bMounted && V->Extra.IsValid()) { V->Extra->SetRelativeLocation(FVector(0, 0, -45)); V->Extra->SetRelativeScale3D(FVector(2.2f, 0.8f, 0.8f)); }
+			// the mount art (art/world mounts) under the seated rider: the actor sits at the seat, the mount hangs below it
+			const int32 K = FMath::Min<int32>(U->MountKind, 3);
+			if (U->bMounted && !V->Mount.IsValid())
+			{
+				static const TCHAR* MountMesh[] = { TEXT("/Game/Props/SM_MountHorse.SM_MountHorse"), TEXT("/Game/Props/SM_MountScout.SM_MountScout"),
+					TEXT("/Game/Props/SM_MountModelA.SM_MountModelA"), TEXT("/Game/Props/SM_MountPolice.SM_MountPolice") };
+				FHLPropPlace MP; MP.Mesh = MountMesh[K]; MP.Scale = FVector(1);
+				if (UStaticMeshComponent* C = AddProp(A, U->Area, MP))
+				{
+					C->SetUsingAbsoluteLocation(false); C->SetUsingAbsoluteRotation(false);
+					C->SetRelativeLocation(-MountSeat[K] * M);
+					C->SetRelativeRotation(FRotator::ZeroRotator);
+					C->SetCastShadow(true);
+					V->Mount = C;
+				}
+				else V->Mount = AddMesh(A, Cube, FVector(0, 0, -45), FVector(2.2f, 0.8f, 0.8f), FLinearColor(0.12f, 0.12f, 0.14f));
+			}
+			if (V->Mount.IsValid()) V->Mount->SetVisibility(U->bMounted);
 		}
 	}
 	for (auto It = Vis.CreateIterator(); It; ++It)
@@ -655,7 +885,12 @@ void AHLWorldActor::Tick(float Dt)
 		D = FMath::Min(D, CamCollideDist);
 	}
 	FVector Loc = Focus - Rot.Vector() * D * M;
-	Loc.Z = FMath::Max(Loc.Z, 40.f);
+	{
+		// stay above the hills (the ground under the camera, plus a little)
+		const int32 CA = P ? P->Area : 0;
+		const FVector2D Off = Game.Areas.IsValidIndex(CA) ? Game.Areas[CA].Def->Offset : FVector2D::ZeroVector;
+		Loc.Z = FMath::Max(Loc.Z, (GroundZ(CA, FVector2D(Loc.X / M, Loc.Y / M) - Off) + 0.6f) * M);
+	}
 	Camera->SetWorldLocationAndRotation(Loc, (Focus - Loc).Rotation());
 	// sound: the listener is the player's head, facing the camera
 	if (P && Game.bInWorld) Game.Sfx.Tick(Game, Dt, P->Area, P->Pos, P->Z + 1.7f, Yaw);
@@ -751,16 +986,23 @@ void AHLWorldActor::AutoTest(float Dt)
 	if (P && FParse::Param(FCommandLine::Get(), TEXT("HLViews")))
 	{
 		// building art check: a fixed tour of the boulevard fronts, one screenshot per stop (hl_view_NN.png)
-		struct FView { float X, Y, Yaw, Pitch, Dist; };
-		static const FView Views[] = { { 470, 204, -90, 8, 24 }, { 385, 204, -90, 8, 22 }, { 580, 204, -90, 14, 30 }, { 640, 196, 90, 8, 24 }, { 230, 196, 90, 8, 26 }, { 781, 200, 90, 6, 12 }, { 120, 205, -120, 18, 40 } };
+		// -HLViewSet=nature: the open ground, the hills and the sign, and the Egyptian Theatre's dressing
+		struct FView { float X, Y, Yaw, Pitch, Dist; int32 Area = 0; };
+		static const FView Fronts[] = { { 470, 204, -90, 8, 24 }, { 385, 204, -90, 8, 22 }, { 580, 204, -90, 14, 30 }, { 640, 196, 90, 8, 24 }, { 230, 196, 90, 8, 26 }, { 781, 200, 90, 6, 12 }, { 120, 205, -120, 18, 40 } };
+		static const FView Nature[] = { { 298, 150, -90, 3, 14 }, { 300, -60, -90, 8, 26 }, { 420, -10, 20, 14, 22 }, { 700, 360, 45, 12, 25 }, { -150, 350, 180, 6, 30 },
+			{ 60, 12, 90, 12, 18, 1 }, { 60, 150, 90, 10, 26, 1 }, { 60, 222, 90, 6, 22, 1 } };
+		static FString Set; static bool bSet = FParse::Value(FCommandLine::Get(), TEXT("HLViewSet="), Set);
+		const bool bNature = bSet && Set == TEXT("nature");
+		const FView* Views = bNature ? Nature : Fronts;
+		const int32 NViews = bNature ? UE_ARRAY_COUNT(Nature) : UE_ARRAY_COUNT(Fronts);
 		static int32 Step = -1; static double NextStep = 0;
 		AutoNextShot = 1e9;
 		P->CombatUntil = 0; P->bAutoAttack = false; P->TargetId = 0;
 		if (T >= NextStep)
 		{
-			if (++Step >= (int32)UE_ARRAY_COUNT(Views)) { UKismetSystemLibrary::QuitGame(this, nullptr, EQuitPreference::Quit, false); return; }
+			if (++Step >= NViews) { UKismetSystemLibrary::QuitGame(this, nullptr, EQuitPreference::Quit, false); return; }
 			const FView& V = Views[Step];
-			Game.TeleportUnit(*P, 0, FVector2D(V.X, V.Y));
+			Game.TeleportUnit(*P, V.Area, FVector2D(V.X, V.Y));
 			NextStep = T + 2.5;
 		}
 		const FView& V = Views[FMath::Max(0, Step)];

@@ -106,7 +106,7 @@ void FHLGame::ExecuteAbility(FHLUnit& U, const FHLAbility& Ab, FHLUnit* Target)
 	else Friends.Add(&U);
 
 	if (U.Kind == EHLKind::Player) AddChat(TEXT("combat"), FString(), FString::Printf(TEXT("You use %s."), *Ab.Name));
-	if (U.Kind == EHLKind::Mob) Cue(U, Ab.Id); // the rigged art plays its special (slam, spit, charge) if it has one
+	Cue(U, Ab.Id); // mobs: the rigged art plays its special (slam, spit, charge) if it has one; people swing, shoot or cast
 	// guns and blows sound where they start; spells, heals and thrown things where they land
 	Sound(Ab.Id, (Target && Target != &U && Ab.School != TEXT("physical")) || Ab.Id == TEXT("ab_stn_bottle") ? (Target ? *Target : U) : U);
 	// what it looks like: a projectile for anything thrown or fired from range, a burst for blows, a ring for area effects

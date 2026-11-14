@@ -1,0 +1,70 @@
+{
+ "palm_fan": {
+  "kind": "model",
+  "height": 15.0
+ },
+ "palm_canary": {
+  "kind": "model",
+  "height": 9.0
+ },
+ "tree_eucalyptus": {
+  "kind": "model",
+  "height": 13.0
+ },
+ "tree_pepper": {
+  "kind": "model",
+  "height": 7.0
+ },
+ "shrub_chaparral": {
+  "kind": "model",
+  "height": 1.6
+ },
+ "shrub_oleander": {
+  "kind": "model",
+  "height": 2.2
+ },
+ "agave": {
+  "kind": "model",
+  "height": 1.3
+ },
+ "yucca": {
+  "kind": "model",
+  "height": 2.6
+ },
+ "cactus_pear": {
+  "kind": "model",
+  "height": 1.4
+ },
+ "rock_boulder": {
+  "kind": "model",
+  "height": 1.4
+ },
+ "rock_flat": {
+  "kind": "model",
+  "height": 0.6
+ },
+ "grass_dry": {
+  "kind": "card",
+  "height": 0.8
+ },
+ "grass_green": {
+  "kind": "card",
+  "height": 0.55
+ },
+ "flower_poppy": {
+  "kind": "card",
+  "height": 0.45
+ },
+ "flower_lupine": {
+  "kind": "card",
+  "height": 0.7
+ },
+ "flower_daisy": {
+  "kind": "card",
+  "height": 0.4
+ },
+ "flower_mustard": {
+  "kind": "card",
+  "height": 0.9
+ }
+}

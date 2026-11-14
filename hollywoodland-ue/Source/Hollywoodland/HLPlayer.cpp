@@ -714,6 +714,13 @@ void FHLGame::TickPlayer(float Dt)
 	{
 		if (Input.bMouseSteer) U->Yaw = Input.CamYaw; else U->Yaw += Input.Turn * 200.f * Dt;
 		FVector2D Move(Input.Forward, Input.Strafe);
+		{
+			// the body turns into a diagonal or sideways run (backpedalling keeps facing forward, turned the other way)
+			float Want = 0;
+			if (!Move.IsNearlyZero()) Want = Move.X >= 0 ? FMath::RadiansToDegrees(FMath::Atan2(Move.Y, Move.X)) : FMath::RadiansToDegrees(FMath::Atan2(-Move.Y, -Move.X));
+			if (U->bAutoAttack && U->TargetId && Move.X >= 0) Want *= 0.5f; // fighting: keep mostly squared to the target
+			U->FaceOfs += (Want - U->FaceOfs) * FMath::Min(1.f, Dt * 12.f);
+		}
 		if (!Move.IsNearlyZero())
 		{
 			if (Move.SizeSquared() > 1) Move.Normalize();
@@ -978,9 +985,9 @@ void FHLGame::TickAuctions()
 		FHLAuction& A = Auctions[i];
 		if (A.bMine)
 		{
-			// a simulated player buys it if the price is fair
+			// a simulated buyer comes along now and then: often for a bargain, rarely for a stiff price, less when cheaper copies are up
 			const int32 Fair = MarketPrice(*A.Item) * A.Count;
-			const bool bSold = Chance((A.Buyout <= Fair * 1.3f ? 0.25f : A.Buyout <= Fair * 2 ? 0.05f : 0.f) * (Undercut(A) ? 0.15f : 1.f));
+			const bool bSold = Chance(AuctionDemand(*A.Item, A.Buyout / FMath::Max(1, A.Count)));
 			if (bSold || (Now >= A.ExpiresAt && A.Bid > 0))
 			{
 				const int32 Price = bSold ? A.Buyout : A.Bid;
@@ -1032,12 +1039,30 @@ bool FHLGame::BuyAuction(int32 Idx)
 	return true;
 }
 
+int32 FHLGame::AuctionDeposit(const FHLItem& It, int32 Count, float Hours) const
+{
+	return FMath::Max(1, FMath::RoundToInt32(It.Price * Count / It.Buy * 0.05f * Hours));
+}
+
+float FHLGame::AuctionDemand(const FHLItem& It, int32 Each) const
+{
+	// price against the going rate: 70% of it sells in minutes, the going rate in a quarter hour or so, 1.3x in about an hour
+	// of play, 1.6x and up only to a bidder
+	const float Fair = (float)FMath::Max(1, MarketPrice(It));
+	const float R = Each / Fair;
+	float P = 0.05f * FMath::Square(FMath::Clamp((1.6f - R) / 0.9f, 0.f, 1.2f));
+	// shoppers buy the cheapest copy first
+	int32 Cheaper = 0;
+	for (const FHLAuction& O : Auctions) if (!O.bMine && O.Item == &It && O.Buyout / FMath::Max(1, O.Count) < Each) ++Cheaper;
+	return P / (1.f + Cheaper * 1.5f);
+}
+
 bool FHLGame::ListAuction(int32 BagIdx, int32 Buyout, float Hours)
 {
 	if (!Player.Bag.IsValidIndex(BagIdx) || !Player.Bag[BagIdx].Item) return false;
 	const FHLInvSlot S = Player.Bag[BagIdx];
 	if (S.Item->Kind == TEXT("quest") || S.Item->Price <= 0) { Error(TEXT("You can't auction that.")); return false; }
-	const int32 Deposit = FMath::Max(1, FMath::RoundToInt32(S.Item->Price * S.Count / S.Item->Buy * 0.05f * Hours));
+	const int32 Deposit = AuctionDeposit(*S.Item, S.Count, Hours);
 	if (Player.Cents < Deposit) { Error(TEXT("You can't afford the deposit.")); return false; }
 	Player.Cents -= Deposit;
 	FHLAuction A; A.Item = S.Item; A.Count = S.Count; A.Buyout = FMath::Max(1, Buyout); A.MinBid = FMath::Max(1, A.Buyout * 7 / 10); A.bMine = true; A.ExpiresAt = Now + Hours * 3600.f;

@@ -6,3 +6,6 @@ $script = Join-Path $PSScriptRoot 'make_assets.py'
 & (Join-Path $EngineRoot 'Engine\Binaries\Win64\UnrealEditor-Cmd.exe') $project "-run=pythonscript" "-script=$script" -unattended -nosplash -AllowCommandletRendering '-DisablePlugins=AllToolsets,Terminal,UnrealCanvasBridge' 2>&1 |
     Select-String -Pattern 'HL_ASSET|Error|Traceback' | ForEach-Object { $_.Line }
 Get-ChildItem (Join-Path $root 'Content\HL') -ErrorAction SilentlyContinue | Select-Object Name, Length
+
+# the master materials get their hemisphere ambient term back (Scripts\PatchAmbient.ps1)
+& (Join-Path $PSScriptRoot 'PatchAmbient.ps1') -EngineRoot $EngineRoot

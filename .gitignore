@@ -36,3 +36,8 @@ sfx-src/
 
 # dialoguegen raw TTS originals
 vo-src/
+
+# foliage (tools/foliagegen.py): Rodin originals (~370 MB) and FLUX references stay local; sprites, cards and assets.json ship
+art/foliage/raw/
+art/foliage/src/
+art/foliage/state.json

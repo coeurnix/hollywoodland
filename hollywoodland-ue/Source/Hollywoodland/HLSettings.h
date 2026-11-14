@@ -24,6 +24,8 @@ struct FHLSettings
 	bool bNameplates = true;      // names over other units (target always shown)
 	bool bFloatText = true;       // floating combat numbers
 	bool bHelpOnStart = true;
+	bool bFaceCamera = true;      // dragging with the left button turns the character too (off: it only orbits the camera)
+	float TextHold = 1.5f;        // how long on-screen messages stay, x the base time (1 .. 3)
 	// graphics
 	int32 Quality = 1;            // 0 low, 1 medium, 2 high, 3 ultra (presets for the four below)
 	int32 Shadows = 1;            // 0 off, 1 characters, 2 characters and the world

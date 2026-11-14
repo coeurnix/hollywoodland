@@ -38,7 +38,8 @@ browser ── itch.io page (iframe, SharedArrayBuffer support) ── UE 5.9 Wa
 | `HLSfx.*` | sound effects: sim sound-event queue (`FHLGame::Sound/SoundAt/Sound2D`, `Sfx*` helpers), variants/pitch/attenuation/pan against the listener, managed loops (ambience beds per subzone, cast loops, wings, burrowing, spires, crafting) and footsteps; web WebAudio via `HLBridge::Audio` (op 6), native dr_mp3 decode + waveOut mixer thread |
 | `HLMusic.*` | music director (title, subzone playlists day/night, notable-fight/boss/death/victory tracks); playback via `HLBridge::MusicPlay` (web `<audio>`, native MCI) |
 | `HLChat.cpp` | ambient chat (templates + corpus), typing-style filter, slash commands, Worker client + action application |
-| `HLWorldActor.*` | geometry build, unit visuals, camera, `-HLAuto` self-play test, `HL_STATUS` console line every 20 s |
+| `HLWorldActor.*` | geometry build, foliage scatter, unit visuals and mounts, sky/fog/hemisphere ambient, camera, `-HLAuto` self-play test (`-HLViews`, `-HLViewSet=nature`), `HL_STATUS` console line every 20 s |
+| `HLTerrain.*` | visual height grid per outdoor area: level on made ground, swells in the lots, a ridge of hills past the hive ring; wildness for the scatter |
 | `HLUI.cpp`, `HLUIWindows.cpp` | toolkit (Rc/Tx/Btn/Win/ItemIcon), input, title screen + character creator, nameplates, HUD, chat, minimap, all windows (character window = paper doll) |
 | `HLCharacter.*` | human character art: appearance, item → look/held mapping, modular rigs, GPU body atlases, clip choice (`Drive`), gestures; the creator/doll preview stage is `AHLWorldActor::Preview` |
 
@@ -134,7 +135,7 @@ browser ── itch.io page (iframe, SharedArrayBuffer support) ── UE 5.9 Wa
 25. Items: grow base list to ~680 (bible §8), icons (~700), pocket items, epics set looks; validator rule for unique names.
 26. Quest text to 60-120 words (LLM expand with cache, human spot-check 20). Unbuilt-zone quest titles to ~45/zone.
 27. Audio (music, SFX and ambience done): 1925-and-earlier recordings on radios; voice-over once the dialogue scripts exist. Public-domain film on the Chinese screen (§14 assets).
-28. ~~Day/night cycle; skybox~~ (done); HOLLYWOODLAND sign on the north horizon (letters in `art/world`, not yet imported).
+28. ~~Day/night cycle; skybox~~ (done); ~~HOLLYWOODLAND sign on the north horizon~~ (done: `art/world` letters on the HLTerrain north ridge).
 
 ## 4. Technical dependencies and risks
 

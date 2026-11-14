@@ -10,3 +10,6 @@ if (-not $Only) { Remove-Item -Recurse -Force (Join-Path $root 'Content\Enemies'
 & (Join-Path $EngineRoot 'Engine\Binaries\Win64\UnrealEditor-Cmd.exe') $project "-run=pythonscript" "-script=$script" -unattended -nosplash -AllowCommandletRendering '-DisablePlugins=AllToolsets,Terminal,UnrealCanvasBridge' 2>&1 |
     Tee-Object -FilePath (Join-Path $root 'Saved\Logs\import-enemies.log') |
     Select-String -Pattern 'HL_ASSET|Error|Traceback' | ForEach-Object { $_.Line }
+
+# the master materials get their hemisphere ambient term back (Scripts\PatchAmbient.ps1)
+& (Join-Path $PSScriptRoot 'PatchAmbient.ps1') -EngineRoot $EngineRoot

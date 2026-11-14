@@ -117,7 +117,89 @@ def make_material():
     return m
 
 
-def make_instances(parent):
+def make_foliage_material():
+    """M_HLFoliage: two-sided, masked by the base colour's alpha (grass and flower cards), and swaying in the wind:
+    world position offset = sin(time + a per-plant phase) * height above the pivot * Sway (cm per metre).
+    Ambient as M_HLWorldProp (Glow; Scripts/patch_ambient.py adds the hemisphere term)."""
+    full = f'{BASE}/M_HLFoliage'
+    if eal.does_asset_exist(full):
+        eal.delete_asset(full)
+    m = tools.create_asset('M_HLFoliage', BASE, unreal.Material, unreal.MaterialFactoryNew())
+    m.set_editor_property('used_with_instanced_static_meshes', True)
+    m.set_editor_property('two_sided', True)
+    m.set_editor_property('blend_mode', unreal.BlendMode.BLEND_MASKED)
+    m.set_editor_property('opacity_mask_clip_value', 0.4)
+    b = tex_param(m, 'B', -1100, 0, unreal.MaterialSamplerType.SAMPLERTYPE_COLOR, '/Engine/EngineResources/WhiteSquareTexture')
+    n = tex_param(m, 'N', -1100, 300, unreal.MaterialSamplerType.SAMPLERTYPE_NORMAL, '/Engine/EngineMaterials/DefaultNormal')
+    tint = mel.create_material_expression(m, unreal.MaterialExpressionVectorParameter, -1100, -250)
+    tint.set_editor_property('parameter_name', 'Tint')
+    tint.set_editor_property('default_value', unreal.LinearColor(1, 1, 1, 1))
+    col = op(m, unreal.MaterialExpressionMultiply, -800, 0, b, tint, 'RGB')
+    mel.connect_material_property(col, '', unreal.MaterialProperty.MP_BASE_COLOR)
+    mel.connect_material_property(op(m, unreal.MaterialExpressionMultiply, -500, 150, col, scalar(m, 'Glow', -800, 200, 0.26)), '', unreal.MaterialProperty.MP_EMISSIVE_COLOR)
+    mel.connect_material_property(n, 'RGB', unreal.MaterialProperty.MP_NORMAL)
+    mel.connect_material_property(b, 'A', unreal.MaterialProperty.MP_OPACITY_MASK)
+    c = mel.create_material_expression(m, unreal.MaterialExpressionConstant, -800, 450)
+    c.set_editor_property('r', 0.9)
+    mel.connect_material_property(c, '', unreal.MaterialProperty.MP_ROUGHNESS)
+    # wind
+    wp = mel.create_material_expression(m, unreal.MaterialExpressionWorldPosition, -1700, 900)
+    op_ = mel.create_material_expression(m, unreal.MaterialExpressionObjectPositionWS, -1700, 1050)
+    hz = op(m, unreal.MaterialExpressionSubtract, -1450, 950, wp, op_)
+    hmask = mel.create_material_expression(m, unreal.MaterialExpressionComponentMask, -1300, 950)
+    hmask.set_editor_property('r', False); hmask.set_editor_property('g', False); hmask.set_editor_property('b', True); hmask.set_editor_property('a', False)
+    mel.connect_material_expressions(hz, '', hmask, '')
+    hmax = mel.create_material_expression(m, unreal.MaterialExpressionMax, -1150, 950)
+    hmax.set_editor_property('const_b', 0.0)
+    mel.connect_material_expressions(hmask, '', hmax, 'A')
+    # phase: per plant (its position) plus a little along the height, so tall plants bend rather than slide
+    pxy = mel.create_material_expression(m, unreal.MaterialExpressionComponentMask, -1450, 1150)
+    pxy.set_editor_property('r', True); pxy.set_editor_property('g', True); pxy.set_editor_property('b', False); pxy.set_editor_property('a', False)
+    mel.connect_material_expressions(op_, '', pxy, '')
+    dot = mel.create_material_expression(m, unreal.MaterialExpressionDotProduct, -1300, 1150)
+    vc = mel.create_material_expression(m, unreal.MaterialExpressionConstant2Vector, -1450, 1250)
+    vc.set_editor_property('r', 0.0021); vc.set_editor_property('g', 0.0017)
+    mel.connect_material_expressions(pxy, '', dot, 'A'); mel.connect_material_expressions(vc, '', dot, 'B')
+    t = mel.create_material_expression(m, unreal.MaterialExpressionTime, -1450, 1350)
+    tsp = op(m, unreal.MaterialExpressionMultiply, -1300, 1350, t, scalar(m, 'WindSpeed', -1450, 1450, 1.6))
+    hph = mel.create_material_expression(m, unreal.MaterialExpressionMultiply, -1000, 1050)
+    hph.set_editor_property('const_b', 0.0015)
+    mel.connect_material_expressions(hmax, '', hph, 'A')
+    phase = op(m, unreal.MaterialExpressionAdd, -1000, 1250, op(m, unreal.MaterialExpressionAdd, -1150, 1250, dot, tsp), hph)
+    s1 = mel.create_material_expression(m, unreal.MaterialExpressionSine, -850, 1200)
+    s1.set_editor_property('period', 6.2831853)
+    mel.connect_material_expressions(phase, '', s1, '')
+    ph2 = mel.create_material_expression(m, unreal.MaterialExpressionMultiply, -850, 1350)
+    ph2.set_editor_property('const_b', 2.7)
+    mel.connect_material_expressions(phase, '', ph2, 'A')
+    s2 = mel.create_material_expression(m, unreal.MaterialExpressionSine, -700, 1350)
+    s2.set_editor_property('period', 6.2831853)
+    mel.connect_material_expressions(ph2, '', s2, '')
+    s2s = mel.create_material_expression(m, unreal.MaterialExpressionMultiply, -550, 1350)
+    s2s.set_editor_property('const_b', 0.35)
+    mel.connect_material_expressions(s2, '', s2s, 'A')
+    wave = op(m, unreal.MaterialExpressionAdd, -550, 1200, s1, s2s)
+    # cm of sway = wave * height (cm) / 100 * Sway
+    amt = op(m, unreal.MaterialExpressionMultiply, -400, 1100, hmax, scalar(m, 'Sway', -550, 1000, 1.0))
+    amt2 = mel.create_material_expression(m, unreal.MaterialExpressionMultiply, -300, 1100)
+    amt2.set_editor_property('const_b', 0.01)
+    mel.connect_material_expressions(amt, '', amt2, 'A')
+    off = op(m, unreal.MaterialExpressionMultiply, -200, 1200, wave, amt2)
+    offy = mel.create_material_expression(m, unreal.MaterialExpressionMultiply, -100, 1300)
+    offy.set_editor_property('const_b', 0.55)
+    mel.connect_material_expressions(off, '', offy, 'A')
+    xy = op(m, unreal.MaterialExpressionAppendVector, 0, 1200, off, offy)
+    zero = mel.create_material_expression(m, unreal.MaterialExpressionConstant, 0, 1350)
+    zero.set_editor_property('r', 0.0)
+    wpo = op(m, unreal.MaterialExpressionAppendVector, 150, 1250, xy, zero)
+    mel.connect_material_property(wpo, '', unreal.MaterialProperty.MP_WORLD_POSITION_OFFSET)
+    mel.recompile_material(m)
+    eal.save_asset(full, only_if_is_dirty=False)
+    log(f'{full} saved')
+    return m
+
+
+def make_instances(parent, foliage=None):
     made = set()
     for me in stage['meshes']:
         if me['material'] in made:
@@ -127,6 +209,14 @@ def make_instances(parent):
         if eal.does_asset_exist(path):
             eal.delete_asset(path)
         mi = tools.create_asset(me['material'], f'{BASE}/Mat', unreal.MaterialInstanceConstant, unreal.MaterialInstanceConstantFactoryNew())
+        if foliage and 'foliage' in me:
+            mel.set_material_instance_parent(mi, foliage)
+            mel.set_material_instance_scalar_parameter_value(mi, 'Sway', float(me['foliage']))
+            for k, tex in me['tex'].items():
+                if k in ('B', 'N'):
+                    mel.set_material_instance_texture_parameter_value(mi, k, unreal.load_asset(f'{BASE}/Tex/{tex}'))
+            eal.save_asset(path, only_if_is_dirty=False)
+            continue
         mel.set_material_instance_parent(mi, parent)
         for k, tex in me['tex'].items():
             mel.set_material_instance_texture_parameter_value(mi, k, unreal.load_asset(f'{BASE}/Tex/{tex}'))
@@ -209,7 +299,7 @@ def import_meshes():
 
 
 import_textures()
-make_instances(make_material())
+make_instances(make_material(), make_foliage_material() if any('foliage' in me for me in stage['meshes']) else None)
 import_meshes()
 unreal.EditorLoadingAndSavingUtils.save_dirty_packages(True, True)
 unreal.log('HL_ASSETS_DONE')

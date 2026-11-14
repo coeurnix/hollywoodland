@@ -10,6 +10,7 @@
 #include "Camera/PlayerCameraManager.h"
 #include "Rendering/DrawElements.h"
 #include "Styling/CoreStyle.h"
+#include "Brushes/SlateRoundedBoxBrush.h"
 #include "Fonts/CompositeFont.h"
 #include "Misc/Paths.h"
 #include "Misc/FileHelper.h"
@@ -148,6 +149,42 @@ void SHLGameUI::Rc(float X, float Y, float W, float H, const FLinearColor& C) co
 	if (LastKind != 1) { ++Layer; LastKind = 1; }
 	FSlateDrawElement::MakeBox(*DL, Layer, PGeo.ToPaintGeometry(FVector2f(W, H), FSlateLayoutTransform(Sc, FVector2f(X * Sc, Y * Sc))), FCoreStyle::Get().GetBrush("WhiteBrush"), ESlateDrawEffect::None, C);
 }
+void SHLGameUI::RRc(float X, float Y, float W, float H, const FLinearColor& C, float Radius) const
+{
+	// one white rounded brush per radius step, tinted per draw
+	static TMap<int32, TSharedPtr<FSlateRoundedBoxBrush>> Brushes;
+	const int32 R = FMath::Clamp(FMath::RoundToInt(Radius), 1, 32);
+	TSharedPtr<FSlateRoundedBoxBrush>& B = Brushes.FindOrAdd(R);
+	if (!B.IsValid()) B = MakeShared<FSlateRoundedBoxBrush>(FLinearColor::White, (float)R);
+	++Layer; LastKind = 1;
+	FSlateDrawElement::MakeBox(*DL, Layer, PGeo.ToPaintGeometry(FVector2f(W, H), FSlateLayoutTransform(Sc, FVector2f(X * Sc, Y * Sc))), B.Get(), ESlateDrawEffect::None, C);
+}
+void SHLGameUI::Shadow(float X, float Y, float W, float H, float Spread, float Alpha) const
+{
+	// stacked rounded boxes, widest and faintest first, offset a little down: reads as a soft shadow
+	for (int32 i = 3; i >= 1; --i)
+	{
+		const float E = Spread * i / 3.f;
+		RRc(X - E + 2, Y - E + 4, W + E * 2, H + E * 2, FLinearColor(0, 0, 0, Alpha / 3.f), 4 + E);
+	}
+}
+float SHLGameUI::Section(float X, float Y, float W, float H, const FString& Title) const
+{
+	RRc(X, Y, W, H, FLinearColor(0.f, 0.f, 0.f, 0.38f), 5);
+	RRc(X + 1, Y + 1, W - 2, H - 2, FLinearColor(0.11f, 0.09f, 0.07f, 0.7f), 4);
+	if (Title.IsEmpty()) return Y + 6;
+	++Layer; LastKind = 1;
+	Rc(X + 8, Y + 19, W - 16, 1, FLinearColor(0.75f, 0.6f, 0.3f, 0.35f));
+	Tx(X + 8, Y + 4, Title.ToUpper(), 9, FLinearColor(0.85f, 0.7f, 0.35f), true);
+	return Y + 25;
+}
+void SHLGameUI::StatRow(float X, float Y, float W, const FString& Label, const FString& Value, int32 Row, const FLinearColor& ValueColor) const
+{
+	if (Row % 2 == 0) { ++Layer; LastKind = 1; Rc(X, Y - 1, W, 16, FLinearColor(1.f, 0.9f, 0.7f, 0.045f)); }
+	Tx(X + 4, Y, Label, 10, FLinearColor(0.7f, 0.68f, 0.62f));
+	Tx(X + W - 4 - TW(Value, 10, true), Y, Value, 10, ValueColor, true);
+}
+
 void SHLGameUI::Panel(float X, float Y, float W, float H, const FLinearColor& Bg, const FLinearColor& Border) const
 {
 	// Art Deco frame: gold rule, dark field, a hairline inset, stepped corner blocks
@@ -247,6 +284,7 @@ bool SHLGameUI::Win(const TCHAR* Id, const FString& Title, float W, float H, boo
 	P.X = FMath::Clamp(P.X, 0.0, FMath::Max(0.0, VS.X - W)); P.Y = FMath::Clamp(P.Y, 0.0, FMath::Max(0.0, VS.Y - H));
 	Block(P.X, P.Y, W, H);
 	++Layer; LastKind = 0;
+	Shadow(P.X, P.Y, W, H, 14, 0.5f);
 	Panel(P.X, P.Y, W, H);
 	if (const FSlateBrush* Bg = HLArtBrush(TEXT("ui_panel"))) Img(P.X, P.Y, W, H, Bg, FLinearColor(0.5f, 0.5f, 0.5f, 0.92f));
 	++Layer; LastKind = 1;
@@ -429,7 +467,7 @@ void SHLGameUI::PreTick(float Dt)
 	if (!Gm.bInWorld || bTyping) return;
 	const FHLSettings& St = FHLSettings::Get();
 	auto K = [&](EHLAct A) { return St.Held(Down, A) ? 1.f : 0.f; };
-	const bool bSteer = bRDown && bDragging;
+	const bool bSteer = bDragging && (bRDown || (bLDown && St.bFaceCamera && DragDist >= 6));
 	In.Forward = FMath::Clamp(K(EHLAct::Forward) + ((bLDown && bRDown && bDragging) ? 1.f : 0.f), 0.f, 1.f) - K(EHLAct::Back);
 	In.Strafe = K(EHLAct::StrafeRight) - K(EHLAct::StrafeLeft);
 	const float AD = K(EHLAct::TurnRight) - K(EHLAct::TurnLeft);
@@ -514,7 +552,7 @@ void SHLGameUI::DrawPreview(float X, float Y, float W, float H, const FHLCharLoo
 	}
 	else bPreviewDrag = false;
 	Rc(X - 1, Y - 1, W + 2, H + 2, FLinearColor(0.55f, 0.45f, 0.25f));
-	Rc(X, Y, W, H, FLinearColor(0.16f, 0.13f, 0.1f));
+	Rc(X, Y, W, H, AHLWorldActor::StageBackColor(L.App.Skin));
 	UTextureRenderTarget2D* RT = World ? World->Preview(L, PreviewYaw, Clip) : nullptr;
 	if (!RT) { TxC(X + W * 0.5f, Y + H * 0.5f - 8, TEXT("(character art not loaded)"), 10, ColDim); return; }
 	if (!PreviewBrush.IsValid() || PreviewBrush->GetResourceObject() != RT)
@@ -719,12 +757,18 @@ void SHLGameUI::DrawWorldOverlay() const
 		const float D = FVector2D::Distance(U->Pos, P->Pos);
 		const bool bTarget = U->Id == P->TargetId;
 		if (D > 80 && !bTarget) continue;
-		const float Height = (U->Shape == TEXT("human") ? 1.9f : 1.3f) * U->Scale + U->Z + (U->bMounted ? 0.9f : 0);
-		FVector2D S, Feet;
-		if (!Project(World->ToWorld(U->Area, U->Pos, U->bDead ? 0.8f : Height + 0.35f), S)) continue;
-		if (Project(World->ToWorld(U->Area, U->Pos, Height * 0.5f), Feet))
+		// rigged creatures are about as tall as their art (the drone stands 2.3 m at scale 1); fliers hang at their lift
+		const float Body = (U->Shape == TEXT("human") ? 1.9f : U->Shape == TEXT("bug") ? 1.8f : 1.3f) * U->Scale;
+		const float Base = U->Z + U->Lift + (U->bMounted ? 0.9f : 0);
+		const float Height = Body + Base;
+		FVector2D S, Mid, Low;
+		if (!Project(World->ToWorld(U->Area, U->Pos, U->bDead ? 0.8f + U->Lift : Height + 0.35f), S)) continue;
+		if (Project(World->ToWorld(U->Area, U->Pos, Base + Body * 0.5f), Mid) && Project(World->ToWorld(U->Area, U->Pos, Base), Low))
 		{
-			FPick Pk; Pk.UnitId = U->Id; Pk.Pos = Feet; Pk.Radius = FMath::Clamp(700.f * FMath::Max(1.f, U->Scale) / FMath::Max(3.f, D + World->CamDist * 0.5f), 14.f, 90.f); Pk.Depth = D;
+			// a generous circle around the body: at least half its on-screen height, never under 26 px
+			const float Half = FVector2D::Distance(Mid, Low);
+			FPick Pk; Pk.UnitId = U->Id; Pk.Pos = Mid; Pk.Radius = FMath::Clamp(FMath::Max(Half * 1.25f, 900.f * FMath::Max(1.f, U->Scale) / FMath::Max(3.f, D + World->CamDist * 0.5f)), 26.f, 160.f); Pk.Depth = D;
+			if (U->bDead) Pk.Radius *= 0.8f;
 			if (U->Id != Gm.PlayerUnitId) Picks.Add(Pk);
 		}
 		if (U->Id == Gm.PlayerUnitId) continue;
@@ -756,18 +800,52 @@ void SHLGameUI::DrawWorldOverlay() const
 			if (Mk) TxC(S.X, S.Y - 34, Mk == 1 ? TEXT("!") : TEXT("?"), 22, Mk == 3 ? ColDim : ColGold, true);
 		}
 	}
-	// floating combat text and speech
+	// floating combat text
 	for (const FHLFloatText& F : Gm.Floats)
 	{
 		const FHLUnit* U = Gm.Unit(F.UnitId);
-		if (!U || U->Area != P->Area || F.Text.IsEmpty()) continue;
+		if (!U || U->Area != P->Area || F.Text.IsEmpty() || !FHLSettings::Get().bFloatText) continue;
 		FVector2D S;
-		const bool bSpeech = F.Text.Len() > 14 && !F.Text.StartsWith(TEXT("+"));
-		if (!bSpeech && !FHLSettings::Get().bFloatText) continue;
-		if (!Project(World->ToWorld(U->Area, U->Pos, 2.3f * FMath::Max(1.f, U->Scale * 0.8f) + (bSpeech ? 0.6f : F.Age * 1.2f)), S)) continue;
+		if (!Project(World->ToWorld(U->Area, U->Pos, 2.3f * FMath::Max(1.f, U->Scale * 0.8f) + U->Lift + F.Age * 1.2f), S)) continue;
 		const float A = FMath::Clamp(1.6f - F.Age, 0.f, 1.f);
-		if (bSpeech) { const float Wd = TW(F.Text, 10) + 12; Rc(S.X - Wd * 0.5f, S.Y - 4, Wd, 20, FLinearColor(0, 0, 0, 0.55f * A)); TxC(S.X, S.Y - 2, F.Text, 10, FLinearColor(1, 1, 1, A)); }
-		else TxC(S.X + (F.UnitId % 3 - 1) * 14, S.Y, F.Text, F.bCrit ? 17 : 12, FLinearColor(F.Color.R, F.Color.G, F.Color.B, A), true);
+		TxC(S.X + (F.UnitId % 3 - 1) * 14, S.Y, F.Text, F.bCrit ? 17 : 12, FLinearColor(F.Color.R, F.Color.G, F.Color.B, A), true);
+	}
+	// speech balloons: cream paper, dark ink, a tail down to the speaker; nearer speakers draw on top
+	{
+		TArray<const FHLSpeech*> Live;
+		for (const FHLSpeech& Sp : Gm.Speech) if (Gm.Now < Sp.Until) Live.Add(&Sp);
+		Live.Sort([&](const FHLSpeech& A, const FHLSpeech& B)
+		{
+			const FHLUnit* UA = Gm.Unit(A.UnitId); const FHLUnit* UB = Gm.Unit(B.UnitId);
+			return (UA ? FVector2D::DistSquared(UA->Pos, P->Pos) : 0) > (UB ? FVector2D::DistSquared(UB->Pos, P->Pos) : 0);
+		});
+		for (const FHLSpeech* Sp : Live)
+		{
+			const FHLUnit* U = Gm.Unit(Sp->UnitId);
+			if (!U || U->Area != P->Area || U->bDead) continue;
+			const float D = FVector2D::Distance(U->Pos, P->Pos);
+			if (D > 45) continue;
+			const float Body = (U->Shape == TEXT("human") ? 1.9f : 1.4f) * U->Scale + U->Z + U->Lift + (U->bMounted ? 0.9f : 0);
+			FVector2D S;
+			if (!Project(World->ToWorld(U->Area, U->Pos, Body + 0.75f), S)) continue;
+			const float A = FMath::Clamp((float)(Sp->Until - Gm.Now) * 2.f, 0.f, 1.f) * FMath::Clamp((float)(Gm.Now - Sp->Start) * 6.f, 0.f, 1.f) * (D > 30 ? 0.75f : 1.f);
+			const int32 Fs = D < 18 ? 10 : 9;
+			TArray<FString> Lines;
+			Wrap(Sp->Text, Fs, 210, Lines);
+			if (Lines.Num() > 5) { Lines.SetNum(5); Lines[4] += TEXT("..."); }
+			float Wd = 0; for (const FString& L : Lines) Wd = FMath::Max(Wd, TW(L, Fs));
+			const float LH = Fs * 1.5f, Bw = Wd + 18, Bh = Lines.Num() * LH + 10;
+			const float Bx = FMath::Clamp(S.X - Bw * 0.5f, 4.f, VS.X - Bw - 4), By = S.Y - Bh - 10;
+			const FLinearColor Paper = Sp->bYell ? FLinearColor(1.f, 0.93f, 0.86f, 0.95f * A) : FLinearColor(0.98f, 0.96f, 0.9f, 0.93f * A);
+			const FLinearColor Edge(0.25f, 0.18f, 0.1f, 0.85f * A);
+			Shadow(Bx, By, Bw, Bh, 5, 0.35f * A);
+			RRc(Bx - 1, By - 1, Bw + 2, Bh + 2, Sp->bYell ? FLinearColor(0.75f, 0.15f, 0.1f, 0.9f * A) : Edge, 8);
+			RRc(Bx, By, Bw, Bh, Paper, 7);
+			// tail: a little stepped wedge pointing at the speaker
+			const float Tx0 = FMath::Clamp(S.X, Bx + 12, Bx + Bw - 12);
+			for (int32 i = 0; i < 4; ++i) { const float Tw = 10 - i * 2.5f; ++Layer; LastKind = 1; Rc(Tx0 - Tw * 0.5f, By + Bh + i * 2.5f - 1, Tw, 3, Paper); }
+			for (int32 i = 0; i < Lines.Num(); ++i) Tx(Bx + 9, By + 4 + i * LH, Lines[i], Fs, FLinearColor(0.12f, 0.09f, 0.06f, A), Sp->bYell, false);
+		}
 	}
 }
 
@@ -816,20 +894,77 @@ void SHLGameUI::DrawHud() const
 		Bar(X + 6, Y + (bBig ? 22 : 19), W - 12, bBig ? 14 : 9, U.HpPct(), U.bDead ? FLinearColor(0.3f, 0.3f, 0.3f) : FLinearColor(0.1f, 0.7f, 0.1f), bBig ? FString::Printf(TEXT("%d / %d"), (int32)U.Hp, (int32)U.MaxHp) : FString(), 9);
 		if (U.ResType != EHLRes::None) Bar(X + 6, Y + (bBig ? 40 : 31), W - 12, bBig ? 11 : 5, U.MaxRes > 0 ? U.Res / U.MaxRes : 0, ResColor(U.ResType), bBig ? FString::Printf(TEXT("%d / %d"), (int32)U.Res, (int32)U.MaxRes) : FString(), 8);
 	};
-	UnitFrame(16, 16, 230, *P, true);
-	// auras
-	{
-		float Ax = 16;
-		for (const FHLAura& A : P->Auras)
+		// in combat: the player frame glows and pulses red (tanks watch this), with a small tag under the name
+		const bool bFighting = Gm.InCombat(*P) && !P->bDead;
+		if (bFighting)
 		{
-			if (A.Stat == TEXT("none") && A.Name != TEXT("Recently Bandaged")) continue;
-			const FLinearColor C = A.bHarmful ? FLinearColor(0.5f, 0.1f, 0.1f) : FLinearColor(0.1f, 0.3f, 0.5f);
-			const FString Lbl = FString::Printf(TEXT("%s %ds"), *A.Name, FMath::CeilToInt32(A.Remaining));
-			const float Wd = TW(Lbl, 9) + 8;
-			Rc(Ax, 80, Wd, 16, C); Tx(Ax + 4, 81, Lbl, 9, ColWhite);
-			Ax += Wd + 4;
+			const float Pulse = 0.5f + 0.5f * FMath::Sin((float)Gm.Now * 5.f);
+			for (int32 i = 3; i >= 1; --i) RRc(16 - i * 3, 16 - i * 3, 230 + i * 6, 58 + i * 6, FLinearColor(1.f, 0.08f, 0.04f, (0.12f + 0.16f * Pulse) * (4 - i) / 3.f), 6 + i * 3);
 		}
-	}
+		UnitFrame(16, 16, 230, *P, true);
+		if (bFighting)
+		{
+			const float Pulse = 0.5f + 0.5f * FMath::Sin((float)Gm.Now * 5.f);
+			++Layer; LastKind = 1;
+			Rc(15, 15, 232, 2, FLinearColor(1, 0.15f, 0.1f, 0.6f + 0.4f * Pulse)); Rc(15, 73, 232, 2, FLinearColor(1, 0.15f, 0.1f, 0.6f + 0.4f * Pulse));
+			Rc(15, 15, 2, 60, FLinearColor(1, 0.15f, 0.1f, 0.6f + 0.4f * Pulse)); Rc(245, 15, 2, 60, FLinearColor(1, 0.15f, 0.1f, 0.6f + 0.4f * Pulse));
+			const float Tw = TW(TEXT("IN COMBAT"), 8, true) + 12;
+			RRc(131 - Tw * 0.5f, 68, Tw, 14, FLinearColor(0.45f, 0.04f, 0.03f, 0.95f), 4);
+			TxC(131, 68, TEXT("IN COMBAT"), 8, FLinearColor(1, 0.85f, 0.75f), true);
+		}
+		float AuraBottom = 80;
+		// auras: buffs in a row of icons under the frame, debuffs in a bigger red-edged row below them (and named, so a daze
+		// or a sickness is unmissable); resurrection sickness counts as a debuff
+		{
+			struct FShown { FString Name; float Left; bool bBad; int32 Icon; EHLAura Type; };
+			TArray<FShown> Buffs, Debuffs;
+			static TMap<FString, int32> IconByName;
+			if (!IconByName.Num()) for (const FHLAbility& Ab : FHLData::Get().Abilities) if (Ab.Icon >= 0) IconByName.Add(Ab.Name, Ab.Icon);
+			for (const FHLAura& A : P->Auras)
+			{
+				if (A.Stat == TEXT("none") && !A.bHarmful && A.Name != TEXT("Recently Bandaged")) continue;
+				const int32* Ic = IconByName.Find(A.Name);
+				(A.bHarmful ? Debuffs : Buffs).Add({ A.Name, A.Remaining, A.bHarmful, Ic ? *Ic : -1, A.Type });
+			}
+			if (Gm.Player.SicknessUntil > Gm.Now) Debuffs.Add({ TEXT("Resurrection Sickness"), (float)(Gm.Player.SicknessUntil - Gm.Now), true, -1, EHLAura::Buff });
+			// newly arrived debuffs get a centred notice
+			{
+				TSet<FString> CurDebuffs;
+				for (const FShown& D : Debuffs) CurDebuffs.Add(D.Name);
+				for (const FShown& D : Debuffs)
+					if (!SeenDebuffs.Contains(D.Name))
+					{
+						const bool bStun = D.Type == EHLAura::Stun;
+						Gm.Notice(bStun ? FString::Printf(TEXT("%s!"), *D.Name) : D.Name, bStun ? FLinearColor(1, 0.75f, 0.2f) : FLinearColor(1, 0.35f, 0.3f));
+					}
+				SeenDebuffs = MoveTemp(CurDebuffs);
+			}
+			auto Glyph = [](EHLAura T, bool bBad) { return T == EHLAura::Stun ? TEXT("!") : T == EHLAura::Slow ? TEXT("~") : T == EHLAura::Dot ? TEXT("x") : T == EHLAura::Hot ? TEXT("+") : T == EHLAura::Shield ? TEXT("o") : bBad ? TEXT("-") : TEXT("^"); };
+			auto Icon = [&](float X, float Y, float Sz, const FShown& A)
+			{
+				const FLinearColor Edge = A.bBad ? FLinearColor(0.9f, 0.12f, 0.08f) : FLinearColor(0.75f, 0.62f, 0.3f);
+				Rc(X - 1, Y - 1, Sz + 2, Sz + 2, Edge);
+				++Layer; LastKind = 1;
+				Rc(X, Y, Sz, Sz, A.bBad ? FLinearColor(0.28f, 0.05f, 0.05f) : FLinearColor(0.07f, 0.16f, 0.28f));
+				if (const FSlateBrush* IB = A.Icon >= 0 ? HLSkillBrush(A.Icon) : nullptr) Img(X + 1, Y + 1, Sz - 2, Sz - 2, IB);
+				else TxC(X + Sz * 0.5f, Y + Sz * 0.5f - Sz * 0.36f, Glyph(A.Type, A.bBad), FMath::RoundToInt(Sz * 0.5f), A.bBad ? FLinearColor(1, 0.6f, 0.5f) : FLinearColor(0.7f, 0.85f, 1), true);
+				const int32 S = FMath::CeilToInt32(A.Left);
+				const FString T = S >= 60 ? FString::Printf(TEXT("%dm"), (S + 59) / 60) : FString::Printf(TEXT("%ds"), S);
+				TxC(X + Sz * 0.5f, Y + Sz + 1, T, 8, A.bBad && A.Left < 3 ? FLinearColor(1, 0.5f, 0.4f) : ColWhite);
+				if (Hover(X, Y, Sz, Sz)) { TipText = FString::Printf(TEXT("%s\n%s, %s left"), *A.Name, A.bBad ? TEXT("Harmful") : TEXT("Helpful"), *T); TipPos = Mouse; }
+			};
+			float Ax = 16;
+			for (const FShown& A : Buffs) { Icon(Ax, 84, 22, A); Ax += 26; }
+			Ax = 16;
+			const float Dy = Buffs.Num() ? 120 : 84;
+			for (const FShown& A : Debuffs)
+			{
+				Icon(Ax, Dy, 30, A);
+				Tx(Ax + 36, Dy + 7, A.Name, 9, FLinearColor(1, 0.55f, 0.45f), true);
+						Ax += 42 + TW(A.Name, 9, true) + 8;
+					}
+					AuraBottom = Debuffs.Num() ? Dy + 44 : Buffs.Num() ? 120 : 80;
+				}
 	// target
 	if (FHLUnit* T = Gm.Unit(P->TargetId))
 	{
@@ -855,12 +990,12 @@ void SHLGameUI::DrawHud() const
 		const FHLSim& S = Gm.Sims[Gm.Party[i]];
 		if (const FHLUnit* U = Gm.Unit(S.UnitId))
 		{
-			const float Y = 110 + i * 48;
+			const float Y = FMath::Max(110.f, AuraBottom + 6) + i * 48;
 			UnitFrame(16, Y, 170, *U, false);
 			if (Hover(16, Y, 170, 40) && bLClick) { bLClick = false; Gm.TargetUnit(U->Id); }
 		}
 	}
-	if (Gm.Party.Num()) { Block(16, 110 + Gm.Party.Num() * 48, 90, 18); if (Btn(16, 110 + Gm.Party.Num() * 48, 90, 18, TEXT("Leave party"), true, 9)) Gm.LeaveParty(); }
+	if (Gm.Party.Num()) { const float Ly = FMath::Max(110.f, AuraBottom + 6) + Gm.Party.Num() * 48; Block(16, Ly, 90, 18); if (Btn(16, Ly, 90, 18, TEXT("Leave party"), true, 9)) Gm.LeaveParty(); }
 
 	// action bar
 	const float Bs = 42, Bw = 12 * (Bs + 4), Bx = FMath::Max(456.f, (VS.X - Bw) * 0.5f - 20), By = VS.Y - 66;
@@ -930,6 +1065,15 @@ void SHLGameUI::DrawHud() const
 	if (P->bAutoAttack && T && !T->bDead) TxC(VS.X * 0.5f, VS.Y - 96, P->bRangedAuto ? TEXT("Auto-shot") : TEXT("Attacking"), 9, FLinearColor(1, 0.5f, 0.4f));
 	// error and banner text
 	if (Gm.Now < Gm.ErrorUntil) TxC(VS.X * 0.5f, 170, Gm.ErrorText, 14, FLinearColor(1, 0.2f, 0.15f, FMath::Min(1.f, Gm.ErrorUntil - (float)Gm.Now)), true);
+	if (Gm.Now < Gm.NoticeUntil && !Gm.NoticeText.IsEmpty())
+	{
+		// pops in a size larger, settles, fades at the end
+		const float Age = (float)(Gm.Now - Gm.NoticeStart), A = FMath::Clamp((float)(Gm.NoticeUntil - Gm.Now) * 1.5f, 0.f, 1.f);
+		const int32 Sz = Age < 0.15f ? 26 : 22;
+		const float Y = VS.Y * 0.30f, Wd = TW(Gm.NoticeText, Sz, true) + 40;
+		RRc(VS.X * 0.5f - Wd * 0.5f, Y - 6, Wd, Sz * 1.6f + 8, FLinearColor(0, 0, 0, 0.45f * A), 10);
+		TxC(VS.X * 0.5f, Y, Gm.NoticeText, Sz, FLinearColor(Gm.NoticeColor.R, Gm.NoticeColor.G, Gm.NoticeColor.B, A), true);
+	}
 	if (Gm.Now < Gm.BannerUntil)
 	{
 		const float A = FMath::Min(1.f, Gm.BannerUntil - (float)Gm.Now);
@@ -1278,20 +1422,25 @@ void SHLGameUI::DrawChat() const
 		for (int32 k = Lines.Num() - 1; k >= 0 && Cy >= Y; --k)
 		{
 			if (Skip > 0) { --Skip; continue; }
-			// item links in quality colours
+			// item links ([Name], from anyone) in quality colours; hovering one shows its card
 			const FString& Ln = Lines[k];
-			int32 Open = INDEX_NONE;
-			if (L.SimIdx < 0 && L.From.IsEmpty() && Ln.FindChar('[', Open) && Ln.Find(TEXT("]")) > Open)
+			float Lx = X + 6;
+			int32 From = 0;
+			while (From < Ln.Len())
 			{
-				const int32 Close = Ln.Find(TEXT("]"), ESearchCase::CaseSensitive, ESearchDir::FromStart, Open);
-				const FString Pre = Ln.Left(Open), Link = Ln.Mid(Open, Close - Open + 1), Post = Ln.Mid(Close + 1);
+				const int32 Open = Ln.Find(TEXT("["), ESearchCase::CaseSensitive, ESearchDir::FromStart, From);
+				const int32 Close = Open == INDEX_NONE ? INDEX_NONE : Ln.Find(TEXT("]"), ESearchCase::CaseSensitive, ESearchDir::FromStart, Open);
+				if (Close == INDEX_NONE) { Tx(Lx, Cy, Ln.Mid(From), 10, C); break; }
+				const FString Pre = Ln.Mid(From, Open - From), Link = Ln.Mid(Open, Close - Open + 1);
 				const FHLItem* It = FHLData::Get().ItemByName(Link.Mid(1, Link.Len() - 2));
-				Tx(X + 6, Cy, Pre, 10, C);
-				Tx(X + 6 + TW(Pre, 10), Cy, Link, 10, It ? HLQualityColor(It->Q) : C);
-				Tx(X + 6 + TW(Pre + Link, 10), Cy, Post, 10, C);
-				if (It && Hover(X + 6 + TW(Pre, 10), Cy, TW(Link, 10), LH)) { TipItem = It; TipPos = Mouse; }
+				Tx(Lx, Cy, Pre, 10, C); Lx += TW(Pre, 10);
+				const float Lw = TW(Link, 10);
+				const bool bHot = It && Hover(Lx, Cy, Lw, LH);
+				Tx(Lx, Cy, Link, 10, It ? (bHot ? HLQualityColor(It->Q) * 1.3f : HLQualityColor(It->Q)) : C);
+				if (bHot) { TipItem = It; TipPos = Mouse; Rc(Lx, Cy + LH - 3, Lw, 1, HLQualityColor(It->Q)); }
+				Lx += Lw;
+				From = Close + 1;
 			}
-			else Tx(X + 6, Cy, Ln, 10, C);
 			if (k == 0 && L.SimIdx >= 0 && Hover(X, Cy, W, LH) && bLClick && !L.From.IsEmpty()) { bLClick = false; bTyping = true; ChatEntry = FString::Printf(TEXT("/w %s "), *L.From); }
 			Cy -= LH;
 		}

@@ -10,7 +10,7 @@
    ],
    "zmin": 0.0,
    "pivot": "floor",
-   "source": "01-brick-rubble.glb",
+   "source": "art/props/01-brick-rubble.glb",
    "tris": 2206,
    "min": [
     -0.77,
@@ -32,7 +32,7 @@
    ],
    "zmin": 0.0,
    "pivot": "floor",
-   "source": "02-red-car.glb",
+   "source": "art/props/02-red-car.glb",
    "tris": 5262,
    "min": [
     -6.5,
@@ -54,7 +54,7 @@
    ],
    "zmin": -1.92,
    "pivot": "ceiling",
-   "source": "03-ceiling-hive-cluster.glb",
+   "source": "art/props/03-ceiling-hive-cluster.glb",
    "tris": 3003,
    "min": [
     -0.55,
@@ -76,7 +76,7 @@
    ],
    "zmin": 0.0,
    "pivot": "floor",
-   "source": "04-hive-tendril-bundle.glb",
+   "source": "art/props/04-hive-tendril-bundle.glb",
    "tris": 3016,
    "min": [
     -0.5,
@@ -98,7 +98,7 @@
    ],
    "zmin": 0.0,
    "pivot": "floor",
-   "source": "05-shipping-crates.glb",
+   "source": "art/props/05-shipping-crates.glb",
    "tris": 1700,
    "min": [
     -0.61,
@@ -120,7 +120,7 @@
    ],
    "zmin": 0.0,
    "pivot": "floor",
-   "source": "06-coffee-sacks.glb",
+   "source": "art/props/06-coffee-sacks.glb",
    "tris": 1762,
    "min": [
     -0.85,
@@ -142,7 +142,7 @@
    ],
    "zmin": 0.0,
    "pivot": "floor",
-   "source": "07-ballroom-furniture.glb",
+   "source": "art/props/07-ballroom-furniture.glb",
    "tris": 3987,
    "min": [
     -0.36,
@@ -164,7 +164,7 @@
    ],
    "zmin": -0.86,
    "pivot": "wall",
-   "source": "08-max-factor-sign.glb",
+   "source": "art/props/08-max-factor-sign.glb",
    "tris": 1225,
    "min": [
     0.0,
@@ -186,7 +186,7 @@
    ],
    "zmin": -0.87,
    "pivot": "wall",
-   "source": "09-hollywood-gun-shop-sign.glb",
+   "source": "art/props/09-hollywood-gun-shop-sign.glb",
    "tris": 1376,
    "min": [
     -0.0,
@@ -208,7 +208,7 @@
    ],
    "zmin": -1.11,
    "pivot": "wall",
-   "source": "10a-blade-tailor.glb",
+   "source": "art/props/10a-blade-tailor.glb",
    "tris": 1566,
    "min": [
     -0.0,
@@ -230,7 +230,7 @@
    ],
    "zmin": -1.12,
    "pivot": "wall",
-   "source": "10b-blade-photo.glb",
+   "source": "art/props/10b-blade-photo.glb",
    "tris": 1598,
    "min": [
     -0.0,
@@ -252,7 +252,7 @@
    ],
    "zmin": -0.45,
    "pivot": "wall",
-   "source": "11-fascia-sign.glb",
+   "source": "art/props/11-fascia-sign.glb",
    "tris": 626,
    "min": [
     0.0,
@@ -274,7 +274,7 @@
    ],
    "zmin": -0.89,
    "pivot": "wall",
-   "source": "12-neon-variant.glb",
+   "source": "art/props/12-neon-variant.glb",
    "tris": 1500,
    "min": [
     -0.0,
@@ -296,7 +296,7 @@
    ],
    "zmin": -1.61,
    "pivot": "ceiling",
-   "source": "13-under-canopy-marquee.glb",
+   "source": "art/props/13-under-canopy-marquee.glb",
    "tris": 2470,
    "min": [
     -1.39,
@@ -318,7 +318,7 @@
    ],
    "zmin": 0.0,
    "pivot": "floor",
-   "source": "arc-lamp-a.glb",
+   "source": "art/props/arc-lamp-a.glb",
    "tris": 13852,
    "min": [
     -1.19,
@@ -340,7 +340,7 @@
    ],
    "zmin": 0.0,
    "pivot": "floor",
-   "source": "arc-lamp-b.glb",
+   "source": "art/props/arc-lamp-b.glb",
    "tris": 14364,
    "min": [
     -0.83,
@@ -362,7 +362,7 @@
    ],
    "zmin": 0.0,
    "pivot": "floor",
-   "source": "chandelier-on-rubble.glb",
+   "source": "art/props/chandelier-on-rubble.glb",
    "tris": 21028,
    "min": [
     -1.23,
@@ -384,7 +384,7 @@
    ],
    "zmin": 0.0,
    "pivot": "floor",
-   "source": "chevrolet-coach-blue.glb",
+   "source": "art/props/chevrolet-coach-blue.glb",
    "tris": 18600,
    "min": [
     -2.1,
@@ -406,7 +406,7 @@
    ],
    "zmin": 0.0,
    "pivot": "floor",
-   "source": "chevrolet-coach.glb",
+   "source": "art/props/chevrolet-coach.glb",
    "tris": 18817,
    "min": [
     -2.1,
@@ -428,7 +428,7 @@
    ],
    "zmin": 0.0,
    "pivot": "floor",
-   "source": "coffee-tin-sierra-valley.glb",
+   "source": "art/props/coffee-tin-sierra-valley.glb",
    "tris": 7838,
    "min": [
     -0.11,
@@ -450,7 +450,7 @@
    ],
    "zmin": 0.0,
    "pivot": "floor",
-   "source": "coffee-tin-suncrest.glb",
+   "source": "art/props/coffee-tin-suncrest.glb",
    "tris": 5626,
    "min": [
     -0.08,
@@ -472,7 +472,7 @@
    ],
    "zmin": 0.0,
    "pivot": "floor",
-   "source": "collapsed-shed.glb",
+   "source": "art/props/collapsed-shed.glb",
    "tris": 19090,
    "min": [
     -2.0,
@@ -494,7 +494,7 @@
    ],
    "zmin": 0.0,
    "pivot": "floor",
-   "source": "delivery-van-hollywoodland.glb",
+   "source": "art/props/delivery-van-hollywoodland.glb",
    "tris": 18107,
    "min": [
     -2.3,
@@ -516,7 +516,7 @@
    ],
    "zmin": 0.0,
    "pivot": "floor",
-   "source": "fallen-utility-pole.glb",
+   "source": "art/props/fallen-utility-pole.glb",
    "tris": 11693,
    "min": [
     -3.0,
@@ -538,7 +538,7 @@
    ],
    "zmin": 0.0,
    "pivot": "floor",
-   "source": "film-can-alt.glb",
+   "source": "art/props/film-can-alt.glb",
    "tris": 9738,
    "min": [
     -0.21,
@@ -560,7 +560,7 @@
    ],
    "zmin": 0.0,
    "pivot": "floor",
-   "source": "film-can.glb",
+   "source": "art/props/film-can.glb",
    "tris": 9819,
    "min": [
     -0.25,
@@ -582,7 +582,7 @@
    ],
    "zmin": 0.0,
    "pivot": "floor",
-   "source": "film-canister-octagonal.glb",
+   "source": "art/props/film-canister-octagonal.glb",
    "tris": 9846,
    "min": [
     -0.24,
@@ -604,7 +604,7 @@
    ],
    "zmin": 0.0,
    "pivot": "floor",
-   "source": "fire-escape-brick-wall.glb",
+   "source": "art/props/fire-escape-brick-wall.glb",
    "tris": 21943,
    "min": [
     -3.12,
@@ -626,7 +626,7 @@
    ],
    "zmin": 0.0,
    "pivot": "floor",
-   "source": "fire-escape-ladder.glb",
+   "source": "art/props/fire-escape-ladder.glb",
    "tris": 12195,
    "min": [
     -1.92,
@@ -648,7 +648,7 @@
    ],
    "zmin": 0.0,
    "pivot": "floor",
-   "source": "fire-escape.glb",
+   "source": "art/props/fire-escape.glb",
    "tris": 16996,
    "min": [
     -3.37,
@@ -670,7 +670,7 @@
    ],
    "zmin": 0.0,
    "pivot": "floor",
-   "source": "ford-model-a.glb",
+   "source": "art/props/ford-model-a.glb",
    "tris": 19040,
    "min": [
     -1.95,
@@ -692,7 +692,7 @@
    ],
    "zmin": 0.0,
    "pivot": "floor",
-   "source": "hive-claw-arch.glb",
+   "source": "art/props/hive-claw-arch.glb",
    "tris": 10756,
    "min": [
     -0.95,
@@ -714,7 +714,7 @@
    ],
    "zmin": -1.9,
    "pivot": "ceiling",
-   "source": "hive-dripping-membrane.glb",
+   "source": "art/props/hive-dripping-membrane.glb",
    "tris": 11238,
    "min": [
     -0.16,
@@ -736,7 +736,7 @@
    ],
    "zmin": 0.0,
    "pivot": "floor",
-   "source": "hive-egg-cluster-pale.glb",
+   "source": "art/props/hive-egg-cluster-pale.glb",
    "tris": 14613,
    "min": [
     -0.93,
@@ -758,7 +758,7 @@
    ],
    "zmin": 0.0,
    "pivot": "floor",
-   "source": "hive-egg-cluster.glb",
+   "source": "art/props/hive-egg-cluster.glb",
    "tris": 14371,
    "min": [
     -0.96,
@@ -780,7 +780,7 @@
    ],
    "zmin": 0.0,
    "pivot": "floor",
-   "source": "hive-goo-puddle.glb",
+   "source": "art/props/hive-goo-puddle.glb",
    "tris": 5510,
    "min": [
     -0.92,
@@ -802,7 +802,7 @@
    ],
    "zmin": 0.0,
    "pivot": "floor",
-   "source": "hive-spire-tall.glb",
+   "source": "art/props/hive-spire-tall.glb",
    "tris": 14162,
    "min": [
     -0.75,
@@ -824,7 +824,7 @@
    ],
    "zmin": 0.0,
    "pivot": "floor",
-   "source": "hive-spire.glb",
+   "source": "art/props/hive-spire.glb",
    "tris": 14158,
    "min": [
     -0.69,
@@ -846,7 +846,7 @@
    ],
    "zmin": 0.0,
    "pivot": "floor",
-   "source": "luxury-sedan-burgundy.glb",
+   "source": "art/props/luxury-sedan-burgundy.glb",
    "tris": 19199,
    "min": [
     -2.45,
@@ -868,7 +868,7 @@
    ],
    "zmin": 0.0,
    "pivot": "floor",
-   "source": "model-t-pickup.glb",
+   "source": "art/props/model-t-pickup.glb",
    "tris": 18753,
    "min": [
     -1.9,
@@ -890,7 +890,7 @@
    ],
    "zmin": 0.0,
    "pivot": "floor",
-   "source": "mossy-rock-outcrop.glb",
+   "source": "art/props/mossy-rock-outcrop.glb",
    "tris": 7867,
    "min": [
     -0.95,
@@ -912,7 +912,7 @@
    ],
    "zmin": 0.0,
    "pivot": "floor",
-   "source": "newsreel-truck-starlight-wreck.glb",
+   "source": "art/props/newsreel-truck-starlight-wreck.glb",
    "tris": 23856,
    "min": [
     -2.75,
@@ -934,7 +934,7 @@
    ],
    "zmin": 0.0,
    "pivot": "floor",
-   "source": "newsreel-truck-wrecked.glb",
+   "source": "art/props/newsreel-truck-wrecked.glb",
    "tris": 23700,
    "min": [
     -2.6,
@@ -956,7 +956,7 @@
    ],
    "zmin": 0.0,
    "pivot": "floor",
-   "source": "newsreel-truck.glb",
+   "source": "art/props/newsreel-truck.glb",
    "tris": 24510,
    "min": [
     -2.6,
@@ -978,7 +978,7 @@
    ],
    "zmin": 0.0,
    "pivot": "floor",
-   "source": "police-call-box-alt.glb",
+   "source": "art/props/police-call-box-alt.glb",
    "tris": 8980,
    "min": [
     -0.2,
@@ -1000,7 +1000,7 @@
    ],
    "zmin": 0.0,
    "pivot": "floor",
-   "source": "police-call-box-blue.glb",
+   "source": "art/props/police-call-box-blue.glb",
    "tris": 7183,
    "min": [
     -0.19,
@@ -1022,7 +1022,7 @@
    ],
    "zmin": 0.0,
    "pivot": "floor",
-   "source": "police-call-box.glb",
+   "source": "art/props/police-call-box.glb",
    "tris": 8506,
    "min": [
     -0.19,
@@ -1044,7 +1044,7 @@
    ],
    "zmin": 0.0,
    "pivot": "floor",
-   "source": "ruined-stone-wall.glb",
+   "source": "art/props/ruined-stone-wall.glb",
    "tris": 14610,
    "min": [
     -1.03,
@@ -1066,7 +1066,7 @@
    ],
    "zmin": 0.0,
    "pivot": "floor",
-   "source": "rusted-sedan-wreck.glb",
+   "source": "art/props/rusted-sedan-wreck.glb",
    "tris": 18788,
    "min": [
     -2.2,
@@ -1088,7 +1088,7 @@
    ],
    "zmin": 0.0,
    "pivot": "floor",
-   "source": "sandbag-wall.glb",
+   "source": "art/props/sandbag-wall.glb",
    "tris": 11628,
    "min": [
     -1.26,
@@ -1110,7 +1110,7 @@
    ],
    "zmin": 0.0,
    "pivot": "floor",
-   "source": "scrap-pile.glb",
+   "source": "art/props/scrap-pile.glb",
    "tris": 14063,
    "min": [
     -0.95,
@@ -1132,7 +1132,7 @@
    ],
    "zmin": 0.0,
    "pivot": "floor",
-   "source": "sedan-wreck-charred.glb",
+   "source": "art/props/sedan-wreck-charred.glb",
    "tris": 19345,
    "min": [
     -2.3,
@@ -1154,7 +1154,7 @@
    ],
    "zmin": -0.7,
    "pivot": "wall",
-   "source": "sign-silver-screen-cafe.glb",
+   "source": "art/props/sign-silver-screen-cafe.glb",
    "tris": 10845,
    "min": [
     -0.0,
@@ -1176,7 +1176,7 @@
    ],
    "zmin": -0.52,
    "pivot": "wall",
-   "source": "sign-starlight-drug.glb",
+   "source": "art/props/sign-starlight-drug.glb",
    "tris": 6139,
    "min": [
     -0.0,
@@ -1198,7 +1198,7 @@
    ],
    "zmin": -1.0,
    "pivot": "wall",
-   "source": "sign-sunset-haberdashery.glb",
+   "source": "art/props/sign-sunset-haberdashery.glb",
    "tris": 10333,
    "min": [
     0.0,
@@ -1220,7 +1220,7 @@
    ],
    "zmin": 0.0,
    "pivot": "floor",
-   "source": "stairway-landing.glb",
+   "source": "art/props/stairway-landing.glb",
    "tris": 16929,
    "min": [
     -2.72,
@@ -1242,7 +1242,7 @@
    ],
    "zmin": 0.0,
    "pivot": "floor",
-   "source": "street-lamp-double.glb",
+   "source": "art/props/street-lamp-double.glb",
    "tris": 11033,
    "min": [
     -0.46,
@@ -1264,7 +1264,7 @@
    ],
    "zmin": 0.0,
    "pivot": "floor",
-   "source": "streetcar-track-curve.glb",
+   "source": "art/props/streetcar-track-curve.glb",
    "tris": 5135,
    "min": [
     -3.04,
@@ -1286,7 +1286,7 @@
    ],
    "zmin": 0.0,
    "pivot": "floor",
-   "source": "streetcar-track-straight.glb",
+   "source": "art/props/streetcar-track-straight.glb",
    "tris": 3346,
    "min": [
     -3.32,
@@ -1308,7 +1308,7 @@
    ],
    "zmin": 0.0,
    "pivot": "floor",
-   "source": "theater-facade-riviera.glb",
+   "source": "art/props/theater-facade-riviera.glb",
    "tris": 26632,
    "min": [
     -2.32,
@@ -1330,7 +1330,7 @@
    ],
    "zmin": 0.0,
    "pivot": "floor",
-   "source": "triage-tent.glb",
+   "source": "art/props/triage-tent.glb",
    "tris": 14769,
    "min": [
     -2.2,
@@ -1352,7 +1352,7 @@
    ],
    "zmin": 0.0,
    "pivot": "floor",
-   "source": "trolley-wire-pole.glb",
+   "source": "art/props/trolley-wire-pole.glb",
    "tris": 7132,
    "min": [
     -2.82,
@@ -1374,7 +1374,7 @@
    ],
    "zmin": 0.0,
    "pivot": "floor",
-   "source": "tudor-car-green.glb",
+   "source": "art/props/tudor-car-green.glb",
    "tris": 19323,
    "min": [
     -2.0,
@@ -1396,7 +1396,7 @@
    ],
    "zmin": 0.0,
    "pivot": "floor",
-   "source": "us-mailbox.glb",
+   "source": "art/props/us-mailbox.glb",
    "tris": 8162,
    "min": [
     -0.34,
@@ -1418,7 +1418,7 @@
    ],
    "zmin": 0.0,
    "pivot": "floor",
-   "source": "wooden-staircase.glb",
+   "source": "art/props/wooden-staircase.glb",
    "tris": 12358,
    "min": [
     -2.92,
@@ -1440,7 +1440,7 @@
    ],
    "zmin": 0.0,
    "pivot": "floor",
-   "source": "wrecked-red-van.glb",
+   "source": "art/props/wrecked-red-van.glb",
    "tris": 18852,
    "min": [
     -2.3,
@@ -1451,6 +1451,1143 @@
     2.3,
     1.2,
     1.65
+   ]
+  },
+  "redcar_pe": {
+   "mesh": "/Game/Props/SM_RedcarPe.SM_RedcarPe",
+   "size": [
+    13.0,
+    2.89,
+    4.2
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/world/models/red-car/redcar-pacific-electric.glb",
+   "tris": 19594,
+   "min": [
+    -6.5,
+    -1.45,
+    -0.0
+   ],
+   "max": [
+    6.5,
+    1.45,
+    4.19
+   ]
+  },
+  "mount_horse": {
+   "mesh": "/Game/Props/SM_MountHorse.SM_MountHorse",
+   "size": [
+    2.4,
+    0.62,
+    1.67
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/world/models/mounts/mount-horse.glb",
+   "tris": 19257,
+   "min": [
+    -1.2,
+    -0.31,
+    0.0
+   ],
+   "max": [
+    1.2,
+    0.31,
+    1.67
+   ]
+  },
+  "mount_scout": {
+   "mesh": "/Game/Props/SM_MountScout.SM_MountScout",
+   "size": [
+    2.1,
+    0.4,
+    0.99
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/world/models/mounts/mount-motorcycle-indian-scout.glb",
+   "tris": 20934,
+   "min": [
+    -1.05,
+    -0.2,
+    -0.0
+   ],
+   "max": [
+    1.05,
+    0.2,
+    0.99
+   ]
+  },
+  "mount_model_a": {
+   "mesh": "/Game/Props/SM_MountModelA.SM_MountModelA",
+   "size": [
+    4.0,
+    1.53,
+    1.82
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/world/models/mounts/mount-ford-model-a.glb",
+   "tris": 18441,
+   "min": [
+    -2.0,
+    -0.77,
+    0.0
+   ],
+   "max": [
+    2.0,
+    0.77,
+    1.82
+   ]
+  },
+  "mount_police": {
+   "mesh": "/Game/Props/SM_MountPolice.SM_MountPolice",
+   "size": [
+    4.0,
+    1.72,
+    1.73
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/world/models/mounts/mount-ford-model-a-police.glb",
+   "tris": 20285,
+   "min": [
+    -2.0,
+    -0.86,
+    -0.0
+   ],
+   "max": [
+    2.0,
+    0.86,
+    1.73
+   ]
+  },
+  "wreck_newsreel": {
+   "mesh": "/Game/Props/SM_WreckNewsreel.SM_WreckNewsreel",
+   "size": [
+    5.5,
+    2.64,
+    2.55
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/world/models/wrecks/wreck-newsreel-truck.glb",
+   "tris": 19000,
+   "min": [
+    -2.75,
+    -1.32,
+    -0.0
+   ],
+   "max": [
+    2.75,
+    1.32,
+    2.55
+   ]
+  },
+  "wreck_overturned": {
+   "mesh": "/Game/Props/SM_WreckOverturned.SM_WreckOverturned",
+   "size": [
+    4.5,
+    1.66,
+    1.77
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/world/models/wrecks/wreck-sedan-overturned.glb",
+   "tris": 22460,
+   "min": [
+    -2.25,
+    -0.83,
+    -0.0
+   ],
+   "max": [
+    2.25,
+    0.83,
+    1.77
+   ]
+  },
+  "wreck_burned": {
+   "mesh": "/Game/Props/SM_WreckBurned.SM_WreckBurned",
+   "size": [
+    4.0,
+    1.88,
+    1.84
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/world/models/wrecks/wreck-model-a-burned.glb",
+   "tris": 20488,
+   "min": [
+    -2.0,
+    -0.94,
+    0.0
+   ],
+   "max": [
+    2.0,
+    0.94,
+    1.84
+   ]
+  },
+  "wreck_hive_truck": {
+   "mesh": "/Game/Props/SM_WreckHiveTruck.SM_WreckHiveTruck",
+   "size": [
+    5.0,
+    2.11,
+    1.84
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/world/models/wrecks/wreck-delivery-truck-hive.glb",
+   "tris": 18020,
+   "min": [
+    -2.5,
+    -1.06,
+    -0.0
+   ],
+   "max": [
+    2.5,
+    1.06,
+    1.84
+   ]
+  },
+  "int_film_cans": {
+   "mesh": "/Game/Props/SM_IntFilmCans.SM_IntFilmCans",
+   "size": [
+    0.36,
+    0.56,
+    0.5
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/world/models/interactables/int-film-can-stack.glb",
+   "tris": 7583,
+   "min": [
+    -0.18,
+    -0.28,
+    -0.0
+   ],
+   "max": [
+    0.18,
+    0.28,
+    0.5
+   ]
+  },
+  "int_film_reel": {
+   "mesh": "/Game/Props/SM_IntFilmReel.SM_IntFilmReel",
+   "size": [
+    0.21,
+    0.4,
+    0.36
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/world/models/interactables/int-film-reel.glb",
+   "tris": 7189,
+   "min": [
+    -0.1,
+    -0.2,
+    0.0
+   ],
+   "max": [
+    0.1,
+    0.2,
+    0.36
+   ]
+  },
+  "int_coffee_tin": {
+   "mesh": "/Game/Props/SM_IntCoffeeTin.SM_IntCoffeeTin",
+   "size": [
+    0.25,
+    0.25,
+    0.32
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/world/models/interactables/int-coffee-tin.glb",
+   "tris": 7602,
+   "min": [
+    -0.13,
+    -0.13,
+    0.0
+   ],
+   "max": [
+    0.13,
+    0.13,
+    0.32
+   ]
+  },
+  "int_arc_lamp": {
+   "mesh": "/Game/Props/SM_IntArcLamp.SM_IntArcLamp",
+   "size": [
+    1.22,
+    0.8,
+    2.2
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/world/models/interactables/int-arc-lamp.glb",
+   "tris": 7431,
+   "min": [
+    -0.61,
+    -0.4,
+    0.0
+   ],
+   "max": [
+    0.61,
+    0.4,
+    2.2
+   ]
+  },
+  "int_callbox": {
+   "mesh": "/Game/Props/SM_IntCallbox.SM_IntCallbox",
+   "size": [
+    0.28,
+    0.28,
+    1.6
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/world/models/interactables/int-police-call-box.glb",
+   "tris": 4478,
+   "min": [
+    -0.14,
+    -0.14,
+    0.0
+   ],
+   "max": [
+    0.14,
+    0.14,
+    1.6
+   ]
+  },
+  "int_mailbox": {
+   "mesh": "/Game/Props/SM_IntMailbox.SM_IntMailbox",
+   "size": [
+    0.51,
+    0.59,
+    1.25
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/world/models/interactables/int-us-mailbox.glb",
+   "tris": 6628,
+   "min": [
+    -0.25,
+    -0.3,
+    -0.0
+   ],
+   "max": [
+    0.25,
+    0.3,
+    1.25
+   ]
+  },
+  "int_scrap": {
+   "mesh": "/Game/Props/SM_IntScrap.SM_IntScrap",
+   "size": [
+    0.94,
+    1.2,
+    0.34
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/world/models/interactables/int-scrap-pile.glb",
+   "tris": 7703,
+   "min": [
+    -0.47,
+    -0.6,
+    0.0
+   ],
+   "max": [
+    0.47,
+    0.6,
+    0.34
+   ]
+  },
+  "int_cocoon": {
+   "mesh": "/Game/Props/SM_IntCocoon.SM_IntCocoon",
+   "size": [
+    0.64,
+    0.95,
+    2.0
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/world/models/interactables/int-captured-usher-cocoon.glb",
+   "tris": 7560,
+   "min": [
+    -0.32,
+    -0.47,
+    0.0
+   ],
+   "max": [
+    0.32,
+    0.47,
+    2.0
+   ]
+  },
+  "egy_column": {
+   "mesh": "/Game/Props/SM_EgyColumn.SM_EgyColumn",
+   "size": [
+    1.5,
+    1.49,
+    7.0
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/world/models/egyptian-interior/egy-lotus-column.glb",
+   "tris": 6470,
+   "min": [
+    -0.75,
+    -0.74,
+    0.0
+   ],
+   "max": [
+    0.75,
+    0.74,
+    7.0
+   ]
+  },
+  "egy_pharaoh": {
+   "mesh": "/Game/Props/SM_EgyPharaoh.SM_EgyPharaoh",
+   "size": [
+    2.14,
+    1.48,
+    3.5
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/world/models/egyptian-interior/egy-pharaoh-statue.glb",
+   "tris": 14755,
+   "min": [
+    -1.07,
+    -0.74,
+    0.0
+   ],
+   "max": [
+    1.07,
+    0.74,
+    3.5
+   ]
+  },
+  "egy_sphinx": {
+   "mesh": "/Game/Props/SM_EgySphinx.SM_EgySphinx",
+   "size": [
+    3.0,
+    1.02,
+    1.74
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/world/models/egyptian-interior/egy-sphinx.glb",
+   "tris": 13416,
+   "min": [
+    -1.5,
+    -0.51,
+    0.0
+   ],
+   "max": [
+    1.5,
+    0.51,
+    1.74
+   ]
+  },
+  "egy_booth": {
+   "mesh": "/Game/Props/SM_EgyBooth.SM_EgyBooth",
+   "size": [
+    1.77,
+    1.86,
+    3.0
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/world/models/egyptian-interior/egy-ticket-booth.glb",
+   "tris": 9949,
+   "min": [
+    -0.89,
+    -0.93,
+    -0.0
+   ],
+   "max": [
+    0.89,
+    0.93,
+    3.0
+   ]
+  },
+  "egy_seats": {
+   "mesh": "/Game/Props/SM_EgySeats.SM_EgySeats",
+   "size": [
+    0.73,
+    4.0,
+    1.03
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/world/models/egyptian-interior/egy-seat-row.glb",
+   "tris": 13489,
+   "min": [
+    -0.37,
+    -2.0,
+    -0.0
+   ],
+   "max": [
+    0.37,
+    2.0,
+    1.03
+   ]
+  },
+  "egy_projector": {
+   "mesh": "/Game/Props/SM_EgyProjector.SM_EgyProjector",
+   "size": [
+    1.02,
+    0.53,
+    1.9
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/world/models/egyptian-interior/egy-projector.glb",
+   "tris": 15469,
+   "min": [
+    -0.51,
+    -0.27,
+    0.0
+   ],
+   "max": [
+    0.51,
+    0.27,
+    1.9
+   ]
+  },
+  "egy_stage": {
+   "mesh": "/Game/Props/SM_EgyStage.SM_EgyStage",
+   "size": [
+    6.29,
+    12.0,
+    7.3
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/world/models/egyptian-interior/egy-proscenium-stage.glb",
+   "tris": 14928,
+   "min": [
+    -3.14,
+    -6.0,
+    0.0
+   ],
+   "max": [
+    3.14,
+    6.0,
+    7.3
+   ]
+  },
+  "egy_wall": {
+   "mesh": "/Game/Props/SM_EgyWall.SM_EgyWall",
+   "size": [
+    1.28,
+    4.0,
+    3.29
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/world/models/egyptian-interior/egy-hieroglyph-wall.glb",
+   "tris": 15176,
+   "min": [
+    -0.64,
+    -2.0,
+    -0.0
+   ],
+   "max": [
+    0.64,
+    2.0,
+    3.29
+   ]
+  },
+  "egy_organ": {
+   "mesh": "/Game/Props/SM_EgyOrgan.SM_EgyOrgan",
+   "size": [
+    1.81,
+    3.11,
+    1.8
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/world/models/egyptian-interior/egy-pipe-organ-console.glb",
+   "tris": 14957,
+   "min": [
+    -0.91,
+    -1.56,
+    0.0
+   ],
+   "max": [
+    0.91,
+    1.56,
+    1.8
+   ]
+  },
+  "sign_h": {
+   "mesh": "/Game/Props/SM_SignH.SM_SignH",
+   "size": [
+    6.31,
+    8.08,
+    13.4
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/world/models/hollywoodland-sign/sign-letter-H.glb",
+   "tris": 6739,
+   "min": [
+    -3.15,
+    -4.04,
+    0.02
+   ],
+   "max": [
+    3.15,
+    4.04,
+    13.36
+   ]
+  },
+  "sign_o": {
+   "mesh": "/Game/Props/SM_SignO.SM_SignO",
+   "size": [
+    4.82,
+    7.52,
+    13.4
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/world/models/hollywoodland-sign/sign-letter-O.glb",
+   "tris": 6959,
+   "min": [
+    -2.41,
+    -3.76,
+    0.0
+   ],
+   "max": [
+    2.41,
+    3.76,
+    13.4
+   ]
+  },
+  "sign_l": {
+   "mesh": "/Game/Props/SM_SignL.SM_SignL",
+   "size": [
+    2.61,
+    7.03,
+    13.4
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/world/models/hollywoodland-sign/sign-letter-L.glb",
+   "tris": 7592,
+   "min": [
+    -1.31,
+    -3.52,
+    0.0
+   ],
+   "max": [
+    1.31,
+    3.52,
+    13.4
+   ]
+  },
+  "sign_y": {
+   "mesh": "/Game/Props/SM_SignY.SM_SignY",
+   "size": [
+    7.54,
+    7.62,
+    13.4
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/world/models/hollywoodland-sign/sign-letter-Y.glb",
+   "tris": 7352,
+   "min": [
+    -3.77,
+    -3.81,
+    0.0
+   ],
+   "max": [
+    3.77,
+    3.81,
+    13.4
+   ]
+  },
+  "sign_w": {
+   "mesh": "/Game/Props/SM_SignW.SM_SignW",
+   "size": [
+    7.82,
+    11.81,
+    13.4
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/world/models/hollywoodland-sign/sign-letter-W.glb",
+   "tris": 7230,
+   "min": [
+    -3.91,
+    -5.91,
+    0.0
+   ],
+   "max": [
+    3.91,
+    5.91,
+    13.4
+   ]
+  },
+  "sign_d": {
+   "mesh": "/Game/Props/SM_SignD.SM_SignD",
+   "size": [
+    5.6,
+    9.03,
+    13.4
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/world/models/hollywoodland-sign/sign-letter-D.glb",
+   "tris": 7468,
+   "min": [
+    -2.8,
+    -4.51,
+    0.0
+   ],
+   "max": [
+    2.8,
+    4.51,
+    13.4
+   ]
+  },
+  "sign_a": {
+   "mesh": "/Game/Props/SM_SignA.SM_SignA",
+   "size": [
+    2.59,
+    9.57,
+    13.4
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/world/models/hollywoodland-sign/sign-letter-A.glb",
+   "tris": 7484,
+   "min": [
+    -1.3,
+    -4.78,
+    0.0
+   ],
+   "max": [
+    1.3,
+    4.78,
+    13.4
+   ]
+  },
+  "sign_n": {
+   "mesh": "/Game/Props/SM_SignN.SM_SignN",
+   "size": [
+    1.75,
+    7.77,
+    13.4
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/world/models/hollywoodland-sign/sign-letter-N.glb",
+   "tris": 7092,
+   "min": [
+    -0.88,
+    -3.89,
+    0.0
+   ],
+   "max": [
+    0.88,
+    3.89,
+    13.4
+   ]
+  },
+  "palm_fan": {
+   "mesh": "/Game/Props/SM_PalmFan.SM_PalmFan",
+   "size": [
+    5.16,
+    5.29,
+    11.0
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/foliage/raw/palm_fan.glb",
+   "foliage": true,
+   "tris": 30000,
+   "min": [
+    -2.57,
+    -2.63,
+    -0.0
+   ],
+   "max": [
+    2.57,
+    2.62,
+    10.89
+   ]
+  },
+  "palm_canary": {
+   "mesh": "/Game/Props/SM_PalmCanary.SM_PalmCanary",
+   "size": [
+    7.64,
+    8.49,
+    9.0
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/foliage/raw/palm_canary.glb",
+   "foliage": true,
+   "tris": 30000,
+   "min": [
+    -3.79,
+    -4.23,
+    -0.05
+   ],
+   "max": [
+    3.82,
+    4.23,
+    8.9
+   ]
+  },
+  "tree_eucalyptus": {
+   "mesh": "/Game/Props/SM_TreeEucalyptus.SM_TreeEucalyptus",
+   "size": [
+    12.11,
+    12.12,
+    13.0
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/foliage/raw/tree_eucalyptus.glb",
+   "foliage": true,
+   "tris": 30000,
+   "min": [
+    -5.85,
+    -5.86,
+    -0.01
+   ],
+   "max": [
+    5.89,
+    5.8,
+    13.0
+   ]
+  },
+  "tree_pepper": {
+   "mesh": "/Game/Props/SM_TreePepper.SM_TreePepper",
+   "size": [
+    4.86,
+    6.87,
+    7.0
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/foliage/raw/tree_pepper.glb",
+   "foliage": true,
+   "tris": 30000,
+   "min": [
+    -2.43,
+    -3.43,
+    -0.05
+   ],
+   "max": [
+    2.43,
+    3.43,
+    6.99
+   ]
+  },
+  "shrub_chaparral": {
+   "mesh": "/Game/Props/SM_ShrubChaparral.SM_ShrubChaparral",
+   "size": [
+    2.47,
+    2.51,
+    1.6
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/foliage/raw/shrub_chaparral.glb",
+   "foliage": true,
+   "tris": 6000,
+   "min": [
+    -1.23,
+    -1.21,
+    -0.0
+   ],
+   "max": [
+    1.22,
+    1.21,
+    1.6
+   ]
+  },
+  "shrub_oleander": {
+   "mesh": "/Game/Props/SM_ShrubOleander.SM_ShrubOleander",
+   "size": [
+    2.44,
+    2.56,
+    2.2
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/foliage/raw/shrub_oleander.glb",
+   "foliage": true,
+   "tris": 6000,
+   "min": [
+    -1.16,
+    -1.27,
+    0.04
+   ],
+   "max": [
+    1.24,
+    1.28,
+    2.19
+   ]
+  },
+  "agave": {
+   "mesh": "/Game/Props/SM_Agave.SM_Agave",
+   "size": [
+    2.25,
+    2.36,
+    1.3
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/foliage/raw/agave.glb",
+   "foliage": true,
+   "tris": 14921,
+   "min": [
+    -1.08,
+    -1.18,
+    -0.02
+   ],
+   "max": [
+    1.09,
+    1.09,
+    1.24
+   ]
+  },
+  "yucca": {
+   "mesh": "/Game/Props/SM_Yucca.SM_Yucca",
+   "size": [
+    2.7,
+    2.78,
+    2.6
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/foliage/raw/yucca.glb",
+   "foliage": true,
+   "tris": 10515,
+   "min": [
+    -1.27,
+    -1.2,
+    -0.03
+   ],
+   "max": [
+    1.25,
+    1.18,
+    2.56
+   ]
+  },
+  "cactus_pear": {
+   "mesh": "/Game/Props/SM_CactusPear.SM_CactusPear",
+   "size": [
+    1.4,
+    1.54,
+    1.4
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/foliage/raw/cactus_pear.glb",
+   "foliage": true,
+   "tris": 9579,
+   "min": [
+    -0.7,
+    -0.77,
+    0.0
+   ],
+   "max": [
+    0.69,
+    0.8,
+    1.33
+   ]
+  },
+  "rock_boulder": {
+   "mesh": "/Game/Props/SM_RockBoulder.SM_RockBoulder",
+   "size": [
+    2.06,
+    1.85,
+    1.4
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/foliage/raw/rock_boulder.glb",
+   "tris": 4144,
+   "min": [
+    -1.01,
+    -0.92,
+    -0.17
+   ],
+   "max": [
+    0.99,
+    0.92,
+    1.33
+   ]
+  },
+  "rock_flat": {
+   "mesh": "/Game/Props/SM_RockFlat.SM_RockFlat",
+   "size": [
+    2.17,
+    1.75,
+    0.6
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/foliage/raw/rock_flat.glb",
+   "tris": 3059,
+   "min": [
+    -1.09,
+    -0.87,
+    0.0
+   ],
+   "max": [
+    1.09,
+    0.89,
+    0.6
+   ]
+  },
+  "grass_dry": {
+   "mesh": "/Game/Props/SM_GrassDry.SM_GrassDry",
+   "size": [
+    0.69,
+    0.8,
+    0.8
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/foliage/models/grass_dry.glb",
+   "foliage": true,
+   "tris": 6,
+   "min": [
+    -0.35,
+    -0.4,
+    -0.0
+   ],
+   "max": [
+    0.35,
+    0.4,
+    0.8
+   ]
+  },
+  "grass_green": {
+   "mesh": "/Game/Props/SM_GrassGreen.SM_GrassGreen",
+   "size": [
+    0.48,
+    0.55,
+    0.55
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/foliage/models/grass_green.glb",
+   "foliage": true,
+   "tris": 6,
+   "min": [
+    -0.24,
+    -0.28,
+    -0.0
+   ],
+   "max": [
+    0.24,
+    0.28,
+    0.55
+   ]
+  },
+  "flower_poppy": {
+   "mesh": "/Game/Props/SM_FlowerPoppy.SM_FlowerPoppy",
+   "size": [
+    0.39,
+    0.45,
+    0.45
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/foliage/models/flower_poppy.glb",
+   "foliage": true,
+   "tris": 6,
+   "min": [
+    -0.19,
+    -0.23,
+    -0.0
+   ],
+   "max": [
+    0.19,
+    0.23,
+    0.45
+   ]
+  },
+  "flower_lupine": {
+   "mesh": "/Game/Props/SM_FlowerLupine.SM_FlowerLupine",
+   "size": [
+    0.61,
+    0.7,
+    0.7
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/foliage/models/flower_lupine.glb",
+   "foliage": true,
+   "tris": 6,
+   "min": [
+    -0.3,
+    -0.35,
+    -0.0
+   ],
+   "max": [
+    0.3,
+    0.35,
+    0.7
+   ]
+  },
+  "flower_daisy": {
+   "mesh": "/Game/Props/SM_FlowerDaisy.SM_FlowerDaisy",
+   "size": [
+    0.35,
+    0.4,
+    0.4
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/foliage/models/flower_daisy.glb",
+   "foliage": true,
+   "tris": 6,
+   "min": [
+    -0.17,
+    -0.2,
+    -0.0
+   ],
+   "max": [
+    0.17,
+    0.2,
+    0.4
+   ]
+  },
+  "flower_mustard": {
+   "mesh": "/Game/Props/SM_FlowerMustard.SM_FlowerMustard",
+   "size": [
+    0.78,
+    0.9,
+    0.9
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/foliage/models/flower_mustard.glb",
+   "foliage": true,
+   "tris": 6,
+   "min": [
+    -0.39,
+    -0.45,
+    -0.0
+   ],
+   "max": [
+    0.39,
+    0.45,
+    0.9
    ]
   }
  }

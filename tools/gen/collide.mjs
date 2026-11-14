@@ -13,7 +13,7 @@ const ID_OF = new Map();
 for (const [id, p] of Object.entries(PROPS)) ID_OF.set(p.mesh, id);
 
 const POSTS = /^(street_lamp|trolley_pole|lamp|post|pole_standing|hydrant|mailbox|clock)/;
-const SKIP = /^(fire_escape|theatre_facade|hive_goo|hive_arch|film_canister|stair_|sign_|rug|puddle|decal)/;
+const SKIP = /^(palm_|egy_stage|fire_escape|theatre_facade|hive_goo|hive_arch|film_canister|stair_|sign_|rug|puddle|decal)/;
 const r2 = (v) => Math.round(v * 100) / 100;
 
 export function propCols(list) {

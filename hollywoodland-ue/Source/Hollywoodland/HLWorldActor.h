@@ -5,6 +5,7 @@
 #include "GameFramework/Actor.h"
 #include "HLGame.h"
 #include "HLEnemies.h"
+#include "HLTerrain.h"
 #include "HLWorldActor.generated.h"
 
 class UStaticMesh;
@@ -17,7 +18,7 @@ class UTextureRenderTarget2D;
 struct FHLUnitVis
 {
 	TWeakObjectPtr<AActor> Actor;
-	TWeakObjectPtr<UStaticMeshComponent> Body, Head, Extra;
+	TWeakObjectPtr<UStaticMeshComponent> Body, Head, Extra, Mount;
 		bool bDeadLook = false, bMountLook = false, bGhostLook = false;
 		// people from the character art (HLCharacter.h); gray-box shapes otherwise
 		bool bHuman = false;
@@ -55,7 +56,18 @@ public:
 	FString SavedJson;
 	// camera (driven by the UI)
 	float CamYaw = -90, CamPitch = 22, CamDist = 14, CamCollideDist = 40;
-	FVector ToWorld(int32 Area, const FVector2D& P, float Z = 0) const;
+	FVector ToWorld(int32 Area, const FVector2D& P, float Z = 0) const; // Z above the ground (terrain included)
+		float GroundZ(int32 Area, const FVector2D& P) const { return Terrain.IsValidIndex(Area) ? Terrain[Area].Height(P) : 0.f; }
+		TArray<FHLTerrain> Terrain; // per area (HLTerrain.h); empty grids indoors
+		static const FVector MountSeat[4];
+		// each area's static geometry: only the one the player is in is drawn (the dungeon's dome sat on the hills' horizon)
+		TArray<TWeakObjectPtr<AActor>> AreaGeo;
+		int32 GeoShownArea = -1;
+		// grass, flowers, shrubs, rocks and trees over the open ground (HLTerrain wildness), instanced per mesh
+		void ScatterFoliage(AActor* Geo, int32 Area);
+		TArray<TWeakObjectPtr<class UInstancedStaticMeshComponent>> FoliageGrass; // grass and flower cards: cull distance by quality
+		// a height-mapped mesh over [Lo, Hi] (area-local metres), ZOff above the terrain
+		class UProceduralMeshComponent* TerrainMesh(AActor* InOwner, int32 Area, const FVector2D& Lo, const FVector2D& Hi, float ZOff, UMaterialInterface* Mat);
 
 	UPROPERTY() TObjectPtr<UCameraComponent> Camera;
 	UPROPERTY() TObjectPtr<UStaticMesh> Cube;
@@ -69,6 +81,8 @@ public:
 	UPROPERTY() TMap<FString, TObjectPtr<UMaterialInstanceDynamic>> GroundMids;
 	UPROPERTY() TArray<TObjectPtr<UMaterialInstanceDynamic>> SkyMids;
 	UPROPERTY() TObjectPtr<class UDirectionalLightComponent> SunLight;
+		UPROPERTY() TObjectPtr<class UMaterialParameterCollection> Ambient; // MPC_HLAmbient: hemisphere ambient in the materials
+		UPROPERTY() TObjectPtr<class UExponentialHeightFogComponent> Fog;    // distance haze outdoors
 	UPROPERTY() TObjectPtr<UMaterialInterface> MatAdd; // additive glow (M_HLAdd)
 	UPROPERTY() TObjectPtr<AActor> FxActor;
 	UPROPERTY() TArray<TObjectPtr<UStaticMeshComponent>> FxPool;
@@ -84,6 +98,9 @@ public:
 	UPROPERTY() TObjectPtr<class USceneCaptureComponent2D> StageCap;
 	UPROPERTY() TObjectPtr<UTextureRenderTarget2D> StageRT;
 	UPROPERTY() TObjectPtr<USceneComponent> StageChar;
+		UPROPERTY() TObjectPtr<UStaticMeshComponent> StageBack; // the backdrop lightens behind darker skin
+		int32 StageSkin = -1;
+		static FLinearColor StageBackColor(int32 Skin); // also the UI frame behind the capture
 
 private:
 	FHLCharRig StageRig;

@@ -8,6 +8,7 @@
 #include "HLCharacter.h"
 #include "HLMusic.h"
 #include "HLSfx.h"
+#include "HLSettings.h"
 
 enum class EHLKind : uint8 { Player, Sim, Mob, Npc };
 enum class EHLAura : uint8 { Dot, Hot, Shield, Stun, Slow, Taunt, Buff };
@@ -60,6 +61,15 @@ private:
 
 struct FHLLoot { const FHLItem* Item = nullptr; int32 Count = 1; };
 
+// a persona's mount name (personas.json) to the mount art AHLWorldActor draws under the rider
+inline uint8 HLMountKind(const FString& Mount)
+{
+	if (Mount.Contains(TEXT("Horse")) || Mount.Contains(TEXT("Thoroughbred"))) return 0;
+	if (Mount.Contains(TEXT("Scout")) || Mount.Contains(TEXT("Harley"))) return 1;
+	if (Mount.Contains(TEXT("Police"))) return 3;
+	return 2;
+}
+
 struct FHLUnit
 {
 	int32 Id = 0;
@@ -68,6 +78,7 @@ struct FHLUnit
 	int32 Level = 1, Area = 0;
 	FVector2D Pos = FVector2D::ZeroVector;
 	float Z = 0, VelZ = 0, Yaw = 0, Scale = 1, MoveMult = 1;
+	float FaceOfs = 0; // visual only: the body turns toward a diagonal / strafe run (degrees on top of Yaw)
 	FLinearColor Color = FLinearColor::Gray;
 	const FHLClass* Cls = nullptr;
 	// stats
@@ -79,6 +90,7 @@ struct FHLUnit
 	// combat
 	int32 TargetId = 0;
 	bool bAutoAttack = false, bDead = false, bSitting = false, bMounted = false, bGhost = false; // ghost: released spirit running back
+	uint8 MountKind = 0; // while bMounted: 0 horse, 1 motorcycle, 2 motor car, 3 police car (HLMountKind)
 	float SwingTimer = 0, GcdUntil = 0, CastStart = 0, CastEnd = 0, CombatUntil = 0, DeadAt = 0, RegenTimer = 0, HopT = 0;
 	const FHLAbility* Casting = nullptr;
 	int32 CastTargetId = 0;
@@ -193,6 +205,7 @@ struct FHLChatLine
 enum class EHLFx : uint8 { Shot, Bolt, Spit, Thrown, Hit, Crit, Nova, Heal, Buff, Shield, LevelUp };
 struct FHLFxEvent { EHLFx Kind = EHLFx::Hit; FString School; int32 SrcId = 0, DstId = 0, Area = 0; FVector2D Pos = FVector2D::ZeroVector; float Radius = 0; };
 struct FHLFloatText { int32 UnitId = 0; FString Text; FLinearColor Color; float Age = 0; bool bCrit = false; };
+struct FHLSpeech { int32 UnitId = 0; FString Text; double Start = 0, Until = 0; bool bYell = false; }; // a balloon over a speaker
 struct FHLAuction { const FHLItem* Item = nullptr; int32 Count = 1, Buyout = 0, SellerIdx = -1, MinBid = 0, Bid = 0; float ExpiresAt = 0; bool bMine = false, bPlayerBid = false; };
 struct FHLRoll { const FHLItem* Item = nullptr; float EndsAt = 0; int32 PlayerChoice = -1; bool bActive = false; };
 struct FHLCensusEvent { FString Text; double Time = 0; };
@@ -367,7 +380,10 @@ public:
 	FString OpenNpcMode;           // "", quest:<id>, vendor, trainer, bank, auction, redcar, inn, prof
 	FString ErrorText; float ErrorUntil = 0;
 	FString BannerText, BannerSub; float BannerUntil = 0; bool bBannerHostile = false;
-	void Error(const FString& T) { if (ErrorText != T || Now > ErrorUntil - 2.0) { Sound2D(TEXT("ui_error")); ErrorBark(T); } ErrorText = T; ErrorUntil = Now + 2.5; }
+		// a short centred notice for things that just happened to you (dazed, stunned, sick); the UI raises most of these itself
+		FString NoticeText; FLinearColor NoticeColor = FLinearColor::White; double NoticeStart = 0, NoticeUntil = 0;
+		void Notice(const FString& T, const FLinearColor& C) { NoticeText = T; NoticeColor = C; NoticeStart = Now; NoticeUntil = Now + 2.2 * FHLSettings::Get().TextHold; }
+	void Error(const FString& T) { if (ErrorText != T || Now > ErrorUntil - 2.0) { Sound2D(TEXT("ui_error")); ErrorBark(T); } ErrorText = T; ErrorUntil = Now + 2.5 * FHLSettings::Get().TextHold; }
 	// spoken lines (HLDialogue.cpp): subtitles from dialogue.json, audio vo_<speaker>_<kind> variant n from vo.json
 	int32 Say(const FHLUnit& Speaker, const FHLNpcDef& Npc, const TCHAR* Kind, int32 Line = -1, bool bChat = true); // returns the line, -1 none
 	void SayQuest(const FHLQuest& Q, const TCHAR* Kind); // vo_<quest>_offer / _progress / _complete from the NPC being talked to
@@ -389,8 +405,10 @@ public:
 	double LowHpBarkAt = -100;
 	int32 NpcClicks = 0; int32 NpcClickUnit = 0; double NpcClickAt = 0;
 	void VoiceAt(const FString& Id, int32 Variant, const FHLUnit* At) { if (SoundQueue.Num() < 256) { FHLSoundEvent E; E.Id = Id; E.Variant = Variant; E.Vol = 1; if (At) { E.Area = At->Area; E.Pos = At->Pos; E.Z = At->Z + 1.6f; E.UnitId = At->Id; } SoundQueue.Add(MoveTemp(E)); } }
-	void Banner(const FString& T, const FString& Sub = FString(), float Dur = 4) { BannerText = T; BannerSub = Sub; BannerUntil = Now + Dur; bBannerHostile = false; }
+	void Banner(const FString& T, const FString& Sub = FString(), float Dur = 4) { BannerText = T; BannerSub = Sub; BannerUntil = Now + Dur * FHLSettings::Get().TextHold; bBannerHostile = false; }
 	TArray<FHLFloatText> Floats;
+		TArray<FHLSpeech> Speech; // newest last; one per speaker
+		void Say(int32 UnitId, const FString& Text, bool bYell = false);
 	FString CurSubzone;
 	// casting an object interaction
 	int32 InteractArea = -1, InteractObj = -1; float InteractEnd = 0, InteractStart = 0; FString InteractLabel;
@@ -400,6 +418,10 @@ public:
 	void TickAuctions();
 	bool BuyAuction(int32 Idx);
 	bool ListAuction(int32 BagIdx, int32 Buyout, float Hours = 1); // hours of play time
+		int32 AuctionDeposit(const FHLItem& It, int32 Count, float Hours) const;
+		// buyers: the chance per market tick (20 s) that someone buys a listing at Each per item, given what else is listed
+		float AuctionDemand(const FHLItem& It, int32 Each) const;
+		float AuctionSellChance(const FHLItem& It, int32 Each, float Hours) const { return 1.f - FMath::Pow(1.f - AuctionDemand(It, Each), Hours * 180.f); }
 	int32 MarketPrice(const FHLItem& It) const;
 	// loot roll
 	FHLRoll Roll;

@@ -8,3 +8,6 @@ $env:HL_IMPORT_STAGE = Join-Path $root 'Saved\BuildStage\stage.json'
 & (Join-Path $EngineRoot 'Engine\Binaries\Win64\UnrealEditor-Cmd.exe') $project "-run=pythonscript" "-script=$py" -unattended -nosplash -AllowCommandletRendering '-DisablePlugins=AllToolsets,Terminal,UnrealCanvasBridge' 2>&1 |
     Tee-Object -FilePath $log | Select-String -Pattern 'Traceback|rror:' | Select-Object -First 40 | ForEach-Object { $_.Line }
 Select-String (Join-Path $root 'Saved\Logs\Hollywoodland.log') -Pattern 'HL_ASSET' | ForEach-Object { $_.Line }
+
+# the master materials get their hemisphere ambient term back (Scripts\PatchAmbient.ps1)
+& (Join-Path $PSScriptRoot 'PatchAmbient.ps1') -EngineRoot $EngineRoot

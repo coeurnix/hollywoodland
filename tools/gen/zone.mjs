@@ -162,7 +162,7 @@ box(196, 344, 262, 352, 9, C.civic, 'Hollywood High School'); box(196, 352, 204,
 box(488, 300, 512, 318, 8, C.civic, 'Hollywood Receiving Hospital'); box(626, 256, 646, 280, 9, C.civic, 'Fire Station No. 27'); box(112, 440, 138, 470, 12, C.civic, 'Blessed Sacrament Church');
 // Wrecks and cover in the back lots
 // wrecks: each prop is its own cover box (the scrap objects sit just south of them)
-const WRECKS = ['wreck_rusted', 'wreck_charred', 'truck_wrecked', 'wreck_van', 'truck_starlight_wreck', 'wreck_charred', 'wreck_rusted', 'truck_wrecked', 'wreck_van'];
+const WRECKS = ['wreck_rusted', 'wreck_charred', 'truck_wrecked', 'wreck_van', 'wreck_newsreel', 'wreck_overturned', 'wreck_burned', 'wreck_hive_truck', 'truck_starlight_wreck'];
 [[650, 276], [676, 290], [702, 272], [352, 340], [388, 372], [330, 396], [672, 352], [718, 384], [820, 352]].forEach(([x, y], i) => propBox(WRECKS[i], x + 3.5, y + 1.5, i % 2 ? 180 : 0, 1, C.wreck));
 [[90, 60], [250, 70], [470, 40], [560, 90], [660, 20], [760, 80], [380, 100], [820, -20], [180, -30]].forEach(([x, y], i) => propBox('rock_mossy', x + 2.5, y + 2.5, (i % 4) * 90, [2.6, 3.4, 2 + (x % 3)].map((v, k) => k === 2 ? v / 0.65 : v), C.hill));
 
@@ -291,20 +291,21 @@ obj('redcar', 'Pacific Electric Red Car', 276, 200, { respawn: 0, big: true });
 // kind -> (index, object) => [prop id, yaw, scale]
 const objRand = rng(11);
 const OBJ_PROPS = {
-  film_can: (i) => [i % 2 ? 'film_can_b' : 'film_can_a', objRand() * 360, 1.4],
-  reel: () => ['film_canister', objRand() * 360, 1.4],
-  coffee_tin: (i) => [i % 3 ? 'coffee_tin_a' : 'coffee_tin_b', objRand() * 360, 2.5],
-  arc_lamp: (i, o) => [i % 2 ? 'arc_lamp_b' : 'arc_lamp_a', o.y < 200 ? 90 : -90, 1],
+  // the art/world interactables (int_*) mix in with the older Rodin props
+  film_can: (i) => (i % 3 === 2 ? ['int_film_cans', objRand() * 360, 1.3] : [i % 2 ? 'film_can_b' : 'film_can_a', objRand() * 360, 1.4]),
+  reel: () => ['int_film_reel', objRand() * 360, 1.6],
+  coffee_tin: (i) => (i % 3 === 0 ? ['int_coffee_tin', objRand() * 360, 1.5] : ['coffee_tin_a', objRand() * 360, 2.5]),
+  arc_lamp: (i, o) => (i % 3 === 2 ? ['int_arc_lamp', o.y < 200 ? 90 : -90, 1.1] : [i % 2 ? 'arc_lamp_b' : 'arc_lamp_a', o.y < 200 ? 90 : -90, 1]),
   spire: () => ['hive_spire', objRand() * 360, [1.8, 1.8, 3.7]],
   egg: () => ['hive_eggs', objRand() * 360, 0.75],
   spread_egg: () => ['hive_eggs_pale', objRand() * 360, 0.7],
   boss_egg: () => ['hive_eggs', objRand() * 360, 0.9],
   egg_sac: () => ['hive_eggs_pale', 0, [1.6, 1.6, 1.9]],
-  callbox: (i) => [['callbox', 'callbox_blue', 'callbox_alt'][i % 3], -90, 1],
-  scrap: () => ['scrap_pile', objRand() * 360, 0.8],
-  mailbox: () => ['mailbox', 90, 1],
-  redcar: () => ['red_car', 0, 1],
-  usher: () => ['hive_tendrils', objRand() * 360, 1.1],
+  callbox: (i) => [['callbox', 'callbox_blue', 'int_callbox'][i % 3], -90, 1],
+  scrap: (i) => (i % 2 ? ['int_scrap', objRand() * 360, 1.1] : ['scrap_pile', objRand() * 360, 0.8]),
+  mailbox: () => ['int_mailbox', 90, 1],
+  redcar: () => ['redcar_pe', 0, 1],
+  usher: () => ['int_cocoon', objRand() * 360, 1.1],
 };
 function dressObjects(list) {
   const seen = {};
@@ -327,6 +328,20 @@ for (let x = -96; x < 900; x += 36) {
   const px = x + 18;
   // the pole stands at the -x end of the mesh (bounds centred): shift it so the base is on the kerb and the arm reaches over the street
   if (!onCross(px) && !nearNpc(px, 189.4) && (px < 250 || px > 310)) deco('trolley_pole', px, 189.4 + 2.6, 90);
+}
+// fan palms: the boulevard's south sidewalk (between the lamps) and both sides of Highland
+// (a canary palm, scaled down to fit the sidewalk, every third)
+const palm = (x, y, i) => (i % 3 === 2 ? deco('palm_canary', x, y, objRand() * 360, 0.62 + objRand() * 0.12) : deco('palm_fan', x, y, objRand() * 360, 0.85 + objRand() * 0.3));
+let palmN = 0;
+for (let x = -96; x < 900; x += 36) if (!onCross(x + 18, 5) && !nearNpc(x + 18, 212.4, 6)) palm(x + 18, 212.4, palmN++);
+for (let y = -80; y < 540; y += 30) for (const x of [288.6, 307.4]) if ((y < 180 || y > 222) && !nearNpc(x, y, 6)) palm(x, y, palmN++);
+// the HOLLYWOODLAND sign on the north ridge (past the hive ring, on the hills HLTerrain raises there), facing the city
+{
+  const S = 2, GAP = 4, letters = 'HOLLYWOODLAND'.split('');
+  const w = (c) => (PROPS_TABLE[`sign_${c.toLowerCase()}`].max[1] - PROPS_TABLE[`sign_${c.toLowerCase()}`].min[1]) * S;
+  const total = letters.reduce((a, c) => a + w(c) + GAP, -GAP);
+  let x = 300 - total / 2;
+  letters.forEach((c, i) => { deco(`sign_${c.toLowerCase()}`, x + w(c) / 2, -700 + [0, 5, 2][i % 3], 90, S, -2); x += w(c) + GAP; });
 }
 // theatre marquees (hung from the front wall) and a theatre front on Vine
 deco('marquee', 718, 186 + 1.4, 90, 1, 6.2);                   // Pantages
@@ -372,7 +387,13 @@ const zone = {
 const W = (x0, y0, x1, y1, h = 9) => box(x0, y0, x1, y1, h, C.interior);
 W(16, -4, 20, 260); W(100, -4, 104, 260); W(16, -4, 104, 0); W(16, 256, 104, 260);          // outer walls
 for (const y of [42, 86, 170, 204]) { W(20, y, 54, y + 4); W(66, y, 100, y + 4); }           // dividers with a 12 m door at x 54-66
-for (let r = 0; r < 5; r++) { box(26, 100 + r * 13, 52, 103 + r * 13, 1.4, C.seat); box(68, 100 + r * 13, 94, 103 + r * 13, 1.4, C.seat); } // seat rows (line-of-sight cover)
+// seat rows (line-of-sight cover): each box draws as six art/world seat rows facing the stage
+const SEAT_S = [1.3, 1.08, 1.25];
+for (let r = 0; r < 5; r++) for (const x0 of [26, 68]) {
+  const y = 101.5 + r * 13, xs = [0, 1, 2, 3, 4, 5].map((k) => x0 + 2.17 + k * 4.33);
+  box(x0, 100 + r * 13, x0 + 26, 103 + r * 13, 1.4, C.seat, '', { prop: placement('egy_seats', xs[0], y, 90, SEAT_S) });
+  for (const x of xs.slice(1)) deco('egy_seats', x, y, 90, SEAT_S);
+}
 box(30, 236, 90, 252, 0.3, [0.3, 0.25, 0.2], 'Stage', { solid: false });
 box(24, 4, 28, 36, 6, C.landmark); box(92, 4, 96, 36, 6, C.landmark);
 const dcamp = (mob, count, x, y, r, o = {}) => camps.push({ id: `dcamp_${String(++campN).padStart(2, '0')}`, mob, count, x, y, r, ...o });
@@ -397,6 +418,16 @@ for (const [x, y] of [[24, 40], [96, 40], [24, 84], [96, 84], [24, 168], [96, 16
 for (const [x, y] of [[88, 12], [32, 52], [92, 196], [30, 214], [90, 246]]) deco('hive_eggs_pale', x, y, objRand() * 360, 0.8);
 deco('crates', 26, 190, 0); deco('crates', 94, 186, 90); deco('film_canister', 30, 186, 0, 1.2); deco('chandelier_rubble', 60, 118, 0, 1.2);
 deco('hive_tendrils', 50, 246, 0, 2); deco('hive_tendrils', 70, 246, 180, 2);
+// the theatre itself (art/world Egyptian kit): sphinxes along the forecourt path, pharaohs at the pylons, the box office,
+// lotus columns down the lobby, hieroglyph panels on the auditorium walls, the projector, the organ and the proscenium
+deco('egy_sphinx', 47, 16, 0); deco('egy_sphinx', 73, 16, 180); deco('egy_sphinx', 47, 30, 0); deco('egy_sphinx', 73, 30, 180);
+deco('egy_pharaoh', 32, 36, -90); deco('egy_pharaoh', 88, 36, -90);
+deco('egy_booth', 78, 36, -90);
+for (const y of [52, 64, 76]) { deco('egy_column', 23, y, 0); deco('egy_column', 97, y, 0); }
+for (const y of [94, 112, 138, 162, 214, 228]) { deco('egy_wall', 20.7, y, 0); deco('egy_wall', 99.3, y, 180); }
+deco('egy_projector', 46, 190, 90, 1.2);
+deco('egy_organ', 84, 230, 90);
+deco('egy_stage', 60, 252.6, -90, [1.25, 1.6, 1.2]);
 
 const dungeon = {
   id: 'dng_egyptian', name: 'The Egyptian Theatre', min: [0, -10], size: [120, 280], cell: 2, offset: [3000, 0], sky: [0.05, 0.04, 0.06], floor: [0.2, 0.17, 0.15], floor_kind: 'Theatre', dungeon: true,

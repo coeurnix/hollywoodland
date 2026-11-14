@@ -89,6 +89,8 @@ void FHLSettings::Save() const
 	O->SetBoolField(TEXT("plates"), bNameplates);
 	O->SetBoolField(TEXT("float"), bFloatText);
 	O->SetBoolField(TEXT("help"), bHelpOnStart);
+	O->SetBoolField(TEXT("facecam"), bFaceCamera);
+	O->SetNumberField(TEXT("hold"), TextHold);
 	O->SetNumberField(TEXT("q"), Quality);
 	O->SetNumberField(TEXT("shadows"), Shadows);
 	O->SetNumberField(TEXT("view"), ViewDist);
@@ -117,6 +119,8 @@ void FHLSettings::Load()
 		if (O->TryGetBoolField(TEXT("plates"), b)) S.bNameplates = b;
 		if (O->TryGetBoolField(TEXT("float"), b)) S.bFloatText = b;
 		if (O->TryGetBoolField(TEXT("help"), b)) S.bHelpOnStart = b;
+		if (O->TryGetBoolField(TEXT("facecam"), b)) S.bFaceCamera = b;
+		if (O->TryGetNumberField(TEXT("hold"), D)) S.TextHold = FMath::Clamp((float)D, 1.f, 3.f);
 		if (O->TryGetNumberField(TEXT("q"), D)) S.Quality = FMath::Clamp((int32)D, 0, 3);
 		if (O->TryGetNumberField(TEXT("shadows"), D)) S.Shadows = FMath::Clamp((int32)D, 0, 2);
 		if (O->TryGetNumberField(TEXT("view"), D)) S.ViewDist = FMath::Clamp((float)D, 0.6f, 1.5f);

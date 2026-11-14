@@ -181,6 +181,8 @@ bool FHLData::Load(FString& Err)
 			M.Hp = N(O, TEXT("hp"), 1); M.Dmg = N(O, TEXT("dmg"), 1); M.Armor = N(O, TEXT("armor"), 1); M.Social = N(O, TEXT("social")); M.Speed = N(O, TEXT("speed"), 6.5);
 			M.Swing = N(O, TEXT("swing"), 2); M.Scale = N(O, TEXT("scale"), 1); M.Respawn = N(O, TEXT("respawn"), 90);
 			M.bAggressive = B(O, TEXT("aggressive"), true); M.bFlees = B(O, TEXT("flees")); M.bRanged = B(O, TEXT("ranged")); M.bMoney = B(O, TEXT("money"), true); M.bGuard = B(O, TEXT("guard"));
+			// the first few levels are neutral (yellow): they only fight back, so a new player is never ambushed
+			if (M.LevelMin <= 3 && M.Rank == TEXT("normal")) M.bAggressive = false;
 			M.Color = Col(O, TEXT("color"));
 			for (const FString& Id : SA(O, TEXT("abilities"))) if (const FHLAbility* Ab = Ability(Id)) M.Abilities.Add(Ab);
 			for (const FString& Id : SA(O, TEXT("junk"))) if (const FHLItem* It = Item(Id)) M.Junk.Add(It);

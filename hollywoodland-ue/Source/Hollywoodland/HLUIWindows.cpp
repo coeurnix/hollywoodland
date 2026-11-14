@@ -30,7 +30,7 @@ void SHLGameUI::DrawCharacter() const
 {
 	FHLGame& Gm = G();
 	const bool bDoll = FHLChars::Get().Ready();
-	if (!Win(TEXT("char"), FString::Printf(TEXT("%s  -  Level %d %s"), *Gm.Player.Name, Gm.PlayerUnit()->Level, *Gm.Player.Cls->Name), bDoll ? 420 : 330, bDoll ? 500 : 470, bChar, 260, 110)) return;
+	if (!Win(TEXT("char"), FString::Printf(TEXT("%s  -  Level %d %s"), *Gm.Player.Name, Gm.PlayerUnit()->Level, *Gm.Player.Cls->Name), bDoll ? 650 : 560, bDoll ? 410 : 400, bChar, 220, 110)) return;
 	const FHLUnit& U = *Gm.PlayerUnit();
 	auto Slot = [&](int32 i, float X, float Y, float S)
 	{
@@ -48,39 +48,50 @@ void SHLGameUI::DrawCharacter() const
 		}
 		return It;
 	};
-	float Y;
-	if (bDoll)
-	{
-		// paper doll: clothes down the sides, the figure in the middle, weapons under it
-		const float S = 40, Step = 46, Cw = 400, Pw = 196, Ph = 6 * Step - 6;
-		for (int32 i = 0; i < 6; ++i) Slot(i, WX, WY + i * Step, S);
-		for (int32 i = 6; i < 9; ++i) Slot(i, WX + Cw - S, WY + (i - 6) * Step, S);
-		const FHLCharLook L = FHLChars::Get().LookFor(Gm, U);
-		DrawPreview(WX + (Cw - Pw) * 0.5f, WY, Pw, Ph, L, TEXT("Idle"));
-		for (int32 i = 9; i < 12; ++i) Slot(i, WX + Cw * 0.5f - S * 1.5f - 6 + (i - 9) * Step, WY + Ph + 8, S);
-		Y = WY + Ph + 8 + S + 12;
-	}
-	else
-	{
-		for (int32 i = 0; i < 12; ++i)
+		// left: the equipment (paper doll when the character art is loaded, a list otherwise)
+		const float LeftW = bDoll ? 380 : 290;
 		{
-			const float Ry = WY + i * 28;
-			const FHLItem* It = Slot(i, WX, Ry, 26);
-			Tx(WX + 32, Ry + 5, It ? It->Name : FString(EquipNames[i]), 10, It ? HLQualityColor(It->Q) : ColDim);
+			const float Top = Section(WX, WY, LeftW, 362, TEXT("Equipment"));
+			if (bDoll)
+			{
+				// clothes down the sides, the figure in the middle, weapons under it
+				const float S = 40, Step = 46, Cw = LeftW - 20, Pw = 196, Ph = 6 * Step - 6 - 40;
+				const float X0 = WX + 10;
+				for (int32 i = 0; i < 6; ++i) Slot(i, X0, Top + i * Step * 0.86f, S);
+				for (int32 i = 6; i < 9; ++i) Slot(i, X0 + Cw - S, Top + (i - 6) * Step * 0.86f, S);
+				const FHLCharLook L = FHLChars::Get().LookFor(Gm, U);
+				DrawPreview(X0 + (Cw - Pw) * 0.5f, Top, Pw, Ph, L, TEXT("Idle"));
+				for (int32 i = 9; i < 12; ++i) Slot(i, X0 + Cw * 0.5f - S * 1.5f - 6 + (i - 9) * Step, Top + Ph + 8, S);
+			}
+			else
+				for (int32 i = 0; i < 12; ++i)
+				{
+					const float Ry = Top + i * 27;
+					const FHLItem* It = Slot(i, WX + 8, Ry, 25);
+					Tx(WX + 40, Ry + 5, It ? It->Name : FString(EquipNames[i]), 10, It ? HLQualityColor(It->Q) : ColDim);
+				}
 		}
-		Y = WY + 12 * 28 + 6;
+		// right: attributes, combat, progress
+		const float RX = WX + LeftW + 10, RW = (bDoll ? 650 : 560) - 20 - LeftW - 10;
+		float Y = Section(RX, WY, RW, 124, TEXT("Attributes"));
+		int32 Row = 0;
+		for (int32 i = 0; i < HL_NUM_STATS; ++i, ++Row) StatRow(RX + 6, Y + Row * 16, RW - 12, HLStatNames[i], FString::FromInt(U.Stats[i]), Row);
+		StatRow(RX + 6, Y + Row * 16, RW - 12, TEXT("Armour"), FString::FromInt((int32)U.Armor), Row); ++Row;
+		Y = Section(RX, WY + 132, RW, 92, TEXT("Combat"));
+		const float AP = U.AttackPower / 14 * U.WeaponSpeed;
+		StatRow(RX + 6, Y, RW - 12, TEXT("Damage"), FString::Printf(TEXT("%d - %d"), (int32)(U.WeaponMin + AP), (int32)(U.WeaponMax + AP)), 0);
+		StatRow(RX + 6, Y + 16, RW - 12, TEXT("Speed"), FString::Printf(TEXT("%.1f s"), U.WeaponSpeed), 1);
+		StatRow(RX + 6, Y + 32, RW - 12, TEXT("Critical strike"), FString::Printf(TEXT("%.1f%%"), U.Crit * 100), 2);
+		StatRow(RX + 6, Y + 48, RW - 12, TEXT("Dodge"), FString::Printf(TEXT("%.1f%%"), U.Dodge * 100), 3);
+		Y = Section(RX, WY + 232, RW, 130, TEXT("Record"));
+		Row = 0;
+		StatRow(RX + 6, Y + Row * 16, RW - 12, TEXT("Kills"), FString::FromInt(Gm.Player.Kills), Row); ++Row;
+		StatRow(RX + 6, Y + Row * 16, RW - 12, TEXT("Deaths"), FString::FromInt(Gm.Player.Deaths), Row); ++Row;
+		StatRow(RX + 6, Y + Row * 16, RW - 12, TEXT("Time played"), FString::Printf(TEXT("%d min"), (int32)(Gm.Player.PlayedS / 60)), Row); ++Row;
+		if (Gm.Player.Salvage > 0) { StatRow(RX + 6, Y + Row * 16, RW - 12, TEXT("Salvaging"), FString::Printf(TEXT("%d / 75"), Gm.Player.Salvage), Row); ++Row; }
+		if (Gm.Player.Guns > 0) { StatRow(RX + 6, Y + Row * 16, RW - 12, TEXT("Gunsmithing"), FString::Printf(TEXT("%d / 75"), Gm.Player.Guns), Row); ++Row; }
+		if (const int32* Rep = Gm.Player.Rep.Find(TEXT("fac_lapd"))) { StatRow(RX + 6, Y + Row * 16, RW - 12, TEXT("LAPD"), FString::Printf(TEXT("%d / 3000"), *Rep), Row); ++Row; }
 	}
-	const float Cx = WX + (bDoll ? 205 : 160);
-	for (int32 i = 0; i < HL_NUM_STATS; ++i) Tx(i < 3 ? WX : Cx, Y + (i % 3) * 15, FString::Printf(TEXT("%s: %d"), HLStatNames[i], U.Stats[i]), 10, ColWhite);
-	Tx(Cx, Y + 30, FString::Printf(TEXT("Armour: %d"), (int32)U.Armor), 10, ColWhite);
-	Y += 50;
-	Tx(WX, Y, FString::Printf(TEXT("Damage: %d - %d  (%.1f s)"), (int32)(U.WeaponMin + U.AttackPower / 14 * U.WeaponSpeed), (int32)(U.WeaponMax + U.AttackPower / 14 * U.WeaponSpeed), U.WeaponSpeed), 10, ColWhite);
-	Tx(Cx, Y, FString::Printf(TEXT("Crit: %.1f%%  Dodge: %.1f%%"), U.Crit * 100, U.Dodge * 100), 10, ColWhite);
-	Tx(WX, Y + 16, FString::Printf(TEXT("Kills: %d   Deaths: %d   Played: %d min"), Gm.Player.Kills, Gm.Player.Deaths, (int32)(Gm.Player.PlayedS / 60)), 10, ColDim);
-	if (Gm.Player.Salvage > 0) Tx(WX, Y + 32, FString::Printf(TEXT("Salvaging %d / 75 (Apprentice)"), Gm.Player.Salvage), 10, ColDim);
-	if (Gm.Player.Guns > 0) Tx(WX, Y + 48, FString::Printf(TEXT("Gunsmithing %d / 75 (Apprentice)"), Gm.Player.Guns), 10, ColDim);
-	if (const int32* Rep = Gm.Player.Rep.Find(TEXT("fac_lapd"))) Tx(Cx, Y + 32, FString::Printf(TEXT("LAPD: %d / 3000 Neutral"), *Rep), 10, ColDim);
-}
 
 void SHLGameUI::DrawBags() const
 {
@@ -94,7 +105,7 @@ void SHLGameUI::DrawBags() const
 		if (R == 2 || R == 1)
 		{
 			if (Gm.TradeSim >= 0) { if (S.Item && S.Item->Kind != TEXT("quest")) { if (Gm.TradeBag.Contains(i)) Gm.TradeBag.Remove(i); else if (Gm.TradeBag.Num() < 6) Gm.TradeBag.Add(i); } }
-			else if (Gm.OpenNpcMode == TEXT("auction")) { if (S.Item) { int32 Avg = 0, Lo, Hi, Ns; const int32 Each = Gm.PriceStats(*S.Item, Avg, Lo, Hi, Ns) ? FMath::Max(2, (Avg + Gm.MarketPrice(*S.Item)) / 2) : Gm.MarketPrice(*S.Item); Gm.ListAuction(i, Each * S.Count, (float)AuctionHours); } }
+			else if (Gm.OpenNpcMode == TEXT("auction")) { if (S.Item) { int32 Avg = 0, Lo, Hi, Ns; AuctionSellEach = Gm.PriceStats(*S.Item, Avg, Lo, Hi, Ns) ? FMath::Max(2, (Avg + Gm.MarketPrice(*S.Item)) / 2) : Gm.MarketPrice(*S.Item); AuctionSellBag = i; AuctionSellItem = S.Item; } }
 			else if (R == 2) Gm.UseBag(i);
 		}
 	}
@@ -109,17 +120,20 @@ void SHLGameUI::DrawQuestLog() const
 	if (!Gm.Player.Quests.Num()) { Tx(WX, WY, TEXT("No quests. Look for a gold ! over someone's head."), 11, ColDim); return; }
 	SelQuest = FMath::Clamp(SelQuest, 0, Gm.Player.Quests.Num() - 1);
 	const FHLUnit& U = *Gm.PlayerUnit();
+	Section(WX - 4, WY - 6, 208, 392, FString());
+	Section(WX + 206, WY - 6, 334, 392, FString());
 	for (int32 i = 0; i < Gm.Player.Quests.Num(); ++i)
 	{
 		const FHLQuestState& QS = Gm.Player.Quests[i];
 		const float Y = WY + i * 18;
-		if (i == SelQuest) Rc(WX - 4, Y - 1, 200, 17, FLinearColor(0.3f, 0.25f, 0.1f));
+		if (i == SelQuest) RRc(WX - 2, Y - 1, 204, 17, FLinearColor(0.45f, 0.33f, 0.12f, 0.8f), 3);
+		else if (Hover(WX - 4, Y - 1, 200, 17)) RRc(WX - 2, Y - 1, 204, 17, FLinearColor(1, 0.9f, 0.6f, 0.08f), 3);
 		const int32 Diff = QS.Q->Level - U.Level;
 		Tx(WX, Y, FString::Printf(TEXT("[%d%s] %s"), QS.Q->Level, QS.Q->bDungeon ? TEXT("D") : QS.Q->bGroup ? TEXT("+") : TEXT(""), *QS.Q->Name), 10, QS.bComplete ? ColGreen : Diff >= 3 ? ColRed : Diff >= -2 ? FLinearColor(1, 1, 0.2f) : ColDim);
 		if (Hover(WX - 4, Y - 1, 200, 17) && bLClick) { bLClick = false; SelQuest = i; }
 	}
 	const FHLQuestState& QS = Gm.Player.Quests[SelQuest];
-	const float X = WX + 212;
+	const float X = WX + 216;
 	float Y = WY;
 	Tx(X, Y, QS.Q->Name, 13, ColGold, true); Y += 24;
 	Y += TxWrap(X, Y, 320, QS.Q->Text, 10, ColWhite) + 8;
@@ -139,6 +153,7 @@ void SHLGameUI::DrawSpellbook() const
 	for (const FHLAbility* Ab : Gm.Player.Cls->Abilities)
 	{
 		const bool bKnown = Gm.Player.Known.Contains(Ab);
+		RRc(WX - 4, Y - 2, 458, 34, bKnown ? FLinearColor(0.16f, 0.11f, 0.07f, 0.75f) : FLinearColor(0.07f, 0.07f, 0.07f, 0.6f), 4);
 		Rc(WX, Y, 30, 30, bKnown ? FLinearColor(0.4f, 0.2f, 0.12f) : FLinearColor(0.12f, 0.12f, 0.12f));
 		Img(WX + 1, Y + 1, 28, 28, HLSkillBrush(Ab->Icon), bKnown ? FLinearColor::White : FLinearColor(0.35f, 0.35f, 0.35f, 1));
 		Tx(WX + 38, Y, Ab->Name, 11, bKnown ? ColGold : ColDim, true);
@@ -155,9 +170,9 @@ void SHLGameUI::DrawSpellbook() const
 				if (Slot < 11 && Btn(WX + 418, Y + 4, 20, 20, TEXT(">"), true, 9)) Gm.Player.Bar.Swap(Slot, Slot + 1);
 			}
 		}
-		Y += 36;
-	}
-	Tx(WX, Y + 4, TEXT("11 further abilities and ranks are trained from level 14 to 60."), 9, ColDim);
+			Y += 36;
+		}
+		Tx(WX, Y + 4, TEXT("11 further abilities and ranks are trained from level 14 to 60."), 9, ColDim);
 }
 
 void SHLGameUI::DrawPlayerPin(float X, float Y, float Yaw, bool bLabel) const
@@ -911,7 +926,7 @@ void SHLGameUI::DrawNpc() const
 	}
 	if (Gm.OpenNpcMode == TEXT("auction"))
 	{
-		if (!Win(TEXT("npc"), TEXT("Auction House  -  Taft Building"), 700, 500, bOpen, 240, 110)) { Close(); return; }
+		if (!Win(TEXT("npc"), TEXT("Auction House  -  Taft Building"), 700, 590, bOpen, 240, 90)) { Close(); AuctionSellBag = -1; return; }
 		static const TCHAR* Filters[] = { TEXT("All"), TEXT("Usable"), TEXT("Weapons"), TEXT("Armour"), TEXT("Goods"), TEXT("Mine") };
 		for (int32 f = 0; f < 6; ++f) { if (f == AuctionFilter) Rc(WX + f * 70 - 2, WY - 4, 68, 24, ColGold); if (Btn(WX + f * 70, WY - 2, 64, 20, Filters[f], true, 9)) { AuctionFilter = f; AuctionPage = 0; } }
 		// search box
@@ -977,11 +992,60 @@ void SHLGameUI::DrawNpc() const
 			}
 		}
 		Tx(WX, WY + 436, FString::Printf(TEXT("Page %d / %d   (%d auctions, mouse wheel pages)    You have %s."), AuctionPage + 1, Pages, Rows.Num(), *HLMoney(Gm.Player.Cents)), 9, ColDim);
-		Tx(WX, WY + 454, TEXT("Sell: click a bag item. Duration:"), 9, ColDim);
-		static const int32 Hrs[] = { 1, 4, 12 };
-		for (int32 h = 0; h < 3; ++h) { if (AuctionHours == Hrs[h]) Rc(WX + 250 + h * 60 - 2, WY + 450, 56, 22, ColGold); if (Btn(WX + 250 + h * 60, WY + 452, 52, 18, FString::Printf(TEXT("%d h"), Hrs[h]), true, 9)) AuctionHours = Hrs[h]; }
-		Tx(WX + 440, WY + 454, TEXT("Deposit 5% per hour, 5% cut on sale."), 9, ColDim);
-		return;
+				// ---- sell panel: price an item from your bags, see the competition and the odds, then list it
+				const float Sy = WY + 456;
+				RRc(WX - 4, Sy, 688, 106, FLinearColor(0.1f, 0.08f, 0.05f, 0.95f), 5);
+				RRc(WX - 3, Sy + 1, 686, 22, FLinearColor(0.22f, 0.16f, 0.08f, 1.f), 4);
+				Tx(WX + 4, Sy + 4, TEXT("Sell an item"), 10, ColGold, true);
+				Tx(WX + 120, Sy + 5, TEXT("Deposit 5% of value per hour (kept if it doesn't sell), 5% cut on a sale."), 9, ColDim);
+				const bool bHave = AuctionSellItem && Gm.Player.Bag.IsValidIndex(AuctionSellBag) && Gm.Player.Bag[AuctionSellBag].Item == AuctionSellItem;
+				if (!bHave)
+				{
+					AuctionSellBag = -1; AuctionSellItem = nullptr;
+					TxC(WX + 340, Sy + 52, TEXT("Click an item in your bags to price it here."), 11, ColDim);
+					return;
+				}
+				const FHLInvSlot& Sl = Gm.Player.Bag[AuctionSellBag];
+				const FHLItem& It = *Sl.Item;
+				ItemIcon(WX + 2, Sy + 32, 40, &It, Sl.Count);
+				Tx(WX + 50, Sy + 32, It.Name.Left(30), 11, HLQualityColor(It.Q), true);
+				if (Hover(WX + 2, Sy + 32, 220, 40)) { TipItem = &It; TipPos = Mouse; }
+				// the competition
+				int32 Lowest = 0, Listed = 0;
+				for (const FHLAuction& O : Gm.Auctions) if (!O.bMine && O.Item == &It) { const int32 E = O.Buyout / FMath::Max(1, O.Count); Lowest = Listed++ ? FMath::Min(Lowest, E) : E; }
+				int32 Avg = 0, Lo = 0, Hi = 0, Ns = 0;
+				const bool bStats = Gm.PriceStats(It, Avg, Lo, Hi, Ns);
+				Tx(WX + 50, Sy + 50, Listed ? FString::Printf(TEXT("%d listed, lowest %s each"), Listed, *HLMoney(Lowest)) : FString(TEXT("Nobody else is selling one")), 9, ColWhite);
+				Tx(WX + 50, Sy + 64, bStats ? FString::Printf(TEXT("Recent sales: avg %s (%s - %s)"), *HLMoney(Avg), *HLMoney(Lo), *HLMoney(Hi)) : FString::Printf(TEXT("Going rate about %s"), *HLMoney(Gm.MarketPrice(It))), 9, ColDim);
+				// price each
+				const float Px = WX + 270;
+				Tx(Px, Sy + 30, Sl.Count > 1 ? TEXT("Price each") : TEXT("Price"), 9, ColDim);
+				const int32 Step = FMath::Max(1, AuctionSellEach / 20);
+				if (Btn(Px, Sy + 44, 22, 22, TEXT("-"), AuctionSellEach > 1, 12)) AuctionSellEach = FMath::Max(1, AuctionSellEach - Step);
+				RRc(Px + 26, Sy + 44, 92, 22, FLinearColor(0.03f, 0.03f, 0.03f, 1), 3);
+				TxC(Px + 72, Sy + 47, HLMoney(AuctionSellEach), 10, ColWhite);
+				if (Btn(Px + 122, Sy + 44, 22, 22, TEXT("+"), true, 12)) AuctionSellEach += Step;
+				if (Wheel != 0 && Hover(Px, Sy + 40, 150, 30)) { AuctionSellEach = FMath::Max(1, AuctionSellEach + (int32)FMath::Sign(Wheel) * Step); Wheel = 0; }
+				if (Btn(Px, Sy + 72, 70, 20, TEXT("Undercut"), Listed > 0, 9)) AuctionSellEach = FMath::Max(1, Lowest - FMath::Max(1, Lowest / 50));
+				if (Btn(Px + 74, Sy + 72, 70, 20, TEXT("Average"), true, 9)) AuctionSellEach = bStats ? Avg : Gm.MarketPrice(It);
+				// duration and odds
+				const float Dx = WX + 440;
+				static const int32 Hrs[] = { 1, 4, 12 };
+				Tx(Dx, Sy + 30, TEXT("Duration"), 9, ColDim);
+				for (int32 h = 0; h < 3; ++h) { if (AuctionHours == Hrs[h]) Rc(Dx + h * 40 - 2, Sy + 42, 38, 26, ColGold); if (Btn(Dx + h * 40, Sy + 44, 34, 22, FString::Printf(TEXT("%dh"), Hrs[h]), true, 9)) AuctionHours = Hrs[h]; }
+				const float Odds = Gm.AuctionSellChance(It, AuctionSellEach, (float)AuctionHours);
+				const FLinearColor Oc = Odds > 0.7f ? ColGreen : Odds > 0.35f ? FLinearColor(1, 0.85f, 0.3f) : ColRed;
+				Tx(Dx, Sy + 74, FString::Printf(TEXT("Chance a buyer finds it: %d%%"), FMath::RoundToInt(Odds * 100)), 9, Oc, true);
+				if (Hover(Dx, Sy + 72, 200, 16)) { TipText = TEXT("Buyers look for a fair price and take the cheapest copy first.\nA lower price or a longer listing sells more surely; a bidder may still take it at the end."); TipPos = Mouse; }
+				const int32 Dep = Gm.AuctionDeposit(It, Sl.Count, (float)AuctionHours);
+				Tx(Dx + 128, Sy + 30, FString::Printf(TEXT("Deposit %s"), *HLMoney(Dep)), 9, Gm.Player.Cents >= Dep ? ColDim : ColRed);
+				if (Btn(Dx + 128, Sy + 44, 112, 22, TEXT("Create auction"), Gm.Player.Cents >= Dep, 10))
+				{
+					if (Gm.ListAuction(AuctionSellBag, AuctionSellEach * Sl.Count, (float)AuctionHours)) { AuctionSellBag = -1; AuctionSellItem = nullptr; AuctionFilter = 5; }
+					return;
+				}
+				if (Btn(Dx + 128, Sy + 72, 112, 20, TEXT("Clear"), true, 9)) { AuctionSellBag = -1; AuctionSellItem = nullptr; }
+				return;
 	}
 	Gm.OpenNpcMode = TEXT("gossip");
 }
@@ -1174,7 +1238,13 @@ void SHLGameUI::DrawSettings() const
 			Toggle(Y0 + 126, TEXT("Tag every simulated player <AI>"), B);
 			Gm.Player.bShowSim = B;
 		}
-		TxWrap(WX, Y0 + 170, 520, TEXT("The interface already shrinks to fit small windows; the size slider is applied on top of that."), 9, ColDim);
+		Toggle(Y0 + 156, TEXT("Left-drag turns your character with the camera"), St.bFaceCamera);
+		{
+			float H = St.TextHold;
+			bDrag |= Pct(Y0 + 190, TEXT("Message time"), H, 1.f, 3.f, FMath::RoundToInt(H * 100));
+			if (H != St.TextHold) { St.TextHold = FMath::RoundToFloat(H * 4.f) / 4.f; ++St.Version; }
+		}
+		TxWrap(WX, Y0 + 230, 520, TEXT("The interface already shrinks to fit small windows; the size slider is applied on top of that."), 9, ColDim);
 	}
 	else if (SettingsTab == 1)
 	{

@@ -57,6 +57,12 @@ private:
 
 	// ---- toolkit
 	void Rc(float X, float Y, float W, float H, const FLinearColor& C) const;
+		void RRc(float X, float Y, float W, float H, const FLinearColor& C, float Radius = 6) const; // rounded box
+		void Shadow(float X, float Y, float W, float H, float Spread = 8, float Alpha = 0.45f) const; // soft drop shadow under a box
+		// a grouped section inside a window: an inset rounded box with a small gold heading; returns the content top
+		float Section(float X, float Y, float W, float H, const FString& Title) const;
+		// one line of a stat table: label left, value right-aligned, every other row striped
+		void StatRow(float X, float Y, float W, const FString& Label, const FString& Value, int32 Row, const FLinearColor& ValueColor = FLinearColor::White) const;
 	void Img(float X, float Y, float W, float H, const struct FSlateBrush* B, const FLinearColor& Tint = FLinearColor::White) const;
 	void Panel(float X, float Y, float W, float H, const FLinearColor& Bg = FLinearColor(0.03f, 0.03f, 0.04f, 0.88f), const FLinearColor& Border = FLinearColor(0.45f, 0.38f, 0.22f, 1)) const;
 	void Tx(float X, float Y, const FString& S, int32 Size, const FLinearColor& C, bool bBold = false, bool bShadow = true) const;
@@ -121,6 +127,7 @@ private:
 	void DrawMail() const;
 	void DrawCraft() const;
 	mutable int32 SelMail = 0, WhoTab = 0, AuctionHours = 1;
+		mutable int32 AuctionSellBag = -1, AuctionSellEach = 0; mutable const FHLItem* AuctionSellItem = nullptr; // the item being priced
 	mutable bool bSearchFocus = false;
 	mutable FString AuctionSearch;
 	mutable bool bChar = false, bBags = false, bQuests = false, bSpells = false, bMap = false, bWho = false, bInspect = false, bTalents = false, bCraft = false, bMenu = false, bWorldMap = false, bHelp = true;
@@ -144,4 +151,5 @@ private:
 	// world picks collected during the overlay pass
 	struct FPick { int32 UnitId = 0, Area = -1, Obj = -1; FVector2D Pos; float Radius = 0, Depth = 0; };
 	mutable TArray<FPick> Picks;
+		mutable TSet<FString> SeenDebuffs; // for the centred "something happened to you" notice
 };
