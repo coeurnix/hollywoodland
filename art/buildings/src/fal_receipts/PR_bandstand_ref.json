@@ -1,0 +1,23 @@
+{
+  "id": "PR_bandstand_ref",
+  "provider": "fal.ai",
+  "model": "blackforestlabs/flux-3/klein/text-to-image",
+  "prompt": "Game asset reference: an open-air 1930 hotel courtyard bandstand: a low round-cornered wooden stage platform about 6 by 4 metres with white Mission-style arched shell backdrop, string lights, music stands and a toppled drum, green-striped awning fringe. A single isolated object, entire object in frame with margin, clean three-quarter view from slightly above showing the front, plain pure white background, no shadow, no ground, no people, no text. Hand-painted stylized classic early World of Warcraft art style, chunky readable forms, 1930 Los Angeles.",
+  "references": [],
+  "image_size": {
+    "width": 1024,
+    "height": 1024
+  },
+  "seed": 1700,
+  "output": "concept/PR_bandstand_ref.png",
+  "status": "downloaded",
+  "request_id": "01a1d91d-7153-7252-9be4-8bf98d639a45",
+  "elapsed_seconds": 4.63,
+  "timings": {
+    "prompt_expansion": 6.850999852758832e-06,
+    "inference": 0.5269069999994827,
+    "safety_checker": 0.01573362800081668
+  },
+  "width": 1024,
+  "height": 1024
+}

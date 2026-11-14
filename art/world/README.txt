@@ -1,4 +1,4 @@
-Hollywoodland world-piece models (34 models)
+Hollywoodland world-piece models (51 models)
 
 PIPELINE
   1. Reference image: FLUX 3 (fal.ai blackforestlabs/flux-3/text-to-image, 1.5k, white background).
@@ -64,3 +64,13 @@ IN THE REPO
   art/world/models/<category>/*.glb, prompts.json, this README. previews/contact-sheet.png shows the front-left
   view of every model. The full 5-view EEVEE previews (170 PNGs, 88 MB) were left out of git to keep the repo small.
   Not imported into Unreal yet; the props pipeline (tools/propprep.py, Scripts/ImportProps.ps1) is the model to follow.
+
+STREET KIT AND INTERIOR DRESSING (added 2026-11-14 by the building-art pass, art/buildings/HANDOVER.md)
+  Reference: FLUX 3 Klein (art/buildings/src/concept_prompts/batch_props.json, batch_interiors.json).
+  Model: Rodin Gen-2 full generation, Shaded, medium (ledger: art/buildings/rodin_ledger.json).
+  Export: art/buildings/src/export_prop.py (Blender collapse-decimate to the SPEC 3 prop budget, real size, pivot bottom centre,
+  front +Z, base colour 1024 JPEG). Preview: art/buildings/preview/PROPS_contact.png.
+  street     lamp-single 775, semaphore-signal 970, street-name-post 291, fire-hydrant 296, newsstand 1454, bench 776,
+             trash-can 290, palm-planter 1453, film-flat-saloon 774, film-flat-pyramids 776 (5 x 5 m), oil-drums 582,
+             fence-wood 582 (4 m), fence-chainlink 4294 (4 m; opaque, the mesh is painted, Rodin has no alpha), barricade 970
+  interiors  hhb-bandstand 1136 (6 x 6 x 4 m), gym-bleachers 1164 (8 m), gym-backboard 878 (the arm's back end meets the wall)

@@ -1,0 +1,23 @@
+{
+  "id": "PR_lamp_single_ref",
+  "provider": "fal.ai",
+  "model": "blackforestlabs/flux-3/klein/text-to-image",
+  "prompt": "Game asset reference: a 1930 Los Angeles single-globe side-street lamp post: a slender fluted dark green cast-iron post about 4 m tall with an ornate base and one white glass globe on top. A single isolated object, entire object in frame with margin, clean three-quarter view from slightly above showing the front, plain pure white background, no shadow, no ground, no people, no text. Hand-painted stylized classic early World of Warcraft art style, chunky readable forms, slightly exaggerated proportions, 1930 Los Angeles.",
+  "references": [],
+  "image_size": {
+    "width": 1024,
+    "height": 1024
+  },
+  "seed": 1500,
+  "output": "concept/PR_lamp_single_ref.png",
+  "status": "downloaded",
+  "request_id": "01a1d917-ab50-73a1-8f25-edf4188d037b",
+  "elapsed_seconds": 3.6,
+  "timings": {
+    "prompt_expansion": 7.751999874017201e-06,
+    "inference": 0.5551830929980497,
+    "safety_checker": 0.018430333999276627
+  },
+  "width": 1024,
+  "height": 1024
+}

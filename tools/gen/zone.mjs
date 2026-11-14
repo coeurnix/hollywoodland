@@ -383,6 +383,25 @@ deco('tent_triage', 522, 326, 180); deco('tent_triage', 656, 290, 180); deco('te
 deco('chandelier_rubble', 222, 130, 30);
 [[204, 118, 20], [252, 120, 160], [208, 150, 75], [250, 150, 300], [238, 146, 200], [214, 134, 110]].forEach(([x, y, yaw]) => deco('ballroom_furniture', x, y, yaw));
 deco('brick_rubble', 228, 112, 0, 1.4); deco('brick_rubble', 198, 140, 90, 1.2);
+// street kit, back-lot dressing, the bandstand and the gym (art/world street/ and interiors/, 2026-11-14). Each is skipped
+// until Scripts/ImportProps.ps1 has imported it (props.json carries no bounds before that), so the data builds either way.
+const decoIf = (id, ...a) => { if (PROPS_TABLE[id] && PROPS_TABLE[id].max) deco(id, ...a); };
+for (const [a, b] of CROSS) { decoIf('semaphore', a - 1.4, 212.8, 0); decoIf('post_street', b + 1.2, 187.2, 0); }
+for (let x = 40; x <= 880; x += 60) if (!onCross(x)) decoIf('lamp_single', x, 298.6, 0);
+for (const [x, y] of [[60, 212.6], [200, 187.4], [380, 212.6], [560, 187.4], [700, 212.6], [860, 187.4]]) decoIf('hydrant', x, y, 0);
+for (const [x, y, yaw] of [[250, 187.6, 90], [120, 212.6, -90], [360, 212.6, -90], [600, 212.6, -90]]) { decoIf('bench', x, y, yaw); decoIf('trash_can', x + 1.8, y, 0); }
+decoIf('newsstand', 318, 212.8, -90); decoIf('newsstand', 548, 187.4, 90);
+decoIf('film_flat_a', 372, 322, 90); decoIf('film_flat_b', 398, 326, 60);
+for (const [x, y, yaw] of [[360, 350, 0], [706, 300, 30], [826, 368, 0], [664, 300, 0]]) decoIf('oil_drums', x, y, yaw);
+for (let i = 0; i < 4; i++) decoIf('fence_wood', 740, 322 + i * 4, 0);
+for (let i = 0; i < 5; i++) decoIf('fence_chainlink', 602 + i * 4, 404, 90);
+for (const [x, y, yaw] of [[-80, 196, 0], [-80, 204, 0], [880, 196, 180], [880, 204, 180]]) decoIf('barricade', x, y, yaw);
+// the ballroom bandstand against the main range, potted palms; palms at the school door
+decoIf('bandstand', 228, 155, -90); decoIf('palm_planter', 200, 155, 0); decoIf('palm_planter', 256, 155, 0);
+decoIf('palm_planter', 222, 341.5, 0); decoIf('palm_planter', 236, 341.5, 0);
+// the gym: backboards on the wing walls facing each other, bleachers along the north range
+decoIf('backboard', 205.5, 378, 0, 1, 2.2); decoIf('backboard', 252.5, 378, 180, 1, 2.2);
+decoIf('bleachers', 219, 353.3, 90); decoIf('bleachers', 239, 353.3, 90);
 // the Brown Derby kitchen yard and the back lots
 deco('coffee_sacks', 814, 284, 0); deco('coffee_sacks', 766, 306, 90); deco('crates', 812, 296, 0);
 [[592, 300, 0], [700, 360, 90], [828, 330, 0], [372, 300, 90], [456, 360, 0], [612, 408, 90]].forEach(([x, y, yaw]) => deco('crates', x, y, yaw));

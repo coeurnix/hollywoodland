@@ -1733,7 +1733,7 @@
   },
   "session_2026_11_13": {
     "budget": 20.0,
-    "credits_used": 13.0,
+    "credits_used": 14.5,
     "calls": [
       {
         "asset": "HV_WallSeg",
@@ -1989,142 +1989,6 @@
         ]
       },
       {
-        "asset": "PR_bench",
-        "attempt": 1,
-        "task_uuid": "ca18c1eb-f0cb-4a92-8c35-59fa8bd7948f",
-        "options": {
-          "tier": "Gen-2",
-          "geometry_file_format": "glb",
-          "material": "Shaded",
-          "quality": "medium",
-          "mesh_mode": "Raw",
-          "texture_delight": "true"
-        },
-        "reference": "concept/PR_bench_ref.png",
-        "credits_consumed": 0.5,
-        "status": "accepted",
-        "utc": "2026-11-14T08:09:20Z"
-      },
-      {
-        "asset": "PR_trash_can",
-        "attempt": 1,
-        "task_uuid": "aaac7c18-c7c1-4240-830f-04de9ffb1b00",
-        "options": {
-          "tier": "Gen-2",
-          "geometry_file_format": "glb",
-          "material": "Shaded",
-          "quality": "medium",
-          "mesh_mode": "Raw",
-          "texture_delight": "true"
-        },
-        "reference": "concept/PR_trash_can_ref.png",
-        "credits_consumed": 0.5,
-        "status": "accepted",
-        "utc": "2026-11-14T08:09:24Z"
-      },
-      {
-        "asset": "PR_palm_planter",
-        "attempt": 1,
-        "task_uuid": "e60c3974-6b0b-40e7-846a-e69abbd9df37",
-        "options": {
-          "tier": "Gen-2",
-          "geometry_file_format": "glb",
-          "material": "Shaded",
-          "quality": "medium",
-          "mesh_mode": "Raw",
-          "texture_delight": "true"
-        },
-        "reference": "concept/PR_palm_planter_ref.png",
-        "credits_consumed": 0.5,
-        "status": "accepted",
-        "utc": "2026-11-14T08:09:28Z"
-      },
-      {
-        "asset": "PR_film_flat_a",
-        "attempt": 1,
-        "task_uuid": "76efb8a4-26ff-4339-8d0a-347868608ab2",
-        "options": {
-          "tier": "Gen-2",
-          "geometry_file_format": "glb",
-          "material": "Shaded",
-          "quality": "medium",
-          "mesh_mode": "Raw",
-          "texture_delight": "true"
-        },
-        "reference": "concept/PR_film_flat_a_ref.png",
-        "credits_consumed": 0.5,
-        "status": "accepted",
-        "utc": "2026-11-14T08:09:32Z"
-      },
-      {
-        "asset": "PR_film_flat_b",
-        "attempt": 1,
-        "task_uuid": "1826cc5c-584f-4c1e-b233-a7f7ec3f3e5f",
-        "options": {
-          "tier": "Gen-2",
-          "geometry_file_format": "glb",
-          "material": "Shaded",
-          "quality": "medium",
-          "mesh_mode": "Raw",
-          "texture_delight": "true"
-        },
-        "reference": "concept/PR_film_flat_b_ref.png",
-        "credits_consumed": 0.5,
-        "status": "accepted",
-        "utc": "2026-11-14T08:09:36Z"
-      },
-      {
-        "asset": "PR_fence_wood",
-        "attempt": 1,
-        "task_uuid": "bb496618-2b0c-4d8c-931e-9a715903e3ed",
-        "options": {
-          "tier": "Gen-2",
-          "geometry_file_format": "glb",
-          "material": "Shaded",
-          "quality": "medium",
-          "mesh_mode": "Raw",
-          "texture_delight": "true"
-        },
-        "reference": "concept/PR_fence_wood_ref.png",
-        "credits_consumed": 0.5,
-        "status": "accepted",
-        "utc": "2026-11-14T08:09:44Z"
-      },
-      {
-        "asset": "PR_fence_chainlink",
-        "attempt": 1,
-        "task_uuid": "ea859588-45da-468c-8c6f-a5fa8bdb59c5",
-        "options": {
-          "tier": "Gen-2",
-          "geometry_file_format": "glb",
-          "material": "Shaded",
-          "quality": "medium",
-          "mesh_mode": "Raw",
-          "texture_delight": "true"
-        },
-        "reference": "concept/PR_fence_chainlink_ref.png",
-        "credits_consumed": 0.5,
-        "status": "accepted",
-        "utc": "2026-11-14T08:09:48Z"
-      },
-      {
-        "asset": "PR_barricade",
-        "attempt": 1,
-        "task_uuid": "3e85131b-911c-4f7c-9d01-3d78c53b14d5",
-        "options": {
-          "tier": "Gen-2",
-          "geometry_file_format": "glb",
-          "material": "Shaded",
-          "quality": "medium",
-          "mesh_mode": "Raw",
-          "texture_delight": "true"
-        },
-        "reference": "concept/PR_barricade_ref.png",
-        "credits_consumed": 0.5,
-        "status": "accepted",
-        "utc": "2026-11-14T08:09:52Z"
-      },
-      {
         "asset": "PR_lamp_single",
         "attempt": 1,
         "task_uuid": "79408d87-ee35-44e6-b222-8a28c11084b1",
@@ -2245,6 +2109,237 @@
         "credits_consumed": 0.5,
         "status": "downloaded",
         "utc": "2026-11-14T08:09:16Z",
+        "downloads": [
+          "base_basic_shaded.glb",
+          "preview.webp"
+        ]
+      },
+      {
+        "asset": "PR_bench",
+        "attempt": 1,
+        "task_uuid": "ca18c1eb-f0cb-4a92-8c35-59fa8bd7948f",
+        "options": {
+          "tier": "Gen-2",
+          "geometry_file_format": "glb",
+          "material": "Shaded",
+          "quality": "medium",
+          "mesh_mode": "Raw",
+          "texture_delight": "true"
+        },
+        "reference": "concept/PR_bench_ref.png",
+        "credits_consumed": 0.5,
+        "status": "downloaded",
+        "utc": "2026-11-14T08:09:20Z",
+        "downloads": [
+          "base_basic_shaded.glb",
+          "preview.webp"
+        ]
+      },
+      {
+        "asset": "PR_trash_can",
+        "attempt": 1,
+        "task_uuid": "aaac7c18-c7c1-4240-830f-04de9ffb1b00",
+        "options": {
+          "tier": "Gen-2",
+          "geometry_file_format": "glb",
+          "material": "Shaded",
+          "quality": "medium",
+          "mesh_mode": "Raw",
+          "texture_delight": "true"
+        },
+        "reference": "concept/PR_trash_can_ref.png",
+        "credits_consumed": 0.5,
+        "status": "downloaded",
+        "utc": "2026-11-14T08:09:24Z",
+        "downloads": [
+          "base_basic_shaded.glb",
+          "preview.webp"
+        ]
+      },
+      {
+        "asset": "PR_film_flat_a",
+        "attempt": 1,
+        "task_uuid": "76efb8a4-26ff-4339-8d0a-347868608ab2",
+        "options": {
+          "tier": "Gen-2",
+          "geometry_file_format": "glb",
+          "material": "Shaded",
+          "quality": "medium",
+          "mesh_mode": "Raw",
+          "texture_delight": "true"
+        },
+        "reference": "concept/PR_film_flat_a_ref.png",
+        "credits_consumed": 0.5,
+        "status": "downloaded",
+        "utc": "2026-11-14T08:09:32Z",
+        "downloads": [
+          "base_basic_shaded.glb",
+          "preview.webp"
+        ]
+      },
+      {
+        "asset": "PR_film_flat_b",
+        "attempt": 1,
+        "task_uuid": "1826cc5c-584f-4c1e-b233-a7f7ec3f3e5f",
+        "options": {
+          "tier": "Gen-2",
+          "geometry_file_format": "glb",
+          "material": "Shaded",
+          "quality": "medium",
+          "mesh_mode": "Raw",
+          "texture_delight": "true"
+        },
+        "reference": "concept/PR_film_flat_b_ref.png",
+        "credits_consumed": 0.5,
+        "status": "downloaded",
+        "utc": "2026-11-14T08:09:36Z",
+        "downloads": [
+          "base_basic_shaded.glb",
+          "preview.webp"
+        ]
+      },
+      {
+        "asset": "PR_palm_planter",
+        "attempt": 1,
+        "task_uuid": "e60c3974-6b0b-40e7-846a-e69abbd9df37",
+        "options": {
+          "tier": "Gen-2",
+          "geometry_file_format": "glb",
+          "material": "Shaded",
+          "quality": "medium",
+          "mesh_mode": "Raw",
+          "texture_delight": "true"
+        },
+        "reference": "concept/PR_palm_planter_ref.png",
+        "credits_consumed": 0.5,
+        "status": "downloaded",
+        "utc": "2026-11-14T08:09:28Z",
+        "downloads": [
+          "base_basic_shaded.glb",
+          "preview.webp"
+        ]
+      },
+      {
+        "asset": "PR_fence_wood",
+        "attempt": 1,
+        "task_uuid": "bb496618-2b0c-4d8c-931e-9a715903e3ed",
+        "options": {
+          "tier": "Gen-2",
+          "geometry_file_format": "glb",
+          "material": "Shaded",
+          "quality": "medium",
+          "mesh_mode": "Raw",
+          "texture_delight": "true"
+        },
+        "reference": "concept/PR_fence_wood_ref.png",
+        "credits_consumed": 0.5,
+        "status": "downloaded",
+        "utc": "2026-11-14T08:09:44Z",
+        "downloads": [
+          "base_basic_shaded.glb",
+          "preview.webp"
+        ]
+      },
+      {
+        "asset": "PR_fence_chainlink",
+        "attempt": 1,
+        "task_uuid": "ea859588-45da-468c-8c6f-a5fa8bdb59c5",
+        "options": {
+          "tier": "Gen-2",
+          "geometry_file_format": "glb",
+          "material": "Shaded",
+          "quality": "medium",
+          "mesh_mode": "Raw",
+          "texture_delight": "true"
+        },
+        "reference": "concept/PR_fence_chainlink_ref.png",
+        "credits_consumed": 0.5,
+        "status": "downloaded",
+        "utc": "2026-11-14T08:09:48Z",
+        "downloads": [
+          "base_basic_shaded.glb",
+          "preview.webp"
+        ]
+      },
+      {
+        "asset": "PR_barricade",
+        "attempt": 1,
+        "task_uuid": "3e85131b-911c-4f7c-9d01-3d78c53b14d5",
+        "options": {
+          "tier": "Gen-2",
+          "geometry_file_format": "glb",
+          "material": "Shaded",
+          "quality": "medium",
+          "mesh_mode": "Raw",
+          "texture_delight": "true"
+        },
+        "reference": "concept/PR_barricade_ref.png",
+        "credits_consumed": 0.5,
+        "status": "downloaded",
+        "utc": "2026-11-14T08:09:52Z",
+        "downloads": [
+          "base_basic_shaded.glb",
+          "preview.webp"
+        ]
+      },
+      {
+        "asset": "PR_backboard",
+        "attempt": 1,
+        "task_uuid": "f05a79b5-338d-45f8-ae9e-a6a55e7ec77f",
+        "options": {
+          "tier": "Gen-2",
+          "geometry_file_format": "glb",
+          "material": "Shaded",
+          "quality": "medium",
+          "mesh_mode": "Raw",
+          "texture_delight": "true"
+        },
+        "reference": "concept/PR_backboard_ref.png",
+        "credits_consumed": 0.5,
+        "status": "downloaded",
+        "utc": "2026-11-14T08:12:45Z",
+        "downloads": [
+          "base_basic_shaded.glb",
+          "preview.webp"
+        ]
+      },
+      {
+        "asset": "PR_bandstand",
+        "attempt": 1,
+        "task_uuid": "8a79185b-d0bc-4a79-964a-e6766060ac8e",
+        "options": {
+          "tier": "Gen-2",
+          "geometry_file_format": "glb",
+          "material": "Shaded",
+          "quality": "medium",
+          "mesh_mode": "Raw",
+          "texture_delight": "true"
+        },
+        "reference": "concept/PR_bandstand_ref.png",
+        "credits_consumed": 0.5,
+        "status": "downloaded",
+        "utc": "2026-11-14T08:12:37Z",
+        "downloads": [
+          "base_basic_shaded.glb",
+          "preview.webp"
+        ]
+      },
+      {
+        "asset": "PR_bleachers",
+        "attempt": 1,
+        "task_uuid": "f3e32ea0-8d35-4b85-aeee-ebd67ba96802",
+        "options": {
+          "tier": "Gen-2",
+          "geometry_file_format": "glb",
+          "material": "Shaded",
+          "quality": "medium",
+          "mesh_mode": "Raw",
+          "texture_delight": "true"
+        },
+        "reference": "concept/PR_bleachers_ref.png",
+        "credits_consumed": 0.5,
+        "status": "downloaded",
+        "utc": "2026-11-14T08:12:41Z",
         "downloads": [
           "base_basic_shaded.glb",
           "preview.webp"

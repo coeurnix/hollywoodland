@@ -1,0 +1,23 @@
+{
+  "id": "PR_fence_chainlink_ref",
+  "provider": "fal.ai",
+  "model": "blackforestlabs/flux-3/klein/text-to-image",
+  "prompt": "Game asset reference: a straight 4 metre section of chain-link fence: galvanised steel pipe posts and top rail with diamond wire mesh between them, slightly sagging, about 2 m tall. A single isolated object, entire object in frame with margin, clean three-quarter view from slightly above showing the front, plain pure white background, no shadow, no ground, no people, no text. Hand-painted stylized classic early World of Warcraft art style, chunky readable forms, slightly exaggerated proportions, 1930 Los Angeles.",
+  "references": [],
+  "image_size": {
+    "width": 1024,
+    "height": 1024
+  },
+  "seed": 1512,
+  "output": "concept/PR_fence_chainlink_ref.png",
+  "status": "downloaded",
+  "request_id": "01a1d917-bf04-7ce0-b048-5c5f53c9fc18",
+  "elapsed_seconds": 2.68,
+  "timings": {
+    "prompt_expansion": 6.309999662335031e-06,
+    "inference": 0.5115793750010198,
+    "safety_checker": 0.016512205998878926
+  },
+  "width": 1024,
+  "height": 1024
+}

@@ -18,11 +18,11 @@ Check the landmarks with `hollywoodland-ue\Scripts\RunNative.ps1 -HLAuto=veteran
 | SPEC | Item | Status / what is still needed |
 |---|---|---|
 | §8.1 street furniture | double-globe lamp, trolley pole, call box, mailbox, arc lamps, palms, rocks | **covered** by `art/props`, `art/world`, `art/foliage` (Rodin props) |
-| | single-globe side lamp, semaphore signal, street-name post, hydrant, newspaper stand, bench, trash can, palm planter, kerb modules, crossing card | **needed** (small props: use the prop pipeline, below) |
+| | single-globe side lamp, semaphore signal, street-name post, hydrant, newspaper stand, bench, trash can, palm planter, kerb modules, crossing card | **done 2026-11-14** except kerbs and the crossing card (the ground strips already draw kerbs; skipped): `art/world/models/street/`, registered in `tools/propprep.py`, placed in `zone.mjs` with `decoIf()` (appears once `ImportProps.ps1` has run) |
 | §8.2 vehicles | red car, Model A, Model T, Chevrolets, sedans, newsreel truck, delivery van, wrecks | **covered** (`redcar_pe`, `car_*`, `wreck_*`) |
 | | 1920s taxi, Model A roadster | optional |
 | §8.3 back lot | crates, scrap pile, film cans, coffee tins, sandbags, rocks | **covered** |
-| | 2 film-lot flats, oil drums, wooden fence, chain-link fence, barricade | **needed** (props) |
+| | 2 film-lot flats, oil drums, wooden fence, chain-link fence, barricade | **done 2026-11-14** (same pipeline; the chain-link fence is opaque with painted mesh, Rodin has no alpha) |
 | §8.4 hive kit | spires, egg clusters, egg sac, growth | **covered** (`art/enemies/HiveStructures`, `SK_HiveEggSac`) |
 | | `HV_WallSeg` (8×18×16 m, tiling), `HV_WallEnd`, `HV_WallSeg_Outer` (26 m) | **done 2026-11-13** (Rodin full generation, `preview/HV_kit_contact.png`); placed by `hiveRun()` in `zone.mjs` (224 + 318 segments, 8 end posts). Not yet imported/screenshotted: see the session notes below |
 | §7.1 remaining landmarks | Max Factor, Gun Shop, Haberdashery | currently kit storefronts + sign props: acceptable, upgrade optional |
@@ -30,8 +30,8 @@ Check the landmarks with `hollywoodland-ue\Scripts\RunNative.ps1 -HLAuto=veteran
 | | aid stations: Receiving Hospital, Fire Station No. 27, Blessed Sacrament church | **done 2026-11-14**: blocks + FLUX plates sharing `ATL_AID`, placed with `LM()` |
 | §7.3 backdrops | 10 low-budget studio/landmark masses beyond the hive wall (Bowl, Paramount, Columbia, RKO, Chaplin, Poverty Row, Christie, cemetery, La Brea ×2) | **done 2026-11-14**: `BD_*` Rodin full generation, 3000 tris, four per 1024-quadrant atlas (`ATL_BD1–3`), placed with `LM()`; `preview/BD_contact.png`. The unlabelled side boxes next to them stay cubes |
 | §11.1 Egyptian dungeon | dressed by the `art/world` Egyptian kit (sphinxes, columns, seats, stage, projector) | **done 2026-11-14**: `EGY_WallSeg` (+ `_Frieze`, `_Hive`) tile every wall box, `EGY_Pylon12` over the four doorways, `EGY_Colonnade` on the forecourt boxes (`ATL_EGY`, `preview/EGY_contact.png`) |
-| §11.2 ballroom courtyard | the hotel's courtyard now has its landmark wings | bandstand, 6 tables (art/props has ballroom furniture and a chandelier) |
-| §11.3 gym | | needed with Hollywood High |
+| §11.2 ballroom courtyard | the hotel's courtyard now has its landmark wings | **done 2026-11-14**: `bandstand` + 2 `palm_planter` added (`decoIf`); the 6 `ballroom_furniture` sets and the chandelier were already placed |
+| §11.3 gym | | **done 2026-11-14**: gym inside faces (with hive corners) are painted on `LM_HollywoodHigh(_Wing)`; 2 `backboard`, 2 `bleachers` (`decoIf`). No separate `IN_GYM_*` modules or court-lines card |
 | §10 | remaining sign/poster pages, emissive masks | optional |
 | §10.2 ground tileables | | **covered** by `art/textures` (`T_GND_*`) |
 

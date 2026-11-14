@@ -1,0 +1,23 @@
+{
+  "id": "PR_palm_planter_ref",
+  "provider": "fal.ai",
+  "model": "blackforestlabs/flux-3/klein/text-to-image",
+  "prompt": "Game asset reference: a square cast-stone sidewalk planter box with a short young fan palm growing in it, cream stone with simple Art Deco mouldings. A single isolated object, entire object in frame with margin, clean three-quarter view from slightly above showing the front, plain pure white background, no shadow, no ground, no people, no text. Hand-painted stylized classic early World of Warcraft art style, chunky readable forms, slightly exaggerated proportions, 1930 Los Angeles.",
+  "references": [],
+  "image_size": {
+    "width": 1024,
+    "height": 1024
+  },
+  "seed": 1507,
+  "output": "concept/PR_palm_planter_ref.png",
+  "status": "downloaded",
+  "request_id": "01a1d917-b5fc-7d52-a7d3-baa32dc05346",
+  "elapsed_seconds": 2.73,
+  "timings": {
+    "prompt_expansion": 9.033999958774075e-06,
+    "inference": 0.5259694329997728,
+    "safety_checker": 0.017076687001463142
+  },
+  "width": 1024,
+  "height": 1024
+}

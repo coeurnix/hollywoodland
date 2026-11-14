@@ -1,0 +1,23 @@
+{
+  "id": "PR_film_flat_b_ref",
+  "provider": "fal.ai",
+  "model": "blackforestlabs/flux-3/klein/text-to-image",
+  "prompt": "Game asset reference: a free-standing painted film-set scenery flat: a big square wooden canvas panel painted with an Egyptian desert and pyramids landscape, held up from behind by diagonal wooden braces weighted with sandbags. A single isolated object, entire object in frame with margin, clean three-quarter view from slightly above showing the front, plain pure white background, no shadow, no ground, no people, no text. Hand-painted stylized classic early World of Warcraft art style, chunky readable forms, slightly exaggerated proportions, 1930 Los Angeles.",
+  "references": [],
+  "image_size": {
+    "width": 1024,
+    "height": 1024
+  },
+  "seed": 1509,
+  "output": "concept/PR_film_flat_b_ref.png",
+  "status": "downloaded",
+  "request_id": "01a1d917-b944-73f2-93ab-65ef2d071c98",
+  "elapsed_seconds": 2.82,
+  "timings": {
+    "prompt_expansion": 8.062000233621802e-06,
+    "inference": 0.5428516870015301,
+    "safety_checker": 0.015755945998535026
+  },
+  "width": 1024,
+  "height": 1024
+}

@@ -1,0 +1,142 @@
+[
+ {
+  "id": "PR_lamp_single_ref",
+  "output": "concept/PR_lamp_single_ref.png",
+  "image_size": {
+   "width": 1024,
+   "height": 1024
+  },
+  "seed": 1500,
+  "prompt": "Game asset reference: a 1930 Los Angeles single-globe side-street lamp post: a slender fluted dark green cast-iron post about 4 m tall with an ornate base and one white glass globe on top. A single isolated object, entire object in frame with margin, clean three-quarter view from slightly above showing the front, plain pure white background, no shadow, no ground, no people, no text. Hand-painted stylized classic early World of Warcraft art style, chunky readable forms, slightly exaggerated proportions, 1930 Los Angeles."
+ },
+ {
+  "id": "PR_semaphore_ref",
+  "output": "concept/PR_semaphore_ref.png",
+  "image_size": {
+   "width": 1024,
+   "height": 1024
+  },
+  "seed": 1501,
+  "prompt": "Game asset reference: a 1920s Acme semaphore traffic signal on a dark green cast-iron pole: a box head with two folding arm flags painted STOP in red and GO in green, small bells and lamps, ornate base. A single isolated object, entire object in frame with margin, clean three-quarter view from slightly above showing the front, plain pure white background, no shadow, no ground, no people, no text. Hand-painted stylized classic early World of Warcraft art style, chunky readable forms, slightly exaggerated proportions, 1930 Los Angeles."
+ },
+ {
+  "id": "PR_street_post_ref",
+  "output": "concept/PR_street_post_ref.png",
+  "image_size": {
+   "width": 1024,
+   "height": 1024
+  },
+  "seed": 1502,
+  "prompt": "Game asset reference: a 1930 street-name sign post: a slim dark green cast-iron pole with a decorative finial on top and two blank cream enamel name blades crossed at right angles near the top, no lettering. A single isolated object, entire object in frame with margin, clean three-quarter view from slightly above showing the front, plain pure white background, no shadow, no ground, no people, no text. Hand-painted stylized classic early World of Warcraft art style, chunky readable forms, slightly exaggerated proportions, 1930 Los Angeles."
+ },
+ {
+  "id": "PR_hydrant_ref",
+  "output": "concept/PR_hydrant_ref.png",
+  "image_size": {
+   "width": 1024,
+   "height": 1024
+  },
+  "seed": 1503,
+  "prompt": "Game asset reference: a 1930 cast-iron fire hydrant, chunky, painted chrome-yellow with a red cap, two side nozzles with chains. A single isolated object, entire object in frame with margin, clean three-quarter view from slightly above showing the front, plain pure white background, no shadow, no ground, no people, no text. Hand-painted stylized classic early World of Warcraft art style, chunky readable forms, slightly exaggerated proportions, 1930 Los Angeles."
+ },
+ {
+  "id": "PR_newsstand_ref",
+  "output": "concept/PR_newsstand_ref.png",
+  "image_size": {
+   "width": 1024,
+   "height": 1024
+  },
+  "seed": 1504,
+  "prompt": "Game asset reference: a 1930 sidewalk newspaper stand: a small green-painted wooden kiosk with a slanted roof, an open front counter stacked with folded newspapers and magazines, a few posters pinned to the sides. A single isolated object, entire object in frame with margin, clean three-quarter view from slightly above showing the front, plain pure white background, no shadow, no ground, no people, no text. Hand-painted stylized classic early World of Warcraft art style, chunky readable forms, slightly exaggerated proportions, 1930 Los Angeles."
+ },
+ {
+  "id": "PR_bench_ref",
+  "output": "concept/PR_bench_ref.png",
+  "image_size": {
+   "width": 1024,
+   "height": 1024
+  },
+  "seed": 1505,
+  "prompt": "Game asset reference: a 1930 park bench: green-painted wooden slats on ornate black cast-iron legs and armrests, a curved backrest. A single isolated object, entire object in frame with margin, clean three-quarter view from slightly above showing the front, plain pure white background, no shadow, no ground, no people, no text. Hand-painted stylized classic early World of Warcraft art style, chunky readable forms, slightly exaggerated proportions, 1930 Los Angeles."
+ },
+ {
+  "id": "PR_trash_can_ref",
+  "output": "concept/PR_trash_can_ref.png",
+  "image_size": {
+   "width": 1024,
+   "height": 1024
+  },
+  "seed": 1506,
+  "prompt": "Game asset reference: a 1930 galvanised steel street trash can with a domed lid, dented, ribbed sides, grey metal with rust spots. A single isolated object, entire object in frame with margin, clean three-quarter view from slightly above showing the front, plain pure white background, no shadow, no ground, no people, no text. Hand-painted stylized classic early World of Warcraft art style, chunky readable forms, slightly exaggerated proportions, 1930 Los Angeles."
+ },
+ {
+  "id": "PR_palm_planter_ref",
+  "output": "concept/PR_palm_planter_ref.png",
+  "image_size": {
+   "width": 1024,
+   "height": 1024
+  },
+  "seed": 1507,
+  "prompt": "Game asset reference: a square cast-stone sidewalk planter box with a short young fan palm growing in it, cream stone with simple Art Deco mouldings. A single isolated object, entire object in frame with margin, clean three-quarter view from slightly above showing the front, plain pure white background, no shadow, no ground, no people, no text. Hand-painted stylized classic early World of Warcraft art style, chunky readable forms, slightly exaggerated proportions, 1930 Los Angeles."
+ },
+ {
+  "id": "PR_film_flat_a_ref",
+  "output": "concept/PR_film_flat_a_ref.png",
+  "image_size": {
+   "width": 1024,
+   "height": 1024
+  },
+  "seed": 1508,
+  "prompt": "Game asset reference: a free-standing painted film-set scenery flat: a big square wooden canvas panel painted with a Wild West saloon front, held up from behind by diagonal wooden braces weighted with sandbags. A single isolated object, entire object in frame with margin, clean three-quarter view from slightly above showing the front, plain pure white background, no shadow, no ground, no people, no text. Hand-painted stylized classic early World of Warcraft art style, chunky readable forms, slightly exaggerated proportions, 1930 Los Angeles."
+ },
+ {
+  "id": "PR_film_flat_b_ref",
+  "output": "concept/PR_film_flat_b_ref.png",
+  "image_size": {
+   "width": 1024,
+   "height": 1024
+  },
+  "seed": 1509,
+  "prompt": "Game asset reference: a free-standing painted film-set scenery flat: a big square wooden canvas panel painted with an Egyptian desert and pyramids landscape, held up from behind by diagonal wooden braces weighted with sandbags. A single isolated object, entire object in frame with margin, clean three-quarter view from slightly above showing the front, plain pure white background, no shadow, no ground, no people, no text. Hand-painted stylized classic early World of Warcraft art style, chunky readable forms, slightly exaggerated proportions, 1930 Los Angeles."
+ },
+ {
+  "id": "PR_oil_drums_ref",
+  "output": "concept/PR_oil_drums_ref.png",
+  "image_size": {
+   "width": 1024,
+   "height": 1024
+  },
+  "seed": 1510,
+  "prompt": "Game asset reference: two old steel oil drums standing side by side, one red and one dark green, dented and rust-streaked, with bung caps on the lids. A single isolated object, entire object in frame with margin, clean three-quarter view from slightly above showing the front, plain pure white background, no shadow, no ground, no people, no text. Hand-painted stylized classic early World of Warcraft art style, chunky readable forms, slightly exaggerated proportions, 1930 Los Angeles."
+ },
+ {
+  "id": "PR_fence_wood_ref",
+  "output": "concept/PR_fence_wood_ref.png",
+  "image_size": {
+   "width": 1024,
+   "height": 1024
+  },
+  "seed": 1511,
+  "prompt": "Game asset reference: a straight 4 metre section of weathered wooden plank fence on posts, grey-brown boards with a few missing and a hand-painted KEEP OUT scrawl, about 2 m tall. A single isolated object, entire object in frame with margin, clean three-quarter view from slightly above showing the front, plain pure white background, no shadow, no ground, no people, no text. Hand-painted stylized classic early World of Warcraft art style, chunky readable forms, slightly exaggerated proportions, 1930 Los Angeles."
+ },
+ {
+  "id": "PR_fence_chainlink_ref",
+  "output": "concept/PR_fence_chainlink_ref.png",
+  "image_size": {
+   "width": 1024,
+   "height": 1024
+  },
+  "seed": 1512,
+  "prompt": "Game asset reference: a straight 4 metre section of chain-link fence: galvanised steel pipe posts and top rail with diamond wire mesh between them, slightly sagging, about 2 m tall. A single isolated object, entire object in frame with margin, clean three-quarter view from slightly above showing the front, plain pure white background, no shadow, no ground, no people, no text. Hand-painted stylized classic early World of Warcraft art style, chunky readable forms, slightly exaggerated proportions, 1930 Los Angeles."
+ },
+ {
+  "id": "PR_barricade_ref",
+  "output": "concept/PR_barricade_ref.png",
+  "image_size": {
+   "width": 1024,
+   "height": 1024
+  },
+  "seed": 1513,
+  "prompt": "Game asset reference: a street barricade: a striped red-and-white wooden sawhorse barrier with a pile of burlap sandbags stacked in front of it. A single isolated object, entire object in frame with margin, clean three-quarter view from slightly above showing the front, plain pure white background, no shadow, no ground, no people, no text. Hand-painted stylized classic early World of Warcraft art style, chunky readable forms, slightly exaggerated proportions, 1930 Los Angeles."
+ }
+]

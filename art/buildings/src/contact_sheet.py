@@ -17,11 +17,16 @@ for spec in ids:
     aid, n = (spec.split('*') + ['1'])[:2]
     for i in range(int(n)):
         old = set(bpy.data.objects)
-        bpy.ops.import_scene.fbx(filepath=str(R / 'meshes' / f'{aid}.fbx'))
-        ob = next(o for o in set(bpy.data.objects) - old if o.type == 'MESH')
-        tex = R / 'textures' / f"T_{ob.active_material.name.split('.')[0][2:]}.png"
+        if aid.endswith('.glb'):   # a prop GLB (path relative to art/buildings): keep its own texture
+            bpy.ops.import_scene.gltf(filepath=str(R / aid))
+            ob = next(o for o in set(bpy.data.objects) - old if o.type == 'MESH'); ob.parent = None
+            img = next(n.image for n in ob.active_material.node_tree.nodes if n.type == 'TEX_IMAGE')
+        else:
+            bpy.ops.import_scene.fbx(filepath=str(R / 'meshes' / f'{aid}.fbx'))
+            ob = next(o for o in set(bpy.data.objects) - old if o.type == 'MESH')
+            img = bpy.data.images.load(str(R / 'textures' / f"T_{ob.active_material.name.split('.')[0][2:]}.png"), check_existing=True)
         m = bpy.data.materials.new('c'); m.use_nodes = True; nt = m.node_tree
-        t = nt.nodes.new('ShaderNodeTexImage'); t.image = bpy.data.images.load(str(tex), check_existing=True)
+        t = nt.nodes.new('ShaderNodeTexImage'); t.image = img
         em = nt.nodes.new('ShaderNodeEmission'); nt.links.new(t.outputs['Color'], em.inputs['Color'])
         nt.links.new(em.outputs[0], nt.nodes['Material Output'].inputs[0])
         ob.data.materials.clear(); ob.data.materials.append(m)
