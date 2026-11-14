@@ -52,7 +52,9 @@ export const mobs = [
 // ---------- geometry helpers ----------
 const boxes = [], ground = [], labels = [];
 const box = (x0, y0, x1, y1, h, color, label, o = {}) => { const b = { x: x0, y: y0, w: x1 - x0, d: y1 - y0, h, color, label: label || '', ...o }; boxes.push(b); return b; };
-const strip = (x0, y0, x1, y1, color) => ground.push({ x: x0, y: y0, w: x1 - x0, d: y1 - y0, color });
+// ground strips: kind picks the painted ground tile (T_GND_<Kind>, art/textures); colourless kinds stay flat colour
+const KIND_OF = new Map();
+const strip = (x0, y0, x1, y1, color, kind = KIND_OF.get(color)) => ground.push({ x: x0, y: y0, w: x1 - x0, d: y1 - y0, color, ...(kind ? { kind } : {}) });
 function shops(x0, x1, y0, y1, seed, names = []) {
   // a row of storefronts of varying width/height along x
   let x = x0, i = 0;
@@ -114,6 +116,7 @@ const X0 = -140, X1 = 940, Y0 = -140, Y1 = 590;
 // The band beyond the hive wall (out to the second ring at OX0..OY1): blighted ground, roads running on into the next zones
 const OX0 = -320, OX1 = 1120, OY0 = -320, OY1 = 770;
 const blight = [0.2, 0.15, 0.2];
+KIND_OF.set(C.road, 'Asphalt'); KIND_OF.set(C.walk, 'Sidewalk'); KIND_OF.set(blight, 'Blight');
 strip(OX0, OY0, OX1, -106, blight); strip(OX0, 556, OX1, OY1, blight); strip(OX0, -106, -106, 556, blight); strip(906, -106, OX1, 556, blight);
 strip(OX0, 190, X0, 210, C.road); strip(X1, 190, OX1, 210, C.road);   // Hollywood Blvd runs on west to La Brea, east to Gower
 strip(290, OY0, 306, Y0, C.road); strip(290, Y1, 306, OY1, C.road);   // Highland north (Cahuenga Pass) and south (Melrose)
@@ -353,7 +356,7 @@ for (const [x, y, id] of [[226, 372, 'hive_goo'], [300, 364, 'hive_goo'], [140, 
   deco(id, x, y, objRand() * 360, id === 'hive_goo' ? 1.6 : id === 'hive_arch' ? 2.4 : [2, 2, 3]);
 
 const zone = {
-  id: 'zone_hollywood_blvd', name: 'Hollywood Boulevard', min: [OX0 - 10, OY0 - 10], size: [OX1 - OX0 + 20, OY1 - OY0 + 20], cell: 2, offset: [0, 0], sky: [0.42, 0.32, 0.38], floor: C.lot,
+  id: 'zone_hollywood_blvd', name: 'Hollywood Boulevard', min: [OX0 - 10, OY0 - 10], size: [OX1 - OX0 + 20, OY1 - OY0 + 20], cell: 2, offset: [0, 0], sky: [0.42, 0.32, 0.38], floor: C.lot, floor_kind: 'Lot',
   boxes: boxes.splice(0), ground: ground.splice(0), props: props.splice(0), subzones, npcs: npcs.splice(0), camps: camps.splice(0), objects: objects.splice(0),
   spawn: [92, 184], aid: [{ name: 'Hollywood Receiving Hospital', x: 500, y: 322 }, { name: 'Fire Station No. 27', x: 636, y: 284 }, { name: 'Blessed Sacrament Church', x: 125, y: 436 }],
   portals: [{ id: 'portal_egyptian', x: 475, y: 238, r: 3, to_area: 'dng_egyptian', to: [60, 8], label: 'The Egyptian Theatre (Dungeon, 8-12)' }],
@@ -395,8 +398,8 @@ deco('crates', 26, 190, 0); deco('crates', 94, 186, 90); deco('film_canister', 3
 deco('hive_tendrils', 50, 246, 0, 2); deco('hive_tendrils', 70, 246, 180, 2);
 
 const dungeon = {
-  id: 'dng_egyptian', name: 'The Egyptian Theatre', min: [0, -10], size: [120, 280], cell: 2, offset: [3000, 0], sky: [0.05, 0.04, 0.06], floor: [0.2, 0.17, 0.15], dungeon: true,
-  boxes: boxes.splice(0), ground: [{ x: 54, y: 0, w: 12, d: 256, color: [0.45, 0.12, 0.12] }], subzones: [
+  id: 'dng_egyptian', name: 'The Egyptian Theatre', min: [0, -10], size: [120, 280], cell: 2, offset: [3000, 0], sky: [0.05, 0.04, 0.06], floor: [0.2, 0.17, 0.15], floor_kind: 'Theatre', dungeon: true,
+  boxes: boxes.splice(0), ground: [{ x: 54, y: 0, w: 12, d: 256, color: [0.45, 0.12, 0.12], kind: 'Theatre' }], subzones: [
     { name: 'Forecourt', x: 20, y: 0, w: 80, d: 42 }, { name: 'Lobby', x: 20, y: 46, w: 80, d: 40 }, { name: 'Auditorium', x: 20, y: 90, w: 80, d: 80 },
     { name: 'Projection Booth', x: 20, y: 174, w: 80, d: 30 }, { name: 'Stage', x: 20, y: 208, w: 80, d: 48 }],
   props: props.splice(0), npcs: [], camps: camps.splice(0), objects: objects.splice(0), spawn: [60, 8], aid: [],

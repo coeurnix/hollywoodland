@@ -25,6 +25,16 @@ struct FHLUnitVis
 		double NextLook = 0;
 	};
 
+// one running effect (HLFx.cpp): a projectile in flight, a burst, a ring or a column
+struct FHLFxLive
+{
+	EHLFx Kind = EHLFx::Hit;
+	FLinearColor Color = FLinearColor::White;
+	int32 SrcId = 0, DstId = 0, Area = 0;
+	FVector From = FVector::ZeroVector, To = FVector::ZeroVector; // world, cm
+	float Age = 0, Life = 0.3f, Radius = 0;
+};
+
 UCLASS()
 class AHLWorldActor : public AActor
 {
@@ -50,6 +60,14 @@ public:
 	UPROPERTY() TObjectPtr<UStaticMesh> Cone;
 	UPROPERTY() TObjectPtr<UMaterialInterface> MatLit;
 	UPROPERTY() TObjectPtr<UMaterialInterface> MatUnlit;
+	UPROPERTY() TObjectPtr<UMaterialInterface> MatGround;  // painted ground tiles (M_HLGround)
+	UPROPERTY() TObjectPtr<UMaterialInterface> MatSkyDome; // day/night panoramas (M_HLSkyDome)
+	UPROPERTY() TMap<FString, TObjectPtr<UMaterialInstanceDynamic>> GroundMids;
+	UPROPERTY() TArray<TObjectPtr<UMaterialInstanceDynamic>> SkyMids;
+	UPROPERTY() TObjectPtr<class UDirectionalLightComponent> SunLight;
+	UPROPERTY() TObjectPtr<UMaterialInterface> MatAdd; // additive glow (M_HLAdd)
+	UPROPERTY() TObjectPtr<AActor> FxActor;
+	UPROPERTY() TArray<TObjectPtr<UStaticMeshComponent>> FxPool;
 	UPROPERTY() TMap<uint32, TObjectPtr<UMaterialInstanceDynamic>> Mids;
 	UPROPERTY() TArray<TObjectPtr<AActor>> Spawned;
 	UPROPERTY() TObjectPtr<UStaticMeshComponent> Ring;
@@ -70,6 +88,15 @@ private:
 	UMaterialInstanceDynamic* Mid(const FLinearColor& C, bool bUnlit = false, float Glow = 0.22f);
 	UStaticMeshComponent* AddMesh(AActor* InOwner, UStaticMesh* Mesh, const FVector& Loc, const FVector& Scale, const FLinearColor& Color, bool bUnlit = false, bool bShadow = false);
 	void BuildWorld();
+	UMaterialInstanceDynamic* GroundMid(const FString& Kind, const FLinearColor& C); // null: no such tile (flat colour)
+	void TickSky(); // day/night: sun and moon, sky blend, grading, lamps
+	// effects (HLFx.cpp): game FX events become live effects; unit states (casting, shields, stuns, slows) draw every frame
+	void TickFx(float Dt);
+	void FxPiece(UStaticMesh* Mesh, const FVector& Loc, const FRotator& Rot, const FVector& SizeM, const FLinearColor& C, float Opacity, float Rim);
+	FVector FxUnitPos(int32 UnitId, float HeightFrac, bool* bOk = nullptr) const;
+	TArray<FHLFxLive> FxLive;
+	int32 FxUsed = 0;
+	float BaseExposure = 0;
 	// art/props static mesh at a placement (null when the mesh is missing: the caller falls back to a primitive)
 	UStaticMeshComponent* AddProp(AActor* InOwner, int32 Area, const struct FHLPropPlace& P);
 	UPROPERTY() TMap<FString, TObjectPtr<UStaticMesh>> PropMeshes;

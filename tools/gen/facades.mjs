@@ -66,7 +66,8 @@ export function kitFront(b, north, seed, opts = {}) {
     const z = r === 0 ? 0 : rowZ(r);
     const sz = 1;
     // corners: the right one as modelled (return wraps the right side); the left one turned a quarter so its return is the front
-    put(out, r ? rec.corner_upper : rec.corner, at(f, W - rec.corner_front_m), f.yaw, [1, 1, sz], z);
+    // (pushed OUT past the box's side face and 4 mm further forward than the neighbour's left corner: no coplanar faces to flicker)
+    put(out, r ? rec.corner_upper : rec.corner, at(f, W - rec.corner_front_m + OUT, OUT + 0.004), f.yaw, [1, 1, sz], z);
     const lc = [f.S[0] - f.F[0] * (rec.corner_return_m - OUT) - f.u[0] * OUT, f.S[1] - f.F[1] * (rec.corner_return_m - OUT) - f.u[1] * OUT];
     put(out, r ? rec.corner_upper : rec.corner, lc, f.yaw + 90, [1, 1, sz], z);
     for (let i = 0; i < n; i++) {
@@ -97,7 +98,7 @@ export function kitFront(b, north, seed, opts = {}) {
   const top = rec.ground_h + rows * rec.upper_h;
   if (ph >= 0.4) {
     const np = Math.max(1, Math.round(W / 4)), pw = W / np;
-    for (let i = 0; i < np; i++) put(out, pw < 3 ? pp2 : pp4, at(f, i * pw), f.yaw, [1, pw / (pw < 3 ? 2 : 4), ph / rec.parapet_h], top);
+    for (let i = 0; i < np; i++) put(out, pw < 3 ? pp2 : pp4, at(f, i * pw), f.yaw, [1, pw / (pw < 3 ? 2 : 4), (ph + 0.03) / rec.parapet_h], top); // 3 cm above the roof: its top is not coplanar with the box's
     if (ph >= 1 && rnd() < (opts.crest ?? 0.35)) {
       const c = rec.crest[rnd() < 0.5 ? 0 : 1];
       put(out, c, at(f, W / 2 - width(c) / 2), f.yaw, [1, 1, 1], h - 0.6);

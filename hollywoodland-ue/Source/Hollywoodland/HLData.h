@@ -68,7 +68,7 @@ struct FHLMobDef
 };
 // an art/props mesh placed in an area (tools/gen/props.mjs): Yaw in degrees, Z in metres
 struct FHLPropPlace { FString Mesh; FVector2D Pos = FVector2D::ZeroVector; float Z = 0, Yaw = 0; FVector Scale = FVector::OneVector; bool IsSet() const { return !Mesh.IsEmpty(); } };
-struct FHLBox { float X, Y, W, D, H; FLinearColor Color; FString Label; bool bSolid = true; FHLPropPlace Prop; };
+struct FHLBox { float X, Y, W, D, H; FLinearColor Color; FString Label, Kind; bool bSolid = true; FHLPropPlace Prop; };
 struct FHLNpcDef
 {
 	FString Id, Name, Title, Trains, Hub, Prof;
@@ -91,6 +91,7 @@ struct FHLAreaDef
 	float Cell = 2;
 	bool bDungeon = false;
 	FLinearColor Sky, Floor;
+	FString FloorKind; // ground texture of the floor (T_GND_<Kind>); empty: flat colour
 	TArray<FHLBox> Boxes, Ground;
 	TArray<FHLPropPlace> Props;
 	TArray<FHLSubzone> Subzones;

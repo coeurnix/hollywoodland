@@ -187,6 +187,9 @@ struct FHLChatLine
 	int32 SimIdx = -1;
 	double Time = 0;
 };
+// Visual effects the world layer draws (HLFx.cpp); gameplay only says what happened, between whom.
+enum class EHLFx : uint8 { Shot, Bolt, Spit, Thrown, Hit, Crit, Nova, Heal, Buff, Shield, LevelUp };
+struct FHLFxEvent { EHLFx Kind = EHLFx::Hit; FString School; int32 SrcId = 0, DstId = 0, Area = 0; FVector2D Pos = FVector2D::ZeroVector; float Radius = 0; };
 struct FHLFloatText { int32 UnitId = 0; FString Text; FLinearColor Color; float Age = 0; bool bCrit = false; };
 struct FHLAuction { const FHLItem* Item = nullptr; int32 Count = 1, Buyout = 0, SellerIdx = -1, MinBid = 0, Bid = 0; float ExpiresAt = 0; bool bMine = false, bPlayerBid = false; };
 struct FHLRoll { const FHLItem* Item = nullptr; float EndsAt = 0; int32 PlayerChoice = -1; bool bActive = false; };
@@ -210,6 +213,9 @@ public:
 	// ---- lifecycle (HLGame.cpp)
 	bool Init(FString& OutError);
 	void Tick(float Dt);
+	// world clock, 0..24: one game day per real hour, from UTC so every session agrees (-HLTime=<hour> pins it)
+	float Hour() const;
+	static float Daylight(float Hour); // 0 night .. 1 day (smooth through dawn and dusk)
 	void EnterWorld();
 	double Now = 0;
 	float FrameDt = 0;
@@ -218,6 +224,14 @@ public:
 	FHLSfx Sfx;     // ticked by AHLWorldActor with the listener; drains SoundQueue
 	// ---- sound events (HLSfx.cpp). Ids are sfx.json keys; unknown ids are ignored, so a missing sound never breaks play.
 	TArray<FHLSoundEvent> SoundQueue;
+	TArray<FHLFxEvent> FxQueue; // drained by the world actor every frame
+	void Fx(EHLFx Kind, const FHLUnit& Src, const FHLUnit* Dst, const FString& School = FString(), float Radius = 0, const FVector2D* Pos = nullptr)
+	{
+		if (FxQueue.Num() >= 128) return;
+		FHLFxEvent E; E.Kind = Kind; E.School = School; E.SrcId = Src.Id; E.DstId = Dst ? Dst->Id : 0; E.Area = Src.Area; E.Radius = Radius;
+		E.Pos = Pos ? *Pos : (Dst ? Dst->Pos : Src.Pos);
+		FxQueue.Add(MoveTemp(E));
+	}
 	void Sound(const FString& Id, const FHLUnit& At, float Vol = 1.f) { if (SoundQueue.Num() < 256) { FHLSoundEvent E; E.Id = Id; E.Area = At.Area; E.Pos = At.Pos; E.Z = At.Z + 1.f; E.Vol = Vol; E.UnitId = At.Id; SoundQueue.Add(MoveTemp(E)); } }
 	void SoundAt(const FString& Id, int32 Area, const FVector2D& Pos, float Vol = 1.f) { if (SoundQueue.Num() < 256) { FHLSoundEvent E; E.Id = Id; E.Area = Area; E.Pos = Pos; E.Z = 1.f; E.Vol = Vol; SoundQueue.Add(MoveTemp(E)); } }
 	void Sound2D(const FString& Id, float Vol = 1.f) { if (SoundQueue.Num() < 256) { FHLSoundEvent E; E.Id = Id; E.Vol = Vol; SoundQueue.Add(MoveTemp(E)); } }

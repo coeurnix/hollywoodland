@@ -2,6 +2,8 @@
 #include "HLBridge.h"
 #include "Misc/ConfigCacheIni.h"
 #include "Algo/Reverse.h"
+#include "Misc/CommandLine.h"
+#include "Misc/Parse.h"
 
 FHLGame* FHLGame::Instance = nullptr;
 
@@ -318,6 +320,22 @@ FString FHLGame::SubzoneAt(int32 Area, const FVector2D& P) const
 	return Areas[Area].Def->Name;
 }
 
+float FHLGame::Hour() const
+{
+	static float Pinned = -2;
+	if (Pinned < -1) { Pinned = -1; FParse::Value(FCommandLine::Get(), TEXT("HLTime="), Pinned); }
+	if (Pinned >= 0) return FMath::Fmod(Pinned, 24.f);
+	const double S = (FDateTime::UtcNow() - FDateTime(2026, 1, 1)).GetTotalSeconds();
+	return float(FMath::Fmod(S, 3600.0) / 3600.0 * 24.0);
+}
+
+float FHLGame::Daylight(float H)
+{
+	// sunrise 6:00, sunset 19:00; dark from about 20:30 to 4:30
+	const float E = (H >= 6.f && H <= 19.f) ? FMath::Sin(PI * (H - 6.f) / 13.f) : -FMath::Sin(PI * FMath::Fmod(H - 19.f + 24.f, 24.f) / 11.f);
+	return FMath::SmoothStep(-0.3f, 0.15f, E);
+}
+
 void FHLGame::Tick(float Dt)
 {
 	if (!bInWorld) return;
@@ -561,6 +579,9 @@ void FHLGame::InitMobStats(FHLUnit& U)
 	U.WeaponMin = Hit * 0.85f; U.WeaponMax = Hit * 1.15f; U.WeaponSpeed = M.Swing; U.AttackPower = 0;
 	U.Armor = 20 * L * M.Armor;
 	U.Crit = 0.05f; U.Dodge = 0.05f; U.Speed = M.Speed; U.AutoRange = 3.5f + M.Scale * 0.8f;
+	// ranged mobs (spitters, gunmen) shoot from where they stand, a little softer than a melee swing
+	U.bRangedAuto = M.bRanged;
+	if (M.bRanged) { U.AutoRange = 22.f; U.WeaponMin *= 0.7f; U.WeaponMax *= 0.7f; }
 	U.Parry = M.Shape == TEXT("human") ? 0.05f : 0.f; U.Block = 0; U.BlockValue = 0;
 	U.ResType = EHLRes::None; U.MaxRes = U.Res = 0;
 }

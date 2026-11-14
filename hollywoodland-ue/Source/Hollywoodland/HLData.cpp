@@ -198,7 +198,7 @@ bool FHLData::Load(FString& Err)
 			JObj O = V->AsObject();
 			FHLAreaDef Ar;
 			Ar.Id = S(O, TEXT("id")); Ar.Name = S(O, TEXT("name")); Ar.Min = V2(O, TEXT("min")); Ar.Size = V2(O, TEXT("size")); Ar.Offset = V2(O, TEXT("offset"));
-			Ar.Spawn = V2(O, TEXT("spawn")); Ar.Cell = N(O, TEXT("cell"), 2); Ar.bDungeon = B(O, TEXT("dungeon")); Ar.Sky = Col(O, TEXT("sky")); Ar.Floor = Col(O, TEXT("floor"));
+			Ar.Spawn = V2(O, TEXT("spawn")); Ar.Cell = N(O, TEXT("cell"), 2); Ar.bDungeon = B(O, TEXT("dungeon")); Ar.Sky = Col(O, TEXT("sky")); Ar.Floor = Col(O, TEXT("floor")); Ar.FloorKind = S(O, TEXT("floor_kind"));
 			auto ReadProp = [](JObj P, FHLPropPlace& Out)
 			{
 				if (!P) return;
@@ -212,7 +212,7 @@ bool FHLData::Load(FString& Err)
 					JObj Bx = BV->AsObject();
 					FHLBox Box;
 					Box.X = N(Bx, TEXT("x")); Box.Y = N(Bx, TEXT("y")); Box.W = N(Bx, TEXT("w")); Box.D = N(Bx, TEXT("d")); Box.H = N(Bx, TEXT("h"), 0.05);
-					Box.Color = Col(Bx, TEXT("color")); Box.Label = S(Bx, TEXT("label")); Box.bSolid = B(Bx, TEXT("solid"), true); ReadProp(Sub(Bx, TEXT("prop")), Box.Prop);
+					Box.Color = Col(Bx, TEXT("color")); Box.Label = S(Bx, TEXT("label")); Box.Kind = S(Bx, TEXT("kind")); Box.bSolid = B(Bx, TEXT("solid"), true); ReadProp(Sub(Bx, TEXT("prop")), Box.Prop);
 					Out.Add(Box);
 				}
 			};

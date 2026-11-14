@@ -45,6 +45,7 @@ AHLWorldActor::AHLWorldActor()
 #else
 	PP.bOverride_AutoExposureBias = true; PP.AutoExposureBias = 2.0f;
 #endif
+	BaseExposure = PP.AutoExposureBias;
 	PP.bOverride_BloomIntensity = true; PP.BloomIntensity = 0.f;
 	PP.bOverride_VignetteIntensity = true; PP.VignetteIntensity = 0.25f;
 	static ConstructorHelpers::FObjectFinder<UStaticMesh> CubeF(TEXT("/Engine/BasicShapes/Cube.Cube"));
@@ -54,6 +55,12 @@ AHLWorldActor::AHLWorldActor()
 	static ConstructorHelpers::FObjectFinder<UMaterialInterface> LitF(TEXT("/Game/HL/M_HL.M_HL"));
 	static ConstructorHelpers::FObjectFinder<UMaterialInterface> UnlitF(TEXT("/Game/HL/M_HLSky.M_HLSky"));
 	static ConstructorHelpers::FObjectFinder<UMaterialInterface> BasicF(TEXT("/Engine/BasicShapes/BasicShapeMaterial.BasicShapeMaterial"));
+	static ConstructorHelpers::FObjectFinder<UMaterialInterface> GroundF(TEXT("/Game/HL/M_HLGround.M_HLGround"));
+	static ConstructorHelpers::FObjectFinder<UMaterialInterface> SkyDomeF(TEXT("/Game/HL/M_HLSkyDome.M_HLSkyDome"));
+	MatGround = GroundF.Succeeded() ? GroundF.Object : nullptr;
+	MatSkyDome = SkyDomeF.Succeeded() ? SkyDomeF.Object : nullptr;
+	static ConstructorHelpers::FObjectFinder<UMaterialInterface> AddF(TEXT("/Game/HL/M_HLAdd.M_HLAdd"));
+	MatAdd = AddF.Succeeded() ? AddF.Object : nullptr;
 	Cube = CubeF.Object; Sphere = SphereF.Object; Cylinder = CylF.Object; Cone = ConeF.Object;
 	MatLit = LitF.Succeeded() ? LitF.Object : BasicF.Object;
 	MatUnlit = UnlitF.Succeeded() ? UnlitF.Object : BasicF.Object;
@@ -74,6 +81,28 @@ UMaterialInstanceDynamic* AHLWorldActor::Mid(const FLinearColor& C, bool bUnlit,
 	D->SetVectorParameterValue(TEXT("Color"), bUnlit ? C * 0.6f : C * 0.78f);
 	if (!bUnlit) D->SetScalarParameterValue(TEXT("Glow"), Glow);
 	Mids.Add(Key, D);
+	return D;
+}
+
+UMaterialInstanceDynamic* AHLWorldActor::GroundMid(const FString& Kind, const FLinearColor& C)
+{
+	if (Kind.IsEmpty() || !MatGround) return nullptr;
+	if (TObjectPtr<UMaterialInstanceDynamic>* Found = GroundMids.Find(Kind)) return *Found;
+	UTexture* Tex = LoadObject<UTexture>(nullptr, *FString::Printf(TEXT("/Game/HL/Tex/T_GND_%s.T_GND_%s"), *Kind, *Kind), nullptr, LOAD_NoWarn);
+	if (!Tex) { HLBridge::Log(FString::Printf(TEXT("HL ground tile missing: %s"), *Kind)); GroundMids.Add(Kind, nullptr); return nullptr; }
+	// metres per repeat; the tint keeps each surface near its old flat colour's brightness
+	struct FTile { const TCHAR* Kind; float Tile; FLinearColor Tint; };
+	static const FTile Tiles[] = { { TEXT("Asphalt"), 7.f, FLinearColor(0.8f, 0.8f, 0.82f) }, { TEXT("Sidewalk"), 6.f, FLinearColor(0.85f, 0.83f, 0.8f) },
+		{ TEXT("Lot"), 9.f, FLinearColor(0.95f, 0.95f, 0.95f) }, { TEXT("Grass"), 6.f, FLinearColor(0.85f, 0.9f, 0.8f) },
+		{ TEXT("Blight"), 10.f, FLinearColor(0.9f, 0.85f, 0.9f) }, { TEXT("Theatre"), 3.f, FLinearColor(0.75f, 0.7f, 0.7f) } };
+	float Tile = 6.f; FLinearColor Tint(0.85f, 0.85f, 0.85f);
+	for (const FTile& T : Tiles) if (Kind == T.Kind) { Tile = T.Tile; Tint = T.Tint; }
+	UMaterialInstanceDynamic* D = UMaterialInstanceDynamic::Create(MatGround, this);
+	D->SetTextureParameterValue(TEXT("Tex"), Tex);
+	D->SetScalarParameterValue(TEXT("Tile"), Tile);
+	D->SetVectorParameterValue(TEXT("Tint"), Tint);
+	D->SetScalarParameterValue(TEXT("Glow"), 0.22f);
+	GroundMids.Add(Kind, D);
 	return D;
 }
 
@@ -169,6 +198,7 @@ void AHLWorldActor::BuildWorld()
 	{
 		Sun->GetRootComponent()->SetMobility(EComponentMobility::Movable);
 		if (ULightComponent* L = Sun->GetLightComponent()) { L->SetIntensity(2.0f); L->SetLightColor(FLinearColor(1.f, 0.9f, 0.78f)); L->SetCastShadows(false); }
+		SunLight = Cast<UDirectionalLightComponent>(Sun->GetLightComponent());
 		Spawned.Add(Sun);
 	}
 	ObjectMeshes.SetNum(Game.Areas.Num());
@@ -181,11 +211,21 @@ void AHLWorldActor::BuildWorld()
 		Geo->SetRootComponent(Root); Root->RegisterComponent();
 		const FVector2D Ctr = Def.Min + Def.Size * 0.5f;
 		// floor (top at z = 0) and sky/dome shell
-		AddMesh(Geo, Cube, ToWorld(a, Ctr, -0.5f), FVector(Def.Size.X + 400, Def.Size.Y + 400, 1), Def.Floor);
+		UStaticMeshComponent* Floor = AddMesh(Geo, Cube, ToWorld(a, Ctr, -0.5f), FVector(Def.Size.X + 400, Def.Size.Y + 400, 1), Def.Floor);
+		if (UMaterialInstanceDynamic* G = GroundMid(Def.FloorKind, Def.Floor)) Floor->SetMaterial(0, G);
 		const float SkyR = Def.bDungeon ? 400.f : 2600.f;
-		AddMesh(Geo, Sphere, ToWorld(a, Ctr, 0), FVector(SkyR * 2), Def.Sky, true);
+		UStaticMeshComponent* SkyC = AddMesh(Geo, Sphere, ToWorld(a, Ctr, 0), FVector(SkyR * 2), Def.Sky, true);
+		if (!Def.bDungeon && MatSkyDome)
+		{
+			UMaterialInstanceDynamic* S = UMaterialInstanceDynamic::Create(MatSkyDome, this);
+			SkyC->SetMaterial(0, S); SkyMids.Add(S);
+		}
 		int32 gi = 0;
-		for (const FHLBox& B : Def.Ground) AddMesh(Geo, Cube, ToWorld(a, FVector2D(B.X + B.W * 0.5f, B.Y + B.D * 0.5f), 0.01f + 0.004f * (gi++ % 5)), FVector(B.W, B.D, 0.03f), B.Color);
+		for (const FHLBox& B : Def.Ground)
+		{
+			UStaticMeshComponent* GC = AddMesh(Geo, Cube, ToWorld(a, FVector2D(B.X + B.W * 0.5f, B.Y + B.D * 0.5f), 0.01f + 0.004f * (gi++ % 5)), FVector(B.W, B.D, 0.03f), B.Color);
+			if (UMaterialInstanceDynamic* G = GroundMid(B.Kind, B.Color)) GC->SetMaterial(0, G);
+		}
 		for (const FHLBox& B : Def.Boxes) if (!AddProp(Geo, a, B.Prop)) AddMesh(Geo, Cube, ToWorld(a, FVector2D(B.X + B.W * 0.5f, B.Y + B.D * 0.5f), B.H * 0.5f), FVector(B.W, B.D, B.H), B.Color);
 		// building-kit modules (facade bays, pilasters, parapets: hundreds of each) draw as one instanced component per mesh
 		TMap<FString, UInstancedStaticMeshComponent*> Kit;
@@ -358,6 +398,51 @@ void AHLWorldActor::TickStage()
 	Stage->SetActorHiddenInGame(true);
 }
 
+void AHLWorldActor::TickSky()
+{
+	// Day/night on the world clock (FHLGame::Hour): one movable sun that becomes a cool moon at night, the sky dome
+	// blending its day and night panoramas, a colour grade (golden hour, blue night) and brighter lamps after dark.
+	// Dungeons keep a neutral grade.
+	const FHLUnit* P = Game.PlayerUnit();
+	const bool bIndoors = P && Game.Areas.IsValidIndex(P->Area) && Game.Areas[P->Area].Def->bDungeon;
+	const float H = Game.Hour();
+	const float D = FHLGame::Daylight(H);
+	const float Elev = (H >= 6.f && H <= 19.f) ? FMath::Sin(PI * (H - 6.f) / 13.f) : 0.f;
+	const float Gold = D * (1.f - FMath::SmoothStep(0.12f, 0.5f, Elev)); // low sun
+	if (SunLight)
+	{
+		const FRotator SunRot(-FMath::Max(10.f, Elev * 62.f), 180.f - FMath::Clamp((H - 6.f) / 13.f, 0.f, 1.f) * 180.f + 35.f, 0.f);
+		const FRotator MoonRot(-42.f, 60.f, 0.f);
+		SunLight->SetWorldRotation(D > 0.35f ? SunRot : MoonRot);
+		const FLinearColor SunC = FMath::Lerp(FLinearColor(1.f, 0.92f, 0.8f), FLinearColor(1.f, 0.62f, 0.38f), Gold);
+		SunLight->SetLightColor(FMath::Lerp(FLinearColor(0.55f, 0.65f, 1.f), SunC, D));
+		SunLight->SetIntensity(D > 0.35f ? FMath::Lerp(0.9f, 2.0f, FMath::SmoothStep(0.35f, 1.f, D)) : FMath::Lerp(0.55f, 0.9f, D / 0.35f));
+	}
+	const FLinearColor SkyTint = FMath::Lerp(FLinearColor(1, 1, 1), FLinearColor(1.08f, 0.78f, 0.66f), Gold);
+	for (UMaterialInstanceDynamic* S : SkyMids)
+	{
+		S->SetScalarParameterValue(TEXT("Night"), 1.f - D);
+		S->SetVectorParameterValue(TEXT("Tint"), SkyTint * FMath::Lerp(0.85f, 1.f, D));
+	}
+	FPostProcessSettings& PP = Camera->PostProcessSettings;
+	const float Dg = bIndoors ? 1.f : D, Gg = bIndoors ? 0.f : Gold;
+	PP.AutoExposureBias = BaseExposure + FMath::Lerp(-1.25f, 0.f, Dg);
+	PP.bOverride_ColorGain = true;
+	const FLinearColor Gain = FMath::Lerp(FLinearColor(0.78f, 0.88f, 1.15f), FLinearColor(1, 1, 1), Dg) * FMath::Lerp(FLinearColor(1, 1, 1), FLinearColor(1.06f, 0.97f, 0.88f), Gg);
+	PP.ColorGain = FVector4(Gain.R, Gain.G, Gain.B, 1.f);
+	PP.bOverride_ColorSaturation = true;
+	const float Sat = FMath::Lerp(0.78f, 1.f, Dg) * (1.f + 0.08f * Gg);
+	PP.ColorSaturation = FVector4(Sat, Sat, Sat, 1.f);
+	// lamps carry the night
+	static float LastLamp = -1;
+	const float Lamp = FMath::Lerp(11000.f, 3500.f, D);
+	if (FMath::Abs(Lamp - LastLamp) > 50.f)
+	{
+		LastLamp = Lamp;
+		for (auto& KV : LampLights) if (UPointLightComponent* L = KV.Value.Get()) L->SetIntensity(Lamp);
+	}
+}
+
 void AHLWorldActor::SyncUnits()
 {
 	const FHLUnit* P = Game.PlayerUnit();
@@ -448,6 +533,8 @@ void AHLWorldActor::Tick(float Dt)
 	CharVis.Tick(Game.Now);
 	SyncUnits();
 	TickStage();
+	TickSky();
+	TickFx(Dt);
 	// camera: orbit the player (or the forecourt on the title screen)
 	const FHLUnit* P = Game.PlayerUnit();
 	FVector Focus = P ? ToWorld(P->Area, P->Pos, P->Z + 1.7f) : ToWorld(0, Game.Areas[0].Def->Spawn + FVector2D(0, 8), 2.f);

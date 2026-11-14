@@ -108,6 +108,18 @@ void FHLGame::ExecuteAbility(FHLUnit& U, const FHLAbility& Ab, FHLUnit* Target)
 	if (U.Kind == EHLKind::Player) AddChat(TEXT("combat"), FString(), FString::Printf(TEXT("You use %s."), *Ab.Name));
 	// guns and blows sound where they start; spells, heals and thrown things where they land
 	Sound(Ab.Id, (Target && Target != &U && Ab.School != TEXT("physical")) || Ab.Id == TEXT("ab_stn_bottle") ? (Target ? *Target : U) : U);
+	// what it looks like: a projectile for anything thrown or fired from range, a burst for blows, a ring for area effects
+	if (Ab.Target == TEXT("enemy") && Target && Target != &U)
+	{
+		const EHLFx K = Ab.Range <= 8 ? EHLFx::Hit : Ab.Id == TEXT("ab_stn_bottle") ? EHLFx::Thrown : Ab.School == TEXT("physical") ? EHLFx::Shot
+			: (Ab.School == TEXT("acid") && U.Kind == EHLKind::Mob) ? EHLFx::Spit : EHLFx::Bolt;
+		Fx(K, U, Target, Ab.School);
+	}
+	if (Ab.Radius > 0)
+	{
+		const FVector2D Center = (Ab.Target == TEXT("self") || !Target) ? U.Pos : Target->Pos;
+		Fx(EHLFx::Nova, U, nullptr, Ab.IsHeal() ? FString(TEXT("heal")) : Ab.School, Ab.Radius, &Center);
+	}
 
 	const float CritChance = U.Crit + U.BuffSum(TEXT("crit"));
 	const float AbMul = 1.f + U.Mod(TEXT("ab:") + Ab.Id); // talents
@@ -142,6 +154,7 @@ void FHLGame::ExecuteAbility(FHLUnit& U, const FHLAbility& Ab, FHLUnit* Target)
 		{
 			for (FHLUnit* T : Friends)
 			{
+				Fx(EHLFx::Heal, U, T, TEXT("heal"));
 				const bool bCrit = Chance(CritChance);
 				HealUnit(&U, *T, (E.Base * RankScale + E.Coef * U.AbilityBonus) * AbMul * (bCrit ? 1.5f : 1.f), Ab.Name);
 			}
@@ -151,6 +164,7 @@ void FHLGame::ExecuteAbility(FHLUnit& U, const FHLAbility& Ab, FHLUnit* Target)
 			for (FHLUnit* T : Friends)
 			{
 				T->Auras.RemoveAll([&](const FHLAura& A) { return A.Name == Ab.Name; });
+				Fx(EHLFx::Heal, U, T, TEXT("heal"));
 				FHLAura A; A.Type = EHLAura::Hot; A.Name = Ab.Name; A.SourceId = U.Id;
 				A.Value = (E.Base * RankScale + E.Coef * U.AbilityBonus) * AbMul; A.Period = E.Period; A.TickTimer = E.Period; A.Remaining = E.Period * E.Ticks + 0.05f;
 				T->Auras.Add(A);
@@ -161,6 +175,7 @@ void FHLGame::ExecuteAbility(FHLUnit& U, const FHLAbility& Ab, FHLUnit* Target)
 			for (FHLUnit* T : Friends)
 			{
 				Sound(TEXT("shield_on"), *T, 0.8f);
+				Fx(EHLFx::Shield, U, T, Ab.School);
 				T->Auras.RemoveAll([&](const FHLAura& A) { return A.Name == Ab.Name; });
 				FHLAura A; A.Type = EHLAura::Shield; A.Name = Ab.Name; A.SourceId = U.Id; A.Value = (E.Base * RankScale + E.Coef * U.AbilityBonus) * AbMul; A.Remaining = E.Dur;
 				T->Auras.Add(A);
@@ -190,6 +205,7 @@ void FHLGame::ExecuteAbility(FHLUnit& U, const FHLAbility& Ab, FHLUnit* Target)
 			FHLAura A; A.Type = EHLAura::Buff; A.Name = Ab.Name; A.Stat = E.Stat; A.Value = E.Value; A.Remaining = E.Dur; A.SourceId = U.Id;
 			U.Auras.Add(A);
 			Sound(TEXT("buff_on"), U, 0.6f);
+			Fx(EHLFx::Buff, U, &U, Ab.School);
 		}
 		else if (E.Type == TEXT("resource")) U.Res = FMath::Min(U.MaxRes, U.Res + E.Value);
 	}
@@ -304,6 +320,7 @@ void FHLGame::GrantXp(int32 Amount, bool bQuest)
 		U->Hp = U->MaxHp; if (U->ResType != EHLRes::Adrenaline) U->Res = U->MaxRes;
 		Banner(FString::Printf(TEXT("Level %d"), U->Level), TEXT("You have reached a new level."), 5);
 		Sound2D(TEXT("ui_levelup"));
+		Fx(EHLFx::LevelUp, *U, U);
 		PlayerBark(TEXT("level_up"), 0);
 		System(FString::Printf(TEXT("Congratulations, you have reached level %d!"), U->Level));
 		bool bNew = false;
@@ -454,6 +471,11 @@ void FHLGame::TickCombat(FHLUnit& U, float Dt)
 			}
 			U.SwingTimer = U.WeaponSpeed;
 			if (U.Kind != EHLKind::Player || !Input.bMouseSteer) FaceTo(U, T->Pos);
+			if (U.bRangedAuto)
+			{
+				const bool bSpit = U.Kind == EHLKind::Mob && U.Mob && U.Mob->Shape != TEXT("human");
+				Fx(bSpit ? EHLFx::Spit : EHLFx::Shot, U, T, bSpit ? FString(TEXT("acid")) : FString(TEXT("physical")));
+			}
 			const bool bShow = U.Kind == EHLKind::Player || T->Kind == EHLKind::Player;
 			const int32 Gap = FMath::Max(0, T->Level - U.Level);
 			const float R = Rand();
@@ -482,6 +504,7 @@ void FHLGame::TickCombat(FHLUnit& U, float Dt)
 				float Dmg = FMath::Lerp(U.WeaponMin, U.WeaponMax, Rand()) + (U.AttackPower / 14.f + AmmoDps) * U.WeaponSpeed;
 				if (bBlocked) { Dmg = FMath::Max(0.f, Dmg - T->BlockValue); if (bShow) AddFloat(T->Id, TEXT("Block"), FLinearColor::White); }
 				SfxAttack(U, *T, bBlocked ? 5 : bCrit ? 1 : 0);
+				if (!U.bRangedAuto) Fx(bCrit ? EHLFx::Crit : EHLFx::Hit, U, T, TEXT("physical"));
 				if (Dmg > 0) DealDamage(&U, *T, Dmg * (bCrit ? 2.f : 1.f), TEXT("physical"), bCrit, U.bRangedAuto ? TEXT("shot") : TEXT("attack"));
 				// Dazed: a mob far above its victim slows it on every hit, so nobody outruns a zone-wall elite
 				if (U.Kind == EHLKind::Mob && !T->bDead && T->Kind != EHLKind::Mob && U.Level - T->Level >= 5)
