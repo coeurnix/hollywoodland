@@ -3,7 +3,7 @@
   "units": "meters",
   "up": "+Z",
   "front": "-Y",
-  "texture_sets": 33,
+  "texture_sets": 34,
   "atlases": {
     "ATL_BRK": {
       "texture": "textures/T_ATL_BRK.png",
@@ -36,6 +36,10 @@
     },
     "ATL_AID": {
       "texture": "textures/T_ATL_AID.png",
+      "emissive": null
+    },
+    "ATL_EGY": {
+      "texture": "textures/T_ATL_EGY.png",
       "emissive": null
     }
   },
@@ -9618,6 +9622,211 @@
       "also_fits": [],
       "recess": [],
       "quest_object": null
+    },
+    {
+      "id": "EGY_WallSeg",
+      "kind": "interior",
+      "material": "M_ATL_EGY",
+      "texture": "atlas:ATL_EGY",
+      "emissive": null,
+      "nominal": [
+        9,
+        4,
+        9
+      ],
+      "origin": "footprint-centre-ground",
+      "file": "meshes/EGY_WallSeg.fbx",
+      "bounds": [
+        [
+          -4.5,
+          -2.0,
+          0.0
+        ],
+        [
+          4.5,
+          2.0,
+          9.0
+        ]
+      ],
+      "tris": 6,
+      "family": "EGY",
+      "rodin": {
+        "used": false,
+        "method": "projection",
+        "detail": "FLUX Klein orthographic plates planar-mapped onto scripted blocks (src/block_building.py)"
+      },
+      "concept": [
+        "src/concept_prompts/batch_plates_egy.json"
+      ],
+      "notes": "Full-thickness 9 x 4 x 9 m wall segment for the dungeon's 4 m wall boxes, both long faces painted; tiled along each box by W() in zone.mjs. Deviation: the SPEC asks for 0.3-0.6 m facings; a full-thickness block covers both rooms of a divider with one mesh.",
+      "fits_box": null,
+      "also_fits": [],
+      "recess": [],
+      "quest_object": null
+    },
+    {
+      "id": "EGY_WallSeg_Frieze",
+      "kind": "interior",
+      "material": "M_ATL_EGY",
+      "texture": "atlas:ATL_EGY",
+      "emissive": null,
+      "nominal": [
+        9,
+        4,
+        9
+      ],
+      "origin": "footprint-centre-ground",
+      "file": "meshes/EGY_WallSeg_Frieze.fbx",
+      "bounds": [
+        [
+          -4.5,
+          -2.0,
+          0.0
+        ],
+        [
+          4.5,
+          2.0,
+          9.0
+        ]
+      ],
+      "tris": 6,
+      "family": "EGY",
+      "rodin": {
+        "used": false,
+        "method": "projection",
+        "detail": "FLUX Klein orthographic plates planar-mapped onto scripted blocks (src/block_building.py)"
+      },
+      "concept": [
+        "src/concept_prompts/batch_plates_egy.json"
+      ],
+      "notes": "Relief-frieze variant of EGY_WallSeg.",
+      "fits_box": null,
+      "also_fits": [],
+      "recess": [],
+      "quest_object": null
+    },
+    {
+      "id": "EGY_WallSeg_Hive",
+      "kind": "interior",
+      "material": "M_ATL_EGY",
+      "texture": "atlas:ATL_EGY",
+      "emissive": null,
+      "nominal": [
+        9,
+        4,
+        9
+      ],
+      "origin": "footprint-centre-ground",
+      "file": "meshes/EGY_WallSeg_Hive.fbx",
+      "bounds": [
+        [
+          -4.5,
+          -2.0,
+          0.0
+        ],
+        [
+          4.5,
+          2.0,
+          9.0
+        ]
+      ],
+      "tris": 6,
+      "family": "EGY",
+      "rodin": {
+        "used": false,
+        "method": "projection",
+        "detail": "FLUX Klein orthographic plates planar-mapped onto scripted blocks (src/block_building.py)"
+      },
+      "concept": [
+        "src/concept_prompts/batch_plates_egy.json"
+      ],
+      "notes": "Hive-infested variant of EGY_WallSeg.",
+      "fits_box": null,
+      "also_fits": [],
+      "recess": [],
+      "quest_object": null
+    },
+    {
+      "id": "EGY_Pylon12",
+      "kind": "interior",
+      "material": "M_ATL_EGY",
+      "texture": "atlas:ATL_EGY",
+      "emissive": null,
+      "nominal": [
+        20,
+        5,
+        12
+      ],
+      "origin": "footprint-centre-ground",
+      "file": "meshes/EGY_Pylon12.fbx",
+      "bounds": [
+        [
+          -10.0,
+          -2.500001,
+          0.0
+        ],
+        [
+          10.0,
+          2.500001,
+          12.0
+        ]
+      ],
+      "tris": 30,
+      "family": "EGY",
+      "rodin": {
+        "used": false,
+        "method": "projection",
+        "detail": "FLUX Klein orthographic plates planar-mapped onto scripted blocks (src/block_building.py)"
+      },
+      "concept": [
+        "src/concept_prompts/batch_plates_egy.json"
+      ],
+      "notes": "Non-colliding pylon portal over a 12 m divider doorway: jambs 4 m each side of the opening (over the wall ends), lintel at 9-12 m.",
+      "fits_box": null,
+      "also_fits": [],
+      "recess": [],
+      "quest_object": null
+    },
+    {
+      "id": "EGY_Colonnade",
+      "kind": "interior",
+      "material": "M_ATL_EGY",
+      "texture": "atlas:ATL_EGY",
+      "emissive": null,
+      "nominal": [
+        32,
+        4,
+        6
+      ],
+      "origin": "footprint-centre-ground",
+      "file": "meshes/EGY_Colonnade.fbx",
+      "bounds": [
+        [
+          -16.0,
+          -2.000001,
+          0.0
+        ],
+        [
+          16.0,
+          2.000001,
+          6.0
+        ]
+      ],
+      "tris": 28,
+      "family": "EGY",
+      "rodin": {
+        "used": false,
+        "method": "projection",
+        "detail": "FLUX Klein orthographic plates planar-mapped onto scripted blocks (src/block_building.py)"
+      },
+      "concept": [
+        "src/concept_prompts/batch_plates_egy.json"
+      ],
+      "notes": "The forecourt colonnade box 4 x 32 x 6 (front = long face; both long faces painted).",
+      "fits_box": null,
+      "also_fits": [],
+      "recess": [],
+      "quest_object": null
     }
   ],
   "signs": [
@@ -17267,7 +17476,13 @@
     "meshes/LM_ReceivingHospital.fbx",
     "textures/T_ATL_AID.png",
     "meshes/LM_FireStation27.fbx",
-    "meshes/LM_BlessedSacrament.fbx"
+    "meshes/LM_BlessedSacrament.fbx",
+    "meshes/EGY_WallSeg.fbx",
+    "textures/T_ATL_EGY.png",
+    "meshes/EGY_WallSeg_Frieze.fbx",
+    "meshes/EGY_WallSeg_Hive.fbx",
+    "meshes/EGY_Pylon12.fbx",
+    "meshes/EGY_Colonnade.fbx"
   ],
   "integration_notes": [
     "Phase2 neutral atlas was repacked to prioritize legible notice lettering. Reimport all19 RF_/DR_ meshes together with T_ATL_NEUTRAL.png."
@@ -17287,6 +17502,7 @@
     "textures/T_HV_WallEnd.png",
     "textures/T_HV_WallSeg.png",
     "textures/T_ATL_AID.png",
-    "textures/T_ATL_HH.png"
+    "textures/T_ATL_HH.png",
+    "textures/T_ATL_EGY.png"
   ]
 }

@@ -1,0 +1,23 @@
+{
+  "id": "EGY_lintel",
+  "provider": "fal.ai",
+  "model": "blackforestlabs/flux-3/klein/text-to-image",
+  "prompt": "A wide Egyptian gateway lintel: a winged sun disc with two cobras in the middle, spread wings in teal, gold and red feathers, a cavetto cornice with vertical palm-leaf grooves above it, on sandstone. Straight-on flat orthographic elevation, no perspective, the wall fills the entire image edge to edge, no sky, no ground, no background, no people. Hand-painted stylized texture in classic early World of Warcraft art style, chunky bold carved forms, painted ambient occlusion, warm torch light at the top and cooler darker base, restrained brush texture. The 1922 Egyptian Theatre in Hollywood, an Egyptian Revival movie palace interior.",
+  "references": [],
+  "image_size": {
+    "width": 1024,
+    "height": 512
+  },
+  "seed": 1604,
+  "output": "work/plates/EGY_lintel.png",
+  "status": "downloaded",
+  "request_id": "01a1d918-67cb-7f52-a14c-1610d9f2aaa1",
+  "elapsed_seconds": 11.4,
+  "timings": {
+    "prompt_expansion": 5.889000021852553e-06,
+    "inference": 0.5180238209995878,
+    "safety_checker": 0.01227334099894506
+  },
+  "width": 1024,
+  "height": 512
+}

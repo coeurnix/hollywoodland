@@ -1,0 +1,23 @@
+{
+  "id": "EGY_wall",
+  "provider": "fal.ai",
+  "model": "blackforestlabs/flux-3/klein/text-to-image",
+  "prompt": "An interior wall of sandstone blocks painted in faded ochre and cream, a painted band of lotus and papyrus pattern in teal, red and gold along the top, a dark red dado band along the bottom, thin gold lines between blocks. Straight-on flat orthographic elevation, no perspective, the wall fills the entire image edge to edge, no sky, no ground, no background, no people. Hand-painted stylized texture in classic early World of Warcraft art style, chunky bold carved forms, painted ambient occlusion, warm torch light at the top and cooler darker base, restrained brush texture. The 1922 Egyptian Theatre in Hollywood, an Egyptian Revival movie palace interior.",
+  "references": [],
+  "image_size": {
+    "width": 1024,
+    "height": 512
+  },
+  "seed": 1600,
+  "output": "work/plates/EGY_wall.png",
+  "status": "downloaded",
+  "request_id": "01a1d918-67c0-7202-8116-ca2e2215da7c",
+  "elapsed_seconds": 11.28,
+  "timings": {
+    "prompt_expansion": 4.467000508157071e-06,
+    "inference": 0.5305231689999346,
+    "safety_checker": 0.010873852999793598
+  },
+  "width": 1024,
+  "height": 512
+}

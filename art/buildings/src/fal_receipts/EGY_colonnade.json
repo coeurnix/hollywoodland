@@ -1,0 +1,23 @@
+{
+  "id": "EGY_colonnade",
+  "provider": "fal.ai",
+  "model": "blackforestlabs/flux-3/klein/text-to-image",
+  "prompt": "An Egyptian Revival colonnade seen straight on: a row of four fat papyrus-bundle columns with flared lotus capitals painted teal, red and gold, a deep dark shadowed walkway behind them, a painted architrave with hieroglyphs along the top. Straight-on flat orthographic elevation, no perspective, the wall fills the entire image edge to edge, no sky, no ground, no background, no people. Hand-painted stylized texture in classic early World of Warcraft art style, chunky bold carved forms, painted ambient occlusion, warm torch light at the top and cooler darker base, restrained brush texture. The 1922 Egyptian Theatre in Hollywood, an Egyptian Revival movie palace interior.",
+  "references": [],
+  "image_size": {
+    "width": 1024,
+    "height": 512
+  },
+  "seed": 1605,
+  "output": "work/plates/EGY_colonnade.png",
+  "status": "downloaded",
+  "request_id": "01a1d918-67bf-7982-88ae-1b00c4d4a65f",
+  "elapsed_seconds": 10.06,
+  "timings": {
+    "prompt_expansion": 6.6200000219396316e-06,
+    "inference": 0.5124667529998987,
+    "safety_checker": 0.012099951998607139
+  },
+  "width": 1024,
+  "height": 512
+}

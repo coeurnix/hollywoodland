@@ -408,9 +408,20 @@ const zone = {
 };
 
 // ---------- The Egyptian Theatre (dungeon) ----------
-const W = (x0, y0, x1, y1, h = 9) => box(x0, y0, x1, y1, h, C.interior);
+// wall boxes dressed with art/buildings EGY_ segments (9 m, both faces painted: plain, relief frieze, now and then hive-eaten)
+const EGY_SEQ = ['EGY_WallSeg', 'EGY_WallSeg_Frieze', 'EGY_WallSeg', 'EGY_WallSeg_Frieze', 'EGY_WallSeg_Hive'];
+let egyN = 0;
+const W = (x0, y0, x1, y1, h = 9) => {
+  const b = box(x0, y0, x1, y1, h, C.interior), alongX = b.w >= b.d, L = alongX ? b.w : b.d, n = Math.max(1, Math.round(L / 9)), seg = L / n;
+  for (let i = 0; i < n; i++) {
+    const s = alongX ? { x: b.x + i * seg, y: b.y, w: seg, d: b.d } : { x: b.x, y: b.y + i * seg, w: b.w, d: seg };
+    const { body } = landmark(s, alongX ? 'S' : 'E', EGY_SEQ[egyN++ % EGY_SEQ.length]);
+    if (i === 0) b.prop = body; else props.push(body);
+  }
+  return b;
+};
 W(16, -4, 20, 260); W(100, -4, 104, 260); W(16, -4, 104, 0); W(16, 256, 104, 260);          // outer walls
-for (const y of [42, 86, 170, 204]) { W(20, y, 54, y + 4); W(66, y, 100, y + 4); }           // dividers with a 12 m door at x 54-66
+for (const y of [42, 86, 170, 204]) { W(20, y, 54, y + 4); W(66, y, 100, y + 4); props.push(...landmarkDeco('EGY_Pylon12', 60, y + 2, 'S')); } // dividers with a 12 m door at x 54-66, a pylon portal over it
 // seat rows (line-of-sight cover): each box draws as six art/world seat rows facing the stage
 const SEAT_S = [1.3, 1.08, 1.25];
 for (let r = 0; r < 5; r++) for (const x0 of [26, 68]) {
@@ -419,7 +430,7 @@ for (let r = 0; r < 5; r++) for (const x0 of [26, 68]) {
   for (const x of xs.slice(1)) deco('egy_seats', x, y, 90, SEAT_S);
 }
 box(30, 236, 90, 252, 0.3, [0.3, 0.25, 0.2], 'Stage', { solid: false });
-box(24, 4, 28, 36, 6, C.landmark); box(92, 4, 96, 36, 6, C.landmark);
+LM(box(24, 4, 28, 36, 6, C.landmark), 'E', 'EGY_Colonnade'); LM(box(92, 4, 96, 36, 6, C.landmark), 'W', 'EGY_Colonnade');   // forecourt colonnades
 const dcamp = (mob, count, x, y, r, o = {}) => camps.push({ id: `dcamp_${String(++campN).padStart(2, '0')}`, mob, count, x, y, r, ...o });
 dcamp('mob_egy_drone', 3, 60, 24, 6); dcamp('mob_egy_broodling', 5, 40, 30, 5);
 dcamp('mob_egy_drone', 2, 36, 56, 4); dcamp('mob_egy_spitter', 2, 84, 56, 4);

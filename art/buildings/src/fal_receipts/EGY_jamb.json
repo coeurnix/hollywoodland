@@ -1,0 +1,23 @@
+{
+  "id": "EGY_jamb",
+  "provider": "fal.ai",
+  "model": "blackforestlabs/flux-3/klein/text-to-image",
+  "prompt": "One tall Egyptian pylon gateway tower face: a tapered sandstone pylon covered in carved hieroglyph columns and a large relief of a pharaoh holding a staff, painted teal, red and gold, a torus moulding along the edges, a cavetto cornice at the top. Straight-on flat orthographic elevation, no perspective, the wall fills the entire image edge to edge, no sky, no ground, no background, no people. Hand-painted stylized texture in classic early World of Warcraft art style, chunky bold carved forms, painted ambient occlusion, warm torch light at the top and cooler darker base, restrained brush texture. The 1922 Egyptian Theatre in Hollywood, an Egyptian Revival movie palace interior.",
+  "references": [],
+  "image_size": {
+    "width": 1024,
+    "height": 512
+  },
+  "seed": 1603,
+  "output": "work/plates/EGY_jamb.png",
+  "status": "downloaded",
+  "request_id": "01a1d918-67c0-7750-a621-ebfff647a911",
+  "elapsed_seconds": 10.35,
+  "timings": {
+    "prompt_expansion": 4.807000550499652e-06,
+    "inference": 0.5487314140009403,
+    "safety_checker": 0.01223943200238864
+  },
+  "width": 1024,
+  "height": 512
+}

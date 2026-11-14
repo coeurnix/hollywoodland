@@ -1,0 +1,23 @@
+{
+  "id": "EGY_hive",
+  "provider": "fal.ai",
+  "model": "blackforestlabs/flux-3/klein/text-to-image",
+  "prompt": "An interior wall of ochre painted sandstone with Egyptian lotus bands, overgrown by an alien infestation: glossy purple-black resin with glowing amber veins spreading across the wall from the bottom corners, a cluster of glossy eggs at the bottom. Straight-on flat orthographic elevation, no perspective, the wall fills the entire image edge to edge, no sky, no ground, no background, no people. Hand-painted stylized texture in classic early World of Warcraft art style, chunky bold carved forms, painted ambient occlusion, warm torch light at the top and cooler darker base, restrained brush texture. The 1922 Egyptian Theatre in Hollywood, an Egyptian Revival movie palace interior.",
+  "references": [],
+  "image_size": {
+    "width": 1024,
+    "height": 512
+  },
+  "seed": 1602,
+  "output": "work/plates/EGY_hive.png",
+  "status": "downloaded",
+  "request_id": "01a1d918-67ce-7c00-8ccd-268436c9bc4f",
+  "elapsed_seconds": 11.47,
+  "timings": {
+    "prompt_expansion": 6.741000106558204e-06,
+    "inference": 0.5310265739990427,
+    "safety_checker": 0.012713131000055
+  },
+  "width": 1024,
+  "height": 512
+}

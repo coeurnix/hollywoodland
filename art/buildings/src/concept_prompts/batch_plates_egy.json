@@ -1,0 +1,82 @@
+[
+ {
+  "id": "EGY_wall",
+  "output": "work/plates/EGY_wall.png",
+  "image_size": {
+   "width": 1024,
+   "height": 512
+  },
+  "seed": 1600,
+  "prompt": "An interior wall of sandstone blocks painted in faded ochre and cream, a painted band of lotus and papyrus pattern in teal, red and gold along the top, a dark red dado band along the bottom, thin gold lines between blocks. Straight-on flat orthographic elevation, no perspective, the wall fills the entire image edge to edge, no sky, no ground, no background, no people. Hand-painted stylized texture in classic early World of Warcraft art style, chunky bold carved forms, painted ambient occlusion, warm torch light at the top and cooler darker base, restrained brush texture. The 1922 Egyptian Theatre in Hollywood, an Egyptian Revival movie palace interior."
+ },
+ {
+  "id": "EGY_frieze",
+  "output": "work/plates/EGY_frieze.png",
+  "image_size": {
+   "width": 1024,
+   "height": 512
+  },
+  "seed": 1601,
+  "prompt": "An interior wall of sandstone painted with a large Egyptian relief frieze: rows of hieroglyphs and striding figures of gods and pharaohs in profile in teal, terracotta red, gold and black on ochre, a lotus pattern band along the top, a dark red dado along the bottom. Straight-on flat orthographic elevation, no perspective, the wall fills the entire image edge to edge, no sky, no ground, no background, no people. Hand-painted stylized texture in classic early World of Warcraft art style, chunky bold carved forms, painted ambient occlusion, warm torch light at the top and cooler darker base, restrained brush texture. The 1922 Egyptian Theatre in Hollywood, an Egyptian Revival movie palace interior."
+ },
+ {
+  "id": "EGY_hive",
+  "output": "work/plates/EGY_hive.png",
+  "image_size": {
+   "width": 1024,
+   "height": 512
+  },
+  "seed": 1602,
+  "prompt": "An interior wall of ochre painted sandstone with Egyptian lotus bands, overgrown by an alien infestation: glossy purple-black resin with glowing amber veins spreading across the wall from the bottom corners, a cluster of glossy eggs at the bottom. Straight-on flat orthographic elevation, no perspective, the wall fills the entire image edge to edge, no sky, no ground, no background, no people. Hand-painted stylized texture in classic early World of Warcraft art style, chunky bold carved forms, painted ambient occlusion, warm torch light at the top and cooler darker base, restrained brush texture. The 1922 Egyptian Theatre in Hollywood, an Egyptian Revival movie palace interior."
+ },
+ {
+  "id": "EGY_jamb",
+  "output": "work/plates/EGY_jamb.png",
+  "image_size": {
+   "width": 1024,
+   "height": 512
+  },
+  "seed": 1603,
+  "prompt": "One tall Egyptian pylon gateway tower face: a tapered sandstone pylon covered in carved hieroglyph columns and a large relief of a pharaoh holding a staff, painted teal, red and gold, a torus moulding along the edges, a cavetto cornice at the top. Straight-on flat orthographic elevation, no perspective, the wall fills the entire image edge to edge, no sky, no ground, no background, no people. Hand-painted stylized texture in classic early World of Warcraft art style, chunky bold carved forms, painted ambient occlusion, warm torch light at the top and cooler darker base, restrained brush texture. The 1922 Egyptian Theatre in Hollywood, an Egyptian Revival movie palace interior."
+ },
+ {
+  "id": "EGY_lintel",
+  "output": "work/plates/EGY_lintel.png",
+  "image_size": {
+   "width": 1024,
+   "height": 512
+  },
+  "seed": 1604,
+  "prompt": "A wide Egyptian gateway lintel: a winged sun disc with two cobras in the middle, spread wings in teal, gold and red feathers, a cavetto cornice with vertical palm-leaf grooves above it, on sandstone. Straight-on flat orthographic elevation, no perspective, the wall fills the entire image edge to edge, no sky, no ground, no background, no people. Hand-painted stylized texture in classic early World of Warcraft art style, chunky bold carved forms, painted ambient occlusion, warm torch light at the top and cooler darker base, restrained brush texture. The 1922 Egyptian Theatre in Hollywood, an Egyptian Revival movie palace interior."
+ },
+ {
+  "id": "EGY_colonnade",
+  "output": "work/plates/EGY_colonnade.png",
+  "image_size": {
+   "width": 1024,
+   "height": 512
+  },
+  "seed": 1605,
+  "prompt": "An Egyptian Revival colonnade seen straight on: a row of four fat papyrus-bundle columns with flared lotus capitals painted teal, red and gold, a deep dark shadowed walkway behind them, a painted architrave with hieroglyphs along the top. Straight-on flat orthographic elevation, no perspective, the wall fills the entire image edge to edge, no sky, no ground, no background, no people. Hand-painted stylized texture in classic early World of Warcraft art style, chunky bold carved forms, painted ambient occlusion, warm torch light at the top and cooler darker base, restrained brush texture. The 1922 Egyptian Theatre in Hollywood, an Egyptian Revival movie palace interior."
+ },
+ {
+  "id": "EGY_top",
+  "output": "work/plates/EGY_top.png",
+  "image_size": {
+   "width": 1024,
+   "height": 512
+  },
+  "seed": 1606,
+  "prompt": "Top-down view of the flat top of a thick sandstone wall: big worn sandstone blocks with dark joints, dust and cracks, painted texture, fills the frame. Hand-painted stylized classic early World of Warcraft texture, no perspective."
+ },
+ {
+  "id": "EGY_side",
+  "output": "work/plates/EGY_side.png",
+  "image_size": {
+   "width": 1024,
+   "height": 512
+  },
+  "seed": 1607,
+  "prompt": "A narrow sandstone wall end face with a carved torus moulding along both edges and a vertical column of hieroglyphs in the middle, ochre with faded teal and red paint. Straight-on flat orthographic elevation, no perspective, the wall fills the entire image edge to edge, no sky, no ground, no background, no people. Hand-painted stylized texture in classic early World of Warcraft art style, chunky bold carved forms, painted ambient occlusion, warm torch light at the top and cooler darker base, restrained brush texture. The 1922 Egyptian Theatre in Hollywood, an Egyptian Revival movie palace interior."
+ }
+]

@@ -1,0 +1,343 @@
+{
+ "atlas": "ATL_EGY",
+ "plates": [
+  "EGY_wall",
+  "EGY_frieze",
+  "EGY_hive",
+  "EGY_jamb",
+  "EGY_lintel",
+  "EGY_colonnade",
+  "EGY_top",
+  "EGY_side"
+ ],
+ "assets": {
+  "EGY_WallSeg": {
+   "size": [
+    9,
+    4,
+    9
+   ],
+   "tris": 800,
+   "parts": [
+    {
+     "box": [
+      -4.5,
+      -2,
+      0,
+      4.5,
+      2,
+      9
+     ],
+     "faces": {
+      "front": {
+       "plate": "EGY_wall",
+       "pw": 9,
+       "crop": [
+        0,
+        0.5,
+        0,
+        1
+       ]
+      },
+      "back": {
+       "plate": "EGY_wall",
+       "pw": 9,
+       "crop": [
+        0,
+        0.5,
+        0,
+        1
+       ]
+      },
+      "top": {
+       "plate": "EGY_top",
+       "pw": 9
+      }
+     }
+    }
+   ]
+  },
+  "EGY_WallSeg_Frieze": {
+   "size": [
+    9,
+    4,
+    9
+   ],
+   "tris": 800,
+   "parts": [
+    {
+     "box": [
+      -4.5,
+      -2,
+      0,
+      4.5,
+      2,
+      9
+     ],
+     "faces": {
+      "front": {
+       "plate": "EGY_frieze",
+       "pw": 9,
+       "crop": [
+        0.02,
+        0.52,
+        0,
+        1
+       ]
+      },
+      "back": {
+       "plate": "EGY_frieze",
+       "pw": 9,
+       "crop": [
+        0.02,
+        0.52,
+        0,
+        1
+       ]
+      },
+      "top": {
+       "plate": "EGY_top",
+       "pw": 9
+      }
+     }
+    }
+   ]
+  },
+  "EGY_WallSeg_Hive": {
+   "size": [
+    9,
+    4,
+    9
+   ],
+   "tris": 800,
+   "parts": [
+    {
+     "box": [
+      -4.5,
+      -2,
+      0,
+      4.5,
+      2,
+      9
+     ],
+     "faces": {
+      "front": {
+       "plate": "EGY_hive",
+       "pw": 9,
+       "crop": [
+        0.5,
+        1,
+        0,
+        1
+       ]
+      },
+      "back": {
+       "plate": "EGY_hive",
+       "pw": 9,
+       "crop": [
+        0.5,
+        1,
+        0,
+        1
+       ]
+      },
+      "top": {
+       "plate": "EGY_top",
+       "pw": 9
+      }
+     }
+    }
+   ]
+  },
+  "EGY_Pylon12": {
+   "size": [
+    20,
+    5,
+    12
+   ],
+   "tris": 800,
+   "parts": [
+    {
+     "box": [
+      -10,
+      -2.5,
+      0,
+      -6,
+      2.5,
+      12
+     ],
+     "faces": {
+      "front": {
+       "plate": "EGY_jamb",
+       "crop": [
+        0.3,
+        0.7,
+        0,
+        1
+       ]
+      },
+      "back": {
+       "plate": "EGY_jamb",
+       "crop": [
+        0.3,
+        0.7,
+        0,
+        1
+       ]
+      },
+      "right": {
+       "plate": "EGY_side",
+       "crop": [
+        0.35,
+        0.65,
+        0,
+        1
+       ]
+      },
+      "left": {
+       "plate": "EGY_side",
+       "crop": [
+        0.35,
+        0.65,
+        0,
+        1
+       ]
+      },
+      "top": {
+       "plate": "EGY_top",
+       "pw": 4
+      }
+     }
+    },
+    {
+     "box": [
+      6,
+      -2.5,
+      0,
+      10,
+      2.5,
+      12
+     ],
+     "faces": {
+      "front": {
+       "plate": "EGY_jamb",
+       "crop": [
+        0.3,
+        0.7,
+        0,
+        1
+       ]
+      },
+      "back": {
+       "plate": "EGY_jamb",
+       "crop": [
+        0.3,
+        0.7,
+        0,
+        1
+       ]
+      },
+      "left": {
+       "plate": "EGY_side",
+       "crop": [
+        0.35,
+        0.65,
+        0,
+        1
+       ]
+      },
+      "right": {
+       "plate": "EGY_side",
+       "crop": [
+        0.35,
+        0.65,
+        0,
+        1
+       ]
+      },
+      "top": {
+       "plate": "EGY_top",
+       "pw": 4
+      }
+     }
+    },
+    {
+     "box": [
+      -6,
+      -2.2,
+      9,
+      6,
+      2.2,
+      12
+     ],
+     "faces": {
+      "front": {
+       "plate": "EGY_lintel",
+       "pw": 12
+      },
+      "back": {
+       "plate": "EGY_lintel",
+       "pw": 12
+      },
+      "top": {
+       "plate": "EGY_top",
+       "pw": 12
+      }
+     }
+    }
+   ]
+  },
+  "EGY_Colonnade": {
+   "size": [
+    32,
+    4,
+    6
+   ],
+   "tris": 800,
+   "parts": [
+    {
+     "box": [
+      -16,
+      -2,
+      0,
+      16,
+      2,
+      6
+     ],
+     "faces": {
+      "front": {
+       "plate": "EGY_colonnade",
+       "pw": 8
+      },
+      "back": {
+       "plate": "EGY_colonnade",
+       "pw": 8
+      },
+      "left": {
+       "plate": "EGY_side",
+       "crop": [
+        0.35,
+        0.65,
+        0,
+        1
+       ]
+      },
+      "right": {
+       "plate": "EGY_side",
+       "crop": [
+        0.35,
+        0.65,
+        0,
+        1
+       ]
+      },
+      "top": {
+       "plate": "EGY_top",
+       "pw": 8
+      }
+     }
+    }
+   ]
+  }
+ }
+}

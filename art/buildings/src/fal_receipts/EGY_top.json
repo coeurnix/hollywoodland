@@ -1,0 +1,23 @@
+{
+  "id": "EGY_top",
+  "provider": "fal.ai",
+  "model": "blackforestlabs/flux-3/klein/text-to-image",
+  "prompt": "Top-down view of the flat top of a thick sandstone wall: big worn sandstone blocks with dark joints, dust and cracks, painted texture, fills the frame. Hand-painted stylized classic early World of Warcraft texture, no perspective.",
+  "references": [],
+  "image_size": {
+    "width": 1024,
+    "height": 512
+  },
+  "seed": 1606,
+  "output": "work/plates/EGY_top.png",
+  "status": "downloaded",
+  "request_id": "01a1d918-67cb-7830-9bef-004e07fb357d",
+  "elapsed_seconds": 11.44,
+  "timings": {
+    "prompt_expansion": 6.55999974696897e-06,
+    "inference": 0.5597449439992488,
+    "safety_checker": 0.013871342998754699
+  },
+  "width": 1024,
+  "height": 512
+}

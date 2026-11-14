@@ -29,7 +29,7 @@ Check the landmarks with `hollywoodland-ue\Scripts\RunNative.ps1 -HLAuto=veteran
 | | `LM_HollywoodHigh` (66×8×9 north range) + `LM_HollywoodHigh_Wing` (8×52×9, mirrored) | **done 2026-11-14**: blocks + FLUX plates on `ATL_HH` (gym inside faces, hive corners), placed with `LM()`; `preview/CIVIC_contact.png` |
 | | aid stations: Receiving Hospital, Fire Station No. 27, Blessed Sacrament church | **done 2026-11-14**: blocks + FLUX plates sharing `ATL_AID`, placed with `LM()` |
 | §7.3 backdrops | 10 low-budget studio/landmark masses beyond the hive wall (Bowl, Paramount, Columbia, RKO, Chaplin, Poverty Row, Christie, cemetery, La Brea ×2) | **needed**; seen from 100–400 m: silhouette and colour only |
-| §11.1 Egyptian dungeon | dressed by the `art/world` Egyptian kit (sphinxes, columns, seats, stage, projector) | wall shells are still boxes: `EGY` wall panel / pylon doorway modules wanted |
+| §11.1 Egyptian dungeon | dressed by the `art/world` Egyptian kit (sphinxes, columns, seats, stage, projector) | **done 2026-11-14**: `EGY_WallSeg` (+ `_Frieze`, `_Hive`) tile every wall box, `EGY_Pylon12` over the four doorways, `EGY_Colonnade` on the forecourt boxes (`ATL_EGY`, `preview/EGY_contact.png`) |
 | §11.2 ballroom courtyard | the hotel's courtyard now has its landmark wings | bandstand, 6 tables (art/props has ballroom furniture and a chandelier) |
 | §11.3 gym | | needed with Hollywood High |
 | §10 | remaining sign/poster pages, emissive masks | optional |

@@ -1,0 +1,23 @@
+{
+  "id": "EGY_side",
+  "provider": "fal.ai",
+  "model": "blackforestlabs/flux-3/klein/text-to-image",
+  "prompt": "A narrow sandstone wall end face with a carved torus moulding along both edges and a vertical column of hieroglyphs in the middle, ochre with faded teal and red paint. Straight-on flat orthographic elevation, no perspective, the wall fills the entire image edge to edge, no sky, no ground, no background, no people. Hand-painted stylized texture in classic early World of Warcraft art style, chunky bold carved forms, painted ambient occlusion, warm torch light at the top and cooler darker base, restrained brush texture. The 1922 Egyptian Theatre in Hollywood, an Egyptian Revival movie palace interior.",
+  "references": [],
+  "image_size": {
+    "width": 1024,
+    "height": 512
+  },
+  "seed": 1607,
+  "output": "work/plates/EGY_side.png",
+  "status": "downloaded",
+  "request_id": "01a1d918-6888-7cc0-a0ee-fe07bd9d5d52",
+  "elapsed_seconds": 12.62,
+  "timings": {
+    "prompt_expansion": 4.327000000081682e-06,
+    "inference": 0.5535141790023772,
+    "safety_checker": 0.014342501999635715
+  },
+  "width": 1024,
+  "height": 512
+}

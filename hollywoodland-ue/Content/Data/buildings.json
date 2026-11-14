@@ -3872,6 +3872,66 @@
    "tris": 36,
    "origin": "footprint-centre-ground",
    "attachments": []
+  },
+  "EGY_WallSeg": {
+   "mesh": "/Game/Buildings/SM_EGY_WallSeg.SM_EGY_WallSeg",
+   "kind": "interior",
+   "nominal": [
+    9,
+    4,
+    9
+   ],
+   "tris": 6,
+   "origin": "footprint-centre-ground",
+   "attachments": []
+  },
+  "EGY_WallSeg_Frieze": {
+   "mesh": "/Game/Buildings/SM_EGY_WallSeg_Frieze.SM_EGY_WallSeg_Frieze",
+   "kind": "interior",
+   "nominal": [
+    9,
+    4,
+    9
+   ],
+   "tris": 6,
+   "origin": "footprint-centre-ground",
+   "attachments": []
+  },
+  "EGY_WallSeg_Hive": {
+   "mesh": "/Game/Buildings/SM_EGY_WallSeg_Hive.SM_EGY_WallSeg_Hive",
+   "kind": "interior",
+   "nominal": [
+    9,
+    4,
+    9
+   ],
+   "tris": 6,
+   "origin": "footprint-centre-ground",
+   "attachments": []
+  },
+  "EGY_Pylon12": {
+   "mesh": "/Game/Buildings/SM_EGY_Pylon12.SM_EGY_Pylon12",
+   "kind": "interior",
+   "nominal": [
+    20,
+    5,
+    12
+   ],
+   "tris": 30,
+   "origin": "footprint-centre-ground",
+   "attachments": []
+  },
+  "EGY_Colonnade": {
+   "mesh": "/Game/Buildings/SM_EGY_Colonnade.SM_EGY_Colonnade",
+   "kind": "interior",
+   "nominal": [
+    32,
+    4,
+    6
+   ],
+   "tris": 28,
+   "origin": "footprint-centre-ground",
+   "attachments": []
   }
  },
  "recipes": {
