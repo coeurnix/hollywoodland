@@ -19,7 +19,7 @@ submission (bible §2 rule 1).
 
 **World pieces (not yet imported):** `art/world/` holds 34 more Rodin `.glb` models, made from FLUX reference images, with the same conventions as `art/props`. They cover the Pacific Electric red car, mounts (horse, motorcycle, Ford Model A and the police Model A), four wrecks, eight interactables (film can stack, film reel, coffee tin, arc lamp, call box, mailbox, scrap pile, captured-usher cocoon), an Egyptian dungeon interior kit and the HOLLYWOODLAND sign letters. Sizes and notes are in `art/world/README.txt`.
 
-**Enemies (not yet imported):** `art/enemies/` holds rigged, animated FBX + GLB models for every mob in the built slice, plus destroyed hive structures. `art/enemies/enemies.json` maps each mob id to its model and clips, and `art/enemies/README.md` is the integration guide.
+**Enemies (imported):** `art/enemies/` holds rigged, animated FBX + GLB models for every mob in the built slice, plus destroyed hive structures. `art/enemies/enemies.json` maps each mob id to its model and clips, and `art/enemies/README.md` is the integration guide. `hollywoodland-ue/Scripts/ImportEnemies.ps1` (`Scripts/import_enemies.py`) clears and re-imports `/Game/Enemies`: `SK_<Model>` with every take renamed `A_<Model>_<Clip>`, `MI_<Model>[_<Variant>]` on `M_HLEnemy` (base colour 1024, normal and metal/roughness 512, metal damped for the web tier), and the `HiveStructures` wrecks. `python -I tools/enemyprep.py` writes `Content/Data/enemies.json` (mob → model, variant material, specials; model → roles and clips). `HLEnemies.cpp` plays them; `-HLEnemyLineup` shows each model beside the player.
 
 **Buildings (imported, in progress):** the building-art agent publishes reviewed checkpoints to `art/buildings/` (kept local; import only what `manifest.json` indexes). `python -I tools/buildprep.py` stages them (meshes as delivered; atlases and landmarks 2048, sign pages and tileables 1024) and writes `Content/Data/buildings.json`; `Scripts/ImportBuildings.ps1` runs the same importer into `/Game/Buildings` (painted, matte material, instancing-enabled). `tools/gen/facades.mjs` lays the BRK storefront family on the street face of every `shops()` box (corners, bays stretched between pilasters, upper rows per 3.5 m, parapet scaled to the remaining height, awnings, crests and damaged bays by seed); the Drugstore box draws as `LM_Drugstore` with its two lettering cards, the Haberdashery and the Taft's auction rooms get sign cards. `AHLWorldActor::BuildWorld` draws kit modules as one instanced component per mesh (about 1,000 pieces, 25 draws). `-HLViews` takes a screenshot tour of the fronts (`Saved/Screenshots/hl_view_NN.png`).
 
@@ -28,19 +28,19 @@ submission (bible §2 rule 1).
 | Landmark exteriors: Grauman's Chinese, Egyptian, Roosevelt, Hollywood Hotel, First National Bank, Taft Building, Brown Derby, Pantages, Hollywood High, police station | 10 | labelled coloured boxes (`label` on boxes in `tools/gen/zone.mjs`) | `AHLWorldActor::BuildWorld` (swap mesh by `FHLBox::Label`) |
 | Aid stations: Receiving Hospital, Fire Station No. 27, Blessed Sacrament | 3 | boxes + red floor square | same |
 | Street kit: storefronts (≈60 instances, 6-8 variants), signs, street lamps, red-car track, kerbs, period cars, rubble | 1 kit | IN PROGRESS: BRK storefront family on every shop front, Drugstore landmark, 4 sign cards (`tools/gen/facades.mjs`); SPN/DECO/MSN families, roof dressing and street kit pending from the building agent | `zone.mjs` `facades()`, `BuildWorld` |
-| Hive kit: wall segments, gap, spire, egg cluster, egg sac | 5 | dark boxes; cone; squashed spheres | `BuildWorld` object switch (`O.Kind`) |
+| Hive kit: wall segments, gap, spire, egg cluster, egg sac | 5 | spires and egg clusters are props with wrecks from `art/enemies/HiveStructures`; the egg sac is the rigged `SK_HiveEggSac`; walls are still dark boxes | `BuildWorld` object switch (`O.Kind`) |
 | Red car (Pacific Electric) | 1 | red box 13×2.6×3.2 m | object kind `redcar` |
 | Wrecks: newsreel truck, cars | 3 | dark low boxes | `zone.mjs` wreck boxes |
 | Player/NPC bodies | 2 base bodies | DONE: MakeHuman male/female, 37-bone rig, modular geosets (`Content/Characters/Body`) | `HLCharacter.cpp` (`FHLCharVisuals::Apply`) |
 | Armour looks | 24 (4 types × 6 tiers) + 8 epic | DONE: 32 looks + starter, 38 hats; item → look by type letter, required level band and quality (`FHLChars::LookForItem`) | `Content/Data/characters.json` |
 | Weapon meshes | ~40 | DONE: 41 held items (name match, else same type by hash) in the palm of either hand | `FHLChars::HeldForItem` |
-| Invader meshes: Worker, Drone, Spitter, Soldier, Broodling, Brute, Queen (+ Burrower, Flier later) | 7 (+2) | squashed sphere + cone "head", colour/scale per template | `BuildUnit` (`Shape == bug`), `mobs[].shape/color/scale` |
-| Wildlife: coyote, feral dog | 2 | box body + box head | `BuildUnit` (`Shape == quad`) |
+| Invader meshes: Worker, Drone, Spitter, Soldier, Broodling, Brute, Burrower, Flier + bosses (Brood Keeper, Hive Warden, Spitter Matriarch, Hive Mother) | 12 | DONE: rigged models from `art/enemies` (gray-box shapes remain only as a fallback) | `FHLEnemyArt::Make` from `BuildUnit` |
+| Wildlife: coyote, feral dog, Old Scar, hive-ridden coyote | 4 | DONE: rigged models from `art/enemies` | same |
 | Humans: Looter, Dragna Enforcer | reuse character | DONE: character art (suits and blackjacks for the Dragna, work clothes and tools for looters) | `FHLChars::LookFor` |
 | Mounts: horse, Ford Model A, motorcycle (+ 60 tier re-skins) | 3 | dark box under the rider | `SyncUnits` mount block |
 | Interactables: film can, reel, coffee tin, arc lamp, call box, mailbox, scrap pile, captured usher | 8 | small cylinders/boxes | `BuildWorld` object switch |
 | Dungeon interior: forecourt, lobby, auditorium (seat rows), projection booth, stage | 5 rooms | brown wall boxes, red seat rows, red carpet strip | `tools/gen/zone.mjs` dungeon section |
-| Sky / dome | 1 | flat-colour sphere shell (2.6 km) | `BuildWorld` |
+| Sky / dome | 1 | DONE: FLUX day and night panoramas on the 2.6 km shell (`M_HLSkyDome`), blended by the clock | `TickSky` |
 | HOLLYWOODLAND sign on Mount Lee | 1 | absent | add north of zone |
 
 ## Animation
@@ -48,7 +48,7 @@ submission (bible §2 rule 1).
 | Needed | Current |
 |---|---|
 | Character: idle, run, jump, sit, melee swing, cast, shoot, hit react, death, loot, emotes (wave, dance, cheer) | DONE: 22 clips retargeted from the engine template Mannequin (`Scripts/retarget_anims.py`) + 19 authored for the rig (combat 1H/2H, cast, sit, loot, talk, wave, laugh, cheer, shrug, point, bow, dance); chosen per frame in `FHLCharVisuals::Drive` |
-| Invaders ×7, coyote, dog: idle, walk, attack, cast (spit), death | none |
+| Invaders, bosses, wildlife: idle, walk, run, attack, hit, death + specials | DONE: authored per model in `art/enemies` (see its README §6), driven by `FHLEnemyArt::Drive` |
 | Mount ride | none |
 | Crowd: vertex-animated variants (bible §13) | none |
 

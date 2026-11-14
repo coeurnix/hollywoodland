@@ -86,7 +86,10 @@ browser ── itch.io page (iframe, SharedArrayBuffer support) ── UE 5.9 Wa
 | Music | DONE | `HLMusic.cpp`; 30 tracks streamed from R2 `music/` on the web (not in the pak), copied to `<pkg>\Music` natively. Menu volume + `/music`. |
 | Sound effects + ambience | DONE | `HLSfx.cpp`; 500 MP3s in `sfx/` from `tools/gen-sfx.mjs` (fal.ai ElevenLabs SFX v3), loudness-mastered with per-category mix gains, fetched from R2 `sfx/` on the web, copied to `<pkg>\Sfx` natively. Menu volume + `/sfx` (`/sfx play <id>` to audition). Auto tests are silent unless `-HLSfx`. |
 | Character art | DONE | MakeHuman bodies from the art package (`art/characters`, kept local) → `tools/charprep.py` → `Scripts/ImportCharacters.ps1` (`-Reset` for meshes) → `-Script retarget_anims.py`. Creator on the title screen (sex, skin, face, hair, hair colour, clothes dye), paper doll with a live 3D figure, gear shown on every human. Test: `-HLLineup [-HLLineupFar] [-HLLineupSide] [-HLLineupGestures] [-HLBindPose] [-HLDumpAtlas]`. |
-| Day/night, SFX/ambience, VFX | TODO | None. Character animation done (see above); invaders and wildlife still slide. |
+| Day/night, sky, ground | DONE | World clock `FHLGame::Hour()` (one game day per real hour, `-HLTime=<h>` pins it); `AHLWorldActor::TickSky` turns the sun into a cool moon, blends the FLUX day/night sky panoramas (`M_HLSkyDome`), grades golden hour and blue night, and brightens the lamps after dark. Painted, world-aligned ground tiles (`M_HLGround`: asphalt, sidewalk, lot grass, blight, theatre carpet) from `tools/textures/`. |
+| Combat effects | DONE | `HLFx.cpp`: an FX event queue from the sim drawn by a pooled additive renderer: tracers and muzzle flashes, spell bolts, acid spit, thrown bottles, impacts and crits, novas, heals, buffs, shields, level-up; lasting states (casting glow, shields, stuns, slows, HoT/DoT motes). |
+| Settings | DONE | `HLSettings.*`: Interface (size, nameplates, floating text), rebindable keys (33 actions, two keys each), Sound, Graphics (quality presets, real-time sun/moon shadows off/characters/everything, view distance, render resolution). Saved under `hl_settings`. |
+| Enemy art | DONE | `art/enemies` → `Scripts/ImportEnemies.ps1` (`/Game/Enemies`, 17 rigged models, every clip) → `python -I tools/enemyprep.py` (`Content/Data/enemies.json`). `HLEnemies.cpp` drives single-node clips: idle/walk/run by speed, attack per swing, hit flinch, death holds the corpse, burrow/emerge, and specials through `FHLGame::Cue` (slam, spit, acid pool, charge, summon, dive, hatch, howl). Spires and egg clusters leave wrecks; the egg sac pulses. `-HLEnemyLineup` screenshots every model. |
 | Interface (§1 WP10) | DONE | Alegreya Sans + Limelight (OFL), Art Deco frames, FLUX panel/header/title art, painted icons on bars, bags, spellbook, menu; quest goal markers (screen diamond, edge arrow, minimap, tracker distance); hostile-zone banner. |
 
 ## 3. TODO (ordered; each item is independently shippable)
@@ -131,7 +134,7 @@ browser ── itch.io page (iframe, SharedArrayBuffer support) ── UE 5.9 Wa
 25. Items: grow base list to ~680 (bible §8), icons (~700), pocket items, epics set looks; validator rule for unique names.
 26. Quest text to 60-120 words (LLM expand with cache, human spot-check 20). Unbuilt-zone quest titles to ~45/zone.
 27. Audio (music, SFX and ambience done): 1925-and-earlier recordings on radios; voice-over once the dialogue scripts exist. Public-domain film on the Chinese screen (§14 assets).
-28. Day/night cycle; skybox with the dome; HOLLYWOODLAND sign on the north horizon.
+28. ~~Day/night cycle; skybox~~ (done); HOLLYWOODLAND sign on the north horizon (letters in `art/world`, not yet imported).
 
 ## 4. Technical dependencies and risks
 
