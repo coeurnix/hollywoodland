@@ -174,6 +174,7 @@ struct FHLPlayer
 	double PlayedS = 0;
 	bool bShowSim = false;
 	TMap<FString, int32> Talents; // talent id -> rank
+	int32 BonusTalents = 0;       // early points from the opening (Director's Cut): spendable below level 10, tier 1 only
 	int32 Respecs = 0;
 	TMap<FString, float> Durability; // equip slot -> 0..1 (missing = 1); a broken item (0) gives nothing
 	int32 CorpseArea = 0; FVector2D CorpsePos = FVector2D::ZeroVector;
@@ -408,6 +409,12 @@ public:
 	int32 OpenNpcUnitId = 0;       // NPC dialog open
 	// the red car inside the dome: a short ride between stops the player has walked to (HLPlayer.cpp)
 	int32 RideStop = -1; double RideUntil = 0, RideStart = 0;
+	// a test drive from the mount dealer: the player rides one of his mounts until the time runs out
+	double TestDriveUntil = 0;
+	void StartTestDrive(int32 Kind);
+	void EndTestDrive(const TCHAR* Why);
+	// the opening: true while the Opening Night chain is still running (the Director and other prompts wait)
+	bool InOpening() const;
 	int32 NearestStop(float MaxD = 1e9f) const;
 	void RideRedcar(int32 StopIdx);
 	FString OpenNpcMode;           // "", quest:<id>, vendor, trainer, bank, auction, redcar, inn, prof

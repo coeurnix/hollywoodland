@@ -104,7 +104,7 @@ int32 FHLGame::BondedAwaySim(int32 MinLevel, int32 MaxLevel)
 
 void FHLGame::TickSocial(float Dt)
 {
-	if (Now < NextSocial) return;
+	if (Now < NextSocial || InOpening()) return;
 	NextSocial = Now + 5;
 	FHLUnit* P = PlayerUnit();
 	if (!P || !Sims.Num()) return;

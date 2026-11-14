@@ -113,7 +113,8 @@ struct FHLAreaDef
 struct FHLObjective { FString Type, Item, Kind, Npc, Label; TArray<FString> Mobs, From; int32 Count = 1; float Rate = 1; FVector2D To = FVector2D::ZeroVector; };
 struct FHLQuest
 {
-	FString Id, Name, Giver, Turnin, Prereq, Next, Text, CompleteText, ProgressText, Hub, Breadcrumb, Type, Cls;
+	FString Id, Name, Giver, Turnin, Prereq, Next, Text, CompleteText, ProgressText, Hub, Breadcrumb, Type, Cls, GivesOnAccept;
+	int32 Tour = 0, BonusTalent = 0; // Opening Night reel number (the tour card), talent points granted on accept
 	bool bVoiced = false; // dialogue.json rewrote it: vo_<id>_offer / _progress / _complete exist
 	int32 Level = 1, MinLevel = 1, Xp = 0, Cents = 0;
 	TArray<TPair<const FHLItem*, int32>> Takes; // handed in at turn-in (crafted goods)

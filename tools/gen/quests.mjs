@@ -11,13 +11,49 @@ const use = (kind, count, label) => ({ type: 'use', kind, count, label });
 const talk = (npc, label) => ({ type: 'talk', npc, count: 1, label });
 const escort = (npc, to, label) => ({ type: 'escort', npc, to, count: 1, label });
 const craft = (name, count, label) => ({ type: 'craft', item: name, count, label: label || name });
+// 'do': something done with the interface (HLPlayer.cpp QuestEvent("do", kind)); npc: where the marker points ({cls} = the player's class)
+const does = (kind, label, npc) => ({ type: 'do', kind, count: 1, label, npc: npc || '' });
 const T = (cls) => `npc_trainer_${cls}`;
 const cq = (cls) => ({ hub: 'hub_chinese_forecourt', end: true, extra: { cls } });
 const G = 'npc_sid_grauman';
 const starter = [['Newsboy Cap of Stamina', 1], ['Leather Gloves of Agility', 1], ['Canvas Work Gloves of Strength', 1]];
 
+// Opening Night (the first ten minutes): Sid is shooting a newsreel, "Hollywood Holds", and the new arrival is his star.
+// Each reel is short and shows one system: a first fight, training, talents, the bank, a vendor and gear, the red car,
+// the auction house, mounts, the map. The tour card (HLUI.cpp DrawTour) points at the interface for each step.
+const O = (n, id, name, giver, turnin, objectives, text, done, xp, cents, extra = {}) => ({ ...Q(id, name, 1, giver, turnin, objectives, text, done, { extra: { tour: n, ...extra } }), rewards: { xp, cents, choice: [], rep: {} }, min_level: 1 });
+const opening = [
+  O(1, 'q_open_1', 'Reel One: Screen Test', G, G, [kill('mob_invader_worker', 3, 'Invader Workers slain')],
+    "There you are! Sid Grauman. I'm shooting a newsreel, 'Hollywood Holds', and you just walked into it. Scene one: those pale things behind my theatre, the Workers. They don't bite unless you start it. So start it. Three of them, and make it look good. Round the east side of the building, past Max Factor's.",
+    "Cut! Print it. You've got a face for this, kid. And you're quicker on your feet than you were a minute ago, I can tell.", 330, 30),
+  O(2, 'q_open_2', 'Reel Two: A New Trick', G, G, [does('train', 'Learn a new ability from your class trainer', 'npc_trainer_{cls}')],
+    "Every picture needs a new trick in the second reel. Your trainer is right here on the forecourt, the one in your line of work. You've grown since this morning, they'll have something new to show you. Mind the fee, it's cheap.",
+    "Now that's a move. Use it out there, they'll never see it coming.", 250, 20),
+  O(3, 'q_open_3', "Reel Three: The Director's Cut", G, G, [does('talent', "Spend your Director's Cut talent point")],
+    "Here's a little something I give my leading players: the director's cut. One talent point, early, on the house. Most folks wait for level ten. Open your talents and pick the one that suits you. You can change your mind later, for a fee.",
+    "Good choice. I'd have picked the same.", 300, 0, { bonus_talent: 1 }),
+  O(4, 'q_open_4', 'Reel Four: Money in the Bank', G, 'npc_teller', [does('bank_deposit', 'Put the Premiere Ticket in your bank vault', 'npc_teller')],
+    "Take this ticket: opening night at the Egyptian, when we take it back. Don't carry it around in a fight, put it in the First National at Highland. Walk east along the boulevard, Miss Frost is at the window. A vault keeps what your bags can't.",
+    "A premiere ticket from Mr. Grauman? I'll keep it safe. Your vault is yours any time you come by, and Mr. Grauman left a little advance for you.", 250, 60, { gives_on_accept: 'Premiere Ticket' }),
+  O(5, 'q_open_5', 'Reel Five: Dressed for the Part', 'npc_teller', 'npc_haberdasher', [does('buy', 'Buy something to wear from Saul Hirsch', 'npc_haberdasher'), does('equip', 'Put it on')],
+    "If you don't mind my saying, you'll want to look the part for Mr. Grauman's camera. Saul Hirsch keeps the outfitter's two doors down. A hat costs pennies. Buy one and wear it out of the shop.",
+    "Look at you. Now you look like somebody. Wear it in good health.", 300, 10),
+  O(6, 'q_open_6', 'Reel Six: All Aboard', 'npc_haberdasher', 'npc_auctioneer', [does('ride_redcar', 'Ride the red car from Highland to Vine', 'npc_conductor'), talk('npc_auctioneer', 'Speak to Cornelius Vane at the Taft Building')],
+    "Mr. Grauman telephoned, you're wanted at the Taft Building, Hollywood and Vine. Cornelius Vane runs the auction floor there. Don't walk it, take the red car. Conductor Ruiz is at the Highland stop, right across the street. Five cents.",
+    "Grauman's star, is it? Welcome to the floor. Everything that comes off a studio lot, a hive or a dead man's back is sold here, and every player on the hill sells through me.", 300, 0),
+  O(7, 'q_open_7', 'Reel Seven: Under the Hammer', 'npc_auctioneer', 'npc_auctioneer', [does('auction_search', 'Search the auction listings'), does('auction_list', 'List the souvenir postcards for sale')],
+    "Here's how the floor works. Search the listings first, see what things go for. Then sell something: take these postcards Sid had printed and put them up. Set a price, pay the small deposit, and when somebody buys, your money comes by mail.",
+    "Listed! Somebody on the hill will snap those up. Watch your mailbox. Now, there's a man next door you ought to meet.", 400, 0, { gives_on_accept: 'Souvenir Postcards', gives_trade: 8 }),
+  O(8, 'q_open_8', 'Reel Eight: Horsepower', 'npc_auctioneer', 'npc_mount_dealer', [does('test_drive', "Take one of Eddie's mounts for a test drive", 'npc_mount_dealer')],
+    "Eddie Kellerman deals in horses and motor cars, right by the Taft. Nobody can afford his stock till they've made a name, but Eddie lets a star take one for a spin. Tell him Vane sent you.",
+    "Rides like a dream, don't she? Come back when you're a name on this street, level forty and some money saved, and she's yours. Sid's asking for you back at the Chinese.", 500, 50),
+  O(9, 'q_open_9', "Reel Nine: That's a Wrap", 'npc_mount_dealer', G, [does('map', 'Open your map and find the way back to Grauman\'s Chinese'), talk(G, 'Report to Sid Grauman at the Chinese')],
+    "Sid's at the Chinese, west end of the boulevard. Open your map if you've lost your bearings, the red car runs back to Highland too.",
+    "That's a wrap on the opening! You've seen the whole street. Now the real picture starts: the boulevard needs clearing, and I know just who'll do it.", 300, 20),
+];
 export const quests = [
-  Q('q_hb_01', 'Pests in the Forecourt', 1, G, G, [kill('mob_invader_worker', 6, 'Invader Workers slain')],
+  ...opening,
+  Q('q_hb_01', 'Pests in the Forecourt', 2, G, G, [kill('mob_invader_worker', 6, 'Invader Workers slain')],
     "Welcome to the Chinese, friend. I'd shake your hand but I've a theatre full of vermin. Those pale ones, the Workers, are carrying off my forecourt a brick at a time. They don't bite unless you start it. Start it. Six of them ought to make my point.",
     "Six fewer. I can nearly hear the box office again. You'll do, kid."),
   Q('q_hb_02', 'Plates for Mr. Factor', 1, 'npc_max_factor', null, [item('Cracked Chitin Plate', 5, 'mob_invader_worker', 0.6)],
@@ -44,9 +80,6 @@ export const quests = [
   Q('q_hb_09', 'Old Scar', 5, 'npc_roosevelt_clerk', null, [kill('mob_old_scar', 1, 'Old Scar slain')],
     "There's one coyote the bellhops have a name for. Old Scar. Big grey brute, hunts alone up past Franklin on the east end, and he's taken two of the hotel's dogs. I'd count it a personal favour.",
     "Old Scar himself? The bellhops will want to hear it from you.", { choice: [['Brass Ring of the Acrobat', 5], ['Brass Ring of the Engineer', 5], ['Brass Ring of the Boxer', 5]], end: true }),
-  Q('q_hb_10', 'An Introduction at the Taft', 4, G, 'npc_auctioneer', [talk('npc_auctioneer', 'Speak to the auctioneer at the Taft Building')],
-    "You've been picking things up off those creatures. Don't sell it all to shopkeepers. Cornelius Vane runs the auction floor at the Taft Building, Hollywood and Vine, and everyone on the hill sells through him. Tell him Sid sent you.",
-    "Grauman's word is good here. Everything that comes off a studio lot, a hive or a dead man's back is sold on this floor. Browse the listings, bid as you please.", { hub: 'hub_vine' }),
   Q('q_hb_11', 'Glands for the Drugstore', 5, 'npc_druggist', null, [item('Spitter Gland', 8, 'mob_invader_spitter', 0.5)],
     "I do not hold with liquor, but I hold with medicine. The yellow ones that spit carry a gland that makes a first-rate burn salve. They roost above Cahuenga, south of the boulevard. Bring me eight, and wear gloves.",
     "Eight, and intact. There will be salve at the aid stations by morning.", { hub: 'hub_vine', choice: [['Cotton Gloves of Intellect', 5], ['Leather Gloves of the Acrobat', 5], ['Canvas Work Gloves of the Boxer', 5]] }),
@@ -140,6 +173,9 @@ export const quests = [
     "Post 43 holds the clubhouse up Highland with a German field gun and not much else. They want experienced hands. It is thirty levels of trouble north of here. Go when you are ready, not before.", "", { hub: 'hub_police', extra: { breadcrumb: 'zone_cahuenga_pass' } }),
 ];
 // chains
+for (let i = 1; i < 9; ++i) { const a = quests.find((q) => q.id === `q_open_${i}`), b = quests.find((q) => q.id === `q_open_${i + 1}`); a.next = b.id; b.prereq = a.id; }
+quests.find((q) => q.id === 'q_hb_01').prereq = 'q_open_9'; quests.find((q) => q.id === 'q_open_9').next = 'q_hb_01';
+quests.find((q) => q.id === 'q_hb_02').prereq = 'q_open_9';
 const chain = (a, b) => { quests.find((q) => q.id === a).next = b; quests.find((q) => q.id === b).prereq = a; };
 chain('q_hb_01', 'q_hb_03'); chain('q_hb_03', 'q_hb_04'); chain('q_hb_04', 'q_hb_05'); chain('q_hb_05', 'q_hb_09');
 chain('q_hb_01', 'q_hb_06'); chain('q_hb_06', 'q_hb_07'); chain('q_hb_07', 'q_hb_08'); chain('q_hb_08', 'q_hb_17');

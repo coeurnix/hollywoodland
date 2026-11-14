@@ -250,6 +250,8 @@ N('npc_gunsmith', 'Earl Tanner', 'Gunsmithing Trainer', 366, 188, 90, ['quest', 
 N('npc_haberdasher', 'Saul Hirsch', 'Haberdasher', 384, 188, 90, ['vendor', 'repair'], { stock: 'armor', hub: 'hub_highland' });
 N('npc_auctioneer', 'Cornelius Vane', 'Auctioneer', 772, 211, 180, ['quest', 'auctioneer'], { hub: 'hub_vine' });
 N('npc_auctioneer2', 'Miss Opal Reed', 'Auctioneer', 790, 211.5, -90, ['auctioneer'], { hub: 'hub_vine' });
+// the mount dealer (the opening's test drive, HLUIWindows.cpp "mounts"): his stock stands on the lot east of the Taft
+N('npc_mount_dealer', 'Eddie "Wheels" Kellerman', "Kellerman's Livery & Motor", 820, 213, -90, ['quest', 'mounts'], { hub: 'hub_vine' });
 N('npc_salvage_trainer', 'Ike Brandt', 'Salvaging Trainer', 742, 214, -90, ['quest', 'trainer_prof'], { prof: 'salvage', hub: 'hub_vine' });
 N('npc_derby_cook', 'Gus Malloy', 'Brown Derby Kitchen', 768, 286, 180, ['quest', 'vendor'], { stock: 'food', hub: 'hub_vine' });
 N('npc_druggist', 'Mrs. Ida Walsh', 'Druggist, WCTU', 730, 212.5, -90, ['quest'], { hub: 'hub_vine' });
@@ -411,6 +413,7 @@ decoIf('palm_planter', 222, 341.5, 0); decoIf('palm_planter', 236, 341.5, 0);
 decoIf('backboard', 205.5, 378, 0, 1, 2.2); decoIf('backboard', 252.5, 378, 180, 1, 2.2);
 decoIf('bleachers', 219, 353.3, 90); decoIf('bleachers', 239, 353.3, 90);
 // the Brown Derby kitchen yard and the back lots
+deco('mount_horse', 828, 222, 180); deco('mount_scout', 837, 222, 180); deco('mount_model_a', 848, 224, 180); deco('crates', 858, 218, 0); deco('sandbags', 822, 230, 0);
 deco('coffee_sacks', 814, 284, 0); deco('coffee_sacks', 766, 306, 90); deco('crates', 812, 296, 0);
 [[592, 300, 0], [700, 360, 90], [828, 330, 0], [372, 300, 90], [456, 360, 0], [612, 408, 90]].forEach(([x, y, yaw]) => deco('crates', x, y, yaw));
 deco('shed_collapsed', 470, 400, 0); deco('wall_ruined', 600, 340, 90); deco('wall_ruined', 760, 400, 0); deco('pole_fallen', 452, 316, 20);

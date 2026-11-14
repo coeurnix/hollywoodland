@@ -76,7 +76,7 @@ export const abilities = [
   // Nurse
   A('nurse', 1, 'nur_ether', 'Ether Rag', { cost: 12, range: 30, cast: 1.5, school: 'acid', effects: [dmg(0, 11)], desc: 'Chemical damage.' }),
   A('nurse', 1, 'nur_dress', 'Dress Wound', { cost: 18, range: 40, cast: 2, target: 'friend', school: 'heal', effects: [heal(24)], desc: 'Heal a friendly target.' }),
-  A('nurse', 4, 'nur_tonic', 'Tonic', { cost: 16, range: 40, target: 'friend', school: 'heal', effects: [hot(8, 5, 3)], desc: 'Heals every 3 s for 15 s.' }),
+  A('nurse', 2, 'nur_tonic', 'Tonic', { cost: 16, range: 40, target: 'friend', school: 'heal', effects: [hot(8, 5, 3)], desc: 'Heals every 3 s for 15 s.' }),
   A('nurse', 6, 'nur_salts', 'Smelling Salts', { cost: 20, range: 40, cd: 15, target: 'friend', school: 'heal', effects: [heal(34, 0.8)], desc: 'An instant heal.' }),
   A('nurse', 8, 'nur_iodine', 'Iodine Splash', { cost: 16, range: 30, school: 'acid', effects: [dot(8, 5, 3)], desc: 'Burns every 3 s for 15 s.' }),
   A('nurse', 10, 'nur_surgery', 'Field Surgery', { cost: 42, range: 40, cast: 2.5, target: 'friend', school: 'heal', effects: [heal(80, 1.6)], desc: 'A large heal.' }),
@@ -84,7 +84,7 @@ export const abilities = [
   // Preacher
   A('preacher', 1, 'pre_rebuke', 'Rebuke', { cost: 12, range: 30, cast: 1.5, school: 'holy', effects: [dmg(0, 12)], desc: 'Holy damage.' }),
   A('preacher', 1, 'pre_hands', 'Lay On Hands', { cost: 18, range: 40, cast: 2, target: 'friend', school: 'heal', effects: [heal(22)], desc: 'Heal a friendly target.' }),
-  A('preacher', 4, 'pre_blessing', 'Blessing', { cost: 20, range: 40, cd: 12, target: 'friend', school: 'heal', effects: [shield(36, 20)], desc: 'A shield that absorbs damage for 20 s.' }),
+  A('preacher', 2, 'pre_blessing', 'Blessing', { cost: 20, range: 40, cd: 12, target: 'friend', school: 'heal', effects: [shield(36, 20)], desc: 'A shield that absorbs damage for 20 s.' }),
   A('preacher', 6, 'pre_sermon', 'Hellfire Sermon', { cost: 18, range: 30, school: 'holy', effects: [dot(8, 5, 3)], desc: 'Burns every 3 s for 15 s.' }),
   A('preacher', 8, 'pre_hymn', 'Hymn', { cost: 40, cast: 2.5, target: 'party', school: 'heal', effects: [heal(30, 0.7)], desc: 'Heal every party member within 30 m.' }),
   A('preacher', 10, 'pre_fear', 'Fear of God', { cost: 22, range: 30, cd: 30, school: 'holy', effects: [stun(4)], desc: 'Stun the target for 4 s.' }),

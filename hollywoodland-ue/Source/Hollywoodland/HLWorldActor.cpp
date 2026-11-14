@@ -1312,7 +1312,9 @@ void AHLWorldActor::AutoTest(float Dt)
 		if (!C) C = &FHLData::Get().Classes[0];
 		Game.NewCharacter(TEXT("Tester"), C);
 		Game.EnterWorld();
-		for (const FHLQuest& Q : FHLData::Get().Quests) if (Q.Level <= 2 && Game.QuestAvailable(Q)) Game.AcceptQuest(Q);
+		const bool bTourTest = FParse::Param(FCommandLine::Get(), TEXT("HLTourTest"));
+		if (!bTourTest) for (const FHLQuest& Q : FHLData::Get().Quests) if (Q.Tour > 0) Game.Player.Done.Add(Q.Id);
+		if (!bTourTest) for (const FHLQuest& Q : FHLData::Get().Quests) if (Q.Level <= 2 && Game.QuestAvailable(Q)) Game.AcceptQuest(Q);
 		int32 StartLevel = 0;
 		if (FParse::Value(FCommandLine::Get(), TEXT("HLAutoLevel="), StartLevel) && StartLevel > 1)
 		{
@@ -1401,6 +1403,87 @@ void AHLWorldActor::AutoTest(float Dt)
 #if !PLATFORM_WASM
 		static int32 Shot = -1;
 		if (Shot != Step && T > NextStep - 0.6) { Shot = Step; FScreenshotRequest::RequestScreenshot(FPaths::ProjectSavedDir() / FString::Printf(TEXT("Screenshots/hl_view_%02d.png"), Step), true, false); }
+#endif
+	}
+	if (P && FParse::Param(FCommandLine::Get(), TEXT("HLTourTest")))
+	{
+		// the opening, reel by reel, through the same calls the interface makes; a screenshot before each step (hl_tour_NN.png)
+		static TArray<TFunction<void()>> Steps; static int32 Step = -1; static double NextStep = 0; static FVector2D Pin = P->Pos; static bool bPin = true;
+		AutoNextShot = 1e9;
+		auto NpcUnit = [&](const TCHAR* Id) -> FHLUnit* { for (FHLUnit* U : Game.UnitList) if (U->Npc && U->Npc->Id == Id) return U; return nullptr; };
+		auto Visit = [&, NpcUnit](const TCHAR* Id, const TCHAR* Mode)
+		{
+			FHLUnit* N = NpcUnit(Id);
+			if (!N) { HLBridge::Log(FString::Printf(TEXT("HL_STATUS tour missing npc %s"), Id)); return; }
+			const float R = FMath::DegreesToRadians(N->Yaw);
+			Pin = N->Pos + FVector2D(FMath::Cos(R), FMath::Sin(R)) * 3.5f; bPin = true;
+			FHLUnit* Me = Game.PlayerUnit(); Me->Pos = Pin; Me->Area = 0; Game.FaceTo(*Me, N->Pos);
+			CamYaw = Me->Yaw + 35; CamPitch = 14; CamDist = 9;
+			Game.InteractUnit(N->Id);
+			if (Mode) Game.OpenNpcMode = Mode;
+		};
+		auto Accept = [&](const TCHAR* Id) { if (const FHLQuest* Q = FHLData::Get().Quest(Id)) { Game.AcceptQuest(*Q); Game.OpenNpcMode.Reset(); Game.OpenNpcUnitId = 0; } };
+		auto Finish = [&](const TCHAR* Id)
+		{
+			const FHLQuest* Q = FHLData::Get().Quest(Id);
+			const FHLQuestState* QS = Q ? Game.QuestState(Id) : nullptr;
+			const FHLUnit* Me = Game.PlayerUnit();
+			HLBridge::Log(FString::Printf(TEXT("HL_STATUS tour %s complete=%d level=%d xp=%d cents=%d talentpts=%d"), Id, QS && QS->bComplete ? 1 : 0, Me->Level, Game.Player.Xp, Game.Player.Cents, Game.TalentPoints()));
+			if (Q) Game.CompleteQuest(*Q, 0);
+			Game.OpenNpcMode.Reset(); Game.OpenNpcUnitId = 0;
+		};
+		auto BagOf = [&](TFunctionRef<bool(const FHLItem&)> Pred) { for (int32 i = 0; i < Game.Player.Bag.Num(); ++i) if (Game.Player.Bag[i].Item && Pred(*Game.Player.Bag[i].Item)) return i; return -1; };
+		if (Steps.IsEmpty())
+		{
+			Steps.Add([=] { Visit(TEXT("npc_sid_grauman"), TEXT("quest:q_open_1")); });
+			Steps.Add([=] { Accept(TEXT("q_open_1")); });
+			Steps.Add([=, this] { for (int32 k = 0; k < 3; ++k) Game.QuestEvent(TEXT("kill"), TEXT("mob_invader_worker")); Game.GrantXp(160, false); });
+			Steps.Add([=] { Visit(TEXT("npc_sid_grauman"), nullptr); Finish(TEXT("q_open_1")); Accept(TEXT("q_open_2")); });
+			Steps.Add([=, this] { Visit(*(FString(TEXT("npc_trainer_")) + Game.Player.Cls->Id), TEXT("trainer")); });
+			Steps.Add([=, this] { for (const FHLAbility* Ab : Game.Player.Cls->Abilities) if (Ab->Level == 2) Game.LearnAbility(Ab, false); });
+			Steps.Add([=] { Visit(TEXT("npc_sid_grauman"), nullptr); Finish(TEXT("q_open_2")); Accept(TEXT("q_open_3")); });
+			Steps.Add([=, this] { for (const FHLTalent& Tl : FHLData::Get().Talents) if (Tl.Class == Game.Player.Cls->Id && Tl.Tier == 1 && Tl.Spec == 0) { Game.LearnTalent(Tl); break; } });
+			Steps.Add([=] { Visit(TEXT("npc_sid_grauman"), nullptr); Finish(TEXT("q_open_3")); Accept(TEXT("q_open_4")); });
+			Steps.Add([=] { Visit(TEXT("npc_teller"), TEXT("bank")); });
+			Steps.Add([=, this] { const int32 B = BagOf([](const FHLItem& I) { return I.Name == TEXT("Premiere Ticket"); }); HLBridge::Log(FString::Printf(TEXT("HL_STATUS tour ticket slot %d"), B)); if (B >= 0) Game.UseBag(B); });
+			Steps.Add([=] { Visit(TEXT("npc_teller"), nullptr); Finish(TEXT("q_open_4")); Accept(TEXT("q_open_5")); });
+			Steps.Add([=] { Visit(TEXT("npc_haberdasher"), TEXT("vendor")); });
+			Steps.Add([=, this]
+			{
+				const FHLNpcDef* N = FHLData::Get().Npc(TEXT("npc_haberdasher"));
+				const FHLItem* Hat = nullptr;
+				for (const FHLItem* It : N->Stock) if (It->Slot == TEXT("head") && Game.CanEquip(*It)) { Hat = It; break; }
+				if (!Hat) for (const FHLItem* It : N->Stock) if (It->IsEquip() && Game.CanEquip(*It)) { Hat = It; break; }
+				HLBridge::Log(FString::Printf(TEXT("HL_STATUS tour buy %s"), Hat ? *Hat->Name : TEXT("none")));
+				if (Hat && Game.BuyItem(Hat)) { const int32 B = BagOf([Hat](const FHLItem& I) { return &I == Hat; }); Game.OpenNpcMode.Reset(); if (B >= 0) Game.EquipBag(B); }
+			});
+			Steps.Add([=] { Visit(TEXT("npc_haberdasher"), nullptr); Finish(TEXT("q_open_5")); Accept(TEXT("q_open_6")); });
+			Steps.Add([=] { Visit(TEXT("npc_conductor"), TEXT("redcar")); });
+			Steps.Add([=, this] { bPin = false; Game.OpenNpcMode.Reset(); Game.RideRedcar(2); });
+			Steps.Add([=, this] { Pin = Game.PlayerUnit()->Pos; bPin = true; });
+			Steps.Add([=] { Visit(TEXT("npc_auctioneer"), nullptr); Finish(TEXT("q_open_6")); Accept(TEXT("q_open_7")); });
+			Steps.Add([=] { Visit(TEXT("npc_auctioneer"), TEXT("auction")); });
+			Steps.Add([=, this] { Game.QuestEvent(TEXT("do"), TEXT("auction_search")); const int32 B = BagOf([](const FHLItem& I) { return I.Name == TEXT("Souvenir Postcards"); }); HLBridge::Log(FString::Printf(TEXT("HL_STATUS tour postcards slot %d"), B)); if (B >= 0) Game.ListAuction(B, 12, 12.f); });
+			Steps.Add([=] { Visit(TEXT("npc_auctioneer"), nullptr); Finish(TEXT("q_open_7")); Accept(TEXT("q_open_8")); });
+			Steps.Add([=] { Visit(TEXT("npc_mount_dealer"), TEXT("mounts")); });
+			Steps.Add([=, this] { Game.StartTestDrive(1); CamDist = 12; });
+			Steps.Add([=, this] { FHLUnit* Me = Game.PlayerUnit(); Pin = Me->Pos + FVector2D(-20, -8); });
+			Steps.Add([=] { Visit(TEXT("npc_mount_dealer"), nullptr); Finish(TEXT("q_open_8")); Accept(TEXT("q_open_9")); });
+			Steps.Add([=, this] { Game.QuestEvent(TEXT("do"), TEXT("map")); });
+			Steps.Add([=] { Visit(TEXT("npc_sid_grauman"), nullptr); Finish(TEXT("q_open_9")); });
+			Steps.Add([=, this] { HLBridge::Log(FString::Printf(TEXT("HL_STATUS tour done opening=%d q_hb_01 avail=%d"), Game.InOpening() ? 1 : 0, Game.QuestAvailable(*FHLData::Get().Quest(TEXT("q_hb_01"))) ? 1 : 0)); });
+		}
+		P->CombatUntil = 0; P->bAutoAttack = false; P->TargetId = 0;
+		if (T >= NextStep && T > 4)
+		{
+			if (++Step >= Steps.Num()) { UKismetSystemLibrary::QuitGame(this, nullptr, EQuitPreference::Quit, false); return; }
+			Steps[Step]();
+			NextStep = T + (Step == 15 ? 5.5 : 2.6);
+		}
+		if (bPin && Game.RideStop < 0) P->Pos = Pin;
+#if !PLATFORM_WASM
+		static int32 Shot = -1;
+		if (Step >= 0 && Shot != Step && T > NextStep - 0.5) { Shot = Step; FScreenshotRequest::RequestScreenshot(FPaths::ProjectSavedDir() / FString::Printf(TEXT("Screenshots/hl_tour_%02d.png"), Step), true, false); }
 #endif
 	}
 	if (P && FParse::Param(FCommandLine::Get(), TEXT("HLEnemyLineup")))

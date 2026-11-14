@@ -54,7 +54,12 @@ for (const q of quests) for (const o of q.objectives) {
 for (const q of quests) {
   q.rewards.choice = q.rewards.choice.map(([n, r]) => itemId(n, r)).filter(Boolean);
   if (q.takes) q.takes = q.takes.map(([n, c]) => ({ item: itemId(n), count: c }));
-  if (q.gives_on_accept && !byName.has(q.gives_on_accept)) { const row = questItem(q.gives_on_accept); items.push(row); byName.set(row.name, row); }
+  if (q.gives_on_accept && !byName.has(q.gives_on_accept)) {
+    const row = questItem(q.gives_on_accept);
+    // a quest gift meant to be sold (the auction step) is a trade good with a price
+    if (q.gives_trade) Object.assign(row, { kind: 'trade', type: 'trade', price: q.gives_trade, blurb: 'Printed for the premiere. Somebody will want them.' });
+    items.push(row); byName.set(row.name, row);
+  }
 }
 
 // ---- mobs: resolve loot names ----

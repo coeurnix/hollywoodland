@@ -283,6 +283,7 @@ bool FHLData::Load(FString& Err)
 			FHLQuest Q;
 			Q.Id = S(O, TEXT("id")); Q.Name = S(O, TEXT("name")); Q.Giver = S(O, TEXT("giver")); Q.Turnin = S(O, TEXT("turnin")); Q.Prereq = S(O, TEXT("prereq"));
 			Q.Next = S(O, TEXT("next")); Q.Type = S(O, TEXT("type")); Q.Text = S(O, TEXT("text")); Q.CompleteText = S(O, TEXT("complete_text")); Q.Hub = S(O, TEXT("hub")); Q.Breadcrumb = S(O, TEXT("breadcrumb")); Q.Cls = S(O, TEXT("cls"));
+			Q.GivesOnAccept = S(O, TEXT("gives_on_accept")); Q.Tour = N(O, TEXT("tour")); Q.BonusTalent = N(O, TEXT("bonus_talent"));
  			for (auto& TV : A(O, TEXT("takes"))) { JObj To = TV->AsObject(); if (const FHLItem* It = Item(S(To, TEXT("item")))) Q.Takes.Add(TPair<const FHLItem*, int32>(It, N(To, TEXT("count"), 1))); }
 			Q.Level = N(O, TEXT("level"), 1); Q.MinLevel = N(O, TEXT("min_level"), 1); Q.bGroup = B(O, TEXT("group")); Q.bDungeon = B(O, TEXT("dungeon"));
 			JObj Rw = Sub(O, TEXT("rewards"));

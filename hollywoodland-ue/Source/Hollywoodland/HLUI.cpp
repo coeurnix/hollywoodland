@@ -515,7 +515,7 @@ int32 SHLGameUI::OnPaint(const FPaintArgs& Args, const FGeometry& Geo, const FSl
 	if (GEngine && GEngine->GameViewport) { FVector2D V; GEngine->GameViewport->GetViewportSize(V); if (V.X > 0 && V.Y > 0) ViewPx = V; }
 	UiRectsNext.Reset(); Picks.Reset(); TipItem = nullptr; TipText.Reset(); TipExtra.Reset();
 	FHLGame& Gm = G();
-	{ static bool bOnce = false; if (!bOnce && Gm.bInWorld) { bOnce = true; if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenBags"))) { bBags = true; bChar = true; } if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenTalents"))) bTalents = true; if (FParse::Param(FCommandLine::Get(), TEXT("HLCraftTest"))) bCraft = true; if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenSpells"))) bSpells = true; if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenFriends"))) { bWho = true; WhoTab = 1; } if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenNews"))) { bWho = true; WhoTab = 3; }
+	{ static bool bOnce = false; if (!bOnce && Gm.bInWorld) { bOnce = true; if (Gm.InOpening()) bHelp = false; /* the tour card teaches instead */ if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenBags"))) { bBags = true; bChar = true; } if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenTalents"))) bTalents = true; if (FParse::Param(FCommandLine::Get(), TEXT("HLCraftTest"))) bCraft = true; if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenSpells"))) bSpells = true; if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenFriends"))) { bWho = true; WhoTab = 1; } if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenNews"))) { bWho = true; WhoTab = 3; }
 		if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenAuction"))) for (const FHLUnit* N : Gm.UnitList) if (N->Npc && N->Npc->HasRole(TEXT("auctioneer"))) { Gm.OpenNpcUnitId = N->Id; Gm.OpenNpcMode = TEXT("auction"); AuctionSearch = TEXT("boots"); break; }
 		if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenWorldMap"))) { bMap = true; bWorldMap = true; }
 		if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenChar"))) bChar = true;
@@ -1176,6 +1176,7 @@ void SHLGameUI::DrawHud() const
 	DrawMinimap();
 	DrawTracker();
 	DrawChat();
+	DrawTour();
 }
 
 void SHLGameUI::AbilityTip(const FHLAbility& Ab) const
@@ -1209,6 +1210,7 @@ static bool HLQuestGoal(const FHLGame& Gm, const FHLQuestState& QS, const FHLUni
 		if (O.Type == TEXT("talk")) TryNpc(O.Npc);
 		else if (O.Type == TEXT("escort")) Try(O.To);
 		else if (O.Type == TEXT("craft")) {}
+		else if (O.Type == TEXT("do")) { if (!O.Npc.IsEmpty()) TryNpc(O.Npc.Replace(TEXT("{cls}"), Gm.Player.Cls ? *Gm.Player.Cls->Id : TEXT(""))); }
 		else if (O.Type == TEXT("kill") || O.Type == TEXT("item"))
 		{
 			const TArray<FString>& Ids = O.Type == TEXT("kill") ? O.Mobs : O.From;
@@ -1357,6 +1359,131 @@ void SHLGameUI::DrawMinimap() const
 		Tx(X + 6, Y + S - 17, M, 9, ColGold, true);
 	}
 	Tx(X + 4, Y + 2, TEXT("N"), 9, ColDim);
+}
+
+// Opening Night: a card at the top of the screen for the reel in progress, and a pulsing frame round the part of the
+// interface it is talking about (an action-bar slot, a micro-menu button, the minimap, the bags).
+void SHLGameUI::DrawTour() const
+{
+	FHLGame& Gm = G();
+	const FHLUnit* P = Gm.PlayerUnit();
+	if (!P || P->bDead || bTourHidden) return;
+	const FHLQuestState* Cur = nullptr;
+	for (const FHLQuestState& QS : Gm.Player.Quests) if (QS.Q->Tour > 0 && (!Cur || QS.Q->Tour < Cur->Q->Tour)) Cur = &QS;
+	const FHLQuest* Offer = nullptr;
+	if (!Cur) for (const FHLQuest& Q : FHLData::Get().Quests) if (Q.Tour > 0 && Gm.QuestAvailable(Q)) { Offer = &Q; break; }
+	if (!Cur && !Offer) return;
+	const FHLQuest& Q = Cur ? *Cur->Q : *Offer;
+	auto Done = [&](int32 i) { return Cur && Cur->Progress.IsValidIndex(i) && Cur->Progress[i] >= Q.Objectives[i].Count; };
+	auto Key = [](EHLAct A) { return FHLSettings::Get().KeyName(A); };
+	auto NpcName = [](const FString& Id) { const FHLNpcDef* N = FHLData::Get().Npc(Id); return N ? N->Name : FString(TEXT("them")); };
+	const FString& Mode = Gm.OpenNpcMode;
+	// highlight targets: 0 none, 1..12 action-bar slot, 20+i micro-menu button i, 40 minimap, 41 the bag window
+	int32 Hi = 0;
+	FString Line;
+	if (!Cur)
+	{
+		Line = FString::Printf(TEXT("%s has the next reel for you: look for the gold ! over their head and right-click them."), *NpcName(Q.Giver));
+		Hi = 40;
+	}
+	else if (Cur->bComplete)
+	{
+		Line = FString::Printf(TEXT("Done! Go back to %s (the gold ? on the minimap and the arrow on the ground) and right-click them."), *NpcName(Q.Turnin));
+		Hi = 40;
+	}
+	else switch (Q.Tour)
+	{
+	case 1:
+	{
+		const FHLClass* C = Gm.Player.Cls;
+		const FString A1 = Gm.Player.Bar.IsValidIndex(0) && Gm.Player.Bar[0] ? Gm.Player.Bar[0]->Name : TEXT("your first ability");
+		const FString A2 = Gm.Player.Bar.IsValidIndex(1) && Gm.Player.Bar[1] ? Gm.Player.Bar[1]->Name : FString();
+		FString How;
+		if (!C) How = TEXT("Press 1 to attack.");
+		else if (C->Id == TEXT("veteran")) How = FString::Printf(TEXT("Veterans fight up close. Adrenaline (the red bar) starts empty and fills as you hit and get hit: walk in, let it build, then spend it on %s (1)."), *A1);
+		else if (C->Id == TEXT("stuntman")) How = FString::Printf(TEXT("Stuntmen hit hard and fast. Energy (the yellow bar) refills on its own: get close and throw %s (1) whenever it's full enough."), *A1);
+		else if (C->Id == TEXT("gunman")) How = FString::Printf(TEXT("Gunmen fight from range. Start with %s (1) from 30 m, then auto-shot fires on its own while you keep your distance."), *A1);
+		else if (C->Role == TEXT("healer")) How = FString::Printf(TEXT("%s (1) hurts from range. %s (2) mends: with no friend targeted it heals you. Power (blue) comes back when you stop casting."), *A1, *A2);
+		else if (C->bCaster) How = FString::Printf(TEXT("You cast from range: stand still while %s (1) fills its bar. Power (blue) comes back when you stop casting for a moment."), *A1);
+		else How = FString::Printf(TEXT("%s (1) is cheap: get close and chain it. Your weapon swings on its own between."), *A1);
+		Line = TEXT("Move with W A S D and hold the right mouse button to turn (H lists every control). Click a Worker behind the theatre to target it, then press 1. ") + How;
+		Hi = 1;
+		break;
+	}
+	case 2:
+		if (Mode == TEXT("trainer")) Line = TEXT("Click the new ability to learn it. It goes straight onto your action bar. Every few levels your trainer has more.");
+		else Line = FString::Printf(TEXT("Your class trainer, %s, stands on the forecourt with the others. Right-click them and ask to train."), *NpcName(FString(TEXT("npc_trainer_")) + (Gm.Player.Cls ? Gm.Player.Cls->Id : FString())));
+		Hi = Mode == TEXT("trainer") ? 0 : 40;
+		break;
+	case 3:
+		if (!bTalents) { Line = FString::Printf(TEXT("Open your talents: press %s, or the Talents button down here."), *Key(EHLAct::Talents)); Hi = 26; }
+		else Line = TEXT("Three trees, one for each way to play your class. Hover a talent in the top row to read it, click to learn it. You can reset them later for a fee.");
+		break;
+	case 4:
+		if (Mode == TEXT("bank")) { Line = TEXT("This is your vault: it holds what your bags can't. Right-click the Premiere Ticket in your bags to deposit it."); Hi = 41; }
+		else Line = TEXT("Walk east along the boulevard to the First National Bank. Miss Frost is at the window: right-click her and check your deposit box.");
+		break;
+	case 5:
+		if (Mode == TEXT("vendor") && !Done(0)) Line = TEXT("Click a hat (or anything you like the look of) to buy it. Prices are in cents; you have enough.");
+		else if (!Done(0)) Line = TEXT("Saul Hirsch's outfitters is two doors east of the bank. Right-click him and browse his goods.");
+		else { Line = FString::Printf(TEXT("Right-click what you bought in your bags to wear it. Your Character window (%s) shows everything you have on."), *Key(EHLAct::Character)); Hi = bBags ? 41 : 21; }
+		break;
+	case 6:
+		if (!Done(0)) Line = Mode == TEXT("redcar") ? TEXT("Pick Vine Street and press Ride. It costs 5 cents and takes a few seconds.") : TEXT("Conductor Ruiz is at the Highland red car stop, across the street from the bank. Right-click him.");
+		else Line = TEXT("This is Vine Street. Cornelius Vane is in front of the Taft Building, by the auction booth.");
+		break;
+	case 7:
+		if (Mode != TEXT("auction")) Line = TEXT("Right-click Cornelius Vane (or Miss Reed) and ask for the listings.");
+		else if (!Done(0)) Line = TEXT("Everything other players are selling is here. Type a name in the search box or click a category to browse.");
+		else { Line = TEXT("Now sell: click the Souvenir Postcards in your bags, set a price, and list them. If they sell, the money comes by mail."); Hi = 41; }
+		break;
+	case 8:
+		if (P->bMounted) Line = TEXT("You're mounted: 60% faster. Take a lap of Vine Street before Eddie wants it back.");
+		else if (Mode == TEXT("mounts")) Line = TEXT("Pick one and take it for a test drive. The real thing comes at level 40, so enjoy it.");
+		else Line = TEXT("Eddie Kellerman's lot is just east of the Taft Building. Right-click him and see what's on the lot.");
+		break;
+	case 9:
+		if (!Done(0)) { Line = FString::Printf(TEXT("Press %s to open your map. Gold ! and ? are quests, the icons are services, the arrow is you."), *Key(EHLAct::Map)); Hi = 24; }
+		else Line = TEXT("Head back to Sid at Grauman's Chinese, at the west end. The red car runs back to Highland if you'd rather ride.");
+		break;
+	}
+	// the card
+	const float W = 460, X = FMath::Max(506.f, VS.X * 0.5f - W * 0.5f), Y = 12;
+	TArray<FString> Wrapped;
+	Wrap(Line, 10, W - 24, Wrapped);
+	const float TextH = Wrapped.Num() * 10 * 1.55f;
+	const float H = 46 + TextH + 8;
+	Block(X, Y, W, H);
+	Panel(X, Y, W, H, FLinearColor(0.06f, 0.05f, 0.04f, 0.96f), FLinearColor(0.85f, 0.66f, 0.3f));
+	++Layer; LastKind = 1;
+	Tx(X + 12, Y + 7, FString::Printf(TEXT("OPENING NIGHT   Reel %d of 9"), Q.Tour), 9, FLinearColor(0.9f, 0.3f, 0.2f), true);
+	Tx(X + 12, Y + 22, Q.Name, 12, ColGold, true);
+	TxWrap(X + 12, Y + 42, W - 24, Line, 10, ColWhite);
+	if (Btn(X + W - 74, Y + 6, 64, 16, TEXT("Hide tips"), true, 8)) bTourHidden = true;
+	// the highlight
+	if (Hi == 0) return;
+	float Hx = 0, Hy = 0, Hw = 0, Hh = 0;
+	if (Hi >= 1 && Hi <= 12)
+	{
+		const float Bs = 42, Bw = 12 * (Bs + 4), Bx = FMath::Max(456.f, (VS.X - Bw) * 0.5f - 20), By = VS.Y - 66;
+		Hx = Bx + (Hi - 1) * (Bs + 4); Hy = By; Hw = Bs; Hh = Bs;
+	}
+	else if (Hi >= 20 && Hi < 28)
+	{
+		const float Bsz = 36, Gap = 2, Pad = 5, Mw = 8 * Bsz + 7 * Gap + Pad * 2, Mh = Bsz + Pad * 2;
+		Hx = VS.X - Mw - 12 + Pad + (Hi - 20) * (Bsz + Gap); Hy = VS.Y - Mh - 8 + Pad; Hw = Bsz; Hh = Bsz;
+	}
+	else if (Hi == 40) { Hx = VS.X - 222; Hy = 8; Hw = 214; Hh = 214; }
+	else if (Hi == 41)
+	{
+		if (!bBags) { const float Bsz = 36, Gap = 2, Pad = 5, Mw = 8 * Bsz + 7 * Gap + Pad * 2, Mh = Bsz + Pad * 2; Hx = VS.X - Mw - 12 + Pad + (Bsz + Gap); Hy = VS.Y - Mh - 8 + Pad; Hw = Bsz; Hh = Bsz; }
+		else { const FVector2D* R = WinPos.Find(FName(TEXT("bags"))); if (!R) return; Hx = R->X; Hy = R->Y; Hw = 270; Hh = 228; }
+	}
+	const float Pulse = 0.55f + 0.45f * FMath::Sin((float)Gm.Now * 6.f), G2 = 3 + 3 * Pulse;
+	const FLinearColor C(1.f, 0.82f, 0.3f, 0.5f + 0.5f * Pulse);
+	++Layer; LastKind = 1;
+	Rc(Hx - G2, Hy - G2, Hw + 2 * G2, 3, C); Rc(Hx - G2, Hy + Hh + G2 - 3, Hw + 2 * G2, 3, C);
+	Rc(Hx - G2, Hy - G2, 3, Hh + 2 * G2, C); Rc(Hx + Hw + G2 - 3, Hy - G2, 3, Hh + 2 * G2, C);
 }
 
 void SHLGameUI::DrawTracker() const

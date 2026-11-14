@@ -543,7 +543,7 @@ int32 FHLGame::TalentSpent(int32 Spec) const
 int32 FHLGame::TalentPoints() const
 {
 	const FHLUnit* U = PlayerUnit();
-	return FMath::Max(0, (U ? U->Level : 1) - 9 - TalentSpent());
+	return FMath::Max(0, FMath::Max(0, (U ? U->Level : 1) - 9) + Player.BonusTalents - TalentSpent());
 }
 FString FHLGame::CanLearnTalent(const FHLTalent& T) const
 {
@@ -551,7 +551,8 @@ FString FHLGame::CanLearnTalent(const FHLTalent& T) const
 	const int32* Have = Player.Talents.Find(T.Id);
 	if (Have && *Have >= T.Ranks) return TEXT("Already at the highest rank.");
 	const FHLUnit* U = PlayerUnit();
-	if (!U || U->Level < 10) return TEXT("Talents open at level 10.");
+	if (!U || (U->Level < 10 && Player.BonusTalents <= 0)) return TEXT("Talents open at level 10.");
+	if (U->Level < 10 && T.Tier > 1) return TEXT("Below level 10 only the first row can be learned.");
 	if (TalentPoints() <= 0) return TEXT("No talent points to spend.");
 	const int32 Need = (T.Tier - 1) * 5;
 	if (TalentSpent(T.Spec) < Need) return FString::Printf(TEXT("Requires %d points in %s."), Need, *Player.Cls->Specs[T.Spec]);
@@ -565,6 +566,7 @@ void FHLGame::LearnTalent(const FHLTalent& T)
 	RecalcPlayerStats();
 	System(FString::Printf(TEXT("You have learned %s (rank %d)."), *T.Name, Rank));
 	Sound2D(TEXT("ui_talents"));
+	QuestEvent(TEXT("do"), TEXT("talent"));
 }
 void FHLGame::ResetTalents()
 {

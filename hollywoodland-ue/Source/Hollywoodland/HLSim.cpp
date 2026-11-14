@@ -722,6 +722,7 @@ void FHLGame::TickDirector(float Dt)
 		LostSim = -1;
 	}
 	if (P->Area != 0 || P->bDead) return;
+	if (InOpening()) { DirBeatAt = T; return; } // the Director waits for the tour to finish
 	if (!DirBeats.Num())
 	{
 		// a fresh running order for this play: the invite opens and the raiders and the buddy close; the middle is shuffled
@@ -743,7 +744,7 @@ void FHLGame::TickDirector(float Dt)
 	switch (Beat)
 	{
 	case 0: // a local doing the same first quest invites the player
-		if (P->Level <= 3 && !Party.Num() && InviteFromSim < 0 && !InCombat(*P))
+		if (P->Level <= 6 && !Party.Num() && InviteFromSim < 0 && !InCombat(*P))
 		{
 			const int32 i = NearestLocal([&](const FHLSim& S) { return FMath::Abs(S.Level - P->Level) <= 2 && S.P->Temperament != TEXT("quiet"); }, 45);
 			if (i >= 0)

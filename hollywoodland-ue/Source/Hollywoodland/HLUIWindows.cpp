@@ -218,7 +218,7 @@ void SHLGameUI::DrawMap() const
 	FHLGame& Gm = G();
 	const FHLData& D = FHLData::Get();
 	static bool bWasOpen = false;
-	if (bMap && !bWasOpen) MapK = 0; // every opening starts fitted to the whole zone
+	if (bMap && !bWasOpen) { MapK = 0; Gm.QuestEvent(TEXT("do"), TEXT("map")); } // every opening starts fitted to the whole zone
 	bWasOpen = bMap;
 	if (!Win(TEXT("map"), bWorldMap ? TEXT("World Map: Hollywood under the Dome") : TEXT("Map: ") + Gm.Areas[Gm.PlayerUnit()->Area].Def->Name, 900, 640, bMap, (VS.X - 900) * 0.5f, 90)) return;
 	const FHLUnit& P = *Gm.PlayerUnit();
@@ -722,12 +722,11 @@ void SHLGameUI::DrawNpc() const
 		for (int32 i = 0; i < Stops.Num(); ++i)
 		{
 			const FHLRedcarStop& St = Stops[i];
-			const bool bKnown = Gm.Player.Discovered.Contains(TEXT("stop:") + St.Id);
+			const bool bKnown = true;
 			Rc(WX - 4, Y - 2, 516, 40, i % 2 ? FLinearColor(0.1f, 0.09f, 0.08f, 0.6f) : FLinearColor(0.14f, 0.12f, 0.1f, 0.6f));
 			Tx(WX + 4, Y + 2, St.Name, 11, bKnown ? ColWhite : ColDim, true);
 			Tx(WX + 4, Y + 19, St.Note, 9, ColDim);
 			if (i == Here) Tx(WX + 410, Y + 10, TEXT("You are here"), 10, ColGreen);
-			else if (!bKnown) Tx(WX + 360, Y + 10, TEXT("Walk there once first"), 9, ColDim);
 			else if (Btn(WX + 400, Y + 6, 104, 26, TEXT("Ride  (5c)"), Gm.Player.Cents >= 5, 10)) { Gm.RideRedcar(i); return; }
 			Y += 44;
 		}
@@ -792,6 +791,7 @@ void SHLGameUI::DrawNpc() const
 		Service(TEXT("banker"), TEXT("I'd like to check my deposit box."), TEXT("bank"));
 		Service(TEXT("auctioneer"), TEXT("Show me the auction listings."), TEXT("auction"));
 		Service(TEXT("redcar"), TEXT("Where do the red cars go?"), TEXT("redcar"));
+		Service(TEXT("mounts"), TEXT("What have you got on the lot?"), TEXT("mounts"));
 		if (Np.HasRole(TEXT("innkeeper")))
 				{
 					if (Gm.Player.bInnHome) Tx(WX, Y + 5, TEXT("\"Your room's kept made up. Rest easy.\""), 10, ColDim);
@@ -920,10 +920,38 @@ void SHLGameUI::DrawNpc() const
 		TxWrap(WX, WY + 138, 410, TEXT("Foraging, Skinning, Gunsmithing, Metalworking, Leatherworking, Tailoring, Pharmacy, Electrics, Cooking, First Aid, Fishing."), 10, ColDim);
 		return;
 	}
+	if (Gm.OpenNpcMode == TEXT("mounts"))
+	{
+		if (!Win(TEXT("npc"), TEXT("Kellerman's Livery & Motor"), 520, 400, bOpen, 300, 140)) { Close(); return; }
+		float Y = WY;
+		Y += TxWrap(WX, Y, 495, TEXT("\"Every one of 'em fed, fuelled and ready. You ride faster than any man on foot, and you look a sight better doing it. A star can take one out for a minute, no charge.\""), 10, ColWhite) + 10;
+		struct FMountRow { const TCHAR* Name; const TCHAR* Blurb; int32 Level, Price; };
+		static const FMountRow Stock[] = {
+			{ TEXT("Bay Mare"), TEXT("Steady, sure-footed, eats anything. Ex-Republic Pictures, does her own stunts."), 40, 9000 },
+			{ TEXT("Indian Scout"), TEXT("A 1928 101 Scout, red as a fire engine. Mind the kick start."), 40, 16000 },
+			{ TEXT("Ford Model A"), TEXT("The '31 Tudor. Seats two, rattles like a tin of nails, never quits."), 60, 40000 } };
+		const FHLUnit* Me = Gm.PlayerUnit();
+		for (int32 i = 0; i < 3; ++i)
+		{
+			const FMountRow& M = Stock[i];
+			Rc(WX - 4, Y - 2, 500, 70, i % 2 ? FLinearColor(0.1f, 0.09f, 0.08f, 0.6f) : FLinearColor(0.14f, 0.12f, 0.1f, 0.6f));
+			Tx(WX + 4, Y + 2, M.Name, 12, ColGold, true);
+			TxWrap(WX + 4, Y + 20, 330, M.Blurb, 9, ColDim);
+			const bool bLevel = Me && Me->Level >= M.Level;
+			Tx(WX + 4, Y + 48, FString::Printf(TEXT("Requires level %d    %s"), M.Level, *HLMoney(M.Price)), 9, bLevel ? ColWhite : ColRed);
+			if (Btn(WX + 352, Y + 8, 136, 24, TEXT("Test drive (1 min)"), Me && Me->Area == 0, 10)) { Gm.StartTestDrive(i); return; }
+			if (Btn(WX + 352, Y + 38, 136, 22, TEXT("Buy"), false, 9)) {}
+			if (Hover(WX + 352, Y + 38, 136, 22)) { TipText = bLevel ? TEXT("Eddie's waiting on a delivery. Come back soon.") : FString::Printf(TEXT("Mounts open at level %d. Until then, take one for a test drive."), M.Level); TipPos = Mouse; }
+			Y += 76;
+		}
+		Tx(WX, Y + 4, TEXT("Mounted, you move 60% faster. An ability or a fight puts you back on foot."), 9, ColDim);
+		if (Btn(WX + 340, Y + 24, 150, 22, TEXT("Back"), true, 10)) Gm.OpenNpcMode = TEXT("gossip");
+		return;
+	}
 	if (Gm.OpenNpcMode == TEXT("bank"))
 	{
 		const int32 Rows = (Gm.Player.Bank.Num() + 5) / 6;
-		if (!Win(TEXT("npc"), Title, 290, 90 + Rows * 42, bOpen, 300, 140)) { Close(); return; }
+		if (!Win(TEXT("npc"), TEXT("Your Deposit Box"), 290, 90 + Rows * 42, bOpen, 300, 140)) { Close(); return; }
 		for (int32 i = 0; i < Gm.Player.Bank.Num(); ++i)
 		{
 			FHLInvSlot& S = Gm.Player.Bank[i];
@@ -956,6 +984,7 @@ void SHLGameUI::DrawNpc() const
 			if (!AuctionSearch.IsEmpty() && Btn(Sx + Sw - 20, WY, 18, 16, TEXT("x"), true, 8)) { AuctionSearch.Reset(); AuctionPage = 0; }
 		}
 		const FString Needle = AuctionSearch.ToLower();
+		if (!Needle.IsEmpty() || AuctionFilter != 0 || AuctionPage > 0) Gm.QuestEvent(TEXT("do"), TEXT("auction_search"));
 		TArray<int32> Rows;
 		for (int32 i = 0; i < Gm.Auctions.Num(); ++i)
 		{

@@ -170,6 +170,7 @@ void FHLGame::TickEvents(float Dt)
 	// ---------------------------------------------------------------- picture night
 	const FVector2D* Screen = Areas[0].Def->Pois.Find(TEXT("forecourt"));
 	if (!Screen) return;
+	if (FilmStart <= 0 && !bFilmAnnounced && InOpening() && NextFilmAt < Now + 240) NextFilmAt = Now + 240; // not during the tour
 	if (FilmStart <= 0 && !bFilmAnnounced && Now >= NextFilmAt - 120)
 	{
 		bFilmAnnounced = true;

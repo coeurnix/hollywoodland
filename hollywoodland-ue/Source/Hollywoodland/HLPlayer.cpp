@@ -49,6 +49,7 @@ void FHLGame::LearnAbility(const FHLAbility* Ab, bool bFree)
 	}
 	Player.Known.Add(Ab);
 	for (int32 i = 0; i < Player.Bar.Num(); ++i) if (!Player.Bar[i]) { Player.Bar[i] = Ab; break; }
+	if (!bFree) QuestEvent(TEXT("do"), TEXT("train"));
 }
 
 // ------------------------------------------------------------------------------------------------------------- save / load
@@ -64,7 +65,7 @@ FString FHLGame::SaveJson() const
 	{
 		TSharedPtr<FJsonObject> Tal = MakeShared<FJsonObject>();
 		for (const auto& KV : Player.Talents) Tal->SetNumberField(KV.Key, KV.Value);
-		O->SetObjectField(TEXT("talents"), Tal); O->SetNumberField(TEXT("respecs"), Player.Respecs);
+		O->SetObjectField(TEXT("talents"), Tal); O->SetNumberField(TEXT("respecs"), Player.Respecs); O->SetNumberField(TEXT("bonus_talents"), Player.BonusTalents);
 		TSharedPtr<FJsonObject> Dur = MakeShared<FJsonObject>();
 		for (const auto& KV : Player.Durability) Dur->SetNumberField(KV.Key, KV.Value);
 		O->SetObjectField(TEXT("durability"), Dur);
@@ -192,6 +193,7 @@ bool FHLGame::LoadJson(const FString& Json)
 	if (O->TryGetNumberField(TEXT("kills"), Num)) Player.Kills = Num;
 	O->TryGetBoolField(TEXT("show_sim"), Player.bShowSim);
 	if (O->TryGetNumberField(TEXT("respecs"), Num)) Player.Respecs = Num;
+	if (O->TryGetNumberField(TEXT("bonus_talents"), Num)) Player.BonusTalents = FMath::Clamp((int32)Num, 0, 3);
 	const TSharedPtr<FJsonObject>* Dur = nullptr;
 	if (O->TryGetObjectField(TEXT("durability"), Dur)) for (const auto& KV : (*Dur)->Values) Player.Durability.Add(FString(KV.Key), FMath::Clamp((float)KV.Value->AsNumber(), 0.f, 1.f));
 	const TSharedPtr<FJsonObject>* Tal = nullptr;
@@ -408,6 +410,7 @@ void FHLGame::EquipBag(int32 BagIdx)
 	Player.Bag[BagIdx] = FHLInvSlot();
 	if (Old) { Player.Bag[BagIdx].Item = Old; Player.Bag[BagIdx].Count = 1; }
 	Player.Equip.Add(It->Slot, It);
+	QuestEvent(TEXT("do"), TEXT("equip"));
 	Sound2D(It->Kind == TEXT("weapon") ? TEXT("ui_equip_weapon") : (It->Type == TEXT("steel") || It->Type == TEXT("padded")) ? TEXT("ui_equip_metal") : TEXT("ui_equip_cloth"));
 	if (It->Slot == TEXT("main") && It->Hands == 2) if (const FHLItem* Off = Player.Equip.FindRef(TEXT("off"))) { if (AddItem(Off, 1, false)) Player.Equip.Remove(TEXT("off")); }
 	if (It->Slot == TEXT("off")) if (const FHLItem* Main = Player.Equip.FindRef(TEXT("main"))) if (Main->Hands == 2) { if (AddItem(Main, 1, false)) Player.Equip.Remove(TEXT("main")); }
@@ -429,7 +432,7 @@ void FHLGame::UseBag(int32 BagIdx)
 	if (OpenNpcMode == TEXT("vendor")) { SellBag(BagIdx); return; }
 	if (OpenNpcMode == TEXT("bank"))
 	{
-		for (FHLInvSlot& S : Player.Bank) if (!S.Item) { S = Player.Bag[BagIdx]; Player.Bag[BagIdx] = FHLInvSlot(); return; }
+		for (FHLInvSlot& S : Player.Bank) if (!S.Item) { S = Player.Bag[BagIdx]; Player.Bag[BagIdx] = FHLInvSlot(); QuestEvent(TEXT("do"), TEXT("bank_deposit")); return; }
 		Error(TEXT("Your bank is full.")); return;
 	}
 	if (It->IsEquip()) { EquipBag(BagIdx); return; }
@@ -553,6 +556,8 @@ bool FHLGame::BuyItem(const FHLItem* Item)
 	if (!AddItem(Item, Item->Buy, false)) return false;
 	Player.Cents -= Cost;
 	Sound2D(TEXT("ui_cash"));
+	System(FString::Printf(TEXT("You buy [%s] for %s."), *Item->Name, *HLMoney(Cost)));
+	QuestEvent(TEXT("do"), TEXT("buy"));
 	return true;
 }
 
@@ -658,6 +663,7 @@ void FHLGame::UseBar(int32 Slot)
 	FHLUnit* U = PlayerUnit();
 	if (!U || !Player.Bar.IsValidIndex(Slot) || !Player.Bar[Slot]) return;
 	const FHLAbility& Ab = *Player.Bar[Slot];
+	if (TestDriveUntil > 0) EndTestDrive(TEXT("You climb down to fight."));
 	if (Ab.Target == TEXT("enemy"))
 	{
 		FHLUnit* T = Unit(U->TargetId);
@@ -752,7 +758,6 @@ void FHLGame::RideRedcar(int32 StopIdx)
 	if (!U || U->Area != 0 || !Areas[0].Def->Stops.IsValidIndex(StopIdx) || RideStop >= 0) return;
 	const FHLRedcarStop& St = Areas[0].Def->Stops[StopIdx];
 	if (InCombat(*U)) { Error(TEXT("You can't board while in combat.")); return; }
-	if (!Player.Discovered.Contains(TEXT("stop:") + St.Id)) { Error(TEXT("Walk to that stop once before riding there.")); return; }
 	if (Player.Cents < 5) { Error(TEXT("The fare is 5 cents.")); return; }
 	Player.Cents -= 5;
 	RideStop = StopIdx; RideStart = Now; RideUntil = Now + 4.0;
@@ -762,10 +767,44 @@ void FHLGame::RideRedcar(int32 StopIdx)
 	System(FString::Printf(TEXT("You board the red car for %s. Fare: 5c."), *St.Name));
 }
 
+bool FHLGame::InOpening() const
+{
+	if (Player.Done.Contains(TEXT("q_open_9"))) return false;
+	const FHLUnit* U = PlayerUnit();
+	if (U && U->Level >= 6) return false; // an older save that never saw the opening
+	for (const FHLQuestState& QS : Player.Quests) if (QS.Q->Tour > 0) return true;
+	return !Player.Done.Contains(TEXT("q_hb_01")); // nothing accepted yet: a new character
+}
+
+void FHLGame::StartTestDrive(int32 Kind)
+{
+	FHLUnit* U = PlayerUnit();
+	if (!U || U->bDead || U->bGhost || U->Area != 0) return;
+	if (InCombat(*U)) { Error(TEXT("Not while you're fighting.")); return; }
+	U->bMounted = true; U->MountKind = (uint8)FMath::Clamp(Kind, 0, 2); U->bSitting = false;
+	TestDriveUntil = Now + 60.0;
+	OpenNpcUnitId = 0; OpenNpcMode.Reset();
+	static const TCHAR* Names[] = { TEXT("the bay mare"), TEXT("the Indian Scout"), TEXT("the Model A") };
+	System(FString::Printf(TEXT("You take %s out for a minute. Mounted, you move 60%% faster. Using an ability or getting into a fight puts you back on foot."), Names[U->MountKind]));
+	Sound2D(Kind == 0 ? TEXT("ui_quest_accept") : TEXT("obj_redcar_bell"));
+	QuestEvent(TEXT("do"), TEXT("test_drive"));
+}
+
+void FHLGame::EndTestDrive(const TCHAR* Why)
+{
+	TestDriveUntil = 0;
+	if (FHLUnit* U = PlayerUnit()) if (U->bMounted) { U->bMounted = false; System(Why); }
+}
+
 void FHLGame::TickPlayer(float Dt)
 {
 	FHLUnit* U = PlayerUnit();
 	if (!U) return;
+	if (TestDriveUntil > 0)
+	{
+		if (Now >= TestDriveUntil) EndTestDrive(TEXT("Eddie whistles from down the street. Time's up: the mount goes back to the lot."));
+		else if (InCombat(*U) || U->bDead || U->Area != 0) EndTestDrive(TEXT("You climb down."));
+	}
 	// riding the red car: hands off the controls until it pulls in
 	if (RideStop >= 0)
 	{
@@ -780,14 +819,6 @@ void FHLGame::TickPlayer(float Dt)
 			Sound2D(TEXT("obj_redcar_bell"));
 		}
 	}
-	// red car stops: walking past one makes it a destination
-	if (U->Area == 0 && !U->bGhost)
-		for (const FHLRedcarStop& St : Areas[0].Def->Stops)
-			if (FVector2D::Distance(St.Pos, U->Pos) < 24 && !Player.Discovered.Contains(TEXT("stop:") + St.Id))
-			{
-				Player.Discovered.Add(TEXT("stop:") + St.Id);
-				System(FString::Printf(TEXT("Red car stop discovered: %s. You can now ride here from any other stop."), *St.Name));
-			}
 	FHLAreaState& Area = Areas[U->Area];
 	if (!U->bDead && !U->Stunned())
 	{
@@ -815,7 +846,7 @@ void FHLGame::TickPlayer(float Dt)
 			if (Move.SizeSquared() > 1) Move.Normalize();
 			const float Rad = FMath::DegreesToRadians(U->Yaw);
 			const FVector2D Fwd(FMath::Cos(Rad), FMath::Sin(Rad)), Right(-FMath::Sin(Rad), FMath::Cos(Rad));
-			float Speed = U->Speed * (Input.Forward < 0 ? 0.6f : 1.f) * (U->bGhost ? 1.25f : 1.f);
+			float Speed = U->Speed * (Input.Forward < 0 ? 0.6f : 1.f) * (U->bGhost ? 1.25f : 1.f) * (U->bMounted ? 1.6f : 1.f);
 			for (const FHLAura& A : U->Auras) if (A.Type == EHLAura::Slow) Speed *= (1.f - A.Value);
 			U->Pos = Area.Nav.Slide(U->Pos, (Fwd * Move.X + Right * Move.Y) * Speed * Dt);
 			if (U->Casting) { U->Casting = nullptr; U->GcdUntil = Now; Error(TEXT("Interrupted.")); }
@@ -925,6 +956,8 @@ void FHLGame::AcceptQuest(const FHLQuest& Q)
 	Player.Quests.Add(QS);
 	System(FString::Printf(TEXT("Quest accepted: %s"), *Q.Name));
 	Sound2D(TEXT("ui_quest_accept"));
+	if (!Q.GivesOnAccept.IsEmpty()) if (const FHLItem* Gift = FHLData::Get().ItemByName(Q.GivesOnAccept)) if (AddItem(Gift, Gift->Kind == TEXT("trade") ? 5 : 1, false)) AddChat(TEXT("loot"), FString(), FString::Printf(TEXT("You receive: [%s]"), *Gift->Name));
+	if (Q.BonusTalent > 0) { Player.BonusTalents += Q.BonusTalent; System(TEXT("You have an unspent talent point. Press N to open your talents.")); }
 	if (!Q.Breadcrumb.IsEmpty()) System(TEXT("That road leads out through the hive wall. The guards at the gap are far above your level."));
 	StartEscort(Q);
 }
@@ -1158,6 +1191,7 @@ bool FHLGame::ListAuction(int32 BagIdx, int32 Buyout, float Hours)
 	Auctions.Insert(A, 0);
 	Player.Bag[BagIdx] = FHLInvSlot();
 	System(FString::Printf(TEXT("Auction created for [%s] at %s (deposit %s)."), *A.Item->Name, *HLMoney(A.Buyout), *HLMoney(Deposit)));
+	QuestEvent(TEXT("do"), TEXT("auction_list"));
 	return true;
 }
 

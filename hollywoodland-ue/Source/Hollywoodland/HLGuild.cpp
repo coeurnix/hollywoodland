@@ -109,7 +109,7 @@ void FHLGame::TickGuild()
 	{
 		// recruiting: once the player has found their feet, a social or levelling guild asks (a bonded sim's guild first)
 		if (NextGuildInvite == 0) NextGuildInvite = Now + (bFast ? 30 : 600 + Rand() * 600);
-		if (Now < NextGuildInvite || GuildFromSim >= 0 || P->Level < 4 || InCombat(*P) || P->bDead || Player.GuildDeclines >= 3 || InviteFromSim >= 0 || DuelFromSim >= 0) return;
+		if (Now < NextGuildInvite || GuildFromSim >= 0 || P->Level < 4 || InOpening() || InCombat(*P) || P->bDead || Player.GuildDeclines >= 3 || InviteFromSim >= 0 || DuelFromSim >= 0) return;
 		NextGuildInvite = Now + (bFast ? 600 : 1500 + Rand() * 1200);
 		auto Fits = [&](const FHLSim& S) { const FHLGuild* G = D.Guild(S.P->Guild); return G && G->Kind != TEXT("raid") && S.bOnline && !S.bAfk && !S.bInParty && S.Level >= 6; };
 		int32 Pick = -1;
