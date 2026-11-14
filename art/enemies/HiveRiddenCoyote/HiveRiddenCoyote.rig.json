@@ -1,0 +1,61 @@
+{
+ "name": "HiveRiddenCoyote",
+ "kind": "quad",
+ "size_m": {
+  "length": 1.6,
+  "width": 0.69,
+  "height": 1.292
+ },
+ "tris": 8998,
+ "bones": [
+  "root",
+  "pelvis",
+  "chest",
+  "neck",
+  "head",
+  "leg_FL_upper",
+  "leg_FL_lower",
+  "leg_FL_foot",
+  "leg_FR_upper",
+  "leg_FR_lower",
+  "leg_FR_foot",
+  "tail_1",
+  "tail_2",
+  "leg_HL_upper",
+  "leg_HL_lower",
+  "leg_HL_foot",
+  "leg_HR_upper",
+  "leg_HR_lower",
+  "leg_HR_foot"
+ ],
+ "clips": {
+  "QIdle": {
+   "frames": 60,
+   "loop": true
+  },
+  "QWalk": {
+   "frames": 32,
+   "loop": true
+  },
+  "QRun": {
+   "frames": 18,
+   "loop": true
+  },
+  "Bite": {
+   "frames": 20,
+   "loop": false
+  },
+  "QHit": {
+   "frames": 12,
+   "loop": false
+  },
+  "QDeath": {
+   "frames": 40,
+   "loop": false
+  },
+  "Howl": {
+   "frames": 60,
+   "loop": false
+  }
+ }
+}

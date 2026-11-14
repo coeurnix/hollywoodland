@@ -1,0 +1,17 @@
+{
+ "name": "BroodKeeper",
+ "src": "brood_keeper_2",
+ "kind": "insect",
+ "yaw": 90,
+ "size": 2.0,
+ "legs": 4,
+ "clips": [
+  "Idle",
+  "Walk",
+  "Run",
+  "Attack",
+  "Hit",
+  "Death",
+  "Slam"
+ ]
+}

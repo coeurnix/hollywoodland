@@ -1,0 +1,21 @@
+{
+ "name": "OldScar",
+ "src": "old_scar_1",
+ "kind": "quad",
+ "yaw": 90,
+ "size": 1.6,
+ "clips": [
+  "QIdle",
+  "QWalk",
+  "QRun",
+  "Bite",
+  "QHit",
+  "QDeath",
+  "Howl"
+ ],
+ "grade": {
+  "sat": 0.45,
+  "gain": 1.55,
+  "lift": 0.05
+ }
+}

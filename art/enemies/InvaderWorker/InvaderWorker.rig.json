@@ -1,0 +1,54 @@
+{
+ "name": "InvaderWorker",
+ "kind": "insect",
+ "size_m": {
+  "length": 2.0,
+  "width": 2.185,
+  "height": 0.642
+ },
+ "tris": 9000,
+ "bones": [
+  "root",
+  "thorax",
+  "head",
+  "abdomen",
+  "leg_L1_upper",
+  "leg_L1_lower",
+  "leg_L2_upper",
+  "leg_L2_lower",
+  "leg_L3_upper",
+  "leg_L3_lower",
+  "leg_R1_upper",
+  "leg_R1_lower",
+  "leg_R2_upper",
+  "leg_R2_lower",
+  "leg_R3_upper",
+  "leg_R3_lower"
+ ],
+ "clips": {
+  "Idle": {
+   "frames": 60,
+   "loop": true
+  },
+  "Walk": {
+   "frames": 32,
+   "loop": true
+  },
+  "Run": {
+   "frames": 20,
+   "loop": true
+  },
+  "Attack": {
+   "frames": 24,
+   "loop": false
+  },
+  "Hit": {
+   "frames": 12,
+   "loop": false
+  },
+  "Death": {
+   "frames": 40,
+   "loop": false
+  }
+ }
+}

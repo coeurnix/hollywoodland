@@ -1,0 +1,17 @@
+{
+ "name": "InvaderSoldier",
+ "src": "soldier_b_2",
+ "kind": "insect",
+ "yaw": 90,
+ "size": 2.0,
+ "legs": 6,
+ "clips": [
+  "Idle",
+  "Walk",
+  "Run",
+  "Attack",
+  "Hit",
+  "Death",
+  "Charge"
+ ]
+}

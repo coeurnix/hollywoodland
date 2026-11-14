@@ -1,0 +1,18 @@
+{
+ "name": "SpitterMatriarch",
+ "src": "matriarch_1",
+ "kind": "insect",
+ "yaw": 90,
+ "size": 1.1,
+ "legs": 6,
+ "clips": [
+  "Idle",
+  "Walk",
+  "Run",
+  "Attack",
+  "Hit",
+  "Death",
+  "Spit",
+  "SpitPool"
+ ]
+}

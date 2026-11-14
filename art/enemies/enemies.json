@@ -1,0 +1,1880 @@
+{
+ "version": 1,
+ "fps": 30,
+ "forward": "+X",
+ "up": "+Z",
+ "pivot": "ground under the body centre",
+ "scale": "mesh size at actor scale 1.0 is size_m_at_scale_1; multiply by the mob scale from mobs.json and nothing else",
+ "models": {
+  "BroodKeeper": {
+   "kind": "insect",
+   "fbx": "BroodKeeper/SK_BroodKeeper.fbx",
+   "glb": "BroodKeeper/SK_BroodKeeper.glb",
+   "textures": {
+    "BaseColor": "BroodKeeper/textures/T_BroodKeeper_BaseColor.png",
+    "Normal": "BroodKeeper/textures/T_BroodKeeper_Normal.png",
+    "MetallicRoughness": "BroodKeeper/textures/T_BroodKeeper_MetallicRoughness.png"
+   },
+   "size_m_at_scale_1": {
+    "length": 2.0,
+    "width": 2.584,
+    "height": 2.132
+   },
+   "triangles": 8998,
+   "bones": [
+    "root",
+    "thorax",
+    "head",
+    "abdomen",
+    "leg_L1_upper",
+    "leg_L1_lower",
+    "leg_L2_upper",
+    "leg_L2_lower",
+    "leg_R1_upper",
+    "leg_R1_lower",
+    "leg_R2_upper",
+    "leg_R2_lower"
+   ],
+   "roles": {
+    "idle": "Idle",
+    "walk": "Walk",
+    "run": "Run",
+    "attack": "Attack",
+    "hit": "Hit",
+    "death": "Death"
+   },
+   "clips": {
+    "Idle": {
+     "anim": "A_BroodKeeper_Idle",
+     "frames": 61,
+     "seconds": 2.0,
+     "loop": true
+    },
+    "Walk": {
+     "anim": "A_BroodKeeper_Walk",
+     "frames": 33,
+     "seconds": 1.067,
+     "loop": true
+    },
+    "Run": {
+     "anim": "A_BroodKeeper_Run",
+     "frames": 21,
+     "seconds": 0.667,
+     "loop": true
+    },
+    "Attack": {
+     "anim": "A_BroodKeeper_Attack",
+     "frames": 25,
+     "seconds": 0.8,
+     "loop": false,
+     "events": {
+      "hit": 12
+     }
+    },
+    "Hit": {
+     "anim": "A_BroodKeeper_Hit",
+     "frames": 13,
+     "seconds": 0.4,
+     "loop": false
+    },
+    "Death": {
+     "anim": "A_BroodKeeper_Death",
+     "frames": 41,
+     "seconds": 1.333,
+     "loop": false,
+     "events": {
+      "corpse": "last frame"
+     }
+    },
+    "Slam": {
+     "anim": "A_BroodKeeper_Slam",
+     "frames": 37,
+     "seconds": 1.2,
+     "loop": false,
+     "events": {
+      "impact": 20
+     }
+    }
+   }
+  },
+  "Coyote": {
+   "kind": "quad",
+   "fbx": "Coyote/SK_Coyote.fbx",
+   "glb": "Coyote/SK_Coyote.glb",
+   "textures": {
+    "BaseColor": "Coyote/textures/T_Coyote_BaseColor.png",
+    "Normal": "Coyote/textures/T_Coyote_Normal.png",
+    "MetallicRoughness": "Coyote/textures/T_Coyote_MetallicRoughness.png"
+   },
+   "size_m_at_scale_1": {
+    "length": 1.6,
+    "width": 0.36,
+    "height": 1.198
+   },
+   "triangles": 8997,
+   "bones": [
+    "root",
+    "pelvis",
+    "chest",
+    "neck",
+    "head",
+    "leg_FL_upper",
+    "leg_FL_lower",
+    "leg_FL_foot",
+    "leg_FR_upper",
+    "leg_FR_lower",
+    "leg_FR_foot",
+    "tail_1",
+    "tail_2",
+    "leg_HL_upper",
+    "leg_HL_lower",
+    "leg_HL_foot",
+    "leg_HR_upper",
+    "leg_HR_lower",
+    "leg_HR_foot"
+   ],
+   "roles": {
+    "idle": "QIdle",
+    "walk": "QWalk",
+    "run": "QRun",
+    "attack": "Bite",
+    "hit": "QHit",
+    "death": "QDeath"
+   },
+   "clips": {
+    "QIdle": {
+     "anim": "A_Coyote_QIdle",
+     "frames": 61,
+     "seconds": 2.0,
+     "loop": true
+    },
+    "QWalk": {
+     "anim": "A_Coyote_QWalk",
+     "frames": 33,
+     "seconds": 1.067,
+     "loop": true
+    },
+    "QRun": {
+     "anim": "A_Coyote_QRun",
+     "frames": 19,
+     "seconds": 0.6,
+     "loop": true
+    },
+    "Bite": {
+     "anim": "A_Coyote_Bite",
+     "frames": 21,
+     "seconds": 0.667,
+     "loop": false,
+     "events": {
+      "hit": 10
+     }
+    },
+    "QHit": {
+     "anim": "A_Coyote_QHit",
+     "frames": 13,
+     "seconds": 0.4,
+     "loop": false
+    },
+    "QDeath": {
+     "anim": "A_Coyote_QDeath",
+     "frames": 41,
+     "seconds": 1.333,
+     "loop": false,
+     "events": {
+      "corpse": "last frame"
+     }
+    },
+    "Howl": {
+     "anim": "A_Coyote_Howl",
+     "frames": 61,
+     "seconds": 2.0,
+     "loop": false
+    }
+   }
+  },
+  "FeralDog": {
+   "kind": "quad",
+   "fbx": "FeralDog/SK_FeralDog.fbx",
+   "glb": "FeralDog/SK_FeralDog.glb",
+   "textures": {
+    "BaseColor": "FeralDog/textures/T_FeralDog_BaseColor.png",
+    "Normal": "FeralDog/textures/T_FeralDog_Normal.png",
+    "MetallicRoughness": "FeralDog/textures/T_FeralDog_MetallicRoughness.png"
+   },
+   "size_m_at_scale_1": {
+    "length": 1.6,
+    "width": 0.466,
+    "height": 1.277
+   },
+   "triangles": 8999,
+   "bones": [
+    "root",
+    "pelvis",
+    "chest",
+    "neck",
+    "head",
+    "leg_FL_upper",
+    "leg_FL_lower",
+    "leg_FL_foot",
+    "leg_FR_upper",
+    "leg_FR_lower",
+    "leg_FR_foot",
+    "tail_1",
+    "tail_2",
+    "leg_HL_upper",
+    "leg_HL_lower",
+    "leg_HL_foot",
+    "leg_HR_upper",
+    "leg_HR_lower",
+    "leg_HR_foot"
+   ],
+   "roles": {
+    "idle": "QIdle",
+    "walk": "QWalk",
+    "run": "QRun",
+    "attack": "Bite",
+    "hit": "QHit",
+    "death": "QDeath"
+   },
+   "clips": {
+    "QIdle": {
+     "anim": "A_FeralDog_QIdle",
+     "frames": 61,
+     "seconds": 2.0,
+     "loop": true
+    },
+    "QWalk": {
+     "anim": "A_FeralDog_QWalk",
+     "frames": 33,
+     "seconds": 1.067,
+     "loop": true
+    },
+    "QRun": {
+     "anim": "A_FeralDog_QRun",
+     "frames": 19,
+     "seconds": 0.6,
+     "loop": true
+    },
+    "Bite": {
+     "anim": "A_FeralDog_Bite",
+     "frames": 21,
+     "seconds": 0.667,
+     "loop": false,
+     "events": {
+      "hit": 10
+     }
+    },
+    "QHit": {
+     "anim": "A_FeralDog_QHit",
+     "frames": 13,
+     "seconds": 0.4,
+     "loop": false
+    },
+    "QDeath": {
+     "anim": "A_FeralDog_QDeath",
+     "frames": 41,
+     "seconds": 1.333,
+     "loop": false,
+     "events": {
+      "corpse": "last frame"
+     }
+    }
+   }
+  },
+  "HiveEggSac": {
+   "kind": "sac",
+   "fbx": "HiveEggSac/SK_HiveEggSac.fbx",
+   "glb": "HiveEggSac/SK_HiveEggSac.glb",
+   "textures": {
+    "BaseColor": "HiveEggSac/textures/T_HiveEggSac_BaseColor.png",
+    "Normal": "HiveEggSac/textures/T_HiveEggSac_Normal.png",
+    "MetallicRoughness": "HiveEggSac/textures/T_HiveEggSac_MetallicRoughness.png"
+   },
+   "size_m_at_scale_1": {
+    "length": 2.0,
+    "width": 1.96,
+    "height": 1.989
+   },
+   "triangles": 9000,
+   "bones": [
+    "root",
+    "sac"
+   ],
+   "roles": {
+    "idle": "Pulse",
+    "hit": "SacHit"
+   },
+   "clips": {
+    "Pulse": {
+     "anim": "A_HiveEggSac_Pulse",
+     "frames": 41,
+     "seconds": 1.333,
+     "loop": true
+    },
+    "SacHit": {
+     "anim": "A_HiveEggSac_SacHit",
+     "frames": 13,
+     "seconds": 0.4,
+     "loop": false
+    }
+   }
+  },
+  "HiveMother": {
+   "kind": "insect",
+   "fbx": "HiveMother/SK_HiveMother.fbx",
+   "glb": "HiveMother/SK_HiveMother.glb",
+   "textures": {
+    "BaseColor": "HiveMother/textures/T_HiveMother_BaseColor.png",
+    "Normal": "HiveMother/textures/T_HiveMother_Normal.png",
+    "MetallicRoughness": "HiveMother/textures/T_HiveMother_MetallicRoughness.png"
+   },
+   "size_m_at_scale_1": {
+    "length": 2.0,
+    "width": 1.871,
+    "height": 1.367
+   },
+   "triangles": 9000,
+   "bones": [
+    "root",
+    "thorax",
+    "head",
+    "abdomen",
+    "leg_L1_upper",
+    "leg_L1_lower",
+    "leg_L2_upper",
+    "leg_L2_lower",
+    "leg_L3_upper",
+    "leg_L3_lower",
+    "leg_R1_upper",
+    "leg_R1_lower",
+    "leg_R2_upper",
+    "leg_R2_lower",
+    "leg_R3_upper",
+    "leg_R3_lower"
+   ],
+   "roles": {
+    "idle": "Idle",
+    "walk": "Walk",
+    "run": "Run",
+    "attack": "Attack",
+    "hit": "Hit",
+    "death": "Death"
+   },
+   "clips": {
+    "Idle": {
+     "anim": "A_HiveMother_Idle",
+     "frames": 61,
+     "seconds": 2.0,
+     "loop": true
+    },
+    "Walk": {
+     "anim": "A_HiveMother_Walk",
+     "frames": 33,
+     "seconds": 1.067,
+     "loop": true
+    },
+    "Run": {
+     "anim": "A_HiveMother_Run",
+     "frames": 21,
+     "seconds": 0.667,
+     "loop": true
+    },
+    "Attack": {
+     "anim": "A_HiveMother_Attack",
+     "frames": 25,
+     "seconds": 0.8,
+     "loop": false,
+     "events": {
+      "hit": 12
+     }
+    },
+    "Hit": {
+     "anim": "A_HiveMother_Hit",
+     "frames": 13,
+     "seconds": 0.4,
+     "loop": false
+    },
+    "Death": {
+     "anim": "A_HiveMother_Death",
+     "frames": 41,
+     "seconds": 1.333,
+     "loop": false,
+     "events": {
+      "corpse": "last frame"
+     }
+    },
+    "Slam": {
+     "anim": "A_HiveMother_Slam",
+     "frames": 37,
+     "seconds": 1.2,
+     "loop": false,
+     "events": {
+      "impact": 20
+     }
+    },
+    "Summon": {
+     "anim": "A_HiveMother_Summon",
+     "frames": 49,
+     "seconds": 1.6,
+     "loop": false
+    }
+   }
+  },
+  "HiveRiddenCoyote": {
+   "kind": "quad",
+   "fbx": "HiveRiddenCoyote/SK_HiveRiddenCoyote.fbx",
+   "glb": "HiveRiddenCoyote/SK_HiveRiddenCoyote.glb",
+   "textures": {
+    "BaseColor": "HiveRiddenCoyote/textures/T_HiveRiddenCoyote_BaseColor.png",
+    "Normal": "HiveRiddenCoyote/textures/T_HiveRiddenCoyote_Normal.png",
+    "MetallicRoughness": "HiveRiddenCoyote/textures/T_HiveRiddenCoyote_MetallicRoughness.png"
+   },
+   "size_m_at_scale_1": {
+    "length": 1.6,
+    "width": 0.69,
+    "height": 1.292
+   },
+   "triangles": 8998,
+   "bones": [
+    "root",
+    "pelvis",
+    "chest",
+    "neck",
+    "head",
+    "leg_FL_upper",
+    "leg_FL_lower",
+    "leg_FL_foot",
+    "leg_FR_upper",
+    "leg_FR_lower",
+    "leg_FR_foot",
+    "tail_1",
+    "tail_2",
+    "leg_HL_upper",
+    "leg_HL_lower",
+    "leg_HL_foot",
+    "leg_HR_upper",
+    "leg_HR_lower",
+    "leg_HR_foot"
+   ],
+   "roles": {
+    "idle": "QIdle",
+    "walk": "QWalk",
+    "run": "QRun",
+    "attack": "Bite",
+    "hit": "QHit",
+    "death": "QDeath"
+   },
+   "clips": {
+    "QIdle": {
+     "anim": "A_HiveRiddenCoyote_QIdle",
+     "frames": 61,
+     "seconds": 2.0,
+     "loop": true
+    },
+    "QWalk": {
+     "anim": "A_HiveRiddenCoyote_QWalk",
+     "frames": 33,
+     "seconds": 1.067,
+     "loop": true
+    },
+    "QRun": {
+     "anim": "A_HiveRiddenCoyote_QRun",
+     "frames": 19,
+     "seconds": 0.6,
+     "loop": true
+    },
+    "Bite": {
+     "anim": "A_HiveRiddenCoyote_Bite",
+     "frames": 21,
+     "seconds": 0.667,
+     "loop": false,
+     "events": {
+      "hit": 10
+     }
+    },
+    "QHit": {
+     "anim": "A_HiveRiddenCoyote_QHit",
+     "frames": 13,
+     "seconds": 0.4,
+     "loop": false
+    },
+    "QDeath": {
+     "anim": "A_HiveRiddenCoyote_QDeath",
+     "frames": 41,
+     "seconds": 1.333,
+     "loop": false,
+     "events": {
+      "corpse": "last frame"
+     }
+    },
+    "Howl": {
+     "anim": "A_HiveRiddenCoyote_Howl",
+     "frames": 61,
+     "seconds": 2.0,
+     "loop": false
+    }
+   }
+  },
+  "HiveWarden": {
+   "kind": "insect",
+   "fbx": "HiveWarden/SK_HiveWarden.fbx",
+   "glb": "HiveWarden/SK_HiveWarden.glb",
+   "textures": {
+    "BaseColor": "HiveWarden/textures/T_HiveWarden_BaseColor.png",
+    "Normal": "HiveWarden/textures/T_HiveWarden_Normal.png",
+    "MetallicRoughness": "HiveWarden/textures/T_HiveWarden_MetallicRoughness.png"
+   },
+   "size_m_at_scale_1": {
+    "length": 2.0,
+    "width": 2.089,
+    "height": 1.489
+   },
+   "triangles": 8993,
+   "bones": [
+    "root",
+    "thorax",
+    "head",
+    "abdomen",
+    "leg_L1_upper",
+    "leg_L1_lower",
+    "leg_L2_upper",
+    "leg_L2_lower",
+    "leg_L3_upper",
+    "leg_L3_lower",
+    "leg_R1_upper",
+    "leg_R1_lower",
+    "leg_R2_upper",
+    "leg_R2_lower",
+    "leg_R3_upper",
+    "leg_R3_lower"
+   ],
+   "roles": {
+    "idle": "Idle",
+    "walk": "Walk",
+    "run": "Run",
+    "attack": "Attack",
+    "hit": "Hit",
+    "death": "Death"
+   },
+   "clips": {
+    "Idle": {
+     "anim": "A_HiveWarden_Idle",
+     "frames": 61,
+     "seconds": 2.0,
+     "loop": true
+    },
+    "Walk": {
+     "anim": "A_HiveWarden_Walk",
+     "frames": 33,
+     "seconds": 1.067,
+     "loop": true
+    },
+    "Run": {
+     "anim": "A_HiveWarden_Run",
+     "frames": 21,
+     "seconds": 0.667,
+     "loop": true
+    },
+    "Attack": {
+     "anim": "A_HiveWarden_Attack",
+     "frames": 25,
+     "seconds": 0.8,
+     "loop": false,
+     "events": {
+      "hit": 12
+     }
+    },
+    "Hit": {
+     "anim": "A_HiveWarden_Hit",
+     "frames": 13,
+     "seconds": 0.4,
+     "loop": false
+    },
+    "Death": {
+     "anim": "A_HiveWarden_Death",
+     "frames": 41,
+     "seconds": 1.333,
+     "loop": false,
+     "events": {
+      "corpse": "last frame"
+     }
+    },
+    "Charge": {
+     "anim": "A_HiveWarden_Charge",
+     "frames": 17,
+     "seconds": 0.533,
+     "loop": true
+    }
+   }
+  },
+  "InvaderBroodling": {
+   "kind": "insect",
+   "fbx": "InvaderBroodling/SK_InvaderBroodling.fbx",
+   "glb": "InvaderBroodling/SK_InvaderBroodling.glb",
+   "textures": {
+    "BaseColor": "InvaderBroodling/textures/T_InvaderBroodling_BaseColor.png",
+    "Normal": "InvaderBroodling/textures/T_InvaderBroodling_Normal.png",
+    "MetallicRoughness": "InvaderBroodling/textures/T_InvaderBroodling_MetallicRoughness.png"
+   },
+   "size_m_at_scale_1": {
+    "length": 2.0,
+    "width": 0.884,
+    "height": 0.61
+   },
+   "triangles": 5000,
+   "bones": [
+    "root",
+    "thorax",
+    "head",
+    "abdomen",
+    "leg_L1_upper",
+    "leg_L1_lower",
+    "leg_L2_upper",
+    "leg_L2_lower",
+    "leg_L3_upper",
+    "leg_L3_lower",
+    "leg_R1_upper",
+    "leg_R1_lower",
+    "leg_R2_upper",
+    "leg_R2_lower",
+    "leg_R3_upper",
+    "leg_R3_lower"
+   ],
+   "roles": {
+    "idle": "Idle",
+    "walk": "Walk",
+    "run": "Run",
+    "attack": "Attack",
+    "hit": "Hit",
+    "death": "Death"
+   },
+   "clips": {
+    "Idle": {
+     "anim": "A_InvaderBroodling_Idle",
+     "frames": 61,
+     "seconds": 2.0,
+     "loop": true
+    },
+    "Walk": {
+     "anim": "A_InvaderBroodling_Walk",
+     "frames": 33,
+     "seconds": 1.067,
+     "loop": true
+    },
+    "Run": {
+     "anim": "A_InvaderBroodling_Run",
+     "frames": 21,
+     "seconds": 0.667,
+     "loop": true
+    },
+    "Attack": {
+     "anim": "A_InvaderBroodling_Attack",
+     "frames": 25,
+     "seconds": 0.8,
+     "loop": false,
+     "events": {
+      "hit": 12
+     }
+    },
+    "Hit": {
+     "anim": "A_InvaderBroodling_Hit",
+     "frames": 13,
+     "seconds": 0.4,
+     "loop": false
+    },
+    "Death": {
+     "anim": "A_InvaderBroodling_Death",
+     "frames": 41,
+     "seconds": 1.333,
+     "loop": false,
+     "events": {
+      "corpse": "last frame"
+     }
+    },
+    "Hatch": {
+     "anim": "A_InvaderBroodling_Hatch",
+     "frames": 25,
+     "seconds": 0.8,
+     "loop": false
+    },
+    "Leap": {
+     "anim": "A_InvaderBroodling_Leap",
+     "frames": 21,
+     "seconds": 0.667,
+     "loop": false,
+     "events": {
+      "land": 12
+     }
+    }
+   }
+  },
+  "InvaderBrute": {
+   "kind": "insect",
+   "fbx": "InvaderBrute/SK_InvaderBrute.fbx",
+   "glb": "InvaderBrute/SK_InvaderBrute.glb",
+   "textures": {
+    "BaseColor": "InvaderBrute/textures/T_InvaderBrute_BaseColor.png",
+    "Normal": "InvaderBrute/textures/T_InvaderBrute_Normal.png",
+    "MetallicRoughness": "InvaderBrute/textures/T_InvaderBrute_MetallicRoughness.png"
+   },
+   "size_m_at_scale_1": {
+    "length": 2.0,
+    "width": 1.97,
+    "height": 1.548
+   },
+   "triangles": 9000,
+   "bones": [
+    "root",
+    "thorax",
+    "head",
+    "abdomen",
+    "leg_L1_upper",
+    "leg_L1_lower",
+    "leg_L2_upper",
+    "leg_L2_lower",
+    "leg_L3_upper",
+    "leg_L3_lower",
+    "leg_R1_upper",
+    "leg_R1_lower",
+    "leg_R2_upper",
+    "leg_R2_lower",
+    "leg_R3_upper",
+    "leg_R3_lower"
+   ],
+   "roles": {
+    "idle": "Idle",
+    "walk": "Walk",
+    "run": "Run",
+    "attack": "Attack",
+    "hit": "Hit",
+    "death": "Death"
+   },
+   "clips": {
+    "Idle": {
+     "anim": "A_InvaderBrute_Idle",
+     "frames": 61,
+     "seconds": 2.0,
+     "loop": true
+    },
+    "Walk": {
+     "anim": "A_InvaderBrute_Walk",
+     "frames": 33,
+     "seconds": 1.067,
+     "loop": true
+    },
+    "Run": {
+     "anim": "A_InvaderBrute_Run",
+     "frames": 21,
+     "seconds": 0.667,
+     "loop": true
+    },
+    "Attack": {
+     "anim": "A_InvaderBrute_Attack",
+     "frames": 25,
+     "seconds": 0.8,
+     "loop": false,
+     "events": {
+      "hit": 12
+     }
+    },
+    "Hit": {
+     "anim": "A_InvaderBrute_Hit",
+     "frames": 13,
+     "seconds": 0.4,
+     "loop": false
+    },
+    "Death": {
+     "anim": "A_InvaderBrute_Death",
+     "frames": 41,
+     "seconds": 1.333,
+     "loop": false,
+     "events": {
+      "corpse": "last frame"
+     }
+    },
+    "Slam": {
+     "anim": "A_InvaderBrute_Slam",
+     "frames": 37,
+     "seconds": 1.2,
+     "loop": false,
+     "events": {
+      "impact": 20
+     }
+    }
+   }
+  },
+  "InvaderBurrower": {
+   "kind": "insect",
+   "fbx": "InvaderBurrower/SK_InvaderBurrower.fbx",
+   "glb": "InvaderBurrower/SK_InvaderBurrower.glb",
+   "textures": {
+    "BaseColor": "InvaderBurrower/textures/T_InvaderBurrower_BaseColor.png",
+    "Normal": "InvaderBurrower/textures/T_InvaderBurrower_Normal.png",
+    "MetallicRoughness": "InvaderBurrower/textures/T_InvaderBurrower_MetallicRoughness.png"
+   },
+   "size_m_at_scale_1": {
+    "length": 2.0,
+    "width": 2.22,
+    "height": 1.405
+   },
+   "triangles": 9000,
+   "bones": [
+    "root",
+    "thorax",
+    "head",
+    "abdomen",
+    "leg_L1_upper",
+    "leg_L1_lower",
+    "leg_L2_upper",
+    "leg_L2_lower",
+    "leg_L3_upper",
+    "leg_L3_lower",
+    "leg_R1_upper",
+    "leg_R1_lower",
+    "leg_R2_upper",
+    "leg_R2_lower",
+    "leg_R3_upper",
+    "leg_R3_lower"
+   ],
+   "roles": {
+    "idle": "Idle",
+    "walk": "Walk",
+    "run": "Run",
+    "attack": "Attack",
+    "hit": "Hit",
+    "death": "Death"
+   },
+   "clips": {
+    "Idle": {
+     "anim": "A_InvaderBurrower_Idle",
+     "frames": 61,
+     "seconds": 2.0,
+     "loop": true
+    },
+    "Walk": {
+     "anim": "A_InvaderBurrower_Walk",
+     "frames": 33,
+     "seconds": 1.067,
+     "loop": true
+    },
+    "Run": {
+     "anim": "A_InvaderBurrower_Run",
+     "frames": 21,
+     "seconds": 0.667,
+     "loop": true
+    },
+    "Attack": {
+     "anim": "A_InvaderBurrower_Attack",
+     "frames": 25,
+     "seconds": 0.8,
+     "loop": false,
+     "events": {
+      "hit": 12
+     }
+    },
+    "Hit": {
+     "anim": "A_InvaderBurrower_Hit",
+     "frames": 13,
+     "seconds": 0.4,
+     "loop": false
+    },
+    "Death": {
+     "anim": "A_InvaderBurrower_Death",
+     "frames": 41,
+     "seconds": 1.333,
+     "loop": false,
+     "events": {
+      "corpse": "last frame"
+     }
+    },
+    "Burrow": {
+     "anim": "A_InvaderBurrower_Burrow",
+     "frames": 31,
+     "seconds": 1.0,
+     "loop": false
+    },
+    "BurrowedIdle": {
+     "anim": "A_InvaderBurrower_BurrowedIdle",
+     "frames": 41,
+     "seconds": 1.333,
+     "loop": true
+    },
+    "Emerge": {
+     "anim": "A_InvaderBurrower_Emerge",
+     "frames": 23,
+     "seconds": 0.733,
+     "loop": false,
+     "events": {
+      "ambush_hit": 16
+     }
+    }
+   }
+  },
+  "InvaderDrone": {
+   "kind": "insect",
+   "fbx": "InvaderDrone/SK_InvaderDrone.fbx",
+   "glb": "InvaderDrone/SK_InvaderDrone.glb",
+   "textures": {
+    "BaseColor": "InvaderDrone/textures/T_InvaderDrone_BaseColor.png",
+    "Normal": "InvaderDrone/textures/T_InvaderDrone_Normal.png",
+    "MetallicRoughness": "InvaderDrone/textures/T_InvaderDrone_MetallicRoughness.png"
+   },
+   "size_m_at_scale_1": {
+    "length": 2.0,
+    "width": 2.826,
+    "height": 2.34
+   },
+   "triangles": 9000,
+   "bones": [
+    "root",
+    "thorax",
+    "head",
+    "abdomen",
+    "leg_L1_upper",
+    "leg_L1_lower",
+    "leg_L2_upper",
+    "leg_L2_lower",
+    "leg_L3_upper",
+    "leg_L3_lower",
+    "leg_R1_upper",
+    "leg_R1_lower",
+    "leg_R2_upper",
+    "leg_R2_lower",
+    "leg_R3_upper",
+    "leg_R3_lower"
+   ],
+   "roles": {
+    "idle": "Idle",
+    "walk": "Walk",
+    "run": "Run",
+    "attack": "Attack",
+    "hit": "Hit",
+    "death": "Death"
+   },
+   "clips": {
+    "Idle": {
+     "anim": "A_InvaderDrone_Idle",
+     "frames": 61,
+     "seconds": 2.0,
+     "loop": true
+    },
+    "Walk": {
+     "anim": "A_InvaderDrone_Walk",
+     "frames": 33,
+     "seconds": 1.067,
+     "loop": true
+    },
+    "Run": {
+     "anim": "A_InvaderDrone_Run",
+     "frames": 21,
+     "seconds": 0.667,
+     "loop": true
+    },
+    "Attack": {
+     "anim": "A_InvaderDrone_Attack",
+     "frames": 25,
+     "seconds": 0.8,
+     "loop": false,
+     "events": {
+      "hit": 12
+     }
+    },
+    "Hit": {
+     "anim": "A_InvaderDrone_Hit",
+     "frames": 13,
+     "seconds": 0.4,
+     "loop": false
+    },
+    "Death": {
+     "anim": "A_InvaderDrone_Death",
+     "frames": 41,
+     "seconds": 1.333,
+     "loop": false,
+     "events": {
+      "corpse": "last frame"
+     }
+    }
+   }
+  },
+  "InvaderFlier": {
+   "kind": "flier",
+   "fbx": "InvaderFlier/SK_InvaderFlier.fbx",
+   "glb": "InvaderFlier/SK_InvaderFlier.glb",
+   "textures": {
+    "BaseColor": "InvaderFlier/textures/T_InvaderFlier_BaseColor.png",
+    "Normal": "InvaderFlier/textures/T_InvaderFlier_Normal.png",
+    "MetallicRoughness": "InvaderFlier/textures/T_InvaderFlier_MetallicRoughness.png"
+   },
+   "size_m_at_scale_1": {
+    "length": 2.0,
+    "width": 2.347,
+    "height": 0.474
+   },
+   "triangles": 9000,
+   "bones": [
+    "root",
+    "thorax",
+    "head",
+    "abdomen",
+    "wing_L_1",
+    "wing_L_2",
+    "wing_R_1",
+    "wing_R_2"
+   ],
+   "roles": {
+    "idle": "FlyIdle",
+    "walk": "FlyForward",
+    "run": "FlyForward",
+    "attack": "Sting",
+    "hit": "Hit",
+    "death": "FlierDeath"
+   },
+   "clips": {
+    "FlyIdle": {
+     "anim": "A_InvaderFlier_FlyIdle",
+     "frames": 31,
+     "seconds": 1.0,
+     "loop": true
+    },
+    "FlyForward": {
+     "anim": "A_InvaderFlier_FlyForward",
+     "frames": 31,
+     "seconds": 1.0,
+     "loop": true
+    },
+    "Dive": {
+     "anim": "A_InvaderFlier_Dive",
+     "frames": 37,
+     "seconds": 1.2,
+     "loop": false,
+     "events": {
+      "strike": 22
+     }
+    },
+    "Sting": {
+     "anim": "A_InvaderFlier_Sting",
+     "frames": 21,
+     "seconds": 0.667,
+     "loop": false,
+     "events": {
+      "hit": 11
+     }
+    },
+    "Hit": {
+     "anim": "A_InvaderFlier_Hit",
+     "frames": 13,
+     "seconds": 0.4,
+     "loop": false
+    },
+    "FlierDeath": {
+     "anim": "A_InvaderFlier_FlierDeath",
+     "frames": 41,
+     "seconds": 1.333,
+     "loop": false,
+     "events": {
+      "corpse": "last frame"
+     }
+    }
+   }
+  },
+  "InvaderSoldier": {
+   "kind": "insect",
+   "fbx": "InvaderSoldier/SK_InvaderSoldier.fbx",
+   "glb": "InvaderSoldier/SK_InvaderSoldier.glb",
+   "textures": {
+    "BaseColor": "InvaderSoldier/textures/T_InvaderSoldier_BaseColor.png",
+    "Normal": "InvaderSoldier/textures/T_InvaderSoldier_Normal.png",
+    "MetallicRoughness": "InvaderSoldier/textures/T_InvaderSoldier_MetallicRoughness.png"
+   },
+   "size_m_at_scale_1": {
+    "length": 2.0,
+    "width": 2.395,
+    "height": 1.542
+   },
+   "triangles": 9000,
+   "bones": [
+    "root",
+    "thorax",
+    "head",
+    "abdomen",
+    "leg_L1_upper",
+    "leg_L1_lower",
+    "leg_L2_upper",
+    "leg_L2_lower",
+    "leg_L3_upper",
+    "leg_L3_lower",
+    "leg_R1_upper",
+    "leg_R1_lower",
+    "leg_R2_upper",
+    "leg_R2_lower",
+    "leg_R3_upper",
+    "leg_R3_lower"
+   ],
+   "roles": {
+    "idle": "Idle",
+    "walk": "Walk",
+    "run": "Run",
+    "attack": "Attack",
+    "hit": "Hit",
+    "death": "Death"
+   },
+   "clips": {
+    "Idle": {
+     "anim": "A_InvaderSoldier_Idle",
+     "frames": 61,
+     "seconds": 2.0,
+     "loop": true
+    },
+    "Walk": {
+     "anim": "A_InvaderSoldier_Walk",
+     "frames": 33,
+     "seconds": 1.067,
+     "loop": true
+    },
+    "Run": {
+     "anim": "A_InvaderSoldier_Run",
+     "frames": 21,
+     "seconds": 0.667,
+     "loop": true
+    },
+    "Attack": {
+     "anim": "A_InvaderSoldier_Attack",
+     "frames": 25,
+     "seconds": 0.8,
+     "loop": false,
+     "events": {
+      "hit": 12
+     }
+    },
+    "Hit": {
+     "anim": "A_InvaderSoldier_Hit",
+     "frames": 13,
+     "seconds": 0.4,
+     "loop": false
+    },
+    "Death": {
+     "anim": "A_InvaderSoldier_Death",
+     "frames": 41,
+     "seconds": 1.333,
+     "loop": false,
+     "events": {
+      "corpse": "last frame"
+     }
+    },
+    "Charge": {
+     "anim": "A_InvaderSoldier_Charge",
+     "frames": 17,
+     "seconds": 0.533,
+     "loop": true
+    }
+   }
+  },
+  "InvaderSpitter": {
+   "kind": "insect",
+   "fbx": "InvaderSpitter/SK_InvaderSpitter.fbx",
+   "glb": "InvaderSpitter/SK_InvaderSpitter.glb",
+   "textures": {
+    "BaseColor": "InvaderSpitter/textures/T_InvaderSpitter_BaseColor.png",
+    "Normal": "InvaderSpitter/textures/T_InvaderSpitter_Normal.png",
+    "MetallicRoughness": "InvaderSpitter/textures/T_InvaderSpitter_MetallicRoughness.png"
+   },
+   "size_m_at_scale_1": {
+    "length": 2.0,
+    "width": 2.197,
+    "height": 1.755
+   },
+   "triangles": 9000,
+   "bones": [
+    "root",
+    "thorax",
+    "head",
+    "abdomen",
+    "leg_L1_upper",
+    "leg_L1_lower",
+    "leg_L2_upper",
+    "leg_L2_lower",
+    "leg_L3_upper",
+    "leg_L3_lower",
+    "leg_R1_upper",
+    "leg_R1_lower",
+    "leg_R2_upper",
+    "leg_R2_lower",
+    "leg_R3_upper",
+    "leg_R3_lower"
+   ],
+   "roles": {
+    "idle": "Idle",
+    "walk": "Walk",
+    "run": "Run",
+    "attack": "Attack",
+    "hit": "Hit",
+    "death": "Death"
+   },
+   "clips": {
+    "Idle": {
+     "anim": "A_InvaderSpitter_Idle",
+     "frames": 61,
+     "seconds": 2.0,
+     "loop": true
+    },
+    "Walk": {
+     "anim": "A_InvaderSpitter_Walk",
+     "frames": 33,
+     "seconds": 1.067,
+     "loop": true
+    },
+    "Run": {
+     "anim": "A_InvaderSpitter_Run",
+     "frames": 21,
+     "seconds": 0.667,
+     "loop": true
+    },
+    "Attack": {
+     "anim": "A_InvaderSpitter_Attack",
+     "frames": 25,
+     "seconds": 0.8,
+     "loop": false,
+     "events": {
+      "hit": 12
+     }
+    },
+    "Hit": {
+     "anim": "A_InvaderSpitter_Hit",
+     "frames": 13,
+     "seconds": 0.4,
+     "loop": false
+    },
+    "Death": {
+     "anim": "A_InvaderSpitter_Death",
+     "frames": 41,
+     "seconds": 1.333,
+     "loop": false,
+     "events": {
+      "corpse": "last frame"
+     }
+    },
+    "Spit": {
+     "anim": "A_InvaderSpitter_Spit",
+     "frames": 29,
+     "seconds": 0.933,
+     "loop": false,
+     "events": {
+      "release": 14
+     }
+    }
+   }
+  },
+  "InvaderWorker": {
+   "kind": "insect",
+   "fbx": "InvaderWorker/SK_InvaderWorker.fbx",
+   "glb": "InvaderWorker/SK_InvaderWorker.glb",
+   "textures": {
+    "BaseColor": "InvaderWorker/textures/T_InvaderWorker_BaseColor.png",
+    "Normal": "InvaderWorker/textures/T_InvaderWorker_Normal.png",
+    "MetallicRoughness": "InvaderWorker/textures/T_InvaderWorker_MetallicRoughness.png"
+   },
+   "size_m_at_scale_1": {
+    "length": 2.0,
+    "width": 2.185,
+    "height": 0.642
+   },
+   "triangles": 9000,
+   "bones": [
+    "root",
+    "thorax",
+    "head",
+    "abdomen",
+    "leg_L1_upper",
+    "leg_L1_lower",
+    "leg_L2_upper",
+    "leg_L2_lower",
+    "leg_L3_upper",
+    "leg_L3_lower",
+    "leg_R1_upper",
+    "leg_R1_lower",
+    "leg_R2_upper",
+    "leg_R2_lower",
+    "leg_R3_upper",
+    "leg_R3_lower"
+   ],
+   "roles": {
+    "idle": "Idle",
+    "walk": "Walk",
+    "run": "Run",
+    "attack": "Attack",
+    "hit": "Hit",
+    "death": "Death"
+   },
+   "clips": {
+    "Idle": {
+     "anim": "A_InvaderWorker_Idle",
+     "frames": 61,
+     "seconds": 2.0,
+     "loop": true
+    },
+    "Walk": {
+     "anim": "A_InvaderWorker_Walk",
+     "frames": 33,
+     "seconds": 1.067,
+     "loop": true
+    },
+    "Run": {
+     "anim": "A_InvaderWorker_Run",
+     "frames": 21,
+     "seconds": 0.667,
+     "loop": true
+    },
+    "Attack": {
+     "anim": "A_InvaderWorker_Attack",
+     "frames": 25,
+     "seconds": 0.8,
+     "loop": false,
+     "events": {
+      "hit": 12
+     }
+    },
+    "Hit": {
+     "anim": "A_InvaderWorker_Hit",
+     "frames": 13,
+     "seconds": 0.4,
+     "loop": false
+    },
+    "Death": {
+     "anim": "A_InvaderWorker_Death",
+     "frames": 41,
+     "seconds": 1.333,
+     "loop": false,
+     "events": {
+      "corpse": "last frame"
+     }
+    }
+   }
+  },
+  "OldScar": {
+   "kind": "quad",
+   "fbx": "OldScar/SK_OldScar.fbx",
+   "glb": "OldScar/SK_OldScar.glb",
+   "textures": {
+    "BaseColor": "OldScar/textures/T_OldScar_BaseColor.png",
+    "Normal": "OldScar/textures/T_OldScar_Normal.png",
+    "MetallicRoughness": "OldScar/textures/T_OldScar_MetallicRoughness.png"
+   },
+   "size_m_at_scale_1": {
+    "length": 1.6,
+    "width": 0.474,
+    "height": 1.422
+   },
+   "triangles": 9000,
+   "bones": [
+    "root",
+    "pelvis",
+    "chest",
+    "neck",
+    "head",
+    "leg_FL_upper",
+    "leg_FL_lower",
+    "leg_FL_foot",
+    "leg_FR_upper",
+    "leg_FR_lower",
+    "leg_FR_foot",
+    "tail_1",
+    "tail_2",
+    "leg_HL_upper",
+    "leg_HL_lower",
+    "leg_HL_foot",
+    "leg_HR_upper",
+    "leg_HR_lower",
+    "leg_HR_foot"
+   ],
+   "roles": {
+    "idle": "QIdle",
+    "walk": "QWalk",
+    "run": "QRun",
+    "attack": "Bite",
+    "hit": "QHit",
+    "death": "QDeath"
+   },
+   "clips": {
+    "QIdle": {
+     "anim": "A_OldScar_QIdle",
+     "frames": 61,
+     "seconds": 2.0,
+     "loop": true
+    },
+    "QWalk": {
+     "anim": "A_OldScar_QWalk",
+     "frames": 33,
+     "seconds": 1.067,
+     "loop": true
+    },
+    "QRun": {
+     "anim": "A_OldScar_QRun",
+     "frames": 19,
+     "seconds": 0.6,
+     "loop": true
+    },
+    "Bite": {
+     "anim": "A_OldScar_Bite",
+     "frames": 21,
+     "seconds": 0.667,
+     "loop": false,
+     "events": {
+      "hit": 10
+     }
+    },
+    "QHit": {
+     "anim": "A_OldScar_QHit",
+     "frames": 13,
+     "seconds": 0.4,
+     "loop": false
+    },
+    "QDeath": {
+     "anim": "A_OldScar_QDeath",
+     "frames": 41,
+     "seconds": 1.333,
+     "loop": false,
+     "events": {
+      "corpse": "last frame"
+     }
+    },
+    "Howl": {
+     "anim": "A_OldScar_Howl",
+     "frames": 61,
+     "seconds": 2.0,
+     "loop": false
+    }
+   }
+  },
+  "SpitterMatriarch": {
+   "kind": "insect",
+   "fbx": "SpitterMatriarch/SK_SpitterMatriarch.fbx",
+   "glb": "SpitterMatriarch/SK_SpitterMatriarch.glb",
+   "textures": {
+    "BaseColor": "SpitterMatriarch/textures/T_SpitterMatriarch_BaseColor.png",
+    "Normal": "SpitterMatriarch/textures/T_SpitterMatriarch_Normal.png",
+    "MetallicRoughness": "SpitterMatriarch/textures/T_SpitterMatriarch_MetallicRoughness.png"
+   },
+   "size_m_at_scale_1": {
+    "length": 1.1,
+    "width": 2.226,
+    "height": 2.116
+   },
+   "triangles": 9000,
+   "bones": [
+    "root",
+    "thorax",
+    "head",
+    "abdomen",
+    "leg_L1_upper",
+    "leg_L1_lower",
+    "leg_L2_upper",
+    "leg_L2_lower",
+    "leg_L3_upper",
+    "leg_L3_lower",
+    "leg_R1_upper",
+    "leg_R1_lower",
+    "leg_R2_upper",
+    "leg_R2_lower",
+    "leg_R3_upper",
+    "leg_R3_lower"
+   ],
+   "roles": {
+    "idle": "Idle",
+    "walk": "Walk",
+    "run": "Run",
+    "attack": "Attack",
+    "hit": "Hit",
+    "death": "Death"
+   },
+   "clips": {
+    "Idle": {
+     "anim": "A_SpitterMatriarch_Idle",
+     "frames": 61,
+     "seconds": 2.0,
+     "loop": true
+    },
+    "Walk": {
+     "anim": "A_SpitterMatriarch_Walk",
+     "frames": 33,
+     "seconds": 1.067,
+     "loop": true
+    },
+    "Run": {
+     "anim": "A_SpitterMatriarch_Run",
+     "frames": 21,
+     "seconds": 0.667,
+     "loop": true
+    },
+    "Attack": {
+     "anim": "A_SpitterMatriarch_Attack",
+     "frames": 25,
+     "seconds": 0.8,
+     "loop": false,
+     "events": {
+      "hit": 12
+     }
+    },
+    "Hit": {
+     "anim": "A_SpitterMatriarch_Hit",
+     "frames": 13,
+     "seconds": 0.4,
+     "loop": false
+    },
+    "Death": {
+     "anim": "A_SpitterMatriarch_Death",
+     "frames": 41,
+     "seconds": 1.333,
+     "loop": false,
+     "events": {
+      "corpse": "last frame"
+     }
+    },
+    "Spit": {
+     "anim": "A_SpitterMatriarch_Spit",
+     "frames": 29,
+     "seconds": 0.933,
+     "loop": false,
+     "events": {
+      "release": 14
+     }
+    },
+    "SpitPool": {
+     "anim": "A_SpitterMatriarch_SpitPool",
+     "frames": 41,
+     "seconds": 1.333,
+     "loop": false,
+     "events": {
+      "pool": 26
+     }
+    }
+   }
+  }
+ },
+ "mobs": {
+  "mob_ballroom_brute": {
+   "name": "Ballroom Brute",
+   "rank": "elite",
+   "family": "invader_brute",
+   "scale": 1.9,
+   "model": "InvaderBrute",
+   "base_color": "InvaderBrute/textures/T_InvaderBrute_BaseColor.png",
+   "specials": {
+    "ab_mob_knockback": "Slam"
+   }
+  },
+  "mob_boss_brood_keeper": {
+   "name": "Brood Keeper",
+   "rank": "boss",
+   "family": "invader_brute",
+   "scale": 2,
+   "model": "BroodKeeper",
+   "base_color": "BroodKeeper/textures/T_BroodKeeper_BaseColor.png",
+   "specials": {
+    "ab_mob_knockback": "Slam"
+   }
+  },
+  "mob_boss_hive_mother": {
+   "name": "The Egyptian Hive Mother",
+   "rank": "boss",
+   "family": "invader_queen",
+   "scale": 2.6,
+   "model": "HiveMother",
+   "base_color": "HiveMother/textures/T_HiveMother_BaseColor.png",
+   "specials": {
+    "ab_mob_knockback": "Slam",
+    "summon_drones": "Summon"
+   }
+  },
+  "mob_boss_hive_warden": {
+   "name": "Hive Warden",
+   "rank": "boss",
+   "family": "invader_soldier",
+   "scale": 1.9,
+   "model": "HiveWarden",
+   "base_color": "HiveWarden/textures/T_HiveWarden_BaseColor.png",
+   "specials": {
+    "ab_mob_charge": "Charge",
+    "charge": "Charge"
+   }
+  },
+  "mob_boss_matriarch": {
+   "name": "Spitter Matriarch",
+   "rank": "boss",
+   "family": "invader_spitter",
+   "scale": 1.8,
+   "model": "SpitterMatriarch",
+   "base_color": "SpitterMatriarch/textures/T_SpitterMatriarch_BaseColor.png",
+   "specials": {
+    "ab_mob_acid_spit": "Spit",
+    "ab_mob_acid_pool": "SpitPool"
+   }
+  },
+  "mob_coyote": {
+   "name": "Coyote",
+   "rank": "normal",
+   "family": "coyote",
+   "scale": 0.85,
+   "model": "Coyote",
+   "base_color": "Coyote/textures/T_Coyote_BaseColor.png",
+   "specials": {
+    "howl": "Howl"
+   }
+  },
+  "mob_egy_broodling": {
+   "name": "Aisle Broodling",
+   "rank": "normal",
+   "family": "invader_broodling",
+   "scale": 0.45,
+   "model": "InvaderBroodling",
+   "base_color": "InvaderBroodling/textures/T_InvaderBroodling_BaseColor.png",
+   "specials": {
+    "hatch": "Hatch",
+    "leap": "Leap"
+   }
+  },
+  "mob_egy_drone": {
+   "name": "Theatre Drone",
+   "rank": "elite",
+   "family": "invader_drone",
+   "scale": 1,
+   "model": "InvaderDrone",
+   "base_color": "InvaderDrone/textures/T_InvaderDrone_BaseColor.png",
+   "specials": {}
+  },
+  "mob_egy_soldier": {
+   "name": "Stage Soldier",
+   "rank": "elite",
+   "family": "invader_soldier",
+   "scale": 1.25,
+   "model": "InvaderSoldier",
+   "base_color": "InvaderSoldier/textures/T_InvaderSoldier_BaseColor.png",
+   "specials": {}
+  },
+  "mob_egy_spitter": {
+   "name": "Balcony Spitter",
+   "rank": "elite",
+   "family": "invader_spitter",
+   "scale": 0.9,
+   "model": "InvaderSpitter",
+   "base_color": "InvaderSpitter/textures/T_InvaderSpitter_BaseColor.png",
+   "specials": {
+    "ab_mob_acid_spit": "Spit"
+   }
+  },
+  "mob_feral_dog": {
+   "name": "Feral Dog",
+   "rank": "normal",
+   "family": "feral_dog",
+   "scale": 0.8,
+   "model": "FeralDog",
+   "base_color": "FeralDog/textures/T_FeralDog_BaseColor.png",
+   "specials": {}
+  },
+  "mob_guard_cahuenga": {
+   "name": "Hardened Invader Soldier",
+   "rank": "elite",
+   "family": "invader_soldier",
+   "scale": 1.6,
+   "model": "InvaderSoldier",
+   "base_color": "InvaderSoldier/textures/T_InvaderSoldier_Hardened_BaseColor.png",
+   "specials": {}
+  },
+  "mob_guard_gower": {
+   "name": "Invader Brute",
+   "rank": "elite",
+   "family": "invader_brute",
+   "scale": 1.9,
+   "model": "InvaderBrute",
+   "base_color": "InvaderBrute/textures/T_InvaderBrute_BaseColor.png",
+   "specials": {}
+  },
+  "mob_guard_la_brea": {
+   "name": "Dragna Enforcer",
+   "rank": "elite",
+   "family": "dragna_enforcer",
+   "model": null,
+   "note": "human: drawn by the existing character system (FHLChars looks); no mesh in art/enemies"
+  },
+  "mob_guard_melrose": {
+   "name": "Invader Brute",
+   "rank": "elite",
+   "family": "invader_brute",
+   "scale": 1.9,
+   "model": "InvaderBrute",
+   "base_color": "InvaderBrute/textures/T_InvaderBrute_BaseColor.png",
+   "specials": {}
+  },
+  "mob_gulch_coyote": {
+   "name": "Hive-ridden Coyote",
+   "rank": "normal",
+   "family": "coyote",
+   "scale": 0.95,
+   "model": "HiveRiddenCoyote",
+   "base_color": "HiveRiddenCoyote/textures/T_HiveRiddenCoyote_BaseColor.png",
+   "specials": {
+    "howl": "Howl"
+   }
+  },
+  "mob_invader_broodling": {
+   "name": "Invader Broodling",
+   "rank": "normal",
+   "family": "invader_broodling",
+   "scale": 0.45,
+   "model": "InvaderBroodling",
+   "base_color": "InvaderBroodling/textures/T_InvaderBroodling_BaseColor.png",
+   "specials": {
+    "hatch": "Hatch",
+    "leap": "Leap"
+   }
+  },
+  "mob_invader_drone": {
+   "name": "Invader Drone",
+   "rank": "normal",
+   "family": "invader_drone",
+   "scale": 1,
+   "model": "InvaderDrone",
+   "base_color": "InvaderDrone/textures/T_InvaderDrone_BaseColor.png",
+   "specials": {}
+  },
+  "mob_invader_drone_hs": {
+   "name": "Invader Drone",
+   "rank": "normal",
+   "family": "invader_drone",
+   "scale": 1,
+   "model": "InvaderDrone",
+   "base_color": "InvaderDrone/textures/T_InvaderDrone_BaseColor.png",
+   "specials": {}
+  },
+  "mob_invader_soldier": {
+   "name": "Invader Soldier",
+   "rank": "normal",
+   "family": "invader_soldier",
+   "scale": 1.25,
+   "model": "InvaderSoldier",
+   "base_color": "InvaderSoldier/textures/T_InvaderSoldier_BaseColor.png",
+   "specials": {}
+  },
+  "mob_invader_spitter": {
+   "name": "Invader Spitter",
+   "rank": "normal",
+   "family": "invader_spitter",
+   "scale": 0.9,
+   "model": "InvaderSpitter",
+   "base_color": "InvaderSpitter/textures/T_InvaderSpitter_BaseColor.png",
+   "specials": {
+    "ab_mob_acid_spit": "Spit"
+   }
+  },
+  "mob_invader_worker": {
+   "name": "Invader Worker",
+   "rank": "normal",
+   "family": "invader_worker",
+   "scale": 0.8,
+   "model": "InvaderWorker",
+   "base_color": "InvaderWorker/textures/T_InvaderWorker_BaseColor.png",
+   "specials": {
+    "flee": "Run"
+   }
+  },
+  "mob_looter": {
+   "name": "Looter",
+   "rank": "normal",
+   "family": "looter",
+   "model": null,
+   "note": "human: drawn by the existing character system (FHLChars looks); no mesh in art/enemies"
+  },
+  "mob_looter_ringleader": {
+   "name": "Knuckles Malone",
+   "rank": "elite",
+   "family": "looter",
+   "model": null,
+   "note": "human: drawn by the existing character system (FHLChars looks); no mesh in art/enemies"
+  },
+  "mob_melrose_brute": {
+   "name": "Invader Brute",
+   "rank": "elite",
+   "family": "invader_brute",
+   "scale": 1.9,
+   "model": "InvaderBrute",
+   "base_color": "InvaderBrute/textures/T_InvaderBrute_BaseColor.png",
+   "specials": {}
+  },
+  "mob_old_scar": {
+   "name": "Old Scar",
+   "rank": "rare",
+   "family": "coyote",
+   "scale": 1.15,
+   "model": "OldScar",
+   "base_color": "OldScar/textures/T_OldScar_BaseColor.png",
+   "specials": {
+    "howl": "Howl"
+   }
+  },
+  "mob_pass_flier": {
+   "name": "Hardened Invader Flier",
+   "rank": "elite",
+   "family": "invader_flier",
+   "scale": 1.2,
+   "model": "InvaderFlier",
+   "base_color": "InvaderFlier/textures/T_InvaderFlier_BaseColor.png",
+   "specials": {
+    "dive": "Dive"
+   }
+  },
+  "mob_pass_soldier": {
+   "name": "Hardened Invader Soldier",
+   "rank": "elite",
+   "family": "invader_soldier",
+   "scale": 1.6,
+   "model": "InvaderSoldier",
+   "base_color": "InvaderSoldier/textures/T_InvaderSoldier_Hardened_BaseColor.png",
+   "specials": {}
+  },
+  "mob_selma_burrower": {
+   "name": "The Selma Avenue Burrower",
+   "rank": "rare",
+   "family": "invader_burrower",
+   "scale": 1.3,
+   "model": "InvaderBurrower",
+   "base_color": "InvaderBurrower/textures/T_InvaderBurrower_BaseColor.png",
+   "specials": {
+    "burrow": "Burrow",
+    "burrowed_idle": "BurrowedIdle",
+    "emerge": "Emerge"
+   }
+  },
+  "mob_wall_stalker": {
+   "name": "Hive Wall Stalker",
+   "rank": "elite",
+   "family": "invader_soldier",
+   "scale": 1.45,
+   "model": "InvaderSoldier",
+   "base_color": "InvaderSoldier/textures/T_InvaderSoldier_WallStalker_BaseColor.png",
+   "specials": {}
+  },
+  "mob_wh_gunman": {
+   "name": "Dragna Gunman",
+   "rank": "elite",
+   "family": "dragna_enforcer",
+   "model": null,
+   "note": "human: drawn by the existing character system (FHLChars looks); no mesh in art/enemies"
+  }
+ },
+ "structures": {
+  "HiveEggSac": {
+   "live": "HiveEggSac/SK_HiveEggSac.fbx",
+   "destroyed": "HiveStructures/SM_HiveEggSac_Burned.fbx",
+   "used_by": "\"Egg Sac\" object on the Egyptian stage in the Hive Mother fight (must be burned)"
+  },
+  "HiveEggCluster": {
+   "live": "../props/hive-egg-cluster.glb (already imported as a prop)",
+   "destroyed": "HiveStructures/SM_HiveEggCluster_Destroyed.fbx",
+   "used_by": "egg clusters: q_hb_22, the Brood Keeper fight, hive spread"
+  },
+  "HiveSpire": {
+   "live": "../props/hive-spire.glb (already imported as a prop)",
+   "destroyed": "HiveStructures/SM_HiveSpire_Destroyed.fbx",
+   "used_by": "hive spires: q_hb_16 charges; spawn a Drone every 30 s until destroyed"
+  }
+ }
+}

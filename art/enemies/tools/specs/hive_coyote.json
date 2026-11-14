@@ -1,0 +1,16 @@
+{
+ "name": "HiveRiddenCoyote",
+ "src": "hive_coyote_2",
+ "kind": "quad",
+ "yaw": 90,
+ "size": 1.6,
+ "clips": [
+  "QIdle",
+  "QWalk",
+  "QRun",
+  "Bite",
+  "QHit",
+  "QDeath",
+  "Howl"
+ ]
+}

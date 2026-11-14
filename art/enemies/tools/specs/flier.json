@@ -1,0 +1,17 @@
+{
+ "name": "InvaderFlier",
+ "src": "flier_2",
+ "kind": "flier",
+ "pitch": 90,
+ "yaw": 90,
+ "size": 2.0,
+ "legs": 0,
+ "clips": [
+  "FlyIdle",
+  "FlyForward",
+  "Dive",
+  "Sting",
+  "Hit",
+  "FlierDeath"
+ ]
+}

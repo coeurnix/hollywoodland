@@ -1,0 +1,46 @@
+{
+ "name": "InvaderFlier",
+ "kind": "flier",
+ "size_m": {
+  "length": 2.0,
+  "width": 2.347,
+  "height": 0.474
+ },
+ "tris": 9000,
+ "bones": [
+  "root",
+  "thorax",
+  "head",
+  "abdomen",
+  "wing_L_1",
+  "wing_L_2",
+  "wing_R_1",
+  "wing_R_2"
+ ],
+ "clips": {
+  "FlyIdle": {
+   "frames": 30,
+   "loop": true
+  },
+  "FlyForward": {
+   "frames": 30,
+   "loop": true
+  },
+  "Dive": {
+   "frames": 36,
+   "loop": false
+  },
+  "Sting": {
+   "frames": 20,
+   "loop": false
+  },
+  "Hit": {
+   "frames": 12,
+   "loop": false
+  },
+  "FlierDeath": {
+   "frames": 40,
+   "loop": false
+  }
+ }
+}

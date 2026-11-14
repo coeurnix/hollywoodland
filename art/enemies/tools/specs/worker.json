@@ -1,0 +1,17 @@
+{
+ "name": "InvaderWorker",
+ "src": "worker_1",
+ "kind": "insect",
+ "pitch": 90,
+ "yaw": 90,
+ "size": 2.0,
+ "legs": 6,
+ "clips": [
+  "Idle",
+  "Walk",
+  "Run",
+  "Attack",
+  "Hit",
+  "Death"
+ ]
+}

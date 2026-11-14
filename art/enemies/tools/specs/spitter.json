@@ -1,0 +1,17 @@
+{
+ "name": "InvaderSpitter",
+ "src": "spitter_1",
+ "kind": "insect",
+ "yaw": -90,
+ "size": 2.0,
+ "legs": 6,
+ "clips": [
+  "Idle",
+  "Walk",
+  "Run",
+  "Attack",
+  "Hit",
+  "Death",
+  "Spit"
+ ]
+}

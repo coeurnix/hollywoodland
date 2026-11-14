@@ -1,0 +1,11 @@
+{
+ "name": "HiveEggSac",
+ "src": "egg_sac_2",
+ "kind": "sac",
+ "yaw": 0,
+ "size": 2.0,
+ "clips": [
+  "Pulse",
+  "SacHit"
+ ]
+}

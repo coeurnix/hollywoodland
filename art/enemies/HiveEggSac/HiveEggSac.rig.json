@@ -1,0 +1,24 @@
+{
+ "name": "HiveEggSac",
+ "kind": "sac",
+ "size_m": {
+  "length": 2.0,
+  "width": 1.96,
+  "height": 1.989
+ },
+ "tris": 9000,
+ "bones": [
+  "root",
+  "sac"
+ ],
+ "clips": {
+  "Pulse": {
+   "frames": 40,
+   "loop": true
+  },
+  "SacHit": {
+   "frames": 12,
+   "loop": false
+  }
+ }
+}
