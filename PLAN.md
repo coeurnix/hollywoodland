@@ -142,7 +142,8 @@ browser ── itch.io page (iframe, SharedArrayBuffer support) ── UE 5.9 Wa
 26. ~~Quest text to 60-120 words~~ (done: every offer in `dialogue.json` is 67-100 words). Unbuilt-zone quest titles to ~45/zone.
 27. Audio (music, SFX, ambience and voice-over done): ~~1925-and-earlier recordings on radios~~ (done: six 1917-24 records on
     radios at the Roosevelt desk, the Vine drugstore and the Brown Derby; zone `sounds` spots, ASSETS.md). Public-domain film on the
-    Chinese screen (§14 assets: *Hell's Angels* (1930) is US public domain since 2026; a low-res flipbook atlas would fit the budget).
+    ~~Chinese screen~~ (done: picture night is *Hell's Angels* (1930), which premiered at Grauman's in May 1930; a 10 s flipbook of
+    its aerial sequence plays on the facade above the marquee, `tools/film/make-flipbook.mjs`, check with `-HLViews -HLViewSet=landmarks -HLFilmTest`).
 28. ~~Day/night cycle; skybox~~ (done); ~~HOLLYWOODLAND sign on the north horizon~~ (done: `art/world` letters on the HLTerrain north ridge).
 
 ## 4. Technical dependencies and risks

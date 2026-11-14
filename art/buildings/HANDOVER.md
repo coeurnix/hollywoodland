@@ -38,7 +38,7 @@ Check the landmarks with `hollywoodland-ue\Scripts\RunNative.ps1 -HLAuto=veteran
 | §10.2 ground tileables | | **covered** by `art/textures` (`T_GND_*`) |
 
 Known loose ends:
-- `SIGN_Graumans_Poster` is now published (page `signs/T_SIGN_04.png`, `meshes/SIGN_Graumans_Poster.fbx`, 1.2 × 1.8 m) but not yet attached to `LM_Graumans_ForecourtWall`: add an `attachments` entry where it should hang.
+- ~~`SIGN_Graumans_Poster` not attached~~ (done: an `attachments` entry on `LM_Graumans_ForecourtWall`, centred on the street end).
 - `zone.mjs` `shops()` leaves 0.5 m gaps between shops, so a frontage is 0.5 m narrower than its nominal width. `kitFront()` stretches bays to fit, so this is harmless.
 - The Brown Derby's axis question (README) is resolved: its box turned to 24 × 30 m and it faces west (`'W'`) onto Vine.
 
@@ -49,16 +49,13 @@ modules, 17 street/back-lot/interior props. Rodin: 29 jobs, 14.5 credits, none f
 `session_2026_11_13`; the `HV_WallSeg` task uuid was lost to a ledger race before `src/rodin_full.py` learned to merge saves).
 Texture sets: 37 (added ATL_HH, ATL_AID, ATL_EGY, ATL_BD1–3, T_HV_WallSeg, T_HV_WallEnd).
 
-**Not yet done on a machine with the full toolchain** (the workstation used had no compiled editor module):
-1. `python -I tools/buildprep.py` has been run (buildings.json is current), but `Scripts\ImportBuildings.ps1` has not: the
-   new `HV_*`, `LM_*`, `BD_*`, `EGY_*` meshes are not in `/Game/Buildings` yet. Pass `-EngineRoot` if the engine lives elsewhere.
-2. `python -I tools/propprep.py` + `Scripts\ImportProps.ps1` for the 17 new props; `zone.mjs` `decoIf()` places them
-   only after that import, so re-run `node tools/gen-data.mjs` afterwards.
-3. Screenshots (`RunNative.ps1 -HLAuto=veteran -HLViews -HLViewSet=landmarks`) were not taken; no views were added.
-
-Recommendation (game code, not changed here): add `TEXT("SM_HV_")` and `TEXT("SM_EGY_")` to `KitFams` in
-`HLWorldActor.cpp`, so the 550 hive segments and 110 dungeon segments draw as instanced components instead of one
-component each.
+**Integrated (2026-11-14, in house):** buildprep + `ImportBuildings.ps1` (199/199 meshes) and propprep + `ImportProps.ps1`
+(130/130) have run; `gen-data` places the `decoIf()` props. `SM_HV_`, `SM_EGY_` and `SM_ST_` draw instanced (`KitFams`).
+The landmarks view set has eight more views (Hollywood High, the three aid stations, the hive wall, the Bowl over the wall,
+two Egyptian rooms), all checked. `SIGN_Graumans_Poster` hangs on the street end of both forecourt walls. Left unplaced on
+purpose (little gain over what is painted already): `ST_Kerb4`, `ST_KerbCorner3`, `ST_Crossing`, the `IN_GYM_*` and
+`IN_HHB_*` modules and their floor cards. (Running `ImportBuildings.ps1` then `ImportProps.ps1` in one PowerShell session used
+to re-import the buildings twice: the stage variable leaked; fixed.)
 
 Builders added in `src/`: `rodin_full.py` (Gen-2 full generation, budget-capped ledger), `fit_rodin.py` (fit a Rodin GLB to a
 box, decimate, optional shared-atlas quadrant + `pack_quads.py`), `block_building.py` (box-fitted blocks with FLUX plates,

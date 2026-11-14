@@ -111,6 +111,10 @@ private:
 	void BuildWorld();
 	UMaterialInstanceDynamic* GroundMid(const FString& Kind, const FLinearColor& C); // null: no such tile (flat colour)
 	void TickSky(); // day/night: sun and moon, sky blend, grading, lamps
+	void TickFilm(); // picture night: a flipbook (Content/Data/Film) on Grauman's facade while the film runs
+	UPROPERTY() TObjectPtr<UProceduralMeshComponent> FilmScreen;
+	int32 FilmCols = 0, FilmRows = 0, FilmFrames = 0, FilmShown = -2; float FilmFps = 8; bool bFilmTried = false;
+	TArray<FVector> FilmVerts; // UpdateMeshSection only takes new UVs together with the (same) positions
 	// effects (HLFx.cpp): game FX events become live effects; unit states (casting, shields, stuns, slows) draw every frame
 	void TickFx(float Dt);
 	void FxPiece(UStaticMesh* Mesh, const FVector& Loc, const FRotator& Rot, const FVector& SizeM, const FLinearColor& C, float Opacity, float Rim);

@@ -2113,6 +2113,380 @@
     13.4
    ]
   },
+  "lamp_single": {
+   "mesh": "/Game/Props/SM_LampSingle.SM_LampSingle",
+   "size": [
+    0.84,
+    0.85,
+    4.2
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/world/models/street/lamp-single.glb",
+   "tris": 770,
+   "min": [
+    -0.42,
+    -0.42,
+    -0.0
+   ],
+   "max": [
+    0.42,
+    0.42,
+    4.2
+   ]
+  },
+  "semaphore": {
+   "mesh": "/Game/Props/SM_Semaphore.SM_Semaphore",
+   "size": [
+    0.76,
+    2.58,
+    3.6
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/world/models/street/semaphore-signal.glb",
+   "tris": 962,
+   "min": [
+    -0.38,
+    -1.29,
+    -0.0
+   ],
+   "max": [
+    0.38,
+    1.29,
+    3.6
+   ]
+  },
+  "post_street": {
+   "mesh": "/Game/Props/SM_PostStreet.SM_PostStreet",
+   "size": [
+    1.76,
+    1.88,
+    3.2
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/world/models/street/street-name-post.glb",
+   "tris": 290,
+   "min": [
+    -0.88,
+    -0.94,
+    -0.0
+   ],
+   "max": [
+    0.88,
+    0.94,
+    3.2
+   ]
+  },
+  "hydrant": {
+   "mesh": "/Game/Props/SM_Hydrant.SM_Hydrant",
+   "size": [
+    0.48,
+    0.68,
+    0.8
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/world/models/street/fire-hydrant.glb",
+   "tris": 296,
+   "min": [
+    -0.24,
+    -0.34,
+    0.0
+   ],
+   "max": [
+    0.24,
+    0.34,
+    0.8
+   ]
+  },
+  "newsstand": {
+   "mesh": "/Game/Props/SM_Newsstand.SM_Newsstand",
+   "size": [
+    1.49,
+    1.86,
+    2.6
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/world/models/street/newsstand.glb",
+   "tris": 1444,
+   "min": [
+    -0.75,
+    -0.93,
+    -0.0
+   ],
+   "max": [
+    0.75,
+    0.93,
+    2.6
+   ]
+  },
+  "bench": {
+   "mesh": "/Game/Props/SM_Bench.SM_Bench",
+   "size": [
+    0.87,
+    1.64,
+    0.95
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/world/models/street/bench.glb",
+   "tris": 776,
+   "min": [
+    -0.43,
+    -0.82,
+    0.0
+   ],
+   "max": [
+    0.43,
+    0.82,
+    0.95
+   ]
+  },
+  "trash_can": {
+   "mesh": "/Game/Props/SM_TrashCan.SM_TrashCan",
+   "size": [
+    0.58,
+    0.59,
+    1.0
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/world/models/street/trash-can.glb",
+   "tris": 290,
+   "min": [
+    -0.29,
+    -0.3,
+    0.0
+   ],
+   "max": [
+    0.29,
+    0.3,
+    1.0
+   ]
+  },
+  "palm_planter": {
+   "mesh": "/Game/Props/SM_PalmPlanter.SM_PalmPlanter",
+   "size": [
+    1.99,
+    2.11,
+    2.6
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/world/models/street/palm-planter.glb",
+   "tris": 1439,
+   "min": [
+    -1.0,
+    -1.06,
+    -0.0
+   ],
+   "max": [
+    1.0,
+    1.06,
+    2.6
+   ]
+  },
+  "film_flat_a": {
+   "mesh": "/Game/Props/SM_FilmFlatA.SM_FilmFlatA",
+   "size": [
+    3.08,
+    5.0,
+    5.0
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/world/models/street/film-flat-saloon.glb",
+   "tris": 774,
+   "min": [
+    -1.54,
+    -2.5,
+    -0.0
+   ],
+   "max": [
+    1.54,
+    2.5,
+    5.0
+   ]
+  },
+  "film_flat_b": {
+   "mesh": "/Game/Props/SM_FilmFlatB.SM_FilmFlatB",
+   "size": [
+    2.59,
+    5.0,
+    5.0
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/world/models/street/film-flat-pyramids.glb",
+   "tris": 743,
+   "min": [
+    -1.29,
+    -2.5,
+    -0.0
+   ],
+   "max": [
+    1.29,
+    2.5,
+    5.0
+   ]
+  },
+  "oil_drums": {
+   "mesh": "/Game/Props/SM_OilDrums.SM_OilDrums",
+   "size": [
+    0.63,
+    1.15,
+    0.9
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/world/models/street/oil-drums.glb",
+   "tris": 582,
+   "min": [
+    -0.31,
+    -0.58,
+    0.0
+   ],
+   "max": [
+    0.31,
+    0.58,
+    0.9
+   ]
+  },
+  "fence_wood": {
+   "mesh": "/Game/Props/SM_FenceWood.SM_FenceWood",
+   "size": [
+    0.1,
+    4.0,
+    2.0
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/world/models/street/fence-wood.glb",
+   "tris": 582,
+   "min": [
+    -0.05,
+    -2.0,
+    -0.0
+   ],
+   "max": [
+    0.05,
+    2.0,
+    2.0
+   ]
+  },
+  "fence_chainlink": {
+   "mesh": "/Game/Props/SM_FenceChainlink.SM_FenceChainlink",
+   "size": [
+    0.14,
+    4.0,
+    2.0
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/world/models/street/fence-chainlink.glb",
+   "tris": 4288,
+   "min": [
+    -0.07,
+    -2.0,
+    0.0
+   ],
+   "max": [
+    0.07,
+    2.0,
+    2.0
+   ]
+  },
+  "barricade": {
+   "mesh": "/Game/Props/SM_Barricade.SM_Barricade",
+   "size": [
+    0.94,
+    1.37,
+    1.2
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/world/models/street/barricade.glb",
+   "tris": 960,
+   "min": [
+    -0.47,
+    -0.69,
+    -0.0
+   ],
+   "max": [
+    0.47,
+    0.69,
+    1.2
+   ]
+  },
+  "bandstand": {
+   "mesh": "/Game/Props/SM_Bandstand.SM_Bandstand",
+   "size": [
+    6.0,
+    6.0,
+    4.0
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/world/models/interiors/hhb-bandstand.glb",
+   "tris": 1130,
+   "min": [
+    -3.0,
+    -3.0,
+    -0.0
+   ],
+   "max": [
+    3.0,
+    3.0,
+    4.0
+   ]
+  },
+  "bleachers": {
+   "mesh": "/Game/Props/SM_Bleachers.SM_Bleachers",
+   "size": [
+    2.41,
+    8.0,
+    2.4
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/world/models/interiors/gym-bleachers.glb",
+   "tris": 1148,
+   "min": [
+    -1.21,
+    -4.0,
+    0.0
+   ],
+   "max": [
+    1.21,
+    4.0,
+    2.4
+   ]
+  },
+  "backboard": {
+   "mesh": "/Game/Props/SM_Backboard.SM_Backboard",
+   "size": [
+    3.04,
+    1.04,
+    1.8
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/world/models/interiors/gym-backboard.glb",
+   "tris": 878,
+   "min": [
+    -1.52,
+    -0.52,
+    -0.0
+   ],
+   "max": [
+    1.52,
+    0.52,
+    1.8
+   ]
+  },
   "palm_fan": {
    "mesh": "/Game/Props/SM_PalmFan.SM_PalmFan",
    "size": [

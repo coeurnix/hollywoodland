@@ -8097,6 +8097,26 @@
     {
       "id": "LM_Graumans_ForecourtWall",
       "kind": "landmark",
+      "attachments": [
+        {
+          "asset": "SIGN_Graumans_Poster",
+          "location": [
+            -0.6,
+            -10.015,
+            1.4
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        }
+      ],
       "nominal": [
         6,
         20,

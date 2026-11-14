@@ -99,7 +99,7 @@ submission (bible §2 rule 1).
 
 | Item | Use | Status |
 |---|---|---|
-| *Hell's Angels* (1930) excerpt | loops on the Chinese screen / picture night | not sourced |
+| *Hell's Angels* (1930) excerpt | loops on the Chinese screen / picture night | DONE: 64 frames (10.7 s at 6 fps) of the aerial sequence (1:40:24), one 2048×1328 JPEG atlas (345 KB) in `Content/Data/Film`, from the Wikimedia Commons 240p transcode of `File:Hell's Angels (1930).webm` (Universal 4K restoration; US public domain since 2026). `tools/film/make-flipbook.mjs`; drawn on Grauman's facade during picture night (`AHLWorldActor::TickFilm`) |
 | *Robin Hood* (1922) excerpt | Egyptian stage after clear | not sourced (quest text references it) |
 | 1930 posters, lobby cards, newspaper pages | facades, tooltips | not sourced |
 

@@ -29,6 +29,10 @@
 #include "Engine/TextureRenderTarget2D.h"
 #include "HAL/IConsoleManager.h"
 #include "HLSettings.h"
+#include "ImageUtils.h"
+#include "Misc/FileHelper.h"
+#include "Dom/JsonObject.h"
+#include "Serialization/JsonSerializer.h"
 #include "ProceduralMeshComponent.h"
 #include "Materials/MaterialParameterCollection.h"
 #include "Materials/MaterialParameterCollectionInstance.h"
@@ -408,7 +412,7 @@ void AHLWorldActor::BuildWorld()
 		for (const FHLPropPlace& P : Def.Props)
 		{
 			// every repeated kit family batches; one-off landmarks (LM_) and signs go through the normal prop path
-			static const TCHAR* KitFams[] = { TEXT("SM_BRK_"), TEXT("SM_DECO_"), TEXT("SM_MSN_"), TEXT("SM_SPN_"), TEXT("SM_DR_"), TEXT("SM_RF_"), TEXT("BRK_") };
+			static const TCHAR* KitFams[] = { TEXT("SM_BRK_"), TEXT("SM_DECO_"), TEXT("SM_MSN_"), TEXT("SM_SPN_"), TEXT("SM_DR_"), TEXT("SM_RF_"), TEXT("SM_HV_"), TEXT("SM_EGY_"), TEXT("SM_ST_"), TEXT("BRK_") }; // repeated modules: instanced (hive wall 550, dungeon walls 110, kerbs)
 			bool bKit = false;
 			for (const TCHAR* F : KitFams) if (P.Mesh.StartsWith(FString(TEXT("/Game/Buildings/")) + F)) { bKit = true; break; }
 			if (!bKit) { AddProp(Geo, a, P); continue; }
@@ -845,6 +849,64 @@ void AHLWorldActor::SyncUnits()
 	}
 }
 
+// Picture night (HLEvents): the film plays as a flipbook projected on Grauman's facade above the marquee. One atlas
+// (tools/film/make-flipbook.mjs: a public-domain excerpt, cols x rows cells) drawn by stepping the quad's UVs, so no texture
+// uploads per frame. Hidden the rest of the time.
+void AHLWorldActor::TickFilm()
+{
+	const bool bOn = Game.FilmStart > 0 && Game.Now < Game.FilmEnd;
+	if (!FilmScreen)
+	{
+		if (!bOn || bFilmTried) return;
+		bFilmTried = true;
+		const FString Dir = FPaths::ProjectContentDir() / TEXT("Data/Film/");
+		FString Txt; TSharedPtr<FJsonObject> J;
+		if (!FFileHelper::LoadFileToString(Txt, *(Dir + TEXT("film.json"))) || !FJsonSerializer::Deserialize(TJsonReaderFactory<>::Create(Txt), J) || !J.IsValid()) return;
+		FilmCols = J->GetIntegerField(TEXT("cols")); FilmRows = J->GetIntegerField(TEXT("rows")); FilmFrames = J->GetIntegerField(TEXT("frames")); FilmFps = J->GetNumberField(TEXT("fps"));
+		TArray<uint8> Bytes;
+		UTexture2D* Tex = FFileHelper::LoadFileToArray(Bytes, *(Dir + J->GetStringField(TEXT("file")))) ? FImageUtils::ImportBufferAsTexture2D(Bytes) : nullptr;
+		UMaterialInterface* Base = LoadObject<UMaterialInterface>(nullptr, TEXT("/Game/Props/M_HLWorldProp.M_HLWorldProp"), nullptr, LOAD_NoWarn);
+		if (!Tex || !Base || FilmCols <= 0 || FilmRows <= 0 || FilmFrames <= 0) return;
+		Tex->Filter = TF_Bilinear; Tex->SRGB = true; Tex->UpdateResource();
+		UMaterialInstanceDynamic* D = UMaterialInstanceDynamic::Create(Base, this);
+		D->SetTextureParameterValue(TEXT("B"), Tex);
+		D->SetVectorParameterValue(TEXT("Tint"), FLinearColor(0.9f, 0.88f, 0.82f));
+		D->SetScalarParameterValue(TEXT("Glow"), 1.4f);
+		const FVector2D Ctr = J->HasField(TEXT("x")) ? FVector2D(J->GetNumberField(TEXT("x")), J->GetNumberField(TEXT("y"))) : FVector2D(93, 166.4);
+		const float W = J->GetNumberField(TEXT("w")), H = J->GetNumberField(TEXT("h")), Z0 = J->GetNumberField(TEXT("z"));
+		const FVector A = ToWorld(0, Ctr + FVector2D(W * 0.5f, 0), Z0), B = ToWorld(0, Ctr - FVector2D(W * 0.5f, 0), Z0);
+		const FVector Up(0, 0, H * 100.f);
+		// faces +y (the forecourt); A (+x) is on the viewer's right, so it takes the right edge of the cell (TickFilm sets the UVs)
+		TArray<FVector> V = { A, B, A + Up, B + Up };
+		TArray<int32> Tri = { 0, 2, 1, 1, 2, 3 };
+		TArray<FVector> N = { FVector(0, 1, 0), FVector(0, 1, 0), FVector(0, 1, 0), FVector(0, 1, 0) };
+		TArray<FVector2D> UV = { FVector2D(0, 1), FVector2D(1, 1), FVector2D(0, 0), FVector2D(1, 0) };
+		AActor* Holder = GetWorld()->SpawnActor<AActor>(AActor::StaticClass(), FTransform::Identity);
+		Spawned.Add(Holder);
+		FilmScreen = NewObject<UProceduralMeshComponent>(Holder);
+		FilmScreen->SetMobility(EComponentMobility::Movable);
+		FilmScreen->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		FilmScreen->SetCastShadow(false);
+		FilmScreen->ComponentTags.Add(TEXT("NoShadow"));
+		FilmScreen->RegisterComponent();
+		FilmScreen->CreateMeshSection_LinearColor(0, V, Tri, N, UV, TArray<FLinearColor>(), TArray<FProcMeshTangent>(), false);
+		FilmScreen->SetMaterial(0, D);
+		FilmVerts = V;
+		HLBridge::Log(FString::Printf(TEXT("HL_FILM screen %dx%d cells, %d frames at %.0f fps"), FilmCols, FilmRows, FilmFrames, FilmFps));
+	}
+	const FHLUnit* P = Game.PlayerUnit();
+	const bool bShow = bOn && P && P->Area == 0;
+	if (FilmScreen->IsVisible() != bShow) FilmScreen->SetVisibility(bShow);
+	if (!bShow) return;
+	const int32 F = int32((Game.Now - Game.FilmStart) * FilmFps) % FilmFrames;
+	if (F == FilmShown) return;
+	FilmShown = F;
+	const float Cw = 1.f / FilmCols, Ch = 1.f / FilmRows, U0 = (F % FilmCols) * Cw, V0 = (F / FilmCols) * Ch;
+	const float Ix = 0.5f / 2048.f; // half a texel in: no bleed from the next cell
+	TArray<FVector2D> UV = { FVector2D(U0 + Cw - Ix, V0 + Ch - Ix), FVector2D(U0 + Ix, V0 + Ch - Ix), FVector2D(U0 + Cw - Ix, V0 + Ix), FVector2D(U0 + Ix, V0 + Ix) };
+	FilmScreen->UpdateMeshSection_LinearColor(0, FilmVerts, TArray<FVector>(), UV, TArray<FLinearColor>(), TArray<FProcMeshTangent>());
+}
+
 void AHLWorldActor::Tick(float Dt)
 {
 	Super::Tick(Dt);
@@ -864,6 +926,7 @@ void AHLWorldActor::Tick(float Dt)
 	SyncUnits();
 	TickStage();
 	TickSky();
+	TickFilm();
 	if (FHLSettings::Get().Version != GfxVersion) ApplyGraphics();
 	// rigs rebuild parts when gear changes (and those start unshadowed): keep the people casting
 	if (FHLSettings::Get().Shadows >= 1 && FPlatformTime::Seconds() > NextShadowSweep)
@@ -1000,9 +1063,13 @@ void AHLWorldActor::AutoTest(float Dt)
 		static FString Set; static bool bSet = FParse::Value(FCommandLine::Get(), TEXT("HLViewSet="), Set);
 		// -HLViewSet=landmarks: the building kit's hub landmarks (art/buildings LM_*)
 		static const FView Landmarks[] = { { 93, 200, -90, 12, 42 }, { 228, 200, -90, 14, 48 }, { 318, 204, -70, 10, 34 }, { 718, 200, -90, 14, 42 },
-			{ 97, 200, 90, 14, 48 }, { 475, 200, 90, 12, 42 }, { 530, 257, 60, 18, 30 }, { 790, 200, 90, 16, 48 }, { 758, 283, 0, 12, 30 }, { 228, 92, 90, 28, 52 } };
+			{ 97, 200, 90, 14, 48 }, { 475, 200, 90, 12, 42 }, { 530, 257, 60, 18, 30 }, { 790, 200, 90, 16, 48 }, { 758, 283, 0, 12, 30 }, { 228, 92, 90, 28, 52 },
+ 			// second building pass: Hollywood High, the aid stations, the hive wall, a backdrop over the wall, the Egyptian walls
+ 			{ 229, 322, 90, 12, 44 }, { 500, 284, 90, 12, 34 }, { 608, 268, 0, 12, 34 }, { 125, 424, 90, 14, 36 },
+ 			{ 878, 170, 0, 14, 34 }, { 298, -92, -90, 4, 30 }, { 60, 140, 90, 18, 30, 1 }, { 60, 30, 90, 14, 26, 1 } };
 		const bool bNature = bSet && Set == TEXT("nature"), bLandmarks = bSet && Set == TEXT("landmarks");
 		const FView* Views = bNature ? Nature : bLandmarks ? Landmarks : Fronts;
+		if (FParse::Param(FCommandLine::Get(), TEXT("HLFilmTest")) && Game.FilmStart <= 0) { Game.FilmStart = Game.Now; Game.FilmEnd = Game.Now + 1e6; } // picture night on (views of the screen)
 		const int32 NViews = bNature ? UE_ARRAY_COUNT(Nature) : bLandmarks ? UE_ARRAY_COUNT(Landmarks) : UE_ARRAY_COUNT(Fronts);
 		static int32 Step = -1; static double NextStep = 0;
 		AutoNextShot = 1e9;

@@ -3346,7 +3346,26 @@
    ],
    "tris": 190,
    "origin": "footprint-centre-ground",
-   "attachments": [],
+   "attachments": [
+    {
+     "asset": "SIGN_Graumans_Poster",
+     "location": [
+      -0.6,
+      -10.015,
+      1.4
+     ],
+     "rotation": [
+      0,
+      0,
+      0
+     ],
+     "scale": [
+      1,
+      1,
+      1
+     ]
+    }
+   ],
    "min": [
     -10.0,
     -3.0,
@@ -3787,7 +3806,17 @@
    ],
    "tris": 1164,
    "origin": "ground-centre",
-   "attachments": []
+   "attachments": [],
+   "min": [
+    -4.0,
+    -8.0,
+    0.0
+   ],
+   "max": [
+    4.0,
+    8.0,
+    18.0
+   ]
   },
   "HV_WallSeg_Outer": {
    "mesh": "/Game/Buildings/SM_HV_WallSeg_Outer.SM_HV_WallSeg_Outer",
@@ -3799,7 +3828,17 @@
    ],
    "tris": 872,
    "origin": "ground-centre",
-   "attachments": []
+   "attachments": [],
+   "min": [
+    -4.0,
+    -8.0,
+    0.0
+   ],
+   "max": [
+    4.0,
+    8.0,
+    26.0
+   ]
   },
   "HV_WallEnd": {
    "mesh": "/Game/Buildings/SM_HV_WallEnd.SM_HV_WallEnd",
@@ -3811,7 +3850,17 @@
    ],
    "tris": 1454,
    "origin": "ground-centre",
-   "attachments": []
+   "attachments": [],
+   "min": [
+    -5.0,
+    -5.0,
+    0.0
+   ],
+   "max": [
+    5.0,
+    5.0,
+    22.0
+   ]
   },
   "LM_HollywoodHigh": {
    "mesh": "/Game/Buildings/SM_LM_HollywoodHigh.SM_LM_HollywoodHigh",
@@ -3823,7 +3872,17 @@
    ],
    "tris": 30,
    "origin": "footprint-centre-ground",
-   "attachments": []
+   "attachments": [],
+   "min": [
+    -4.0,
+    -33.0,
+    0.0
+   ],
+   "max": [
+    4.0,
+    33.0,
+    9.0
+   ]
   },
   "LM_HollywoodHigh_Wing": {
    "mesh": "/Game/Buildings/SM_LM_HollywoodHigh_Wing.SM_LM_HollywoodHigh_Wing",
@@ -3835,7 +3894,17 @@
    ],
    "tris": 30,
    "origin": "footprint-centre-ground",
-   "attachments": []
+   "attachments": [],
+   "min": [
+    -26.0,
+    -4.0,
+    0.0
+   ],
+   "max": [
+    26.0,
+    4.0,
+    9.0
+   ]
   },
   "LM_ReceivingHospital": {
    "mesh": "/Game/Buildings/SM_LM_ReceivingHospital.SM_LM_ReceivingHospital",
@@ -3847,7 +3916,17 @@
    ],
    "tris": 22,
    "origin": "footprint-centre-ground",
-   "attachments": []
+   "attachments": [],
+   "min": [
+    -9.0,
+    -12.0,
+    0.0
+   ],
+   "max": [
+    9.0,
+    12.0,
+    8.0
+   ]
   },
   "LM_FireStation27": {
    "mesh": "/Game/Buildings/SM_LM_FireStation27.SM_LM_FireStation27",
@@ -3859,7 +3938,17 @@
    ],
    "tris": 32,
    "origin": "footprint-centre-ground",
-   "attachments": []
+   "attachments": [],
+   "min": [
+    -10.0,
+    -12.0,
+    0.0
+   ],
+   "max": [
+    10.0,
+    12.0,
+    20.5
+   ]
   },
   "LM_BlessedSacrament": {
    "mesh": "/Game/Buildings/SM_LM_BlessedSacrament.SM_LM_BlessedSacrament",
@@ -3871,7 +3960,17 @@
    ],
    "tris": 36,
    "origin": "footprint-centre-ground",
-   "attachments": []
+   "attachments": [],
+   "min": [
+    -15.0,
+    -13.0,
+    0.0
+   ],
+   "max": [
+    15.3,
+    13.3,
+    27.0
+   ]
   },
   "EGY_WallSeg": {
    "mesh": "/Game/Buildings/SM_EGY_WallSeg.SM_EGY_WallSeg",
@@ -3883,7 +3982,17 @@
    ],
    "tris": 6,
    "origin": "footprint-centre-ground",
-   "attachments": []
+   "attachments": [],
+   "min": [
+    -2.0,
+    -4.5,
+    0.0
+   ],
+   "max": [
+    2.0,
+    4.5,
+    9.0
+   ]
   },
   "EGY_WallSeg_Frieze": {
    "mesh": "/Game/Buildings/SM_EGY_WallSeg_Frieze.SM_EGY_WallSeg_Frieze",
@@ -3895,7 +4004,17 @@
    ],
    "tris": 6,
    "origin": "footprint-centre-ground",
-   "attachments": []
+   "attachments": [],
+   "min": [
+    -2.0,
+    -4.5,
+    0.0
+   ],
+   "max": [
+    2.0,
+    4.5,
+    9.0
+   ]
   },
   "EGY_WallSeg_Hive": {
    "mesh": "/Game/Buildings/SM_EGY_WallSeg_Hive.SM_EGY_WallSeg_Hive",
@@ -3907,7 +4026,17 @@
    ],
    "tris": 6,
    "origin": "footprint-centre-ground",
-   "attachments": []
+   "attachments": [],
+   "min": [
+    -2.0,
+    -4.5,
+    0.0
+   ],
+   "max": [
+    2.0,
+    4.5,
+    9.0
+   ]
   },
   "EGY_Pylon12": {
    "mesh": "/Game/Buildings/SM_EGY_Pylon12.SM_EGY_Pylon12",
@@ -3919,7 +4048,17 @@
    ],
    "tris": 30,
    "origin": "footprint-centre-ground",
-   "attachments": []
+   "attachments": [],
+   "min": [
+    -2.5,
+    -10.0,
+    0.0
+   ],
+   "max": [
+    2.5,
+    10.0,
+    12.0
+   ]
   },
   "EGY_Colonnade": {
    "mesh": "/Game/Buildings/SM_EGY_Colonnade.SM_EGY_Colonnade",
@@ -3931,7 +4070,17 @@
    ],
    "tris": 28,
    "origin": "footprint-centre-ground",
-   "attachments": []
+   "attachments": [],
+   "min": [
+    -2.0,
+    -16.0,
+    0.0
+   ],
+   "max": [
+    2.0,
+    16.0,
+    6.0
+   ]
   },
   "BD_HollywoodBowl": {
    "mesh": "/Game/Buildings/SM_BD_HollywoodBowl.SM_BD_HollywoodBowl",
@@ -3943,7 +4092,17 @@
    ],
    "tris": 2910,
    "origin": "footprint-centre-ground",
-   "attachments": []
+   "attachments": [],
+   "min": [
+    -16.0,
+    -50.0,
+    0.0
+   ],
+   "max": [
+    16.0,
+    50.0,
+    14.0
+   ]
   },
   "BD_Paramount": {
    "mesh": "/Game/Buildings/SM_BD_Paramount.SM_BD_Paramount",
@@ -3955,7 +4114,17 @@
    ],
    "tris": 2854,
    "origin": "footprint-centre-ground",
-   "attachments": []
+   "attachments": [],
+   "min": [
+    -30.0,
+    -65.0,
+    0.0
+   ],
+   "max": [
+    30.0,
+    65.0,
+    18.0
+   ]
   },
   "BD_Columbia": {
    "mesh": "/Game/Buildings/SM_BD_Columbia.SM_BD_Columbia",
@@ -3967,7 +4136,17 @@
    ],
    "tris": 2910,
    "origin": "footprint-centre-ground",
-   "attachments": []
+   "attachments": [],
+   "min": [
+    -40.0,
+    -32.0,
+    0.0
+   ],
+   "max": [
+    40.0,
+    32.0,
+    16.0
+   ]
   },
   "BD_RKO": {
    "mesh": "/Game/Buildings/SM_BD_RKO.SM_BD_RKO",
@@ -3979,7 +4158,17 @@
    ],
    "tris": 2902,
    "origin": "footprint-centre-ground",
-   "attachments": []
+   "attachments": [],
+   "min": [
+    -35.0,
+    -50.0,
+    0.0
+   ],
+   "max": [
+    35.0,
+    50.0,
+    34.0
+   ]
   },
   "BD_Chaplin": {
    "mesh": "/Game/Buildings/SM_BD_Chaplin.SM_BD_Chaplin",
@@ -3991,7 +4180,17 @@
    ],
    "tris": 2901,
    "origin": "footprint-centre-ground",
-   "attachments": []
+   "attachments": [],
+   "min": [
+    -45.0,
+    -35.0,
+    0.0
+   ],
+   "max": [
+    45.0,
+    35.0,
+    14.0
+   ]
   },
   "BD_PovertyRow": {
    "mesh": "/Game/Buildings/SM_BD_PovertyRow.SM_BD_PovertyRow",
@@ -4003,7 +4202,17 @@
    ],
    "tris": 2910,
    "origin": "footprint-centre-ground",
-   "attachments": []
+   "attachments": [],
+   "min": [
+    -15.0,
+    -22.0,
+    0.0
+   ],
+   "max": [
+    15.0,
+    22.0,
+    7.0
+   ]
   },
   "BD_Christie": {
    "mesh": "/Game/Buildings/SM_BD_Christie.SM_BD_Christie",
@@ -4015,7 +4224,17 @@
    ],
    "tris": 2906,
    "origin": "footprint-centre-ground",
-   "attachments": []
+   "attachments": [],
+   "min": [
+    -20.0,
+    -20.0,
+    0.0
+   ],
+   "max": [
+    20.0,
+    20.0,
+    9.0
+   ]
   },
   "BD_Cemetery": {
    "mesh": "/Game/Buildings/SM_BD_Cemetery.SM_BD_Cemetery",
@@ -4027,7 +4246,17 @@
    ],
    "tris": 2910,
    "origin": "footprint-centre-ground",
-   "attachments": []
+   "attachments": [],
+   "min": [
+    -6.0,
+    -35.0,
+    0.0
+   ],
+   "max": [
+    6.0,
+    35.0,
+    8.0
+   ]
   },
   "BD_LaBrea": {
    "mesh": "/Game/Buildings/SM_BD_LaBrea.SM_BD_LaBrea",
@@ -4039,7 +4268,17 @@
    ],
    "tris": 2906,
    "origin": "footprint-centre-ground",
-   "attachments": []
+   "attachments": [],
+   "min": [
+    -30.0,
+    -30.0,
+    0.0
+   ],
+   "max": [
+    30.0,
+    30.0,
+    9.0
+   ]
   },
   "BD_SunsetLaBrea": {
    "mesh": "/Game/Buildings/SM_BD_SunsetLaBrea.SM_BD_SunsetLaBrea",
@@ -4051,7 +4290,17 @@
    ],
    "tris": 2875,
    "origin": "footprint-centre-ground",
-   "attachments": []
+   "attachments": [],
+   "min": [
+    -40.0,
+    -25.0,
+    0.0
+   ],
+   "max": [
+    40.0,
+    25.0,
+    10.0
+   ]
   },
   "IN_GYM_Wall4": {
    "mesh": "/Game/Buildings/SM_IN_GYM_Wall4.SM_IN_GYM_Wall4",
@@ -4063,7 +4312,17 @@
    ],
    "tris": 4,
    "origin": "front-plane-bottom-left",
-   "attachments": []
+   "attachments": [],
+   "min": [
+    -0.4,
+    -4.0,
+    0.0
+   ],
+   "max": [
+    0.0,
+    0.0,
+    9.0
+   ]
   },
   "IN_GYM_Wall4_B": {
    "mesh": "/Game/Buildings/SM_IN_GYM_Wall4_B.SM_IN_GYM_Wall4_B",
@@ -4075,7 +4334,17 @@
    ],
    "tris": 4,
    "origin": "front-plane-bottom-left",
-   "attachments": []
+   "attachments": [],
+   "min": [
+    -0.4,
+    -4.0,
+    0.0
+   ],
+   "max": [
+    0.0,
+    0.0,
+    9.0
+   ]
   },
   "IN_GYM_Wall4_HiveL": {
    "mesh": "/Game/Buildings/SM_IN_GYM_Wall4_HiveL.SM_IN_GYM_Wall4_HiveL",
@@ -4087,7 +4356,17 @@
    ],
    "tris": 4,
    "origin": "front-plane-bottom-left",
-   "attachments": []
+   "attachments": [],
+   "min": [
+    -0.4,
+    -4.0,
+    0.0
+   ],
+   "max": [
+    0.0,
+    0.0,
+    9.0
+   ]
   },
   "IN_GYM_Wall4_HiveR": {
    "mesh": "/Game/Buildings/SM_IN_GYM_Wall4_HiveR.SM_IN_GYM_Wall4_HiveR",
@@ -4099,7 +4378,17 @@
    ],
    "tris": 4,
    "origin": "front-plane-bottom-left",
-   "attachments": []
+   "attachments": [],
+   "min": [
+    -0.4,
+    -4.0,
+    0.0
+   ],
+   "max": [
+    0.0,
+    0.0,
+    9.0
+   ]
   },
   "IN_GYM_Wall4_Score": {
    "mesh": "/Game/Buildings/SM_IN_GYM_Wall4_Score.SM_IN_GYM_Wall4_Score",
@@ -4111,7 +4400,17 @@
    ],
    "tris": 12,
    "origin": "front-plane-bottom-left",
-   "attachments": []
+   "attachments": [],
+   "min": [
+    -0.4,
+    -4.0,
+    0.0
+   ],
+   "max": [
+    0.3,
+    0.0,
+    9.0
+   ]
   },
   "IN_GYM_CourtLines": {
    "mesh": "/Game/Buildings/SM_IN_GYM_CourtLines.SM_IN_GYM_CourtLines",
@@ -4123,7 +4422,17 @@
    ],
    "tris": 2,
    "origin": "footprint-centre-ground",
-   "attachments": []
+   "attachments": [],
+   "min": [
+    -7.5,
+    -14.0,
+    0.02
+   ],
+   "max": [
+    7.5,
+    14.0,
+    0.02
+   ]
   },
   "IN_HHB_Arcade6": {
    "mesh": "/Game/Buildings/SM_IN_HHB_Arcade6.SM_IN_HHB_Arcade6",
@@ -4135,7 +4444,17 @@
    ],
    "tris": 4,
    "origin": "front-plane-bottom-left",
-   "attachments": []
+   "attachments": [],
+   "min": [
+    -0.4,
+    -6.0,
+    0.0
+   ],
+   "max": [
+    0.0,
+    0.0,
+    4.5
+   ]
   },
   "IN_HHB_FrenchDoors6": {
    "mesh": "/Game/Buildings/SM_IN_HHB_FrenchDoors6.SM_IN_HHB_FrenchDoors6",
@@ -4147,7 +4466,17 @@
    ],
    "tris": 4,
    "origin": "front-plane-bottom-left",
-   "attachments": []
+   "attachments": [],
+   "min": [
+    -0.4,
+    -6.0,
+    0.0
+   ],
+   "max": [
+    0.0,
+    0.0,
+    3.5
+   ]
   },
   "IN_HHB_DanceFloor": {
    "mesh": "/Game/Buildings/SM_IN_HHB_DanceFloor.SM_IN_HHB_DanceFloor",
@@ -4159,7 +4488,17 @@
    ],
    "tris": 2,
    "origin": "footprint-centre-ground",
-   "attachments": []
+   "attachments": [],
+   "min": [
+    -4.0,
+    -8.0,
+    0.02
+   ],
+   "max": [
+    4.0,
+    8.0,
+    0.02
+   ]
   },
   "ST_Kerb4": {
    "mesh": "/Game/Buildings/SM_ST_Kerb4.SM_ST_Kerb4",
@@ -4171,7 +4510,17 @@
    ],
    "tris": 6,
    "origin": "front-plane-bottom-left",
-   "attachments": []
+   "attachments": [],
+   "min": [
+    -0.3,
+    -4.0,
+    0.0
+   ],
+   "max": [
+    0.45,
+    0.0,
+    0.15
+   ]
   },
   "ST_KerbCorner3": {
    "mesh": "/Game/Buildings/SM_ST_KerbCorner3.SM_ST_KerbCorner3",
@@ -4183,7 +4532,17 @@
    ],
    "tris": 36,
    "origin": "arc-centre-ground",
-   "attachments": []
+   "attachments": [],
+   "min": [
+    -3.45,
+    -3.45,
+    0.0
+   ],
+   "max": [
+    -0.0,
+    0.0,
+    0.15
+   ]
   },
   "ST_Crossing": {
    "mesh": "/Game/Buildings/SM_ST_Crossing.SM_ST_Crossing",
@@ -4195,7 +4554,17 @@
    ],
    "tris": 2,
    "origin": "footprint-centre-ground",
-   "attachments": []
+   "attachments": [],
+   "min": [
+    -1.5,
+    -6.0,
+    0.02
+   ],
+   "max": [
+    1.5,
+    6.0,
+    0.02
+   ]
   },
   "SIGN_Graumans_Poster": {
    "mesh": "/Game/Buildings/SM_SIGN_Graumans_Poster.SM_SIGN_Graumans_Poster",
@@ -4206,7 +4575,17 @@
    ],
    "tris": 2,
    "origin": "front-plane-bottom-left",
-   "attachments": []
+   "attachments": [],
+   "min": [
+    -0.0,
+    -1.2,
+    0.0
+   ],
+   "max": [
+    0.0,
+    0.0,
+    1.8
+   ]
   }
  },
  "recipes": {

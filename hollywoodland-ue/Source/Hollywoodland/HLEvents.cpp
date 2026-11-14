@@ -6,14 +6,9 @@
 namespace
 {
 	struct FFilm { const TCHAR* Title; int32 Year; const TCHAR* Who; };
-	// Pictures from before the slice's 1930 setting (all now in the public domain).
-	const FFilm Films[] = {
-		{ TEXT("The General"), 1926, TEXT("Buster Keaton") }, { TEXT("Safety Last!"), 1923, TEXT("Harold Lloyd") },
-		{ TEXT("The Gold Rush"), 1925, TEXT("Charlie Chaplin") }, { TEXT("Sherlock Jr."), 1924, TEXT("Buster Keaton") },
-		{ TEXT("The Phantom of the Opera"), 1925, TEXT("Lon Chaney") }, { TEXT("The Thief of Bagdad"), 1924, TEXT("Douglas Fairbanks") },
-		{ TEXT("The Kid"), 1921, TEXT("Charlie Chaplin") }, { TEXT("Wings"), 1927, TEXT("Clara Bow") },
-		{ TEXT("Steamboat Bill, Jr."), 1928, TEXT("Buster Keaton") }, { TEXT("The Mark of Zorro"), 1920, TEXT("Douglas Fairbanks") },
-	};
+	// The picture: Hell's Angels opened at Grauman's Chinese in May 1930 (the slice's setting) and ran there all summer. It is in
+	// the US public domain since 2026; an excerpt plays on the facade (AHLWorldActor::TickFilm, tools/film/make-flipbook.mjs).
+	const FFilm Films[] = { { TEXT("Hell's Angels"), 1930, TEXT("Jean Harlow") } };
 	const TCHAR* SurgeMobIds[] = { TEXT("mob_invader_worker"), TEXT("mob_invader_drone"), TEXT("mob_invader_spitter"), TEXT("mob_invader_broodling"), TEXT("mob_invader_soldier") };
 	constexpr float WaveEvery = 35, WatchToBuff = 45;
 }

@@ -1,0 +1,14 @@
+{
+ "note": "tools/film/make-flipbook.mjs: Hell's Angels (1930), public domain",
+ "file": "film.jpg",
+ "cols": 8,
+ "rows": 8,
+ "frames": 64,
+ "fps": 6,
+ "start": 6024,
+ "x": 93,
+ "y": 166.4,
+ "z": 6,
+ "w": 9.2,
+ "h": 5.97
+}
