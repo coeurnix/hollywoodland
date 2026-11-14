@@ -3,14 +3,12 @@
 //   POST /v1/sim                -> DESIGN-BIBLE §13 protocol: kind = reply | decide | gossip
 //   GET|PUT /v1/save/<player>   -> cloud copy of the save game (KV)
 //   GET  /v1/health
-// Models (Fireworks): Rune (System One: typed questions -> calibrated probabilities, ~0.3 s, input-only cost) makes the
-// accept/decline/respond decisions; DeepSeek flash (reasoning off) writes chat lines. The client stays playable when this
+// Models (providers.js): Fireworks Rune makes the accept/decline/respond decisions and DeepSeek flash writes chat lines;
+// OpenAI (Decisions API, gpt-6.1-terra) answers a call when Fireworks is slow or down; gpt-6.1-sol does the hard jobs. The client stays playable when this
 // Worker fails: every failure returns {fallback:true} and the client uses its local corpus.
 import { SYSTEM_PROMPT, buildStateDoc, buildUserPrompt } from './prompt.js';
+import { decide, write, hard, sample, providerState } from './providers.js';
 
-const FW = 'https://api.fireworks.ai/inference/v1';
-const LLM = 'accounts/fireworks/models/deepseek-v4p1-flash-1017';
-const RUNE = 'accounts/fireworks/models/rune';
 const LIMIT_PER_MIN = 20, LIMIT_PER_HOUR = 400, DAILY_BUDGET = 40000;
 const ORIGIN_OK = /^https:\/\/([a-z0-9-]+\.)*(itch\.zone|itch\.io|coeurnix\.workers\.dev)$|^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/;
 
@@ -89,51 +87,33 @@ function limited(session) {
   return ++budget.n > DAILY_BUDGET;
 }
 
-async function fw(env, path, body, timeoutMs) {
-  const r = await fetch(FW + path, {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${env.FIREWORKS_API_KEY}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify(body),
-    signal: AbortSignal.timeout(timeoutMs),
-  });
-  if (!r.ok) throw new Error(`fireworks ${path} ${r.status}: ${(await r.text()).slice(0, 200)}`);
-  return r.json();
-}
-
-// Rune: one pass over a state document, typed questions -> probabilities. We sample instead of taking the argmax so that
-// identical situations do not always resolve the same way.
-function sample(probs) {
-  let x = Math.random(), last = null;
-  for (const [k, p] of Object.entries(probs)) { last = k; if ((x -= p) <= 0) return k; }
-  return last;
-}
-async function runeDecide(env, req) {
-  const questions = {};
+// Decisions (Rune, or the OpenAI Decisions API as fallback): one pass over a state document, typed questions ->
+// probabilities. Choices are sampled instead of taking the argmax so that identical situations do not always resolve the
+// same way.
+async function runeDecide(env, req, meta) {
+  const questions = [];
   const trig = req.trigger || {};
   for (const s of req.speakers) {
     const who = s.handle;
     if (trig.kind === 'invite' || trig.kind === 'trade' || trig.kind === 'duel') {
-      questions[`${s.persona}|decision`] = { type: 'choice', text: `How does ${who} answer the player's ${trig.kind} request?`,
-        criteria: { accept: `${who} accepts`, decline: `${who} declines (busy, wrong level, not interested, about to log off)` } };
+      questions.push({ id: `${s.persona}|decision`, type: 'choice', text: `How does ${who} answer the player's ${trig.kind} request?`,
+        choices: { accept: `${who} accepts`, decline: `${who} declines (busy, wrong level, not interested, about to log off)` } });
     } else if (trig.channel !== 'whisper' && trig.channel !== 'party') {
       // Whispers and party chat are always answered; open channels may be ignored.
-      questions[`${s.persona}|respond`] = { type: 'choice', text: `Does ${who} type a reply to this message?`,
-        criteria: { reply: `${who} answers in chat`, ignore: `${who} stays silent (afk, busy, not addressed, not interested)` } };
+      questions.push({ id: `${s.persona}|respond`, type: 'choice', text: `Does ${who} type a reply to this message?`,
+        choices: { reply: `${who} answers in chat`, ignore: `${who} stays silent (afk, busy, not addressed, not interested)` } });
     }
-    questions[`${s.persona}|liking`] = { type: 'score', text: `How does this interaction change ${who}'s opinion of the player?`,
-      criteria: ['annoyed by the player', 'slightly put off', 'no change', 'a little warmer', 'likes the player more'] };
+    questions.push({ id: `${s.persona}|liking`, type: 'score', text: `How does this interaction change ${who}'s opinion of the player?`,
+      levels: ['annoyed by the player', 'slightly put off', 'no change', 'a little warmer', 'likes the player more'] });
   }
-  const out = await fw(env, '/systemone', { model: RUNE, state: buildStateDoc(req), questions }, 2500);
+  const out = await decide(env, buildStateDoc(req), questions, { provider: req._provider });
+  meta.decide = { provider: out.provider, ms: out.ms };
   const decisions = {};
-  for (const [qid, a] of Object.entries(out.answers || {})) {
+  for (const [qid, a] of Object.entries(out.answers)) {
     const [persona, q] = qid.split('|');
     const d = (decisions[persona] ||= {});
-    if (a.type === 'choice') d[q] = sample(a.probabilities);
-    else if (q === 'liking') {
-      const p = a.probabilities || a.distribution;
-      const lvl = typeof a.score === 'number' ? a.score : (Array.isArray(p) ? p.indexOf(Math.max(...p)) : 2);
-      d.liking_delta = Math.max(-2, Math.min(2, Math.round(lvl) - 2));
-    }
+    if (a.type === 'choice') d[q] = sample(a);
+    else if (q === 'liking') d.liking_delta = Math.max(-2, Math.min(2, Math.round(a.score) - 2));
   }
   return decisions;
 }
@@ -198,6 +178,7 @@ async function sim(request, env) {
   if (await limitedDO(env, req.session)) return json(request, { error: 'rate', fallback: true }, 429);
   if (!Array.isArray(req.speakers) || !req.speakers.length || req.speakers.length > 4) return json(request, { error: 'speakers' }, 400);
   if (!['reply', 'decide', 'gossip'].includes(req.kind)) return json(request, { error: 'kind' }, 400);
+  req._provider = req.provider && env.DEBUG_KEY && req.debug === env.DEBUG_KEY ? String(req.provider) : undefined;
   req.speakers = req.speakers.map((s) => ({ ...s, persona: String(s.persona), handle: String(s.handle || '?').slice(0, 24) }));
 
   const t0 = Date.now();
@@ -219,28 +200,26 @@ async function sim(request, env) {
     } catch (e) { console.log('gossip cache read failed', String(e)); }
   }
   let decisions = {};
+  const meta = {};
   try {
-    if (req.kind !== 'gossip') decisions = await runeDecide(env, req);
-  } catch (e) { console.log('rune failed', String(e)); }
+    if (req.kind !== 'gossip') decisions = await runeDecide(env, req, meta);
+  } catch (e) { console.log('decide failed', String(e)); }
   const tRune = Date.now() - t0;
 
   // Everyone ignores: no LLM call needed.
   if (req.kind === 'reply' && req.speakers.every((s) => decisions[s.persona]?.respond === 'ignore')) {
-    return json(request, { id: req.id, actions: validate(req, { actions: [] }, decisions), ms: { rune: tRune, llm: 0 } });
+    return json(request, { id: req.id, actions: validate(req, { actions: [] }, decisions), ms: { rune: tRune, llm: 0 }, via: meta });
   }
   try {
-    const out = await fw(env, '/chat/completions', {
-      model: LLM, temperature: 0.85, max_tokens: 400, reasoning_effort: 'none',
-      response_format: { type: 'json_object' },
-      messages: [{ role: 'system', content: SYSTEM_PROMPT }, { role: 'user', content: buildUserPrompt(req, decisions) }],
-    }, 6000);
-    const raw = JSON.parse(out.choices[0].message.content);
+    const out = await write(env, { system: SYSTEM_PROMPT, user: buildUserPrompt(req, decisions) }, { provider: req._provider });
+    meta.write = { provider: out.provider, ms: out.ms };
+    const raw = out.json;
     const actions = validate(req, raw, decisions);
     if (gossipKey) {
       const lines = actions.map((a) => a.chat).filter(Boolean);
       if (lines.length) await env.HL_KV.put(gossipKey, JSON.stringify({ lines }), { expirationTtl: 600 }).catch((e) => console.log('gossip cache write failed', String(e)));
     }
-    return json(request, { id: req.id, actions, ms: { rune: tRune, llm: Date.now() - t0 - tRune } });
+    return json(request, { id: req.id, actions, ms: { rune: tRune, llm: Date.now() - t0 - tRune }, via: meta });
   } catch (e) {
     console.log('llm failed', String(e));
     // Decisions still stand; the client fills the line from its corpus.
@@ -253,7 +232,7 @@ export default {
     const url = new URL(request.url);
     if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors(request) });
     try {
-      if (url.pathname === '/' || url.pathname === '/v1/health') return json(request, { ok: true, service: 'hollywoodland-server', t: Date.now() });
+      if (url.pathname === '/' || url.pathname === '/v1/health') return json(request, { ok: true, service: 'hollywoodland-server', t: Date.now(), primary: env.AI_PRIMARY || 'fireworks', hard: env.AI_HARD || 'openai', providers: providerState() });
       if (url.pathname === '/v1/session' && request.method === 'POST') {
         let body = {};
         try { body = JSON.parse(await request.text() || '{}'); } catch {}

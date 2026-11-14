@@ -494,3 +494,21 @@ Risks I am watching:
    keep handles stable and only add the new fields?
 6. **Scope check:** all ten steps before the next itch upload, or ship after step 3 (jam voice, OpenAI) and again
    at the end?
+
+---
+
+## 9. Decisions taken (2026-11-14) and progress
+
+- **Models:** Fireworks stays primary (Rune for decisions, DeepSeek flash for ordinary lines). OpenAI answers a request
+  only when Fireworks is slow or fails (Decisions API on `gpt-6-luna`, `gpt-6.1-terra` for lines). `gpt-6.1-sol` does the
+  hard jobs (plans, memory consolidation, tool use), with DeepSeek as its fallback. No budget cap.
+- **"Are you real?":** mixed per persona: most evasive, some flatly deny being simulated, a few admit it openly.
+- **News:** gathered by web search without review; divisive topics allowed (still no slurs).
+- **Personas** are re-rolled; old saves' bonds are not preserved. **All ten steps ship together.**
+- **Edge latency (step 1, `node tools/ai-edge-bench.mjs`):** decisions 120 ms (Rune) against 197 ms (OpenAI); chat line
+  0.81 s (DeepSeek) against 2.34 s (Terra). From a PC (`tools/ai-bench.mjs`): Sol at low reasoning 2.9 s median with a
+  15 s outlier; DeepSeek with reasoning 1.1 s.
+
+| Step | State |
+| --- | --- |
+| 1 Provider router | done (`workers/server/src/providers.js`; `AI_PRIMARY`, `AI_HARD` Worker variables switch providers) |
