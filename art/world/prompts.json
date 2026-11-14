@@ -1,0 +1,240 @@
+[
+ {
+  "id": "redcar-pacific-electric",
+  "cat": "red-car",
+  "size": "13 m long",
+  "ar": "21:9",
+  "p": "a 1920s Pacific Electric 'Red Car' interurban streetcar, long single wooden-and-steel passenger car painted deep Pullman red with gold pinstripes, cream window band, arched windows along the full length, clerestory roof, single trolley pole on the roof, cowcatcher fender and headlamp at each end, iron trucks with wheels, long and low proportions, side three-quarter view"
+ },
+ {
+  "id": "mount-horse",
+  "cat": "mounts",
+  "size": "2.4 m long",
+  "ar": "4:3",
+  "p": "a saddled chestnut quarter horse standing square in a neutral pose, western 1930 stock saddle in worn brown leather, saddle blanket, bridle and reins, stirrups hanging, no rider, side three-quarter view"
+ },
+ {
+  "id": "mount-motorcycle-indian-scout",
+  "cat": "mounts",
+  "size": "2.1 m long",
+  "ar": "4:3",
+  "p": "a 1928 Indian Scout motorcycle, deep Indian red tank and fenders with gold pinstripe, V-twin engine, sprung leather solo saddle, girder front fork, round headlamp, spoked wheels with whitewall-free black tyres, no rider, side three-quarter view"
+ },
+ {
+  "id": "mount-ford-model-a",
+  "cat": "mounts",
+  "size": "4.0 m long",
+  "ar": "16:9",
+  "p": "a 1930 Ford Model A Tudor sedan in glossy black with cream spoked wheels, chrome radiator shell and round headlamps, running boards, spare wheel at the back, clean showroom condition, side three-quarter view"
+ },
+ {
+  "id": "mount-ford-model-a-police",
+  "cat": "mounts",
+  "size": "4.0 m long",
+  "ar": "16:9",
+  "p": "a 1930 Los Angeles police Ford Model A roadster, black body with white doors, single red spotlight lamp on the cowl, chrome siren on the front fender, star badge emblem on the door, side three-quarter view"
+ },
+ {
+  "id": "wreck-newsreel-truck",
+  "cat": "wrecks",
+  "size": "5.5 m long",
+  "ar": "16:9",
+  "p": "a wrecked 1929 newsreel panel truck, boxy van body with faded cream paint and a painted movie-camera emblem, crushed front, shattered windshield, one wheel missing, doors hanging open, film cans spilling out the back, rust, scorch marks and green alien acid burns eating the metal, side three-quarter view"
+ },
+ {
+  "id": "wreck-sedan-overturned",
+  "cat": "wrecks",
+  "size": "4.5 m long",
+  "ar": "16:9",
+  "p": "a 1928 sedan car lying overturned on its roof, wheels in the air, crumpled roof, broken glass, dented fenders, faded dark green paint with heavy rust, a long claw gash torn through the body, side three-quarter view"
+ },
+ {
+  "id": "wreck-model-a-burned",
+  "cat": "wrecks",
+  "size": "4.0 m long",
+  "ar": "16:9",
+  "p": "a burned-out 1930 Ford Model A coupe wreck, blackened and rusted shell, no tyres just bare steel rims, empty window frames, seats burned to springs, sagging on the ground, ash and soot, side three-quarter view"
+ },
+ {
+  "id": "wreck-delivery-truck-hive",
+  "cat": "wrecks",
+  "size": "5.0 m long",
+  "ar": "16:9",
+  "p": "an abandoned 1920s flatbed delivery truck crashed nose-down, cracked wooden bed with spilled crates, cab partly overgrown with glossy amber alien insect resin and translucent membrane strands, rust and dents, side three-quarter view"
+ },
+ {
+  "id": "int-film-can-stack",
+  "cat": "interactables",
+  "size": "0.5 m tall",
+  "ar": "1:1",
+  "p": "a small stack of four round 35mm film cans, dented tin with stamped lettering and paper labels, one lid ajar showing coiled film, three-quarter top view"
+ },
+ {
+  "id": "int-film-reel",
+  "cat": "interactables",
+  "size": "0.4 m across",
+  "ar": "1:1",
+  "p": "a single 1920s metal 35mm film reel with spoked hub, partly wound with brown celluloid film, a loose strip of film curling off it, standing upright on its edge, three-quarter view"
+ },
+ {
+  "id": "int-coffee-tin",
+  "cat": "interactables",
+  "size": "0.2 m tall",
+  "ar": "1:1",
+  "p": "a 1920s cylindrical coffee tin with a key-wind lid, red and gold printed label reading HILLS COFFEE in art-deco lettering, slightly dented, three-quarter view"
+ },
+ {
+  "id": "int-arc-lamp",
+  "cat": "interactables",
+  "size": "2.2 m tall",
+  "ar": "3:4",
+  "p": "a 1920s movie studio carbon arc lamp floodlight, large black drum housing with a glass front lens and barn doors, mounted on a heavy wheeled iron stand with cable, three-quarter view"
+ },
+ {
+  "id": "int-police-call-box",
+  "cat": "interactables",
+  "size": "1.6 m tall",
+  "ar": "3:4",
+  "p": "a 1920s American cast-iron police telegraph call box on a fluted iron post, small hinged door with a star emblem, painted dark blue with gold trim, glass globe light on top, three-quarter view"
+ },
+ {
+  "id": "int-us-mailbox",
+  "cat": "interactables",
+  "size": "1.25 m tall",
+  "ar": "3:4",
+  "p": "a 1920s US Mail pillar mailbox, olive green cast iron on four legs, pull-down chute with U.S. MAIL embossed, eagle emblem, three-quarter view"
+ },
+ {
+  "id": "int-scrap-pile",
+  "cat": "interactables",
+  "size": "1.2 m across",
+  "ar": "1:1",
+  "p": "a salvage pile of scrap metal: twisted car fenders, a hubcap, rusted pipes, a bent wheel rim and sheet iron, low mound, three-quarter top view"
+ },
+ {
+  "id": "int-captured-usher-cocoon",
+  "cat": "interactables",
+  "size": "2.0 m tall",
+  "ar": "3:4",
+  "p": "a man in a red 1920s theatre usher uniform with brass buttons and pillbox cap, trapped upright inside a glossy amber alien insect resin cocoon glued to a lump of rubble, only his face and one arm visible, three-quarter view"
+ },
+ {
+  "id": "egy-lotus-column",
+  "cat": "egyptian-interior",
+  "size": "7 m tall",
+  "ar": "2:3",
+  "p": "a single painted Egyptian Revival theatre column, lotus-bud capital, thick round shaft painted with hieroglyphs in turquoise, ochre, red and gold, square plinth base, 1922 Hollywood movie palace style, full height front view"
+ },
+ {
+  "id": "egy-pharaoh-statue",
+  "cat": "egyptian-interior",
+  "size": "3.5 m tall",
+  "ar": "3:4",
+  "p": "a seated pharaoh statue in sandstone with gilded nemes headdress, hands on knees, on a carved block throne with hieroglyphs, theatrical plaster prop for a 1920s movie palace, three-quarter view"
+ },
+ {
+  "id": "egy-sphinx",
+  "cat": "egyptian-interior",
+  "size": "3 m long",
+  "ar": "16:9",
+  "p": "a recumbent sphinx statue in painted sandstone with a striped blue and gold headdress, on a rectangular pedestal, 1920s Egyptian Revival theatre decoration, side three-quarter view"
+ },
+ {
+  "id": "egy-ticket-booth",
+  "cat": "egyptian-interior",
+  "size": "3 m tall",
+  "ar": "3:4",
+  "p": "a 1922 Egyptian Revival movie theatre ticket booth, small freestanding kiosk with a glass window and brass grille, papyrus columns at the corners, painted scarab and winged sun disc above, gold, turquoise and red, three-quarter view"
+ },
+ {
+  "id": "egy-seat-row",
+  "cat": "egyptian-interior",
+  "size": "4 m long",
+  "ar": "21:9",
+  "p": "a row of six 1920s cinema seats joined together, red velvet upholstery, folding seats, cast-iron end standards decorated with Egyptian lotus motifs, three-quarter view from behind and above"
+ },
+ {
+  "id": "egy-projector",
+  "cat": "egyptian-interior",
+  "size": "1.9 m tall",
+  "ar": "3:4",
+  "p": "a 1920s 35mm carbon arc cinema projector on a heavy cast-iron pedestal, black lamphouse with chimney, two large film reel magazines on top and bottom, brass lens, three-quarter view"
+ },
+ {
+  "id": "egy-proscenium-stage",
+  "cat": "egyptian-interior",
+  "size": "12 m wide",
+  "ar": "16:9",
+  "p": "a theatre stage with an Egyptian Revival proscenium arch, massive gilded frame with a winged sun disc at the top, flanked by two tall painted papyrus columns, heavy red velvet curtains half open, wooden stage platform with footlights, front view"
+ },
+ {
+  "id": "egy-hieroglyph-wall",
+  "cat": "egyptian-interior",
+  "size": "4 m wide",
+  "ar": "4:3",
+  "p": "a modular wall section from an Egyptian Revival theatre, sandstone blocks carved with painted hieroglyphs and a procession of figures, cornice with a cavetto moulding at the top, plinth at the bottom, thick slab, slight three-quarter front view"
+ },
+ {
+  "id": "egy-pipe-organ-console",
+  "cat": "egyptian-interior",
+  "size": "1.8 m tall",
+  "ar": "4:3",
+  "p": "a 1920s theatre pipe organ console, horseshoe-shaped with three keyboards and rows of coloured stop tabs, gilded case painted with Egyptian lotus and scarab motifs, bench in front, three-quarter view"
+ },
+ {
+  "id": "sign-letter-H",
+  "cat": "hollywoodland-sign",
+  "size": "13.4 m tall",
+  "ar": "3:4",
+  "p": "one giant capital letter H from the 1923 HOLLYWOODLAND hillside sign, made of white-painted square sheet metal panels bolted to a lattice of telephone poles, wooden scaffolding and cross-bracing visible behind, slightly weathered, full height front three-quarter view"
+ },
+ {
+  "id": "sign-letter-O",
+  "cat": "hollywoodland-sign",
+  "size": "13.4 m tall",
+  "ar": "3:4",
+  "p": "one giant capital letter O from the 1923 HOLLYWOODLAND hillside sign, made of white-painted square sheet metal panels bolted to a lattice of telephone poles, wooden scaffolding and cross-bracing visible behind, slightly weathered, full height front three-quarter view"
+ },
+ {
+  "id": "sign-letter-L",
+  "cat": "hollywoodland-sign",
+  "size": "13.4 m tall",
+  "ar": "3:4",
+  "p": "one giant capital letter L from the 1923 HOLLYWOODLAND hillside sign, made of white-painted square sheet metal panels bolted to a lattice of telephone poles, wooden scaffolding and cross-bracing visible behind, slightly weathered, full height front three-quarter view"
+ },
+ {
+  "id": "sign-letter-Y",
+  "cat": "hollywoodland-sign",
+  "size": "13.4 m tall",
+  "ar": "3:4",
+  "p": "one giant capital letter Y from the 1923 HOLLYWOODLAND hillside sign, made of white-painted square sheet metal panels bolted to a lattice of telephone poles, wooden scaffolding and cross-bracing visible behind, slightly weathered, full height front three-quarter view"
+ },
+ {
+  "id": "sign-letter-W",
+  "cat": "hollywoodland-sign",
+  "size": "13.4 m tall",
+  "ar": "4:3",
+  "p": "one giant capital letter W from the 1923 HOLLYWOODLAND hillside sign, made of white-painted square sheet metal panels bolted to a lattice of telephone poles, wooden scaffolding and cross-bracing visible behind, slightly weathered, full height front three-quarter view"
+ },
+ {
+  "id": "sign-letter-D",
+  "cat": "hollywoodland-sign",
+  "size": "13.4 m tall",
+  "ar": "3:4",
+  "p": "one giant capital letter D from the 1923 HOLLYWOODLAND hillside sign, made of white-painted square sheet metal panels bolted to a lattice of telephone poles, wooden scaffolding and cross-bracing visible behind, slightly weathered, full height front three-quarter view"
+ },
+ {
+  "id": "sign-letter-A",
+  "cat": "hollywoodland-sign",
+  "size": "13.4 m tall",
+  "ar": "3:4",
+  "p": "one giant capital letter A from the 1923 HOLLYWOODLAND hillside sign, made of white-painted square sheet metal panels bolted to a lattice of telephone poles, wooden scaffolding and cross-bracing visible behind, slightly weathered, full height front three-quarter view"
+ },
+ {
+  "id": "sign-letter-N",
+  "cat": "hollywoodland-sign",
+  "size": "13.4 m tall",
+  "ar": "3:4",
+  "p": "one giant capital letter N from the 1923 HOLLYWOODLAND hillside sign, made of white-painted square sheet metal panels bolted to a lattice of telephone poles, wooden scaffolding and cross-bracing visible behind, slightly weathered, full height front three-quarter view"
+ }
+]
