@@ -1,0 +1,23 @@
+{
+  "id": "HH_gym_hive",
+  "provider": "fal.ai",
+  "model": "blackforestlabs/flux-3/klein/text-to-image",
+  "prompt": "The inside wall of a 1930 school gymnasium seen straight on: pale cream painted brick with a dark green dado band and high clerestory windows, overgrown by an alien infestation: glossy purple-black resin with glowing amber veins creeping up from the floor corners and across the wall, clusters of glossy eggs in the lower corners. Straight-on flat orthographic elevation, no perspective, the wall fills the entire image edge to edge, no sky, no ground, no background, no people, no vehicles. Hand-painted stylized texture in classic early World of Warcraft art style: chunky bold window frames and sills, painted ambient occlusion under cornices, warm light at the top and cooler darker base, restrained brush texture, grime streaks under sills. 1930 Hollywood.",
+  "references": [],
+  "image_size": {
+    "width": 1024,
+    "height": 512
+  },
+  "seed": 1303,
+  "output": "work/plates/HH_gym_hive.png",
+  "status": "downloaded",
+  "request_id": "01a1d90d-4e1d-71c1-b69a-30e777f7b3df",
+  "elapsed_seconds": 26.39,
+  "timings": {
+    "prompt_expansion": 5.557999429584015e-06,
+    "inference": 0.5714330949995201,
+    "safety_checker": 0.012467026001104387
+  },
+  "width": 1024,
+  "height": 512
+}

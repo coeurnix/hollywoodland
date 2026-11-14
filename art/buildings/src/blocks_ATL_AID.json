@@ -1,0 +1,262 @@
+{
+ "atlas": "ATL_AID",
+ "plates": [
+  "AID_hospital_front",
+  "AID_hospital_side",
+  "AID_fire_front",
+  "AID_fire_side",
+  "AID_tower",
+  "AID_church_front",
+  "AID_church_side",
+  "AID_roof_tile"
+ ],
+ "assets": {
+  "LM_ReceivingHospital": {
+   "size": [
+    24,
+    18,
+    8
+   ],
+   "fits_box": "Hollywood Receiving Hospital",
+   "parts": [
+    {
+     "box": [
+      -12,
+      -9,
+      0,
+      12,
+      9,
+      8
+     ],
+     "faces": {
+      "front": {
+       "plate": "AID_hospital_front",
+       "pw": 24
+      },
+      "back": {
+       "plate": "AID_hospital_side",
+       "pw": 12
+      },
+      "left": "AID_hospital_side",
+      "right": "AID_hospital_side",
+      "top": {
+       "plate": "AID_roof_tile",
+       "pw": 12
+      }
+     }
+    }
+   ]
+  },
+  "LM_FireStation27": {
+   "size": [
+    24,
+    20,
+    9
+   ],
+   "fits_box": "Fire Station No. 27",
+   "parts": [
+    {
+     "box": [
+      -12,
+      -10,
+      0,
+      12,
+      10,
+      9
+     ],
+     "faces": {
+      "front": {
+       "plate": "AID_fire_front",
+       "pw": 24
+      },
+      "back": {
+       "plate": "AID_fire_side",
+       "pw": 24
+      },
+      "left": "AID_fire_side",
+      "right": "AID_fire_side",
+      "top": {
+       "plate": "AID_roof_tile",
+       "pw": 12
+      }
+     }
+    },
+    {
+     "box": [
+      6,
+      4,
+      9,
+      11,
+      9,
+      18
+     ],
+     "faces": {
+      "front": {
+       "plate": "AID_tower",
+       "crop": [
+        0.33,
+        0.67,
+        0,
+        1
+       ]
+      },
+      "back": {
+       "plate": "AID_tower",
+       "crop": [
+        0.33,
+        0.67,
+        0,
+        1
+       ]
+      },
+      "left": {
+       "plate": "AID_tower",
+       "crop": [
+        0.33,
+        0.67,
+        0,
+        1
+       ]
+      },
+      "right": {
+       "plate": "AID_tower",
+       "crop": [
+        0.33,
+        0.67,
+        0,
+        1
+       ]
+      }
+     }
+    },
+    {
+     "pyramid": [
+      5.7,
+      3.7,
+      18,
+      11.3,
+      9.3,
+      20.5
+     ],
+     "plate": "AID_roof_tile"
+    }
+   ]
+  },
+  "LM_BlessedSacrament": {
+   "size": [
+    26,
+    30,
+    12
+   ],
+   "fits_box": "Blessed Sacrament Church",
+   "parts": [
+    {
+     "box": [
+      -13,
+      -15,
+      0,
+      13,
+      15,
+      12
+     ],
+     "faces": {
+      "front": {
+       "plate": "AID_church_front",
+       "pw": 26
+      },
+      "back": {
+       "plate": "AID_church_side",
+       "pw": 13
+      },
+      "left": {
+       "plate": "AID_church_side",
+       "pw": 15
+      },
+      "right": {
+       "plate": "AID_church_side",
+       "pw": 15
+      }
+     }
+    },
+    {
+     "gable": [
+      -13,
+      -15,
+      12,
+      13,
+      15,
+      16
+     ],
+     "ridge": "y",
+     "plate": "AID_roof_tile",
+     "end": "AID_church_front",
+     "end_crop": [
+      0.02,
+      0.1,
+      0.8,
+      0.98
+     ]
+    },
+    {
+     "box": [
+      -13,
+      -15,
+      12,
+      -7,
+      -9,
+      23
+     ],
+     "faces": {
+      "front": {
+       "plate": "AID_church_side",
+       "crop": [
+        0.36,
+        0.64,
+        0,
+        1
+       ]
+      },
+      "back": {
+       "plate": "AID_church_side",
+       "crop": [
+        0.36,
+        0.64,
+        0,
+        1
+       ]
+      },
+      "left": {
+       "plate": "AID_church_side",
+       "crop": [
+        0.36,
+        0.64,
+        0,
+        1
+       ]
+      },
+      "right": {
+       "plate": "AID_church_side",
+       "crop": [
+        0.36,
+        0.64,
+        0,
+        1
+       ]
+      }
+     }
+    },
+    {
+     "pyramid": [
+      -13.3,
+      -15.3,
+      23,
+      -6.7,
+      -8.7,
+      27
+     ],
+     "plate": "AID_roof_tile"
+    }
+   ]
+  }
+ }
+}

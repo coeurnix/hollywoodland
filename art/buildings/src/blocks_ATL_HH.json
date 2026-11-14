@@ -1,0 +1,129 @@
+{
+ "atlas": "ATL_HH",
+ "plates": [
+  "HH_entrance",
+  "HH_bay",
+  "HH_gym",
+  "HH_gym_hive",
+  "HH_end",
+  "HH_roof"
+ ],
+ "assets": {
+  "LM_HollywoodHigh": {
+   "size": [
+    66,
+    8,
+    9
+   ],
+   "fits_box": "Hollywood High School",
+   "parts": [
+    {
+     "box": [
+      -33,
+      -4,
+      0,
+      33,
+      4,
+      9
+     ],
+     "faces": {
+      "front": {
+       "seq": [
+        [
+         "HH_bay",
+         12
+        ],
+        [
+         "HH_bay",
+         12
+        ],
+        [
+         "HH_entrance",
+         18
+        ],
+        [
+         "HH_bay",
+         12
+        ],
+        [
+         "HH_bay",
+         12
+        ]
+       ]
+      },
+      "back": {
+       "seq": [
+        [
+         "HH_gym_hive",
+         16.5
+        ],
+        [
+         "HH_gym",
+         16.5
+        ],
+        [
+         "HH_gym",
+         16.5
+        ],
+        [
+         "HH_gym_hive",
+         16.5
+        ]
+       ]
+      },
+      "left": "HH_end",
+      "right": "HH_end",
+      "top": "HH_roof"
+     }
+    }
+   ]
+  },
+  "LM_HollywoodHigh_Wing": {
+   "size": [
+    8,
+    52,
+    9
+   ],
+   "parts": [
+    {
+     "box": [
+      -4,
+      -26,
+      0,
+      4,
+      26,
+      9
+     ],
+     "faces": {
+      "back": "HH_end",
+      "right": {
+       "plate": "HH_bay",
+       "pw": 13
+      },
+      "left": {
+       "seq": [
+        [
+         "HH_gym_hive",
+         13
+        ],
+        [
+         "HH_gym",
+         13
+        ],
+        [
+         "HH_gym",
+         13
+        ],
+        [
+         "HH_gym_hive",
+         13
+        ]
+       ]
+      },
+      "top": "HH_roof"
+     }
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,23 @@
+{
+  "id": "AID_tower",
+  "provider": "fal.ai",
+  "model": "blackforestlabs/flux-3/klein/text-to-image",
+  "prompt": "One face of a tall narrow brick hose-drying tower of a 1930 fire station: sepia-red brick, narrow slit windows stacked vertically, cream stone bands, small arched louvred openings at the top. Straight-on flat orthographic elevation, no perspective, the wall fills the entire image edge to edge, no sky, no ground, no background, no people, no vehicles. Hand-painted stylized texture in classic early World of Warcraft art style: chunky bold window frames and sills, painted ambient occlusion under cornices, warm light at the top and cooler darker base, restrained brush texture, grime streaks under sills. 1930 Hollywood.",
+  "references": [],
+  "image_size": {
+    "width": 1024,
+    "height": 512
+  },
+  "seed": 1310,
+  "output": "work/plates/AID_tower.png",
+  "status": "downloaded",
+  "request_id": "01a1d90d-af9b-7b13-b590-11808964eb13",
+  "elapsed_seconds": 22.04,
+  "timings": {
+    "prompt_expansion": 6.320000466075726e-06,
+    "inference": 0.5262722379993647,
+    "safety_checker": 0.012289570000575623
+  },
+  "width": 1024,
+  "height": 512
+}

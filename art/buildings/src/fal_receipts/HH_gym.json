@@ -1,0 +1,23 @@
+{
+  "id": "HH_gym",
+  "provider": "fal.ai",
+  "model": "blackforestlabs/flux-3/klein/text-to-image",
+  "prompt": "The inside wall of a 1930 school gymnasium seen straight on: pale cream painted brick lower wall with a dark green painted dado band at the bottom, a row of high wide multi-pane clerestory windows along the top third, wooden wall bars, a faded school pennant, varnished wood trim. Straight-on flat orthographic elevation, no perspective, the wall fills the entire image edge to edge, no sky, no ground, no background, no people, no vehicles. Hand-painted stylized texture in classic early World of Warcraft art style: chunky bold window frames and sills, painted ambient occlusion under cornices, warm light at the top and cooler darker base, restrained brush texture, grime streaks under sills. 1930 Hollywood.",
+  "references": [],
+  "image_size": {
+    "width": 1024,
+    "height": 512
+  },
+  "seed": 1302,
+  "output": "work/plates/HH_gym.png",
+  "status": "downloaded",
+  "request_id": "01a1d90e-2535-71f2-96c8-593ac0b59f37",
+  "elapsed_seconds": 14.52,
+  "timings": {
+    "prompt_expansion": 6.690000191156287e-06,
+    "inference": 0.5641017640009522,
+    "safety_checker": 0.014352948001032928
+  },
+  "width": 1024,
+  "height": 512
+}

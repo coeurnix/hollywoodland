@@ -3,7 +3,7 @@
   "units": "meters",
   "up": "+Z",
   "front": "-Y",
-  "texture_sets": 31,
+  "texture_sets": 33,
   "atlases": {
     "ATL_BRK": {
       "texture": "textures/T_ATL_BRK.png",
@@ -29,6 +29,14 @@
       "texture": "textures/T_ATL_MSN.png",
       "emissive": null,
       "method": "Option B"
+    },
+    "ATL_HH": {
+      "texture": "textures/T_ATL_HH.png",
+      "emissive": null
+    },
+    "ATL_AID": {
+      "texture": "textures/T_ATL_AID.png",
+      "emissive": null
     }
   },
   "tileables": {
@@ -9401,6 +9409,215 @@
       "also_fits": [],
       "recess": [],
       "quest_object": null
+    },
+    {
+      "id": "LM_HollywoodHigh",
+      "kind": "landmark",
+      "material": "M_ATL_HH",
+      "texture": "atlas:ATL_HH",
+      "emissive": null,
+      "nominal": [
+        66,
+        8,
+        9
+      ],
+      "origin": "footprint-centre-ground",
+      "file": "meshes/LM_HollywoodHigh.fbx",
+      "bounds": [
+        [
+          -33.0,
+          -4.000003,
+          0.0
+        ],
+        [
+          33.0,
+          4.000003,
+          9.0
+        ]
+      ],
+      "tris": 30,
+      "fits_box": "Hollywood High School",
+      "rodin": {
+        "used": false,
+        "method": "projection",
+        "detail": "FLUX Klein orthographic elevation plates planar-mapped onto a scripted block mass (src/block_building.py), no bake"
+      },
+      "concept": [
+        "src/concept_prompts/batch_plates_hh_aid.json"
+      ],
+      "notes": "North range of the gym U; front (-Y) faces Selma with the name frieze, back (+Y) is the gym's inside face with hive-infested corners. Wings: LM_HollywoodHigh_Wing.",
+      "also_fits": [],
+      "recess": [],
+      "quest_object": null
+    },
+    {
+      "id": "LM_HollywoodHigh_Wing",
+      "kind": "landmark",
+      "material": "M_ATL_HH",
+      "texture": "atlas:ATL_HH",
+      "emissive": null,
+      "nominal": [
+        8,
+        52,
+        9
+      ],
+      "origin": "footprint-centre-ground",
+      "file": "meshes/LM_HollywoodHigh_Wing.fbx",
+      "bounds": [
+        [
+          -4.000002,
+          -26.0,
+          0.0
+        ],
+        [
+          4.000002,
+          26.0,
+          9.0
+        ]
+      ],
+      "tris": 30,
+      "fits_box": null,
+      "also_fits": [
+        {
+          "size": [
+            8,
+            52,
+            9
+          ],
+          "mirror": true
+        }
+      ],
+      "rodin": {
+        "used": false,
+        "method": "projection",
+        "detail": "FLUX Klein orthographic elevation plates planar-mapped onto a scripted block mass (src/block_building.py), no bake"
+      },
+      "concept": [
+        "src/concept_prompts/batch_plates_hh_aid.json"
+      ],
+      "notes": "Side wing, front (-Y) abuts the north range (no face). -X face is the gym interior (place the west wing unmirrored with face N, the east one mirrored).",
+      "recess": [],
+      "quest_object": null
+    },
+    {
+      "id": "LM_ReceivingHospital",
+      "kind": "landmark",
+      "material": "M_ATL_AID",
+      "texture": "atlas:ATL_AID",
+      "emissive": null,
+      "nominal": [
+        24,
+        18,
+        8
+      ],
+      "origin": "footprint-centre-ground",
+      "file": "meshes/LM_ReceivingHospital.fbx",
+      "bounds": [
+        [
+          -12.000001,
+          -9.000001,
+          0.0
+        ],
+        [
+          12.000001,
+          9.000001,
+          8.0
+        ]
+      ],
+      "tris": 22,
+      "fits_box": "Hollywood Receiving Hospital",
+      "rodin": {
+        "used": false,
+        "method": "projection",
+        "detail": "FLUX Klein orthographic elevation plates planar-mapped onto a scripted block mass (src/block_building.py), no bake"
+      },
+      "concept": [
+        "src/concept_prompts/batch_plates_hh_aid.json"
+      ],
+      "notes": "Front N.",
+      "also_fits": [],
+      "recess": [],
+      "quest_object": null
+    },
+    {
+      "id": "LM_FireStation27",
+      "kind": "landmark",
+      "material": "M_ATL_AID",
+      "texture": "atlas:ATL_AID",
+      "emissive": null,
+      "nominal": [
+        24,
+        20,
+        9
+      ],
+      "origin": "footprint-centre-ground",
+      "file": "meshes/LM_FireStation27.fbx",
+      "bounds": [
+        [
+          -12.000001,
+          -10.000001,
+          0.0
+        ],
+        [
+          12.000001,
+          10.000001,
+          20.5
+        ]
+      ],
+      "tris": 32,
+      "fits_box": "Fire Station No. 27",
+      "rodin": {
+        "used": false,
+        "method": "projection",
+        "detail": "FLUX Klein orthographic elevation plates planar-mapped onto a scripted block mass (src/block_building.py), no bake"
+      },
+      "concept": [
+        "src/concept_prompts/batch_plates_hh_aid.json"
+      ],
+      "notes": "Faces W onto Cahuenga, so nominal is 24 across x 20 deep (the SPEC lists the box as w x d = 20 x 24). Hose tower above h at the rear.",
+      "also_fits": [],
+      "recess": [],
+      "quest_object": null
+    },
+    {
+      "id": "LM_BlessedSacrament",
+      "kind": "landmark",
+      "material": "M_ATL_AID",
+      "texture": "atlas:ATL_AID",
+      "emissive": null,
+      "nominal": [
+        26,
+        30,
+        12
+      ],
+      "origin": "footprint-centre-ground",
+      "file": "meshes/LM_BlessedSacrament.fbx",
+      "bounds": [
+        [
+          -13.299999,
+          -15.300001,
+          0.0
+        ],
+        [
+          13.000001,
+          15.000001,
+          27.0
+        ]
+      ],
+      "tris": 36,
+      "fits_box": "Blessed Sacrament Church",
+      "rodin": {
+        "used": false,
+        "method": "projection",
+        "detail": "FLUX Klein orthographic elevation plates planar-mapped onto a scripted block mass (src/block_building.py), no bake"
+      },
+      "concept": [
+        "src/concept_prompts/batch_plates_hh_aid.json"
+      ],
+      "notes": "Front N; gable roof and bell tower above h (SPEC allows the tower).",
+      "also_fits": [],
+      "recess": [],
+      "quest_object": null
     }
   ],
   "signs": [
@@ -17043,7 +17260,14 @@
     "textures/T_HV_WallSeg.png",
     "meshes/HV_WallSeg_Outer.fbx",
     "meshes/HV_WallEnd.fbx",
-    "textures/T_HV_WallEnd.png"
+    "textures/T_HV_WallEnd.png",
+    "meshes/LM_HollywoodHigh.fbx",
+    "textures/T_ATL_HH.png",
+    "meshes/LM_HollywoodHigh_Wing.fbx",
+    "meshes/LM_ReceivingHospital.fbx",
+    "textures/T_ATL_AID.png",
+    "meshes/LM_FireStation27.fbx",
+    "meshes/LM_BlessedSacrament.fbx"
   ],
   "integration_notes": [
     "Phase2 neutral atlas was repacked to prioritize legible notice lettering. Reimport all19 RF_/DR_ meshes together with T_ATL_NEUTRAL.png."
@@ -17061,6 +17285,8 @@
   },
   "texture_sets_added_2026_11_13": [
     "textures/T_HV_WallEnd.png",
-    "textures/T_HV_WallSeg.png"
+    "textures/T_HV_WallSeg.png",
+    "textures/T_ATL_AID.png",
+    "textures/T_ATL_HH.png"
   ]
 }

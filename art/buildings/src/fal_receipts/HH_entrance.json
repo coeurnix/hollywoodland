@@ -1,0 +1,23 @@
+{
+  "id": "HH_entrance",
+  "provider": "fal.ai",
+  "model": "blackforestlabs/flux-3/klein/text-to-image",
+  "prompt": "The central entrance section of a 1930 Hollywood High School building, Classical Moderne: sepia-red brick with cream cast-stone trim, four tall fluted cast-stone pilasters framing a big double doorway with dark wooden doors at the bottom centre and three wide stone steps, a cast-stone frieze band near the top with raised lettering HOLLYWOOD HIGH SCHOOL, a heavy cream cornice along the top edge, tall multi-pane dark glass windows between the pilasters, a few windows boarded with planks. Straight-on flat orthographic elevation, no perspective, the wall fills the entire image edge to edge, no sky, no ground, no background, no people, no vehicles. Hand-painted stylized texture in classic early World of Warcraft art style: chunky bold window frames and sills, painted ambient occlusion under cornices, warm light at the top and cooler darker base, restrained brush texture, grime streaks under sills. 1930 Hollywood.",
+  "references": [],
+  "image_size": {
+    "width": 1024,
+    "height": 512
+  },
+  "seed": 1300,
+  "output": "work/plates/HH_entrance.png",
+  "status": "downloaded",
+  "request_id": "01a1d90d-4e1d-7d03-91e6-34797987261f",
+  "elapsed_seconds": 26.42,
+  "timings": {
+    "prompt_expansion": 6.6700004026643e-06,
+    "inference": 0.5285628860001452,
+    "safety_checker": 0.013076279999950202
+  },
+  "width": 1024,
+  "height": 512
+}

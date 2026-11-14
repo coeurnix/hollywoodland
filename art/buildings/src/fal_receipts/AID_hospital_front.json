@@ -1,0 +1,23 @@
+{
+  "id": "AID_hospital_front",
+  "provider": "fal.ai",
+  "model": "blackforestlabs/flux-3/klein/text-to-image",
+  "prompt": "The front of the 1930 Hollywood Receiving Hospital, a small civic aid station: white stucco Spanish Colonial walls, a central pair of wide dark-green ambulance doors under a cream arch, a red cross painted on a white sign panel above the doors, a red-cross lamp beside the door, arched windows with dark-green shutters on either side, red terracotta tile coping along the top edge, sandbags at the base. Straight-on flat orthographic elevation, no perspective, the wall fills the entire image edge to edge, no sky, no ground, no background, no people, no vehicles. Hand-painted stylized texture in classic early World of Warcraft art style: chunky bold window frames and sills, painted ambient occlusion under cornices, warm light at the top and cooler darker base, restrained brush texture, grime streaks under sills. 1930 Hollywood.",
+  "references": [],
+  "image_size": {
+    "width": 1024,
+    "height": 512
+  },
+  "seed": 1306,
+  "output": "work/plates/AID_hospital_front.png",
+  "status": "downloaded",
+  "request_id": "01a1d90d-4e1c-7490-afc0-c656a9264c0f",
+  "elapsed_seconds": 25.07,
+  "timings": {
+    "prompt_expansion": 4.876999994962716e-06,
+    "inference": 1.4415405489999102,
+    "safety_checker": 0.012634929000341799
+  },
+  "width": 1024,
+  "height": 512
+}

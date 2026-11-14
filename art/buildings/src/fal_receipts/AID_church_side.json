@@ -1,0 +1,23 @@
+{
+  "id": "AID_church_side",
+  "provider": "fal.ai",
+  "model": "blackforestlabs/flux-3/klein/text-to-image",
+  "prompt": "The side wall of a 1930 Spanish Renaissance church: cream stucco, tall round-arched stained glass windows in a row with deep reveals, buttress piers between them, a red terracotta tile eave along the top edge. Straight-on flat orthographic elevation, no perspective, the wall fills the entire image edge to edge, no sky, no ground, no background, no people, no vehicles. Hand-painted stylized texture in classic early World of Warcraft art style: chunky bold window frames and sills, painted ambient occlusion under cornices, warm light at the top and cooler darker base, restrained brush texture, grime streaks under sills. 1930 Hollywood.",
+  "references": [],
+  "image_size": {
+    "width": 1024,
+    "height": 512
+  },
+  "seed": 1312,
+  "output": "work/plates/AID_church_side.png",
+  "status": "downloaded",
+  "request_id": "01a1d90d-b511-7923-880b-2d5c0b638478",
+  "elapsed_seconds": 21.85,
+  "timings": {
+    "prompt_expansion": 7.229999994251557e-06,
+    "inference": 0.553143884999372,
+    "safety_checker": 0.01261248499940848
+  },
+  "width": 1024,
+  "height": 512
+}

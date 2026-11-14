@@ -1,0 +1,142 @@
+[
+ {
+  "id": "HH_entrance",
+  "output": "work/plates/HH_entrance.png",
+  "image_size": {
+   "width": 1024,
+   "height": 512
+  },
+  "seed": 1300,
+  "prompt": "The central entrance section of a 1930 Hollywood High School building, Classical Moderne: sepia-red brick with cream cast-stone trim, four tall fluted cast-stone pilasters framing a big double doorway with dark wooden doors at the bottom centre and three wide stone steps, a cast-stone frieze band near the top with raised lettering HOLLYWOOD HIGH SCHOOL, a heavy cream cornice along the top edge, tall multi-pane dark glass windows between the pilasters, a few windows boarded with planks. Straight-on flat orthographic elevation, no perspective, the wall fills the entire image edge to edge, no sky, no ground, no background, no people, no vehicles. Hand-painted stylized texture in classic early World of Warcraft art style: chunky bold window frames and sills, painted ambient occlusion under cornices, warm light at the top and cooler darker base, restrained brush texture, grime streaks under sills. 1930 Hollywood."
+ },
+ {
+  "id": "HH_bay",
+  "output": "work/plates/HH_bay.png",
+  "image_size": {
+   "width": 1024,
+   "height": 512
+  },
+  "seed": 1301,
+  "prompt": "A repeating two-storey window bay of a 1930 brick school building, Classical Moderne: sepia-red brick, rows of tall multi-pane windows with bold cream cast-stone sills and lintels, two rows of windows, slim brick piers between them, a heavy cream cornice band along the top edge, a cream stone base course along the bottom, a couple of windows taped with crosses. Straight-on flat orthographic elevation, no perspective, the wall fills the entire image edge to edge, no sky, no ground, no background, no people, no vehicles. Hand-painted stylized texture in classic early World of Warcraft art style: chunky bold window frames and sills, painted ambient occlusion under cornices, warm light at the top and cooler darker base, restrained brush texture, grime streaks under sills. 1930 Hollywood."
+ },
+ {
+  "id": "HH_gym",
+  "output": "work/plates/HH_gym.png",
+  "image_size": {
+   "width": 1024,
+   "height": 512
+  },
+  "seed": 1302,
+  "prompt": "The inside wall of a 1930 school gymnasium seen straight on: pale cream painted brick lower wall with a dark green painted dado band at the bottom, a row of high wide multi-pane clerestory windows along the top third, wooden wall bars, a faded school pennant, varnished wood trim. Straight-on flat orthographic elevation, no perspective, the wall fills the entire image edge to edge, no sky, no ground, no background, no people, no vehicles. Hand-painted stylized texture in classic early World of Warcraft art style: chunky bold window frames and sills, painted ambient occlusion under cornices, warm light at the top and cooler darker base, restrained brush texture, grime streaks under sills. 1930 Hollywood."
+ },
+ {
+  "id": "HH_gym_hive",
+  "output": "work/plates/HH_gym_hive.png",
+  "image_size": {
+   "width": 1024,
+   "height": 512
+  },
+  "seed": 1303,
+  "prompt": "The inside wall of a 1930 school gymnasium seen straight on: pale cream painted brick with a dark green dado band and high clerestory windows, overgrown by an alien infestation: glossy purple-black resin with glowing amber veins creeping up from the floor corners and across the wall, clusters of glossy eggs in the lower corners. Straight-on flat orthographic elevation, no perspective, the wall fills the entire image edge to edge, no sky, no ground, no background, no people, no vehicles. Hand-painted stylized texture in classic early World of Warcraft art style: chunky bold window frames and sills, painted ambient occlusion under cornices, warm light at the top and cooler darker base, restrained brush texture, grime streaks under sills. 1930 Hollywood."
+ },
+ {
+  "id": "HH_end",
+  "output": "work/plates/HH_end.png",
+  "image_size": {
+   "width": 1024,
+   "height": 512
+  },
+  "seed": 1304,
+  "prompt": "The narrow end wall of a 1930 brick school wing: sepia-red brick, one tall column of multi-pane windows with bold cream cast-stone sills in the middle, cream stone quoins at both edges, a heavy cream cornice band along the top edge, a cream stone base course. Straight-on flat orthographic elevation, no perspective, the wall fills the entire image edge to edge, no sky, no ground, no background, no people, no vehicles. Hand-painted stylized texture in classic early World of Warcraft art style: chunky bold window frames and sills, painted ambient occlusion under cornices, warm light at the top and cooler darker base, restrained brush texture, grime streaks under sills. 1930 Hollywood."
+ },
+ {
+  "id": "HH_roof",
+  "output": "work/plates/HH_roof.png",
+  "image_size": {
+   "width": 1024,
+   "height": 512
+  },
+  "seed": 1305,
+  "prompt": "Top-down view of a flat tar-and-gravel school roof: grey-brown gravel with tar seams, a few vents and patches, painted texture, fills the frame, no edges visible. Hand-painted stylized classic early World of Warcraft texture, no perspective."
+ },
+ {
+  "id": "AID_hospital_front",
+  "output": "work/plates/AID_hospital_front.png",
+  "image_size": {
+   "width": 1024,
+   "height": 512
+  },
+  "seed": 1306,
+  "prompt": "The front of the 1930 Hollywood Receiving Hospital, a small civic aid station: white stucco Spanish Colonial walls, a central pair of wide dark-green ambulance doors under a cream arch, a red cross painted on a white sign panel above the doors, a red-cross lamp beside the door, arched windows with dark-green shutters on either side, red terracotta tile coping along the top edge, sandbags at the base. Straight-on flat orthographic elevation, no perspective, the wall fills the entire image edge to edge, no sky, no ground, no background, no people, no vehicles. Hand-painted stylized texture in classic early World of Warcraft art style: chunky bold window frames and sills, painted ambient occlusion under cornices, warm light at the top and cooler darker base, restrained brush texture, grime streaks under sills. 1930 Hollywood."
+ },
+ {
+  "id": "AID_hospital_side",
+  "output": "work/plates/AID_hospital_side.png",
+  "image_size": {
+   "width": 1024,
+   "height": 512
+  },
+  "seed": 1307,
+  "prompt": "The side wall of a 1930 white stucco civic hospital: white stucco, a row of arched windows with dark-green shutters and wrought-iron grilles, red terracotta tile coping along the top edge, grime streaks. Straight-on flat orthographic elevation, no perspective, the wall fills the entire image edge to edge, no sky, no ground, no background, no people, no vehicles. Hand-painted stylized texture in classic early World of Warcraft art style: chunky bold window frames and sills, painted ambient occlusion under cornices, warm light at the top and cooler darker base, restrained brush texture, grime streaks under sills. 1930 Hollywood."
+ },
+ {
+  "id": "AID_fire_front",
+  "output": "work/plates/AID_fire_front.png",
+  "image_size": {
+   "width": 1024,
+   "height": 512
+  },
+  "seed": 1308,
+  "prompt": "The front of 1930 Fire Station No. 27 in Hollywood: sepia-red brick firehouse, two very large bright red wooden engine doors with small window panes side by side at the bottom, a cream cast-stone band above them with the lettering FIRE STATION No 27, a row of upper windows with cream sills, a heavy cream cornice along the top edge. Straight-on flat orthographic elevation, no perspective, the wall fills the entire image edge to edge, no sky, no ground, no background, no people, no vehicles. Hand-painted stylized texture in classic early World of Warcraft art style: chunky bold window frames and sills, painted ambient occlusion under cornices, warm light at the top and cooler darker base, restrained brush texture, grime streaks under sills. 1930 Hollywood."
+ },
+ {
+  "id": "AID_fire_side",
+  "output": "work/plates/AID_fire_side.png",
+  "image_size": {
+   "width": 1024,
+   "height": 512
+  },
+  "seed": 1309,
+  "prompt": "The side wall of a 1930 brick firehouse: sepia-red brick, a row of upper multi-pane windows with cream stone sills, a small side door, cream stone base course, cornice band along the top edge. Straight-on flat orthographic elevation, no perspective, the wall fills the entire image edge to edge, no sky, no ground, no background, no people, no vehicles. Hand-painted stylized texture in classic early World of Warcraft art style: chunky bold window frames and sills, painted ambient occlusion under cornices, warm light at the top and cooler darker base, restrained brush texture, grime streaks under sills. 1930 Hollywood."
+ },
+ {
+  "id": "AID_tower",
+  "output": "work/plates/AID_tower.png",
+  "image_size": {
+   "width": 1024,
+   "height": 512
+  },
+  "seed": 1310,
+  "prompt": "One face of a tall narrow brick hose-drying tower of a 1930 fire station: sepia-red brick, narrow slit windows stacked vertically, cream stone bands, small arched louvred openings at the top. Straight-on flat orthographic elevation, no perspective, the wall fills the entire image edge to edge, no sky, no ground, no background, no people, no vehicles. Hand-painted stylized texture in classic early World of Warcraft art style: chunky bold window frames and sills, painted ambient occlusion under cornices, warm light at the top and cooler darker base, restrained brush texture, grime streaks under sills. 1930 Hollywood."
+ },
+ {
+  "id": "AID_church_front",
+  "output": "work/plates/AID_church_front.png",
+  "image_size": {
+   "width": 1024,
+   "height": 512
+  },
+  "seed": 1311,
+  "prompt": "The front of the 1930 Blessed Sacrament Church in Hollywood, Spanish Renaissance: cream stucco and carved cast stone, a big round-arched carved stone portal with dark wooden double doors at the bottom centre, a large rose window above it, ornate carved stone pilasters and scrollwork, a stepped curved Spanish gable parapet along the top. Straight-on flat orthographic elevation, no perspective, the wall fills the entire image edge to edge, no sky, no ground, no background, no people, no vehicles. Hand-painted stylized texture in classic early World of Warcraft art style: chunky bold window frames and sills, painted ambient occlusion under cornices, warm light at the top and cooler darker base, restrained brush texture, grime streaks under sills. 1930 Hollywood."
+ },
+ {
+  "id": "AID_church_side",
+  "output": "work/plates/AID_church_side.png",
+  "image_size": {
+   "width": 1024,
+   "height": 512
+  },
+  "seed": 1312,
+  "prompt": "The side wall of a 1930 Spanish Renaissance church: cream stucco, tall round-arched stained glass windows in a row with deep reveals, buttress piers between them, a red terracotta tile eave along the top edge. Straight-on flat orthographic elevation, no perspective, the wall fills the entire image edge to edge, no sky, no ground, no background, no people, no vehicles. Hand-painted stylized texture in classic early World of Warcraft art style: chunky bold window frames and sills, painted ambient occlusion under cornices, warm light at the top and cooler darker base, restrained brush texture, grime streaks under sills. 1930 Hollywood."
+ },
+ {
+  "id": "AID_roof_tile",
+  "output": "work/plates/AID_roof_tile.png",
+  "image_size": {
+   "width": 1024,
+   "height": 512
+  },
+  "seed": 1313,
+  "prompt": "Top-down view of red Spanish terracotta barrel roof tiles in neat rows, warm terracotta with painted weathering, fills the frame edge to edge. Hand-painted stylized classic early World of Warcraft texture, no perspective."
+ }
+]

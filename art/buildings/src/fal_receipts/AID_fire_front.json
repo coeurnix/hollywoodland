@@ -1,0 +1,23 @@
+{
+  "id": "AID_fire_front",
+  "provider": "fal.ai",
+  "model": "blackforestlabs/flux-3/klein/text-to-image",
+  "prompt": "The front of 1930 Fire Station No. 27 in Hollywood: sepia-red brick firehouse, two very large bright red wooden engine doors with small window panes side by side at the bottom, a cream cast-stone band above them with the lettering FIRE STATION No 27, a row of upper windows with cream sills, a heavy cream cornice along the top edge. Straight-on flat orthographic elevation, no perspective, the wall fills the entire image edge to edge, no sky, no ground, no background, no people, no vehicles. Hand-painted stylized texture in classic early World of Warcraft art style: chunky bold window frames and sills, painted ambient occlusion under cornices, warm light at the top and cooler darker base, restrained brush texture, grime streaks under sills. 1930 Hollywood.",
+  "references": [],
+  "image_size": {
+    "width": 1024,
+    "height": 512
+  },
+  "seed": 1308,
+  "output": "work/plates/AID_fire_front.png",
+  "status": "downloaded",
+  "request_id": "01a1d90d-4e1a-7cb1-8548-afa8e8c9f2e6",
+  "elapsed_seconds": 24.28,
+  "timings": {
+    "prompt_expansion": 6.710000008069983e-06,
+    "inference": 1.3340753320007934,
+    "safety_checker": 0.012987135000003036
+  },
+  "width": 1024,
+  "height": 512
+}

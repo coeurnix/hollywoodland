@@ -26,8 +26,8 @@ Check the landmarks with `hollywoodland-ue\Scripts\RunNative.ps1 -HLAuto=veteran
 | §8.4 hive kit | spires, egg clusters, egg sac, growth | **covered** (`art/enemies/HiveStructures`, `SK_HiveEggSac`) |
 | | `HV_WallSeg` (8×18×16 m, tiling), `HV_WallEnd`, `HV_WallSeg_Outer` (26 m) | **done 2026-11-13** (Rodin full generation, `preview/HV_kit_contact.png`); placed by `hiveRun()` in `zone.mjs` (224 + 318 segments, 8 end posts). Not yet imported/screenshotted: see the session notes below |
 | §7.1 remaining landmarks | Max Factor, Gun Shop, Haberdashery | currently kit storefronts + sign props: acceptable, upgrade optional |
-| | `LM_HollywoodHigh` (66×8×9 north range) + `LM_HollywoodHigh_Wing` (8×52×9, mirrored) | **needed** (boxes at `zone.mjs` "Hollywood High") |
-| | aid stations: Receiving Hospital, Fire Station No. 27, Blessed Sacrament church | **needed** (labelled boxes; see `zone.mjs` "Aid stations") |
+| | `LM_HollywoodHigh` (66×8×9 north range) + `LM_HollywoodHigh_Wing` (8×52×9, mirrored) | **done 2026-11-14**: blocks + FLUX plates on `ATL_HH` (gym inside faces, hive corners), placed with `LM()`; `preview/CIVIC_contact.png` |
+| | aid stations: Receiving Hospital, Fire Station No. 27, Blessed Sacrament church | **done 2026-11-14**: blocks + FLUX plates sharing `ATL_AID`, placed with `LM()` |
 | §7.3 backdrops | 10 low-budget studio/landmark masses beyond the hive wall (Bowl, Paramount, Columbia, RKO, Chaplin, Poverty Row, Christie, cemetery, La Brea ×2) | **needed**; seen from 100–400 m: silhouette and colour only |
 | §11.1 Egyptian dungeon | dressed by the `art/world` Egyptian kit (sphinxes, columns, seats, stage, projector) | wall shells are still boxes: `EGY` wall panel / pylon doorway modules wanted |
 | §11.2 ballroom courtyard | the hotel's courtyard now has its landmark wings | bandstand, 6 tables (art/props has ballroom furniture and a chandelier) |

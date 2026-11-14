@@ -1,0 +1,23 @@
+{
+  "id": "AID_roof_tile",
+  "provider": "fal.ai",
+  "model": "blackforestlabs/flux-3/klein/text-to-image",
+  "prompt": "Top-down view of red Spanish terracotta barrel roof tiles in neat rows, warm terracotta with painted weathering, fills the frame edge to edge. Hand-painted stylized classic early World of Warcraft texture, no perspective.",
+  "references": [],
+  "image_size": {
+    "width": 1024,
+    "height": 512
+  },
+  "seed": 1313,
+  "output": "work/plates/AID_roof_tile.png",
+  "status": "downloaded",
+  "request_id": "01a1d90d-b501-7fd0-a99b-2bdc9453f6c7",
+  "elapsed_seconds": 20.81,
+  "timings": {
+    "prompt_expansion": 7.749999994643986e-06,
+    "inference": 0.5771886030015594,
+    "safety_checker": 0.013259921997814672
+  },
+  "width": 1024,
+  "height": 512
+}

@@ -1,0 +1,23 @@
+{
+  "id": "AID_fire_side",
+  "provider": "fal.ai",
+  "model": "blackforestlabs/flux-3/klein/text-to-image",
+  "prompt": "The side wall of a 1930 brick firehouse: sepia-red brick, a row of upper multi-pane windows with cream stone sills, a small side door, cream stone base course, cornice band along the top edge. Straight-on flat orthographic elevation, no perspective, the wall fills the entire image edge to edge, no sky, no ground, no background, no people, no vehicles. Hand-painted stylized texture in classic early World of Warcraft art style: chunky bold window frames and sills, painted ambient occlusion under cornices, warm light at the top and cooler darker base, restrained brush texture, grime streaks under sills. 1930 Hollywood.",
+  "references": [],
+  "image_size": {
+    "width": 1024,
+    "height": 512
+  },
+  "seed": 1309,
+  "output": "work/plates/AID_fire_side.png",
+  "status": "downloaded",
+  "request_id": "01a1d90d-acaf-7163-a518-e8aaf61c0dd0",
+  "elapsed_seconds": 22.11,
+  "timings": {
+    "prompt_expansion": 6.749999556632247e-06,
+    "inference": 0.5774313870006154,
+    "safety_checker": 0.014231703000405105
+  },
+  "width": 1024,
+  "height": 512
+}

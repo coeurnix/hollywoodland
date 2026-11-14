@@ -1,0 +1,23 @@
+{
+  "id": "HH_bay",
+  "provider": "fal.ai",
+  "model": "blackforestlabs/flux-3/klein/text-to-image",
+  "prompt": "A repeating two-storey window bay of a 1930 brick school building, Classical Moderne: sepia-red brick, rows of tall multi-pane windows with bold cream cast-stone sills and lintels, two rows of windows, slim brick piers between them, a heavy cream cornice band along the top edge, a cream stone base course along the bottom, a couple of windows taped with crosses. Straight-on flat orthographic elevation, no perspective, the wall fills the entire image edge to edge, no sky, no ground, no background, no people, no vehicles. Hand-painted stylized texture in classic early World of Warcraft art style: chunky bold window frames and sills, painted ambient occlusion under cornices, warm light at the top and cooler darker base, restrained brush texture, grime streaks under sills. 1930 Hollywood.",
+  "references": [],
+  "image_size": {
+    "width": 1024,
+    "height": 512
+  },
+  "seed": 1301,
+  "output": "work/plates/HH_bay.png",
+  "status": "downloaded",
+  "request_id": "01a1d90d-4e1c-7822-bb37-2d3657088b82",
+  "elapsed_seconds": 25.38,
+  "timings": {
+    "prompt_expansion": 7.030000233498868e-06,
+    "inference": 0.5854332790004264,
+    "safety_checker": 0.01407964500322123
+  },
+  "width": 1024,
+  "height": 512
+}

@@ -1,0 +1,23 @@
+{
+  "id": "AID_church_front",
+  "provider": "fal.ai",
+  "model": "blackforestlabs/flux-3/klein/text-to-image",
+  "prompt": "The front of the 1930 Blessed Sacrament Church in Hollywood, Spanish Renaissance: cream stucco and carved cast stone, a big round-arched carved stone portal with dark wooden double doors at the bottom centre, a large rose window above it, ornate carved stone pilasters and scrollwork, a stepped curved Spanish gable parapet along the top. Straight-on flat orthographic elevation, no perspective, the wall fills the entire image edge to edge, no sky, no ground, no background, no people, no vehicles. Hand-painted stylized texture in classic early World of Warcraft art style: chunky bold window frames and sills, painted ambient occlusion under cornices, warm light at the top and cooler darker base, restrained brush texture, grime streaks under sills. 1930 Hollywood.",
+  "references": [],
+  "image_size": {
+    "width": 1024,
+    "height": 512
+  },
+  "seed": 1311,
+  "output": "work/plates/AID_church_front.png",
+  "status": "downloaded",
+  "request_id": "01a1d90d-b0dc-7ec2-b918-aa37174212bf",
+  "elapsed_seconds": 21.99,
+  "timings": {
+    "prompt_expansion": 6.799999994200334e-06,
+    "inference": 0.5445811030003824,
+    "safety_checker": 0.015548888000921579
+  },
+  "width": 1024,
+  "height": 512
+}

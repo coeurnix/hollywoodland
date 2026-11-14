@@ -3812,6 +3812,66 @@
    "tris": 1454,
    "origin": "ground-centre",
    "attachments": []
+  },
+  "LM_HollywoodHigh": {
+   "mesh": "/Game/Buildings/SM_LM_HollywoodHigh.SM_LM_HollywoodHigh",
+   "kind": "landmark",
+   "nominal": [
+    66,
+    8,
+    9
+   ],
+   "tris": 30,
+   "origin": "footprint-centre-ground",
+   "attachments": []
+  },
+  "LM_HollywoodHigh_Wing": {
+   "mesh": "/Game/Buildings/SM_LM_HollywoodHigh_Wing.SM_LM_HollywoodHigh_Wing",
+   "kind": "landmark",
+   "nominal": [
+    8,
+    52,
+    9
+   ],
+   "tris": 30,
+   "origin": "footprint-centre-ground",
+   "attachments": []
+  },
+  "LM_ReceivingHospital": {
+   "mesh": "/Game/Buildings/SM_LM_ReceivingHospital.SM_LM_ReceivingHospital",
+   "kind": "landmark",
+   "nominal": [
+    24,
+    18,
+    8
+   ],
+   "tris": 22,
+   "origin": "footprint-centre-ground",
+   "attachments": []
+  },
+  "LM_FireStation27": {
+   "mesh": "/Game/Buildings/SM_LM_FireStation27.SM_LM_FireStation27",
+   "kind": "landmark",
+   "nominal": [
+    24,
+    20,
+    9
+   ],
+   "tris": 32,
+   "origin": "footprint-centre-ground",
+   "attachments": []
+  },
+  "LM_BlessedSacrament": {
+   "mesh": "/Game/Buildings/SM_LM_BlessedSacrament.SM_LM_BlessedSacrament",
+   "kind": "landmark",
+   "nominal": [
+    26,
+    30,
+    12
+   ],
+   "tris": 36,
+   "origin": "footprint-centre-ground",
+   "attachments": []
   }
  },
  "recipes": {

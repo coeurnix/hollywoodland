@@ -1,0 +1,23 @@
+{
+  "id": "AID_hospital_side",
+  "provider": "fal.ai",
+  "model": "blackforestlabs/flux-3/klein/text-to-image",
+  "prompt": "The side wall of a 1930 white stucco civic hospital: white stucco, a row of arched windows with dark-green shutters and wrought-iron grilles, red terracotta tile coping along the top edge, grime streaks. Straight-on flat orthographic elevation, no perspective, the wall fills the entire image edge to edge, no sky, no ground, no background, no people, no vehicles. Hand-painted stylized texture in classic early World of Warcraft art style: chunky bold window frames and sills, painted ambient occlusion under cornices, warm light at the top and cooler darker base, restrained brush texture, grime streaks under sills. 1930 Hollywood.",
+  "references": [],
+  "image_size": {
+    "width": 1024,
+    "height": 512
+  },
+  "seed": 1307,
+  "output": "work/plates/AID_hospital_side.png",
+  "status": "downloaded",
+  "request_id": "01a1d90d-4e1c-77d2-a53f-be722da340ff",
+  "elapsed_seconds": 26.5,
+  "timings": {
+    "prompt_expansion": 6.178999996109269e-06,
+    "inference": 1.4511709969992808,
+    "safety_checker": 0.013294542999574332
+  },
+  "width": 1024,
+  "height": 512
+}

@@ -1,0 +1,23 @@
+{
+  "id": "HH_roof",
+  "provider": "fal.ai",
+  "model": "blackforestlabs/flux-3/klein/text-to-image",
+  "prompt": "Top-down view of a flat tar-and-gravel school roof: grey-brown gravel with tar seams, a few vents and patches, painted texture, fills the frame, no edges visible. Hand-painted stylized classic early World of Warcraft texture, no perspective.",
+  "references": [],
+  "image_size": {
+    "width": 1024,
+    "height": 512
+  },
+  "seed": 1305,
+  "output": "work/plates/HH_roof.png",
+  "status": "downloaded",
+  "request_id": "01a1d90e-253d-7d73-9c25-7b5aa77f8682",
+  "elapsed_seconds": 13.68,
+  "timings": {
+    "prompt_expansion": 6.520000169984996e-06,
+    "inference": 0.5977810439981113,
+    "safety_checker": 0.014835657002549851
+  },
+  "width": 1024,
+  "height": 512
+}

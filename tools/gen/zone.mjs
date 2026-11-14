@@ -164,9 +164,11 @@ props.push(...landmarkDeco('LM_Kiosk_Auction', 785.5, 211.8, 'N'));             
 LM(box(770, 268, 794, 298, 8, C.landmark, 'Brown Derby'), 'W', 'LM_BrownDerby');           // faces Vine: 30 m along it, 24 deep
 box(470, 248, 482, 250, 5, C.hive);                                                           // (decor) hive growth at the Egyptian door
 // Hollywood High (Sunset & Highland)
-box(196, 344, 262, 352, 9, C.civic, 'Hollywood High School'); box(196, 352, 204, 404, 9, C.civic); box(254, 352, 262, 404, 9, C.civic); // gym: open to the south
+LM(box(196, 344, 262, 352, 9, C.civic, 'Hollywood High School'), 'N', 'LM_HollywoodHigh');   // gym: open to the south
+LM(box(196, 352, 204, 404, 9, C.civic), 'N', 'LM_HollywoodHigh_Wing'); LM(box(254, 352, 262, 404, 9, C.civic), 'N', 'LM_HollywoodHigh_Wing', { mirror: true });
 // Aid stations and misc landmarks
-box(488, 300, 512, 318, 8, C.civic, 'Hollywood Receiving Hospital'); box(626, 256, 646, 280, 9, C.civic, 'Fire Station No. 27'); box(112, 440, 138, 470, 12, C.civic, 'Blessed Sacrament Church');
+LM(box(488, 300, 512, 318, 8, C.civic, 'Hollywood Receiving Hospital'), 'N', 'LM_ReceivingHospital'); LM(box(626, 256, 646, 280, 9, C.civic, 'Fire Station No. 27'), 'W', 'LM_FireStation27');
+LM(box(112, 440, 138, 470, 12, C.civic, 'Blessed Sacrament Church'), 'N', 'LM_BlessedSacrament');
 // Wrecks and cover in the back lots
 // wrecks: each prop is its own cover box (the scrap objects sit just south of them)
 const WRECKS = ['wreck_rusted', 'wreck_charred', 'truck_wrecked', 'wreck_van', 'wreck_newsreel', 'wreck_overturned', 'wreck_burned', 'wreck_hive_truck', 'truck_starlight_wreck'];
