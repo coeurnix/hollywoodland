@@ -6,10 +6,11 @@
 // Models (providers.js): Fireworks Rune makes the accept/decline/respond decisions and DeepSeek flash writes chat lines;
 // OpenAI (Decisions API, gpt-6.1-terra) answers a call when Fireworks is slow or down; gpt-6.1-sol does the hard jobs. The client stays playable when this
 // Worker fails: every failure returns {fallback:true} and the client uses its local corpus.
-import { SYSTEM_PROMPT, buildStateDoc, buildUserPrompt } from './prompt.js';
+import { SYSTEM_PROMPT, buildStateDoc, buildUserPrompt, PLAN_SYSTEM, buildPlanPrompt, MEMORY_SYSTEM, buildMemoryPrompt } from './prompt.js';
 import { decide, write, hard, sample, providerState } from './providers.js';
+import { attach as attachLore, toolsFor } from './lore.js';
 
-const LIMIT_PER_MIN = 20, LIMIT_PER_HOUR = 400, DAILY_BUDGET = 40000;
+const LIMIT_PER_MIN = 60, LIMIT_PER_HOUR = 2000, DAILY_BUDGET = 1000000; // (no budget cap wanted; the windows only stop runaway clients)
 const ORIGIN_OK = /^https:\/\/([a-z0-9-]+\.)*(itch\.zone|itch\.io|coeurnix\.workers\.dev)$|^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/;
 
 const rate = new Map(); // per-isolate fallback when the Durable Object is unavailable: session -> [timestamps]
@@ -95,9 +96,17 @@ async function runeDecide(env, req, meta) {
   const trig = req.trigger || {};
   for (const s of req.speakers) {
     const who = s.handle;
-    if (trig.kind === 'invite' || trig.kind === 'trade' || trig.kind === 'duel') {
+    if (req.kind === 'observe') {
+      // someone watching the player do something: say something, just react with the body, or pay no attention
+      questions.push({ id: `${s.persona}|react`, type: 'choice', text: `${who} can see what the player is doing. Given ${who}'s personality, mood and how busy they are, what does ${who} do?`,
+        choices: { comment: `${who} says something out loud about it`, emote: `${who} reacts without words (looks, laughs, waves, copies it)`, ignore: `${who} pays no attention or deliberately ignores it` } });
+      questions.push({ id: `${s.persona}|register`, type: 'choice', text: `If ${who} reacted, in what spirit?`,
+        choices: { amused: 'finds it funny', joins: 'joins in or plays along', puzzled: 'confused, asks what they are doing', annoyed: 'irritated or dismissive', kind: 'friendly or encouraging', teasing: 'teases them' } });
+    } else if (trig.kind === 'invite' || trig.kind === 'trade' || trig.kind === 'duel') {
       questions.push({ id: `${s.persona}|decision`, type: 'choice', text: `How does ${who} answer the player's ${trig.kind} request?`,
         choices: { accept: `${who} accepts`, decline: `${who} declines (busy, wrong level, not interested, about to log off)` } });
+    } else if (trig.kind === 'greet' || trig.kind === 'event') {
+      // (they speak: the game already chose them)
     } else if (trig.channel !== 'whisper' && trig.channel !== 'party') {
       // Whispers and party chat are always answered; open channels may be ignored.
       questions.push({ id: `${s.persona}|respond`, type: 'choice', text: `Does ${who} type a reply to this message?`,
@@ -129,9 +138,13 @@ function cleanText(t) {
 // replaced with a light in-character deflection.
 const BREAKS_ROLE = /\b(as an ai|an ai (model|assistant)|language model|ai[- ]simulated|simulated (player|character)|i'?m (just )?(an? )?(ai|npc|bot|program)\b|i am (just )?(an? )?(ai|npc|bot|program)\b|this is a single[- ]player game)/i;
 const DEFLECT = ['lol what', 'beep boop. no, im just slow', 'i wish, id level faster', 'rude', 'lol ok', 'sure buddy', 'haha no'];
-function stayInRole(actions) {
+const ASSISTANT_VOICE = /\b(as an ai\b|language model|i (cannot|can't) (assist|help) with|i'?m an ai assistant)/i;
+function stayInRole(actions, speakers) {
   for (const a of actions) {
-    if (a.chat && BREAKS_ROLE.test(a.chat.text)) a.chat.text = DEFLECT[Math.floor(Math.random() * DEFLECT.length)];
+    if (!a.chat) continue;
+    // a persona whose stance is "admit" may say so; nobody talks like an assistant
+    const stance = speakers && speakers.get(a.speaker)?.ai_stance;
+    if (ASSISTANT_VOICE.test(a.chat.text) || (stance !== 'admit' && BREAKS_ROLE.test(a.chat.text))) a.chat.text = DEFLECT[Math.floor(Math.random() * DEFLECT.length)];
   }
   return actions;
 }
@@ -147,8 +160,8 @@ function validate(req, raw, decisions) {
     const d = decisions[a.speaker] || {};
     const act = { speaker: a.speaker, delay_ms: Math.max(0, Math.min(15000, a.delay_ms | 0)), chat: null, emote: null, goal: null,
       bias: null, memory_add: [], liking_delta: d.liking_delta ?? Math.max(-2, Math.min(2, a.liking_delta | 0)),
-      decision: d.decision || null };
-    if (a.chat && d.respond !== 'ignore') {
+      decision: d.decision || null, react: d.react || null, register: d.register || null };
+    if (a.chat && d.respond !== 'ignore' && !(d.react && d.react !== 'comment')) {
       const text = cleanText(a.chat.text);
       if (text) act.chat = { channel: channels.has(a.chat.channel) ? a.chat.channel : (req.trigger?.channel || 'say'), text };
     }
@@ -164,10 +177,10 @@ function validate(req, raw, decisions) {
     if (!out.find((a) => a.speaker === s.persona)) {
       const d = decisions[s.persona] || {};
       out.push({ speaker: s.persona, delay_ms: 800, chat: null, emote: null, goal: null, bias: null, memory_add: [],
-        liking_delta: d.liking_delta ?? 0, decision: d.decision || null });
+        liking_delta: d.liking_delta ?? 0, decision: d.decision || null, react: d.react || null, register: d.register || null });
     }
   }
-  return stayInRole(out);
+  return stayInRole(out, speakers);
 }
 
 async function sim(request, env) {
@@ -177,14 +190,19 @@ async function sim(request, env) {
   if (!player) return json(request, { error: 'session', fallback: true }, 401);
   if (await limitedDO(env, req.session)) return json(request, { error: 'rate', fallback: true }, 429);
   if (!Array.isArray(req.speakers) || !req.speakers.length || req.speakers.length > 4) return json(request, { error: 'speakers' }, 400);
-  if (!['reply', 'decide', 'gossip'].includes(req.kind)) return json(request, { error: 'kind' }, 400);
+  if (!['reply', 'decide', 'gossip', 'observe', 'interpret', 'plan', 'consolidate'].includes(req.kind)) return json(request, { error: 'kind' }, 400);
+  req._now = Date.now(); req.v = req.v | 0;
   req._provider = req.provider && env.DEBUG_KEY && req.debug === env.DEBUG_KEY ? String(req.provider) : undefined;
   req.speakers = req.speakers.map((s) => ({ ...s, persona: String(s.persona), handle: String(s.handle || '?').slice(0, 24) }));
 
+  if (req.kind === 'interpret') return interpret(request, env, req);
+  if (req.kind === 'plan') return plan(request, env, req);
+  if (req.kind === 'consolidate') return consolidate(request, env, req);
+  attachLore(req);
   const t0 = Date.now();
   // the same census events within a 2-minute bucket (retries, the same events reaching several players) cost one LLM call
   let gossipKey = null;
-  if (req.kind === 'gossip' && env.HL_KV) {
+  if (req.kind === 'gossip' && env.HL_KV && req.v < 2) {
     const ev = JSON.stringify((req.context && req.context.events) || []);
     const h = [...new Uint8Array(await crypto.subtle.digest('SHA-1', new TextEncoder().encode(ev)))].slice(0, 8).map((b) => b.toString(16).padStart(2, '0')).join('');
     gossipKey = `gossip:${h}:${req.speakers.length}:${Math.floor(Date.now() / 120e3)}`;
@@ -202,12 +220,13 @@ async function sim(request, env) {
   let decisions = {};
   const meta = {};
   try {
-    if (req.kind !== 'gossip') decisions = await runeDecide(env, req, meta);
+    if (req.kind !== 'gossip' && !(req.trigger && req.trigger.kind === 'greet')) decisions = await runeDecide(env, req, meta);
   } catch (e) { console.log('decide failed', String(e)); }
   const tRune = Date.now() - t0;
 
   // Everyone ignores: no LLM call needed.
-  if (req.kind === 'reply' && req.speakers.every((s) => decisions[s.persona]?.respond === 'ignore')) {
+  if ((req.kind === 'reply' && req.speakers.every((s) => decisions[s.persona]?.respond === 'ignore')) ||
+    (req.kind === 'observe' && req.speakers.every((s) => decisions[s.persona]?.react !== 'comment'))) {
     return json(request, { id: req.id, actions: validate(req, { actions: [] }, decisions), ms: { rune: tRune, llm: 0 }, via: meta });
   }
   try {
@@ -225,6 +244,55 @@ async function sim(request, env) {
     // Decisions still stand; the client fills the line from its corpus.
     return json(request, { id: req.id, actions: validate(req, { actions: [] }, decisions), fallback: true });
   }
+}
+
+// ---- interpret: what did the player mean in party chat? Typed questions only (no writing model), so it is fast.
+const INTENTS = { attack: 'tells the group to attack or focus a particular enemy', wait: 'asks the group to wait, stop or not pull yet', go: 'says they are ready, or tells the group to go or pull now',
+  heal: 'asks for healing or says they are about to die', follow: 'asks the others to follow or come to them', rest: 'calls for a break to eat, drink or recover', run: 'tells the group to run away or retreat',
+  loot: 'talks about loot or who should take an item', thanks: 'thanks or praises someone', sorry: 'apologises for a mistake', blame: 'complains about or blames someone',
+  question: 'asks a question about the game or the plan', bye: 'says they are leaving', banter: 'small talk, a joke, or anything else' };
+async function interpret(request, env, req) {
+  const c = req.context || {}, text = String(req.trigger?.text || '').slice(0, 240);
+  const members = (Array.isArray(c.members) ? c.members : []).slice(0, 5).map((m) => String(m).slice(0, 24));
+  const targets = (Array.isArray(c.targets) ? c.targets : []).slice(0, 8).map((m) => String(m).slice(0, 40));
+  const questions = [{ id: 'intent', type: 'choice', text: 'What is the player doing with this party chat line?', choices: INTENTS }];
+  if (members.length) questions.push({ id: 'to', type: 'choice', text: 'Who is the line addressed to?', choices: { everyone: 'the whole group or nobody in particular', ...Object.fromEntries(members.map((m) => [m, `the party member ${m}`])) } });
+  if (targets.length) questions.push({ id: 'target', type: 'choice', text: 'Which enemy does the line refer to, if any?', choices: { none: 'no particular enemy', ...Object.fromEntries(targets.map((m, i) => [`t${i}`, m])) } });
+  const state = `A party of players is in the browser MMO Hollywoodland${c.in_combat ? ', in the middle of a fight' : ''}${c.hub ? ` at ${String(c.hub).slice(0, 40)}` : ''}. Party members: ${members.join(', ') || 'unknown'}. ` +
+    `${targets.length ? `Enemies in view: ${targets.join(', ')}. ` : ''}The player types in party chat: "${text.replace(/"/g, "'")}"`;
+  try {
+    const out = await decide(env, state, questions, { provider: req._provider });
+    const top = (a) => a ? Object.entries(a.probabilities).sort((x, y) => y[1] - x[1])[0] : null;
+    const tt = top(out.answers.target);
+    return json(request, { id: req.id, intent: out.answers.intent?.probabilities || {}, to: top(out.answers.to)?.[0] || 'everyone',
+      target: tt && tt[0] !== 'none' && tt[1] > 0.4 ? targets[Number(tt[0].slice(1))] : null, via: { decide: { provider: out.provider, ms: out.ms } } });
+  } catch (e) { console.log('interpret failed', String(e)); return json(request, { id: req.id, fallback: true }); }
+}
+
+// ---- plan: the careful model picks between options the game computed
+async function plan(request, env, req) {
+  const opts = Array.isArray(req.report?.options) ? req.report.options : [];
+  const ids = new Set(opts.map((o) => String(o.id)));
+  if (!ids.size) return json(request, { error: 'options' }, 400);
+  try {
+    const { tools, callTool } = toolsFor(req.speakers[0], req);
+    const out = await hard(env, { system: PLAN_SYSTEM, user: buildPlanPrompt(req), tools, callTool, rounds: 2, max: 300 }, { provider: req._provider });
+    const j = out.json || {};
+    if (!ids.has(String(j.choice))) return json(request, { id: req.id, fallback: true, via: { hard: { provider: out.provider, ms: out.ms } } });
+    const say = cleanText(j.say);
+    return json(request, { id: req.id, choice: String(j.choice), then: ids.has(String(j.then)) && j.then !== j.choice ? String(j.then) : null, why: String(j.why || '').slice(0, 120),
+      say: say && !(req.speakers[0].ai_stance !== 'admit' && BREAKS_ROLE.test(say)) ? say : null, mood: String(j.mood || '').slice(0, 30), via: { hard: { provider: out.provider, ms: out.ms, tool_calls: out.tool_calls } } });
+  } catch (e) { console.log('plan failed', String(e)); return json(request, { id: req.id, fallback: true }); }
+}
+
+// ---- consolidate: rewrite one persona's memory of the player
+async function consolidate(request, env, req) {
+  try {
+    const out = await hard(env, { system: MEMORY_SYSTEM, user: buildMemoryPrompt(req), max: 350 }, { provider: req._provider });
+    const j = out.json || {}, n = (req.memory?.episodes || []).length;
+    return json(request, { id: req.id, gist: String(j.gist || '').replace(/[\r\n]+/g, ' ').slice(0, 320), keep: (Array.isArray(j.keep) ? j.keep : []).map((k) => k | 0).filter((k) => k >= 0 && k < n).slice(0, 6),
+      promise: j.promise ? String(j.promise).slice(0, 120) : null, nickname: j.nickname ? String(j.nickname).slice(0, 24) : null, via: { hard: { provider: out.provider, ms: out.ms } } });
+  } catch (e) { console.log('consolidate failed', String(e)); return json(request, { id: req.id, fallback: true }); }
 }
 
 export default {

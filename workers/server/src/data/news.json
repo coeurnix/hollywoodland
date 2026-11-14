@@ -1,0 +1,31 @@
+{
+  "as_of": "2026-11-14",
+  "note": "Real-world talking points for simulated players, gathered by web search on 2026-11-14 from news roundups (headline level; details as reported, not verified here). Players mention these the way people do in game chat: in passing, with opinions, sometimes half-remembered.",
+  "jam": {
+    "name": "2026 Epic AI MegaJam", "host": "Epic Games, on itch.io", "theme": "DIRECTOR'S CUT (Your vision, your edits, your final cut.)",
+    "start": "2026-11-12T05:00:00Z", "deadline": "2026-11-16T01:59:00Z", "deadline_local": "Sunday Nov 15, 5:59 PM Pacific / 8:59 PM Eastern",
+    "facts": [
+      "Unreal Engine or UEFN only; teams of up to five or solo; any AI tools allowed, no limit on agents",
+      "about 10,000 people joined and only around a hundred entries were in by Saturday",
+      "$65,000 in cash prizes: Best Overall $7,500 / $5,000 / $2,500, plus Solo Driver, Best Team, Render Royalty, Pocket Powerhouse, Glass Box and Walkie-Talkie categories, and continuation grants up to $50,000",
+      "late submissions are disqualified; winners announced by January 29, 2027; a judging panel scores entries 1 to 5",
+      "Hollywoodland is one of the entries: a whole browser MMO made during the jam, which most people find hard to believe"
+    ]
+  },
+  "topics": [
+    { "tag": "games", "text": "GTA VI comes out Thursday, November 19. Base consoles reportedly run it at 30 fps; the PS5 Pro gets ray-traced shadows. Half the internet has booked the day off." },
+    { "tag": "games", "text": "Zelda: Ocarina of Time came to Switch 2 on November 5 with a modern overhaul and is reported to be Nintendo's fastest-selling Switch 2 game." },
+    { "tag": "games", "text": "World of Warcraft: Forever launched on PC on November 4. Pikmin 4 and Metaphor: ReFantazio got Switch 2 versions this week. A new Wolfenstein is confirmed in production." },
+    { "tag": "tech", "text": "Nvidia's Jensen Huang stepped down as CEO this week after 33 years, with the CFO as interim chief; Nvidia stock sold off and earnings are due within days." },
+    { "tag": "tech", "text": "Anthropic's IPO is expected to start trading November 19 (ticker ANT). OpenAI closed $11 billion of a funding round, less than it wanted. People argue about whether AI is a bubble." },
+    { "tag": "tech", "text": "New AI models this month: Claude Fable 5.2, Google's Gemini 4 Hydrogen, OpenAI's Images 2.6. Nonprofits sued five big AI labs asking a court to freeze advanced model work, and eight US states sued OpenAI over ChatGPT safety claims." },
+    { "tag": "tech", "text": "Microsoft had a global outage this week (Outlook, Teams, Copilot) after a network upgrade went wrong. claude.ai was also down for a while on November 13." },
+    { "tag": "world", "text": "The war with Iran is still going: Iran said it destroyed a US radar in Bahrain and hit navigation systems in Oman in answer to US strikes. Oil prices are jumpy. People are split on whether the US should be there at all." },
+    { "tag": "us", "text": "The FAA ordered a rare nationwide ground stop on US flights and then lifted it; the transportation secretary blamed ageing hardware and officials said there was no sign of a cyberattack. Travellers were stranded for hours." },
+    { "tag": "us", "text": "The United States has officially lost its measles elimination status after 26 years: more than 5,400 cases and 10 deaths in 2026. The vaccine argument is everywhere again." },
+    { "tag": "us", "text": "A tanker hit a docked paddlewheel cruise boat on the Mississippi in New Orleans; the boat sank, more than 30 people were hurt, nobody died." },
+    { "tag": "us", "text": "After the US midterms, Alaska elected a Democratic governor for the first time since 1998, in a ranked-choice count. People are still arguing about what the midterms mean." },
+    { "tag": "sport", "text": "Mercedes clinched the 2026 Formula 1 constructors' championship. At the WTA Finals, Svitolina beat Sabalenka in three sets to reach the semi-finals." },
+    { "tag": "film", "text": "Godzilla Minus Zero has been top of the US box office." }
+  ]
+}

@@ -1,5 +1,6 @@
 // 300 simulated-player personas (DESIGN-BIBLE §11). Deterministic from a seed.
 import { BANDS } from './items.mjs';
+import { ARCHETYPES, COUNTRIES, JAM, FOUND, AI_STANCE } from './archetypes.mjs';
 
 export function rng(seed) {
   let s = seed >>> 0;
@@ -22,15 +23,29 @@ const TEMPERAMENTS = ['helpful', 'mercenary', 'quiet', 'loud', 'competitive', 'j
 const CLASSES = ['veteran', 'stuntman', 'gunman', 'electrician', 'powderman', 'nurse', 'preacher', 'mechanic'];
 const ABBREV = ['lfg', 'ty', 'np', 'gz', 'brb', 'afk', 'omw', 'wts', 'wtb', 'lol', 'tbh', 'imo', 'rn', 'oom', 'inc', 'gg', 'pst', 'kk'];
 
-function levelFor(r) {
+// Handles a jam crowd would pick alongside the period ones.
+const MODERN = ('noodle pixel kiwi tofu mango glitch voxel shader lambda quokka waffle pesto mochi panda bytes tetra nacho ramen nova zen ' +
+  'pogo fjord comet biscotti yuzu ember sprout lumen orbit pickle kebab taco dumpling crumb sock moth gecko otter ferret wombat').split(' ');
+const MDECOR = [(n) => n, (n) => n + '_dev', (n) => n + r2(), (n) => 'the' + n, (n) => n + 'games', (n) => 'x' + n, (n) => n + '_', (n) => n[0].toUpperCase() + n.slice(1) + 'Boi',
+  (n) => 'not' + n, (n) => n + 'Enjoyer', (n) => 'mr_' + n, (n) => n + 'chan', (n) => n.replace(/o/g, '0').replace(/e/g, '3')];
+let r2 = () => '42';
+const pickW = (r, list, wOf = (x) => x.w) => { let x = r() * list.reduce((s, e) => s + wOf(e), 0); for (const e of list) if ((x -= wOf(e)) <= 0) return e; return list[list.length - 1]; };
+
+// The game has only been up for the jam: nearly everyone is new. A few no-lifers are far ahead (and are talked about).
+function levelFor(r, arch) {
+  const fast = arch.id === 'speedrunner' ? 0.7 : arch.id === 'minmax' || arch.id === 'silentpro' ? 0.3 : arch.id === 'noob' || arch.id === 'tourist' ? 0 : 0.045;
+  if (r.chance(fast)) return r.chance(0.3) ? 60 : r.int(40, 59);
   const x = r();
-  if (x < 0.30) return r.chance(0.62) ? r.int(1, 12) : r.int(13, 20);   // 30% at 1-20, most of them in the built zone's range
-  if (x < 0.55) return r.int(21, 40);
-  return r.chance(0.6) ? 60 : r.int(41, 59);
+  if (arch.id === 'noob' || arch.id === 'tourist') return x < 0.75 ? r.int(1, 5) : r.int(6, 10);
+  if (x < 0.66) return r.chance(0.6) ? r.int(1, 6) : r.int(7, 12);
+  if (x < 0.90) return r.int(13, 25);
+  return r.int(26, 39);
 }
 
 export function buildPersonas({ zones, dungeons, guilds, items, classes }, seed = 1930) {
   const r = rng(seed);
+  r2 = () => String(r.int(2, 99));
+  const clamp = (v) => Math.max(0, Math.min(1, v));
   const used = new Set();
   const personas = [];
   const armourSlots = ['hat', 'coat', 'trousers', 'shoes', 'gloves', 'belt', 'wrist', 'neck', 'ring'];
@@ -41,16 +56,27 @@ export function buildPersonas({ zones, dungeons, guilds, items, classes }, seed 
 
   for (let i = 0; i < 300; i++) {
     let handle;
-    do { handle = r.pick(DECOR)(r.pick(NAMES)); } while (used.has(handle.toLowerCase()) || handle.length > 14);
+    const arch = pickW(r, ARCHETYPES);
+    const home_c = pickW(r, COUNTRIES);
+    do { handle = r.chance(0.45) ? r.pick(MDECOR)(r.pick(MODERN)) : r.pick(DECOR)(r.pick(NAMES)); } while (used.has(handle.toLowerCase()) || handle.length > 14 || handle.length < 3);
     used.add(handle.toLowerCase());
     const cls = classes[i % 8 === 0 ? r.int(0, 7) : CLASSES.indexOf(r.pick(CLASSES))];
-    const level = levelFor(r);
+    const level = levelFor(r, arch);
     const fits = zones.filter((z) => level >= z.level_min && level <= z.level_max + (z.id === 'zone_mount_lee' ? 0 : 1));
     const home = level <= 12 ? 'zone_hollywood_blvd' : (fits.length ? r.pick(fits).id : 'zone_mount_lee');
-    const temperament = r.pick(TEMPERAMENTS);
-    const lower = r.chance(0.7);
-    const typing = { lowercase: lower, punctuation: !lower && r.chance(0.5), caps: temperament === 'loud' && r.chance(0.5), abbrev: ABBREV.filter(() => r.chance(0.35)).slice(0, 6), typo_rate: +(r() * r() * 0.08).toFixed(3) };
-    const guilded = level >= 10 ? r.chance(level === 60 ? 0.9 : 0.6) : r.chance(0.2);
+    const temperament = arch.temperament;
+    // traits: the archetype's centre, varied per persona; genre experience and level pull game knowledge up
+    const traits = {};
+    for (const [k, v] of Object.entries(arch.t)) traits[k] = +clamp(v + (r() - 0.5) * 0.3).toFixed(2);
+    traits.know = +clamp(traits.know * 0.75 + Math.min(1, level / 14) * 0.25).toFixed(2);
+    const el = r(); const english = el < home_c.english[0] ? 'native' : el < home_c.english[0] + home_c.english[1] ? 'fluent' : 'basic';
+    const lower = r.chance(arch.lower ?? (english === 'basic' ? 0.85 : 0.7));
+    const typing = { lowercase: lower, punctuation: r.chance(arch.punct ?? (lower ? 0.1 : 0.5)), caps: r.chance(arch.caps ?? 0), abbrev: ABBREV.filter(() => r.chance(0.1 + traits.mmo * 0.4)).slice(0, 6),
+      typo_rate: +(r() * r() * 0.08 * (1.4 - traits.attn) + (english === 'basic' ? 0.015 : 0)).toFixed(3), wpm: Math.round(22 + r() * 30 + traits.mmo * 30 + (english === 'basic' ? -8 : 0)) };
+    const jam = home_c && pickW(r, JAM, (e) => e[1]);
+    const found = pickW(r, jam[0] === 'outsider' ? FOUND.outsider : FOUND.jam, (e) => e[1])[0];
+    const ai_stance = arch.id === 'sceptic' ? (r.chance(0.5) ? 'deny' : 'evasive') : pickW(r, AI_STANCE, (e) => e[1])[0];
+    const guilded = level >= 10 ? r.chance(level >= 40 ? 0.85 : 0.4) : r.chance(0.08 + traits.soc * 0.1);
     let guild = null;
     if (guilded) {
       const pool = guilds.filter((g) => (g.kind === 'raid') === (level >= 55) || (g.kind !== 'raid' && level < 55) || r.chance(0.15));
@@ -82,7 +108,8 @@ export function buildPersonas({ zones, dungeons, guilds, items, classes }, seed 
     const goal = level === 60 ? `gear from ${r.pick(dungeons.filter((d) => d.level_min === 60)).name}` : dng.length ? `run ${r.pick(dng).name}` : `reach level ${level + 1}`;
     const start = r.int(0, 23);
     personas.push({ id: `persona_${String(i).padStart(4, '0')}`, handle, class: cls.id, level, home_zone: home, temperament, typing,
-      skill: { reaction_s: +(0.25 + r() * 0.95).toFixed(2), mistake_rate: +(0.02 + r() * 0.18).toFixed(3) },
+      archetype: arch.id, traits, english, country: home_c.country, tz: home_c.tz, lang: home_c.lang, bits: english === 'native' ? [] : home_c.bits, jam: jam[0], found, ai_stance,
+      skill: { reaction_s: +(1.25 - traits.skill * 0.85 - traits.attn * 0.15 + r() * 0.15).toFixed(2), mistake_rate: +(0.02 + (1 - traits.skill) * 0.2 + r() * 0.03).toFixed(3) },
       guild, goal, schedule: { start_hour: start, hours: +(1.5 + r() * 5).toFixed(1) }, professions: r.chance(0.6) ? [r.pick(['prof_salvage', 'prof_forage', 'prof_skin']), r.pick(['prof_guns', 'prof_metal', 'prof_leather', 'prof_tailor', 'prof_pharm', 'prof_electric'])] : [],
       mount: level >= 60 ? r.pick(['Thoroughbred', 'Harley-Davidson VL', 'Duesenberg Model J', 'Cord L-29']) : level >= 40 ? r.pick(['Saddle Horse', 'Indian Scout', 'Ford Model A']) : null,
       body: r.int(0, 1), skin: r.int(0, 7), hair: r.int(0, 11), equipped, friends: [], built: true });

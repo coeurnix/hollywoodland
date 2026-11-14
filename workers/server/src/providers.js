@@ -117,7 +117,8 @@ export function write(env, { system, user, max = 400, temperature = 0.85 }, opts
 export function hard(env, { system, user, tools = [], callTool = null, rounds = 2, max = 900, effort = 'low' }, opts = {}) {
   return route(env, env.AI_HARD || 'openai', 'hard', {
     openai: async () => {
-      const input = [{ role: 'user', content: user }];
+      // (json_object output needs the word JSON in the input messages themselves, not only in the instructions)
+      const input = [{ role: 'user', content: /json/i.test(user) ? user : user + ' Answer with one JSON object.' }];
       const body = { model: MODELS.oa_hard, instructions: system, input, reasoning: { effort }, max_output_tokens: max + 1200, text: { format: { type: 'json_object' } }, store: false };
       const defs = tools.map((t) => ({ type: 'function', name: t.name, description: t.description, parameters: t.parameters, strict: false }));
       let calls = 0;

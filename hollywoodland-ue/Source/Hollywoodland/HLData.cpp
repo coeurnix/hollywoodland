@@ -316,7 +316,15 @@ bool FHLData::Load(FString& Err)
  			P.Body = N(O, TEXT("body"), 0); P.Skin = N(O, TEXT("skin"), 0); P.HairStyle = N(O, TEXT("hair"), 0);
 			JObj Sk = Sub(O, TEXT("skill")); P.ReactionS = N(Sk, TEXT("reaction_s"), 0.6); P.MistakeRate = N(Sk, TEXT("mistake_rate"), 0.08);
 			JObj Ty = Sub(O, TEXT("typing")); P.bLower = B(Ty, TEXT("lowercase"), true); P.bPunct = B(Ty, TEXT("punctuation")); P.bCaps = B(Ty, TEXT("caps"));
-			P.TypoRate = N(Ty, TEXT("typo_rate"), 0.02); P.Abbrev = SA(Ty, TEXT("abbrev"));
+			P.TypoRate = N(Ty, TEXT("typo_rate"), 0.02); P.Abbrev = SA(Ty, TEXT("abbrev")); P.Wpm = N(Ty, TEXT("wpm"), 45);
+			P.Archetype = S(O, TEXT("archetype")); P.English = S(O, TEXT("english")); P.Country = S(O, TEXT("country")); P.Lang = S(O, TEXT("lang"));
+			P.Jam = S(O, TEXT("jam")); P.Found = S(O, TEXT("found")); P.AiStance = S(O, TEXT("ai_stance")); P.Bits = SA(O, TEXT("bits")); P.Tz = N(O, TEXT("tz"));
+			if (JObj Tr = Sub(O, TEXT("traits")))
+			{
+				FHLTraits& T = P.Tr;
+				T.Skill = N(Tr, TEXT("skill"), 0.5); T.Aggr = N(Tr, TEXT("aggr"), 0.5); T.Caut = N(Tr, TEXT("caut"), 0.5); T.Pati = N(Tr, TEXT("pati"), 0.5); T.Soc = N(Tr, TEXT("soc"), 0.5); T.Help = N(Tr, TEXT("help"), 0.5);
+				T.Attn = N(Tr, TEXT("attn"), 0.5); T.Cur = N(Tr, TEXT("cur"), 0.5); T.Hum = N(Tr, TEXT("hum"), 0.5); T.Know = N(Tr, TEXT("know"), 0.5); T.Mmo = N(Tr, TEXT("mmo"), 0.5);
+			}
 			JObj Sc = Sub(O, TEXT("schedule")); P.StartHour = N(Sc, TEXT("start_hour")); P.Hours = N(Sc, TEXT("hours"), 3);
 			P.Friends = SA(O, TEXT("friends"));
 			if (JObj Eq = Sub(O, TEXT("equipped"))) for (auto& KV : Eq->Values) if (const FHLItem* It = Item(KV.Value->AsString())) P.Equipped.Add(FString(KV.Key), It);

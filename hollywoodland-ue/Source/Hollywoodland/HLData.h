@@ -120,8 +120,17 @@ struct FHLQuest
 	TArray<const FHLItem*> Choice;
 	TMap<FString, int32> Rep;
 };
+// personality traits, 0..1 (tools/gen/archetypes.mjs): the mind and motor layers read these
+struct FHLTraits { float Skill = 0.5f, Aggr = 0.5f, Caut = 0.5f, Pati = 0.5f, Soc = 0.5f, Help = 0.5f, Attn = 0.5f, Cur = 0.5f, Hum = 0.5f, Know = 0.5f, Mmo = 0.5f; };
 struct FHLPersona
 {
+	// who they are (AI-IMPROVEMENTS-PLAN.md 4.1, 4.8): archetype id, English level (native fluent basic), country, what they
+	// say about the jam (not_started in_progress submitted spectator outsider), how they found the game, and how they answer
+	// "are you a bot" (evasive deny admit)
+	FString Archetype, English, Country, Lang, Jam, Found, AiStance;
+	TArray<FString> Bits;
+	FHLTraits Tr;
+	float Tz = 0, Wpm = 45;
 	FString Id, Handle, Class, HomeZone, Temperament, Guild, Goal, Mount;
 	int32 Level = 1, Index = 0;
 	int32 Body = 0, Skin = 0, HairStyle = 0; // appearance (body 0 man, 1 woman)

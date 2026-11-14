@@ -96,7 +96,7 @@ void FHLGame::InitSims()
 			}
 			else SpawnSim(i, EHLSimRole::Local, Def.IdleSpots[RandInt(0, Def.IdleSpots.Num() - 1)] + FVector2D(Rand() * 6 - 3, Rand() * 4 - 2));
 		}
-		else if (S.Level >= 30 && Idlers < MAX_IDLERS && Chance(0.08f))
+		else if (S.Level >= 13 && Idlers < MAX_IDLERS && Chance(S.Level >= 30 ? 0.3f : 0.04f))
 		{
 			++Idlers;
 			FHLUnit* U = SpawnSim(i, EHLSimRole::Idler, Def.IdleSpots[RandInt(0, Def.IdleSpots.Num() - 1)] + FVector2D(Rand() * 5 - 2.5f, Rand() * 4 - 2));
@@ -418,13 +418,22 @@ void FHLGame::TickSims(float Dt)
 		for (int32 Try = 0; Try < 40; ++Try) { const int32 i = RandInt(0, Sims.Num() - 1); const FHLSim& S = Sims[i]; if (S.bOnline && !S.UnitId && S.DungeonUntil <= Now && S.Level >= MinLevel && S.Level <= MaxLevel && S.P->Cls) return i; }
 		return -1;
 	};
-	if (Transients < MAX_TRANSIENTS && Chance(0.6f))
+	// someone on a mount every couple of minutes: high levels are rare on a server this young, so the few there are
+	// take turns riding through (the bible's "level 60 on a Duesenberg" moment within minutes of starting)
+	bool bRider = false;
+	for (const FHLSim& S : Sims) if (S.UnitId) if (const FHLUnit* U = Unit(S.UnitId)) if (U->bMounted) bRider = true;
+	static double NextRider = 0;
+	const bool bWantRider = !bRider && Now >= NextRider;
+	if (Transients < MAX_TRANSIENTS && (bWantRider || Chance(0.6f)))
 	{
 		int32 i = Chance(0.15f) ? BondedAwaySim(13, 60) : -1;
+		if (bWantRider) { i = RandomAway(40, 60); NextRider = Now + 100 + Rand() * 70; }
 		if (i < 0) i = RandomAway(13, 60);
 		if (i >= 0)
 		{
-			const FHLExit& Ex = Def.Exits[RandInt(0, Def.Exits.Num() - 1)];
+			int32 ExIdx = RandInt(0, Def.Exits.Num() - 1);
+			if (bWantRider) for (int32 Try = 0; Try < 8 && Def.Exits[ExIdx].bRedcar; ++Try) ExIdx = RandInt(0, Def.Exits.Num() - 1);
+			const FHLExit& Ex = Def.Exits[ExIdx];
 			FHLUnit* U = SpawnSim(i, EHLSimRole::Transient, Ex.Pos + FVector2D(Rand() * 4 - 2, Rand() * 4 - 2));
 			FHLSim& S = Sims[i];
 			if (U && !S.P->Mount.IsEmpty() && !Ex.bRedcar) { U->bMounted = true; U->MountKind = HLMountKind(S.P->Mount); }
@@ -444,7 +453,7 @@ void FHLGame::TickSims(float Dt)
 	}
 	if (Idlers < MAX_IDLERS && Chance(0.1f))
 	{
-		const int32 i = RandomAway(20, 60);
+		const int32 i = RandomAway(13, 60);
 		if (i >= 0) { SpawnSim(i, EHLSimRole::Transient, Def.Exits[RandInt(0, Def.Exits.Num() - 1)].Pos); Sims[i].Route.Add(Def.IdleSpots[RandInt(0, Def.IdleSpots.Num() - 1)] + FVector2D(Rand() * 4 - 2, Rand() * 4 - 2)); Sims[i].Role = EHLSimRole::Transient; }
 	}
 }
@@ -747,7 +756,7 @@ void FHLGame::TickDirector(float Dt)
 		for (int32 i = 0; i < Sims.Num() && Made < RandInt(3, 5) && Car; ++i)
 		{
 			FHLSim& S = Sims[i];
-			if (S.UnitId || !S.bOnline || S.Level < 60 || S.P->Guild.IsEmpty()) continue;
+			if (S.UnitId || !S.bOnline || S.Level < 40) continue;
 			SpawnSim(i, EHLSimRole::Transient, Car->Pos + FVector2D(Made * 2 - 3, 4 + Rand() * 2));
 			if (const FVector2D* Bank = Def.Pois.Find(TEXT("bank"))) S.Route.Add(*Bank + FVector2D(Rand() * 8 - 4, Rand() * 3));
 			if (const FVector2D* Auc = Def.Pois.Find(TEXT("auction"))) S.Route.Add(*Auc + FVector2D(Rand() * 8 - 4, Rand() * 3));

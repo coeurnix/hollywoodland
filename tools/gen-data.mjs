@@ -9,6 +9,7 @@ import { mobs, areas } from './gen/zone.mjs';
 import { quests } from './gen/quests.mjs';
 import { buildPersonas } from './gen/personas.mjs';
 import { templates, corpus, convos } from './gen/chat.mjs';
+import { buildLore } from './gen/lore.mjs';
 
 const OUT = new URL('../hollywoodland-ue/Content/Data/', import.meta.url);
 mkdirSync(OUT, { recursive: true });
@@ -175,6 +176,15 @@ const sizes = {
   personas: write('personas.json', { personas }),
   chat: write('chat.json', { templates, corpus: fullCorpus, convos }),
 };
+// the Worker's lore pack (world tools for the simulated players)
+{
+  const lore = buildLore({ areas, quests, mobs, classes, abilities, items, zones, dungeons });
+  const dir = new URL('../workers/server/src/data/', import.meta.url);
+  mkdirSync(dir, { recursive: true });
+  const s = JSON.stringify(lore);
+  writeFileSync(new URL('lore.json', dir), s);
+  console.log(`lore pack: ${lore.entries.length} entries, ${lore.items.length} items, ${(s.length / 1024).toFixed(0)} KB`);
+}
 const lv = (a, b) => personas.filter((p) => p.level >= a && p.level <= b).length;
 console.log('sizes', sizes);
 console.log(`items ${items.length}  mobs ${mobs.length}  quests ${quests.length}  npcs ${npcs.length}  personas ${personas.length} (1-12: ${lv(1, 12)}, 1-20: ${lv(1, 20)}, 21-40: ${lv(21, 40)}, 41-60: ${lv(41, 60)}, 60: ${lv(60, 60)})  corpus ${fullCorpus.length}  templates ${templates.length}`);
