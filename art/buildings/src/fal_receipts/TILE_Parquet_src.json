@@ -1,0 +1,23 @@
+{
+  "id": "TILE_Parquet_src",
+  "provider": "fal.ai",
+  "model": "blackforestlabs/flux-3/klein/text-to-image",
+  "prompt": "Polished oak herringbone parquet floor, warm honey tones, uniform even pattern all over, no border, no vignette. Seen exactly from straight above, flat top-down orthographic texture, fills the entire image edge to edge, no perspective, no people, no objects. Hand-painted stylized texture in classic early World of Warcraft art style, restrained brush texture.",
+  "references": [],
+  "image_size": {
+    "width": 1024,
+    "height": 1024
+  },
+  "seed": 1807,
+  "output": "work/plates/TILE_Parquet_src.png",
+  "status": "downloaded",
+  "request_id": "01a1da4d-89b2-7c02-a9c2-a62d29d79974",
+  "elapsed_seconds": 5.31,
+  "timings": {
+    "prompt_expansion": 7.040000127744861e-06,
+    "inference": 0.5686106339999242,
+    "safety_checker": 0.02268309599458007
+  },
+  "width": 1024,
+  "height": 1024
+}

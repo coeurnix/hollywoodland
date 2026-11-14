@@ -1,0 +1,23 @@
+{
+  "id": "POSTER_HellsAngels_art",
+  "provider": "fal.ai",
+  "model": "blackforestlabs/flux-3/klein/text-to-image",
+  "prompt": "A 1930 movie poster illustration with no lettering: World War One biplanes diving through dramatic orange and red sunset clouds, a zeppelin burning in the background, a bold Art Deco border, painted in vivid poster colours. Hand-painted stylized classic early World of Warcraft art style, flat front view filling the image, no text, no letters.",
+  "references": [],
+  "image_size": {
+    "width": 512,
+    "height": 768
+  },
+  "seed": 1809,
+  "output": "work/plates/POSTER_HellsAngels_art.png",
+  "status": "downloaded",
+  "request_id": "01a1da4d-89b3-7eb2-ad7f-b2c0bbff3973",
+  "elapsed_seconds": 6.16,
+  "timings": {
+    "prompt_expansion": 3.2399998417531606e-06,
+    "inference": 1.467302410001139,
+    "safety_checker": 0.014508610001939815
+  },
+  "width": 512,
+  "height": 768
+}

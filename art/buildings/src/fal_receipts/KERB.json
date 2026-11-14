@@ -1,0 +1,23 @@
+{
+  "id": "KERB",
+  "provider": "fal.ai",
+  "model": "blackforestlabs/flux-3/klein/text-to-image",
+  "prompt": "A city street kerb and gutter strip running left to right: the top third is pale grey granite kerb stones with joints every metre, a dark shadowed narrow kerb edge line below it, and the bottom two thirds is a concrete gutter with grime, leaves and a damp stain. Seen exactly from straight above, flat top-down orthographic texture, fills the entire image edge to edge, no perspective, no people, no objects. Hand-painted stylized texture in classic early World of Warcraft art style, restrained brush texture.",
+  "references": [],
+  "image_size": {
+    "width": 1024,
+    "height": 512
+  },
+  "seed": 1802,
+  "output": "work/plates/KERB.png",
+  "status": "downloaded",
+  "request_id": "01a1da4d-89b2-7260-9ee8-7a8db36586a8",
+  "elapsed_seconds": 7.25,
+  "timings": {
+    "prompt_expansion": 9.549999958835542e-06,
+    "inference": 0.5194247929975973,
+    "safety_checker": 0.012673838002228877
+  },
+  "width": 1024,
+  "height": 512
+}

@@ -4052,6 +4052,161 @@
    "tris": 2875,
    "origin": "footprint-centre-ground",
    "attachments": []
+  },
+  "IN_GYM_Wall4": {
+   "mesh": "/Game/Buildings/SM_IN_GYM_Wall4.SM_IN_GYM_Wall4",
+   "kind": "interior",
+   "nominal": [
+    4,
+    0.4,
+    9
+   ],
+   "tris": 4,
+   "origin": "front-plane-bottom-left",
+   "attachments": []
+  },
+  "IN_GYM_Wall4_B": {
+   "mesh": "/Game/Buildings/SM_IN_GYM_Wall4_B.SM_IN_GYM_Wall4_B",
+   "kind": "interior",
+   "nominal": [
+    4,
+    0.4,
+    9
+   ],
+   "tris": 4,
+   "origin": "front-plane-bottom-left",
+   "attachments": []
+  },
+  "IN_GYM_Wall4_HiveL": {
+   "mesh": "/Game/Buildings/SM_IN_GYM_Wall4_HiveL.SM_IN_GYM_Wall4_HiveL",
+   "kind": "interior",
+   "nominal": [
+    4,
+    0.4,
+    9
+   ],
+   "tris": 4,
+   "origin": "front-plane-bottom-left",
+   "attachments": []
+  },
+  "IN_GYM_Wall4_HiveR": {
+   "mesh": "/Game/Buildings/SM_IN_GYM_Wall4_HiveR.SM_IN_GYM_Wall4_HiveR",
+   "kind": "interior",
+   "nominal": [
+    4,
+    0.4,
+    9
+   ],
+   "tris": 4,
+   "origin": "front-plane-bottom-left",
+   "attachments": []
+  },
+  "IN_GYM_Wall4_Score": {
+   "mesh": "/Game/Buildings/SM_IN_GYM_Wall4_Score.SM_IN_GYM_Wall4_Score",
+   "kind": "interior",
+   "nominal": [
+    4,
+    0.4,
+    9
+   ],
+   "tris": 12,
+   "origin": "front-plane-bottom-left",
+   "attachments": []
+  },
+  "IN_GYM_CourtLines": {
+   "mesh": "/Game/Buildings/SM_IN_GYM_CourtLines.SM_IN_GYM_CourtLines",
+   "kind": "interior",
+   "nominal": [
+    28,
+    15,
+    0.02
+   ],
+   "tris": 2,
+   "origin": "footprint-centre-ground",
+   "attachments": []
+  },
+  "IN_HHB_Arcade6": {
+   "mesh": "/Game/Buildings/SM_IN_HHB_Arcade6.SM_IN_HHB_Arcade6",
+   "kind": "interior",
+   "nominal": [
+    6,
+    0.4,
+    4.5
+   ],
+   "tris": 4,
+   "origin": "front-plane-bottom-left",
+   "attachments": []
+  },
+  "IN_HHB_FrenchDoors6": {
+   "mesh": "/Game/Buildings/SM_IN_HHB_FrenchDoors6.SM_IN_HHB_FrenchDoors6",
+   "kind": "interior",
+   "nominal": [
+    6,
+    0.4,
+    3.5
+   ],
+   "tris": 4,
+   "origin": "front-plane-bottom-left",
+   "attachments": []
+  },
+  "IN_HHB_DanceFloor": {
+   "mesh": "/Game/Buildings/SM_IN_HHB_DanceFloor.SM_IN_HHB_DanceFloor",
+   "kind": "interior",
+   "nominal": [
+    16,
+    8,
+    0.02
+   ],
+   "tris": 2,
+   "origin": "footprint-centre-ground",
+   "attachments": []
+  },
+  "ST_Kerb4": {
+   "mesh": "/Game/Buildings/SM_ST_Kerb4.SM_ST_Kerb4",
+   "kind": "prop",
+   "nominal": [
+    4,
+    0.75,
+    0.15
+   ],
+   "tris": 6,
+   "origin": "front-plane-bottom-left",
+   "attachments": []
+  },
+  "ST_KerbCorner3": {
+   "mesh": "/Game/Buildings/SM_ST_KerbCorner3.SM_ST_KerbCorner3",
+   "kind": "prop",
+   "nominal": [
+    3.45,
+    3.45,
+    0.15
+   ],
+   "tris": 36,
+   "origin": "arc-centre-ground",
+   "attachments": []
+  },
+  "ST_Crossing": {
+   "mesh": "/Game/Buildings/SM_ST_Crossing.SM_ST_Crossing",
+   "kind": "prop",
+   "nominal": [
+    12,
+    3,
+    0.02
+   ],
+   "tris": 2,
+   "origin": "footprint-centre-ground",
+   "attachments": []
+  },
+  "SIGN_Graumans_Poster": {
+   "mesh": "/Game/Buildings/SM_SIGN_Graumans_Poster.SM_SIGN_Graumans_Poster",
+   "kind": "sign_card",
+   "nominal": [
+    1.2,
+    1.8
+   ],
+   "tris": 2,
+   "origin": "front-plane-bottom-left",
+   "attachments": []
   }
  },
  "recipes": {
@@ -4789,6 +4944,22 @@
    "font_sources": [
     "hollywoodland-ue/Content/Data/Fonts/Limelight-Regular.ttf",
     "hollywoodland-ue/Content/Data/Fonts/AlegreyaSans-Bold.ttf"
+   ]
+  },
+  "SIGN_Graumans_Poster": {
+   "id": "SIGN_Graumans_Poster",
+   "page": "signs/T_SIGN_04.png",
+   "rect": [
+    0.0,
+    0.0,
+    0.375,
+    0.5625
+   ],
+   "text": "HELL'S ANGELS / HOWARD HUGHES PRESENTS",
+   "card_mesh": "meshes/SIGN_Graumans_Poster.fbx",
+   "nominal": [
+    1.2,
+    1.8
    ]
   }
  }

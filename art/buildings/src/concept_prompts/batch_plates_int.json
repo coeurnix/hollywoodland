@@ -1,0 +1,102 @@
+[
+ {
+  "id": "GYM_scoreboard",
+  "output": "work/plates/GYM_scoreboard.png",
+  "image_size": {
+   "width": 1024,
+   "height": 512
+  },
+  "seed": 1800,
+  "prompt": "A 1930 school gymnasium wooden scoreboard: a wide dark green painted board with a varnished wooden frame, two big painted panels labelled HOME and VISITORS with hanging white number cards, a round clock in the middle, a HOLLYWOOD HIGH pennant above. Straight-on flat orthographic elevation, no perspective, fills the entire image edge to edge, no sky, no ground, no people. Hand-painted stylized texture in classic early World of Warcraft art style, chunky bold forms, painted ambient occlusion, warm light at the top and cooler base, restrained brush texture. 1930 Hollywood."
+ },
+ {
+  "id": "GYM_court",
+  "output": "work/plates/GYM_court.png",
+  "image_size": {
+   "width": 1024,
+   "height": 512
+  },
+  "seed": 1801,
+  "prompt": "A 1930 basketball court on a varnished maple gym floor: long narrow boards running left to right, painted black court lines, a centre circle, two keyholes at the left and right ends, warm honey colour. Seen exactly from straight above, flat top-down orthographic texture, fills the entire image edge to edge, no perspective, no people, no objects. Hand-painted stylized texture in classic early World of Warcraft art style, restrained brush texture."
+ },
+ {
+  "id": "KERB",
+  "output": "work/plates/KERB.png",
+  "image_size": {
+   "width": 1024,
+   "height": 512
+  },
+  "seed": 1802,
+  "prompt": "A city street kerb and gutter strip running left to right: the top third is pale grey granite kerb stones with joints every metre, a dark shadowed narrow kerb edge line below it, and the bottom two thirds is a concrete gutter with grime, leaves and a damp stain. Seen exactly from straight above, flat top-down orthographic texture, fills the entire image edge to edge, no perspective, no people, no objects. Hand-painted stylized texture in classic early World of Warcraft art style, restrained brush texture."
+ },
+ {
+  "id": "CROSSING",
+  "output": "work/plates/CROSSING.png",
+  "image_size": {
+   "width": 1024,
+   "height": 512
+  },
+  "seed": 1803,
+  "prompt": "A 1930 pedestrian crossing painted on dark asphalt: two thick parallel worn white lines running left to right along the top and bottom edges, the asphalt between them plain with cracks and oil stains, the paint chipped and faded. Seen exactly from straight above, flat top-down orthographic texture, fills the entire image edge to edge, no perspective, no people, no objects. Hand-painted stylized texture in classic early World of Warcraft art style, restrained brush texture."
+ },
+ {
+  "id": "HHB_arcade",
+  "output": "work/plates/HHB_arcade.png",
+  "image_size": {
+   "width": 1024,
+   "height": 512
+  },
+  "seed": 1804,
+  "prompt": "The courtyard side of a 1930 Mission Revival hotel ground floor: a veranda arcade of white stucco round arches on square piers, deep shadowed veranda behind with wicker chairs and dark French windows, strings of warm glowing light bulbs swagged between the arches, green-striped canvas awning valances, terracotta tile floor edge at the bottom. Straight-on flat orthographic elevation, no perspective, fills the entire image edge to edge, no sky, no ground, no people. Hand-painted stylized texture in classic early World of Warcraft art style, chunky bold forms, painted ambient occlusion, warm light at the top and cooler base, restrained brush texture. 1930 Hollywood."
+ },
+ {
+  "id": "HHB_frenchdoors",
+  "output": "work/plates/HHB_frenchdoors.png",
+  "image_size": {
+   "width": 1024,
+   "height": 512
+  },
+  "seed": 1805,
+  "prompt": "The courtyard side upper storey of a 1930 Mission Revival hotel: white stucco wall with a row of tall green-framed French doors with small wrought-iron balconettes, green-striped canvas awnings above each, red terracotta tile coping along the top edge. Straight-on flat orthographic elevation, no perspective, fills the entire image edge to edge, no sky, no ground, no people. Hand-painted stylized texture in classic early World of Warcraft art style, chunky bold forms, painted ambient occlusion, warm light at the top and cooler base, restrained brush texture. 1930 Hollywood."
+ },
+ {
+  "id": "HHB_parquet",
+  "output": "work/plates/HHB_parquet.png",
+  "image_size": {
+   "width": 1024,
+   "height": 512
+  },
+  "seed": 1806,
+  "prompt": "A 1930 ballroom dance floor of polished oak parquet in a herringbone pattern, warm honey and amber tones, a darker border band along the edges, slight scuffs. Seen exactly from straight above, flat top-down orthographic texture, fills the entire image edge to edge, no perspective, no people, no objects. Hand-painted stylized texture in classic early World of Warcraft art style, restrained brush texture."
+ },
+ {
+  "id": "TILE_Parquet_src",
+  "output": "work/plates/TILE_Parquet_src.png",
+  "image_size": {
+   "width": 1024,
+   "height": 1024
+  },
+  "seed": 1807,
+  "prompt": "Polished oak herringbone parquet floor, warm honey tones, uniform even pattern all over, no border, no vignette. Seen exactly from straight above, flat top-down orthographic texture, fills the entire image edge to edge, no perspective, no people, no objects. Hand-painted stylized texture in classic early World of Warcraft art style, restrained brush texture."
+ },
+ {
+  "id": "TILE_GymBoards_src",
+  "output": "work/plates/TILE_GymBoards_src.png",
+  "image_size": {
+   "width": 1024,
+   "height": 1024
+  },
+  "seed": 1808,
+  "prompt": "Varnished maple gymnasium floorboards running left to right, long narrow boards with staggered joints, uniform honey colour, no lines, no border, no vignette. Seen exactly from straight above, flat top-down orthographic texture, fills the entire image edge to edge, no perspective, no people, no objects. Hand-painted stylized texture in classic early World of Warcraft art style, restrained brush texture."
+ },
+ {
+  "id": "POSTER_HellsAngels_art",
+  "output": "work/plates/POSTER_HellsAngels_art.png",
+  "image_size": {
+   "width": 512,
+   "height": 768
+  },
+  "seed": 1809,
+  "prompt": "A 1930 movie poster illustration with no lettering: World War One biplanes diving through dramatic orange and red sunset clouds, a zeppelin burning in the background, a bold Art Deco border, painted in vivid poster colours. Hand-painted stylized classic early World of Warcraft art style, flat front view filling the image, no text, no letters."
+ }
+]

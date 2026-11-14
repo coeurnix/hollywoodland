@@ -3,7 +3,7 @@
   "units": "meters",
   "up": "+Z",
   "front": "-Y",
-  "texture_sets": 37,
+  "texture_sets": 38,
   "atlases": {
     "ATL_BRK": {
       "texture": "textures/T_ATL_BRK.png",
@@ -52,6 +52,10 @@
     },
     "ATL_BD3": {
       "texture": "textures/T_ATL_BD3.png",
+      "emissive": null
+    },
+    "ATL_INT": {
+      "texture": "textures/T_ATL_INT.png",
       "emissive": null
     }
   },
@@ -103,6 +107,20 @@
       "tile_m": [
         4,
         4
+      ]
+    },
+    "TILE_Parquet": {
+      "texture": "textures/T_TILE_Parquet.png",
+      "tile_m": [
+        4.0,
+        4.0
+      ]
+    },
+    "TILE_GymBoards": {
+      "texture": "textures/T_TILE_GymBoards.png",
+      "tile_m": [
+        4.0,
+        4.0
       ]
     }
   },
@@ -10249,6 +10267,542 @@
       "also_fits": [],
       "recess": [],
       "quest_object": null
+    },
+    {
+      "id": "IN_GYM_Wall4",
+      "kind": "interior",
+      "material": "M_ATL_INT",
+      "texture": "atlas:ATL_INT",
+      "emissive": null,
+      "nominal": [
+        4,
+        0.4,
+        9
+      ],
+      "origin": "front-plane-bottom-left",
+      "file": "meshes/IN_GYM_Wall4.fbx",
+      "bounds": [
+        [
+          -0.0,
+          0.0,
+          0.0
+        ],
+        [
+          4.0,
+          0.4,
+          9.0
+        ]
+      ],
+      "tris": 4,
+      "family": "GYM",
+      "rodin": {
+        "used": false,
+        "method": "projection",
+        "detail": "FLUX Klein plates planar-mapped onto scripted blocks (src/block_building.py, src/blocks_ATL_INT.json)"
+      },
+      "concept": [
+        "src/concept_prompts/batch_plates_int.json"
+      ],
+      "notes": "Gym inner-face module 4 x 9 m, 0.4 m facing, room side -Y: high clerestory windows, wall bars.",
+      "fits_box": null,
+      "also_fits": [],
+      "recess": [],
+      "quest_object": null
+    },
+    {
+      "id": "IN_GYM_Wall4_B",
+      "kind": "interior",
+      "material": "M_ATL_INT",
+      "texture": "atlas:ATL_INT",
+      "emissive": null,
+      "nominal": [
+        4,
+        0.4,
+        9
+      ],
+      "origin": "front-plane-bottom-left",
+      "file": "meshes/IN_GYM_Wall4_B.fbx",
+      "bounds": [
+        [
+          -0.0,
+          0.0,
+          0.0
+        ],
+        [
+          4.0,
+          0.4,
+          9.0
+        ]
+      ],
+      "tris": 4,
+      "family": "GYM",
+      "rodin": {
+        "used": false,
+        "method": "projection",
+        "detail": "FLUX Klein plates planar-mapped onto scripted blocks (src/block_building.py, src/blocks_ATL_INT.json)"
+      },
+      "concept": [
+        "src/concept_prompts/batch_plates_int.json"
+      ],
+      "notes": "Gym module variant: pennant and plain painted brick.",
+      "fits_box": null,
+      "also_fits": [],
+      "recess": [],
+      "quest_object": null
+    },
+    {
+      "id": "IN_GYM_Wall4_HiveL",
+      "kind": "interior",
+      "material": "M_ATL_INT",
+      "texture": "atlas:ATL_INT",
+      "emissive": null,
+      "nominal": [
+        4,
+        0.4,
+        9
+      ],
+      "origin": "front-plane-bottom-left",
+      "file": "meshes/IN_GYM_Wall4_HiveL.fbx",
+      "bounds": [
+        [
+          -0.0,
+          0.0,
+          0.0
+        ],
+        [
+          4.0,
+          0.4,
+          9.0
+        ]
+      ],
+      "tris": 4,
+      "family": "GYM",
+      "rodin": {
+        "used": false,
+        "method": "projection",
+        "detail": "FLUX Klein plates planar-mapped onto scripted blocks (src/block_building.py, src/blocks_ATL_INT.json)"
+      },
+      "concept": [
+        "src/concept_prompts/batch_plates_int.json"
+      ],
+      "notes": "Hive-infested gym module, resin and eggs in the left corner.",
+      "fits_box": null,
+      "also_fits": [],
+      "recess": [],
+      "quest_object": null
+    },
+    {
+      "id": "IN_GYM_Wall4_HiveR",
+      "kind": "interior",
+      "material": "M_ATL_INT",
+      "texture": "atlas:ATL_INT",
+      "emissive": null,
+      "nominal": [
+        4,
+        0.4,
+        9
+      ],
+      "origin": "front-plane-bottom-left",
+      "file": "meshes/IN_GYM_Wall4_HiveR.fbx",
+      "bounds": [
+        [
+          -0.0,
+          0.0,
+          0.0
+        ],
+        [
+          4.0,
+          0.4,
+          9.0
+        ]
+      ],
+      "tris": 4,
+      "family": "GYM",
+      "rodin": {
+        "used": false,
+        "method": "projection",
+        "detail": "FLUX Klein plates planar-mapped onto scripted blocks (src/block_building.py, src/blocks_ATL_INT.json)"
+      },
+      "concept": [
+        "src/concept_prompts/batch_plates_int.json"
+      ],
+      "notes": "Hive-infested gym module, resin and eggs in the right corner.",
+      "fits_box": null,
+      "also_fits": [],
+      "recess": [],
+      "quest_object": null
+    },
+    {
+      "id": "IN_GYM_Wall4_Score",
+      "kind": "interior",
+      "material": "M_ATL_INT",
+      "texture": "atlas:ATL_INT",
+      "emissive": null,
+      "nominal": [
+        4,
+        0.4,
+        9
+      ],
+      "origin": "front-plane-bottom-left",
+      "file": "meshes/IN_GYM_Wall4_Score.fbx",
+      "bounds": [
+        [
+          -0.0,
+          -0.3,
+          0.0
+        ],
+        [
+          4.0,
+          0.4,
+          9.0
+        ]
+      ],
+      "tris": 12,
+      "family": "GYM",
+      "rodin": {
+        "used": false,
+        "method": "projection",
+        "detail": "FLUX Klein plates planar-mapped onto scripted blocks (src/block_building.py, src/blocks_ATL_INT.json)"
+      },
+      "concept": [
+        "src/concept_prompts/batch_plates_int.json"
+      ],
+      "notes": "Gym module with the wooden HOME/VISITORS scoreboard projecting 0.3 m at 5.2-6.95 m.",
+      "fits_box": null,
+      "also_fits": [],
+      "recess": [],
+      "quest_object": null
+    },
+    {
+      "id": "IN_GYM_CourtLines",
+      "kind": "interior",
+      "material": "M_ATL_INT",
+      "texture": "atlas:ATL_INT",
+      "emissive": null,
+      "nominal": [
+        28,
+        15,
+        0.02
+      ],
+      "origin": "footprint-centre-ground",
+      "file": "meshes/IN_GYM_CourtLines.fbx",
+      "bounds": [
+        [
+          -14.000001,
+          -7.500001,
+          0.02
+        ],
+        [
+          14.000001,
+          7.500001,
+          0.02
+        ]
+      ],
+      "tris": 2,
+      "family": "GYM",
+      "rodin": {
+        "used": false,
+        "method": "projection",
+        "detail": "FLUX Klein plates planar-mapped onto scripted blocks (src/block_building.py, src/blocks_ATL_INT.json)"
+      },
+      "concept": [
+        "src/concept_prompts/batch_plates_int.json"
+      ],
+      "notes": "Gym floor court-lines card 28 x 15 m, 0.02 m above the floor, centred origin.",
+      "fits_box": null,
+      "also_fits": [],
+      "recess": [],
+      "quest_object": null
+    },
+    {
+      "id": "IN_HHB_Arcade6",
+      "kind": "interior",
+      "material": "M_ATL_INT",
+      "texture": "atlas:ATL_INT",
+      "emissive": null,
+      "nominal": [
+        6,
+        0.4,
+        4.5
+      ],
+      "origin": "front-plane-bottom-left",
+      "file": "meshes/IN_HHB_Arcade6.fbx",
+      "bounds": [
+        [
+          -0.0,
+          0.0,
+          0.0
+        ],
+        [
+          6.0,
+          0.400001,
+          4.5
+        ]
+      ],
+      "tris": 4,
+      "family": "HHB",
+      "rodin": {
+        "used": false,
+        "method": "projection",
+        "detail": "FLUX Klein plates planar-mapped onto scripted blocks (src/block_building.py, src/blocks_ATL_INT.json)"
+      },
+      "concept": [
+        "src/concept_prompts/batch_plates_int.json"
+      ],
+      "notes": "Ballroom courtyard ground-floor module 6 x 4.5 m: veranda arch with string lights and striped valance (room side -Y).",
+      "fits_box": null,
+      "also_fits": [],
+      "recess": [],
+      "quest_object": null
+    },
+    {
+      "id": "IN_HHB_FrenchDoors6",
+      "kind": "interior",
+      "material": "M_ATL_INT",
+      "texture": "atlas:ATL_INT",
+      "emissive": null,
+      "nominal": [
+        6,
+        0.4,
+        3.5
+      ],
+      "origin": "front-plane-bottom-left",
+      "file": "meshes/IN_HHB_FrenchDoors6.fbx",
+      "bounds": [
+        [
+          -0.0,
+          0.0,
+          0.0
+        ],
+        [
+          6.0,
+          0.400001,
+          3.5
+        ]
+      ],
+      "tris": 4,
+      "family": "HHB",
+      "rodin": {
+        "used": false,
+        "method": "projection",
+        "detail": "FLUX Klein plates planar-mapped onto scripted blocks (src/block_building.py, src/blocks_ATL_INT.json)"
+      },
+      "concept": [
+        "src/concept_prompts/batch_plates_int.json"
+      ],
+      "notes": "Ballroom courtyard upper-storey module 6 x 3.5 m: French doors, balconettes, awnings, tile coping.",
+      "fits_box": null,
+      "also_fits": [],
+      "recess": [],
+      "quest_object": null
+    },
+    {
+      "id": "IN_HHB_DanceFloor",
+      "kind": "interior",
+      "material": "M_ATL_INT",
+      "texture": "atlas:ATL_INT",
+      "emissive": null,
+      "nominal": [
+        16,
+        8,
+        0.02
+      ],
+      "origin": "footprint-centre-ground",
+      "file": "meshes/IN_HHB_DanceFloor.fbx",
+      "bounds": [
+        [
+          -8.0,
+          -4.0,
+          0.02
+        ],
+        [
+          8.0,
+          4.0,
+          0.02
+        ]
+      ],
+      "tris": 2,
+      "family": "HHB",
+      "rodin": {
+        "used": false,
+        "method": "projection",
+        "detail": "FLUX Klein plates planar-mapped onto scripted blocks (src/block_building.py, src/blocks_ATL_INT.json)"
+      },
+      "concept": [
+        "src/concept_prompts/batch_plates_int.json"
+      ],
+      "notes": "Dance-floor parquet card 16 x 8 m with a border band (two side by side make 16 x 16); tileable T_TILE_Parquet for larger floors.",
+      "fits_box": null,
+      "also_fits": [],
+      "recess": [],
+      "quest_object": null
+    },
+    {
+      "id": "ST_Kerb4",
+      "kind": "prop",
+      "material": "M_ATL_INT",
+      "texture": "atlas:ATL_INT",
+      "emissive": null,
+      "nominal": [
+        4,
+        0.75,
+        0.15
+      ],
+      "origin": "front-plane-bottom-left",
+      "file": "meshes/ST_Kerb4.fbx",
+      "bounds": [
+        [
+          -0.0,
+          -0.45,
+          0.0
+        ],
+        [
+          4.0,
+          0.3,
+          0.15
+        ]
+      ],
+      "tris": 6,
+      "family": null,
+      "rodin": {
+        "used": false,
+        "method": "projection",
+        "detail": "FLUX Klein plates planar-mapped onto scripted blocks (src/block_building.py, src/blocks_ATL_INT.json)"
+      },
+      "concept": [
+        "src/concept_prompts/batch_plates_int.json"
+      ],
+      "notes": "Kerb and gutter strip 4 m: kerb face at y = 0 facing the road (-Y), gutter 0.45 m in front, kerb top 0.3 m behind, 0.15 m high.",
+      "fits_box": null,
+      "also_fits": [],
+      "recess": [],
+      "quest_object": null
+    },
+    {
+      "id": "ST_KerbCorner3",
+      "kind": "prop",
+      "material": "M_ATL_INT",
+      "texture": "atlas:ATL_INT",
+      "emissive": null,
+      "nominal": [
+        3.45,
+        3.45,
+        0.15
+      ],
+      "origin": "arc-centre-ground",
+      "file": "meshes/ST_KerbCorner3.fbx",
+      "bounds": [
+        [
+          -0.0,
+          0.0,
+          0.0
+        ],
+        [
+          3.45,
+          3.45,
+          0.15
+        ]
+      ],
+      "tris": 36,
+      "family": null,
+      "rodin": {
+        "used": false,
+        "method": "projection",
+        "detail": "FLUX Klein plates planar-mapped onto scripted blocks (src/block_building.py, src/blocks_ATL_INT.json)"
+      },
+      "concept": [
+        "src/concept_prompts/batch_plates_int.json"
+      ],
+      "notes": "Corner kerb, radius 3 m: quarter ring about the origin (the corner's arc centre), kerb face at r = 3 facing out, gutter r 3-3.45, sweep from +X to +Y.",
+      "fits_box": null,
+      "also_fits": [],
+      "recess": [],
+      "quest_object": null
+    },
+    {
+      "id": "ST_Crossing",
+      "kind": "prop",
+      "material": "M_ATL_INT",
+      "texture": "atlas:ATL_INT",
+      "emissive": null,
+      "nominal": [
+        12,
+        3,
+        0.02
+      ],
+      "origin": "footprint-centre-ground",
+      "file": "meshes/ST_Crossing.fbx",
+      "bounds": [
+        [
+          -6.0,
+          -1.5,
+          0.02
+        ],
+        [
+          6.0,
+          1.5,
+          0.02
+        ]
+      ],
+      "tris": 2,
+      "family": null,
+      "rodin": {
+        "used": false,
+        "method": "projection",
+        "detail": "FLUX Klein plates planar-mapped onto scripted blocks (src/block_building.py, src/blocks_ATL_INT.json)"
+      },
+      "concept": [
+        "src/concept_prompts/batch_plates_int.json"
+      ],
+      "notes": "Pedestrian crossing paint card 12 x 3 m (lines run along X), 0.02 m above the road, centred origin.",
+      "fits_box": null,
+      "also_fits": [],
+      "recess": [],
+      "quest_object": null
+    },
+    {
+      "id": "SIGN_Graumans_Poster",
+      "kind": "sign_card",
+      "family": null,
+      "material": "M_SIGN_04",
+      "texture": "signs/T_SIGN_04.png",
+      "emissive": null,
+      "nominal": [
+        1.2,
+        1.8
+      ],
+      "origin": "front-plane-bottom-left",
+      "file": "meshes/SIGN_Graumans_Poster.fbx",
+      "bounds": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          1.2,
+          0.0,
+          1.8
+        ]
+      ],
+      "tris": 2,
+      "rodin": {
+        "used": false,
+        "method": "font-composition"
+      },
+      "concept": [
+        "src/concept_prompts/batch_plates_int.json"
+      ],
+      "source": "src/make_poster_card.py",
+      "notes": "The Hell's Angels poster for LM_Graumans_ForecourtWall (the SPEC 7.1 marquee film). FLUX Klein illustration without lettering plus project OFL Limelight / Alegreya Sans lettering. Not yet attached: add it to the wall's attachments at the integrator's chosen spot (bottom-left of the card, wall frame).",
+      "font_sources": [
+        "hollywoodland-ue/Content/Data/Fonts/Limelight-Regular.ttf",
+        "hollywoodland-ue/Content/Data/Fonts/AlegreyaSans-Bold.ttf"
+      ],
+      "fits_box": null,
+      "also_fits": [],
+      "recess": [],
+      "quest_object": null
     }
   ],
   "signs": [
@@ -10796,6 +11350,22 @@
       "font_sources": [
         "hollywoodland-ue/Content/Data/Fonts/Limelight-Regular.ttf",
         "hollywoodland-ue/Content/Data/Fonts/AlegreyaSans-Bold.ttf"
+      ]
+    },
+    {
+      "id": "SIGN_Graumans_Poster",
+      "page": "signs/T_SIGN_04.png",
+      "rect": [
+        0.0,
+        0.0,
+        0.375,
+        0.5625
+      ],
+      "text": "HELL'S ANGELS / HOWARD HUGHES PRESENTS",
+      "card_mesh": "meshes/SIGN_Graumans_Poster.fbx",
+      "nominal": [
+        1.2,
+        1.8
       ]
     }
   ],
@@ -17917,7 +18487,24 @@
     "meshes/BD_Cemetery.fbx",
     "meshes/BD_LaBrea.fbx",
     "textures/T_ATL_BD3.png",
-    "meshes/BD_SunsetLaBrea.fbx"
+    "meshes/BD_SunsetLaBrea.fbx",
+    "meshes/IN_GYM_Wall4.fbx",
+    "textures/T_ATL_INT.png",
+    "meshes/IN_GYM_Wall4_B.fbx",
+    "meshes/IN_GYM_Wall4_HiveL.fbx",
+    "meshes/IN_GYM_Wall4_HiveR.fbx",
+    "meshes/IN_GYM_Wall4_Score.fbx",
+    "meshes/IN_GYM_CourtLines.fbx",
+    "meshes/IN_HHB_Arcade6.fbx",
+    "meshes/IN_HHB_FrenchDoors6.fbx",
+    "meshes/IN_HHB_DanceFloor.fbx",
+    "meshes/ST_Kerb4.fbx",
+    "meshes/ST_KerbCorner3.fbx",
+    "meshes/ST_Crossing.fbx",
+    "meshes/SIGN_Graumans_Poster.fbx",
+    "signs/T_SIGN_04.png",
+    "textures/T_TILE_Parquet.png",
+    "textures/T_TILE_GymBoards.png"
   ],
   "integration_notes": [
     "Phase2 neutral atlas was repacked to prioritize legible notice lettering. Reimport all19 RF_/DR_ meshes together with T_ATL_NEUTRAL.png."
@@ -17931,6 +18518,9 @@
     },
     "SIGN_03": {
       "texture": "signs/T_SIGN_03.png"
+    },
+    "SIGN_04": {
+      "texture": "signs/T_SIGN_04.png"
     }
   },
   "texture_sets_added_2026_11_13": [
@@ -17941,6 +18531,7 @@
     "textures/T_ATL_EGY.png",
     "textures/T_ATL_BD1.png",
     "textures/T_ATL_BD2.png",
-    "textures/T_ATL_BD3.png"
+    "textures/T_ATL_BD3.png",
+    "textures/T_ATL_INT.png"
   ]
 }

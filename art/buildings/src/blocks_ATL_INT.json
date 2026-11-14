@@ -1,0 +1,589 @@
+{
+ "atlas": "ATL_INT",
+ "grid": [
+  2,
+  5
+ ],
+ "plates": [
+  "HH_gym",
+  "HH_gym_hive",
+  "GYM_scoreboard",
+  "GYM_court",
+  "HHB_arcade",
+  "HHB_frenchdoors",
+  "HHB_parquet",
+  "KERB",
+  "CROSSING"
+ ],
+ "assets": {
+  "IN_GYM_Wall4": {
+   "size": [
+    4,
+    0.4,
+    9
+   ],
+   "tris": 800,
+   "kind": "interior",
+   "origin": "front-plane-bottom-left",
+   "parts": [
+    {
+     "box": [
+      0,
+      0,
+      0,
+      4,
+      0.4,
+      9
+     ],
+     "faces": {
+      "front": {
+       "plate": "HH_gym",
+       "pw": 4,
+       "crop": [
+        0.05,
+        0.27,
+        0,
+        1
+       ]
+      },
+      "top": {
+       "plate": "KERB",
+       "crop": [
+        0,
+        1,
+        0.48,
+        0.62
+       ],
+       "pw": 4
+      }
+     }
+    }
+   ]
+  },
+  "IN_GYM_Wall4_B": {
+   "size": [
+    4,
+    0.4,
+    9
+   ],
+   "tris": 800,
+   "kind": "interior",
+   "origin": "front-plane-bottom-left",
+   "parts": [
+    {
+     "box": [
+      0,
+      0,
+      0,
+      4,
+      0.4,
+      9
+     ],
+     "faces": {
+      "front": {
+       "plate": "HH_gym",
+       "pw": 4,
+       "crop": [
+        0.5,
+        0.72,
+        0,
+        1
+       ]
+      },
+      "top": {
+       "plate": "KERB",
+       "crop": [
+        0,
+        1,
+        0.48,
+        0.62
+       ],
+       "pw": 4
+      }
+     }
+    }
+   ]
+  },
+  "IN_GYM_Wall4_HiveL": {
+   "size": [
+    4,
+    0.4,
+    9
+   ],
+   "tris": 800,
+   "kind": "interior",
+   "origin": "front-plane-bottom-left",
+   "parts": [
+    {
+     "box": [
+      0,
+      0,
+      0,
+      4,
+      0.4,
+      9
+     ],
+     "faces": {
+      "front": {
+       "plate": "HH_gym_hive",
+       "pw": 4,
+       "crop": [
+        0.0,
+        0.22,
+        0,
+        1
+       ]
+      },
+      "top": {
+       "plate": "KERB",
+       "crop": [
+        0,
+        1,
+        0.48,
+        0.62
+       ],
+       "pw": 4
+      }
+     }
+    }
+   ]
+  },
+  "IN_GYM_Wall4_HiveR": {
+   "size": [
+    4,
+    0.4,
+    9
+   ],
+   "tris": 800,
+   "kind": "interior",
+   "origin": "front-plane-bottom-left",
+   "parts": [
+    {
+     "box": [
+      0,
+      0,
+      0,
+      4,
+      0.4,
+      9
+     ],
+     "faces": {
+      "front": {
+       "plate": "HH_gym_hive",
+       "pw": 4,
+       "crop": [
+        0.78,
+        1.0,
+        0,
+        1
+       ]
+      },
+      "top": {
+       "plate": "KERB",
+       "crop": [
+        0,
+        1,
+        0.48,
+        0.62
+       ],
+       "pw": 4
+      }
+     }
+    }
+   ]
+  },
+  "IN_GYM_Wall4_Score": {
+   "size": [
+    4,
+    0.4,
+    9
+   ],
+   "tris": 800,
+   "kind": "interior",
+   "origin": "front-plane-bottom-left",
+   "parts": [
+    {
+     "box": [
+      0,
+      0,
+      0,
+      4,
+      0.4,
+      9
+     ],
+     "faces": {
+      "front": {
+       "plate": "HH_gym",
+       "pw": 4,
+       "crop": [
+        0.28,
+        0.5,
+        0,
+        1
+       ]
+      },
+      "top": {
+       "plate": "KERB",
+       "crop": [
+        0,
+        1,
+        0.48,
+        0.62
+       ],
+       "pw": 4
+      }
+     }
+    },
+    {
+     "box": [
+      0.25,
+      -0.3,
+      5.2,
+      3.75,
+      0,
+      6.95
+     ],
+     "faces": {
+      "front": {
+       "plate": "GYM_scoreboard",
+       "pw": 4
+      },
+      "top": {
+       "plate": "GYM_scoreboard",
+       "pw": 4,
+       "crop": [
+        0,
+        1,
+        0.95,
+        1
+       ]
+      },
+      "left": {
+       "plate": "GYM_scoreboard",
+       "pw": 1,
+       "crop": [
+        0,
+        0.03,
+        0,
+        1
+       ]
+      },
+      "right": {
+       "plate": "GYM_scoreboard",
+       "pw": 1,
+       "crop": [
+        0.97,
+        1,
+        0,
+        1
+       ]
+      }
+     }
+    }
+   ]
+  },
+  "IN_GYM_CourtLines": {
+   "size": [
+    28,
+    15,
+    0.02
+   ],
+   "tris": 800,
+   "kind": "interior",
+   "origin": "footprint-centre-ground",
+   "parts": [
+    {
+     "box": [
+      -14,
+      -7.5,
+      0,
+      14,
+      7.5,
+      0.02
+     ],
+     "faces": {
+      "top": {
+       "plate": "GYM_court",
+       "pw": 28
+      }
+     }
+    }
+   ]
+  },
+  "IN_HHB_Arcade6": {
+   "size": [
+    6,
+    0.4,
+    4.5
+   ],
+   "tris": 800,
+   "kind": "interior",
+   "origin": "front-plane-bottom-left",
+   "parts": [
+    {
+     "box": [
+      0,
+      0,
+      0,
+      6,
+      0.4,
+      4.5
+     ],
+     "faces": {
+      "front": {
+       "plate": "HHB_arcade",
+       "pw": 6,
+       "crop": [
+        0.0,
+        0.34,
+        0,
+        1
+       ]
+      },
+      "top": {
+       "plate": "KERB",
+       "pw": 6,
+       "crop": [
+        0,
+        1,
+        0.48,
+        0.62
+       ]
+      }
+     }
+    }
+   ]
+  },
+  "IN_HHB_FrenchDoors6": {
+   "size": [
+    6,
+    0.4,
+    3.5
+   ],
+   "tris": 800,
+   "kind": "interior",
+   "origin": "front-plane-bottom-left",
+   "parts": [
+    {
+     "box": [
+      0,
+      0,
+      0,
+      6,
+      0.4,
+      3.5
+     ],
+     "faces": {
+      "front": {
+       "plate": "HHB_frenchdoors",
+       "pw": 6,
+       "crop": [
+        0.0,
+        0.4,
+        0.45,
+        1
+       ]
+      },
+      "top": {
+       "plate": "KERB",
+       "pw": 6,
+       "crop": [
+        0,
+        1,
+        0.48,
+        0.62
+       ]
+      }
+     }
+    }
+   ]
+  },
+  "IN_HHB_DanceFloor": {
+   "size": [
+    16,
+    8,
+    0.02
+   ],
+   "tris": 800,
+   "kind": "interior",
+   "origin": "footprint-centre-ground",
+   "parts": [
+    {
+     "box": [
+      -8,
+      -4,
+      0,
+      8,
+      4,
+      0.02
+     ],
+     "faces": {
+      "top": {
+       "plate": "HHB_parquet",
+       "pw": 16
+      }
+     }
+    }
+   ]
+  },
+  "ST_Kerb4": {
+   "size": [
+    4,
+    0.75,
+    0.15
+   ],
+   "tris": 300,
+   "kind": "prop",
+   "origin": "front-plane-bottom-left",
+   "parts": [
+    {
+     "box": [
+      0,
+      -0.45,
+      0,
+      4,
+      0,
+      0.01
+     ],
+     "faces": {
+      "top": {
+       "plate": "KERB",
+       "crop": [
+        0,
+        1,
+        0.0,
+        0.42
+       ],
+       "pw": 4
+      }
+     }
+    },
+    {
+     "box": [
+      0,
+      0,
+      0,
+      4,
+      0.3,
+      0.15
+     ],
+     "faces": {
+      "front": {
+       "plate": "KERB",
+       "crop": [
+        0,
+        1,
+        0.42,
+        0.5
+       ],
+       "pw": 4
+      },
+      "top": {
+       "plate": "KERB",
+       "crop": [
+        0,
+        1,
+        0.48,
+        0.62
+       ],
+       "pw": 4
+      }
+     }
+    }
+   ]
+  },
+  "ST_KerbCorner3": {
+   "size": [
+    3.45,
+    3.45,
+    0.15
+   ],
+   "tris": 300,
+   "kind": "prop",
+   "origin": "arc-centre-ground",
+   "parts": [
+    {
+     "ring": [
+      0,
+      0,
+      2.7,
+      3.0,
+      0,
+      0.15
+     ],
+     "n": 6,
+     "faces": {
+      "outer": {
+       "plate": "KERB",
+       "crop": [
+        0,
+        1,
+        0.42,
+        0.5
+       ]
+      },
+      "top": {
+       "plate": "KERB",
+       "crop": [
+        0,
+        1,
+        0.48,
+        0.62
+       ]
+      }
+     }
+    },
+    {
+     "ring": [
+      0,
+      0,
+      3.0,
+      3.45,
+      0,
+      0.01
+     ],
+     "n": 6,
+     "faces": {
+      "top": {
+       "plate": "KERB",
+       "crop": [
+        0,
+        1,
+        0.0,
+        0.42
+       ]
+      }
+     }
+    }
+   ]
+  },
+  "ST_Crossing": {
+   "size": [
+    12,
+    3,
+    0.02
+   ],
+   "tris": 50,
+   "kind": "prop",
+   "origin": "footprint-centre-ground",
+   "parts": [
+    {
+     "box": [
+      -6,
+      -1.5,
+      0,
+      6,
+      1.5,
+      0.02
+     ],
+     "faces": {
+      "top": {
+       "plate": "CROSSING",
+       "pw": 12
+      }
+     }
+    }
+   ]
+  }
+ }
+}

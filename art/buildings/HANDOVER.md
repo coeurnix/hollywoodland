@@ -11,6 +11,8 @@ The building-art agent was stopped after phase 3 of `SPEC.md` §14: it was slow 
 | 1–2 | Storefront kit: 4 families (BRK, SPN, DECO, MSN; 27 modules each), 12 damage/occupation dressing meshes (`DR_*`), 7 roof props (`RF_*`), 7 wall/roof tileables, the Drugstore landmark | every `shops()` box on the boulevard: `kitFront()`, `roofProps()` |
 | 3 | Hub landmarks: `LM_Graumans` (+ forecourt walls), `LM_Roosevelt`, `LM_Egyptian` (+ wings, gateway), `LM_HollywoodHotel` (+ wings, courtyard walls), `LM_FirstNational`, `LM_Pantages`, `LM_Taft`, `LM_BrownDerby`, `LM_PoliceStation`, `LM_RedCarStop`, `LM_Kiosk_Auction`, and their 15 sign cards (+ 4 earlier) | `LM(...)` calls in `zone.mjs`; `landmark()` / `landmarkDeco()` in `facades.mjs` |
 
+**Built in the second pass (2026-11-13/14), committed but not yet imported into UE** (see "Session notes" below): the hive wall kit, Hollywood High + wing, the three aid stations, the ten backdrops, the Egyptian dungeon wall modules, 17 street/back-lot/interior props, the gym `IN_GYM_*` modules and court card, the ballroom `IN_HHB_*` modules and dance-floor card, kerb and crossing pieces, the parquet and gym-board tileables and the Grauman's poster card. Every "needed" row below is now done; only the rows marked optional remain.
+
 Check the landmarks with `hollywoodland-ue\Scripts\RunNative.ps1 -HLAuto=veteran -HLViews -HLViewSet=landmarks` (10 screenshots in `hollywoodland-ue/Saved/Screenshots/hl_view_NN.png`). Use `-HLViews` alone for the storefronts.
 
 **Not done** (SPEC phases 4–9). Much of it is already covered by the other art pipelines, so the real list is shorter than the SPEC:
@@ -18,7 +20,7 @@ Check the landmarks with `hollywoodland-ue\Scripts\RunNative.ps1 -HLAuto=veteran
 | SPEC | Item | Status / what is still needed |
 |---|---|---|
 | §8.1 street furniture | double-globe lamp, trolley pole, call box, mailbox, arc lamps, palms, rocks | **covered** by `art/props`, `art/world`, `art/foliage` (Rodin props) |
-| | single-globe side lamp, semaphore signal, street-name post, hydrant, newspaper stand, bench, trash can, palm planter, kerb modules, crossing card | **done 2026-11-14** except kerbs and the crossing card (the ground strips already draw kerbs; skipped): `art/world/models/street/`, registered in `tools/propprep.py`, placed in `zone.mjs` with `decoIf()` (appears once `ImportProps.ps1` has run) |
+| | single-globe side lamp, semaphore signal, street-name post, hydrant, newspaper stand, bench, trash can, palm planter, kerb modules, crossing card | **done 2026-11-14**: the props in `art/world/models/street/`, registered in `tools/propprep.py`, placed in `zone.mjs` with `decoIf()` (appears once `ImportProps.ps1` has run). Kerbs and crossing: `ST_Kerb4`, `ST_KerbCorner3`, `ST_Crossing` on `ATL_INT` (art/buildings meshes; not placed) |
 | §8.2 vehicles | red car, Model A, Model T, Chevrolets, sedans, newsreel truck, delivery van, wrecks | **covered** (`redcar_pe`, `car_*`, `wreck_*`) |
 | | 1920s taxi, Model A roadster | optional |
 | §8.3 back lot | crates, scrap pile, film cans, coffee tins, sandbags, rocks | **covered** |
@@ -30,13 +32,13 @@ Check the landmarks with `hollywoodland-ue\Scripts\RunNative.ps1 -HLAuto=veteran
 | | aid stations: Receiving Hospital, Fire Station No. 27, Blessed Sacrament church | **done 2026-11-14**: blocks + FLUX plates sharing `ATL_AID`, placed with `LM()` |
 | §7.3 backdrops | 10 low-budget studio/landmark masses beyond the hive wall (Bowl, Paramount, Columbia, RKO, Chaplin, Poverty Row, Christie, cemetery, La Brea ×2) | **done 2026-11-14**: `BD_*` Rodin full generation, 3000 tris, four per 1024-quadrant atlas (`ATL_BD1–3`), placed with `LM()`; `preview/BD_contact.png`. The unlabelled side boxes next to them stay cubes |
 | §11.1 Egyptian dungeon | dressed by the `art/world` Egyptian kit (sphinxes, columns, seats, stage, projector) | **done 2026-11-14**: `EGY_WallSeg` (+ `_Frieze`, `_Hive`) tile every wall box, `EGY_Pylon12` over the four doorways, `EGY_Colonnade` on the forecourt boxes (`ATL_EGY`, `preview/EGY_contact.png`) |
-| §11.2 ballroom courtyard | the hotel's courtyard now has its landmark wings | **done 2026-11-14**: `bandstand` + 2 `palm_planter` added (`decoIf`); the 6 `ballroom_furniture` sets and the chandelier were already placed |
-| §11.3 gym | | **done 2026-11-14**: gym inside faces (with hive corners) are painted on `LM_HollywoodHigh(_Wing)`; 2 `backboard`, 2 `bleachers` (`decoIf`). No separate `IN_GYM_*` modules or court-lines card |
+| §11.2 ballroom courtyard | the hotel's courtyard now has its landmark wings | **done 2026-11-14**: `bandstand` + 2 `palm_planter` added (`decoIf`); the 6 `ballroom_furniture` sets and the chandelier were already placed. Courtyard facade modules `IN_HHB_Arcade6` (veranda arch, string lights), `IN_HHB_FrenchDoors6`, the `IN_HHB_DanceFloor` card and `TILE_Parquet` delivered on `ATL_INT` (not placed) |
+| §11.3 gym | | **done 2026-11-14**: gym inside faces (with hive corners) are painted on `LM_HollywoodHigh(_Wing)`; 2 `backboard`, 2 `bleachers` (`decoIf`). Separate modules `IN_GYM_Wall4` (+ `_B`, `_Score`, `_HiveL`, `_HiveR`), the `IN_GYM_CourtLines` card and `TILE_GymBoards` delivered on `ATL_INT` (not placed) |
 | §10 | remaining sign/poster pages, emissive masks | optional |
 | §10.2 ground tileables | | **covered** by `art/textures` (`T_GND_*`) |
 
 Known loose ends:
-- `SIGN_Graumans_Poster` is described on `LM_Graumans_ForecourtWall` but was never published as a card (the walls render without it).
+- `SIGN_Graumans_Poster` is now published (page `signs/T_SIGN_04.png`, `meshes/SIGN_Graumans_Poster.fbx`, 1.2 × 1.8 m) but not yet attached to `LM_Graumans_ForecourtWall`: add an `attachments` entry where it should hang.
 - `zone.mjs` `shops()` leaves 0.5 m gaps between shops, so a frontage is 0.5 m narrower than its nominal width. `kitFront()` stretches bays to fit, so this is harmless.
 - The Brown Derby's axis question (README) is resolved: its box turned to 24 × 30 m and it faces west (`'W'`) onto Vine.
 
@@ -63,9 +65,10 @@ box, decimate, optional shared-atlas quadrant + `pack_quads.py`), `block_buildin
 specs `blocks_ATL_*.json`; plates live in the ignored `work/plates/`, prompts in `concept_prompts/`), `export_prop.py`,
 `publish_batch.py` (manifest), `contact_sheet.py`.
 
+Third pass (2026-11-14): `ATL_INT` (9 plates, 2 × 5 grid) carries the gym, ballroom, kerb and crossing pieces; tileables `T_TILE_Parquet` / `T_TILE_GymBoards` are mirror-tiled 2048 masters. No Rodin. Per the owner, only assets visible in the implemented zone were made: the optional rows (taxi, roadster, Max Factor/Gun Shop/Haberdashery upgrades, more sign pages, emissive masks) and the optional shop interior were not.
+
 Deviations: EGY wall segments are full-thickness 9 × 4 × 9 m blocks rather than 0.3–0.6 m facings (one mesh dresses both
-rooms of a divider); the gym's inner faces are painted on the Hollywood High meshes instead of separate `IN_GYM_*` modules;
-no kerb modules or crossing card; `BD_RKO` is 34 m tall with its tower above the 14 m box; the turned boxes (Fire Station,
+rooms of a divider); `BD_RKO` is 34 m tall with its tower above the 14 m box; the turned boxes (Fire Station,
 Columbia, Chaplin, Poverty Row, Christie, both La Brea blocks) use nominal [box d, box w, h].
 
 ## Integrating new pieces

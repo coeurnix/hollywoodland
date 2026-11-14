@@ -1,0 +1,23 @@
+{
+  "id": "GYM_scoreboard",
+  "provider": "fal.ai",
+  "model": "blackforestlabs/flux-3/klein/text-to-image",
+  "prompt": "A 1930 school gymnasium wooden scoreboard: a wide dark green painted board with a varnished wooden frame, two big painted panels labelled HOME and VISITORS with hanging white number cards, a round clock in the middle, a HOLLYWOOD HIGH pennant above. Straight-on flat orthographic elevation, no perspective, fills the entire image edge to edge, no sky, no ground, no people. Hand-painted stylized texture in classic early World of Warcraft art style, chunky bold forms, painted ambient occlusion, warm light at the top and cooler base, restrained brush texture. 1930 Hollywood.",
+  "references": [],
+  "image_size": {
+    "width": 1024,
+    "height": 512
+  },
+  "seed": 1800,
+  "output": "work/plates/GYM_scoreboard.png",
+  "status": "downloaded",
+  "request_id": "01a1da4d-89b1-7023-825a-4aad15ffba5a",
+  "elapsed_seconds": 4.93,
+  "timings": {
+    "prompt_expansion": 5.151000095793279e-06,
+    "inference": 0.5055104679995566,
+    "safety_checker": 0.013858573998732027
+  },
+  "width": 1024,
+  "height": 512
+}

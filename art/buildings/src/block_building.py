@@ -21,18 +21,19 @@ from pathlib import Path
 R = Path(__file__).resolve().parents[1]
 
 
-def slot_rect(i):
-    c, r = i % 2, i // 2
-    return (c * 0.5, 1 - (r + 1) * 0.25, c * 0.5 + 0.5, 1 - r * 0.25)
+def slot_rect(i, grid=(2, 4)):
+    cols, rows = grid; c, r = i % cols, i // cols
+    return (c / cols, 1 - (r + 1) / rows, (c + 1) / cols, 1 - r / rows)
 
 
 def pack(spec_path):
     from PIL import Image
     spec = json.loads(Path(spec_path).read_text())
     at = Image.new('RGB', (2048, 2048), (90, 80, 70))
+    cols, rows = spec.get('grid', [2, 4]); pw, ph = 2048 // cols, 2048 // rows
     for i, name in enumerate(spec['plates']):
-        im = Image.open(R / 'work' / 'plates' / f'{name}.png').convert('RGB').resize((1024, 512), Image.LANCZOS)
-        at.paste(im, ((i % 2) * 1024, (i // 2) * 512))
+        im = Image.open(R / 'work' / 'plates' / f'{name}.png').convert('RGB').resize((pw, ph), Image.LANCZOS)
+        at.paste(im, ((i % cols) * pw, (i // cols) * ph))
     out = R / 'textures' / f"T_{spec['atlas']}.png"; at.save(out); print('atlas', out)
 
 
@@ -51,7 +52,7 @@ SLOT = {n: i for i, n in enumerate(spec['plates'])}
 
 
 def uv_of(plate, crop=None):
-    u0, v0, u1, v1 = slot_rect(SLOT[plate])
+    u0, v0, u1, v1 = slot_rect(SLOT[plate], tuple(spec.get('grid', [2, 4])))
     e = 1.5 / 2048   # stay off the plate edge (no bleeding at 1K)
     u0, v0, u1, v1 = u0 + e, v0 + e, u1 - e, v1 - e
     if crop:
@@ -113,6 +114,22 @@ def build(aid, a):
                 e = p.get('end', p['plate']); u0, v0, u1, v1 = uv_of(e, p.get('end_crop'))
                 tri((x0, y0, z0), (x1, y0, z0), (xm, y0, z1), [(u0, v0), (u1, v0), ((u0 + u1) / 2, v1)])
                 tri((x1, y1, z0), (x0, y1, z0), (xm, y1, z1), [(u0, v0), (u1, v0), ((u0 + u1) / 2, v1)])
+        elif 'ring' in p:
+            # quarter-ring strip about (cx, cy): radii r0 < r1, z0..z1, angles a0..a1 (degrees), n segments;
+            # faces: "top" (annulus) and "outer" (the r1 wall, facing away from the centre); crops as for boxes
+            import math
+            cx, cy, r0, r1, z0, z1 = p['ring']; a0, a1 = p.get('angles', [0, 90]); n = p.get('n', 6); F = p['faces']
+            for i in range(n):
+                t0 = math.radians(a0 + (a1 - a0) * i / n); t1 = math.radians(a0 + (a1 - a0) * (i + 1) / n)
+                P = lambda r, t, z: Vector((cx + r * math.cos(t), cy + r * math.sin(t), z))
+                if 'outer' in F:
+                    u0, v0, u1, v1 = uv_of(F['outer']['plate'], F['outer'].get('crop')); du = (u1 - u0) / n
+                    f = bm.faces.new([bm.verts.new(P(r1, t0, z0)), bm.verts.new(P(r1, t1, z0)), bm.verts.new(P(r1, t1, z1)), bm.verts.new(P(r1, t0, z1))])
+                    for l, uv in zip(f.loops, [(u0 + du * i, v0), (u0 + du * (i + 1), v0), (u0 + du * (i + 1), v1), (u0 + du * i, v1)]): l[uvl].uv = uv
+                if 'top' in F:
+                    u0, v0, u1, v1 = uv_of(F['top']['plate'], F['top'].get('crop')); du = (u1 - u0) / n
+                    f = bm.faces.new([bm.verts.new(P(r0, t0, z1)), bm.verts.new(P(r1, t0, z1)), bm.verts.new(P(r1, t1, z1)), bm.verts.new(P(r0, t1, z1))])
+                    for l, uv in zip(f.loops, [(u0 + du * i, v1), (u0 + du * i, v0), (u0 + du * (i + 1), v0), (u0 + du * (i + 1), v1)]): l[uvl].uv = uv
         elif 'pyramid' in p:
             x0, y0, z0, x1, y1, z1 = p['pyramid']; u0, v0, u1, v1 = uv_of(p['plate'])
             apex = ((x0 + x1) / 2, (y0 + y1) / 2, z1); c = [(x0, y0, z0), (x1, y0, z0), (x1, y1, z0), (x0, y1, z0)]
@@ -122,8 +139,8 @@ def build(aid, a):
     mat = bpy.data.materials.new('M_' + spec['atlas']); mat.use_nodes = True; me.materials.append(mat)
     t = mat.node_tree.nodes.new('ShaderNodeTexImage'); t.image = bpy.data.images.load(str(R / 'textures' / f"T_{spec['atlas']}.png"), check_existing=True)
     mat.node_tree.links.new(t.outputs['Color'], mat.node_tree.nodes['Principled BSDF'].inputs['Base Color'])
-    meta = {'id': aid, 'kind': 'landmark', 'material': 'M_' + spec['atlas'], 'texture': 'atlas:' + spec['atlas'], 'emissive': None,
-            'nominal': a['size'], 'origin': 'footprint-centre-ground'}
+    meta = {'id': aid, 'kind': a.get('kind', 'landmark'), 'material': 'M_' + spec['atlas'], 'texture': 'atlas:' + spec['atlas'], 'emissive': None,
+            'nominal': a['size'], 'origin': a.get('origin', 'footprint-centre-ground')}
     entry, audit = export_asset(ob, meta, a.get('tris', 10000))
     # open shells by design (faces against the ground or a neighbour are omitted, SPEC 3), so boundary edges are expected
     res_p = R / 'work' / 'fit_results.json'; res = json.loads(res_p.read_text()) if res_p.exists() else {}

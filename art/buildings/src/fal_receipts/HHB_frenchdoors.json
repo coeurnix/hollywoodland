@@ -1,0 +1,23 @@
+{
+  "id": "HHB_frenchdoors",
+  "provider": "fal.ai",
+  "model": "blackforestlabs/flux-3/klein/text-to-image",
+  "prompt": "The courtyard side upper storey of a 1930 Mission Revival hotel: white stucco wall with a row of tall green-framed French doors with small wrought-iron balconettes, green-striped canvas awnings above each, red terracotta tile coping along the top edge. Straight-on flat orthographic elevation, no perspective, fills the entire image edge to edge, no sky, no ground, no people. Hand-painted stylized texture in classic early World of Warcraft art style, chunky bold forms, painted ambient occlusion, warm light at the top and cooler base, restrained brush texture. 1930 Hollywood.",
+  "references": [],
+  "image_size": {
+    "width": 1024,
+    "height": 512
+  },
+  "seed": 1805,
+  "output": "work/plates/HHB_frenchdoors.png",
+  "status": "downloaded",
+  "request_id": "01a1da4d-89b2-7900-a3e6-2f028a81c35b",
+  "elapsed_seconds": 3.91,
+  "timings": {
+    "prompt_expansion": 8.989999969344353e-06,
+    "inference": 0.5940601209986198,
+    "safety_checker": 0.012851907998992829
+  },
+  "width": 1024,
+  "height": 512
+}

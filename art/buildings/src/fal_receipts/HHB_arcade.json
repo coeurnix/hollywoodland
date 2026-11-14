@@ -1,0 +1,23 @@
+{
+  "id": "HHB_arcade",
+  "provider": "fal.ai",
+  "model": "blackforestlabs/flux-3/klein/text-to-image",
+  "prompt": "The courtyard side of a 1930 Mission Revival hotel ground floor: a veranda arcade of white stucco round arches on square piers, deep shadowed veranda behind with wicker chairs and dark French windows, strings of warm glowing light bulbs swagged between the arches, green-striped canvas awning valances, terracotta tile floor edge at the bottom. Straight-on flat orthographic elevation, no perspective, fills the entire image edge to edge, no sky, no ground, no people. Hand-painted stylized texture in classic early World of Warcraft art style, chunky bold forms, painted ambient occlusion, warm light at the top and cooler base, restrained brush texture. 1930 Hollywood.",
+  "references": [],
+  "image_size": {
+    "width": 1024,
+    "height": 512
+  },
+  "seed": 1804,
+  "output": "work/plates/HHB_arcade.png",
+  "status": "downloaded",
+  "request_id": "01a1da4d-89b1-7b20-9ec3-3e5158a73631",
+  "elapsed_seconds": 5.94,
+  "timings": {
+    "prompt_expansion": 7.040000127744861e-06,
+    "inference": 0.6097022550020483,
+    "safety_checker": 0.015136939000512939
+  },
+  "width": 1024,
+  "height": 512
+}

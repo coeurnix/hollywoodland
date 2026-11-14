@@ -1,0 +1,23 @@
+{
+  "id": "GYM_court",
+  "provider": "fal.ai",
+  "model": "blackforestlabs/flux-3/klein/text-to-image",
+  "prompt": "A 1930 basketball court on a varnished maple gym floor: long narrow boards running left to right, painted black court lines, a centre circle, two keyholes at the left and right ends, warm honey colour. Seen exactly from straight above, flat top-down orthographic texture, fills the entire image edge to edge, no perspective, no people, no objects. Hand-painted stylized texture in classic early World of Warcraft art style, restrained brush texture.",
+  "references": [],
+  "image_size": {
+    "width": 1024,
+    "height": 512
+  },
+  "seed": 1801,
+  "output": "work/plates/GYM_court.png",
+  "status": "downloaded",
+  "request_id": "01a1da4d-89bb-7181-b99f-5f47408ff2a4",
+  "elapsed_seconds": 4.84,
+  "timings": {
+    "prompt_expansion": 8.880000223143725e-06,
+    "inference": 0.7519639230013127,
+    "safety_checker": 0.01627751400519628
+  },
+  "width": 1024,
+  "height": 512
+}

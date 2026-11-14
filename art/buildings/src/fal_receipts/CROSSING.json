@@ -1,0 +1,23 @@
+{
+  "id": "CROSSING",
+  "provider": "fal.ai",
+  "model": "blackforestlabs/flux-3/klein/text-to-image",
+  "prompt": "A 1930 pedestrian crossing painted on dark asphalt: two thick parallel worn white lines running left to right along the top and bottom edges, the asphalt between them plain with cracks and oil stains, the paint chipped and faded. Seen exactly from straight above, flat top-down orthographic texture, fills the entire image edge to edge, no perspective, no people, no objects. Hand-painted stylized texture in classic early World of Warcraft art style, restrained brush texture.",
+  "references": [],
+  "image_size": {
+    "width": 1024,
+    "height": 512
+  },
+  "seed": 1803,
+  "output": "work/plates/CROSSING.png",
+  "status": "downloaded",
+  "request_id": "01a1da4d-89ba-73b0-a4dc-695926d3e364",
+  "elapsed_seconds": 3.9,
+  "timings": {
+    "prompt_expansion": 5.690000307367882e-06,
+    "inference": 0.6045884539998951,
+    "safety_checker": 0.01886587799526751
+  },
+  "width": 1024,
+  "height": 512
+}
