@@ -138,7 +138,11 @@ def make_foliage_material():
     mel.connect_material_property(col, '', unreal.MaterialProperty.MP_BASE_COLOR)
     mel.connect_material_property(op(m, unreal.MaterialExpressionMultiply, -500, 150, col, scalar(m, 'Glow', -800, 200, 0.26)), '', unreal.MaterialProperty.MP_EMISSIVE_COLOR)
     mel.connect_material_property(n, 'RGB', unreal.MaterialProperty.MP_NORMAL)
-    mel.connect_material_property(b, 'A', unreal.MaterialProperty.MP_OPACITY_MASK)
+    # opacity: the card's alpha, times the camera see-through (Scripts/camera_fade.py: trees between camera and player)
+    import os as _os, sys as _sys
+    _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__)))
+    from camera_fade import add_camera_fade
+    add_camera_fade(m, b, 'A')
     c = mel.create_material_expression(m, unreal.MaterialExpressionConstant, -800, 450)
     c.set_editor_property('r', 0.9)
     mel.connect_material_property(c, '', unreal.MaterialProperty.MP_ROUGHNESS)

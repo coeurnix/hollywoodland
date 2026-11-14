@@ -29,9 +29,9 @@ void FHLTerrain::Build(const FHLAreaDef& Def)
 		if (B.Kind != TEXT("Blight") && B.Kind != TEXT("Grass") && B.Kind != TEXT("Lot")) MarkRect(B.X - 1, B.Y - 1, B.X + B.W + 1, B.Y + B.D + 1);
 	for (const FHLBox& B : Def.Boxes) MarkRect(B.X - 3, B.Y - 3, B.X + B.W + 3, B.Y + B.D + 3);
 	for (const FBox2f& C : Def.Cols) MarkRect(C.Min.X - 1.5f, C.Min.Y - 1.5f, C.Max.X + 1.5f, C.Max.Y + 1.5f);
-	// dressing out past the bounds (the HOLLYWOODLAND sign on the north ridge) stands on the hills instead of levelling them
+	// loose dressing (wreckage, crates, the HOLLYWOODLAND sign) stands on the hills instead of levelling them: with two
+	// thousand props about, flattening round each one levelled nearly every lot. Kerb-side dressing sits on made ground.
 	const FVector2D Lo = Def.Min, Hi = Def.Min + Def.Size;
-	for (const FHLPropPlace& P : Def.Props) if (P.Pos.X >= Lo.X && P.Pos.Y >= Lo.Y && P.Pos.X <= Hi.X && P.Pos.Y <= Hi.Y) MarkAt(P.Pos, 2.5f);
 	for (const FHLNpcDef& Np : Def.Npcs) MarkAt(Np.Pos, 5.f);
 	for (const FHLPortal& Po : Def.Portals) MarkAt(Po.Pos, 6.f);
 	for (const FHLAidStation& A : Def.Aid) MarkAt(A.Pos, 6.f);
@@ -58,19 +58,33 @@ void FHLTerrain::Build(const FHLAreaDef& Def)
 			const int32 k = j * NX + i;
 			const float X = Origin.X + i * Cell, Y = Origin.Y + j * Cell;
 			const float D = Dist[k] >= (1 << 27) ? 1e4f : Dist[k] * Cell / 3.f; // metres to made ground
-			const float Amp = FMath::SmoothStep(3.f, 28.f, D);
+			const float Amp = FMath::SmoothStep(4.f, 32.f, D);
 			const float N1 = 0.5f + 0.5f * (0.6f * FMath::Sin(0.041f * X + 0.3f) * FMath::Cos(0.035f * Y + 1.1f) + 0.4f * FMath::Sin(0.067f * X - 0.052f * Y + 2.f));
 			const float N2 = 0.5f + 0.5f * (0.5f * FMath::Sin(0.13f * X + 0.11f * Y + 0.5f) + 0.5f * FMath::Cos(0.11f * X - 0.15f * Y + 1.7f));
 			// distance inside the area bounds (negative past them)
 			const float E = FMath::Min(FMath::Min(X - Lo.X, Hi.X - X), FMath::Min(Y - Lo.Y, Hi.Y - Y));
 			const float Edge = 1.f - FMath::SmoothStep(-120.f, 230.f, E);
-			const float Base = 3.2f * (N1 - 0.3f) + 0.7f * (N2 - 0.5f);
+			// rolling hill country: broad rises and hollows a lot wide, smaller knolls on them, and a little roughness
+			const FVector2D Q(X, Y);
+			const float P1 = FMath::PerlinNoise2D(Q / 95.f + FVector2D(13.1f, 7.7f)), P2 = FMath::PerlinNoise2D(Q / 36.f + FVector2D(3.3f, 1.9f)), P3 = FMath::PerlinNoise2D(Q / 14.f + FVector2D(0.4f, 8.2f));
+			// (UE's Perlin swings about +-0.4 in practice) hollows stay shallower than the rises
+			float Base = 17.f * (P1 + 0.18f) + 6.f * P2 + 1.5f * P3 + 0.8f * (N1 - 0.5f);
+			if (Base < 0) Base *= 0.45f;
 			// past the hive ring the ground climbs into a ridge of hills that closes the horizon, highest in the north
 			// (the Hollywood Hills: the sign stands up there)
 			const float Ridge = FMath::SmoothStep(60.f, 380.f, -E) * (22.f + 30.f * N1 + 10.f * N2) * (Y < Lo.Y ? 1.5f : 1.f);
 			H[k] = Amp * (Base + Edge * (5.f + 9.f * N1) + Ridge);
-			Wild[k] = FMath::SmoothStep(1.f, 8.f, D); // scatter density: grass reaches nearly to the kerb, ahead of the swells
-		}
+					Wild[k] = FMath::SmoothStep(1.f, 8.f, D); // scatter density: grass reaches nearly to the kerb, ahead of the swells
+				}
+			// relief inside the bounds (the log line lets a run check the hills are there)
+			float HMin = 1e9f, HMax = -1e9f; int32 NHill = 0, NIn = 0;
+			for (int32 j = 0; j < NY; ++j) for (int32 i = 0; i < NX; ++i)
+			{
+				const float X = Origin.X + i * Cell, Y = Origin.Y + j * Cell;
+				if (X < Lo.X || Y < Lo.Y || X > Hi.X || Y > Hi.Y) continue;
+				const float V = H[j * NX + i]; HMin = FMath::Min(HMin, V); HMax = FMath::Max(HMax, V); ++NIn; NHill += FMath::Abs(V) > 2.f;
+			}
+			UE_LOG(LogTemp, Log, TEXT("HL terrain: %s relief %.1f..%.1f m, %d%% of the ground off level by 2 m+"), *Def.Id, HMin, HMax, NIn ? NHill * 100 / NIn : 0);
 }
 
 float FHLTerrain::Sample(const TArray<float>& F, const FVector2D& P) const

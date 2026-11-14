@@ -341,7 +341,7 @@ UAnimSequence* FHLChars::Anim(int32 Sex, const FString& Clip)
 	if (Missing.Contains(Path)) return nullptr;
 	if (TObjectPtr<UObject>* Found = Cache.Find(Path)) return Cast<UAnimSequence>(*Found);
 	UObject* O = StaticLoadObject(UObject::StaticClass(), nullptr, *Path, nullptr, LOAD_NoWarn | LOAD_Quiet);
-	if (O) Cache.Add(Path, O); else Missing.Add(Path); // optional clips fall back silently
+	if (O) Cache.Add(Path, O); else { Missing.Add(Path); UE_LOG(LogTemp, Log, TEXT("HL_POSE clip not found: %s"), *Path); } // optional clips fall back
 	return Cast<UAnimSequence>(O);
 }
 UMaterialInterface* FHLChars::Mat(const TCHAR* Name) { return Cast<UMaterialInterface>(Load(FString::Printf(TEXT("%s/%s.%s"), *CharBase, Name, Name))); }

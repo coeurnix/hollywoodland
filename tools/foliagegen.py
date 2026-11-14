@@ -29,7 +29,18 @@ REF = ('Product reference photo of {subject}, a single isolated object, entire o
 SPRITE = ('{subject}, seen from the side at eye level, a single isolated clump filling the frame, crisp edges, flat even '
           'lighting, plain pure white background, no shadow, no ground, no pot, realistic natural colours, no text.')
 
-# id: (kind, subject, height in metres the art should read at in the game)
+# Second set (2026-11): stylized hand-painted pieces with chunky foliage masses, which come out of Rodin as clean solid
+# meshes (the realistic first-set trees came out as stacked shards). The open lots read as hill country: oaks and
+# sycamores in the hollows, orange groves, chaparral on the slopes, haystacks and rail fences on the farms.
+REF_STYLE = ('Stylized hand-painted 3D game asset in the style of a classic fantasy MMO, {subject}, a single isolated object, '
+             'entire object in frame with margin, three-quarter view from slightly above, soft even lighting, no shadow, plain '
+             'pure white background, warm saturated natural colours, chunky simple readable shapes, no text, no people, no '
+             'ground, no base, no pot.')
+SPRITE_STYLE = ('Stylized hand-painted game art, {subject}, seen from the side at eye level, a single isolated clump filling '
+                'the frame, crisp clean edges, soft even lighting, plain pure white background, no shadow, no ground, warm '
+                'saturated natural colours, no text.')
+
+# id: (kind, subject, height in metres the art should read at in the game[, 'style'])
 ASSETS = {
     'palm_fan': ('model', 'a very tall slender Mexican fan palm tree (Washingtonia robusta) with a thin straight grey trunk and a small round crown of bright green fan fronds, a skirt of dry brown fronds under the crown', 15.0),
     'palm_canary': ('model', 'a Canary Island date palm tree with a thick textured pineapple-patterned trunk and a large full crown of long arching feathery green fronds', 9.0),
@@ -47,8 +58,21 @@ ASSETS = {
     'flower_poppy': ('card', 'a clump of orange California poppies, green feathery leaves and several open bright orange cup flowers on thin stems', 0.45),
     'flower_lupine': ('card', 'a clump of purple wild lupine flowers, tall spikes of violet-blue blossoms over palmate green leaves', 0.7),
     'flower_daisy': ('card', 'a clump of small white wild daisies with yellow centres on thin green stems', 0.4),
-    'flower_mustard': ('card', 'a clump of wild yellow mustard flowers, thin stems topped with small bright yellow blossoms', 0.9),
-}
+        'flower_mustard': ('card', 'a clump of wild yellow mustard flowers, thin stems topped with small bright yellow blossoms', 0.9),
+        'oak_live': ('model', 'a California coast live oak tree: a short thick twisting dark brown trunk splitting into heavy limbs, and a wide umbrella-shaped crown made of several big chunky rounded clumps of dark olive-green foliage', 9.0, 'style'),
+        'tree_sycamore': ('model', 'a California sycamore tree with a pale white, tan and grey mottled trunk leaning slightly, and a crown of several big rounded clumps of bright yellow-green leaves', 12.0, 'style'),
+        'tree_orange': ('model', 'a small orange grove tree: a short trunk under a dense round ball of glossy dark green foliage dotted with bright orange fruit', 3.6, 'style'),
+        'tree_gum': ('model', 'a tall eucalyptus tree with a pale smooth cream trunk forking high up, and an airy crown of four or five separate chunky blue-green foliage clumps', 14.0, 'style'),
+        'shrub_toyon': ('model', 'a round toyon shrub made of chunky dark green foliage clumps with clusters of bright red berries', 2.0, 'style'),
+        'shrub_sage': ('model', 'a low wide mounded coastal sagebrush bush with soft silvery grey-green foliage clumps', 1.0, 'style'),
+        'shrub_buckwheat': ('model', 'a low rounded California buckwheat bush, dark green foliage covered in rust-brown and cream flower heads', 0.9, 'style'),
+        'log_fallen': ('model', 'a fallen weathered grey-brown oak log lying on its side, broken branch stubs, small patches of green moss', 0.8, 'style'),
+        'rock_outcrop': ('model', 'a large tan sandstone outcrop of three stacked rounded slabs with a few small tufts of grass on the ledges', 3.5, 'style'),
+        'haystack': ('model', 'a rounded golden haystack on a farm, loose straw texture, slightly lopsided dome shape', 2.6, 'style'),
+        'fence_rail': ('model', 'one straight section of a weathered wooden split-rail farm fence: two posts and three rough horizontal rails, about four metres long', 1.3, 'style'),
+        'grass_meadow': ('card', 'a wide clump of tall meadow grass, green at the base turning golden at the tips, with a few seed heads', 0.75, 'style'),
+        'grass_lush': ('card', 'a wide dense clump of short lush bright green grass blades', 0.5, 'style'),
+    }
 
 
 def load_env():
@@ -164,15 +188,16 @@ def main():
     http = requests.Session()
 
     def one(key):
-        kind, subj, _h = ASSETS[key]
+        kind, subj, _h = ASSETS[key][:3]
+        style = len(ASSETS[key]) > 3
         st = state.setdefault(key, {})
         if kind == 'model':
-            ref = fal_image(key, REF.format(subject=subj), 1024, 1024, st, http)
+            ref = fal_image(key, (REF_STYLE if style else REF).format(subject=subj), 1024, 1024, st, http)
             save(state)
             if not a.images_only:
                 rodin_model(key, ref, st, http)
         else:
-            fal_image(key, SPRITE.format(subject=subj), 1024, 1024, st, http)
+            fal_image(key, (SPRITE_STYLE if style else SPRITE).format(subject=subj), 1024, 1024, st, http)
         save(state)
         return key
 

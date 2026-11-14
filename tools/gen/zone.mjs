@@ -135,6 +135,7 @@ strip(X0, 199.2, X1, 199.5, [0.5, 0.5, 0.52]); strip(X0, 200.5, X1, 200.8, [0.5,
 const LM = (b, face, id, opts) => { const { body, extra } = landmark(b, face, id, opts); b.prop = body; b.noSign = true; props.push(...extra); return b; };
 LM(box(52, 108, 134, 166, 16, C.landmark, "Grauman's Chinese Theatre"), 'S', 'LM_Graumans');
 LM(box(52, 166, 58, 186, 5, C.landmark), 'S', 'LM_Graumans_ForecourtWall'); LM(box(128, 166, 134, 186, 5, C.landmark), 'S', 'LM_Graumans_ForecourtWall', { mirror: true }); // forecourt walls
+ strip(58, 166, 128, 186, C.walk); // the forecourt is paved (the cement of the footprints), not lawn
 { const r = shops(154, 168, 150, 186, 2, ['Max Factor Salon']); facades(r, true); signs(r, true); }
 LM(box(170, 160, 286, 186, 14, C.landmark, 'Hollywood Hotel'), 'S', 'LM_HollywoodHotel');
 LM(box(170, 108, 194, 160, 12, C.landmark), 'S', 'LM_HollywoodHotel_Wing'); LM(box(262, 108, 286, 160, 12, C.landmark), 'S', 'LM_HollywoodHotel_Wing', { mirror: true });
@@ -356,7 +357,8 @@ for (let x = -96; x < 900; x += 36) {
 }
 // fan palms: the boulevard's south sidewalk (between the lamps) and both sides of Highland
 // (a canary palm, scaled down to fit the sidewalk, every third)
-const palm = (x, y, i) => (i % 3 === 2 ? deco('palm_canary', x, y, objRand() * 360, 0.62 + objRand() * 0.12) : deco('palm_fan', x, y, objRand() * 360, 0.85 + objRand() * 0.3));
+// street palms: Canary Island date palms (the fan palm model's crown came out of Rodin as stacked shards)
+const palm = (x, y, i) => deco('palm_canary', x, y, objRand() * 360, 0.6 + objRand() * 0.16 + (i % 3 === 2 ? 0.06 : 0));
 let palmN = 0;
 for (let x = -96; x < 900; x += 36) if (!onCross(x + 18, 5) && !nearNpc(x + 18, 212.4, 6)) palm(x + 18, 212.4, palmN++);
 for (let y = -80; y < 540; y += 30) for (const x of [288.6, 307.4]) if ((y < 180 || y > 222) && !nearNpc(x, y, 6)) palm(x, y, palmN++);

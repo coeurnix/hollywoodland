@@ -79,6 +79,10 @@ public:
 	UPROPERTY() TObjectPtr<UMaterialInterface> MatGround;  // painted ground tiles (M_HLGround)
 	UPROPERTY() TObjectPtr<UMaterialInterface> MatSkyDome; // day/night panoramas (M_HLSkyDome)
 	UPROPERTY() TMap<FString, TObjectPtr<UMaterialInstanceDynamic>> GroundMids;
+	UPROPERTY() TObjectPtr<UMaterialInterface> MatWall;  // box-mapped facade tiles (M_HLWall)
+	UPROPERTY() TObjectPtr<UMaterialInterface> MatTerrain; // the outdoor floor: meadow, grass, dirt, road, blight by mask (M_HLTerrain)
+	UPROPERTY() TArray<TObjectPtr<UTexture2D>> TerrainMasks;
+	UPROPERTY() TMap<FString, TObjectPtr<UMaterialInstanceDynamic>> WallMids;
 	UPROPERTY() TArray<TObjectPtr<UMaterialInstanceDynamic>> SkyMids;
 	UPROPERTY() TObjectPtr<class UDirectionalLightComponent> SunLight;
 		UPROPERTY() TObjectPtr<class UMaterialParameterCollection> Ambient; // MPC_HLAmbient: hemisphere ambient in the materials
@@ -110,6 +114,8 @@ private:
 	UStaticMeshComponent* AddMesh(AActor* InOwner, UStaticMesh* Mesh, const FVector& Loc, const FVector& Scale, const FLinearColor& Color, bool bUnlit = false, bool bShadow = false);
 	void BuildWorld();
 	UMaterialInstanceDynamic* GroundMid(const FString& Kind, const FLinearColor& C); // null: no such tile (flat colour)
+	UMaterialInstanceDynamic* WallMid(const struct FHLBox& B); // null: keep the flat colour (hive, interiors, hills)
+	UMaterialInstanceDynamic* TerrainMid(int32 Area); // null: no M_HLTerrain (falls back to GroundMid)
 	void TickSky(); // day/night: sun and moon, sky blend, grading, lamps
 	void TickFilm(); // picture night: a flipbook (Content/Data/Film) on Grauman's facade while the film runs
 	UPROPERTY() TObjectPtr<UProceduralMeshComponent> FilmScreen;

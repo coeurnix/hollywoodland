@@ -2875,6 +2875,301 @@
     0.45,
     0.9
    ]
+  },
+  "oak_live": {
+   "mesh": "/Game/Props/SM_OakLive.SM_OakLive",
+   "size": [
+    10.93,
+    11.94,
+    9.0
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/foliage/raw/oak_live.glb",
+   "foliage": true,
+   "tris": 13999,
+   "min": [
+    -5.58,
+    -5.92,
+    -0.19
+   ],
+   "max": [
+    5.42,
+    5.93,
+    8.91
+   ]
+  },
+  "tree_sycamore": {
+   "mesh": "/Game/Props/SM_TreeSycamore.SM_TreeSycamore",
+   "size": [
+    8.83,
+    14.64,
+    12.0
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/foliage/raw/tree_sycamore.glb",
+   "foliage": true,
+   "tris": 14000,
+   "min": [
+    -4.61,
+    -7.42,
+    -0.19
+   ],
+   "max": [
+    4.47,
+    7.34,
+    11.97
+   ]
+  },
+  "tree_orange": {
+   "mesh": "/Game/Props/SM_TreeOrange.SM_TreeOrange",
+   "size": [
+    3.43,
+    3.72,
+    3.6
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/foliage/raw/tree_orange.glb",
+   "foliage": true,
+   "tris": 9000,
+   "min": [
+    -1.7,
+    -1.86,
+    -0.04
+   ],
+   "max": [
+    1.71,
+    1.86,
+    3.56
+   ]
+  },
+  "tree_gum": {
+   "mesh": "/Game/Props/SM_TreeGum.SM_TreeGum",
+   "size": [
+    6.36,
+    14.1,
+    14.0
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/foliage/raw/tree_gum.glb",
+   "foliage": true,
+   "tris": 14000,
+   "min": [
+    -3.17,
+    -7.06,
+    -0.14
+   ],
+   "max": [
+    3.19,
+    7.08,
+    13.96
+   ]
+  },
+  "shrub_toyon": {
+   "mesh": "/Game/Props/SM_ShrubToyon.SM_ShrubToyon",
+   "size": [
+    2.35,
+    2.45,
+    2.0
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/foliage/raw/shrub_toyon.glb",
+   "foliage": true,
+   "tris": 12039,
+   "min": [
+    -1.18,
+    -1.23,
+    -0.0
+   ],
+   "max": [
+    1.17,
+    1.22,
+    1.97
+   ]
+  },
+  "shrub_sage": {
+   "mesh": "/Game/Props/SM_ShrubSage.SM_ShrubSage",
+   "size": [
+    1.51,
+    1.72,
+    1.0
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/foliage/raw/shrub_sage.glb",
+   "foliage": true,
+   "tris": 6000,
+   "min": [
+    -0.74,
+    -0.85,
+    -0.0
+   ],
+   "max": [
+    0.74,
+    0.85,
+    0.98
+   ]
+  },
+  "shrub_buckwheat": {
+   "mesh": "/Game/Props/SM_ShrubBuckwheat.SM_ShrubBuckwheat",
+   "size": [
+    0.98,
+    1.01,
+    0.9
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/foliage/raw/shrub_buckwheat.glb",
+   "foliage": true,
+   "tris": 8192,
+   "min": [
+    -0.48,
+    -0.49,
+    0.0
+   ],
+   "max": [
+    0.49,
+    0.6,
+    0.89
+   ]
+  },
+  "log_fallen": {
+   "mesh": "/Game/Props/SM_LogFallen.SM_LogFallen",
+   "size": [
+    1.42,
+    1.7,
+    0.8
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/foliage/raw/log_fallen.glb",
+   "tris": 11967,
+   "min": [
+    -0.71,
+    -0.85,
+    0.0
+   ],
+   "max": [
+    0.71,
+    0.86,
+    0.8
+   ]
+  },
+  "rock_outcrop": {
+   "mesh": "/Game/Props/SM_RockOutcrop.SM_RockOutcrop",
+   "size": [
+    5.36,
+    4.82,
+    3.5
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/foliage/raw/rock_outcrop.glb",
+   "tris": 10614,
+   "min": [
+    -3.0,
+    -2.46,
+    -0.18
+   ],
+   "max": [
+    2.72,
+    2.41,
+    3.54
+   ]
+  },
+  "haystack": {
+   "mesh": "/Game/Props/SM_Haystack.SM_Haystack",
+   "size": [
+    3.24,
+    3.24,
+    2.6
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/foliage/raw/haystack.glb",
+   "tris": 8084,
+   "min": [
+    -1.6,
+    -1.63,
+    -0.03
+   ],
+   "max": [
+    1.64,
+    1.62,
+    2.64
+   ]
+  },
+  "fence_rail": {
+   "mesh": "/Game/Props/SM_FenceRail.SM_FenceRail",
+   "size": [
+    0.28,
+    2.63,
+    1.3
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/foliage/raw/fence_rail.glb",
+   "tris": 3000,
+   "min": [
+    -0.15,
+    -1.32,
+    -0.03
+   ],
+   "max": [
+    0.15,
+    1.32,
+    1.31
+   ]
+  },
+  "grass_meadow": {
+   "mesh": "/Game/Props/SM_GrassMeadow.SM_GrassMeadow",
+   "size": [
+    0.65,
+    0.75,
+    0.75
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/foliage/models/grass_meadow.glb",
+   "foliage": true,
+   "tris": 6,
+   "min": [
+    -0.32,
+    -0.38,
+    -0.0
+   ],
+   "max": [
+    0.32,
+    0.38,
+    0.75
+   ]
+  },
+  "grass_lush": {
+   "mesh": "/Game/Props/SM_GrassLush.SM_GrassLush",
+   "size": [
+    0.43,
+    0.5,
+    0.5
+   ],
+   "zmin": 0.0,
+   "pivot": "floor",
+   "source": "art/foliage/models/grass_lush.glb",
+   "foliage": true,
+   "tris": 6,
+   "min": [
+    -0.22,
+    -0.25,
+    -0.0
+   ],
+   "max": [
+    0.22,
+    0.25,
+    0.5
+   ]
   }
  }
 }

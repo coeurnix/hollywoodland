@@ -89,7 +89,9 @@ UStaticMesh* FHLEnemyArt::StaticMesh(const FString& Path) { return Cast<UStaticM
 UAnimSequence* FHLEnemyArt::Anim(const FHLEnemyModel& M, const FString& Clip)
 {
 	const FHLEnemyClip* C = M.Clips.Find(Clip);
-	return C ? Cast<UAnimSequence>(LoadPath(C->Anim, UAnimSequence::StaticClass())) : nullptr;
+	UAnimSequence* A = C ? Cast<UAnimSequence>(LoadPath(C->Anim, UAnimSequence::StaticClass())) : nullptr;
+	if (!A && !Clip.IsEmpty()) { static TSet<FString> Told; if (!Told.Contains(Clip)) { Told.Add(Clip); UE_LOG(LogTemp, Log, TEXT("HL_POSE creature clip not found: %s"), *Clip); } }
+	return A;
 }
 
 void FHLEnemyArt::AddReferencedObjects(FReferenceCollector& Collector)

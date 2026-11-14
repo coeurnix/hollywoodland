@@ -37,6 +37,7 @@ TREE = (30000, 1024, 512, 0)
 SHRUB = (6000, 512, 256, 0)
 ROCK = (3000, 512, 512, 0)
 CARD = (64, 512, 0, 0)    # crossed alpha cards (art/foliage sprites): base colour with alpha only
+STREE = (14000, 1024, 512, 0)  # the stylized second set: chunky canopies hold up at half the realistic trees' budget
 WORLD = (20000, 1024, 512, 256)
 LETTER = (4000, 512, 0, 0)    # seen from 700 m away
 INTER = (6000, 512, 256, 0)
@@ -46,7 +47,9 @@ EGY = (12000, 1024, 512, 0)
 # scales uniformly to that height. FOLIAGE ids sway in the wind (M_HLFoliage; the value is the sway strength).
 FOLIAGE = {'palm_fan': 1.0, 'palm_canary': 1.2, 'tree_eucalyptus': 1.2, 'tree_pepper': 1.6, 'shrub_chaparral': 0.6, 'shrub_oleander': 0.8,
            'agave': 0.0, 'yucca': 0.5, 'cactus_pear': 0.0, 'grass_dry': 5.0, 'grass_green': 4.0, 'flower_poppy': 5.0, 'flower_lupine': 4.0,
-           'flower_daisy': 5.0, 'flower_mustard': 5.0}
+           'flower_daisy': 5.0, 'flower_mustard': 5.0,
+           'oak_live': 0.7, 'tree_sycamore': 0.9, 'tree_orange': 0.5, 'tree_gum': 1.1, 'shrub_toyon': 0.5, 'shrub_sage': 0.6,
+           'shrub_buckwheat': 0.5, 'grass_meadow': 5.0, 'grass_lush': 4.0}
 
 # id: (file, budget, scale (uniform or [width, height, length] in model axes), pivot)
 P = {
@@ -182,8 +185,22 @@ P = {
     'flower_poppy': ('foliage:flower_poppy', CARD, 1.0, 'floor'),
     'flower_lupine': ('foliage:flower_lupine', CARD, 1.0, 'floor'),
     'flower_daisy': ('foliage:flower_daisy', CARD, 1.0, 'floor'),
-    'flower_mustard': ('foliage:flower_mustard', CARD, 1.0, 'floor'),
-}
+        'flower_mustard': ('foliage:flower_mustard', CARD, 1.0, 'floor'),
+        # second foliage set (tools/foliagegen.py, stylized): hill-country trees, groves, chaparral and farm dressing
+        'oak_live': ('foliage:oak_live', STREE, ('h', 9.0), 'floor'),
+        'tree_sycamore': ('foliage:tree_sycamore', STREE, ('h', 12.0), 'floor'),
+        'tree_orange': ('foliage:tree_orange', (9000, 1024, 512, 0), ('h', 3.6), 'floor'),
+        'tree_gum': ('foliage:tree_gum', STREE, ('h', 14.0), 'floor'),
+        'shrub_toyon': ('foliage:shrub_toyon', SHRUB, ('h', 2.0), 'floor'),
+        'shrub_sage': ('foliage:shrub_sage', SHRUB, ('h', 1.0), 'floor'),
+        'shrub_buckwheat': ('foliage:shrub_buckwheat', SHRUB, ('h', 0.9), 'floor'),
+        'log_fallen': ('foliage:log_fallen', ROCK, ('h', 0.8), 'floor'),
+        'rock_outcrop': ('foliage:rock_outcrop', (5000, 1024, 512, 0), ('h', 3.5), 'floor'),
+        'haystack': ('foliage:haystack', SHRUB, ('h', 2.6), 'floor'),
+        'fence_rail': ('foliage:fence_rail', (3000, 512, 256, 0), ('h', 1.3), 'floor'),
+        'grass_meadow': ('foliage:grass_meadow', CARD, 1.0, 'floor'),
+        'grass_lush': ('foliage:grass_lush', CARD, 1.0, 'floor'),
+    }
 
 
 def source(file):

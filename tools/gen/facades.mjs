@@ -108,7 +108,9 @@ export function kitFront(b, north, seed, opts = {}) {
   // doorways and the mayor's notices here and there
   if (damaged) {
     const tD = rec.corner_front_m + (n - 1) * (bw + 1); // the damaged bay
-    if (rnd() < 0.7) put(out, rnd() < 0.5 ? 'DR_SootA' : 'DR_SootB', at(f, tD + 0.5 + rnd() * Math.max(0, bw - 2.5), OUT + 0.03), f.yaw, [1, 1, 1], rec.ground_h - 0.4 + rnd() * 1.5);
+    // (soot streaks dropped: the DR_Soot cards' material has no alpha, so they drew as solid black shapes; the draws stay
+    // so the rest of the street keeps its layout)
+    if (rnd() < 0.7) { rnd(); rnd(); rnd(); }
     if (rows > 0 && rnd() < 0.6) put(out, 'DR_Crack', at(f, rec.corner_front_m + rnd() * Math.max(0, L - 2), OUT + 0.03), f.yaw, [1, 1, 1], rec.ground_h + 0.6 + rnd() * 1.2);
     if (rnd() < 0.5) putC(out, f, 'DR_Rubble2', tD + bw / 2, 1.3, 0, Math.round(rnd() * 40 - 20));
     else putC(out, f, 'DR_FallenAwning', tD + bw / 2, 1.0, 0, Math.round(rnd() * 16 - 8));

@@ -10,6 +10,7 @@
 #include "Engine/Engine.h"
 #include "Engine/GameViewportClient.h"
 #include "Engine/StaticMesh.h"
+#include "Engine/Texture2D.h"
 #include "Engine/World.h"
 #include "GameFramework/PlayerController.h"
 #include "Materials/MaterialInstanceDynamic.h"
@@ -26,6 +27,7 @@
 #include "Components/SkeletalMeshComponent.h"
 #include "Engine/SkeletalMesh.h"
 #include "Animation/AnimSequence.h"
+#include "Animation/AnimSingleNodeInstance.h"
 #include "Engine/TextureRenderTarget2D.h"
 #include "HAL/IConsoleManager.h"
 #include "HLSettings.h"
@@ -72,6 +74,10 @@ AHLWorldActor::AHLWorldActor()
 	static ConstructorHelpers::FObjectFinder<UMaterialInterface> GroundF(TEXT("/Game/HL/M_HLGround.M_HLGround"));
 	static ConstructorHelpers::FObjectFinder<UMaterialInterface> SkyDomeF(TEXT("/Game/HL/M_HLSkyDome.M_HLSkyDome"));
 	MatGround = GroundF.Succeeded() ? GroundF.Object : nullptr;
+	static ConstructorHelpers::FObjectFinder<UMaterialInterface> TerrainF(TEXT("/Game/HL/M_HLTerrain.M_HLTerrain"));
+	MatTerrain = TerrainF.Succeeded() ? TerrainF.Object : nullptr;
+	static ConstructorHelpers::FObjectFinder<UMaterialInterface> WallF(TEXT("/Game/HL/M_HLWall.M_HLWall"));
+	MatWall = WallF.Succeeded() ? WallF.Object : nullptr;
 	MatSkyDome = SkyDomeF.Succeeded() ? SkyDomeF.Object : nullptr;
 	static ConstructorHelpers::FObjectFinder<UMaterialInterface> AddF(TEXT("/Game/HL/M_HLAdd.M_HLAdd"));
 	MatAdd = AddF.Succeeded() ? AddF.Object : nullptr;
@@ -146,8 +152,8 @@ UMaterialInstanceDynamic* AHLWorldActor::GroundMid(const FString& Kind, const FL
 	if (!Tex) { HLBridge::Log(FString::Printf(TEXT("HL ground tile missing: %s"), *Kind)); GroundMids.Add(Kind, nullptr); return nullptr; }
 	// metres per repeat; the tint keeps each surface near its old flat colour's brightness
 	struct FTile { const TCHAR* Kind; float Tile; FLinearColor Tint; };
-	static const FTile Tiles[] = { { TEXT("Asphalt"), 7.f, FLinearColor(0.8f, 0.8f, 0.82f) }, { TEXT("Sidewalk"), 6.f, FLinearColor(0.85f, 0.83f, 0.8f) },
-		{ TEXT("Lot"), 9.f, FLinearColor(0.95f, 0.95f, 0.95f) }, { TEXT("Grass"), 6.f, FLinearColor(0.85f, 0.9f, 0.8f) },
+	static const FTile Tiles[] = { { TEXT("Asphalt"), 7.f, FLinearColor(0.8f, 0.8f, 0.82f) }, { TEXT("Sidewalk"), 6.f, FLinearColor(0.72f, 0.69f, 0.64f) },
+		{ TEXT("Lot"), 9.f, FLinearColor(0.6f, 0.56f, 0.47f) }, { TEXT("Grass"), 6.f, FLinearColor(0.56f, 0.64f, 0.46f) },
 		{ TEXT("Blight"), 10.f, FLinearColor(0.9f, 0.85f, 0.9f) }, { TEXT("Theatre"), 3.f, FLinearColor(0.75f, 0.7f, 0.7f) } };
 	float Tile = 6.f; FLinearColor Tint(0.85f, 0.85f, 0.85f);
 	for (const FTile& T : Tiles) if (Kind == T.Kind) { Tile = T.Tile; Tint = T.Tint; }
@@ -155,8 +161,116 @@ UMaterialInstanceDynamic* AHLWorldActor::GroundMid(const FString& Kind, const FL
 	D->SetTextureParameterValue(TEXT("Tex"), Tex);
 	D->SetScalarParameterValue(TEXT("Tile"), Tile);
 	D->SetVectorParameterValue(TEXT("Tint"), Tint);
-	D->SetScalarParameterValue(TEXT("Glow"), 0.22f);
+	D->SetScalarParameterValue(TEXT("Glow"), 0.14f); // the ground faces the sun and the sky fill: less self-light than walls
 	GroundMids.Add(Kind, D);
+	return D;
+}
+
+// Plain boxes (the zone generator's shop rows, side walls, studio blocks without a model) get a tileable facade by their
+// colour class (tools/gen/zone.mjs C.*): shops in buff or red brick or white stucco, civic in white stucco, landmark
+// blocks in cream stucco, all with tar-and-gravel roofs. Tints keep each near its old flat brightness.
+UMaterialInstanceDynamic* AHLWorldActor::WallMid(const FHLBox& B)
+{
+	if (!MatWall) return nullptr;
+	auto Near = [&](float R, float G, float Bl) { return FMath::Abs(B.Color.R - R) + FMath::Abs(B.Color.G - G) + FMath::Abs(B.Color.B - Bl) < 0.03f; };
+	const uint32 H = GetTypeHash(FIntPoint(FMath::RoundToInt(B.X), FMath::RoundToInt(B.Y)));
+	const TCHAR* Tex = nullptr; FLinearColor Tint;
+	// (plain white stucco read as a bare grey wall on the shop sides: brick there, cream stucco now and then)
+	if (Near(0.48f, 0.44f, 0.38f)) { Tex = H % 4 ? TEXT("Brick_Buff") : TEXT("Stucco_Cream"); Tint = H % 4 ? FLinearColor(0.62f, 0.58f, 0.52f) : FLinearColor(0.62f, 0.55f, 0.45f); }
+	else if (Near(0.42f, 0.4f, 0.42f)) { Tex = H % 3 ? TEXT("Brick_Red") : TEXT("Brick_Buff"); Tint = H % 3 ? FLinearColor(0.6f, 0.56f, 0.54f) : FLinearColor(0.55f, 0.52f, 0.48f); }
+	else if (Near(0.6f, 0.6f, 0.62f)) { Tex = TEXT("Stucco_Cream"); Tint = FLinearColor(0.7f, 0.66f, 0.6f); }
+	else if (Near(0.72f, 0.62f, 0.42f)) { Tex = TEXT("Stucco_Cream"); Tint = FLinearColor(0.82f, 0.74f, 0.6f); }
+	if (!Tex) return nullptr;
+	const FString Key = FString::Printf(TEXT("%s_%.2f"), Tex, Tint.R);
+	if (TObjectPtr<UMaterialInstanceDynamic>* Found = WallMids.Find(Key)) return *Found;
+	UTexture* T = LoadObject<UTexture>(nullptr, *FString::Printf(TEXT("/Game/Buildings/Tex/T_TILE_%s.T_TILE_%s"), Tex, Tex), nullptr, LOAD_NoWarn);
+	UMaterialInstanceDynamic* D = nullptr;
+	if (T)
+	{
+		D = UMaterialInstanceDynamic::Create(MatWall, this);
+		D->SetTextureParameterValue(TEXT("Tex"), T);
+		D->SetScalarParameterValue(TEXT("Tile"), FString(Tex).StartsWith(TEXT("Brick")) ? 3.f : 4.f);
+		D->SetVectorParameterValue(TEXT("Tint"), Tint);
+		D->SetScalarParameterValue(TEXT("Glow"), 0.22f);
+	}
+	WallMids.Add(Key, D);
+	return D;
+}
+
+// The outdoor floor is one material over the whole terrain, blended by a mask painted here at load (1024 px over the
+// area, about 1.4 m a pixel, bilinear): R road (the Asphalt strips, edges roughened with noise so they fray into the
+// verge), G green grass against the drier meadow (broad noise patches), B worn dirt (road shoulders, bare patches),
+// A blight (the ring past the hive wall, soft-edged). Roads and blight are no longer separate slabs on the terrain.
+UMaterialInstanceDynamic* AHLWorldActor::TerrainMid(int32 Area)
+{
+	if (!MatTerrain || !Game.Areas.IsValidIndex(Area)) return nullptr;
+	const FHLAreaDef& Def = *Game.Areas[Area].Def;
+	constexpr int32 Res = 1024;
+	const FVector2D Lo = Def.Min, Px = Def.Size / float(Res);
+	TArray<FColor> C; C.SetNumUninitialized(Res * Res);
+	TArray<float> R, Bd, A; R.SetNumZeroed(Res * Res); Bd.SetNumZeroed(Res * Res); A.SetNumZeroed(Res * Res);
+	auto At = [&](int32 i, int32 j) { return Lo + FVector2D((i + 0.5f) * Px.X, (j + 0.5f) * Px.Y); };
+	// signed distance to a box: negative inside
+	auto Sd = [](const FHLBox& B, const FVector2D& Pd) -> float
+	{
+		const float X = float(Pd.X), Y = float(Pd.Y);
+		const float Dx = FMath::Max3(B.X - X, 0.f, X - (B.X + B.W)), Dy = FMath::Max3(B.Y - Y, 0.f, Y - (B.Y + B.D));
+		if (Dx > 0 || Dy > 0) return FMath::Sqrt(Dx * Dx + Dy * Dy);
+		return -FMath::Min(FMath::Min(X - B.X, B.X + B.W - X), FMath::Min(Y - B.Y, B.Y + B.D - Y));
+	};
+	auto Paint = [&](const FHLBox& B, float Pad, TFunctionRef<void(int32, const FVector2D&, float)> Fn)
+	{
+		const int32 I0 = FMath::Clamp(FMath::FloorToInt32((B.X - Pad - Lo.X) / Px.X), 0, Res - 1), I1 = FMath::Clamp(FMath::CeilToInt32((B.X + B.W + Pad - Lo.X) / Px.X), 0, Res - 1);
+		const int32 J0 = FMath::Clamp(FMath::FloorToInt32((B.Y - Pad - Lo.Y) / Px.Y), 0, Res - 1), J1 = FMath::Clamp(FMath::CeilToInt32((B.Y + B.D + Pad - Lo.Y) / Px.Y), 0, Res - 1);
+		for (int32 j = J0; j <= J1; ++j) for (int32 i = I0; i <= I1; ++i) { const FVector2D P = At(i, j); Fn(j * Res + i, P, Sd(B, P)); }
+	};
+	for (const FHLBox& B : Def.Ground)
+	{
+		if (B.Kind == TEXT("Asphalt"))
+			Paint(B, 8.f, [&](int32 k, const FVector2D& P, float D)
+			{
+				const float Wob = 0.9f * FMath::PerlinNoise2D(P / 5.3f) + 0.4f * FMath::PerlinNoise2D(P / 1.7f + FVector2D(4.1f, 0));
+				R[k] = FMath::Max(R[k], 1.f - FMath::SmoothStep(-1.1f, 1.1f, D + Wob));
+				Bd[k] = FMath::Max(Bd[k], 0.85f * (1.f - FMath::SmoothStep(0.5f, 5.5f, D + 2.f * Wob)));
+			});
+		else if (B.Kind == TEXT("Blight"))
+			Paint(B, 12.f, [&](int32 k, const FVector2D& P, float D)
+			{
+				A[k] = FMath::Max(A[k], 1.f - FMath::SmoothStep(-7.f, 7.f, D + 5.f * FMath::PerlinNoise2D(P / 17.f + FVector2D(9.f, 2.f))));
+			});
+	}
+	for (int32 j = 0; j < Res; ++j)
+		for (int32 i = 0; i < Res; ++i)
+		{
+			const int32 k = j * Res + i;
+			const FVector2D P = At(i, j);
+			const float G = FMath::SmoothStep(-0.25f, 0.35f, FMath::PerlinNoise2D(P / 120.f + FVector2D(2.2f, 5.5f)) + 0.5f * FMath::PerlinNoise2D(P / 45.f + FVector2D(7.f, 1.f)));
+			const float Bare = 0.75f * FMath::SmoothStep(0.32f, 0.6f, FMath::PerlinNoise2D(P / 26.f + FVector2D(31.f, 17.f)));
+			// the border stays plain meadow: the sampler clamps, so whatever is there runs on over the hills outside
+			const bool bEdge = i < 2 || j < 2 || i >= Res - 2 || j >= Res - 2;
+			auto Q = [](float V) { return uint8(FMath::Clamp(FMath::RoundToInt32(V * 255.f), 0, 255)); };
+			C[k] = FColor(bEdge ? 0 : Q(R[k]), Q(G), bEdge ? 0 : Q(FMath::Max(Bd[k], Bare * (1.f - A[k]))), bEdge ? 0 : Q(A[k]));
+		}
+	UTexture2D* T = UTexture2D::CreateTransient(Res, Res, PF_B8G8R8A8);
+	if (!T) return nullptr;
+	T->SRGB = false; T->Filter = TF_Bilinear; T->AddressX = TA_Clamp; T->AddressY = TA_Clamp;
+	void* Data = T->GetPlatformData()->Mips[0].BulkData.Lock(LOCK_READ_WRITE);
+	FMemory::Memcpy(Data, C.GetData(), C.Num() * sizeof(FColor));
+	T->GetPlatformData()->Mips[0].BulkData.Unlock();
+	T->UpdateResource();
+	TerrainMasks.Add(T);
+	UMaterialInstanceDynamic* D = UMaterialInstanceDynamic::Create(MatTerrain, this);
+	// warm, deep tones (the textures read pale under the noon sun): golden meadow, olive grass, dark asphalt
+	D->SetVectorParameterValue(TEXT("TexTint"), FLinearColor(0.5f, 0.42f, 0.25f));
+	D->SetVectorParameterValue(TEXT("Tex2Tint"), FLinearColor(0.36f, 0.45f, 0.25f));
+	D->SetVectorParameterValue(TEXT("RoadTint"), FLinearColor(0.66f, 0.64f, 0.62f));
+	D->SetVectorParameterValue(TEXT("DirtTint"), FLinearColor(0.58f, 0.45f, 0.31f));
+	D->SetVectorParameterValue(TEXT("BlightTint"), FLinearColor(0.72f, 0.62f, 0.72f));
+	D->SetScalarParameterValue(TEXT("Glow"), 0.1f);
+	D->SetTextureParameterValue(TEXT("Mask"), T);
+	const FVector W0 = ToWorld(Area, Lo, 0);
+	D->SetVectorParameterValue(TEXT("MaskLo"), FLinearColor(W0.X, W0.Y, 0, 1));
+	D->SetVectorParameterValue(TEXT("MaskSize"), FLinearColor(Def.Size.X * M, Def.Size.Y * M, 1, 1));
 	return D;
 }
 
@@ -244,47 +358,115 @@ void AHLWorldActor::ScatterFoliage(AActor* Geo, int32 Area)
 	const FVector2D Lo = Def.Min, Hi = Def.Min + Def.Size;
 	const float GrassCull = 70.f;
 
-	// tufts of grass over the open lots, with drifts of wildflowers; the blight keeps only dry grass
+	// The open ground reads as 1930 hill country (cf. the farm-and-meadow zones of the classic MMOs): meadow grass in drifts
+	// with greener swales, bare dirt here and there, oak groves with sycamores in the hollows, chaparral and sage up the
+	// slopes, outcrops on the crests, orange groves in rows with haystacks and rail fences, and eucalyptus windbreaks by
+	// the roads. The grass and dirt noises are the ones TerrainMid paints the ground mask with, so tufts sit on green.
+	auto GreenAt = [](const FVector2D& P) { return FMath::SmoothStep(-0.25f, 0.35f, FMath::PerlinNoise2D(P / 120.f + FVector2D(2.2f, 5.5f)) + 0.5f * FMath::PerlinNoise2D(P / 45.f + FVector2D(7.f, 1.f))); };
+	auto BareAt = [](const FVector2D& P) { return FMath::SmoothStep(0.32f, 0.6f, FMath::PerlinNoise2D(P / 26.f + FVector2D(31.f, 17.f))); };
+	auto Orchard = [&](const FVector2D& P) { return FMath::PerlinNoise2D(P / 210.f + FVector2D(Area * 3.1f + 41.f, 12.f)); };
+	auto Grove = [&](const FVector2D& P) { return FMath::PerlinNoise2D(P / 130.f + FVector2D(5.f, Area * 2.3f + 23.f)); };
 	static const TCHAR* Flowers[] = { TEXT("FlowerPoppy"), TEXT("FlowerLupine"), TEXT("FlowerDaisy"), TEXT("FlowerMustard") };
 	int32 NGrass = 0, NBig = 0;
-	for (float Y = Lo.Y; Y < Hi.Y; Y += 6.f)
-		for (float X = Lo.X; X < Hi.X; X += 6.f)
+	for (float Y = Lo.Y; Y < Hi.Y; Y += 5.f)
+		for (float X = Lo.X; X < Hi.X; X += 5.f)
 		{
-			const FVector2D C0(X + R.FRand() * 6.f, Y + R.FRand() * 6.f);
+			const FVector2D C0(X + R.FRand() * 5.f, Y + R.FRand() * 5.f);
 			const float W = T.Wildness(C0);
-			if (W < 0.1f || R.FRand() > W * 0.7f) continue;
+			if (W < 0.1f) continue;
 			const bool bBlight = InBlight(C0);
-			UHierarchicalInstancedStaticMeshComponent* G = Comp(bBlight || R.FRand() < 0.35f ? TEXT("GrassDry") : TEXT("GrassGreen"), GrassCull, true);
-			for (int32 k = R.RandRange(3, 7); k > 0; --k, ++NGrass) Add(G, C0 + FVector2D(R.FRandRange(-1.8f, 1.8f), R.FRandRange(-1.8f, 1.8f)), R.FRandRange(0.7f, 1.35f), 0.05f);
-			if (!bBlight && W > 0.4f && R.FRand() < 0.2f)
+			const float Patch = FMath::SmoothStep(-0.4f, 0.3f, FMath::PerlinNoise2D(C0 / 30.f + FVector2D(Area * 17.3f, 5.1f)));
+			if (R.FRand() > W * Patch * 1.3f * (1.f - 0.85f * BareAt(C0)) * (bBlight ? 0.3f : 1.f) || Orchard(C0) > 0.38f) continue;
+			const float Green = GreenAt(C0);
+			const TCHAR* Kind = bBlight ? TEXT("GrassDry") : R.FRand() < Green * 0.85f ? TEXT("GrassLush") : TEXT("GrassMeadow");
+			UHierarchicalInstancedStaticMeshComponent* G = Comp(Kind, GrassCull, true);
+			for (int32 k = R.RandRange(3, 7); k > 0; --k, ++NGrass) Add(G, C0 + FVector2D(R.FRandRange(-2.2f, 2.2f), R.FRandRange(-2.2f, 2.2f)), R.FRandRange(0.8f, 1.45f), 0.04f);
+			const float Drift = FMath::PerlinNoise2D(C0 / 22.f + FVector2D(91.7f, Area * 7.9f));
+			if (!bBlight && W > 0.4f && R.FRand() < (Drift > 0.2f ? 0.5f : 0.03f))
 			{
-				UHierarchicalInstancedStaticMeshComponent* F = Comp(Flowers[R.RandRange(0, 3)], GrassCull * 0.8f, true);
+				// one kind per drift: poppies with poppies, lupines with lupines
+				UHierarchicalInstancedStaticMeshComponent* F = Comp(Flowers[FMath::Abs(FMath::FloorToInt32(C0.X / 40.f) * 7 + FMath::FloorToInt32(C0.Y / 40.f) * 3) % 4], GrassCull * 0.8f, true);
 				const FVector2D FC = C0 + FVector2D(R.FRandRange(-3.f, 3.f), R.FRandRange(-3.f, 3.f));
 				for (int32 k = R.RandRange(3, 8); k > 0; --k, ++NGrass) Add(F, FC + FVector2D(R.FRandRange(-1.5f, 1.5f), R.FRandRange(-1.5f, 1.5f)), R.FRandRange(0.8f, 1.25f), 0.03f);
 			}
 		}
-	// shrubs, rocks and trees: sparse in the lots, a scrubby woodland on the hills past the hive ring
-	static const TCHAR* Trees[] = { TEXT("TreeEucalyptus"), TEXT("TreeEucalyptus"), TEXT("TreePepper"), TEXT("TreePepper"), TEXT("PalmCanary") };
-	static const TCHAR* Shrubs[] = { TEXT("ShrubChaparral"), TEXT("ShrubChaparral"), TEXT("ShrubChaparral"), TEXT("ShrubOleander"), TEXT("Agave"), TEXT("Yucca"), TEXT("CactusPear"), TEXT("CactusPear") };
 	const FVector2D TLo = T.Origin, THi = T.Origin + FVector2D((T.NX - 1) * T.Cell, (T.NY - 1) * T.Cell);
-	for (float Y = TLo.Y; Y < THi.Y; Y += 14.f)
-		for (float X = TLo.X; X < THi.X; X += 14.f)
+	auto Big = [&](const TCHAR* Name, float CullM, const FVector2D& P, float S, float Sink) { Add(Comp(Name, CullM, false), P, S, Sink); ++NBig; };
+	// where the biggest orchard and the thickest grove fell (logged: a view to check them, -HLViewSet=nature)
+	FVector2D OrchardAt = FVector2D::ZeroVector, GroveAt = FVector2D::ZeroVector; float BestO = -1, BestG = -1;
+	for (float Y = Lo.Y + 40; Y < Hi.Y - 40; Y += 10.f)
+		for (float X = Lo.X + 40; X < Hi.X - 40; X += 10.f)
 		{
-			const FVector2D P(X + R.FRand() * 14.f, Y + R.FRand() * 14.f);
+			const FVector2D P(X, Y);
+			if (T.Wildness(P) < 0.9f || InBlight(P)) continue;
+			if (Orchard(P) > BestO) { BestO = Orchard(P); OrchardAt = P; }
+			if (Grove(P) > BestG && Orchard(P) < 0.3f) { BestG = Grove(P); GroveAt = P; }
+		}
+	HLBridge::Log(FString::Printf(TEXT("HL foliage: area %d orchard at %.0f,%.0f (%.2f), grove at %.0f,%.0f (%.2f)"), Area, OrchardAt.X, OrchardAt.Y, BestO, GroveAt.X, GroveAt.Y, BestG));
+	// orchards: orange trees on a 7 m grid where the orchard noise peaks on level wild ground, the odd haystack in a gap
+	for (float Y = Lo.Y; Y < Hi.Y; Y += 7.f)
+		for (float X = Lo.X; X < Hi.X; X += 7.f)
+		{
+			const FVector2D P(X, Y);
+			if (Orchard(P) < 0.42f || T.Wildness(P) < 0.9f || InBlight(P) || T.Normal(P).Z < 0.96f) continue;
+			if (R.FRand() < 0.06f) Big(TEXT("Haystack"), 400.f, P + FVector2D(R.FRandRange(-1.f, 1.f), R.FRandRange(-1.f, 1.f)), R.FRandRange(0.85f, 1.15f), 0.2f);
+			else if (R.FRand() < 0.93f) Big(TEXT("TreeOrange"), 600.f, P + FVector2D(R.FRandRange(-0.4f, 0.4f), R.FRandRange(-0.4f, 0.4f)), R.FRandRange(0.85f, 1.12f), 0.1f);
+		}
+	// along the roads: rail fences fronting the orchards, eucalyptus windbreaks in rows elsewhere
+	for (const FHLBox& B : Def.Ground)
+	{
+		if (B.Kind != TEXT("Asphalt") || FMath::Max(B.W, B.D) < 40.f) continue;
+		const bool bAlongX = B.W > B.D;
+		const float Len = bAlongX ? B.W : B.D;
+		for (int32 Side = 0; Side < 2; ++Side)
+			for (float s = 2.f; s < Len - 2.f; s += 2.6f)
+			{
+				const float Off = Side ? (bAlongX ? B.D : B.W) + 7.f : -7.f;
+				const FVector2D P = bAlongX ? FVector2D(B.X + s, B.Y + Off) : FVector2D(B.X + Off, B.Y + s);
+				if (T.Wildness(P) < 0.85f || InBlight(P)) continue;
+				if (Orchard(P) > 0.3f) { if (UHierarchicalInstancedStaticMeshComponent* FC = Comp(TEXT("FenceRail"), 350.f, false)) FC->AddInstance(FTransform(FRotator(0, bAlongX ? 90.f : 0.f, 0), ToWorld(Area, P, -0.05f), FVector(1.f)), true); ++NBig; }
+				else if (FMath::Fmod(s, 13.f) < 2.6f && Grove(P + FVector2D(300.f, 0)) > 0.15f) Big(TEXT("TreeGum"), 1600.f, P + FVector2D(R.FRandRange(-1.f, 1.f), R.FRandRange(-1.f, 1.f)), R.FRandRange(0.8f, 1.15f), 0.3f);
+			}
+	}
+	// woodland, scrub and rock over the terrain grid (out past the bounds too: the hills that close the horizon)
+	static const TCHAR* Scrub[] = { TEXT("ShrubSage"), TEXT("ShrubSage"), TEXT("ShrubBuckwheat"), TEXT("ShrubToyon"), TEXT("ShrubChaparral"), TEXT("ShrubChaparral") };
+	for (float Y = TLo.Y; Y < THi.Y; Y += 12.f)
+		for (float X = TLo.X; X < THi.X; X += 12.f)
+		{
+			const FVector2D P(X + R.FRand() * 12.f, Y + R.FRand() * 12.f);
 			if (T.Wildness(P) < 0.75f) continue;
 			const bool bOut = P.X < Lo.X || P.Y < Lo.Y || P.X > Hi.X || P.Y > Hi.Y;
+			if (!bOut && Orchard(P) > 0.38f) continue;
 			const float Roll = R.FRand();
 			if (!bOut && InBlight(P))
 			{
-				if (Roll < 0.06f) { Add(Comp(R.FRand() < 0.5f ? TEXT("RockBoulder") : TEXT("RockFlat"), 300.f, false), P, R.FRandRange(0.6f, 1.5f), 0.15f); ++NBig; }
+				if (Roll < 0.04f) Big(R.FRand() < 0.5f ? TEXT("RockBoulder") : TEXT("RockFlat"), 300.f, P, R.FRandRange(0.6f, 1.5f), 0.15f);
 				continue;
 			}
-			const float PTree = bOut ? 0.05f : 0.02f, PShrub = bOut ? 0.25f : 0.08f, PRock = 0.04f;
-			if (Roll < PTree) Add(Comp(Trees[R.RandRange(0, UE_ARRAY_COUNT(Trees) - 1)], 1600.f, false), P, R.FRandRange(0.75f, 1.2f), 0.25f);
-			else if (Roll < PTree + PShrub) Add(Comp(Shrubs[R.RandRange(0, UE_ARRAY_COUNT(Shrubs) - 1)], 260.f, false), P, R.FRandRange(0.7f, 1.3f), 0.1f);
-			else if (Roll < PTree + PShrub + PRock) Add(Comp(R.FRand() < 0.6f ? TEXT("RockBoulder") : TEXT("RockFlat"), 320.f, false), P, R.FRandRange(0.5f, 1.6f), 0.2f);
-			else continue;
-			++NBig;
+			const float Gv = Grove(P), Up = T.Normal(P).Z, H = T.Height(P);
+			const bool bHollow = H < T.Height(P + FVector2D(14, 0)) && H < T.Height(P - FVector2D(14, 0)) && H < T.Height(P + FVector2D(0, 14));
+			// groves: oaks thick where the grove noise peaks, a sycamore in the low spots, a fallen log under them
+			const float PTree = Gv > 0.2f ? 0.38f : Gv > 0.0f ? 0.09f : (bOut ? 0.04f : 0.015f);
+			const float PScrub = (Up < 0.95f ? 0.22f : 0.09f) * (bOut ? 1.3f : 1.f);
+			if (Roll < PTree)
+			{
+				if (bHollow && R.FRand() < 0.6f) Big(TEXT("TreeSycamore"), 1600.f, P, R.FRandRange(0.8f, 1.15f), 0.3f);
+				else Big(TEXT("OakLive"), 1600.f, P, R.FRandRange(0.75f, 1.25f), 0.3f);
+				if (R.FRand() < 0.12f) { if (UHierarchicalInstancedStaticMeshComponent* LC = Comp(TEXT("LogFallen"), 300.f, false)) LC->AddInstance(FTransform(FRotator(0, R.FRand() * 360.f, 0), ToWorld(Area, P + FVector2D(R.FRandRange(-6.f, 6.f), R.FRandRange(-6.f, 6.f)), -0.15f), FVector(R.FRandRange(0.8f, 1.3f))), true); ++NBig; }
+			}
+			else if (Roll < PTree + PScrub)
+			{
+				// scrub grows in clumps of two to four of a kind
+				UHierarchicalInstancedStaticMeshComponent* SC = Comp(Scrub[R.RandRange(0, UE_ARRAY_COUNT(Scrub) - 1)], 300.f, false);
+				for (int32 k = R.RandRange(1, 3); k > 0; --k, ++NBig) Add(SC, P + FVector2D(R.FRandRange(-2.8f, 2.8f), R.FRandRange(-2.8f, 2.8f)), R.FRandRange(0.7f, 1.35f), 0.1f);
+			}
+			else if (Roll < PTree + PScrub + 0.025f)
+			{
+				// crests and steep ground show rock: outcrops up there, boulders elsewhere; desert plants on the dry slopes
+				if (Up < 0.93f || (H > 6.f && R.FRand() < 0.5f)) Big(TEXT("RockOutcrop"), 600.f, P, R.FRandRange(0.6f, 1.3f), 0.4f);
+				else if (R.FRand() < 0.5f) Big(R.FRand() < 0.6f ? TEXT("RockBoulder") : TEXT("RockFlat"), 320.f, P, R.FRandRange(0.5f, 1.6f), 0.2f);
+				else Big(R.FRand() < 0.5f ? TEXT("Yucca") : TEXT("Agave"), 300.f, P, R.FRandRange(0.7f, 1.2f), 0.1f);
+			}
 		}
 	HLBridge::Log(FString::Printf(TEXT("HL foliage: area %d, %d grass and flowers, %d shrubs, rocks and trees"), Area, NGrass, NBig));
 }
@@ -376,7 +558,8 @@ void AHLWorldActor::BuildWorld()
 		const FVector2D FloorLo = Def.Min - FVector2D(FHLTerrain::Margin), FloorHi = Def.Min + Def.Size + FVector2D(FHLTerrain::Margin);
 		if (Terrain[a].IsValid())
 		{
-			UMaterialInterface* FM = GroundMid(Def.FloorKind, Def.Floor);
+			UMaterialInterface* FM = TerrainMid(a);
+			if (!FM) FM = GroundMid(Def.FloorKind, Def.Floor);
 			TerrainMesh(Geo, a, FloorLo, FloorHi, 0.f, FM ? FM : static_cast<UMaterialInterface*>(Mid(Def.Floor)));
 		}
 		else
@@ -395,6 +578,8 @@ void AHLWorldActor::BuildWorld()
 		int32 gi = 0;
 		for (const FHLBox& B : Def.Ground)
 		{
+			// roads and blight are painted into the terrain's mask (TerrainMid)
+			if (Terrain[a].IsValid() && MatTerrain && (B.Kind == TEXT("Blight") || B.Kind == TEXT("Asphalt"))) continue;
 			// wild ground (blight, grass) follows the hills; made ground stays a flat slab
 			if (Terrain[a].IsValid() && (B.Kind == TEXT("Blight") || B.Kind == TEXT("Grass")))
 			{
@@ -406,7 +591,11 @@ void AHLWorldActor::BuildWorld()
 			if (UMaterialInstanceDynamic* G = GroundMid(B.Kind, B.Color)) GC->SetMaterial(0, G);
 			GC->ComponentTags.Add(TEXT("NoShadow"));
 		}
-		for (const FHLBox& B : Def.Boxes) if (!AddProp(Geo, a, B.Prop)) AddMesh(Geo, Cube, ToWorld(a, FVector2D(B.X + B.W * 0.5f, B.Y + B.D * 0.5f), B.H * 0.5f), FVector(B.W, B.D, B.H), B.Color);
+		for (const FHLBox& B : Def.Boxes) if (!AddProp(Geo, a, B.Prop))
+		{
+			UStaticMeshComponent* BC = AddMesh(Geo, Cube, ToWorld(a, FVector2D(B.X + B.W * 0.5f, B.Y + B.D * 0.5f), B.H * 0.5f), FVector(B.W, B.D, B.H), B.Color);
+			if (UMaterialInstanceDynamic* WM = WallMid(B)) BC->SetMaterial(0, WM);
+		}
 		// building-kit modules (facade bays, pilasters, parapets: hundreds of each) draw as one instanced component per mesh
 		TMap<FString, UInstancedStaticMeshComponent*> Kit;
 		for (const FHLPropPlace& P : Def.Props)
@@ -706,7 +895,7 @@ void AHLWorldActor::TickSky()
 	}
 	FPostProcessSettings& PP = Camera->PostProcessSettings;
 	const float Dg = bIndoors ? 1.f : D, Gg = bIndoors ? 0.f : Gold;
-	PP.AutoExposureBias = BaseExposure + FMath::Lerp(-1.25f, 0.f, Dg);
+	PP.AutoExposureBias = BaseExposure + FMath::Lerp(-0.85f, 0.f, Dg); // night reads as night, but the streets stay legible
 	PP.bOverride_ColorGain = true;
 	const FLinearColor Gain = FMath::Lerp(FLinearColor(0.78f, 0.88f, 1.15f), FLinearColor(1, 1, 1), Dg) * FMath::Lerp(FLinearColor(1, 1, 1), FLinearColor(1.06f, 0.97f, 0.88f), Gg);
 	PP.ColorGain = FVector4(Gain.R, Gain.G, Gain.B, 1.f);
@@ -723,6 +912,8 @@ void AHLWorldActor::TickSky()
 			SkyA = FMath::Lerp(SkyA, FLinearColor(1.3f, 1.12f, 0.98f), Gg * 0.6f);
 			if (bIndoors) { SkyA = FLinearColor(1.12f, 1.08f, 1.04f); GndA = FLinearColor(0.7f, 0.65f, 0.6f); }
 			AI->SetVectorParameterValue(TEXT("SkyAmb"), SkyA);
+			// camera see-through (M_HLFoliage, Scripts/camera_fade.py): foliage between the camera and the player's chest fades
+			if (const FHLUnit* PU = Game.PlayerUnit()) AI->SetVectorParameterValue(TEXT("Focus"), FLinearColor(ToWorld(PU->Area, PU->Pos, 1.1f + PU->Z)));
 			AI->SetVectorParameterValue(TEXT("GroundAmb"), GndA);
 		}
 	if (Fog)
@@ -982,6 +1173,23 @@ void AHLWorldActor::Tick(float Dt)
 void AHLWorldActor::AutoTest(float Dt)
 {
 	const double T = GetWorld()->GetTimeSeconds();
+	// pose check (self-play): a rendered person or creature whose mesh plays no animation shows its bind (A/T) pose
+	static double NextPoseCheck = 0;
+	if (Game.bInWorld && T >= NextPoseCheck)
+	{
+		NextPoseCheck = T + 1.0;
+		for (const auto& KV : Vis)
+		{
+			const FHLUnitVis& V = KV.Value;
+			const USkeletalMeshComponent* C = V.bHuman ? V.Rig.Leader.Get() : V.bEnemy ? V.Enemy.Comp.Get() : nullptr;
+			if (!C || !C->IsVisible() || !C->WasRecentlyRendered(0.5f) || !V.Actor.IsValid() || V.Actor->IsHidden()) continue;
+			const UAnimSingleNodeInstance* I = C->GetSingleNodeInstance();
+			if (I && I->GetAnimationAsset()) continue;
+			const FHLUnit* U = Game.Unit(KV.Key);
+			HLBridge::Log(FString::Printf(TEXT("HL_POSE bind pose: unit %d %s (%s) base '%s' shot '%s' dead %d"), KV.Key, U ? *U->Name : TEXT("?"),
+				V.bHuman ? TEXT("human") : TEXT("creature"), V.bHuman ? *V.Rig.Base : *V.Enemy.Base, V.bHuman ? *V.Rig.Shot : *V.Enemy.Shot, U ? int32(U->bDead) : -1));
+		}
+	}
 	if (!Game.bInWorld)
 	{
 		if (!bSaveChecked || T < 2) return;
@@ -1059,6 +1267,7 @@ void AHLWorldActor::AutoTest(float Dt)
 		struct FView { float X, Y, Yaw, Pitch, Dist; int32 Area = 0; };
 		static const FView Fronts[] = { { 470, 204, -90, 8, 24 }, { 385, 204, -90, 8, 22 }, { 580, 204, -90, 14, 30 }, { 640, 196, 90, 8, 24 }, { 230, 196, 90, 8, 26 }, { 781, 200, 90, 6, 12 }, { 120, 205, -120, 18, 40 } };
 		static const FView Nature[] = { { 298, 150, -90, 3, 14 }, { 300, -60, -90, 8, 26 }, { 420, -10, 20, 14, 22 }, { 700, 360, 45, 12, 25 }, { -150, 350, 180, 6, 30 },
+			{ 110, 490, 30, 10, 28 }, { 200, 60, 60, 6, 16 }, { 200, 60, 200, 25, 40 }, // the orchard, the oak grove (low, and seen through a canopy)
 			{ 60, 12, 90, 12, 18, 1 }, { 60, 150, 90, 10, 26, 1 }, { 60, 222, 90, 6, 22, 1 } };
 		static FString Set; static bool bSet = FParse::Value(FCommandLine::Get(), TEXT("HLViewSet="), Set);
 		// -HLViewSet=landmarks: the building kit's hub landmarks (art/buildings LM_*)

@@ -82,7 +82,7 @@ browser ── itch.io page (iframe, SharedArrayBuffer support) ── UE 5.9 Wa
 | World map / red car / inspect / who | DONE | Zone map zooms (wheel) and pans (drag), shows every service as a lettered icon with a clickable list (bank, auction, inn, class and profession trainers, vendors, repairs, red car, mailbox, police, aid stations) that sets a mark; the mark shows as a pin on both maps and a HUD marker with distance, and clears on arrival. Patrolmen give directions to every service (spoken, and marked). Painted maps (Codex image generation over exact layout sources, `tools/maps`; registration checked by edge correlation) under the zone, dungeon and 13-zone world views, with blurbs and dungeons, route map, inspect shows persona gear. |
 | World events (§10) | DONE (3 of 7) | `HLEvents.cpp`. Hive surge every 30-50 min on a hub (warning in zone chat, 10 min of waves, up to 6 local sims hold the line, reward for 3+ kills, hub merchants close 15 min if overrun); picture night every ~45 min at the Chinese (pre-1930 public-domain titles, sims sit in rows and chat, +10% kill XP for 30 min after 45 s watching); sims call rare spawns in zone chat. Hive spread, fight night, fishing derby, red-car breakdown TODO. `-HLEventsSoon` for tests. |
 | Duels, trade, mail, friends (§6, §9, §11) | DONE | `HLSocial.cpp`. Duels outside hubs (loser stops at 1 hp, forfeit at 40 m, rivals challenge you); face-to-face trade window (sims accept fair offers and gifts); whisper a trade-chat seller "wtb" and they send it C.O.D.; mailbox with auction proceeds, returns, outbid refunds and letters; friends list (Who window tab) with online/offline notices. Guilds: a social or levelling guild invites the player at level 4+ (bonded sims first); guild chat (/g) with MOTD, welcomes, logins, grats on dings and census dungeon clears; roster tab with ranks in the Who window; /gquit. |
-| Mounts for transients | PROTO | A dark box under the rider, +60% speed. |
+| Mounts for transients | DONE | Simulated players at 40+ ride through the Boulevard on the persona's mount (`art/world` horse, Indian Scout, Model A, police Model A; +60% speed), as bible §2 scopes the slice. Player mounts (level 40, $80; trainers in Gower Gulch and a Blvd garage) come with the level-40 content. |
 | Dialogue and voice | DONE | `HLDialogue.cpp`; `tools/dialoguegen/` (Claude Opus 5.5 writes, ElevenLabs v4 via fal.ai speaks). NPC hello/goodbye/annoyed and service lines (WoW-merchant style), quest offer/progress/complete read aloud, patrolman directions, player barks on errors, level-up, quest done and low health, 16 emotes (`/train /silly /flirt /laugh /lol /cheer /chicken /rasp /charge /cry /dance /wave /bow /spit /rude /point /shrug`). Subtitles always match the audio (line n = variant n). |
 | Music | DONE | `HLMusic.cpp`; 30 tracks streamed from R2 `music/` on the web (not in the pak), copied to `<pkg>\Music` natively. Menu volume + `/music`. |
 | Sound effects + ambience | DONE | `HLSfx.cpp`; 500 MP3s in `sfx/` from `tools/gen-sfx.mjs` (fal.ai ElevenLabs SFX v3), loudness-mastered with per-category mix gains, fetched from R2 `sfx/` on the web, copied to `<pkg>\Sfx` natively. Menu volume + `/sfx` (`/sfx play <id>` to audition). Auto tests are silent unless `-HLSfx`. |
@@ -145,6 +145,15 @@ browser ── itch.io page (iframe, SharedArrayBuffer support) ── UE 5.9 Wa
     ~~Chinese screen~~ (done: picture night is *Hell's Angels* (1930), which premiered at Grauman's in May 1930; a 10 s flipbook of
     its aerial sequence plays on the facade above the marquee, `tools/film/make-flipbook.mjs`, check with `-HLViews -HLViewSet=landmarks -HLFilmTest`).
 28. ~~Day/night cycle; skybox~~ (done); ~~HOLLYWOODLAND sign on the north horizon~~ (done: `art/world` letters on the HLTerrain north ridge).
+29. Polish pass (2026-11-14, in progress): plain boxes wear box-mapped brick/stucco with plinth, damp and coping (`M_HLWall`);
+    the outdoor floor is one `M_HLTerrain` blended by a mask painted at load (roads with frayed edges and dirt shoulders,
+    meadow/grass/bare patches, soft blight edge); real hills in the lots (`HLTerrain.cpp`, loose props no longer level the
+    ground); a second, stylized Rodin foliage set (oaks, sycamores, eucalyptus windbreaks, orange groves with haystacks and
+    rail fences, sage/buckwheat/toyon scrub, outcrops, logs; `tools/foliagegen.py`) scattered as hill country; foliage
+    dithers out between the camera and the player (`Scripts/camera_fade.py`, MPC `Focus`); paved Grauman's forecourt;
+    no spell glow on physical casts; nights lifted; soot decals dropped (no alpha). Self-play logs `HL_POSE` for any
+    rendered person or creature showing its bind pose (a user saw one A-pose in combat; not reproduced in a 200 s
+    gunman run). Still to check by hand: the new-player flow, frame time on the web with ~80k grass and 20k bigger instances.
 
 ## 4. Technical dependencies and risks
 

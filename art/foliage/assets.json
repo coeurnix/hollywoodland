@@ -66,5 +66,57 @@
  "flower_mustard": {
   "kind": "card",
   "height": 0.9
+ },
+ "oak_live": {
+  "kind": "model",
+  "height": 9.0
+ },
+ "tree_sycamore": {
+  "kind": "model",
+  "height": 12.0
+ },
+ "tree_orange": {
+  "kind": "model",
+  "height": 3.6
+ },
+ "tree_gum": {
+  "kind": "model",
+  "height": 14.0
+ },
+ "shrub_toyon": {
+  "kind": "model",
+  "height": 2.0
+ },
+ "shrub_sage": {
+  "kind": "model",
+  "height": 1.0
+ },
+ "shrub_buckwheat": {
+  "kind": "model",
+  "height": 0.9
+ },
+ "log_fallen": {
+  "kind": "model",
+  "height": 0.8
+ },
+ "rock_outcrop": {
+  "kind": "model",
+  "height": 3.5
+ },
+ "haystack": {
+  "kind": "model",
+  "height": 2.6
+ },
+ "fence_rail": {
+  "kind": "model",
+  "height": 1.3
+ },
+ "grass_meadow": {
+  "kind": "card",
+  "height": 0.75
+ },
+ "grass_lush": {
+  "kind": "card",
+  "height": 0.5
  }
 }

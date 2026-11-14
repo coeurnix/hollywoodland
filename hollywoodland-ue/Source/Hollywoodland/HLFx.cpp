@@ -214,7 +214,8 @@ void AHLWorldActor::TickFx(float Dt)
 			const FVector Feet = FxUnitPos(U->Id, 0.f);
 			const float Hgt = FxUnitPos(U->Id, 1.f).Z - Feet.Z;
 			const float Ph = float(FMath::Fmod(T + U->Id * 0.37, 1000.0));
-			if (U->Casting)
+			// spellwork glows at the hands and rings the feet; a gunman's aimed shot or a brawler's wind-up shows only its cast bar
+			if (U->Casting && (U->Casting->School != TEXT("physical") || U->Casting->IsHeal()))
 			{
 				const FLinearColor C = SchoolColor(U->Casting->IsHeal() ? FString(TEXT("heal")) : U->Casting->School);
 				const float Prog = FMath::Clamp(float((T - U->CastStart) / FMath::Max(0.1, U->CastEnd - U->CastStart)), 0.f, 1.f);
