@@ -4,6 +4,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "HLGame.h"
+#include "HLEnemies.h"
 #include "HLWorldActor.generated.h"
 
 class UStaticMesh;
@@ -20,6 +21,9 @@ struct FHLUnitVis
 		bool bDeadLook = false, bMountLook = false, bGhostLook = false;
 		// people from the character art (HLCharacter.h); gray-box shapes otherwise
 		bool bHuman = false;
+		// invaders and wildlife from the rigged enemy art (HLEnemies.h)
+		bool bEnemy = false;
+		FHLEnemyRig Enemy;
 		FHLCharRig Rig;
 		FHLCharLook Look;
 		double NextLook = 0;
@@ -112,6 +116,9 @@ private:
 	void BuildUnit(const FHLUnit& U, FHLUnitVis& V);
 	TMap<int32, FHLUnitVis> Vis;
 	TArray<TArray<TWeakObjectPtr<UStaticMeshComponent>>> ObjectMeshes;
+	// hive structures: the wrecked mesh shown while the object is down, and the egg sac's living skeletal mesh
+	TArray<TArray<TWeakObjectPtr<UStaticMeshComponent>>> ObjectDead;
+	TArray<TArray<TWeakObjectPtr<class USkeletalMeshComponent>>> ObjectLive;
 	TMap<TWeakObjectPtr<UStaticMeshComponent>, TWeakObjectPtr<class UPointLightComponent>> LampLights;
 	TSharedPtr<class SHLGameUI> UI;
 	TSharedPtr<class SWidget> UIContainer;

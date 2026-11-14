@@ -20,7 +20,10 @@
 #include "Serialization/JsonReader.h"
 #include "Serialization/JsonSerializer.h"
 
+#ifndef HL_UI_COLORS // shared by HLUI.cpp and HLUIWindows.cpp (one unity file may hold both)
+#define HL_UI_COLORS
 static const FLinearColor ColGold(1.f, 0.82f, 0.25f), ColDim(0.62f, 0.62f, 0.62f), ColWhite(1, 1, 1), ColRed(1, 0.25f, 0.2f), ColGreen(0.3f, 1, 0.3f);
+#endif
 
 void SHLGameUI::Construct(const FArguments& Args) { World = Args._World; SetCanTick(false); }
 FHLGame& SHLGameUI::G() const { return World->Game; }

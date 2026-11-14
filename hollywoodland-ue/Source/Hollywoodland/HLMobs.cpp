@@ -12,6 +12,7 @@ void FHLGame::MobEnterCombat(FHLUnit& U, int32 TargetId)
 	if (bWasIdle)
 	{
 		Sound(SfxVoice(U) + TEXT("_aggro"), U, U.SummonerId ? 0.6f : 1.f);
+		if (!U.bBurrowed && Chance(0.6f)) Cue(U, TEXT("howl")); // coyotes and Old Scar howl at the start of a fight
 		// a patrol's Home is its next waypoint, possibly hundreds of metres off: the leash is anchored where the fight starts
 		if (U.CampIdx >= 0 && Areas[U.Area].Def->Camps[U.CampIdx].Patrol.Num() >= 2) U.Home = U.Pos;
 		for (int32 k = 0; k < 3; ++k) U.ScriptT[k] = Now + 6 + k * 4;
@@ -209,6 +210,7 @@ void FHLGame::BossScript(FHLUnit& U, float Dt)
 		if (!Def) return;
 		FHLUnit* A = SpawnMob(Def, U.Area, Pos + FVector2D(Rand() * 4 - 2, Rand() * 4 - 2));
 		A->SummonerId = U.Id; A->Home = U.Home; A->Leash = 200; A->TappedBy = U.TappedBy;
+		Cue(*A, TEXT("hatch")); // broodlings climb out of their eggs; others have no such clip
 		if (FHLUnit* V = RandomVictim(false)) MobEnterCombat(*A, V->Id);
 	};
 	if (M.Script == TEXT("burrower"))
@@ -239,6 +241,7 @@ void FHLGame::BossScript(FHLUnit& U, float Dt)
 				AddChat(TEXT("emote"), FString(), FString::Printf(TEXT("%s swoops at %s!"), *U.Name, *T->Name));
 				Sound(TEXT("flier_swoop"), *T);
 				UE_LOG(LogTemp, Display, TEXT("HL_LIFE mob %s swoops at %s"), *U.Name, *T->Name);
+				Cue(U, TEXT("Dive"));
 				if (FVector2D::Distance(T->Pos, U.Pos) < 12) { U.Pos = Area.Nav.NearestFree(T->Pos + (U.Pos - T->Pos).GetSafeNormal() * 2); DealDamage(&U, *T, FMath::Max(1.f, (U.WeaponMin + U.WeaponMax) * 0.65f), TEXT("physical"), false, TEXT("Swoop")); }
 			}
 		}
@@ -264,6 +267,7 @@ void FHLGame::BossScript(FHLUnit& U, float Dt)
 			{
 				AddChat(TEXT("emote"), FString(), FString::Printf(TEXT("Hive Warden charges %s!"), *V->Name));
 				Sound(TEXT("warden_slam"), *V);
+				Cue(U, TEXT("charge"));
 				U.Pos = Area.Nav.NearestFree(V->Pos + (U.Pos - V->Pos).GetSafeNormal() * 3);
 				if (const FHLAbility* Ab = FHLData::Get().Ability(TEXT("ab_mob_charge"))) ExecuteAbility(U, *Ab, V);
 			}
@@ -278,6 +282,7 @@ void FHLGame::BossScript(FHLUnit& U, float Dt)
 			{
 				AddChat(TEXT("emote"), FString(), TEXT("Spitter Matriarch sprays a pool of acid!"));
 				Sound(TEXT("invader_spitter_aggro"), U);
+				Cue(U, TEXT("ab_mob_acid_pool"));
 				// Simulated players "break line of sight" unless they make a mistake; the human has to move behind the seats.
 				const FHLAbility* Ab = FHLData::Get().Ability(TEXT("ab_mob_acid_pool"));
 				if (Ab)
@@ -302,6 +307,7 @@ void FHLGame::BossScript(FHLUnit& U, float Dt)
 			U.ScriptPhase++;
 			AddChat(TEXT("emote"), FString(), TEXT("The Egyptian Hive Mother calls her Drones!"));
 			Sound(TEXT("queen_screech"), U);
+			Cue(U, TEXT("summon_drones"));
 			for (int32 i = 0; i < 4; ++i) SpawnAdd(TEXT("mob_egy_drone"), U.Pos + FVector2D((i % 2 ? 14 : -14), -10));
 		}
 		if (Now >= U.ScriptT[1])

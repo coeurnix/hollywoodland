@@ -105,6 +105,7 @@ struct FHLUnit
 	TMap<int32, float> Threat;
 	bool bEvent = false, bLootable = false;
 	bool bBurrowed = false; float Lift = 0; // burrowers hide underground; fliers hold altitude (metres)
+	FString AnimCue; int32 AnimCueSeq = 0;  // last special move (ability id, script cue or clip name) for the rigged enemy art
 	TArray<FHLLoot> Loot;
 	int32 LootCents = 0;
 	// npc / sim
@@ -233,6 +234,7 @@ public:
 		E.Pos = Pos ? *Pos : (Dst ? Dst->Pos : Src.Pos);
 		FxQueue.Add(MoveTemp(E));
 	}
+	static void Cue(FHLUnit& U, const FString& Key) { U.AnimCue = Key; ++U.AnimCueSeq; }
 	void Sound(const FString& Id, const FHLUnit& At, float Vol = 1.f) { if (SoundQueue.Num() < 256) { FHLSoundEvent E; E.Id = Id; E.Area = At.Area; E.Pos = At.Pos; E.Z = At.Z + 1.f; E.Vol = Vol; E.UnitId = At.Id; SoundQueue.Add(MoveTemp(E)); } }
 	void SoundAt(const FString& Id, int32 Area, const FVector2D& Pos, float Vol = 1.f) { if (SoundQueue.Num() < 256) { FHLSoundEvent E; E.Id = Id; E.Area = Area; E.Pos = Pos; E.Z = 1.f; E.Vol = Vol; SoundQueue.Add(MoveTemp(E)); } }
 	void Sound2D(const FString& Id, float Vol = 1.f) { if (SoundQueue.Num() < 256) { FHLSoundEvent E; E.Id = Id; E.Vol = Vol; SoundQueue.Add(MoveTemp(E)); } }

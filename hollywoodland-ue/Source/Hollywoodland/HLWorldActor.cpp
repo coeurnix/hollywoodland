@@ -1,4 +1,4 @@
-﻿#include "HLWorldActor.h"
+#include "HLWorldActor.h"
 #include "HLBridge.h"
 #include "HLUI.h"
 #include "Camera/CameraComponent.h"
@@ -23,6 +23,8 @@
 #include "Components/PointLightComponent.h"
 #include "Components/SceneCaptureComponent2D.h"
 #include "Components/SkeletalMeshComponent.h"
+#include "Engine/SkeletalMesh.h"
+#include "Animation/AnimSequence.h"
 #include "Engine/TextureRenderTarget2D.h"
 #include "HAL/IConsoleManager.h"
 #include "HLSettings.h"
@@ -207,6 +209,10 @@ void AHLWorldActor::BuildWorld()
 		Spawned.Add(Sun);
 	}
 	ObjectMeshes.SetNum(Game.Areas.Num());
+	ObjectDead.SetNum(Game.Areas.Num());
+	ObjectLive.SetNum(Game.Areas.Num());
+	FHLEnemyArt& EA = FHLEnemyArt::Get();
+	EA.Load();
 	for (int32 a = 0; a < Game.Areas.Num(); ++a)
 	{
 		const FHLAreaDef& Def = *Game.Areas[a].Def;
@@ -263,6 +269,49 @@ void AHLWorldActor::BuildWorld()
 		// interactable objects
 		for (const FHLObjectDef& O : Def.Objects)
 		{
+			// hive structures leave a wreck behind instead of vanishing; the egg sac pulses while it lives
+			const TCHAR* Struct = O.Kind == TEXT("spire") ? TEXT("HiveSpire") : O.Kind == TEXT("egg_sac") ? TEXT("HiveEggSac")
+				: (O.Kind == TEXT("egg") || O.Kind == TEXT("boss_egg") || O.Kind == TEXT("spread_egg")) ? TEXT("HiveEggCluster") : nullptr;
+			const FHLEnemyStructure* HS = Struct ? EA.Structure(Struct) : nullptr;
+			UStaticMeshComponent* DeadC = nullptr;
+			USkeletalMeshComponent* LiveC = nullptr;
+			if (HS)
+			{
+				FHLPropPlace P = O.Prop;
+				if (!P.IsSet()) { P.Pos = O.Pos; P.Scale = FVector(1); }
+				if (UStaticMesh* DM = EA.StaticMesh(HS->Destroyed))
+				{
+					DeadC = NewObject<UStaticMeshComponent>(Geo);
+					DeadC->SetStaticMesh(DM);
+					DeadC->SetMobility(EComponentMobility::Movable);
+					DeadC->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+					if (UMaterialInterface* Mt = EA.Material(HS->Mat)) DeadC->SetMaterial(0, Mt);
+					DeadC->SetupAttachment(Geo->GetRootComponent());
+					DeadC->SetRelativeLocation(ToWorld(a, P.Pos, P.Z));
+					DeadC->SetRelativeRotation(FRotator(0, P.Yaw, 0));
+					DeadC->SetRelativeScale3D(P.Scale);
+					DeadC->SetVisibility(false);
+					DeadC->RegisterComponent();
+				}
+				if (const FHLEnemyModel* LM = HS->Live.IsEmpty() ? nullptr : EA.Model(HS->Live))
+					if (USkeletalMesh* SK = EA.Mesh(*LM))
+					{
+						LiveC = NewObject<USkeletalMeshComponent>(Geo);
+						LiveC->SetMobility(EComponentMobility::Movable);
+						LiveC->SetSkeletalMesh(SK);
+						if (UMaterialInterface* Mt = EA.Material(FString::Printf(TEXT("/Game/Enemies/%s/MI_%s.MI_%s"), *LM->Id, *LM->Id, *LM->Id))) LiveC->SetMaterial(0, Mt);
+						LiveC->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+						LiveC->SetAnimationMode(EAnimationMode::AnimationSingleNode);
+						LiveC->SetupAttachment(Geo->GetRootComponent());
+						LiveC->SetRelativeLocation(ToWorld(a, P.Pos, P.Z));
+						LiveC->SetRelativeRotation(FRotator(0, P.Yaw, 0));
+						LiveC->SetRelativeScale3D(FVector(P.Scale.X));
+						LiveC->RegisterComponent();
+						if (UAnimSequence* Pulse = EA.Anim(*LM, TEXT("Pulse"))) LiveC->PlayAnimation(Pulse, true);
+					}
+			}
+			ObjectDead[a].Add(DeadC);
+			ObjectLive[a].Add(LiveC);
 			if (UStaticMeshComponent* PC = AddProp(Geo, a, O.Prop))
 			{
 				ObjectMeshes[a].Add(PC);
@@ -308,7 +357,12 @@ void AHLWorldActor::BuildUnit(const FHLUnit& U, FHLUnitVis& V)
 	Root->SetMobility(EComponentMobility::Movable);
 	A->SetRootComponent(Root); Root->RegisterComponent();
 	const float S = U.Scale;
-	if (U.Shape == TEXT("bug"))
+	if (U.Kind == EHLKind::Mob && U.Mob && FHLEnemyArt::Get().Make(A, Root, V.Enemy, U.Mob->Id))
+	{
+		V.bEnemy = true;
+		A->SetActorScale3D(FVector(S));
+	}
+	else if (U.Shape == TEXT("bug"))
 	{
 		V.Body = AddMesh(A, Sphere, FVector(0, 0, 55 * S), FVector(1.5f, 0.95f, 0.75f) * S, U.Color);
 		V.Head = AddMesh(A, Cone, FVector(80 * S, 0, 60 * S), FVector(0.5f, 0.5f, 0.7f) * S, U.Color * 0.6f);
@@ -495,11 +549,13 @@ void AHLWorldActor::SyncUnits()
 		if (!A) continue;
 		A->SetActorHiddenInGame(false);
 		float Z = U->Z + (U->HopT > 0 && !V->bHuman ? FMath::Sin(U->HopT * PI * 2) * 0.5f : 0.f);
-		if (U->bSitting && !U->bDead && !V->bHuman) Z -= 0.45f;
+		if (U->bSitting && !U->bDead && !V->bHuman && !V->bEnemy) Z -= 0.45f;
 		if (U->bMounted) Z += 0.9f;
 		Z += U->Lift;
-		if (U->bBurrowed) Z -= 0.85f * U->Scale; // only the back shows, a mound in the street
-		A->SetActorLocationAndRotation(ToWorld(U->Area, U->Pos, Z), FRotator(0, U->Yaw, U->bDead && !V->bHuman ? 90 : 0));
+		// only the back shows, a mound in the street (the rigged burrower's BurrowedIdle sinks itself)
+		if (U->bBurrowed && !(V->bEnemy && V->Enemy.Model && V->Enemy.Model->Has(TEXT("BurrowedIdle")))) Z -= 0.85f * U->Scale;
+		A->SetActorLocationAndRotation(ToWorld(U->Area, U->Pos, Z), FRotator(0, U->Yaw, U->bDead && !V->bHuman && !V->bEnemy ? 90 : 0));
+		if (V->bEnemy) FHLEnemyArt::Get().Drive(V->Enemy, *U, Game.Now, Game.FrameDt);
 		if (V->bHuman)
 		{
 			// equipment changes show up within half a second
@@ -512,7 +568,7 @@ void AHLWorldActor::SyncUnits()
 			static const bool bNoAnim = FParse::Param(FCommandLine::Get(), TEXT("HLBindPose"));
 			if (!bNoAnim) CharVis.Drive(V->Rig, *U, V->Look, Game.Now, Game.FrameDt);
 		}
-		if ((U->bDead != V->bDeadLook || U->bGhost != V->bGhostLook) && !V->bHuman)
+		if ((U->bDead != V->bDeadLook || U->bGhost != V->bGhostLook) && !V->bHuman && !V->bEnemy)
 		{
 			V->bDeadLook = U->bDead; V->bGhostLook = U->bGhost;
 			if (V->Body.IsValid()) V->Body->SetMaterial(0, Mid(U->bDead ? U->Color * 0.45f : U->bGhost ? FLinearColor(0.55f, 0.75f, 1.f) : U->Color));
@@ -539,7 +595,10 @@ void AHLWorldActor::SyncUnits()
 				// a lit arc lamp stays where it is and shines until it gutters out (respawns); everything else is taken or destroyed
 				const bool bLamp = St.Def && St.Def->Kind == TEXT("arc_lamp");
 				const bool bShow = bLamp || St.bActive;
-				if (C->IsVisible() != bShow) C->SetVisibility(bShow);
+				USkeletalMeshComponent* Live = o < ObjectLive[a].Num() ? ObjectLive[a][o].Get() : nullptr;
+				if (Live) { if (Live->IsVisible() != bShow) Live->SetVisibility(bShow); if (C->IsVisible()) C->SetVisibility(false); }
+				else if (C->IsVisible() != bShow) C->SetVisibility(bShow);
+				if (UStaticMeshComponent* Dead = o < ObjectDead[a].Num() ? ObjectDead[a][o].Get() : nullptr) if (Dead->IsVisible() == bShow) Dead->SetVisibility(!bShow);
 				if (bLamp) if (UPointLightComponent* L = LampLights.FindRef(C).Get()) { const bool bLit = !St.bActive; if (L->IsVisible() != bLit) L->SetVisibility(bLit); }
 			}
 	// target ring
@@ -710,6 +769,44 @@ void AHLWorldActor::AutoTest(float Dt)
 		static int32 Shot = -1;
 		if (Shot != Step && T > NextStep - 0.6) { Shot = Step; FScreenshotRequest::RequestScreenshot(FPaths::ProjectSavedDir() / FString::Printf(TEXT("Screenshots/hl_view_%02d.png"), Step), true, false); }
 #endif
+	}
+	if (P && FParse::Param(FCommandLine::Get(), TEXT("HLEnemyLineup")))
+	{
+		// enemy art check: each rigged model in its idle beside the player (both facing +X), seen from the side, one
+		// screenshot each (hl_enemy_NN.png); then the walk clip a step later
+		static TArray<FString> MobIds; static int32 Step = -1; static double NextStep = 0; static TWeakObjectPtr<AActor> Show; static FHLEnemyRig Rig;
+		FHLEnemyArt& EA = FHLEnemyArt::Get();
+		if (MobIds.IsEmpty() && EA.Load())
+		{
+			TSet<FString> Seen;
+			for (const FHLMobDef& Md : FHLData::Get().Mobs) if (const FHLEnemyMob* E = EA.Mob(Md.Id)) if (!Seen.Contains(E->Model)) { Seen.Add(E->Model); MobIds.Add(Md.Id); }
+		}
+		AutoNextShot = 1e9;
+		P->CombatUntil = 0; P->bAutoAttack = false; P->TargetId = 0;
+		const FVector2D At(250, 300);
+		P->Pos = At; P->Yaw = 0;
+		CamYaw = 90; CamPitch = 8; CamDist = 9;
+		if (T >= NextStep)
+		{
+			if (++Step >= MobIds.Num() * 2) { UKismetSystemLibrary::QuitGame(this, nullptr, EQuitPreference::Quit, false); return; }
+			NextStep = T + 2;
+			if (Show.IsValid()) Show->Destroy();
+			const FHLMobDef* LM = FHLData::Get().Mob(MobIds[Step / 2]);
+			AActor* A = GetWorld()->SpawnActor<AActor>(AActor::StaticClass(), FTransform::Identity);
+			USceneComponent* R = NewObject<USceneComponent>(A); A->SetRootComponent(R); R->RegisterComponent();
+			Rig = FHLEnemyRig();
+			EA.Make(A, R, Rig, LM->Id);
+			A->SetActorLocationAndRotation(ToWorld(P->Area, At + FVector2D(0, -3.5f), 0), FRotator::ZeroRotator);
+			A->SetActorScale3D(FVector(FMath::Min(LM->Scale, 1.6f)));
+			if (Rig.Model) EA.Play(Rig, Rig.Model->Role(Step % 2 ? TEXT("walk") : TEXT("idle")), true);
+			Show = A;
+			HLBridge::Log(FString::Printf(TEXT("HL lineup %d %s (%s)"), Step, *LM->Id, Rig.Model ? *Rig.Model->Id : TEXT("none")));
+		}
+#if !PLATFORM_WASM
+		static int32 Shot = -1;
+		if (Shot != Step && T > NextStep - 0.5) { Shot = Step; FScreenshotRequest::RequestScreenshot(FPaths::ProjectSavedDir() / FString::Printf(TEXT("Screenshots/hl_enemy_%02d.png"), Step), true, false); }
+#endif
+		return;
 	}
 	if (P && FParse::Param(FCommandLine::Get(), TEXT("HLLineup")))
 	{

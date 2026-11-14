@@ -1,0 +1,1027 @@
+{
+ "models": {
+  "BroodKeeper": {
+   "mesh": "/Game/Enemies/BroodKeeper/SK_BroodKeeper.SK_BroodKeeper",
+   "kind": "insect",
+   "roles": {
+    "idle": "Idle",
+    "walk": "Walk",
+    "run": "Run",
+    "attack": "Attack",
+    "hit": "Hit",
+    "death": "Death"
+   },
+   "clips": {
+    "Idle": {
+     "anim": "/Game/Enemies/BroodKeeper/A_BroodKeeper_Idle.A_BroodKeeper_Idle",
+     "len": 2.0,
+     "loop": true
+    },
+    "Walk": {
+     "anim": "/Game/Enemies/BroodKeeper/A_BroodKeeper_Walk.A_BroodKeeper_Walk",
+     "len": 1.067,
+     "loop": true
+    },
+    "Run": {
+     "anim": "/Game/Enemies/BroodKeeper/A_BroodKeeper_Run.A_BroodKeeper_Run",
+     "len": 0.667,
+     "loop": true
+    },
+    "Attack": {
+     "anim": "/Game/Enemies/BroodKeeper/A_BroodKeeper_Attack.A_BroodKeeper_Attack",
+     "len": 0.8,
+     "loop": false,
+     "ev": 0.4
+    },
+    "Hit": {
+     "anim": "/Game/Enemies/BroodKeeper/A_BroodKeeper_Hit.A_BroodKeeper_Hit",
+     "len": 0.4,
+     "loop": false
+    },
+    "Death": {
+     "anim": "/Game/Enemies/BroodKeeper/A_BroodKeeper_Death.A_BroodKeeper_Death",
+     "len": 1.333,
+     "loop": false
+    },
+    "Slam": {
+     "anim": "/Game/Enemies/BroodKeeper/A_BroodKeeper_Slam.A_BroodKeeper_Slam",
+     "len": 1.2,
+     "loop": false,
+     "ev": 0.667
+    }
+   }
+  },
+  "Coyote": {
+   "mesh": "/Game/Enemies/Coyote/SK_Coyote.SK_Coyote",
+   "kind": "quad",
+   "roles": {
+    "idle": "QIdle",
+    "walk": "QWalk",
+    "run": "QRun",
+    "attack": "Bite",
+    "hit": "QHit",
+    "death": "QDeath"
+   },
+   "clips": {
+    "QIdle": {
+     "anim": "/Game/Enemies/Coyote/A_Coyote_QIdle.A_Coyote_QIdle",
+     "len": 2.0,
+     "loop": true
+    },
+    "QWalk": {
+     "anim": "/Game/Enemies/Coyote/A_Coyote_QWalk.A_Coyote_QWalk",
+     "len": 1.067,
+     "loop": true
+    },
+    "QRun": {
+     "anim": "/Game/Enemies/Coyote/A_Coyote_QRun.A_Coyote_QRun",
+     "len": 0.6,
+     "loop": true
+    },
+    "Bite": {
+     "anim": "/Game/Enemies/Coyote/A_Coyote_Bite.A_Coyote_Bite",
+     "len": 0.667,
+     "loop": false,
+     "ev": 0.333
+    },
+    "QHit": {
+     "anim": "/Game/Enemies/Coyote/A_Coyote_QHit.A_Coyote_QHit",
+     "len": 0.4,
+     "loop": false
+    },
+    "QDeath": {
+     "anim": "/Game/Enemies/Coyote/A_Coyote_QDeath.A_Coyote_QDeath",
+     "len": 1.333,
+     "loop": false
+    },
+    "Howl": {
+     "anim": "/Game/Enemies/Coyote/A_Coyote_Howl.A_Coyote_Howl",
+     "len": 2.0,
+     "loop": false
+    }
+   }
+  },
+  "FeralDog": {
+   "mesh": "/Game/Enemies/FeralDog/SK_FeralDog.SK_FeralDog",
+   "kind": "quad",
+   "roles": {
+    "idle": "QIdle",
+    "walk": "QWalk",
+    "run": "QRun",
+    "attack": "Bite",
+    "hit": "QHit",
+    "death": "QDeath"
+   },
+   "clips": {
+    "QIdle": {
+     "anim": "/Game/Enemies/FeralDog/A_FeralDog_QIdle.A_FeralDog_QIdle",
+     "len": 2.0,
+     "loop": true
+    },
+    "QWalk": {
+     "anim": "/Game/Enemies/FeralDog/A_FeralDog_QWalk.A_FeralDog_QWalk",
+     "len": 1.067,
+     "loop": true
+    },
+    "QRun": {
+     "anim": "/Game/Enemies/FeralDog/A_FeralDog_QRun.A_FeralDog_QRun",
+     "len": 0.6,
+     "loop": true
+    },
+    "Bite": {
+     "anim": "/Game/Enemies/FeralDog/A_FeralDog_Bite.A_FeralDog_Bite",
+     "len": 0.667,
+     "loop": false,
+     "ev": 0.333
+    },
+    "QHit": {
+     "anim": "/Game/Enemies/FeralDog/A_FeralDog_QHit.A_FeralDog_QHit",
+     "len": 0.4,
+     "loop": false
+    },
+    "QDeath": {
+     "anim": "/Game/Enemies/FeralDog/A_FeralDog_QDeath.A_FeralDog_QDeath",
+     "len": 1.333,
+     "loop": false
+    }
+   }
+  },
+  "HiveEggSac": {
+   "mesh": "/Game/Enemies/HiveEggSac/SK_HiveEggSac.SK_HiveEggSac",
+   "kind": "sac",
+   "roles": {
+    "idle": "Pulse",
+    "hit": "SacHit"
+   },
+   "clips": {
+    "Pulse": {
+     "anim": "/Game/Enemies/HiveEggSac/A_HiveEggSac_Pulse.A_HiveEggSac_Pulse",
+     "len": 1.333,
+     "loop": true
+    },
+    "SacHit": {
+     "anim": "/Game/Enemies/HiveEggSac/A_HiveEggSac_SacHit.A_HiveEggSac_SacHit",
+     "len": 0.4,
+     "loop": false
+    }
+   }
+  },
+  "HiveMother": {
+   "mesh": "/Game/Enemies/HiveMother/SK_HiveMother.SK_HiveMother",
+   "kind": "insect",
+   "roles": {
+    "idle": "Idle",
+    "walk": "Walk",
+    "run": "Run",
+    "attack": "Attack",
+    "hit": "Hit",
+    "death": "Death"
+   },
+   "clips": {
+    "Idle": {
+     "anim": "/Game/Enemies/HiveMother/A_HiveMother_Idle.A_HiveMother_Idle",
+     "len": 2.0,
+     "loop": true
+    },
+    "Walk": {
+     "anim": "/Game/Enemies/HiveMother/A_HiveMother_Walk.A_HiveMother_Walk",
+     "len": 1.067,
+     "loop": true
+    },
+    "Run": {
+     "anim": "/Game/Enemies/HiveMother/A_HiveMother_Run.A_HiveMother_Run",
+     "len": 0.667,
+     "loop": true
+    },
+    "Attack": {
+     "anim": "/Game/Enemies/HiveMother/A_HiveMother_Attack.A_HiveMother_Attack",
+     "len": 0.8,
+     "loop": false,
+     "ev": 0.4
+    },
+    "Hit": {
+     "anim": "/Game/Enemies/HiveMother/A_HiveMother_Hit.A_HiveMother_Hit",
+     "len": 0.4,
+     "loop": false
+    },
+    "Death": {
+     "anim": "/Game/Enemies/HiveMother/A_HiveMother_Death.A_HiveMother_Death",
+     "len": 1.333,
+     "loop": false
+    },
+    "Slam": {
+     "anim": "/Game/Enemies/HiveMother/A_HiveMother_Slam.A_HiveMother_Slam",
+     "len": 1.2,
+     "loop": false,
+     "ev": 0.667
+    },
+    "Summon": {
+     "anim": "/Game/Enemies/HiveMother/A_HiveMother_Summon.A_HiveMother_Summon",
+     "len": 1.6,
+     "loop": false
+    }
+   }
+  },
+  "HiveRiddenCoyote": {
+   "mesh": "/Game/Enemies/HiveRiddenCoyote/SK_HiveRiddenCoyote.SK_HiveRiddenCoyote",
+   "kind": "quad",
+   "roles": {
+    "idle": "QIdle",
+    "walk": "QWalk",
+    "run": "QRun",
+    "attack": "Bite",
+    "hit": "QHit",
+    "death": "QDeath"
+   },
+   "clips": {
+    "QIdle": {
+     "anim": "/Game/Enemies/HiveRiddenCoyote/A_HiveRiddenCoyote_QIdle.A_HiveRiddenCoyote_QIdle",
+     "len": 2.0,
+     "loop": true
+    },
+    "QWalk": {
+     "anim": "/Game/Enemies/HiveRiddenCoyote/A_HiveRiddenCoyote_QWalk.A_HiveRiddenCoyote_QWalk",
+     "len": 1.067,
+     "loop": true
+    },
+    "QRun": {
+     "anim": "/Game/Enemies/HiveRiddenCoyote/A_HiveRiddenCoyote_QRun.A_HiveRiddenCoyote_QRun",
+     "len": 0.6,
+     "loop": true
+    },
+    "Bite": {
+     "anim": "/Game/Enemies/HiveRiddenCoyote/A_HiveRiddenCoyote_Bite.A_HiveRiddenCoyote_Bite",
+     "len": 0.667,
+     "loop": false,
+     "ev": 0.333
+    },
+    "QHit": {
+     "anim": "/Game/Enemies/HiveRiddenCoyote/A_HiveRiddenCoyote_QHit.A_HiveRiddenCoyote_QHit",
+     "len": 0.4,
+     "loop": false
+    },
+    "QDeath": {
+     "anim": "/Game/Enemies/HiveRiddenCoyote/A_HiveRiddenCoyote_QDeath.A_HiveRiddenCoyote_QDeath",
+     "len": 1.333,
+     "loop": false
+    },
+    "Howl": {
+     "anim": "/Game/Enemies/HiveRiddenCoyote/A_HiveRiddenCoyote_Howl.A_HiveRiddenCoyote_Howl",
+     "len": 2.0,
+     "loop": false
+    }
+   }
+  },
+  "HiveWarden": {
+   "mesh": "/Game/Enemies/HiveWarden/SK_HiveWarden.SK_HiveWarden",
+   "kind": "insect",
+   "roles": {
+    "idle": "Idle",
+    "walk": "Walk",
+    "run": "Run",
+    "attack": "Attack",
+    "hit": "Hit",
+    "death": "Death"
+   },
+   "clips": {
+    "Idle": {
+     "anim": "/Game/Enemies/HiveWarden/A_HiveWarden_Idle.A_HiveWarden_Idle",
+     "len": 2.0,
+     "loop": true
+    },
+    "Walk": {
+     "anim": "/Game/Enemies/HiveWarden/A_HiveWarden_Walk.A_HiveWarden_Walk",
+     "len": 1.067,
+     "loop": true
+    },
+    "Run": {
+     "anim": "/Game/Enemies/HiveWarden/A_HiveWarden_Run.A_HiveWarden_Run",
+     "len": 0.667,
+     "loop": true
+    },
+    "Attack": {
+     "anim": "/Game/Enemies/HiveWarden/A_HiveWarden_Attack.A_HiveWarden_Attack",
+     "len": 0.8,
+     "loop": false,
+     "ev": 0.4
+    },
+    "Hit": {
+     "anim": "/Game/Enemies/HiveWarden/A_HiveWarden_Hit.A_HiveWarden_Hit",
+     "len": 0.4,
+     "loop": false
+    },
+    "Death": {
+     "anim": "/Game/Enemies/HiveWarden/A_HiveWarden_Death.A_HiveWarden_Death",
+     "len": 1.333,
+     "loop": false
+    },
+    "Charge": {
+     "anim": "/Game/Enemies/HiveWarden/A_HiveWarden_Charge.A_HiveWarden_Charge",
+     "len": 0.533,
+     "loop": true
+    }
+   }
+  },
+  "InvaderBroodling": {
+   "mesh": "/Game/Enemies/InvaderBroodling/SK_InvaderBroodling.SK_InvaderBroodling",
+   "kind": "insect",
+   "roles": {
+    "idle": "Idle",
+    "walk": "Walk",
+    "run": "Run",
+    "attack": "Attack",
+    "hit": "Hit",
+    "death": "Death"
+   },
+   "clips": {
+    "Idle": {
+     "anim": "/Game/Enemies/InvaderBroodling/A_InvaderBroodling_Idle.A_InvaderBroodling_Idle",
+     "len": 2.0,
+     "loop": true
+    },
+    "Walk": {
+     "anim": "/Game/Enemies/InvaderBroodling/A_InvaderBroodling_Walk.A_InvaderBroodling_Walk",
+     "len": 1.067,
+     "loop": true
+    },
+    "Run": {
+     "anim": "/Game/Enemies/InvaderBroodling/A_InvaderBroodling_Run.A_InvaderBroodling_Run",
+     "len": 0.667,
+     "loop": true
+    },
+    "Attack": {
+     "anim": "/Game/Enemies/InvaderBroodling/A_InvaderBroodling_Attack.A_InvaderBroodling_Attack",
+     "len": 0.8,
+     "loop": false,
+     "ev": 0.4
+    },
+    "Hit": {
+     "anim": "/Game/Enemies/InvaderBroodling/A_InvaderBroodling_Hit.A_InvaderBroodling_Hit",
+     "len": 0.4,
+     "loop": false
+    },
+    "Death": {
+     "anim": "/Game/Enemies/InvaderBroodling/A_InvaderBroodling_Death.A_InvaderBroodling_Death",
+     "len": 1.333,
+     "loop": false
+    },
+    "Hatch": {
+     "anim": "/Game/Enemies/InvaderBroodling/A_InvaderBroodling_Hatch.A_InvaderBroodling_Hatch",
+     "len": 0.8,
+     "loop": false
+    },
+    "Leap": {
+     "anim": "/Game/Enemies/InvaderBroodling/A_InvaderBroodling_Leap.A_InvaderBroodling_Leap",
+     "len": 0.667,
+     "loop": false,
+     "ev": 0.4
+    }
+   }
+  },
+  "InvaderBrute": {
+   "mesh": "/Game/Enemies/InvaderBrute/SK_InvaderBrute.SK_InvaderBrute",
+   "kind": "insect",
+   "roles": {
+    "idle": "Idle",
+    "walk": "Walk",
+    "run": "Run",
+    "attack": "Attack",
+    "hit": "Hit",
+    "death": "Death"
+   },
+   "clips": {
+    "Idle": {
+     "anim": "/Game/Enemies/InvaderBrute/A_InvaderBrute_Idle.A_InvaderBrute_Idle",
+     "len": 2.0,
+     "loop": true
+    },
+    "Walk": {
+     "anim": "/Game/Enemies/InvaderBrute/A_InvaderBrute_Walk.A_InvaderBrute_Walk",
+     "len": 1.067,
+     "loop": true
+    },
+    "Run": {
+     "anim": "/Game/Enemies/InvaderBrute/A_InvaderBrute_Run.A_InvaderBrute_Run",
+     "len": 0.667,
+     "loop": true
+    },
+    "Attack": {
+     "anim": "/Game/Enemies/InvaderBrute/A_InvaderBrute_Attack.A_InvaderBrute_Attack",
+     "len": 0.8,
+     "loop": false,
+     "ev": 0.4
+    },
+    "Hit": {
+     "anim": "/Game/Enemies/InvaderBrute/A_InvaderBrute_Hit.A_InvaderBrute_Hit",
+     "len": 0.4,
+     "loop": false
+    },
+    "Death": {
+     "anim": "/Game/Enemies/InvaderBrute/A_InvaderBrute_Death.A_InvaderBrute_Death",
+     "len": 1.333,
+     "loop": false
+    },
+    "Slam": {
+     "anim": "/Game/Enemies/InvaderBrute/A_InvaderBrute_Slam.A_InvaderBrute_Slam",
+     "len": 1.2,
+     "loop": false,
+     "ev": 0.667
+    }
+   }
+  },
+  "InvaderBurrower": {
+   "mesh": "/Game/Enemies/InvaderBurrower/SK_InvaderBurrower.SK_InvaderBurrower",
+   "kind": "insect",
+   "roles": {
+    "idle": "Idle",
+    "walk": "Walk",
+    "run": "Run",
+    "attack": "Attack",
+    "hit": "Hit",
+    "death": "Death"
+   },
+   "clips": {
+    "Idle": {
+     "anim": "/Game/Enemies/InvaderBurrower/A_InvaderBurrower_Idle.A_InvaderBurrower_Idle",
+     "len": 2.0,
+     "loop": true
+    },
+    "Walk": {
+     "anim": "/Game/Enemies/InvaderBurrower/A_InvaderBurrower_Walk.A_InvaderBurrower_Walk",
+     "len": 1.067,
+     "loop": true
+    },
+    "Run": {
+     "anim": "/Game/Enemies/InvaderBurrower/A_InvaderBurrower_Run.A_InvaderBurrower_Run",
+     "len": 0.667,
+     "loop": true
+    },
+    "Attack": {
+     "anim": "/Game/Enemies/InvaderBurrower/A_InvaderBurrower_Attack.A_InvaderBurrower_Attack",
+     "len": 0.8,
+     "loop": false,
+     "ev": 0.4
+    },
+    "Hit": {
+     "anim": "/Game/Enemies/InvaderBurrower/A_InvaderBurrower_Hit.A_InvaderBurrower_Hit",
+     "len": 0.4,
+     "loop": false
+    },
+    "Death": {
+     "anim": "/Game/Enemies/InvaderBurrower/A_InvaderBurrower_Death.A_InvaderBurrower_Death",
+     "len": 1.333,
+     "loop": false
+    },
+    "Burrow": {
+     "anim": "/Game/Enemies/InvaderBurrower/A_InvaderBurrower_Burrow.A_InvaderBurrower_Burrow",
+     "len": 1.0,
+     "loop": false
+    },
+    "BurrowedIdle": {
+     "anim": "/Game/Enemies/InvaderBurrower/A_InvaderBurrower_BurrowedIdle.A_InvaderBurrower_BurrowedIdle",
+     "len": 1.333,
+     "loop": true
+    },
+    "Emerge": {
+     "anim": "/Game/Enemies/InvaderBurrower/A_InvaderBurrower_Emerge.A_InvaderBurrower_Emerge",
+     "len": 0.733,
+     "loop": false,
+     "ev": 0.533
+    }
+   }
+  },
+  "InvaderDrone": {
+   "mesh": "/Game/Enemies/InvaderDrone/SK_InvaderDrone.SK_InvaderDrone",
+   "kind": "insect",
+   "roles": {
+    "idle": "Idle",
+    "walk": "Walk",
+    "run": "Run",
+    "attack": "Attack",
+    "hit": "Hit",
+    "death": "Death"
+   },
+   "clips": {
+    "Idle": {
+     "anim": "/Game/Enemies/InvaderDrone/A_InvaderDrone_Idle.A_InvaderDrone_Idle",
+     "len": 2.0,
+     "loop": true
+    },
+    "Walk": {
+     "anim": "/Game/Enemies/InvaderDrone/A_InvaderDrone_Walk.A_InvaderDrone_Walk",
+     "len": 1.067,
+     "loop": true
+    },
+    "Run": {
+     "anim": "/Game/Enemies/InvaderDrone/A_InvaderDrone_Run.A_InvaderDrone_Run",
+     "len": 0.667,
+     "loop": true
+    },
+    "Attack": {
+     "anim": "/Game/Enemies/InvaderDrone/A_InvaderDrone_Attack.A_InvaderDrone_Attack",
+     "len": 0.8,
+     "loop": false,
+     "ev": 0.4
+    },
+    "Hit": {
+     "anim": "/Game/Enemies/InvaderDrone/A_InvaderDrone_Hit.A_InvaderDrone_Hit",
+     "len": 0.4,
+     "loop": false
+    },
+    "Death": {
+     "anim": "/Game/Enemies/InvaderDrone/A_InvaderDrone_Death.A_InvaderDrone_Death",
+     "len": 1.333,
+     "loop": false
+    }
+   }
+  },
+  "InvaderFlier": {
+   "mesh": "/Game/Enemies/InvaderFlier/SK_InvaderFlier.SK_InvaderFlier",
+   "kind": "flier",
+   "roles": {
+    "idle": "FlyIdle",
+    "walk": "FlyForward",
+    "run": "FlyForward",
+    "attack": "Sting",
+    "hit": "Hit",
+    "death": "FlierDeath"
+   },
+   "clips": {
+    "FlyIdle": {
+     "anim": "/Game/Enemies/InvaderFlier/A_InvaderFlier_FlyIdle.A_InvaderFlier_FlyIdle",
+     "len": 1.0,
+     "loop": true
+    },
+    "FlyForward": {
+     "anim": "/Game/Enemies/InvaderFlier/A_InvaderFlier_FlyForward.A_InvaderFlier_FlyForward",
+     "len": 1.0,
+     "loop": true
+    },
+    "Dive": {
+     "anim": "/Game/Enemies/InvaderFlier/A_InvaderFlier_Dive.A_InvaderFlier_Dive",
+     "len": 1.2,
+     "loop": false,
+     "ev": 0.733
+    },
+    "Sting": {
+     "anim": "/Game/Enemies/InvaderFlier/A_InvaderFlier_Sting.A_InvaderFlier_Sting",
+     "len": 0.667,
+     "loop": false,
+     "ev": 0.367
+    },
+    "Hit": {
+     "anim": "/Game/Enemies/InvaderFlier/A_InvaderFlier_Hit.A_InvaderFlier_Hit",
+     "len": 0.4,
+     "loop": false
+    },
+    "FlierDeath": {
+     "anim": "/Game/Enemies/InvaderFlier/A_InvaderFlier_FlierDeath.A_InvaderFlier_FlierDeath",
+     "len": 1.333,
+     "loop": false
+    }
+   }
+  },
+  "InvaderSoldier": {
+   "mesh": "/Game/Enemies/InvaderSoldier/SK_InvaderSoldier.SK_InvaderSoldier",
+   "kind": "insect",
+   "roles": {
+    "idle": "Idle",
+    "walk": "Walk",
+    "run": "Run",
+    "attack": "Attack",
+    "hit": "Hit",
+    "death": "Death"
+   },
+   "clips": {
+    "Idle": {
+     "anim": "/Game/Enemies/InvaderSoldier/A_InvaderSoldier_Idle.A_InvaderSoldier_Idle",
+     "len": 2.0,
+     "loop": true
+    },
+    "Walk": {
+     "anim": "/Game/Enemies/InvaderSoldier/A_InvaderSoldier_Walk.A_InvaderSoldier_Walk",
+     "len": 1.067,
+     "loop": true
+    },
+    "Run": {
+     "anim": "/Game/Enemies/InvaderSoldier/A_InvaderSoldier_Run.A_InvaderSoldier_Run",
+     "len": 0.667,
+     "loop": true
+    },
+    "Attack": {
+     "anim": "/Game/Enemies/InvaderSoldier/A_InvaderSoldier_Attack.A_InvaderSoldier_Attack",
+     "len": 0.8,
+     "loop": false,
+     "ev": 0.4
+    },
+    "Hit": {
+     "anim": "/Game/Enemies/InvaderSoldier/A_InvaderSoldier_Hit.A_InvaderSoldier_Hit",
+     "len": 0.4,
+     "loop": false
+    },
+    "Death": {
+     "anim": "/Game/Enemies/InvaderSoldier/A_InvaderSoldier_Death.A_InvaderSoldier_Death",
+     "len": 1.333,
+     "loop": false
+    },
+    "Charge": {
+     "anim": "/Game/Enemies/InvaderSoldier/A_InvaderSoldier_Charge.A_InvaderSoldier_Charge",
+     "len": 0.533,
+     "loop": true
+    }
+   }
+  },
+  "InvaderSpitter": {
+   "mesh": "/Game/Enemies/InvaderSpitter/SK_InvaderSpitter.SK_InvaderSpitter",
+   "kind": "insect",
+   "roles": {
+    "idle": "Idle",
+    "walk": "Walk",
+    "run": "Run",
+    "attack": "Attack",
+    "hit": "Hit",
+    "death": "Death"
+   },
+   "clips": {
+    "Idle": {
+     "anim": "/Game/Enemies/InvaderSpitter/A_InvaderSpitter_Idle.A_InvaderSpitter_Idle",
+     "len": 2.0,
+     "loop": true
+    },
+    "Walk": {
+     "anim": "/Game/Enemies/InvaderSpitter/A_InvaderSpitter_Walk.A_InvaderSpitter_Walk",
+     "len": 1.067,
+     "loop": true
+    },
+    "Run": {
+     "anim": "/Game/Enemies/InvaderSpitter/A_InvaderSpitter_Run.A_InvaderSpitter_Run",
+     "len": 0.667,
+     "loop": true
+    },
+    "Attack": {
+     "anim": "/Game/Enemies/InvaderSpitter/A_InvaderSpitter_Attack.A_InvaderSpitter_Attack",
+     "len": 0.8,
+     "loop": false,
+     "ev": 0.4
+    },
+    "Hit": {
+     "anim": "/Game/Enemies/InvaderSpitter/A_InvaderSpitter_Hit.A_InvaderSpitter_Hit",
+     "len": 0.4,
+     "loop": false
+    },
+    "Death": {
+     "anim": "/Game/Enemies/InvaderSpitter/A_InvaderSpitter_Death.A_InvaderSpitter_Death",
+     "len": 1.333,
+     "loop": false
+    },
+    "Spit": {
+     "anim": "/Game/Enemies/InvaderSpitter/A_InvaderSpitter_Spit.A_InvaderSpitter_Spit",
+     "len": 0.933,
+     "loop": false,
+     "ev": 0.467
+    }
+   }
+  },
+  "InvaderWorker": {
+   "mesh": "/Game/Enemies/InvaderWorker/SK_InvaderWorker.SK_InvaderWorker",
+   "kind": "insect",
+   "roles": {
+    "idle": "Idle",
+    "walk": "Walk",
+    "run": "Run",
+    "attack": "Attack",
+    "hit": "Hit",
+    "death": "Death"
+   },
+   "clips": {
+    "Idle": {
+     "anim": "/Game/Enemies/InvaderWorker/A_InvaderWorker_Idle.A_InvaderWorker_Idle",
+     "len": 2.0,
+     "loop": true
+    },
+    "Walk": {
+     "anim": "/Game/Enemies/InvaderWorker/A_InvaderWorker_Walk.A_InvaderWorker_Walk",
+     "len": 1.067,
+     "loop": true
+    },
+    "Run": {
+     "anim": "/Game/Enemies/InvaderWorker/A_InvaderWorker_Run.A_InvaderWorker_Run",
+     "len": 0.667,
+     "loop": true
+    },
+    "Attack": {
+     "anim": "/Game/Enemies/InvaderWorker/A_InvaderWorker_Attack.A_InvaderWorker_Attack",
+     "len": 0.8,
+     "loop": false,
+     "ev": 0.4
+    },
+    "Hit": {
+     "anim": "/Game/Enemies/InvaderWorker/A_InvaderWorker_Hit.A_InvaderWorker_Hit",
+     "len": 0.4,
+     "loop": false
+    },
+    "Death": {
+     "anim": "/Game/Enemies/InvaderWorker/A_InvaderWorker_Death.A_InvaderWorker_Death",
+     "len": 1.333,
+     "loop": false
+    }
+   }
+  },
+  "OldScar": {
+   "mesh": "/Game/Enemies/OldScar/SK_OldScar.SK_OldScar",
+   "kind": "quad",
+   "roles": {
+    "idle": "QIdle",
+    "walk": "QWalk",
+    "run": "QRun",
+    "attack": "Bite",
+    "hit": "QHit",
+    "death": "QDeath"
+   },
+   "clips": {
+    "QIdle": {
+     "anim": "/Game/Enemies/OldScar/A_OldScar_QIdle.A_OldScar_QIdle",
+     "len": 2.0,
+     "loop": true
+    },
+    "QWalk": {
+     "anim": "/Game/Enemies/OldScar/A_OldScar_QWalk.A_OldScar_QWalk",
+     "len": 1.067,
+     "loop": true
+    },
+    "QRun": {
+     "anim": "/Game/Enemies/OldScar/A_OldScar_QRun.A_OldScar_QRun",
+     "len": 0.6,
+     "loop": true
+    },
+    "Bite": {
+     "anim": "/Game/Enemies/OldScar/A_OldScar_Bite.A_OldScar_Bite",
+     "len": 0.667,
+     "loop": false,
+     "ev": 0.333
+    },
+    "QHit": {
+     "anim": "/Game/Enemies/OldScar/A_OldScar_QHit.A_OldScar_QHit",
+     "len": 0.4,
+     "loop": false
+    },
+    "QDeath": {
+     "anim": "/Game/Enemies/OldScar/A_OldScar_QDeath.A_OldScar_QDeath",
+     "len": 1.333,
+     "loop": false
+    },
+    "Howl": {
+     "anim": "/Game/Enemies/OldScar/A_OldScar_Howl.A_OldScar_Howl",
+     "len": 2.0,
+     "loop": false
+    }
+   }
+  },
+  "SpitterMatriarch": {
+   "mesh": "/Game/Enemies/SpitterMatriarch/SK_SpitterMatriarch.SK_SpitterMatriarch",
+   "kind": "insect",
+   "roles": {
+    "idle": "Idle",
+    "walk": "Walk",
+    "run": "Run",
+    "attack": "Attack",
+    "hit": "Hit",
+    "death": "Death"
+   },
+   "clips": {
+    "Idle": {
+     "anim": "/Game/Enemies/SpitterMatriarch/A_SpitterMatriarch_Idle.A_SpitterMatriarch_Idle",
+     "len": 2.0,
+     "loop": true
+    },
+    "Walk": {
+     "anim": "/Game/Enemies/SpitterMatriarch/A_SpitterMatriarch_Walk.A_SpitterMatriarch_Walk",
+     "len": 1.067,
+     "loop": true
+    },
+    "Run": {
+     "anim": "/Game/Enemies/SpitterMatriarch/A_SpitterMatriarch_Run.A_SpitterMatriarch_Run",
+     "len": 0.667,
+     "loop": true
+    },
+    "Attack": {
+     "anim": "/Game/Enemies/SpitterMatriarch/A_SpitterMatriarch_Attack.A_SpitterMatriarch_Attack",
+     "len": 0.8,
+     "loop": false,
+     "ev": 0.4
+    },
+    "Hit": {
+     "anim": "/Game/Enemies/SpitterMatriarch/A_SpitterMatriarch_Hit.A_SpitterMatriarch_Hit",
+     "len": 0.4,
+     "loop": false
+    },
+    "Death": {
+     "anim": "/Game/Enemies/SpitterMatriarch/A_SpitterMatriarch_Death.A_SpitterMatriarch_Death",
+     "len": 1.333,
+     "loop": false
+    },
+    "Spit": {
+     "anim": "/Game/Enemies/SpitterMatriarch/A_SpitterMatriarch_Spit.A_SpitterMatriarch_Spit",
+     "len": 0.933,
+     "loop": false,
+     "ev": 0.467
+    },
+    "SpitPool": {
+     "anim": "/Game/Enemies/SpitterMatriarch/A_SpitterMatriarch_SpitPool.A_SpitterMatriarch_SpitPool",
+     "len": 1.333,
+     "loop": false,
+     "ev": 0.867
+    }
+   }
+  }
+ },
+ "mobs": {
+  "mob_ballroom_brute": {
+   "model": "InvaderBrute",
+   "mat": "/Game/Enemies/InvaderBrute/MI_InvaderBrute.MI_InvaderBrute",
+   "specials": {
+    "ab_mob_knockback": "Slam"
+   }
+  },
+  "mob_boss_brood_keeper": {
+   "model": "BroodKeeper",
+   "mat": "/Game/Enemies/BroodKeeper/MI_BroodKeeper.MI_BroodKeeper",
+   "specials": {
+    "ab_mob_knockback": "Slam"
+   }
+  },
+  "mob_boss_hive_mother": {
+   "model": "HiveMother",
+   "mat": "/Game/Enemies/HiveMother/MI_HiveMother.MI_HiveMother",
+   "specials": {
+    "ab_mob_knockback": "Slam",
+    "summon_drones": "Summon"
+   }
+  },
+  "mob_boss_hive_warden": {
+   "model": "HiveWarden",
+   "mat": "/Game/Enemies/HiveWarden/MI_HiveWarden.MI_HiveWarden",
+   "specials": {
+    "ab_mob_charge": "Charge",
+    "charge": "Charge"
+   }
+  },
+  "mob_boss_matriarch": {
+   "model": "SpitterMatriarch",
+   "mat": "/Game/Enemies/SpitterMatriarch/MI_SpitterMatriarch.MI_SpitterMatriarch",
+   "specials": {
+    "ab_mob_acid_spit": "Spit",
+    "ab_mob_acid_pool": "SpitPool"
+   }
+  },
+  "mob_coyote": {
+   "model": "Coyote",
+   "mat": "/Game/Enemies/Coyote/MI_Coyote.MI_Coyote",
+   "specials": {
+    "howl": "Howl"
+   }
+  },
+  "mob_egy_broodling": {
+   "model": "InvaderBroodling",
+   "mat": "/Game/Enemies/InvaderBroodling/MI_InvaderBroodling.MI_InvaderBroodling",
+   "specials": {
+    "hatch": "Hatch",
+    "leap": "Leap"
+   }
+  },
+  "mob_egy_drone": {
+   "model": "InvaderDrone",
+   "mat": "/Game/Enemies/InvaderDrone/MI_InvaderDrone.MI_InvaderDrone",
+   "specials": {}
+  },
+  "mob_egy_soldier": {
+   "model": "InvaderSoldier",
+   "mat": "/Game/Enemies/InvaderSoldier/MI_InvaderSoldier.MI_InvaderSoldier",
+   "specials": {}
+  },
+  "mob_egy_spitter": {
+   "model": "InvaderSpitter",
+   "mat": "/Game/Enemies/InvaderSpitter/MI_InvaderSpitter.MI_InvaderSpitter",
+   "specials": {
+    "ab_mob_acid_spit": "Spit"
+   }
+  },
+  "mob_feral_dog": {
+   "model": "FeralDog",
+   "mat": "/Game/Enemies/FeralDog/MI_FeralDog.MI_FeralDog",
+   "specials": {}
+  },
+  "mob_guard_cahuenga": {
+   "model": "InvaderSoldier",
+   "mat": "/Game/Enemies/InvaderSoldier/MI_InvaderSoldier_Hardened.MI_InvaderSoldier_Hardened",
+   "specials": {}
+  },
+  "mob_guard_gower": {
+   "model": "InvaderBrute",
+   "mat": "/Game/Enemies/InvaderBrute/MI_InvaderBrute.MI_InvaderBrute",
+   "specials": {}
+  },
+  "mob_guard_melrose": {
+   "model": "InvaderBrute",
+   "mat": "/Game/Enemies/InvaderBrute/MI_InvaderBrute.MI_InvaderBrute",
+   "specials": {}
+  },
+  "mob_gulch_coyote": {
+   "model": "HiveRiddenCoyote",
+   "mat": "/Game/Enemies/HiveRiddenCoyote/MI_HiveRiddenCoyote.MI_HiveRiddenCoyote",
+   "specials": {
+    "howl": "Howl"
+   }
+  },
+  "mob_invader_broodling": {
+   "model": "InvaderBroodling",
+   "mat": "/Game/Enemies/InvaderBroodling/MI_InvaderBroodling.MI_InvaderBroodling",
+   "specials": {
+    "hatch": "Hatch",
+    "leap": "Leap"
+   }
+  },
+  "mob_invader_drone": {
+   "model": "InvaderDrone",
+   "mat": "/Game/Enemies/InvaderDrone/MI_InvaderDrone.MI_InvaderDrone",
+   "specials": {}
+  },
+  "mob_invader_drone_hs": {
+   "model": "InvaderDrone",
+   "mat": "/Game/Enemies/InvaderDrone/MI_InvaderDrone.MI_InvaderDrone",
+   "specials": {}
+  },
+  "mob_invader_soldier": {
+   "model": "InvaderSoldier",
+   "mat": "/Game/Enemies/InvaderSoldier/MI_InvaderSoldier.MI_InvaderSoldier",
+   "specials": {}
+  },
+  "mob_invader_spitter": {
+   "model": "InvaderSpitter",
+   "mat": "/Game/Enemies/InvaderSpitter/MI_InvaderSpitter.MI_InvaderSpitter",
+   "specials": {
+    "ab_mob_acid_spit": "Spit"
+   }
+  },
+  "mob_invader_worker": {
+   "model": "InvaderWorker",
+   "mat": "/Game/Enemies/InvaderWorker/MI_InvaderWorker.MI_InvaderWorker",
+   "specials": {
+    "flee": "Run"
+   }
+  },
+  "mob_melrose_brute": {
+   "model": "InvaderBrute",
+   "mat": "/Game/Enemies/InvaderBrute/MI_InvaderBrute.MI_InvaderBrute",
+   "specials": {}
+  },
+  "mob_old_scar": {
+   "model": "OldScar",
+   "mat": "/Game/Enemies/OldScar/MI_OldScar.MI_OldScar",
+   "specials": {
+    "howl": "Howl"
+   }
+  },
+  "mob_pass_flier": {
+   "model": "InvaderFlier",
+   "mat": "/Game/Enemies/InvaderFlier/MI_InvaderFlier.MI_InvaderFlier",
+   "specials": {
+    "dive": "Dive"
+   }
+  },
+  "mob_pass_soldier": {
+   "model": "InvaderSoldier",
+   "mat": "/Game/Enemies/InvaderSoldier/MI_InvaderSoldier_Hardened.MI_InvaderSoldier_Hardened",
+   "specials": {}
+  },
+  "mob_selma_burrower": {
+   "model": "InvaderBurrower",
+   "mat": "/Game/Enemies/InvaderBurrower/MI_InvaderBurrower.MI_InvaderBurrower",
+   "specials": {
+    "burrow": "Burrow",
+    "burrowed_idle": "BurrowedIdle",
+    "emerge": "Emerge"
+   }
+  },
+  "mob_wall_stalker": {
+   "model": "InvaderSoldier",
+   "mat": "/Game/Enemies/InvaderSoldier/MI_InvaderSoldier_WallStalker.MI_InvaderSoldier_WallStalker",
+   "specials": {}
+  }
+ },
+ "structures": {
+  "HiveEggSac": {
+   "destroyed": "/Game/Enemies/HiveStructures/SM_HiveEggSac_Burned.SM_HiveEggSac_Burned",
+   "mat": "/Game/Enemies/HiveStructures/MI_HiveEggSac_Burned.MI_HiveEggSac_Burned",
+   "live": "HiveEggSac"
+  },
+  "HiveEggCluster": {
+   "destroyed": "/Game/Enemies/HiveStructures/SM_HiveEggCluster_Destroyed.SM_HiveEggCluster_Destroyed",
+   "mat": "/Game/Enemies/HiveStructures/MI_HiveEggCluster_Destroyed.MI_HiveEggCluster_Destroyed"
+  },
+  "HiveSpire": {
+   "destroyed": "/Game/Enemies/HiveStructures/SM_HiveSpire_Destroyed.SM_HiveSpire_Destroyed",
+   "mat": "/Game/Enemies/HiveStructures/MI_HiveSpire_Destroyed.MI_HiveSpire_Destroyed"
+  }
+ }
+}

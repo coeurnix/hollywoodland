@@ -3,7 +3,10 @@
 #include "HLUI.h"
 #include "HLWorldActor.h"
 
+#ifndef HL_UI_COLORS // shared by HLUI.cpp and HLUIWindows.cpp (one unity file may hold both)
+#define HL_UI_COLORS
 static const FLinearColor ColGold(1.f, 0.82f, 0.25f), ColDim(0.62f, 0.62f, 0.62f), ColWhite(1, 1, 1), ColRed(1, 0.25f, 0.2f), ColGreen(0.3f, 1, 0.3f);
+#endif
 static const TCHAR* EquipSlots[] = { TEXT("hat"), TEXT("neck"), TEXT("coat"), TEXT("wrist"), TEXT("gloves"), TEXT("belt"), TEXT("trousers"), TEXT("shoes"), TEXT("ring"), TEXT("main"), TEXT("off"), TEXT("ranged") };
 static const TCHAR* EquipNames[] = { TEXT("Hat"), TEXT("Neck"), TEXT("Coat"), TEXT("Wrist"), TEXT("Gloves"), TEXT("Belt"), TEXT("Trousers"), TEXT("Shoes"), TEXT("Ring"), TEXT("Main hand"), TEXT("Off hand"), TEXT("Ranged") };
 

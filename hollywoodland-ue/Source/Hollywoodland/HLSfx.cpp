@@ -14,7 +14,7 @@
 // (fade-out), Master, StopAll. The web batches them into one bridge call per frame; native applies them to the mixer.
 namespace
 {
-	const TCHAR* SettingsKey = TEXT("hollywoodland_sfx");
+	const TCHAR* SfxSettingsKey = TEXT("hollywoodland_sfx");
 }
 
 #if PLATFORM_WASM
@@ -341,7 +341,7 @@ void FHLSfx::Init(bool bMuteByDefault)
 			for (const FString& F : KV.Value.Files) HLAudio::Preload(Folder + F);
 	if (bMuteByDefault) { Volume = 0; HLAudio::Master(0); HLAudio::Flush(); return; }
 	HLAudio::Master(Volume);
-	HLBridge::StorageGet(SettingsKey, [this](const FHLBridgeResult& R)
+	HLBridge::StorageGet(SfxSettingsKey, [this](const FHLBridgeResult& R)
 	{
 		TSharedPtr<FJsonObject> O;
 		double V = 0;
@@ -355,7 +355,7 @@ void FHLSfx::SetVolume(float V, bool bSave)
 {
 	Volume = FMath::Clamp(V, 0.f, 1.f);
 	HLAudio::Master(Volume);
-	if (bSave) HLBridge::StorageSet(SettingsKey, FString::Printf(TEXT("{\"sfx\":%.2f}"), Volume));
+	if (bSave) HLBridge::StorageSet(SfxSettingsKey, FString::Printf(TEXT("{\"sfx\":%.2f}"), Volume));
 }
 
 void FHLSfx::StopAll()
