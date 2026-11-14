@@ -33,14 +33,14 @@ CAR = (25000, 1024, 1024, 512)
 BIG = (32000, 1024, 1024, 512)
 SET14 = (8000, 1024, 0, 0)  # the hand-picked set: base colour only, already light
 ERROR = 0.0005  # meshoptimizer error bound, fraction of the prop's size
-TREE = (30000, 1024, 512, 256)
-SHRUB = (6000, 1024, 512, 256)
-ROCK = (3000, 1024, 512, 256)
+TREE = (30000, 1024, 512, 0)
+SHRUB = (6000, 512, 256, 0)
+ROCK = (3000, 512, 512, 0)
 CARD = (64, 512, 0, 0)    # crossed alpha cards (art/foliage sprites): base colour with alpha only
-WORLD = (25000, 1024, 1024, 512)
-LETTER = (8000, 1024, 512, 256)
-INTER = (8000, 1024, 512, 256)
-EGY = (16000, 1024, 1024, 512)
+WORLD = (20000, 1024, 512, 256)
+LETTER = (4000, 512, 0, 0)    # seen from 700 m away
+INTER = (6000, 512, 256, 0)
+EGY = (12000, 1024, 512, 0)
 # a file is art/props/<file>.glb unless it names another package: 'world:<category>/<name>' (art/world/models) or
 # 'foliage:<id>' (art/foliage: raw/<id>.glb from Rodin, else the card in models/<id>.glb). A scale of ('h', metres)
 # scales uniformly to that height. FOLIAGE ids sway in the wind (M_HLFoliage; the value is the sway strength).
@@ -51,7 +51,6 @@ FOLIAGE = {'palm_fan': 1.0, 'palm_canary': 1.2, 'tree_eucalyptus': 1.2, 'tree_pe
 # id: (file, budget, scale (uniform or [width, height, length] in model axes), pivot)
 P = {
     'brick_rubble': ('01-brick-rubble', SET14, 1.4, 'floor'),
-    'red_car': ('02-red-car', BIG, [0.75, 0.72, 1.0], 'floor'),          # 3.9 m wide, 6.1 m tall read toy-like next to people
     'hive_ceiling': ('03-ceiling-hive-cluster', SET14, 2.0, 'ceiling'),
     'hive_tendrils': ('04-hive-tendril-bundle', SET14, 1.0, 'floor'),
     'crates': ('05-shipping-crates', SET14, 1.0, 'floor'),
@@ -70,7 +69,6 @@ P = {
     'car_chevrolet_blue': ('chevrolet-coach-blue', CAR, 1.0, 'floor'),
     'car_chevrolet': ('chevrolet-coach', CAR, 1.0, 'floor'),
     'coffee_tin_a': ('coffee-tin-sierra-valley', TINY, 1.0, 'floor'),
-    'coffee_tin_b': ('coffee-tin-suncrest', TINY, 1.0, 'floor'),
     'shed_collapsed': ('collapsed-shed', MED, 1.0, 'floor'),
     'van_delivery': ('delivery-van-hollywoodland', CAR, 1.0, 'floor'),
     'pole_fallen': ('fallen-utility-pole', MED, 1.0, 'floor'),
@@ -94,7 +92,6 @@ P = {
     'truck_starlight_wreck': ('newsreel-truck-starlight-wreck', CAR, 1.0, 'floor'),
     'truck_wrecked': ('newsreel-truck-wrecked', CAR, 1.0, 'floor'),
     'truck_newsreel': ('newsreel-truck', CAR, 1.0, 'floor'),
-    'callbox_alt': ('police-call-box-alt', SMALL, 0.85, 'floor'),
     'callbox_blue': ('police-call-box-blue', SMALL, 0.85, 'floor'),
     'callbox': ('police-call-box', SMALL, 0.85, 'floor'),
     'wall_ruined': ('ruined-stone-wall', MED, 1.0, 'floor'),
@@ -113,7 +110,6 @@ P = {
     'tent_triage': ('triage-tent', MED, 1.0, 'floor'),
     'trolley_pole': ('trolley-wire-pole', MED, 1.0, 'floor'),
     'car_tudor': ('tudor-car-green', CAR, 1.0, 'floor'),
-    'mailbox': ('us-mailbox', SMALL, 1.0, 'floor'),
     'stair_wooden': ('wooden-staircase', MED, 1.0, 'floor'),
     'wreck_van': ('wrecked-red-van', CAR, 1.0, 'floor'),
     # art/world (README there): mounts under riders, the Pacific Electric car, wrecks, interactables, the Egyptian kit, the sign
