@@ -1,0 +1,23 @@
+{
+  "id": "BD_Columbia_ref",
+  "provider": "fal.ai",
+  "model": "blackforestlabs/flux-3/klein/text-to-image",
+  "prompt": "Game asset reference for a distant backdrop: the 1930 Columbia Pictures studio: a two-storey cream stucco office block at the front with a painted name band reading COLUMBIA PICTURES, big grey-beige barn-like sound stages with curved roofs behind it; slightly wider than deep. Seen in a clean three-quarter view from above showing the long front and one side, one compact isolated building group, plain pure white background, no shadow, no ground plane, no people, no vehicles. Hand-painted stylized classic early World of Warcraft art style, chunky simple readable forms, bold silhouette, warm 1930 golden-hour palette.",
+  "references": [],
+  "image_size": {
+    "width": 1024,
+    "height": 1024
+  },
+  "seed": 1402,
+  "output": "concept/BD_Columbia_ref.png",
+  "status": "downloaded",
+  "request_id": "01a1d916-4b9b-7592-8053-687eec683338",
+  "elapsed_seconds": 2.87,
+  "timings": {
+    "prompt_expansion": 6.629999916185625e-06,
+    "inference": 0.5104072539998015,
+    "safety_checker": 0.016535095001017908
+  },
+  "width": 1024,
+  "height": 1024
+}

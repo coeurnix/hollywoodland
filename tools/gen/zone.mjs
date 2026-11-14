@@ -198,21 +198,22 @@ wallX(-110, [[192, 208]]); wallX(910, [[192, 208]]); wallY(-110, [[290, 306]]); 
 // the hive's second ring seals the band (the edge of the playable map)
 hiveRun(box(OX0 - 8, OY0 - 8, OX1 + 8, OY0, 26, C.hive), 'HV_WallSeg_Outer'); hiveRun(box(OX0 - 8, OY1, OX1 + 8, OY1 + 8, 26, C.hive), 'HV_WallSeg_Outer');
 hiveRun(box(OX0 - 8, OY0, OX0, OY1, 26, C.hive), 'HV_WallSeg_Outer'); hiveRun(box(OX1, OY0, OX1 + 8, OY1, 26, C.hive), 'HV_WallSeg_Outer');
+// backdrops (art/buildings BD_*, SPEC 7.3) replace the labelled boxes; their faces turn to the city
 // north: Cahuenga Pass (30-40), the Bowl up Highland, broken hills, hive spires
-box(250, -300, 350, -268, 14, C.landmark, 'Hollywood Bowl'); box(230, -290, 248, -262, 9, C.landmark); box(352, -290, 370, -262, 9, C.landmark);
+LM(box(250, -300, 350, -268, 14, C.landmark, 'Hollywood Bowl'), 'S', 'BD_HollywoodBowl'); box(230, -290, 248, -262, 9, C.landmark); box(352, -290, 370, -262, 9, C.landmark);
 for (const [x, y, w, h] of [[-260, -230, 60, 8], [-120, -260, 50, 12], [40, -200, 70, 10], [150, -280, 60, 14], [430, -240, 80, 12], [600, -280, 70, 16], [760, -210, 60, 10], [900, -270, 90, 14], [1010, -200, 60, 8]]) box(x, y, x + w, y + w * 0.6, h, C.hill);
 for (const [x, y] of [[120, -150], [470, -160], [700, -150], [-60, -170], [880, -150], [330, -200]]) box(x, y, x + 5, y + 5, 22, C.hive, '', { prop: fitBox('hive_spire_tall', x, y, x + 5, y + 5, 22) });
 // east: Gower Gulch (8-16): Columbia at Sunset & Gower, Poverty Row shacks
-box(1010, 120, 1090, 184, 16, C.landmark, 'Columbia Pictures'); box(1010, 216, 1040, 260, 7, C.shop, 'Poverty Row'); box(1050, 216, 1074, 250, 6, C.shop2); box(1080, 220, 1104, 262, 7, C.shop);
-box(940, 60, 980, 90, 6, C.shop2); box(950, 300, 990, 330, 6, C.shop); box(1040, 380, 1080, 420, 9, C.civic, 'Christie Studio');
+LM(box(1010, 120, 1090, 184, 16, C.landmark, 'Columbia Pictures'), 'W', 'BD_Columbia'); LM(box(1010, 216, 1040, 260, 7, C.shop, 'Poverty Row'), 'W', 'BD_PovertyRow'); box(1050, 216, 1074, 250, 6, C.shop2); box(1080, 220, 1104, 262, 7, C.shop);
+box(940, 60, 980, 90, 6, C.shop2); box(950, 300, 990, 330, 6, C.shop); LM(box(1040, 380, 1080, 420, 9, C.civic, 'Christie Studio'), 'W', 'BD_Christie');
 for (const [x, y] of [[960, 150], [960, 250], [1060, 330], [1000, 20], [990, 480]]) box(x, y, x + 5, y + 5, 22, C.hive, '', { prop: fitBox('hive_spire_tall', x, y, x + 5, y + 5, 22) });
 // south: Melrose (10-20): the cemetery gate, Paramount and RKO beyond
-box(330, 640, 400, 652, 8, C.civic, 'Hollywood Cemetery'); box(330, 652, 342, 700, 4, C.civic); box(400, 640, 470, 652, 4, C.civic);
-box(150, 690, 280, 750, 18, C.landmark, 'Paramount Pictures'); box(500, 680, 600, 750, 14, C.landmark, 'RKO Radio Pictures');
+LM(box(330, 640, 400, 652, 8, C.civic, 'Hollywood Cemetery'), 'N', 'BD_Cemetery'); box(330, 652, 342, 700, 4, C.civic); box(400, 640, 470, 652, 4, C.civic);
+LM(box(150, 690, 280, 750, 18, C.landmark, 'Paramount Pictures'), 'N', 'BD_Paramount'); LM(box(500, 680, 600, 750, 14, C.landmark, 'RKO Radio Pictures'), 'N', 'BD_RKO');
 for (const [x, y] of [[120, 600], [220, 610], [420, 600], [640, 620], [760, 600], [40, 680]]) box(x, y, x + 5, y + 5, 22, C.hive, '', { prop: fitBox('hive_spire_tall', x, y, x + 5, y + 5, 22) });
 // west: West Hollywood (20-30): La Brea & Sunset, Chaplin's studio
-box(-290, 230, -200, 300, 14, C.landmark, 'Chaplin Studios'); box(-300, 120, -240, 180, 9, C.shop, 'La Brea Avenue'); box(-230, 120, -180, 180, 7, C.shop2);
-box(-300, 400, -220, 450, 10, C.shop, 'Sunset & La Brea'); box(-200, 400, -150, 440, 7, C.shop2);
+LM(box(-290, 230, -200, 300, 14, C.landmark, 'Chaplin Studios'), 'E', 'BD_Chaplin'); LM(box(-300, 120, -240, 180, 9, C.shop, 'La Brea Avenue'), 'E', 'BD_LaBrea'); box(-230, 120, -180, 180, 7, C.shop2);
+LM(box(-300, 400, -220, 450, 10, C.shop, 'Sunset & La Brea'), 'E', 'BD_SunsetLaBrea'); box(-200, 400, -150, 440, 7, C.shop2);
 for (const [x, y] of [[-150, 150], [-160, 260], [-260, 40], [-250, 350], [-170, 500]]) box(x, y, x + 5, y + 5, 22, C.hive, '', { prop: fitBox('hive_spire_tall', x, y, x + 5, y + 5, 22) });
 
 const subzones = [

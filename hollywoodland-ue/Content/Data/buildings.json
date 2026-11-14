@@ -3932,6 +3932,126 @@
    "tris": 28,
    "origin": "footprint-centre-ground",
    "attachments": []
+  },
+  "BD_HollywoodBowl": {
+   "mesh": "/Game/Buildings/SM_BD_HollywoodBowl.SM_BD_HollywoodBowl",
+   "kind": "backdrop",
+   "nominal": [
+    100,
+    32,
+    14
+   ],
+   "tris": 2910,
+   "origin": "footprint-centre-ground",
+   "attachments": []
+  },
+  "BD_Paramount": {
+   "mesh": "/Game/Buildings/SM_BD_Paramount.SM_BD_Paramount",
+   "kind": "backdrop",
+   "nominal": [
+    130,
+    60,
+    18
+   ],
+   "tris": 2854,
+   "origin": "footprint-centre-ground",
+   "attachments": []
+  },
+  "BD_Columbia": {
+   "mesh": "/Game/Buildings/SM_BD_Columbia.SM_BD_Columbia",
+   "kind": "backdrop",
+   "nominal": [
+    64,
+    80,
+    16
+   ],
+   "tris": 2910,
+   "origin": "footprint-centre-ground",
+   "attachments": []
+  },
+  "BD_RKO": {
+   "mesh": "/Game/Buildings/SM_BD_RKO.SM_BD_RKO",
+   "kind": "backdrop",
+   "nominal": [
+    100,
+    70,
+    34
+   ],
+   "tris": 2902,
+   "origin": "footprint-centre-ground",
+   "attachments": []
+  },
+  "BD_Chaplin": {
+   "mesh": "/Game/Buildings/SM_BD_Chaplin.SM_BD_Chaplin",
+   "kind": "backdrop",
+   "nominal": [
+    70,
+    90,
+    14
+   ],
+   "tris": 2901,
+   "origin": "footprint-centre-ground",
+   "attachments": []
+  },
+  "BD_PovertyRow": {
+   "mesh": "/Game/Buildings/SM_BD_PovertyRow.SM_BD_PovertyRow",
+   "kind": "backdrop",
+   "nominal": [
+    44,
+    30,
+    7
+   ],
+   "tris": 2910,
+   "origin": "footprint-centre-ground",
+   "attachments": []
+  },
+  "BD_Christie": {
+   "mesh": "/Game/Buildings/SM_BD_Christie.SM_BD_Christie",
+   "kind": "backdrop",
+   "nominal": [
+    40,
+    40,
+    9
+   ],
+   "tris": 2906,
+   "origin": "footprint-centre-ground",
+   "attachments": []
+  },
+  "BD_Cemetery": {
+   "mesh": "/Game/Buildings/SM_BD_Cemetery.SM_BD_Cemetery",
+   "kind": "backdrop",
+   "nominal": [
+    70,
+    12,
+    8
+   ],
+   "tris": 2910,
+   "origin": "footprint-centre-ground",
+   "attachments": []
+  },
+  "BD_LaBrea": {
+   "mesh": "/Game/Buildings/SM_BD_LaBrea.SM_BD_LaBrea",
+   "kind": "backdrop",
+   "nominal": [
+    60,
+    60,
+    9
+   ],
+   "tris": 2906,
+   "origin": "footprint-centre-ground",
+   "attachments": []
+  },
+  "BD_SunsetLaBrea": {
+   "mesh": "/Game/Buildings/SM_BD_SunsetLaBrea.SM_BD_SunsetLaBrea",
+   "kind": "backdrop",
+   "nominal": [
+    50,
+    80,
+    10
+   ],
+   "tris": 2875,
+   "origin": "footprint-centre-ground",
+   "attachments": []
   }
  },
  "recipes": {

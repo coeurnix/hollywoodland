@@ -3,7 +3,7 @@
   "units": "meters",
   "up": "+Z",
   "front": "-Y",
-  "texture_sets": 34,
+  "texture_sets": 37,
   "atlases": {
     "ATL_BRK": {
       "texture": "textures/T_ATL_BRK.png",
@@ -40,6 +40,18 @@
     },
     "ATL_EGY": {
       "texture": "textures/T_ATL_EGY.png",
+      "emissive": null
+    },
+    "ATL_BD1": {
+      "texture": "textures/T_ATL_BD1.png",
+      "emissive": null
+    },
+    "ATL_BD2": {
+      "texture": "textures/T_ATL_BD2.png",
+      "emissive": null
+    },
+    "ATL_BD3": {
+      "texture": "textures/T_ATL_BD3.png",
       "emissive": null
     }
   },
@@ -9827,6 +9839,416 @@
       "also_fits": [],
       "recess": [],
       "quest_object": null
+    },
+    {
+      "id": "BD_HollywoodBowl",
+      "kind": "backdrop",
+      "material": "M_ATL_BD1",
+      "texture": "textures/T_ATL_BD1.png",
+      "emissive": null,
+      "nominal": [
+        100,
+        32,
+        14
+      ],
+      "origin": "footprint-centre-ground",
+      "file": "meshes/BD_HollywoodBowl.fbx",
+      "bounds": [
+        [
+          -50.0,
+          -16.000004,
+          0.0
+        ],
+        [
+          50.0,
+          15.999999,
+          14.0
+        ]
+      ],
+      "tris": 2910,
+      "concept": [
+        "concept/BD_HollywoodBowl_ref.png"
+      ],
+      "rodin": {
+        "used": true,
+        "material": "Shaded",
+        "mode": "full generation",
+        "atlas_quadrant": "ATL_BD1 q0 (1024)"
+      },
+      "notes": "Backdrop (SPEC 7.3): Rodin Gen-2 full generation stretched to its box and decimated to 3000 tris; Rodin texture at 1024 in one quadrant of a shared atlas.",
+      "fits_box": null,
+      "also_fits": [],
+      "recess": [],
+      "quest_object": null
+    },
+    {
+      "id": "BD_Paramount",
+      "kind": "backdrop",
+      "material": "M_ATL_BD1",
+      "texture": "textures/T_ATL_BD1.png",
+      "emissive": null,
+      "nominal": [
+        130,
+        60,
+        18
+      ],
+      "origin": "footprint-centre-ground",
+      "file": "meshes/BD_Paramount.fbx",
+      "bounds": [
+        [
+          -65.0,
+          -29.999998,
+          0.0
+        ],
+        [
+          65.0,
+          30.000006,
+          18.0
+        ]
+      ],
+      "tris": 2854,
+      "concept": [
+        "concept/BD_Paramount_ref2.png"
+      ],
+      "rodin": {
+        "used": true,
+        "material": "Shaded",
+        "mode": "full generation",
+        "atlas_quadrant": "ATL_BD1 q1 (1024)"
+      },
+      "notes": "Backdrop (SPEC 7.3): Rodin Gen-2 full generation stretched to its box and decimated to 3000 tris; Rodin texture at 1024 in one quadrant of a shared atlas.",
+      "fits_box": null,
+      "also_fits": [],
+      "recess": [],
+      "quest_object": null
+    },
+    {
+      "id": "BD_Columbia",
+      "kind": "backdrop",
+      "material": "M_ATL_BD1",
+      "texture": "textures/T_ATL_BD1.png",
+      "emissive": null,
+      "nominal": [
+        64,
+        80,
+        16
+      ],
+      "origin": "footprint-centre-ground",
+      "file": "meshes/BD_Columbia.fbx",
+      "bounds": [
+        [
+          -31.999998,
+          -40.0,
+          0.0
+        ],
+        [
+          32.0,
+          40.0,
+          16.000002
+        ]
+      ],
+      "tris": 2910,
+      "concept": [
+        "concept/BD_Columbia_ref.png"
+      ],
+      "rodin": {
+        "used": true,
+        "material": "Shaded",
+        "mode": "full generation",
+        "atlas_quadrant": "ATL_BD1 q2 (1024)"
+      },
+      "notes": "Backdrop (SPEC 7.3): Rodin Gen-2 full generation stretched to its box and decimated to 3000 tris; Rodin texture at 1024 in one quadrant of a shared atlas. Its box faces the city on its x side, so nominal is [box d, box w, h].",
+      "fits_box": null,
+      "also_fits": [],
+      "recess": [],
+      "quest_object": null
+    },
+    {
+      "id": "BD_RKO",
+      "kind": "backdrop",
+      "material": "M_ATL_BD1",
+      "texture": "textures/T_ATL_BD1.png",
+      "emissive": null,
+      "nominal": [
+        100,
+        70,
+        34
+      ],
+      "origin": "footprint-centre-ground",
+      "file": "meshes/BD_RKO.fbx",
+      "bounds": [
+        [
+          -49.999996,
+          -34.999996,
+          0.0
+        ],
+        [
+          49.999996,
+          34.999996,
+          34.0
+        ]
+      ],
+      "tris": 2902,
+      "concept": [
+        "concept/BD_RKO_ref.png"
+      ],
+      "rodin": {
+        "used": true,
+        "material": "Shaded",
+        "mode": "full generation",
+        "atlas_quadrant": "ATL_BD1 q3 (1024)"
+      },
+      "notes": "Backdrop (SPEC 7.3): Rodin Gen-2 full generation stretched to its box and decimated to 3000 tris; Rodin texture at 1024 in one quadrant of a shared atlas. Radio tower rises above the 14 m box (34 m overall).",
+      "fits_box": null,
+      "also_fits": [],
+      "recess": [],
+      "quest_object": null
+    },
+    {
+      "id": "BD_Chaplin",
+      "kind": "backdrop",
+      "material": "M_ATL_BD2",
+      "texture": "textures/T_ATL_BD2.png",
+      "emissive": null,
+      "nominal": [
+        70,
+        90,
+        14
+      ],
+      "origin": "footprint-centre-ground",
+      "file": "meshes/BD_Chaplin.fbx",
+      "bounds": [
+        [
+          -35.0,
+          -45.000004,
+          0.0
+        ],
+        [
+          35.0,
+          44.999996,
+          13.999998
+        ]
+      ],
+      "tris": 2901,
+      "concept": [
+        "concept/BD_Chaplin_ref.png"
+      ],
+      "rodin": {
+        "used": true,
+        "material": "Shaded",
+        "mode": "full generation",
+        "atlas_quadrant": "ATL_BD2 q0 (1024)"
+      },
+      "notes": "Backdrop (SPEC 7.3): Rodin Gen-2 full generation stretched to its box and decimated to 3000 tris; Rodin texture at 1024 in one quadrant of a shared atlas. Its box faces the city on its x side, so nominal is [box d, box w, h].",
+      "fits_box": null,
+      "also_fits": [],
+      "recess": [],
+      "quest_object": null
+    },
+    {
+      "id": "BD_PovertyRow",
+      "kind": "backdrop",
+      "material": "M_ATL_BD2",
+      "texture": "textures/T_ATL_BD2.png",
+      "emissive": null,
+      "nominal": [
+        44,
+        30,
+        7
+      ],
+      "origin": "footprint-centre-ground",
+      "file": "meshes/BD_PovertyRow.fbx",
+      "bounds": [
+        [
+          -22.0,
+          -15.0,
+          0.0
+        ],
+        [
+          22.0,
+          14.999998,
+          7.0
+        ]
+      ],
+      "tris": 2910,
+      "concept": [
+        "concept/BD_PovertyRow_ref.png"
+      ],
+      "rodin": {
+        "used": true,
+        "material": "Shaded",
+        "mode": "full generation",
+        "atlas_quadrant": "ATL_BD2 q1 (1024)"
+      },
+      "notes": "Backdrop (SPEC 7.3): Rodin Gen-2 full generation stretched to its box and decimated to 3000 tris; Rodin texture at 1024 in one quadrant of a shared atlas. Its box faces the city on its x side, so nominal is [box d, box w, h].",
+      "fits_box": null,
+      "also_fits": [],
+      "recess": [],
+      "quest_object": null
+    },
+    {
+      "id": "BD_Christie",
+      "kind": "backdrop",
+      "material": "M_ATL_BD2",
+      "texture": "textures/T_ATL_BD2.png",
+      "emissive": null,
+      "nominal": [
+        40,
+        40,
+        9
+      ],
+      "origin": "footprint-centre-ground",
+      "file": "meshes/BD_Christie.fbx",
+      "bounds": [
+        [
+          -20.0,
+          -20.0,
+          0.0
+        ],
+        [
+          20.000004,
+          20.000002,
+          9.0
+        ]
+      ],
+      "tris": 2906,
+      "concept": [
+        "concept/BD_Christie_ref.png"
+      ],
+      "rodin": {
+        "used": true,
+        "material": "Shaded",
+        "mode": "full generation",
+        "atlas_quadrant": "ATL_BD2 q2 (1024)"
+      },
+      "notes": "Backdrop (SPEC 7.3): Rodin Gen-2 full generation stretched to its box and decimated to 3000 tris; Rodin texture at 1024 in one quadrant of a shared atlas. Its box faces the city on its x side, so nominal is [box d, box w, h].",
+      "fits_box": null,
+      "also_fits": [],
+      "recess": [],
+      "quest_object": null
+    },
+    {
+      "id": "BD_Cemetery",
+      "kind": "backdrop",
+      "material": "M_ATL_BD2",
+      "texture": "textures/T_ATL_BD2.png",
+      "emissive": null,
+      "nominal": [
+        70,
+        12,
+        8
+      ],
+      "origin": "footprint-centre-ground",
+      "file": "meshes/BD_Cemetery.fbx",
+      "bounds": [
+        [
+          -35.0,
+          -6.000003,
+          0.0
+        ],
+        [
+          35.0,
+          6.0,
+          8.0
+        ]
+      ],
+      "tris": 2910,
+      "concept": [
+        "concept/BD_Cemetery_ref.png"
+      ],
+      "rodin": {
+        "used": true,
+        "material": "Shaded",
+        "mode": "full generation",
+        "atlas_quadrant": "ATL_BD2 q3 (1024)"
+      },
+      "notes": "Backdrop (SPEC 7.3): Rodin Gen-2 full generation stretched to its box and decimated to 3000 tris; Rodin texture at 1024 in one quadrant of a shared atlas.",
+      "fits_box": null,
+      "also_fits": [],
+      "recess": [],
+      "quest_object": null
+    },
+    {
+      "id": "BD_LaBrea",
+      "kind": "backdrop",
+      "material": "M_ATL_BD3",
+      "texture": "textures/T_ATL_BD3.png",
+      "emissive": null,
+      "nominal": [
+        60,
+        60,
+        9
+      ],
+      "origin": "footprint-centre-ground",
+      "file": "meshes/BD_LaBrea.fbx",
+      "bounds": [
+        [
+          -30.0,
+          -30.0,
+          0.0
+        ],
+        [
+          29.999998,
+          30.0,
+          9.0
+        ]
+      ],
+      "tris": 2906,
+      "concept": [
+        "concept/BD_LaBrea_ref.png"
+      ],
+      "rodin": {
+        "used": true,
+        "material": "Shaded",
+        "mode": "full generation",
+        "atlas_quadrant": "ATL_BD3 q0 (1024)"
+      },
+      "notes": "Backdrop (SPEC 7.3): Rodin Gen-2 full generation stretched to its box and decimated to 3000 tris; Rodin texture at 1024 in one quadrant of a shared atlas. Its box faces the city on its x side, so nominal is [box d, box w, h].",
+      "fits_box": null,
+      "also_fits": [],
+      "recess": [],
+      "quest_object": null
+    },
+    {
+      "id": "BD_SunsetLaBrea",
+      "kind": "backdrop",
+      "material": "M_ATL_BD3",
+      "texture": "textures/T_ATL_BD3.png",
+      "emissive": null,
+      "nominal": [
+        50,
+        80,
+        10
+      ],
+      "origin": "footprint-centre-ground",
+      "file": "meshes/BD_SunsetLaBrea.fbx",
+      "bounds": [
+        [
+          -25.000004,
+          -40.0,
+          0.0
+        ],
+        [
+          25.0,
+          40.0,
+          10.0
+        ]
+      ],
+      "tris": 2875,
+      "concept": [
+        "concept/BD_SunsetLaBrea_ref.png"
+      ],
+      "rodin": {
+        "used": true,
+        "material": "Shaded",
+        "mode": "full generation",
+        "atlas_quadrant": "ATL_BD3 q1 (1024)"
+      },
+      "notes": "Backdrop (SPEC 7.3): Rodin Gen-2 full generation stretched to its box and decimated to 3000 tris; Rodin texture at 1024 in one quadrant of a shared atlas. Its box faces the city on its x side, so nominal is [box d, box w, h].",
+      "fits_box": null,
+      "also_fits": [],
+      "recess": [],
+      "quest_object": null
     }
   ],
   "signs": [
@@ -17482,7 +17904,20 @@
     "meshes/EGY_WallSeg_Frieze.fbx",
     "meshes/EGY_WallSeg_Hive.fbx",
     "meshes/EGY_Pylon12.fbx",
-    "meshes/EGY_Colonnade.fbx"
+    "meshes/EGY_Colonnade.fbx",
+    "meshes/BD_HollywoodBowl.fbx",
+    "textures/T_ATL_BD1.png",
+    "meshes/BD_Paramount.fbx",
+    "meshes/BD_Columbia.fbx",
+    "meshes/BD_RKO.fbx",
+    "meshes/BD_Chaplin.fbx",
+    "textures/T_ATL_BD2.png",
+    "meshes/BD_PovertyRow.fbx",
+    "meshes/BD_Christie.fbx",
+    "meshes/BD_Cemetery.fbx",
+    "meshes/BD_LaBrea.fbx",
+    "textures/T_ATL_BD3.png",
+    "meshes/BD_SunsetLaBrea.fbx"
   ],
   "integration_notes": [
     "Phase2 neutral atlas was repacked to prioritize legible notice lettering. Reimport all19 RF_/DR_ meshes together with T_ATL_NEUTRAL.png."
@@ -17503,6 +17938,9 @@
     "textures/T_HV_WallSeg.png",
     "textures/T_ATL_AID.png",
     "textures/T_ATL_HH.png",
-    "textures/T_ATL_EGY.png"
+    "textures/T_ATL_EGY.png",
+    "textures/T_ATL_BD1.png",
+    "textures/T_ATL_BD2.png",
+    "textures/T_ATL_BD3.png"
   ]
 }

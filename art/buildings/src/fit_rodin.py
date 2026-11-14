@@ -76,13 +76,22 @@ if job.get('mirror'):
 lo, hi = dims()
 ob.location = (-(lo.x + hi.x) / 2, -(lo.y + hi.y) / 2, -lo.z); bpy.ops.object.transform_apply(location=True)
 
-# one material, its texture at 2048
-tex_id = job.get('texture_from', aid)
+# one material, its texture at 2048 (or, with "atlas"/"quad", at 1024 in one quadrant of a shared atlas; pack_quads.py
+# composes textures/T_<atlas>.png from work/quadtex/)
+tex_id = job.get('atlas') or job.get('texture_from', aid)
 mat = bpy.data.materials.new('M_' + tex_id); mat.use_nodes = True
 ob.data.materials.clear(); ob.data.materials.append(mat)
 for p in ob.data.polygons: p.material_index = 0
 tex_path = R / 'textures' / f'T_{tex_id}.png'
-if not job.get('texture_from'):
+if job.get('atlas'):
+    q = job['quad']; du, dv = (q % 2) * 0.5, (0.5 if q // 2 == 0 else 0.0)
+    uv = ob.data.uv_layers.active.data
+    for l in uv:
+        u, v = l.uv; l.uv = (min(max(u, 0), 1) * 0.5 + du, min(max(v, 0), 1) * 0.5 + dv)
+    (R / 'work' / 'quadtex').mkdir(parents=True, exist_ok=True)
+    img.scale(1024, 1024); img.filepath_raw = str(R / 'work' / 'quadtex' / f'{job["atlas"]}_{q}.png'); img.file_format = 'PNG'; img.save()
+    if not tex_path.exists(): img.save(filepath=str(tex_path))   # placeholder until pack_quads.py runs
+elif not job.get('texture_from'):
     assert img is not None, 'no base colour texture in the GLB'
     if img.size[0] > 2048: img.scale(2048, 2048)
     img.filepath_raw = str(tex_path); img.file_format = 'PNG'; img.save()

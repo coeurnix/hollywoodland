@@ -1,0 +1,23 @@
+{
+  "id": "BD_SunsetLaBrea_ref",
+  "provider": "fal.ai",
+  "model": "blackforestlabs/flux-3/klein/text-to-image",
+  "prompt": "Game asset reference for a distant backdrop: the corner of Sunset and La Brea in 1930: a cluster of low stucco and brick shop buildings with flat roofs and awnings, plus a 1930 filling station with a flat canopy on columns and two old-fashioned glass-globe gas pumps at the front corner; wider than deep. Seen in a clean three-quarter view from above showing the long front and one side, one compact isolated building group, plain pure white background, no shadow, no ground plane, no people, no vehicles. Hand-painted stylized classic early World of Warcraft art style, chunky simple readable forms, bold silhouette, warm 1930 golden-hour palette.",
+  "references": [],
+  "image_size": {
+    "width": 1024,
+    "height": 1024
+  },
+  "seed": 1409,
+  "output": "concept/BD_SunsetLaBrea_ref.png",
+  "status": "downloaded",
+  "request_id": "01a1d916-5c24-7e50-8df7-e3df1fc99c2b",
+  "elapsed_seconds": 5.98,
+  "timings": {
+    "prompt_expansion": 6.1290002122404985e-06,
+    "inference": 0.533018310999978,
+    "safety_checker": 0.014884694001011667
+  },
+  "width": 1024,
+  "height": 1024
+}

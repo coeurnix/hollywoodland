@@ -1,0 +1,102 @@
+[
+ {
+  "id": "BD_HollywoodBowl_ref",
+  "output": "concept/BD_HollywoodBowl_ref.png",
+  "image_size": {
+   "width": 1024,
+   "height": 1024
+  },
+  "seed": 1400,
+  "prompt": "Game asset reference for a distant backdrop: the 1929 Hollywood Bowl: a wide white concentric-arch band shell (nested half-domes) set into a brown chaparral hillside, curved rows of wooden bench seating sloping up in front of it, a wide shallow mass, about three times as wide as deep. Seen in a clean three-quarter view from above showing the long front and one side, one compact isolated building group, plain pure white background, no shadow, no ground plane, no people, no vehicles. Hand-painted stylized classic early World of Warcraft art style, chunky simple readable forms, bold silhouette, warm 1930 golden-hour palette."
+ },
+ {
+  "id": "BD_Paramount_ref",
+  "output": "concept/BD_Paramount_ref.png",
+  "image_size": {
+   "width": 1024,
+   "height": 1024
+  },
+  "seed": 1401,
+  "prompt": "Game asset reference for a distant backdrop: the 1930 Paramount Pictures studio lot: a cream Spanish-style wrought-iron arched gate (Bronson Gate) at the front centre, behind it several huge plain beige concrete sound-stage blocks with flat roofs and a tall steel water tower on legs; a long low mass, about twice as wide as deep. Seen in a clean three-quarter view from above showing the long front and one side, one compact isolated building group, plain pure white background, no shadow, no ground plane, no people, no vehicles. Hand-painted stylized classic early World of Warcraft art style, chunky simple readable forms, bold silhouette, warm 1930 golden-hour palette."
+ },
+ {
+  "id": "BD_Columbia_ref",
+  "output": "concept/BD_Columbia_ref.png",
+  "image_size": {
+   "width": 1024,
+   "height": 1024
+  },
+  "seed": 1402,
+  "prompt": "Game asset reference for a distant backdrop: the 1930 Columbia Pictures studio: a two-storey cream stucco office block at the front with a painted name band reading COLUMBIA PICTURES, big grey-beige barn-like sound stages with curved roofs behind it; slightly wider than deep. Seen in a clean three-quarter view from above showing the long front and one side, one compact isolated building group, plain pure white background, no shadow, no ground plane, no people, no vehicles. Hand-painted stylized classic early World of Warcraft art style, chunky simple readable forms, bold silhouette, warm 1930 golden-hour palette."
+ },
+ {
+  "id": "BD_RKO_ref",
+  "output": "concept/BD_RKO_ref.png",
+  "image_size": {
+   "width": 1024,
+   "height": 1024
+  },
+  "seed": 1403,
+  "prompt": "Game asset reference for a distant backdrop: the 1930 RKO Radio Pictures studio: large plain cream sound-stage blocks with flat roofs and a Spanish office front, a tall red-and-white lattice radio tower crest with a globe on top rising from the roof; wider than deep. Seen in a clean three-quarter view from above showing the long front and one side, one compact isolated building group, plain pure white background, no shadow, no ground plane, no people, no vehicles. Hand-painted stylized classic early World of Warcraft art style, chunky simple readable forms, bold silhouette, warm 1930 golden-hour palette."
+ },
+ {
+  "id": "BD_Chaplin_ref",
+  "output": "concept/BD_Chaplin_ref.png",
+  "image_size": {
+   "width": 1024,
+   "height": 1024
+  },
+  "seed": 1404,
+  "prompt": "Game asset reference for a distant backdrop: the 1918 Charlie Chaplin Studios: a row of half-timbered Tudor-revival cottages with steep brown gabled roofs and white plaster along the front, big plain grey sound stages behind them; about as wide as deep. Seen in a clean three-quarter view from above showing the long front and one side, one compact isolated building group, plain pure white background, no shadow, no ground plane, no people, no vehicles. Hand-painted stylized classic early World of Warcraft art style, chunky simple readable forms, bold silhouette, warm 1930 golden-hour palette."
+ },
+ {
+  "id": "BD_PovertyRow_ref",
+  "output": "concept/BD_PovertyRow_ref.png",
+  "image_size": {
+   "width": 1024,
+   "height": 1024
+  },
+  "seed": 1405,
+  "prompt": "Game asset reference for a distant backdrop: Poverty Row 1930: a row of shabby low one-storey stucco film studios in faded peach and cream with flat roofs, hand-lettered painted signs on the walls, wooden fences and a small water tank. Seen in a clean three-quarter view from above showing the long front and one side, one compact isolated building group, plain pure white background, no shadow, no ground plane, no people, no vehicles. Hand-painted stylized classic early World of Warcraft art style, chunky simple readable forms, bold silhouette, warm 1930 golden-hour palette."
+ },
+ {
+  "id": "BD_Christie_ref",
+  "output": "concept/BD_Christie_ref.png",
+  "image_size": {
+   "width": 1024,
+   "height": 1024
+  },
+  "seed": 1406,
+  "prompt": "Game asset reference for a distant backdrop: the 1930 Christie Film Studio: a small studio lot with a two-storey white stucco office building with a red tile roof and one big plain grey sound stage behind it; square footprint. Seen in a clean three-quarter view from above showing the long front and one side, one compact isolated building group, plain pure white background, no shadow, no ground plane, no people, no vehicles. Hand-painted stylized classic early World of Warcraft art style, chunky simple readable forms, bold silhouette, warm 1930 golden-hour palette."
+ },
+ {
+  "id": "BD_Cemetery_ref",
+  "output": "concept/BD_Cemetery_ref.png",
+  "image_size": {
+   "width": 1024,
+   "height": 1024
+  },
+  "seed": 1407,
+  "prompt": "Game asset reference for a distant backdrop: the entrance to Hollywood Cemetery in 1930: a long low cream stone cemetery wall with an arched Spanish stone gateway in the middle, cypress trees and the domed and columned rooflines of white marble mausoleums rising behind the wall; very long and thin, six times as long as deep. Seen in a clean three-quarter view from above showing the long front and one side, one compact isolated building group, plain pure white background, no shadow, no ground plane, no people, no vehicles. Hand-painted stylized classic early World of Warcraft art style, chunky simple readable forms, bold silhouette, warm 1930 golden-hour palette."
+ },
+ {
+  "id": "BD_LaBrea_ref",
+  "output": "concept/BD_LaBrea_ref.png",
+  "image_size": {
+   "width": 1024,
+   "height": 1024
+  },
+  "seed": 1408,
+  "prompt": "Game asset reference for a distant backdrop: a 1930 La Brea Avenue shop block: a cluster of two-storey brick and stucco commercial buildings with shopfronts, striped awnings and flat roofs with parapets, a few painted wall signs; square footprint. Seen in a clean three-quarter view from above showing the long front and one side, one compact isolated building group, plain pure white background, no shadow, no ground plane, no people, no vehicles. Hand-painted stylized classic early World of Warcraft art style, chunky simple readable forms, bold silhouette, warm 1930 golden-hour palette."
+ },
+ {
+  "id": "BD_SunsetLaBrea_ref",
+  "output": "concept/BD_SunsetLaBrea_ref.png",
+  "image_size": {
+   "width": 1024,
+   "height": 1024
+  },
+  "seed": 1409,
+  "prompt": "Game asset reference for a distant backdrop: the corner of Sunset and La Brea in 1930: a cluster of low stucco and brick shop buildings with flat roofs and awnings, plus a 1930 filling station with a flat canopy on columns and two old-fashioned glass-globe gas pumps at the front corner; wider than deep. Seen in a clean three-quarter view from above showing the long front and one side, one compact isolated building group, plain pure white background, no shadow, no ground plane, no people, no vehicles. Hand-painted stylized classic early World of Warcraft art style, chunky simple readable forms, bold silhouette, warm 1930 golden-hour palette."
+ }
+]

@@ -1,0 +1,12 @@
+[
+ {
+  "id": "BD_Paramount_ref2",
+  "output": "concept/BD_Paramount_ref2.png",
+  "image_size": {
+   "width": 1024,
+   "height": 1024
+  },
+  "seed": 1491,
+  "prompt": "Game asset reference for a distant backdrop: the 1930 Paramount Pictures studio lot: a cream Spanish-style wrought-iron arched gate (Bronson Gate) at the front centre, directly behind it the whole lot is filled edge to edge with four huge tall windowless beige sound-stage buildings with shallow gabled roofs, much taller than the gate, side by side, and a tall steel water tower on legs among them; no empty yard; a long mass, about twice as wide as deep. Seen in a clean three-quarter view from above showing the long front and one side, one compact isolated building group, plain pure white background, no shadow, no ground plane, no people, no vehicles. Hand-painted stylized classic early World of Warcraft art style, chunky simple readable forms, bold silhouette, warm 1930 golden-hour palette."
+ }
+]
