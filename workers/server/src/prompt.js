@@ -93,7 +93,7 @@ function contextLines(req) {
   if (c.player) lines.push(`Player: "${clip(c.player.name, 24)}", level ${c.player.level | 0} ${clip(c.player.class, 16)}${c.player.guild ? `, a new member of the speakers' guild <${clip(c.player.guild, 32)}>` : ''}${c.player.doing ? `, ${clip(c.player.doing, 80)}` : ''}.`);
   if (c.zone) lines.push(`Place: ${clip(c.zone, 40)}${c.hub ? ` / ${clip(c.hub, 40)}` : ''}${c.in_combat ? ' (in combat)' : ''}.`);
   if (Array.isArray(c.party) && c.party.length) lines.push('Party: ' + c.party.slice(0, 5).map((p) =>
-    `${clip(p.actor, 24)} hp ${Math.round((p.hp ?? 1) * 100)}%${p.power != null ? ` power ${Math.round(p.power * 100)}%` : ''}`).join(', ') + '.');
+    (p.hp ?? 1) <= 0 ? `${clip(p.actor, 24)} is dead` : `${clip(p.actor, 24)} health ${Math.round((p.hp ?? 1) * 100)}%${p.power != null ? ` power ${Math.round(p.power * 100)}%` : ''}`).join(', ') + '. (Speakers know their own state exactly and that of the others only roughly; they rarely quote numbers.)');
   if (Array.isArray(c.world) && c.world.length) lines.push('World facts:\n' + c.world.slice(0, 10).map((w) => `  * ${clip(w, 160)}`).join('\n'));
   if (Array.isArray(req._facts) && req._facts.length) lines.push('Game facts about things just mentioned (everyone may name these; what each speaker knows of them is in their card):\n' + req._facts.slice(0, 8).map((w) => `  * ${clip(w, 200)}`).join('\n'));
   if (Array.isArray(c.npcs) && c.npcs.length) lines.push(`NPCs nearby (game characters, not players): ${c.npcs.slice(0, 10).map((n) => clip(n, 60)).join('; ')}.`);

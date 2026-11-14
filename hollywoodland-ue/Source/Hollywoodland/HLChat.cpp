@@ -9,14 +9,26 @@
 #include "Serialization/JsonSerializer.h"
 #include "Serialization/JsonWriter.h"
 
+static TArray<TSharedPtr<FJsonValue>> HLStrs(const TArray<FString>& In);
+
 void FHLGame::AddChat(const FString& Ch, const FString& From, const FString& Text, int32 SimIdx, float Delay)
 {
 	if (Text.IsEmpty()) return;
 	FHLChatLine L; L.Ch = Ch; L.From = From; L.Text = Text; L.SimIdx = SimIdx; L.Time = Now + Delay;
+	if (Delay > 0 && SimIdx >= 0 && Sims.IsValidIndex(SimIdx))
+	{
+		// a line takes as long as this person types (HLMotor.cpp); while they type it, their character stands still.
+		// Anything of five characters or fewer ("help", "oom", "ty") can be hit mid-action.
+		FHLSim& Sm = Sims[SimIdx];
+		const float Type = SimTypeTime(Sm, Text);
+		if (Text.Len() > 5) { Delay = FMath::Max(Delay, Type + 0.3f); if (Sm.UnitId && Now >= Sm.TypeUntil) { Sm.TypeFrom = Now + Delay - Type; Sm.TypeUntil = Now + Delay; Sm.TypeHeld = 0; } }
+		L.Time = Now + Delay;
+	}
 	if (Delay > 0) { PendingChat.Add({ Now + Delay, L }); return; }
+	if (SimIdx >= 0 && Ch == TEXT("whisper")) NoteTalk(SimIdx, From, Text);
 	if (SimIdx >= 0 && (Ch == TEXT("whisper") || Ch == TEXT("party"))) AwaitingReply.Remove(SimIdx);
 	if (Chat.Num() >= 400) Chat.RemoveAt(0, 100);
-	if (Ch.StartsWith(TEXT("whisper")) || Ch == TEXT("say") || Ch == TEXT("guild")) UE_LOG(LogTemp, Verbose, TEXT("HL_CHAT [%s] %s: %s"), *Ch, *From, *Text);
+	if (Ch.StartsWith(TEXT("whisper")) || Ch == TEXT("say") || Ch == TEXT("guild") || Ch == TEXT("party")) UE_LOG(LogTemp, Verbose, TEXT("HL_CHAT [%s] %s: %s"), *Ch, *From, *Text);
 	Chat.Add(L);
 	if (Ch == TEXT("whisper")) { LastWhisperFrom = From; Sound2D(TEXT("ui_whisper")); }
 	// speech bubbles for nearby say/yell
@@ -46,7 +58,7 @@ FString FHLGame::CorpusLine(const FHLSim& S, const FString& Situation)
 {
 	const FHLData& D = FHLData::Get();
 	TArray<const FHLCorpusLine*> Fit;
-	for (const FHLCorpusLine& L : D.Corpus) if (L.S == Situation && (L.T == TEXT("any") || L.T == S.P->Temperament)) Fit.Add(&L);
+	for (const FHLCorpusLine& L : D.Corpus) if (L.S == Situation && (L.T == TEXT("any") || L.T == S.P->Temperament || L.T == S.P->Archetype)) Fit.Add(&L);
 	if (!Fit.Num()) return FString();
 	return FillTemplate(S, Fit[RandInt(0, Fit.Num() - 1)]->Text);
 }
@@ -186,7 +198,7 @@ void FHLGame::TickChat(float Dt)
 			if (!S.bOnline || S.bInParty) continue;
 			if (Ch == TEXT("zone") && !(S.UnitId || S.Level <= 14)) continue; // General is zone-wide; trade and LFG are capital-wide
 			if (Ch == TEXT("lfg") && S.Level < 7) continue;
-			if (Ch == TEXT("zone") && Chance(0.35f)) { const FString Line = CorpusLine(S, TEXT("idle")); if (!Line.IsEmpty()) { AddChat(Ch, S.P->Handle, StyleText(*S.P, Line), SI); LastZoneSituation = TEXT("idle"); break; } }
+			if (Ch == TEXT("zone") && Chance(0.5f)) { const FString Line = CorpusLine(S, Chance(0.3f) ? TEXT("jam") : TEXT("idle")); if (!Line.IsEmpty()) { AddChat(Ch, S.P->Handle, StyleText(*S.P, Line), SI); LastZoneSituation = TEXT("idle"); break; } }
 			TArray<const FHLChatTemplate*> Fit;
 			const bool bWantAnswer = Ch == TEXT("zone") && LastZoneSituation == TEXT("question") && Chance(0.6f);
 			for (const FHLChatTemplate& T : D.Templates)
@@ -207,14 +219,17 @@ void FHLGame::TickChat(float Dt)
 	// gossip: one batched Worker call turns recent Census events into zone chat
 	if (Now >= NextGossip)
 	{
-		NextGossip = Now + 140 + Rand() * 60;
-		if (bWorkerOk && CensusEvents.Num())
+		NextGossip = Now + 70 + Rand() * 60;
+		if (bWorkerOk)
 		{
 			TArray<FString> Ev;
 			for (int32 i = FMath::Max(0, CensusEvents.Num() - 3); i < CensusEvents.Num(); ++i) Ev.Add(CensusEvents[i].Text);
 			TArray<int32> Sp;
-			for (int32 Try = 0; Try < 60 && Sp.Num() < 2; ++Try) { const int32 SI = RandInt(0, Sims.Num() - 1); if (Sims[SI].bOnline && !Sims[SI].bInParty && Sims[SI].Level >= 10 && !Sp.Contains(SI)) Sp.Add(SI); }
-			if (Sp.Num()) WorkerSim(TEXT("gossip"), Sp, TEXT(""), TEXT("zone"), FString(), Ev, [this, Sp](bool bOk, const TSharedPtr<FJsonObject>& Resp) { if (bOk && Resp.IsValid()) ApplyWorkerActions(Resp, TEXT("zone"), Sp); });
+			for (int32 Try = 0; Try < 60 && Sp.Num() < 2; ++Try) { const int32 SI = RandInt(0, Sims.Num() - 1); if (Sims[SI].bOnline && !Sims[SI].bInParty && Sims[SI].Level >= 4 && !Sp.Contains(SI)) Sp.Add(SI); }
+						// a third of the time it is the outside world or the game itself they talk about (the Worker holds the news digest)
+			const float Topic = Rand();
+			if (Topic < 0.66f) for (int32 Try = 0; Try < 40 && Sp.Num() < 3; ++Try) { const int32 SI = RandInt(0, Sims.Num() - 1); if (Sims[SI].bOnline && !Sims[SI].bInParty && Sims[SI].UnitId && !Sp.Contains(SI)) Sp.Add(SI); }
+			if (Sp.Num()) WorkerSim(TEXT("gossip"), Sp, Topic < 0.36f ? TEXT("news") : Topic < 0.66f ? TEXT("game") : TEXT(""), TEXT("zone"), FString(), Ev, [this, Sp](bool bOk, const TSharedPtr<FJsonObject>& Resp) { if (bOk && Resp.IsValid()) ApplyWorkerActions(Resp, TEXT("zone"), Sp); });
 		}
 		else if (CensusEvents.Num())
 		{
@@ -279,7 +294,9 @@ void FHLGame::PlayerChat(const FString& Raw)
 			if (T && T != P && (Verb == TEXT("wave") || Verb == TEXT("bow") || Verb == TEXT("point") || Verb == TEXT("laugh")))
 				AddChat(TEXT("emote"), FString(), FString::Printf(TEXT("%s %s%s %s."), *Player.Name, *Verb, Verb == TEXT("bow") ? TEXT("s before") : TEXT("s at"), *T->Name));
 			else AddChat(TEXT("emote"), FString(), FString::Printf(TEXT("%s %ss."), *Player.Name, *Verb));
-			if (P) { P->bSitting = false; FString Clip = Verb; Clip[0] = FChar::ToUpper(Clip[0]); Gesture(*P, *Clip); }
+			FString Clip = Verb; Clip[0] = FChar::ToUpper(Clip[0]);
+			if (P) { P->bSitting = false; Gesture(*P, *Clip); }
+			Notice(*FString::Printf(TEXT("did /%s"), *Verb), FString::Printf(TEXT("%s did the /%s emote%s"), *Player.Name, *Verb, T && T->Kind == EHLKind::Sim ? TEXT(", aimed at the speaker") : TEXT("")), T && T->Kind == EHLKind::Sim ? T->Id : 0, T ? 0.85f : 0.45f, *Clip);
 			return;
 		}
 		else if (Cmd == TEXT("/music"))
@@ -331,6 +348,7 @@ void FHLGame::PlayerChat(const FString& Raw)
 		WhisperTarget = Sims[SI].P->Handle;
 		AddChat(TEXT("whisper_to"), Sims[SI].P->Handle, Text);
 		Relation(Sims[SI]).Familiarity++;
+		NoteTalk(SI, Player.Name, Text);
 		if (HandleWtbWhisper(SI, Text)) return;
 		Speakers.Add(SI);
 		if (!Sims[SI].bAfk) AwaitingReply.Add(SI, Now);
@@ -341,7 +359,44 @@ void FHLGame::PlayerChat(const FString& Raw)
 		if (Ch == TEXT("guild") && Player.Guild.IsEmpty()) { System(TEXT("You are not in a guild.")); ChatChannel = TEXT("say"); return; }
 		AddChat(Ch, Player.Name, Text);
 		if (P && (Ch == TEXT("say") || Ch == TEXT("yell"))) Say(P->Id, Text, Ch == TEXT("yell"));
-		if (Ch == TEXT("party")) { for (int32 SI : Party) if (Speakers.Num() < 3) Speakers.Add(SI); }
+		if (Ch == TEXT("party"))
+		{
+			for (int32 SI : Party) if (Speakers.Num() < 3) Speakers.Add(SI);
+			// what did the player mean? (Worker kind "interpret": typed questions, no writing model.) Each member then
+			// hears it, or not, and takes it right, or not (HLMind.cpp PartyHeard).
+			TArray<FHLUnit*> Mobs;
+			if (P) for (FHLUnit* O : UnitList) if (O->Kind == EHLKind::Mob && !O->bDead && O->Area == P->Area && Dist(*O, *P) < 45 && Mobs.Num() < 8 && !Mobs.ContainsByPredicate([&](const FHLUnit* M) { return M->Name == O->Name; })) Mobs.Add(O);
+			const FString Low = Text.ToLower();
+			auto Local = [this, Low, P]()
+			{
+				// corpus mode: the obvious words
+				const TCHAR* I = Low.Contains(TEXT("wait")) || Low.Contains(TEXT("stop")) || Low.Contains(TEXT("hold")) || Low.Contains(TEXT("dont pull")) ? TEXT("wait") : Low.Contains(TEXT("heal")) ? TEXT("heal") : Low.Contains(TEXT("follow")) || Low.Contains(TEXT("come")) ? TEXT("follow")
+					: Low.Contains(TEXT("oom")) || Low.Contains(TEXT("drink")) || Low.Contains(TEXT("rest")) || Low.Contains(TEXT("brb")) ? TEXT("rest") : Low.Contains(TEXT("run")) ? TEXT("run") : Low.Contains(TEXT("ty")) || Low.Contains(TEXT("thank")) || Low.Contains(TEXT("gj")) || Low.Contains(TEXT("nice")) ? TEXT("thanks")
+					: Low.Contains(TEXT("sry")) || Low.Contains(TEXT("sorry")) ? TEXT("sorry") : Low.Contains(TEXT("kill")) || Low.Contains(TEXT("attack")) || Low.Contains(TEXT("focus")) ? TEXT("attack") : Low == TEXT("go") || Low.Contains(TEXT("rdy")) || Low.Contains(TEXT("ready")) || Low.Contains(TEXT("pull")) ? TEXT("go") : TEXT("banter");
+				PartyHeard(-1, I, P ? P->TargetId : 0);
+			};
+			TSharedRef<FJsonObject> Req = MakeShared<FJsonObject>();
+			Req->SetArrayField(TEXT("speakers"), { MakeShared<FJsonValueObject>(SpeakerJson(Party[0])) });
+			TSharedRef<FJsonObject> Trig = MakeShared<FJsonObject>(); Trig->SetStringField(TEXT("text"), Text); Req->SetObjectField(TEXT("trigger"), Trig);
+			TSharedRef<FJsonObject> Ctx = MakeShared<FJsonObject>();
+			TArray<FString> Members, Targets; TArray<int32> TargetIds;
+			for (int32 SI : Party) Members.Add(Sims[SI].P->Handle);
+			for (const FHLUnit* M : Mobs) { Targets.Add(M->Name); TargetIds.Add(M->Id); }
+			Ctx->SetArrayField(TEXT("members"), HLStrs(Members)); Ctx->SetArrayField(TEXT("targets"), HLStrs(Targets)); Ctx->SetBoolField(TEXT("in_combat"), P && InCombat(*P)); Ctx->SetStringField(TEXT("hub"), CurSubzone);
+			Req->SetObjectField(TEXT("context"), Ctx);
+			WorkerPost(TEXT("interpret"), Req, [this, Local, Targets, TargetIds](bool bOk, const TSharedPtr<FJsonObject>& Resp)
+			{
+				const TSharedPtr<FJsonObject>* In = nullptr;
+				if (!bOk || !Resp.IsValid() || !Resp->TryGetObjectField(TEXT("intent"), In)) { Local(); return; }
+				FString Best; double BestP = 0;
+				for (const auto& KV : (*In)->Values) { const double Pr = KV.Value->AsNumber(); if (Pr > BestP) { BestP = Pr; Best = FString(KV.Key); } }
+				FString Tn; int32 Tid = 0;
+				if (Resp->TryGetStringField(TEXT("target"), Tn)) { const int32 k = Targets.IndexOfByKey(Tn); if (k >= 0) Tid = TargetIds[k]; }
+				if (!Tid) if (const FHLUnit* PU = PlayerUnit()) Tid = PU->TargetId;
+				UE_LOG(LogTemp, Display, TEXT("HL_MIND the player's party line means \"%s\" (%.2f)%s"), *Best, BestP, Tid ? TEXT(" with a target") : TEXT(""));
+				PartyHeard(-1, BestP > 0.45 ? Best : FString(TEXT("banter")), Tid);
+			}, 5.f);
+		}
 		else if (Ch == TEXT("guild")) { for (int32 k = 0; k < 2; ++k) { const int32 SI = RandomGuildmate(Speakers.Num() ? Speakers[0] : -1); if (SI >= 0 && !Speakers.Contains(SI)) Speakers.Add(SI); } }
 		else if (Ch == TEXT("say") || Ch == TEXT("yell"))
 		{
@@ -394,51 +449,68 @@ void FHLGame::WorkerSession()
 	});
 }
 
-void FHLGame::WorkerSim(const FString& Kind, const TArray<int32>& Speakers, const FString& TrigKind, const FString& Channel, const FString& Text,
-	const TArray<FString>& Events, TFunction<void(bool, const TSharedPtr<FJsonObject>&)> Done)
+static TArray<TSharedPtr<FJsonValue>> HLStrs(const TArray<FString>& In) { TArray<TSharedPtr<FJsonValue>> Arr; for (const FString& S : In) Arr.Add(MakeShared<FJsonValueString>(S)); return Arr; }
+
+// The persona card (workers/server/src/prompt.js speakerCard): who they are, how they type, where they are from, what
+// they say about the jam, how well they know the game, and what they remember of the player.
+TSharedRef<FJsonObject> FHLGame::SpeakerJson(int32 SI)
 {
-	if (!bWorkerOk || Session.IsEmpty() || WorkerInFlight >= 3 || !Speakers.Num()) { Done(false, nullptr); return; }
 	const FHLData& D = FHLData::Get();
-	const FHLUnit* P = PlayerUnit();
-	auto Strs = [](const TArray<FString>& In) { TArray<TSharedPtr<FJsonValue>> Arr; for (const FString& S : In) Arr.Add(MakeShared<FJsonValueString>(S)); return Arr; };
-	TSharedRef<FJsonObject> Req = MakeShared<FJsonObject>();
-	Req->SetStringField(TEXT("session"), Session); Req->SetNumberField(TEXT("id"), NextReqId++); Req->SetStringField(TEXT("kind"), Kind);
-	TArray<TSharedPtr<FJsonValue>> Sp;
-	TArray<FString> Ids = { TEXT("Hollywood Boulevard"), TEXT("The Egyptian Theatre"), TEXT("Grauman's Chinese"), TEXT("Taft Building"), TEXT("Hollywood High School"), TEXT("Hollywood Hotel") };
-	TArray<FString> World;
-	World.Add(TEXT("Hollywood Boulevard (levels 1-12) is the capital: bank at Hollywood & Highland, auction house in the Taft Building at Vine, class trainers at Grauman's Chinese forecourt."));
-	World.Add(TEXT("The Egyptian Theatre is a 5-player dungeon for levels 8-12 on Hollywood Boulevard; bosses: Brood Keeper, Hive Warden, Spitter Matriarch, The Egyptian Hive Mother."));
-	World.Add(TEXT("Every road out of Hollywood Boulevard is blocked by a hive wall whose gap is guarded by elites of level 22-34."));
-	for (int32 SI : Speakers)
+	const FHLSim& S = Sims[SI];
+	const FHLPersona& Pe = *S.P;
+	TSharedRef<FJsonObject> O = MakeShared<FJsonObject>();
+	O->SetStringField(TEXT("persona"), Pe.Id); O->SetStringField(TEXT("handle"), Pe.Handle); O->SetStringField(TEXT("class"), Pe.Class);
+	O->SetNumberField(TEXT("level"), S.Level); O->SetStringField(TEXT("temperament"), Pe.Temperament); O->SetStringField(TEXT("archetype"), Pe.Archetype);
+	O->SetStringField(TEXT("typing"), FString::Printf(TEXT("%s, %s, %s%s%s"), Pe.bLower ? TEXT("all lowercase") : TEXT("normal capitals"), Pe.bPunct ? TEXT("uses punctuation") : TEXT("no punctuation"),
+		Pe.Abbrev.Num() ? *FString::Printf(TEXT("abbreviations like %s"), *FString::Join(Pe.Abbrev, TEXT(" "))) : TEXT("few abbreviations"), Pe.TypoRate > 0.03f ? TEXT(", occasional typos") : TEXT(""), Pe.bCaps ? TEXT(", shouts in caps when excited") : TEXT("")));
+	O->SetStringField(TEXT("english"), Pe.English); O->SetStringField(TEXT("lang"), Pe.Lang); O->SetStringField(TEXT("country"), Pe.Country); O->SetNumberField(TEXT("tz"), Pe.Tz);
+	if (Pe.Bits.Num()) O->SetArrayField(TEXT("bits"), HLStrs(Pe.Bits));
+	O->SetStringField(TEXT("jam"), Pe.Jam); O->SetStringField(TEXT("found"), Pe.Found); O->SetStringField(TEXT("ai_stance"), Pe.AiStance);
+	O->SetNumberField(TEXT("know"), Pe.Tr.Know); O->SetNumberField(TEXT("mmo"), Pe.Tr.Mmo); O->SetNumberField(TEXT("attention"), Pe.Tr.Attn);
+	O->SetStringField(TEXT("activity"), SimActivity(S));
+	const FString Doing = SimDoing(S);
+	if (!Doing.IsEmpty()) O->SetStringField(TEXT("doing"), Doing);
+	if (!S.Mood.IsEmpty()) O->SetStringField(TEXT("mood"), S.Mood);
+	if (const FHLGuild* G = D.Guild(Pe.Guild)) O->SetStringField(TEXT("guild"), G->Name);
+	if (const FHLRelation* R = Player.Relations.Find(Pe.Id))
 	{
-		const FHLSim& S = Sims[SI];
-		const FHLPersona& Pe = *S.P;
-		TSharedRef<FJsonObject> O = MakeShared<FJsonObject>();
-		O->SetStringField(TEXT("persona"), Pe.Id); O->SetStringField(TEXT("handle"), Pe.Handle); O->SetStringField(TEXT("class"), Pe.Class);
-		O->SetNumberField(TEXT("level"), S.Level); O->SetStringField(TEXT("temperament"), Pe.Temperament);
-		O->SetStringField(TEXT("typing"), FString::Printf(TEXT("%s, %s, %s%s"), Pe.bLower ? TEXT("all lowercase") : TEXT("normal capitals"), Pe.bPunct ? TEXT("uses punctuation") : TEXT("no punctuation"),
-			Pe.Abbrev.Num() ? *FString::Printf(TEXT("abbreviations like %s"), *FString::Join(Pe.Abbrev, TEXT(" "))) : TEXT("few abbreviations"), Pe.TypoRate > 0.03f ? TEXT(", occasional typos") : TEXT("")));
-		O->SetStringField(TEXT("activity"), SimActivity(S));
-		if (const FHLGuild* G = D.Guild(Pe.Guild)) { O->SetStringField(TEXT("guild"), G->Name); Ids.AddUnique(G->Name); }
-		if (const FHLRelation* R = Player.Relations.Find(Pe.Id)) { O->SetNumberField(TEXT("liking"), R->Liking); O->SetArrayField(TEXT("memory"), Strs(R->Facts)); }
+		O->SetNumberField(TEXT("liking"), R->Liking);
+		if (R->Frustration > 0 || S.Frust > 1) O->SetNumberField(TEXT("frustration"), FMath::Max(R->Frustration, FMath::RoundToInt32(S.Frust)));
+		if (!R->Bond.IsEmpty()) O->SetStringField(TEXT("bond"), R->Bond);
+		if (!R->Gist.IsEmpty()) O->SetStringField(TEXT("gist"), R->Gist);
+		// the strongest memories; faded ones are marked so they come out hazy
+		TArray<const FHLEpisode*> Eps;
+		for (const FHLEpisode& E : R->Episodes) Eps.Add(&E);
+		Eps.Sort([](const FHLEpisode& A, const FHLEpisode& B) { return A.W > B.W; });
+		const int32 Today = (int32)(RealNow() / 86400);
+		TArray<FString> Mem;
+		for (int32 i = 0; i < Eps.Num() && Mem.Num() < 6; ++i)
 		{
-			// their own last three lines, so the model keeps the voice
-			TArray<FString> Recent;
-			for (int32 k = Chat.Num() - 1; k >= 0 && Recent.Num() < 3; --k) if (Chat[k].SimIdx == SI && !Chat[k].Text.IsEmpty()) Recent.Insert(Chat[k].Text.Left(100), 0);
-			if (Recent.Num()) O->SetArrayField(TEXT("recent"), Strs(Recent));
+			const int32 Ago = FMath::Max(0, Today - Eps[i]->Day);
+			Mem.Add(FString::Printf(TEXT("%s%s (%s)"), Eps[i]->W < 0.3f ? TEXT("(hazy) ") : TEXT(""), *Eps[i]->Text, Ago == 0 ? TEXT("today") : Ago == 1 ? TEXT("yesterday") : *FString::Printf(TEXT("%d days ago"), Ago)));
 		}
-		Sp.Add(MakeShared<FJsonValueObject>(O));
-		if (const FHLZoneInfo* Z = D.Zone(S.Zone)) { World.AddUnique(FString::Printf(TEXT("%s (levels %d-%d): %s"), *Z->Name, Z->LevelMin, Z->LevelMax, *Z->Blurb)); Ids.AddUnique(Z->Name); }
-		for (const FHLDungeonInfo& Dn : D.Dungeons) if (S.Level >= Dn.LevelMin - 2 && S.Level <= Dn.LevelMax + 2 && World.Num() < 9) { World.AddUnique(Dn.Blurb); Ids.AddUnique(Dn.Name); }
+		for (const FString& F : R->Facts) if (Mem.Num() < 8) Mem.AddUnique(F);
+		if (!R->Promise.IsEmpty()) Mem.Add(TEXT("still open: ") + R->Promise);
+		if (Mem.Num()) O->SetArrayField(TEXT("memory"), HLStrs(Mem));
+		if (R->Lines.Num()) O->SetArrayField(TEXT("last_talk"), HLStrs(R->Lines));
 	}
-	Req->SetArrayField(TEXT("speakers"), Sp);
-	TSharedRef<FJsonObject> Trig = MakeShared<FJsonObject>();
-	Trig->SetStringField(TEXT("kind"), TrigKind); Trig->SetStringField(TEXT("channel"), Channel); Trig->SetStringField(TEXT("from"), TEXT("player")); Trig->SetStringField(TEXT("text"), Text);
-	Req->SetObjectField(TEXT("trigger"), Trig);
+	{
+		// their own last three lines, so the model keeps the voice
+		TArray<FString> Recent;
+		for (int32 k = Chat.Num() - 1; k >= 0 && Recent.Num() < 3; --k) if (Chat[k].SimIdx == SI && !Chat[k].Text.IsEmpty()) Recent.Insert(Chat[k].Text.Left(100), 0);
+		if (Recent.Num()) O->SetArrayField(TEXT("recent"), HLStrs(Recent));
+	}
+	return O;
+}
+
+TSharedRef<FJsonObject> FHLGame::WorkerContext()
+{
+	const FHLUnit* P = PlayerUnit();
 	TSharedRef<FJsonObject> Ctx = MakeShared<FJsonObject>();
 	TSharedRef<FJsonObject> Pl = MakeShared<FJsonObject>();
 	Pl->SetStringField(TEXT("name"), Player.Name); Pl->SetNumberField(TEXT("level"), P ? P->Level : 1); Pl->SetStringField(TEXT("class"), Player.Cls ? Player.Cls->Name : FString());
 	if (const FHLGuild* Gd = PlayerGuild()) Pl->SetStringField(TEXT("guild"), Gd->Name);
+	if (P) Pl->SetStringField(TEXT("doing"), P->bDead ? TEXT("dead") : InCombat(*P) ? TEXT("fighting") : P->bSitting ? TEXT("sitting down") : P->Gesture == TEXT("Dance") && P->HopT > 0 ? TEXT("dancing") : TEXT("standing or walking about"));
 	Ctx->SetObjectField(TEXT("player"), Pl);
 	Ctx->SetStringField(TEXT("zone"), P ? Areas[P->Area].Def->Name : FString()); Ctx->SetStringField(TEXT("hub"), CurSubzone); Ctx->SetBoolField(TEXT("in_combat"), P && InCombat(*P));
 	if (Party.Num() && P)
@@ -465,28 +537,58 @@ void FHLGame::WorkerSim(const FString& Kind, const TArray<int32>& Speakers, cons
 		Near.Sort([](const TPair<float, FString>& A, const TPair<float, FString>& B) { return A.Key < B.Key; });
 		TArray<FString> Names;
 		for (const auto& KV : Near) if (Names.Num() < 10) Names.AddUnique(KV.Value);
-		if (Names.Num()) Ctx->SetArrayField(TEXT("npcs"), Strs(Names));
+		if (Names.Num()) Ctx->SetArrayField(TEXT("npcs"), HLStrs(Names));
 	}
-	Ctx->SetArrayField(TEXT("recent_chat"), Strs(Recent)); Ctx->SetArrayField(TEXT("world"), Strs(World)); Ctx->SetArrayField(TEXT("events"), Strs(Events));
-	Req->SetObjectField(TEXT("context"), Ctx);
-	TSharedRef<FJsonObject> Allowed = MakeShared<FJsonObject>();
-	Allowed->SetArrayField(TEXT("goals"), Strs({ TEXT("GROUP"), TEXT("FOLLOW"), TEXT("IDLE") })); Allowed->SetArrayField(TEXT("biases"), Strs({ TEXT("heal_priority") })); Allowed->SetArrayField(TEXT("ids"), Strs(Ids));
-	Req->SetObjectField(TEXT("allowed"), Allowed);
+	Ctx->SetArrayField(TEXT("recent_chat"), HLStrs(Recent));
+	return Ctx;
+}
+
+void FHLGame::WorkerPost(const FString& Kind, const TSharedRef<FJsonObject>& Req, TFunction<void(bool, const TSharedPtr<FJsonObject>&)> Done, float TimeoutS)
+{
+	if (!bWorkerOk || Session.IsEmpty() || WorkerInFlight >= 4) { Done(false, nullptr); return; }
+	Req->SetStringField(TEXT("session"), Session); Req->SetNumberField(TEXT("id"), NextReqId++); Req->SetNumberField(TEXT("v"), 2); Req->SetStringField(TEXT("kind"), Kind);
 	FString Body;
 	TSharedRef<TJsonWriter<TCHAR, TCondensedJsonPrintPolicy<TCHAR>>> Writer = TJsonWriterFactory<TCHAR, TCondensedJsonPrintPolicy<TCHAR>>::Create(&Body);
 	FJsonSerializer::Serialize(Req, Writer);
 	++WorkerInFlight; ++WorkerCalls;
-	HLBridge::Fetch(TEXT("POST"), ApiBase + TEXT("/v1/sim"), Body, [this, Done](const FHLBridgeResult& R)
+	const double T0 = FPlatformTime::Seconds();
+	HLBridge::Fetch(TEXT("POST"), ApiBase + TEXT("/v1/sim"), Body, [this, Done, Kind, T0](const FHLBridgeResult& R)
 	{
 		--WorkerInFlight;
 		TSharedPtr<FJsonObject> O;
 		TSharedRef<TJsonReader<>> Reader = TJsonReaderFactory<>::Create(R.Body);
-		if (R.Ok() && FJsonSerializer::Deserialize(Reader, O) && O.IsValid()) { Done(true, O); return; }
+		if (R.Ok() && FJsonSerializer::Deserialize(Reader, O) && O.IsValid())
+		{
+			UE_LOG(LogTemp, Display, TEXT("HL_AI %s %.0f ms%s"), *Kind, (FPlatformTime::Seconds() - T0) * 1000.0, O->HasField(TEXT("fallback")) ? TEXT(" fallback") : TEXT(""));
+			Done(!O->HasField(TEXT("fallback")) || O->HasField(TEXT("actions")), O); return;
+		}
 		++WorkerFails;
 		if (R.Status == 401) { Session.Reset(); bWorkerOk = false; NextSessionTry = Now + 5; }
 		else if (R.Status == 429 || R.Status == 0) { bWorkerOk = false; Session.Reset(); NextSessionTry = Now + 60; } // corpus mode, retry in a minute
 		Done(false, nullptr);
-	}, 6.f);
+	}, TimeoutS);
+}
+
+void FHLGame::WorkerSim(const FString& Kind, const TArray<int32>& Speakers, const FString& TrigKind, const FString& Channel, const FString& Text,
+	const TArray<FString>& Events, TFunction<void(bool, const TSharedPtr<FJsonObject>&)> Done)
+{
+	if (!bWorkerOk || Session.IsEmpty() || !Speakers.Num()) { Done(false, nullptr); return; }
+	TSharedRef<FJsonObject> Req = MakeShared<FJsonObject>();
+	TArray<TSharedPtr<FJsonValue>> Sp;
+	for (int32 SI : Speakers) Sp.Add(MakeShared<FJsonValueObject>(SpeakerJson(SI)));
+	Req->SetArrayField(TEXT("speakers"), Sp);
+	TSharedRef<FJsonObject> Trig = MakeShared<FJsonObject>();
+	// gossip topics travel in the trigger kind ("news", "game"); everything else is a trigger kind as before
+	if (Kind == TEXT("gossip")) Trig->SetStringField(TEXT("topic"), TrigKind); else Trig->SetStringField(TEXT("kind"), TrigKind);
+	Trig->SetStringField(TEXT("channel"), Channel); Trig->SetStringField(TEXT("from"), TEXT("player")); Trig->SetStringField(TEXT("text"), Text);
+	Req->SetObjectField(TEXT("trigger"), Trig);
+	TSharedRef<FJsonObject> Ctx = WorkerContext();
+	Ctx->SetArrayField(TEXT("events"), HLStrs(Events));
+	Req->SetObjectField(TEXT("context"), Ctx);
+	TSharedRef<FJsonObject> Allowed = MakeShared<FJsonObject>();
+	Allowed->SetArrayField(TEXT("goals"), HLStrs({ TEXT("GROUP"), TEXT("FOLLOW"), TEXT("IDLE") })); Allowed->SetArrayField(TEXT("biases"), HLStrs({ TEXT("heal_priority") }));
+	Req->SetObjectField(TEXT("allowed"), Allowed);
+	WorkerPost(Kind, Req, MoveTemp(Done), 12.f);
 }
 
 void FHLGame::ApplyWorkerActions(const TSharedPtr<FJsonObject>& Resp, const FString& DefaultChannel, const TArray<int32>& Speakers)
@@ -509,7 +611,7 @@ void FHLGame::ApplyWorkerActions(const TSharedPtr<FJsonObject>& Resp, const FStr
 		double Num = 0;
 		if (A->TryGetNumberField(TEXT("liking_delta"), Num)) Rel.Liking = FMath::Clamp(Rel.Liking + (int32)Num, -10, 10);
 		const TArray<TSharedPtr<FJsonValue>>* Mem = nullptr;
-		if (A->TryGetArrayField(TEXT("memory_add"), Mem)) for (auto& M : *Mem) { const FString F = M->AsString(); if (!F.IsEmpty() && Rel.Facts.Num() < 20) Rel.Facts.AddUnique(F); }
+		if (A->TryGetArrayField(TEXT("memory_add"), Mem)) for (auto& M : *Mem) { const FString F = M->AsString(); if (!F.IsEmpty()) Remember(SI, TEXT("talk"), F, 0.5f); }
 		const TSharedPtr<FJsonObject>* Bias = nullptr;
 		if (A->TryGetObjectField(TEXT("bias"), Bias) && (*Bias)->GetStringField(TEXT("type")) == TEXT("heal_priority")) S.HealBiasUntil = Now + FMath::Clamp((float)(*Bias)->GetNumberField(TEXT("ttl_s")), 5.f, 60.f);
 		const TSharedPtr<FJsonObject>* ChatObj = nullptr;
@@ -521,9 +623,11 @@ void FHLGame::ApplyWorkerActions(const TSharedPtr<FJsonObject>& Resp, const FStr
 			double DelayMs = 1200;
 			A->TryGetNumberField(TEXT("delay_ms"), DelayMs);
 			// a reply appears no earlier than its typing time
-			const float Delay = FMath::Max((float)DelayMs / 1000.f, Text.Len() * 0.06f) + Stagger;
+			// reading what was said, then typing the answer at their own speed (AddChat stretches the delay to the typing time)
+			const float Delay = FMath::Max((float)DelayMs / 1000.f, 0.5f + S.P->ReactionS) + Stagger;
 			Stagger += 1.2f;
 			AddChat(Ch, S.P->Handle, Text, SI, Delay);
+			if (Ch == TEXT("party") || Ch == TEXT("say")) NoteTalk(SI, S.P->Handle, Text);
 		}
 		FString Emote;
 		if (A->TryGetStringField(TEXT("emote"), Emote) && !Emote.IsEmpty())

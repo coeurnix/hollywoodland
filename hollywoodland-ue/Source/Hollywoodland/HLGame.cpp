@@ -286,6 +286,8 @@ void FHLGame::EnterWorld()
 	U.Hp = U.MaxHp; U.Res = U.ResType == EHLRes::Adrenaline ? 0 : U.MaxRes;
 	bInWorld = true;
 	InitSims();
+	// the people who remember this player notice the login (HLMind.cpp)
+	for (auto& KV : Player.Relations) if (KV.Value.LastSeen && RealNow() - KV.Value.LastSeen > 1800) { GreetAt = Now + 25 + Rand() * 35; break; }
 	WorkerSession();
 	CurSubzone = SubzoneAt(U.Area, U.Pos);
 	Banner(Zone.Name, CurSubzone, 5);
@@ -362,6 +364,7 @@ void FHLGame::Tick(float Dt)
 		if (U.HopT > 0) U.HopT = FMath::Max(0.f, U.HopT - Dt);
 	}
 	TickSims(Dt);
+	TickMind();
 	SeparateSims(Dt);
 	TickCamps(Dt);
 	TickCensus();

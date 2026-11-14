@@ -25,7 +25,9 @@ FString FHLGame::SimActivity(const FHLSim& S) const
 		if (S.bInParty) return TEXT("in your party");
 		if (S.Role == EHLSimRole::Idler) return S.bAfk ? TEXT("AFK on Hollywood Boulevard") : TEXT("hanging around Hollywood Boulevard");
 		if (S.Role == EHLSimRole::Transient) return TEXT("running errands on Hollywood Boulevard (bank, auction house)");
+		if (S.bAfk) return TEXT("AFK on Hollywood Boulevard");
 		if (S.State == EHLSimState::Grind || S.State == EHLSimState::Rest) return TEXT("questing on Hollywood Boulevard");
+		if (!S.GoalKind.IsEmpty()) return FString::Printf(TEXT("%s on Hollywood Boulevard"), *S.GoalKind);
 		return TEXT("on Hollywood Boulevard");
 	}
 	return S.Activity.IsEmpty() ? FString::Printf(TEXT("questing in %s"), Z ? *Z->Name : TEXT("the world")) : S.Activity;
@@ -56,6 +58,8 @@ FHLUnit* FHLGame::SpawnSim(int32 SimIdx, EHLSimRole Role, const FVector2D& Pos)
 	U->Color = S.P->Cls->Color;
 	S.UnitId = U->Id; S.Role = Role; S.State = EHLSimState::Idle; S.StateUntil = Now + Rand() * 6; S.bInParty = false; S.Route.Reset(); S.RouteIdx = 0; S.CampIdx = -1;
 	S.Zone = TEXT("zone_hollywood_blvd"); S.bOnline = true;
+	S.TrainedLevel = S.Level - (Chance(0.3f) ? 2 : 0); S.LastTown = Now - Rand() * 500; S.FollowDist = 0; S.Frust = 0; S.GoalKind.Reset(); S.GoalWhy.Reset();
+	S.TypeFrom = S.TypeUntil = 0; S.BelTarget = 0; S.BelWaitUntil = S.BelRestUntil = 0; S.NextSee = 0; S.MoveGoal = FVector2D::ZeroVector;
 	return U;
 }
 
@@ -141,7 +145,8 @@ const FHLAbility* FHLGame::SimPickAbility(FHLSim& S, FHLUnit& U, FHLUnit*& OutTa
 		{
 			T = Ab->Target == TEXT("self") ? &U : Lowest;
 			const float Pct = T == &U ? U.HpPct() : LowPct;
-			if (Pct > 0.72f) continue;
+			if (Pct > 0.72f - (1.f - S.P->Tr.Skill) * 0.22f) continue; // the slower healers notice late
+			if (T != &U && S.Load > 1.1f && S.P->Tr.Attn < 0.5f && U.HpPct() < 0.6f) continue; // tunnel vision: saving themselves
 			if ((Ab->HasEffect(TEXT("hot")) || Ab->HasEffect(TEXT("shield"))) && T->HasAuraNamed(Ab->Name)) continue;
 			Score = 100 + (1 - Pct) * 100 + (Ab->Cast <= 0 && Pct < 0.4f ? 40 : 0);
 			if (Ab->Target == TEXT("party")) { int32 Hurt = 0; for (FHLUnit* F : Friends) if (F->HpPct() < 0.7f) ++Hurt; if (Hurt < 2) continue; Score += 30; }
@@ -169,6 +174,7 @@ const FHLAbility* FHLGame::SimPickAbility(FHLSim& S, FHLUnit& U, FHLUnit*& OutTa
 			T = Ab->Target == TEXT("self") ? &U : Enemy;
 			if (Ab->Target == TEXT("self") && Ab->Radius > 0 && Dist(U, *Enemy) > Ab->Radius) continue;
 		}
+		Score *= 1.f + (Rand() - 0.5f) * 1.6f * (1.f - S.P->Tr.Skill) * (Now < S.PanicUntil ? 2.f : 1.f); // good enough, not optimal
 		if (Score <= BestScore) continue;
 		if (!CanCast(U, *Ab, T).IsEmpty()) continue;
 		Best = Ab; BestScore = Score; BestTarget = T;
@@ -194,13 +200,40 @@ void FHLGame::SimCombat(FHLSim& S, FHLUnit& U)
 			else { StopMove(U); FaceTo(U, T->Pos); }
 		}
 	}
-	if (Now >= S.NextAct && Now >= U.GcdUntil && !U.Casting && !U.Stunned())
+	// ---- the person at the keyboard (HLMotor.cpp): a new pull takes a moment to read, pressure breeds mistakes
+	const FHLTraits& Tr = S.P->Tr;
+	const int32 SimIdx = int32(&S - Sims.GetData());
+	S.Load = SimLoad(S, U);
+	if (bEnemy && U.TargetId != S.EngageId) { S.EngageId = U.TargetId; S.EngageAt = Now + S.P->ReactionS * (0.5f + Rand()) + (1.f - Tr.Skill) * 0.9f; }
+	const bool bDecide = Now >= S.NextAct; // (rolls below are per decision, not per frame)
+	if (bDecide && bEnemy && S.Load > 1.4f && U.HpPct() < 0.45f && Now >= S.PanicUntil + 30 && Chance((1.f - Tr.Skill) * 0.12f))
+	{
+		// too much at once: a shout (short enough to type mid-fight) and a few seconds of bad decisions
+		S.PanicUntil = Now + 3 + Rand() * 3;
+		if (Now >= S.NextNeedSay) { S.NextNeedSay = Now + 80; if (S.bInParty) SimPartySay(SimIdx, TEXT("heal"), TEXT("combat_help"), TEXT("help")); else if (Chance(0.35f)) SimSay(SimIdx, TEXT("say"), TEXT("combat_help"), 0.2f, TEXT("help")); }
+		UE_LOG(LogTemp, Display, TEXT("HL_MIND %s is overwhelmed (load %.1f)"), *S.P->Handle, S.Load);
+	}
+	// backing away from something that is chewing on you: most learn it by accident, then keep doing it
+	if (bDecide && bEnemy && S.P->Cls->Role != TEXT("tank") && T->TargetId == U.Id && !T->bRangedAuto && U.HpPct() < 0.4f && Now >= S.KiteUntil + 6 && !U.Casting)
+		if (Chance(S.bKnowsKite ? 0.3f : 0.03f) || (Now < S.PanicUntil && Chance(0.2f))) { S.bKiting = true; S.KiteUntil = Now + 2.5f + Rand() * 1.5f; }
+	if (S.bKiting)
+	{
+		if (!bEnemy || Now >= S.KiteUntil) S.bKiting = false;
+		else { const FVector2D Away = (U.Pos - T->Pos).GetSafeNormal(); MoveTo(U, Areas[U.Area].Nav.NearestFree(U.Pos + Away * 8.f), 0.5f); }
+	}
+	if (T && T->bDead && S.KiteUntil > Now - 12 && !S.bKnowsKite && S.KiteUntil > 0 && !U.bDead)
+	{
+		S.bKnowsKite = true;
+		UE_LOG(LogTemp, Display, TEXT("HL_MIND %s has learned to kite"), *S.P->Handle);
+		if (const FHLUnit* PU = PlayerUnit()) if (Dist(U, *PU) < 30 && Chance(0.6f)) SimSay(SimIdx, S.bInParty ? TEXT("party") : TEXT("say"), TEXT("trick"), 2 + Rand() * 2, TEXT("oh you can just back up and they cant hit you"));
+	}
+	if (Now >= S.NextAct && Now >= S.EngageAt && Now >= U.GcdUntil && !U.Casting && !U.Stunned())
 	{
 		FHLUnit* AT = nullptr;
 		if (const FHLAbility* Ab = SimPickAbility(S, U, AT))
 		{
-			if (Chance(S.P->MistakeRate)) S.NextAct = Now + 1.5f + Rand() * 2; // a mistake: hesitates
-			else { TryCast(U, *Ab, AT ? AT->Id : 0); S.NextAct = Now + S.P->ReactionS * (0.6f + Rand() * 0.8f); }
+			if (Chance(S.P->MistakeRate * (1.f + 1.6f * FMath::Min(1.5f, S.Load)) * (Now < S.PanicUntil ? 3.f : 1.f))) S.NextAct = Now + 1.2f + Rand() * 2; // a mistake: hesitates
+			else { TryCast(U, *Ab, AT ? AT->Id : 0); S.NextAct = Now + S.P->ReactionS * (0.6f + Rand() * 0.8f) * (1.f + FMath::Min(0.6f, S.Load * 0.3f)); }
 		}
 		else S.NextAct = Now + 0.4f;
 	}
@@ -239,6 +272,35 @@ void FHLGame::TickSimBrain(FHLSim& S, FHLUnit& U, float Dt)
 		return;
 	}
 
+	// ---- hands on the keyboard (HLMotor.cpp): typing a line means not moving and not pressing abilities. In a fight the
+	// line waits for a lull (up to ten seconds), then they stop and type it anyway.
+	if (SimTyping(S))
+	{
+		if (InCombat(U) && S.TypeHeld < 10.f)
+		{
+			S.TypeHeld += Dt; S.TypeFrom += Dt; S.TypeUntil += Dt;
+			for (FPendingChat& Pc : PendingChat) if (Pc.Line.SimIdx == SimIdx) Pc.At += Dt;
+		}
+		else { StopMove(U); if (!InCombat(U)) U.bAutoAttack = false; return; }
+	}
+	else if (Now >= S.TypeUntil) S.TypeHeld = 0;
+	// ---- something caught their eye (HLMind.cpp Notice): stop, look, perhaps join in
+	if (Now < S.LookUntil && !InCombat(U) && !S.bInParty)
+	{
+		if (const FHLUnit* L = Unit(S.LookAt)) { StopMove(U); FaceTo(U, L->Pos); }
+		if (S.ReactAt > 0 && Now >= S.ReactAt) { S.ReactAt = 0; U.bSitting = false; Gesture(U, *S.ReactClip); }
+		return;
+	}
+	if (S.ReactAt > 0 && Now >= S.ReactAt) { S.ReactAt = 0; if (!InCombat(U)) Gesture(U, *S.ReactClip); }
+	// ---- helping the player out of a fight (a goal the mind chose)
+	if (S.HelpUnit && !S.bInParty)
+	{
+		FHLUnit* Hm = Now < S.HelpUntil ? Unit(S.HelpUnit) : nullptr;
+		if (Hm && !Hm->bDead && Hm->Kind == EHLKind::Mob && Hm->Area == U.Area) { U.bSitting = false; U.TargetId = Hm->Id; SimCombat(S, U); return; }
+		S.HelpUnit = 0; U.TargetId = 0; U.bAutoAttack = false;
+		if (P && !P->bDead && Dist(U, *P) < 25) { if (Chance(0.6f)) SimSay(SimIdx, TEXT("say"), TEXT("heal_passby"), 1 + Rand() * 2, TEXT("np")); Remember(SimIdx, TEXT("kind"), TEXT("helped the player out of a fight"), 0.5f); Relation(S).Familiarity++; }
+		S.State = EHLSimState::Idle; S.StateUntil = Now + 3 + Rand() * 4;
+	}
 	// ---- trading with the player (or waiting on their answer): stand facing them
 	if (P && (SimIdx == TradeSim || SimIdx == TradeFromSim) && !InCombat(U))
 	{
@@ -257,13 +319,16 @@ void FHLGame::TickSimBrain(FHLSim& S, FHLUnit& U, float Dt)
 	// ---- party member
 	if (S.bInParty && P)
 	{
-		if (U.Area != P->Area) { TeleportUnit(U, P->Area, P->Pos + FVector2D(Rand() * 4 - 2, Rand() * 4 - 2)); }
+		if (U.Area != P->Area && (Now - S.SeenAt > 2.5f || Areas[P->Area].Def->bDungeon != Areas[U.Area].Def->bDungeon)) { TeleportUnit(U, P->Area, P->Pos + FVector2D(Rand() * 4 - 2, Rand() * 4 - 2)); S.SeenPos = P->Pos; S.SeenArea = P->Area; }
 		if (Now >= S.StateUntil && !InCombat(U) && !Areas[P->Area].Def->bDungeon) { SimLeaveParty(SimIdx, true); return; }
-		// pick an enemy: whatever is attacking the party, preferring the player's target
-		FHLUnit* PT = Unit(P->TargetId);
+		// pick an enemy: whatever is attacking the party, preferring the target they believe is the one (what they were
+		// told, else what they last saw the player fighting: SimSee refreshes that view at their own pace)
+		SimSee(S, U);
+		FHLUnit* PT = Unit(S.BelTarget ? S.BelTarget : S.SeenTarget);
+		if (PT && S.BelTarget && PT->MobState != EHLMobState::Combat && Now < S.BelWaitUntil) PT = nullptr; // told to wait
 		FHLUnit* Enemy = nullptr;
 		const bool bTank = S.P->Cls->Role == TEXT("tank");
-		if (PT && !PT->bDead && PT->Kind == EHLKind::Mob && (PT->MobState == EHLMobState::Combat || P->bAutoAttack || P->Casting)) Enemy = PT;
+		if (PT && !PT->bDead && PT->Kind == EHLKind::Mob && (PT->MobState == EHLMobState::Combat || S.bSeenFighting || PT->Id == S.BelTarget)) Enemy = PT;
 		float BestD = 1e9f;
 		for (FHLUnit* O : UnitList)
 		{
@@ -280,12 +345,10 @@ void FHLGame::TickSimBrain(FHLSim& S, FHLUnit& U, float Dt)
 		U.bAutoAttack = false;
 		// out of combat: heal up, follow
 		if (Now >= S.NextAct && !U.Casting) { FHLUnit* AT = nullptr; if (const FHLAbility* Ab = SimPickAbility(S, U, AT)) { TryCast(U, *Ab, AT ? AT->Id : 0); S.NextAct = Now + 1; } }
-		const int32 Slot = Party.IndexOfByKey(SimIdx);
-		const float Rad = FMath::DegreesToRadians(P->Yaw + 140 + Slot * 27);
-		const FVector2D Spot = P->Pos + FVector2D(FMath::Cos(Rad), FMath::Sin(Rad)) * (3.f + Slot * 0.6f);
-		if (Dist(U, *P) > 50) TeleportUnit(U, P->Area, Spot);
-		else if (FVector2D::Distance(U.Pos, Spot) > 3.5f && !U.Casting) MoveTo(U, Spot, 1.f);
-		else if (P->bSitting && U.HpPct() < 0.9f) U.bSitting = true;
+		TickPartyMind(S, U);
+		if (U.TargetId && Unit(U.TargetId) && !Unit(U.TargetId)->bDead) { SimCombat(S, U); return; } // their own pull
+		if (Now < S.BelRestUntil) return; // sitting down, as they said
+		SimFollow(S, U);
 		return;
 	}
 
@@ -328,15 +391,13 @@ void FHLGame::TickSimBrain(FHLSim& S, FHLUnit& U, float Dt)
 			else { S.Route.Reset(); S.RouteIdx = 0; }
 			break;
 		}
-		// local: go and grind
-		S.CampIdx = PickCampFor(S.Level); S.Kills = 0; S.KillGoal = RandInt(6, 16);
-		S.Dest = Def.Camps[S.CampIdx].Pos + FVector2D(Rand() * 10 - 5, Rand() * 10 - 5);
-		S.State = EHLSimState::Travel;
+		// local: what next? (HLMind.cpp: their own quest, a grind, an errand, a look around, company, a break)
+		MindNextGoal(S, U);
 		break;
 	}
 	case EHLSimState::Travel:
 	{
-		if (MoveTo(U, S.Dest, 2.f))
+		if (SimMove(S, U, S.Dest, 2.f))
 		{
 			if (S.Role == EHLSimRole::Local && S.CampIdx >= 0 && !S.Route.Num()) S.State = EHLSimState::Grind;
 			else { S.State = EHLSimState::Idle; S.StateUntil = Now + 8 + Rand() * 30; if (Chance(0.3f)) U.HopT = 0.4f; SimArrived(S, U); }
@@ -345,7 +406,7 @@ void FHLGame::TickSimBrain(FHLSim& S, FHLUnit& U, float Dt)
 	}
 	case EHLSimState::Leaving:
 	{
-		if (MoveTo(U, S.Dest, 3.f)) { DespawnSim(SimIdx); return; }
+		if (SimMove(S, U, S.Dest, 3.f)) { DespawnSim(SimIdx); return; }
 		break;
 	}
 	case EHLSimState::Rest:
@@ -366,12 +427,9 @@ void FHLGame::TickSimBrain(FHLSim& S, FHLUnit& U, float Dt)
 			if (!InCombat(U) && (U.HpPct() < 0.5f || (U.ResType == EHLRes::Power && U.Res < U.MaxRes * 0.25f))) { S.State = EHLSimState::Rest; S.StateUntil = Now + 6; break; }
 			if (S.Kills >= S.KillGoal && !InCombat(U))
 			{
-				// back to town: vendor/trainer, then out again
-				static const TCHAR* Stops[] = { TEXT("vendor"), TEXT("trainers"), TEXT("inn"), TEXT("mailbox"), TEXT("auction"), TEXT("forecourt") };
+				// done here: the mind picks what comes next (after a moment's thought)
 				S.Route.Reset(); S.RouteIdx = 0; S.Kills = 0;
-				const FString Stop = Stops[RandInt(0, 5)];
-				if (const FVector2D* Poi = Def.Pois.Find(Stop)) S.Route.Add(Stop == TEXT("forecourt") ? *Poi + FVector2D(Rand() * 6 - 3, Rand() * 4 - 1) : ErrandSpot(Stop, S, *Poi));
-				S.State = EHLSimState::Idle; S.StateUntil = Now; S.CampIdx = -1;
+				S.State = EHLSimState::Idle; S.StateUntil = Now + 1 + Rand() * 3; S.CampIdx = -1;
 				break;
 			}
 			if (Now < S.StateUntil) break;
@@ -389,7 +447,7 @@ void FHLGame::TickSimBrain(FHLSim& S, FHLUnit& U, float Dt)
 				if (D < BestD) { Best = O; BestD = D; }
 			}
 			if (Best) { U.TargetId = Best->Id; T = Best; }
-			else { if (MoveTo(U, S.Dest, 2.f)) { S.Dest = Camp.Pos + FVector2D(Rand() * 2 - 1, Rand() * 2 - 1) * Camp.R; S.StateUntil = Now + 2 + Rand() * 4; } break; }
+			else { if (SimMove(S, U, S.Dest, 2.f)) { S.Dest = Camp.Pos + FVector2D(Rand() * 2 - 1, Rand() * 2 - 1) * Camp.R; S.StateUntil = Now + 2 + Rand() * 4; } break; }
 		}
 		SimCombat(S, U);
 		break;
@@ -406,6 +464,8 @@ void FHLGame::TickSims(float Dt)
 		if (!S.UnitId) continue;
 		FHLUnit* U = Unit(S.UnitId);
 		if (!U) { S.UnitId = 0; S.Role = EHLSimRole::Away; continue; }
+		if (U->Z > 0 || U->VelZ > 0) { U->VelZ -= 20 * Dt; U->Z += U->VelZ * Dt; if (U->Z <= 0) { U->Z = 0; U->VelZ = 0; } } // their jumps (HLMotor.cpp)
+		U->MoveMult = 1;
 		TickSimBrain(S, *U, Dt);
 	}
 	if (Now < NextPopCheck) return;
@@ -514,7 +574,8 @@ void FHLGame::SimJoinParty(int32 SimIdx)
 	System(FString::Printf(TEXT("%s joins the party."), *S.P->Handle));
 	FHLRelation& R = Relation(S);
 	R.Familiarity += 2;
-	if (R.Facts.Num() < 20 && !R.Facts.ContainsByPredicate([](const FString& F) { return F.StartsWith(TEXT("grouped")); })) R.Facts.Add(FString::Printf(TEXT("grouped with the player in %s"), *CurSubzone));
+	Remember(SimIdx, TEXT("party"), FString::Printf(TEXT("grouped with the player in %s"), *CurSubzone), 0.5f);
+	S.FollowDist = 0; S.BelTarget = 0; S.BelWaitUntil = S.BelRestUntil = 0; S.Frust = 0; S.SeenTarget = 0; S.NextSee = 0; S.TightUntil = Now + 6; S.NextLost = Now + 40;
 	SimSay(SimIdx, TEXT("party"), TEXT("party_join"), 1 + Rand() * 2);
 }
 
@@ -597,6 +658,12 @@ void FHLGame::PartyEvent(const FString& What)
 	TArray<int32> Sp;
 	for (int32 SI : Party) if (Sp.Num() < 3 && Sims[SI].UnitId) Sp.Add(SI);
 	const FString Situation = What.Contains(TEXT("died")) ? TEXT("wipe") : TEXT("boss_kill");
+	// shared history, and tempers: a wipe wears on everyone, a kill mends it
+	for (int32 SI : Party)
+	{
+		Remember(SI, Situation == TEXT("wipe") ? TEXT("wipe") : TEXT("party"), What.Left(120), 0.55f);
+		if (Situation == TEXT("wipe")) PartyFrustrate(SI, 1.6f, TEXT("the group wiped")); else Sims[SI].Frust = FMath::Max(0.f, Sims[SI].Frust - 2.f);
+	}
 	WorkerSim(TEXT("reply"), Sp, TEXT("event"), TEXT("party"), What, {}, [this, Sp, Situation](bool bOk, const TSharedPtr<FJsonObject>& Resp)
 	{
 		if (bOk && Resp.IsValid()) ApplyWorkerActions(Resp, TEXT("party"), Sp);

@@ -143,7 +143,19 @@ struct FHLAreaState
 
 struct FHLInvSlot { const FHLItem* Item = nullptr; int32 Count = 0; };
 struct FHLQuestState { const FHLQuest* Q = nullptr; TArray<int32> Progress; bool bComplete = false; };
-struct FHLRelation { int32 Familiarity = 0, Liking = 0; TArray<FString> Facts; FString Bond; }; // Bond: pal rival flirt mentor gossip (seeded per save)
+// What one simulated player remembers of the player (HLMind.cpp, AI-IMPROVEMENTS-PLAN.md 4.7). Episodes fade: W halves over
+// days by importance and the persona's attention; weak ones fold into Gist (rewritten by the Worker's "consolidate").
+struct FHLEpisode { int32 Day = 0; FString Kind, Text; float W = 0.5f; }; // Day: days since 1970 (real time)
+struct FHLRelation
+{
+	int32 Familiarity = 0, Liking = 0, Frustration = 0, Sessions = 0, DecayDay = 0, Fresh = 0; // Fresh: episodes since the last consolidation
+	int64 FirstMet = 0, LastSeen = 0; // unix seconds
+	TArray<FString> Facts;            // legacy flat facts (still read)
+	FString Bond;                     // pal rival flirt mentor gossip (seeded per save)
+	FString Gist, Promise, Nick;
+	TArray<FHLEpisode> Episodes;
+	TArray<FString> Lines;            // the tail of the last conversation, both sides
+};
 struct FHLMail { FString From, Subject, Body; int32 Cents = 0, Count = 0, Cod = 0; const FHLItem* Item = nullptr; bool bRead = false; };
 
 struct FHLPlayer
@@ -191,9 +203,25 @@ struct FHLSim
 		// street life (HLSimLife.cpp)
 		int32 ChatWith = -1, GatherObj = -1;
 		double ChatUntil = 0, GatherEnd = 0, NextGather = 0, DungeonUntil = 0;
-		TMap<FString, const FHLItem*> Gear; // equipped items (the persona's, plus dungeon loot)
-		bool bChatWalker = false;
-	};
+			TMap<FString, const FHLItem*> Gear; // equipped items (the persona's, plus dungeon loot)
+			bool bChatWalker = false;
+			// ---- motor (HLMotor.cpp): a delayed view of the player, a personal way of moving, hands that do one thing at a time
+			FVector2D SeenPos = FVector2D::ZeroVector, Lane = FVector2D::ZeroVector, MoveGoal = FVector2D::ZeroVector, Scatter = FVector2D::ZeroVector, FollowAnchor = FVector2D::ZeroVector;
+			int32 SeenTarget = 0, SeenArea = -1, EngageId = 0;
+			bool bSeenFighting = false, bFollowMoving = false, bKnowsKite = false, bKiting = false;
+			double SeenAt = 0, NextSee = 0, MoveStartAt = 0, NextPace = 0, PauseUntil = 0, FollowGoAt = 0, TypeFrom = 0, TypeUntil = 0, EngageAt = 0, PanicUntil = 0, NextHop = 0, NextLost = 0, KiteUntil = 0;
+			float Pace = 1, FollowDist = 0, FollowSide = 1, Load = 0, TypeHeld = 0;
+			// ---- mind (HLMind.cpp): what they are doing and why, their own quest, what they noticed
+			FString GoalKind, GoalWhy, Mood, QuestId, ReactClip;
+			int32 QuestHave = 0, QuestNeed = 0, HelpUnit = 0, LookAt = 0;
+			double GoalSince = 0, GoalHold = 0, NextPlan = 0, HelpUntil = 0, NextNotice = 0, ReactAt = 0, LookUntil = 0;
+			bool bPlanPending = false;
+			double LastTown = 0; int32 TrainedLevel = 0;
+			// ---- party beliefs (HLMind.cpp): what they think the group is doing, from what they saw and what was said
+			int32 BelTarget = 0;
+			double BelWaitUntil = 0, BelRestUntil = 0, NextNeedSay = 0, ImpatientAt = 0, NextGripe = 0, TightUntil = 0;
+			float Frust = 0;
+		};
 
 struct FHLChatLine
 {
@@ -458,6 +486,36 @@ public:
 	FHLRelation& Relation(const FHLSim& S) { return Player.Relations.FindOrAdd(S.P->Id); }
 	int32 PickCampFor(int32 Level);
 	const FHLAbility* SimPickAbility(FHLSim& S, FHLUnit& U, FHLUnit*& OutTarget);
+	// ---- motor (HLMotor.cpp)
+	void SimSee(FHLSim& S, FHLUnit& U);                                         // refresh the delayed view of the player
+	bool SimMove(FHLSim& S, FHLUnit& U, const FVector2D& Goal, float StopDist); // MoveTo, the way this person walks
+	void SimFollow(FHLSim& S, FHLUnit& U);                                      // keep up with the player (party)
+	bool SimTyping(const FHLSim& S) const { return Now >= S.TypeFrom && Now < S.TypeUntil; }
+	float SimLoad(const FHLSim& S, const FHLUnit& U) const;                     // 0 calm .. 1+ overwhelmed
+	float SimTypeTime(const FHLSim& S, const FString& Text) const;
+	// ---- mind (HLMind.cpp)
+	void TickMind();
+	void MindNextGoal(FHLSim& S, FHLUnit& U);                // a goal ended: choose the next (local utility, sometimes the Worker)
+	void MindSetGoal(FHLSim& S, FHLUnit& U, const FString& Kind, const FString& Arg, const FString& Why);
+	void SimQuestKill(FHLSim& S, const FHLUnit& Mob);
+	void SimQuestPick(FHLSim& S);
+	FString SimDoing(const FHLSim& S) const;                 // "on the quest Plates for Mr. Factor (3/5)"
+	// observation: something the player did that people nearby could see
+	void Notice(const TCHAR* Kind, const FString& Text, int32 AimedUnitId = 0, float Salience = 0.5f, const TCHAR* Mirror = nullptr);
+	static int64 RealNow(); // unix seconds (-HLMemDays=N shifts it, for memory tests)
+	double NextObserveCall = 0, NextNoticeScan = 0, PlayerStillSince = 0, NextMemoryTick = 0, GreetAt = 0;
+	int32 JumpCount = 0, EmoteCount = 0; double JumpWindow = 0, EmoteWindow = 0; FVector2D PlayerStillPos = FVector2D::ZeroVector;
+	// memory
+	void Remember(int32 SimIdx, const TCHAR* Kind, const FString& Text, float W);
+	void NoteTalk(int32 SimIdx, const FString& From, const FString& Text);
+	void DecayMemories();
+	void TickMemory();
+	// party beliefs
+	void PartyHeard(int32 FromSim, const FString& Intent, int32 TargetUnit); // FromSim -1: the player
+	void SimPartySay(int32 SimIdx, const TCHAR* Intent, const TCHAR* Situation, const TCHAR* Fallback, int32 TargetUnit = 0);
+	void PartyFrustrate(int32 SimIdx, float Amount, const TCHAR* Why);
+	void TickPartyMind(FHLSim& S, FHLUnit& U);
+	int32 PlansAsked = 0, PlansUsed = 0, NoticeCount = 0, Misreads = 0;
 
 	// ---- chat & worker (HLChat.cpp)
 	TArray<FHLChatLine> Chat;
@@ -484,6 +542,9 @@ public:
 	void WorkerSim(const FString& Kind, const TArray<int32>& Speakers, const FString& TrigKind, const FString& Channel, const FString& Text,
 		const TArray<FString>& Events, TFunction<void(bool bOk, const TSharedPtr<class FJsonObject>& Resp)> Done);
 	void ApplyWorkerActions(const TSharedPtr<class FJsonObject>& Resp, const FString& DefaultChannel, const TArray<int32>& Speakers);
+	TSharedRef<class FJsonObject> SpeakerJson(int32 SimIdx);             // the persona card fields the Worker's prompt reads
+	TSharedRef<class FJsonObject> WorkerContext();                       // player, place, party, nearby NPCs, recent chat
+	void WorkerPost(const FString& Kind, const TSharedRef<class FJsonObject>& Req, TFunction<void(bool bOk, const TSharedPtr<class FJsonObject>& Resp)> Done, float TimeoutS = 12.f);
 	FString WhoQuery; bool bWhoOpen = false;
 	FString ChatCtx; // fills {ctx} in corpus lines (event names)
 

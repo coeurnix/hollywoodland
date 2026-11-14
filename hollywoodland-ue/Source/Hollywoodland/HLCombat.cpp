@@ -379,6 +379,7 @@ void FHLGame::KillUnit(FHLUnit& U, FHLUnit* Killer)
 				FHLSim& S = Sims[Owner->SimIdx];
 				S.Xp += (45 + 5 * U.Level) * RankXp * 1.5f; // simulated players level a little faster than a human would
 				S.Kills++;
+				SimQuestKill(S, U);
 			}
 		}
 		U.CorpseUntil = Now + (U.bLootable ? 120.f : 12.f);

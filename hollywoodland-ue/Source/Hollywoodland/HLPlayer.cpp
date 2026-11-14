@@ -110,10 +110,26 @@ FString FHLGame::SaveJson() const
 	TSharedRef<FJsonObject> Rel = MakeShared<FJsonObject>();
 	for (const auto& KV : Player.Relations)
 	{
-		if (KV.Value.Familiarity == 0 && KV.Value.Liking == 0 && KV.Value.Facts.Num() == 0 && KV.Value.Bond.IsEmpty()) continue;
+		const FHLRelation& Rl = KV.Value;
+		if (Rl.Familiarity == 0 && Rl.Liking == 0 && Rl.Facts.Num() == 0 && Rl.Bond.IsEmpty() && Rl.Episodes.Num() == 0 && Rl.Gist.IsEmpty()) continue;
 		TSharedRef<FJsonObject> E = MakeShared<FJsonObject>();
-		E->SetNumberField(TEXT("f"), KV.Value.Familiarity); E->SetNumberField(TEXT("l"), KV.Value.Liking); E->SetArrayField(TEXT("facts"), Strs(KV.Value.Facts));
-		if (!KV.Value.Bond.IsEmpty()) E->SetStringField(TEXT("bond"), KV.Value.Bond);
+		E->SetNumberField(TEXT("f"), Rl.Familiarity); E->SetNumberField(TEXT("l"), Rl.Liking);
+		if (Rl.Facts.Num()) E->SetArrayField(TEXT("facts"), Strs(Rl.Facts));
+		if (!Rl.Bond.IsEmpty()) E->SetStringField(TEXT("bond"), Rl.Bond);
+		// what they remember (HLMind.cpp): episodes that fade, a gist, the tail of the last talk
+		if (Rl.Frustration) E->SetNumberField(TEXT("fr"), Rl.Frustration);
+		if (Rl.FirstMet) { E->SetNumberField(TEXT("fm"), (double)Rl.FirstMet); E->SetNumberField(TEXT("ls"), (double)Rl.LastSeen); E->SetNumberField(TEXT("dd"), Rl.DecayDay); }
+		if (Rl.Fresh) E->SetNumberField(TEXT("new"), Rl.Fresh);
+		if (!Rl.Gist.IsEmpty()) E->SetStringField(TEXT("gist"), Rl.Gist);
+		if (!Rl.Promise.IsEmpty()) E->SetStringField(TEXT("promise"), Rl.Promise);
+		if (!Rl.Nick.IsEmpty()) E->SetStringField(TEXT("nick"), Rl.Nick);
+		if (Rl.Lines.Num()) E->SetArrayField(TEXT("lines"), Strs(Rl.Lines));
+		if (Rl.Episodes.Num())
+		{
+			TArray<TSharedPtr<FJsonValue>> Eps;
+			for (const FHLEpisode& Ep : Rl.Episodes) { TSharedRef<FJsonObject> Eo = MakeShared<FJsonObject>(); Eo->SetNumberField(TEXT("d"), Ep.Day); Eo->SetStringField(TEXT("k"), Ep.Kind); Eo->SetStringField(TEXT("t"), Ep.Text); Eo->SetNumberField(TEXT("w"), FMath::RoundToInt32(Ep.W * 100) / 100.0); Eps.Add(MakeShared<FJsonValueObject>(Eo)); }
+			E->SetArrayField(TEXT("eps"), Eps);
+		}
 		Rel->SetObjectField(KV.Key, E);
 	}
 	O->SetObjectField(TEXT("relations"), Rel);
@@ -234,6 +250,22 @@ bool FHLGame::LoadJson(const FString& Json)
 		FHLRelation R; R.Familiarity = E->GetIntegerField(TEXT("f")); R.Liking = E->GetIntegerField(TEXT("l")); E->TryGetStringField(TEXT("bond"), R.Bond);
 		const TArray<TSharedPtr<FJsonValue>>* Facts = nullptr;
 		if (E->TryGetArrayField(TEXT("facts"), Facts)) for (auto& F : *Facts) R.Facts.Add(F->AsString());
+		double Nv = 0;
+		if (E->TryGetNumberField(TEXT("fr"), Nv)) R.Frustration = (int32)Nv;
+		if (E->TryGetNumberField(TEXT("fm"), Nv)) R.FirstMet = (int64)Nv;
+		if (E->TryGetNumberField(TEXT("ls"), Nv)) R.LastSeen = (int64)Nv;
+		if (E->TryGetNumberField(TEXT("dd"), Nv)) R.DecayDay = (int32)Nv;
+		if (E->TryGetNumberField(TEXT("new"), Nv)) R.Fresh = (int32)Nv;
+		E->TryGetStringField(TEXT("gist"), R.Gist); E->TryGetStringField(TEXT("promise"), R.Promise); E->TryGetStringField(TEXT("nick"), R.Nick);
+		const TArray<TSharedPtr<FJsonValue>>* Arr = nullptr;
+		if (E->TryGetArrayField(TEXT("lines"), Arr)) for (auto& V : *Arr) R.Lines.Add(V->AsString());
+		if (E->TryGetArrayField(TEXT("eps"), Arr)) for (auto& V : *Arr)
+		{
+			const TSharedPtr<FJsonObject> Eo = V->AsObject();
+			if (!Eo.IsValid()) continue;
+			FHLEpisode Ep; Ep.Day = Eo->GetIntegerField(TEXT("d")); Ep.Kind = Eo->GetStringField(TEXT("k")); Ep.Text = Eo->GetStringField(TEXT("t")); Ep.W = Eo->GetNumberField(TEXT("w"));
+			R.Episodes.Add(MoveTemp(Ep));
+		}
 		Player.Relations.Add(FString(KV.Key), R);
 	}
 	const TArray<TSharedPtr<FJsonValue>>* Ml = nullptr;

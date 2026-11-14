@@ -70,6 +70,15 @@ bool FHLGame::DoEmote(const FString& Cmd, const FString& Rest)
 	if (T == P) T = nullptr;
 	const FString Line = T ? Fill(E->SelfTarget, Player.Name, T->Name) : Fill(E->SelfAlone, Player.Name, FString());
 	AddChat(TEXT("emote"), FString(), Line);
+	// people nearby see it (HLMind.cpp): some answer, some join in, some pointedly do not
+	{
+		const bool bBare = !Player.Equip.Contains(TEXT("trousers")) || !Player.Equip.Contains(TEXT("coat"));
+		if (Now > EmoteWindow) { EmoteWindow = Now + 12; EmoteCount = 0; }
+		++EmoteCount;
+		Notice(*FString::Printf(TEXT("did /%s%s"), *E->Id, T ? TEXT(" at them") : TEXT("")), FString::Printf(TEXT("%s (the emote /%s%s)%s%s"), *Line, *E->Id, T && T->Kind == EHLKind::Sim ? TEXT(", aimed at the speaker") : TEXT(""),
+			EmoteCount >= 3 ? TEXT("; they have been emoting over and over") : TEXT(""), bBare ? TEXT("; they are wearing hardly any clothes") : TEXT("")), T && T->Kind == EHLKind::Sim ? T->Id : 0, T ? 0.85f : 0.4f + FMath::Min(0.3f, EmoteCount * 0.08f),
+			E->Anim.IsEmpty() ? nullptr : *E->Anim);
+	}
 	if (P)
 	{
 		P->bSitting = false;

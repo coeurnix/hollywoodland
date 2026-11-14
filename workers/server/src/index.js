@@ -107,8 +107,8 @@ async function runeDecide(env, req, meta) {
         choices: { accept: `${who} accepts`, decline: `${who} declines (busy, wrong level, not interested, about to log off)` } });
     } else if (trig.kind === 'greet' || trig.kind === 'event') {
       // (they speak: the game already chose them)
-    } else if (trig.channel !== 'whisper' && trig.channel !== 'party') {
-      // Whispers and party chat are always answered; open channels may be ignored.
+    } else if (trig.channel !== 'whisper' && !(trig.channel === 'party' && req.speakers.length === 1)) {
+      // A whisper is always answered; in a party not everyone answers every line; open channels may be ignored.
       questions.push({ id: `${s.persona}|respond`, type: 'choice', text: `Does ${who} type a reply to this message?`,
         choices: { reply: `${who} answers in chat`, ignore: `${who} stays silent (afk, busy, not addressed, not interested)` } });
     }
@@ -156,7 +156,10 @@ function validate(req, raw, decisions) {
   const channels = new Set(['say', 'party', 'whisper', 'zone', 'trade', 'lfg', 'guild', 'yell']);
   const out = [];
   for (const a of Array.isArray(raw && raw.actions) ? raw.actions.slice(0, 4) : []) {
-    if (!a || !speakers.has(a.speaker)) continue;
+    if (!a) continue;
+    // (models sometimes answer with the handle, or mangle the id: map it back when it is unambiguous)
+    if (!speakers.has(a.speaker)) { const byHandle = req.speakers.find((x) => x.handle === a.speaker); a.speaker = byHandle ? byHandle.persona : req.speakers.length === 1 ? req.speakers[0].persona : a.speaker; }
+    if (!speakers.has(a.speaker) || out.find((o) => o.speaker === a.speaker)) continue;
     const d = decisions[a.speaker] || {};
     const act = { speaker: a.speaker, delay_ms: Math.max(0, Math.min(15000, a.delay_ms | 0)), chat: null, emote: null, goal: null,
       bias: null, memory_add: [], liking_delta: d.liking_delta ?? Math.max(-2, Math.min(2, a.liking_delta | 0)),
