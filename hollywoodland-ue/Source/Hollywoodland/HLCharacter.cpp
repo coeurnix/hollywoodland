@@ -183,6 +183,7 @@ bool FHLChars::Ready()
 			const TArray<TSharedPtr<FJsonValue>>* G = nullptr;
 			if (O->TryGetArrayField(TEXT("grip_l"), G) && G->Num() == 3) { H.GripL = FVector((*G)[0]->AsNumber(), (*G)[1]->AsNumber(), (*G)[2]->AsNumber()); H.bGripL = !H.GripL.IsNearlyZero(); }
 			double Roll = 0; if (O->TryGetNumberField(TEXT("roll"), Roll)) H.Roll = Roll;
+			double Grip = 0; if (O->TryGetNumberField(TEXT("grip"), Grip)) H.Grip = Grip; double Pitch = 0; if (O->TryGetNumberField(TEXT("pitch"), Pitch)) H.Pitch = Pitch;
 		}
 	const TArray<TSharedPtr<FJsonValue>>* Sw;
 	if (Root->TryGetArrayField(TEXT("starter_colours"), Sw))
@@ -327,6 +328,8 @@ UTexture2D* FHLChars::Tex(const FString& Path)
 	// editor runs build textures asynchronously; an atlas composed meanwhile would bake the white placeholder in for good
 	if (T && T->IsCompiling()) FTextureCompilingManager::Get().FinishCompilation({ T });
 #endif
+	// atlas layers are copied once into the body atlas: keep every mip resident so the copy is complete
+	if (T && !T->bForceMiplevelsToBeResident) { T->bForceMiplevelsToBeResident = true; T->SetForceMipLevelsToBeResident(3600.f); }
 	return T;
 }
 USkeletalMesh* FHLChars::SkelMesh(const FString& Folder, const FString& Name) { return Name.IsEmpty() ? nullptr : Cast<USkeletalMesh>(Load(ObjPath(Folder, Name))); }
@@ -380,7 +383,8 @@ bool FHLCharVisuals::Compose(UWorld* World, UTextureRenderTarget2D* RT, const FH
 	if (!Canvas) return false;
 	// a texture whose GPU resource is not up yet draws as black and would stay baked into the atlas
 	bool bReady = true;
-	auto Ok = [&](UTexture2D* T) { if (T && (!T->GetResource() || T->HasPendingInitOrStreaming())) bReady = false; return T; };
+	// (layers are pinned fully resident in FHLChars::Tex; until every mip is in, the atlas counts as not ready and is drawn again)
+	auto Ok = [&](UTexture2D* T) { if (T && (!T->GetResource() || T->HasPendingInitOrStreaming() || !T->IsFullyStreamedIn())) bReady = false; return T; };
 	int32 NextMid = 0;
 	auto Draw = [&](const FHLChars::FLayer& Ly, const FLinearColor& Mul, const FLinearColor* TintA, const FLinearColor* TintB)
 	{
@@ -435,11 +439,13 @@ UTextureRenderTarget2D* FHLCharVisuals::Atlas(UWorld* World, const FHLCharLook& 
 		A.Used = Clock;
 		if (A.bDirty) A.bDirty = !Compose(World, A.RT, L);
 		// compose again a few times while the atlas is young: on a slow connection (itch's CDN) a layer can pass the
-		// resource check before its pixels reach the GPU, and the atlas would keep the black it drew
+		// resource check before its pixels reach the GPU, and the atlas would keep the black it drew. Real time, not the
+		// game clock: the character creator runs before the game ticks.
 		else
 		{
-			static const double Redo[] = { 0.5, 1.5, 4, 10, 25 };
-			if (A.Redo < (int32)UE_ARRAY_COUNT(Redo) && Clock - A.Born >= Redo[A.Redo]) { ++A.Redo; A.bDirty = !Compose(World, A.RT, L); }
+			static const double Redo[] = { 0.3, 1, 2, 4, 8, 15, 30 };
+			const double T = FPlatformTime::Seconds();
+			if (A.Redo < (int32)UE_ARRAY_COUNT(Redo) && T - A.Born >= Redo[A.Redo]) { ++A.Redo; A.bDirty = !Compose(World, A.RT, L); }
 		}
 		return A.RT;
 	}
@@ -475,7 +481,8 @@ UTextureRenderTarget2D* FHLCharVisuals::Atlas(UWorld* World, const FHLCharLook& 
 		Slot = Atlases.Add(A);
 	}
 	Atlases[Slot].Key = L.TexKey();
-	Atlases[Slot].Used = Atlases[Slot].Born = Clock;
+	Atlases[Slot].Used = Clock;
+	Atlases[Slot].Born = FPlatformTime::Seconds();
 	Atlases[Slot].Redo = 0;
 	AtlasIndex.Add(Key, Slot);
 	Atlases[Slot].bDirty = !Compose(World, Atlases[Slot].RT, L);
@@ -673,7 +680,7 @@ void FHLCharVisuals::Apply(UWorld* World, AActor* Owner, USceneComponent* Parent
 			FVector Palm = Hand.GetLocation();
 			if (!Finger.GetLocation().IsNearlyZero()) Palm = FMath::Lerp(Hand.GetLocation(), Finger.GetLocation(), 0.75f) - FVector(0, 0, 2.5f);
 			// assets modelled against the convention are rolled upright first
-			const FQuat Fix(FVector::ForwardVector, FMath::DegreesToRadians(H->Roll));
+			const FQuat Fix = FQuat(FVector::ForwardVector, FMath::DegreesToRadians(H->Roll)) * FQuat(FVector::RightVector, FMath::DegreesToRadians(H->Pitch));
 			FQuat Q = FRotationMatrix::MakeFromXZ(Rig.Fwd, FVector::UpVector).ToQuat();
 			FTransform BoneCS = RefCS(HeadMesh, Bone);
 			// firearms: the aim pose decides the grip. Fixed to the bind (A) pose hand, a revolver pointed up and back and a
@@ -709,7 +716,8 @@ void FHLCharVisuals::Apply(UWorld* World, AActor* Owner, USceneComponent* Parent
 			S->RegisterComponent();
 			UMaterialInterface* Mat = PropMid(H->Tex, FLinearColor::White, TEXT("M_HLProp"));
 			if (Mat) for (int32 m = 0; m < S->GetNumMaterials(); ++m) S->SetMaterial(m, Mat);
-			S->SetRelativeTransform(FTransform(Q * Fix, Palm).GetRelativeTransform(BoneCS));
+			// (a mesh whose origin is at the far end slides along its length so the hand is on the handle)
+			S->SetRelativeTransform(FTransform(Q * Fix, Palm + (Q * Fix).RotateVector(FVector(H->Grip, 0, 0))).GetRelativeTransform(BoneCS));
 			Rig.HeldParts.Add(S);
 		};
 		if (L.bRangedOut) Hold(L.Ranged, false);

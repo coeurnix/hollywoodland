@@ -29,6 +29,7 @@ void FHLGame::InitEvents()
 		FHLHub H; H.Id = KV.Key; H.Pos = Areas[0].Nav.NearestFree(KV.Value.Key / KV.Value.Value); H.Name = SubzoneAt(0, H.Pos);
 		Hubs.Add(H);
 	}
+	bTradeTest = FParse::Param(FCommandLine::Get(), TEXT("HLTradeTest"));
 	const bool bSoon = bEventsSoon = FParse::Param(FCommandLine::Get(), TEXT("HLEventsSoon")); // tests: early and short events
 	NextSurgeAt = Now + (bSoon ? 25 : 600 + Rand() * 600);
 	NextFilmAt = Now + (bSoon ? 150 : 240 + Rand() * 240);

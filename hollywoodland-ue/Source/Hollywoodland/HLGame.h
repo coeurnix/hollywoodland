@@ -582,9 +582,23 @@ public:
 	int32 LastPrice = 0;
 	void NoteWts(int32 SimIdx, const FHLItem* Item, int32 Price);
 	bool HandleWtbWhisper(int32 SimIdx, const FString& Text);
-	int32 TradeSim = -1, TradeCents = 0; TArray<int32> TradeBag;
+	// the trade window (HLTrade.cpp): your bag slots + money against their goods (TradeStock, TradeTake = the ones you ask
+	// for) + the money you ask of them; TradeMood is their last reaction (kind 1 ok, 2 counter, 3 gave up)
+	int32 TradeSim = -1, TradeCents = 0, TradeTheirCents = 0, TradeTries = 0, TradeMoodKind = 0; TArray<int32> TradeBag, TradeTake;
+	TArray<FHLTradeOffer> TradeStock;
+	FString TradeMood;
+	// a passer-by asking to buy something from your bags
+	int32 TradeFromSim = -1, TradeWantBag = -1, TradeWantOffer = 0;
+	double TradeInviteUntil = 0, NextSimTrade = 0;
+	bool bTradeTest = false, bTradeAskShown = false; // -HLTradeTest: asks come every few seconds
 	void OpenTrade(int32 SimIdx);
 	void AcceptTrade();
+	int32 TradeGap() const;
+	bool SimCanUse(const FHLSim& S, const FHLItem& It) const;
+	int32 SimWorth(int32 SimIdx, const FHLItem& It, bool bGetting) const;
+	void TradeStockFor(int32 SimIdx);
+	void TickTradeOffers();
+	void AnswerTradeRequest(bool bAccept);
 	// auction bids
 	bool bAuctionSeeded = false;
 	int32 NextBid(const FHLAuction& A) const;

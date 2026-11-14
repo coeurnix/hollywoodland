@@ -354,6 +354,7 @@ void FHLGame::Tick(float Dt)
 	TickSocial(Dt);
 	TickGuild();
 	TickDuel();
+	TickTradeOffers();
 	TickPendingMail();
 	TickChat(Dt);
 	TickDialogue();

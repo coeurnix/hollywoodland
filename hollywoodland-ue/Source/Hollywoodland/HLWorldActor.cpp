@@ -795,6 +795,27 @@ void AHLWorldActor::AutoTest(float Dt)
 		if (InnStep == 2 && T > 95) { InnStep = 3; P->TargetId = 0; Game.OpenNpcUnitId = 0; UE_LOG(LogTemp, Display, TEXT("HL_LIFE inn test done")); }
 		if (InnStep < 3) return;
 	}
+	// -HLTradeTest: carry low-level gear others want; take the first ask, ask double (expect a counter), then settle
+	if (Game.bTradeTest)
+	{
+		static bool bStocked = false;
+		static int32 Step = 0;
+		if (!bStocked)
+		{
+			bStocked = true;
+			for (const FHLItem& It : FHLData::Get().Items) if (It.IsEquip() && It.Req >= 1 && It.Req <= 6 && It.Q == 2 && Game.Player.Bag.FilterByPredicate([](const FHLInvSlot& S) { return S.Item != nullptr; }).Num() < 10) Game.AddItem(&It, 1, false);
+		}
+		if (Game.TradeFromSim >= 0 && Game.bTradeAskShown)
+		{
+			UE_LOG(LogTemp, Display, TEXT("HL_TRADE ask from %s: %s for %s"), *Game.Sims[Game.TradeFromSim].P->Handle, *Game.Player.Bag[Game.TradeWantBag].Item->Name, *HLMoney(Game.TradeWantOffer));
+			Game.AnswerTradeRequest(true); Step = 0;
+		}
+		if (Game.TradeSim >= 0)
+		{
+			if (Step == 0) { Game.TradeTheirCents *= 2; Game.AcceptTrade(); UE_LOG(LogTemp, Display, TEXT("HL_TRADE asked double: mood %d \"%s\" gap %s"), Game.TradeMoodKind, *Game.TradeMood, *HLMoney(Game.TradeGap())); Step = 1; }
+			else if (Step == 1) { Game.TradeTheirCents /= 2; const int32 Before = Game.Player.Cents; Game.AcceptTrade(); UE_LOG(LogTemp, Display, TEXT("HL_TRADE settled: open %d, money %d -> %d"), Game.TradeSim, Before, Game.Player.Cents); Step = 2; }
+		}
+	}
 	// -HLLifeTest: stand near whatever is happening on the street and watch
 	static const bool bLifeTest = FParse::Param(FCommandLine::Get(), TEXT("HLLifeTest"));
 	if (bLifeTest && Game.DuelFromSim >= 0) Game.AnswerDuel(true);

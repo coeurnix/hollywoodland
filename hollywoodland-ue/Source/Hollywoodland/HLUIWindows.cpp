@@ -990,20 +990,31 @@ void SHLGameUI::DrawTrade() const
 	const FHLUnit* P = Gm.PlayerUnit();
 	bool bOpen = true;
 	if (!U || !P || Gm.Dist(*U, *P) > 14) { Gm.TradeSim = -1; Gm.System(TEXT("Trade cancelled.")); return; }
-	if (!Win(TEXT("trade"), FString::Printf(TEXT("Trade  -  %s"), *S.P->Handle), 480, 300, bOpen, 360, 160) || !bOpen) { Gm.TradeSim = -1; Gm.TradeBag.Reset(); return; }
+	if (!Win(TEXT("trade"), FString::Printf(TEXT("Trade  -  %s"), *S.P->Handle), 500, 330, bOpen, 360, 160) || !bOpen) { Gm.TradeSim = -1; Gm.TradeBag.Reset(); Gm.TradeTake.Reset(); return; }
 	bBags = true;
-	const FHLGame::FHLTradeOffer* O = Gm.SimWts.Find(Gm.TradeSim);
-	// their side
-	Tx(WX, WY, S.P->Handle, 11, ColGold, true);
-	if (O && O->Item)
+	static const int32 Steps[] = { 1, 10, 100 };
+	// their side: the goods they brought (click to ask for one) and the money you ask of them
+	Tx(WX, WY, FString::Printf(TEXT("%s  (%d %s)"), *S.P->Handle, S.Level, S.P->Cls ? *S.P->Cls->Name : TEXT("")), 11, ColGold, true);
+	if (!Gm.TradeStock.Num()) TxWrap(WX, WY + 24, 220, TEXT("Nothing to sell. Anything you put in without asking for money is a gift."), 10, ColDim);
+	for (int32 k = 0; k < Gm.TradeStock.Num() && k < 6; ++k)
 	{
-		ItemIcon(WX, WY + 22, 36, O->Item, O->Count);
-		Tx(WX + 42, WY + 24, O->Item->Name, 10, HLQualityColor(O->Item->Q));
-		Tx(WX + 42, WY + 40, FString::Printf(TEXT("Asking %s"), *HLMoney(O->Price)), 10, ColWhite);
+		const FHLGame::FHLTradeOffer& O = Gm.TradeStock[k];
+		const float Ix = WX + (k % 3) * 40, Iy = WY + 22 + (k / 3) * 40;
+		const bool bAsk = Gm.TradeTake.Contains(k);
+		if (bAsk) Rc(Ix - 2, Iy - 2, 40, 40, ColGold);
+		if (ItemIcon(Ix, Iy, 36, O.Item, O.Count)) { if (bAsk) Gm.TradeTake.Remove(k); else Gm.TradeTake.Add(k); Gm.TradeMood.Reset(); }
+		if (Hover(Ix, Iy, 36, 36)) TipExtra = bAsk ? TEXT("You are asking for this. Click to put it back.") : TEXT("Click to ask for this.");
 	}
-	else TxWrap(WX, WY + 24, 200, TEXT("Nothing offered. Anything you put in will be a gift."), 10, ColDim);
+	Tx(WX, WY + 110, FString::Printf(TEXT("Money: %s"), *HLMoney(Gm.TradeTheirCents)), 11, ColWhite);
+	for (int32 k = 0; k < 3; ++k)
+	{
+		if (Btn(WX + k * 72, WY + 132, 34, 20, FString::Printf(TEXT("+%s"), *HLMoney(Steps[k])), true, 8)) { Gm.TradeTheirCents += Steps[k]; Gm.TradeMood.Reset(); }
+		if (Btn(WX + k * 72 + 36, WY + 132, 34, 20, FString::Printf(TEXT("-%s"), *HLMoney(Steps[k])), true, 8)) { Gm.TradeTheirCents = FMath::Max(0, Gm.TradeTheirCents - Steps[k]); Gm.TradeMood.Reset(); }
+	}
+	Tx(WX, WY + 156, TEXT("Click their goods or ask for money."), 9, ColDim);
+	Rc(WX + 232, WY, 1, 180, FLinearColor(0.75f, 0.6f, 0.3f, 0.5f));
 	// your side
-	const float Rx = WX + 240;
+	const float Rx = WX + 250;
 	Tx(Rx, WY, Gm.Player.Name, 11, ColGold, true);
 	for (int32 k = 0; k < 6; ++k)
 	{
@@ -1012,15 +1023,21 @@ void SHLGameUI::DrawTrade() const
 		if (ItemIcon(Rx + (k % 3) * 40, WY + 22 + (k / 3) * 40, 36, Sl ? Sl->Item : nullptr, Sl ? Sl->Count : 0) && B >= 0) { Gm.TradeBag.Remove(B); break; }
 	}
 	Tx(Rx, WY + 110, FString::Printf(TEXT("Money: %s"), *HLMoney(Gm.TradeCents)), 11, ColWhite);
-	static const int32 Steps[] = { 1, 10, 100 };
 	for (int32 k = 0; k < 3; ++k)
 	{
-		if (Btn(Rx + k * 72, WY + 132, 34, 20, FString::Printf(TEXT("+%s"), *HLMoney(Steps[k])), true, 8)) Gm.TradeCents = FMath::Min(Gm.Player.Cents, Gm.TradeCents + Steps[k]);
-		if (Btn(Rx + k * 72 + 36, WY + 132, 34, 20, FString::Printf(TEXT("-%s"), *HLMoney(Steps[k])), true, 8)) Gm.TradeCents = FMath::Max(0, Gm.TradeCents - Steps[k]);
+		if (Btn(Rx + k * 72, WY + 132, 34, 20, FString::Printf(TEXT("+%s"), *HLMoney(Steps[k])), true, 8)) { Gm.TradeCents = FMath::Min(Gm.Player.Cents, Gm.TradeCents + Steps[k]); Gm.TradeMood.Reset(); }
+		if (Btn(Rx + k * 72 + 36, WY + 132, 34, 20, FString::Printf(TEXT("-%s"), *HLMoney(Steps[k])), true, 8)) { Gm.TradeCents = FMath::Max(0, Gm.TradeCents - Steps[k]); Gm.TradeMood.Reset(); }
 	}
-	Tx(WX, WY + 170, TEXT("Click items in your bags to offer them."), 9, ColDim);
-	if (Btn(WX + 120, WY + 210, 110, 28, TEXT("Trade"), true, 12)) Gm.AcceptTrade();
-	if (Btn(WX + 250, WY + 210, 110, 28, TEXT("Cancel"), true, 12)) { Gm.TradeSim = -1; Gm.TradeBag.Reset(); }
+	Tx(Rx, WY + 156, TEXT("Click items in your bags to offer them."), 9, ColDim);
+	// their last word on the deal
+	if (!Gm.TradeMood.IsEmpty())
+	{
+		const FLinearColor Mc = Gm.TradeMoodKind == 1 ? ColGreen : Gm.TradeMoodKind == 2 ? FLinearColor(1, 0.75f, 0.3f) : ColRed;
+		Rc(WX - 4, WY + 184, 484, 22, FLinearColor(0.05f, 0.04f, 0.03f, 0.8f));
+		TxC(WX + 240, WY + 187, FString::Printf(TEXT("%s: \"%s\""), *S.P->Handle, *Gm.TradeMood), 10, Mc);
+	}
+	if (Btn(WX + 120, WY + 236, 110, 28, TEXT("Trade"), true, 12)) Gm.AcceptTrade();
+	if (Btn(WX + 250, WY + 236, 110, 28, TEXT("Cancel"), true, 12)) { Gm.TradeSim = -1; Gm.TradeBag.Reset(); Gm.TradeTake.Reset(); }
 }
 
 void SHLGameUI::DrawCraft() const

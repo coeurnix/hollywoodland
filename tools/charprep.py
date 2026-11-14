@@ -144,11 +144,19 @@ for lk in man['looks']:
 
 # source assets that break the package convention (+X barrel/blade, +Z top): roll in degrees about +X, applied at attach time
 HELD_ROLL = {'ThompsonM1928': 180}  # modelled upside down: grips and magazine on +Z
+# grip origin modelled at the far end (the shovel's at its blade): shift along +X in cm so the hand holds the handle
+HELD_GRIP = {'TrenchShovel': -73.0}
+# carried upright (degrees about the item's Y: -90 turns blade-to-handle +X straight up), hand on the handle, blade down
+HELD_PITCH = {'TrenchShovel': -110}
 for w in man['weapons']:
     out['held'][w['id']] = {'name': w['name'], 'type': w['type'], 'mesh': w['mesh'], 'tex': full(w['texture'], 'Held', 256, 'prop', 'RGB'),
                             'hand': w['hand'], 'grip_l': w.get('grip_l_position')}
     if w['id'] in HELD_ROLL:
         out['held'][w['id']]['roll'] = HELD_ROLL[w['id']]
+    if w['id'] in HELD_GRIP:
+        out['held'][w['id']]['grip'] = HELD_GRIP[w['id']]
+    if w['id'] in HELD_PITCH:
+        out['held'][w['id']]['pitch'] = HELD_PITCH[w['id']]
     stage['meshes'].append({'name': w['mesh'], 'file': src(w['mesh']), 'kind': 'static', 'folder': 'Held'})
     if f"{w['texture']}_Mask" in assets:
         out['held'][w['id']]['glow'] = True

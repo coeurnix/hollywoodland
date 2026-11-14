@@ -58,7 +58,7 @@ public:
 	static const TCHAR* SlotName[NumSlots];
 	struct FLayer { FString Tex, Mask; FVector4f Rect = FVector4f(0, 0, 1, 1); TArray<FString> Geosets; bool bValid = false; };
 	struct FLook { FString Name, Type; int32 Tier = 0; FLayer Slot[2][NumSlots]; FString HatMesh[2], HatTex[2]; bool bHidesTop[2] = { false, false }; };
-	struct FHeld { FString Id, Name, Type, Mesh, Tex; bool bLeft = false, bGripL = false; FVector GripL = FVector::ZeroVector; float Roll = 0; };
+	struct FHeld { FString Id, Name, Type, Mesh, Tex; bool bLeft = false, bGripL = false; FVector GripL = FVector::ZeroVector; float Roll = 0, Grip = 0, Pitch = 0; }; // Grip: cm along +X from the mesh origin to the hand
 	struct FHair { FString Name, Mesh, Top; FLayer Scalp; };
 	struct FSex { TArray<FString> Skins; FLayer Underwear; TArray<FLayer> Faces; TArray<FString> Defaults; FString HairTex; TArray<FHair> Hair; FVector HatAnchor = FVector::ZeroVector; float Height = 180; };
 	FSex Sexes[2];

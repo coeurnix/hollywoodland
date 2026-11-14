@@ -468,6 +468,7 @@ int32 SHLGameUI::OnPaint(const FPaintArgs& Args, const FGeometry& Geo, const FSl
 	{ static bool bOnce = false; if (!bOnce && Gm.bInWorld) { bOnce = true; if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenBags"))) { bBags = true; bChar = true; } if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenTalents"))) bTalents = true; if (FParse::Param(FCommandLine::Get(), TEXT("HLCraftTest"))) bCraft = true; if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenSpells"))) bSpells = true; if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenFriends"))) { bWho = true; WhoTab = 1; } if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenNews"))) { bWho = true; WhoTab = 3; }
 		if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenAuction"))) for (const FHLUnit* N : Gm.UnitList) if (N->Npc && N->Npc->HasRole(TEXT("auctioneer"))) { Gm.OpenNpcUnitId = N->Id; Gm.OpenNpcMode = TEXT("auction"); AuctionSearch = TEXT("boots"); break; }
 		if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenWorldMap"))) { bMap = true; bWorldMap = true; }
+		if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenChar"))) bChar = true;
 		if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenMap"))) { bMap = true; if (const FVector2D* B = Gm.Areas[0].Def->Pois.Find(TEXT("bank"))) Gm.SetMark(0, *B, TEXT("First National Bank")); }
 		if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenGuard"))) for (const FHLUnit* N : Gm.UnitList) if (N->Npc && N->Npc->HasRole(TEXT("guard"))) { Gm.OpenNpcUnitId = N->Id; Gm.OpenNpcMode = TEXT("gossip"); break; } } } // screenshot checks
 	if (!Gm.Areas.Num()) { Tx(40, 40, TEXT("Hollywoodland failed to load its data: ") + World->LoadError, 14, ColRed); return Layer; }
@@ -1361,6 +1362,19 @@ void SHLGameUI::DrawPopups() const
 		TxC(X + W * 0.5f, Y + 12, FString::Printf(TEXT("%s (level %d %s) challenges you to a duel."), *S.P->Handle, S.Level, S.P->Cls ? *S.P->Cls->Name : TEXT("")), 11, ColWhite);
 		if (Btn(X + 40, Y + 52, 110, 30, TEXT("Accept"), true, 12)) Gm.AnswerDuel(true);
 		if (Btn(X + 190, Y + 52, 110, 30, TEXT("Decline"), true, 12)) Gm.AnswerDuel(false);
+	}
+	if (Gm.TradeFromSim >= 0 && Gm.bTradeAskShown && Gm.Sims.IsValidIndex(Gm.TradeFromSim) && Gm.Player.Bag.IsValidIndex(Gm.TradeWantBag) && Gm.Player.Bag[Gm.TradeWantBag].Item)
+	{
+		const float W = 380, H = 112, X = (VS.X - W) * 0.5f, Y = 230;
+		Block(X, Y, W, H); Panel(X, Y, W, H);
+		const FHLSim& S = Gm.Sims[Gm.TradeFromSim];
+		const FHLItem* It = Gm.Player.Bag[Gm.TradeWantBag].Item;
+		TxC(X + W * 0.5f, Y + 10, FString::Printf(TEXT("%s (level %d %s) wants to trade."), *S.P->Handle, S.Level, S.P->Cls ? *S.P->Cls->Name : TEXT("")), 11, ColWhite);
+		ItemIcon(X + 20, Y + 32, 28, It);
+		Tx(X + 54, Y + 32, It->Name, 10, HLQualityColor(It->Q));
+		Tx(X + 54, Y + 46, FString::Printf(TEXT("They offer %s for it."), *HLMoney(Gm.TradeWantOffer)), 10, ColGold);
+		if (Btn(X + 50, Y + 72, 120, 28, TEXT("Open trade"), true, 12)) Gm.AnswerTradeRequest(true);
+		if (Btn(X + 210, Y + 72, 120, 28, TEXT("Decline"), true, 12)) Gm.AnswerTradeRequest(false);
 	}
 	if (Gm.TradeSim >= 0) DrawTrade();
 	if (Gm.Roll.bActive && Gm.Roll.Item)

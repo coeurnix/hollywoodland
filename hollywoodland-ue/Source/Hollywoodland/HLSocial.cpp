@@ -288,54 +288,7 @@ bool FHLGame::HandleWtbWhisper(int32 SimIdx, const FString& Text)
 	return true;
 }
 
-void FHLGame::OpenTrade(int32 SimIdx)
-{
-	FHLUnit* P = PlayerUnit();
-	if (!P || !Sims.IsValidIndex(SimIdx)) return;
-	const FHLUnit* U = Unit(Sims[SimIdx].UnitId);
-	if (!U || Dist(*U, *P) > 11) { Error(TEXT("You are too far away to trade.")); return; }
-	if (InCombat(*P)) { Error(TEXT("You can't trade while in combat.")); return; }
-	TradeSim = SimIdx; TradeBag.Reset(); TradeCents = 0;
-	const FHLTradeOffer* O = SimWts.Find(SimIdx);
-	TradeCents = O ? O->Price : 0;
-}
-
-void FHLGame::AcceptTrade()
-{
-	if (!Sims.IsValidIndex(TradeSim)) { TradeSim = -1; return; }
-	FHLSim& S = Sims[TradeSim];
-	const FHLTradeOffer* O = SimWts.Find(TradeSim);
-	int32 Value = TradeCents;
-	for (int32 B : TradeBag) if (Player.Bag.IsValidIndex(B) && Player.Bag[B].Item) Value += MarketPrice(*Player.Bag[B].Item) * Player.Bag[B].Count;
-	if (TradeCents > Player.Cents) { Error(TEXT("You don't have that much money.")); return; }
-	if (O && Value < O->Price * 0.85f)
-	{
-		SimSay(TradeSim, TEXT("say"), TEXT("trade_lowball"), 1, TEXT("lowball lol"));
-		return; // window stays open so the player can raise the offer
-	}
-	if (!O && Value <= 0) { TradeSim = -1; return; }
-	// hand over the player's side
-	Player.Cents -= TradeCents;
-	for (int32 B : TradeBag) if (Player.Bag.IsValidIndex(B)) Player.Bag[B] = FHLInvSlot();
-	FHLRelation& R = Relation(S);
-	if (O)
-	{
-		AddItem(O->Item, O->Count, true);
-		System(FString::Printf(TEXT("Trade complete with %s."), *S.P->Handle));
-		ChatCtx = O->Item->Name; SimSay(TradeSim, TEXT("say"), TEXT("trade_done"), 1, TEXT("ty")); ChatCtx.Reset();
-		SimWts.Remove(TradeSim);
-		R.Familiarity++;
-	}
-	else
-	{
-		// a gift
-		System(FString::Printf(TEXT("You gave %s a gift."), *S.P->Handle));
-		SimSay(TradeSim, TEXT("say"), TEXT("trade_gift"), 1, TEXT("oh wow ty"));
-		R.Liking = FMath::Min(10, R.Liking + (Value >= 50 ? 2 : 1)); R.Familiarity++;
-		R.Facts.AddUnique(TEXT("gave me a gift"));
-	}
-	TradeSim = -1; TradeBag.Reset(); TradeCents = 0;
-}
+// OpenTrade / AcceptTrade: HLTrade.cpp
 
 // ------------------------------------------------------------------------------------------------------------- auction bids
 int32 FHLGame::NextBid(const FHLAuction& A) const { return A.Bid > 0 ? A.Bid + FMath::Max(1, A.Bid / 20) : A.MinBid; }

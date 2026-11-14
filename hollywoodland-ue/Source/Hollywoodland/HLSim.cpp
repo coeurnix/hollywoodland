@@ -239,6 +239,14 @@ void FHLGame::TickSimBrain(FHLSim& S, FHLUnit& U, float Dt)
 		return;
 	}
 
+	// ---- trading with the player (or waiting on their answer): stand facing them
+	if (P && (SimIdx == TradeSim || SimIdx == TradeFromSim) && !InCombat(U))
+	{
+		U.bSitting = false;
+		if (Dist(U, *P) > 4) { U.MoveMult = 1; MoveTo(U, P->Pos + (U.Pos - P->Pos).GetSafeNormal() * 2.5f, 0.6f); }
+		else { StopMove(U); FaceTo(U, P->Pos); }
+		return;
+	}
 	// ---- duel with the player
 	if (DuelState != 0 && SimIdx == DuelSim && P)
 	{
