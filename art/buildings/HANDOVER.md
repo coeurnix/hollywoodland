@@ -40,6 +40,34 @@ Known loose ends:
 - `zone.mjs` `shops()` leaves 0.5 m gaps between shops, so a frontage is 0.5 m narrower than its nominal width. `kitFront()` stretches bays to fit, so this is harmless.
 - The Brown Derby's axis question (README) is resolved: its box turned to 24 × 30 m and it faces west (`'W'`) onto Vine.
 
+## Session notes (2026-11-13/14, second pass)
+
+Delivered: the hive wall kit, Hollywood High + wing, the three aid stations, the ten backdrops, the Egyptian dungeon wall
+modules, 17 street/back-lot/interior props. Rodin: 29 jobs, 14.5 credits, none failed (`rodin_ledger.json`
+`session_2026_11_13`; the `HV_WallSeg` task uuid was lost to a ledger race before `src/rodin_full.py` learned to merge saves).
+Texture sets: 37 (added ATL_HH, ATL_AID, ATL_EGY, ATL_BD1–3, T_HV_WallSeg, T_HV_WallEnd).
+
+**Not yet done on a machine with the full toolchain** (the workstation used had no compiled editor module):
+1. `python -I tools/buildprep.py` has been run (buildings.json is current), but `Scripts\ImportBuildings.ps1` has not: the
+   new `HV_*`, `LM_*`, `BD_*`, `EGY_*` meshes are not in `/Game/Buildings` yet. Pass `-EngineRoot` if the engine lives elsewhere.
+2. `python -I tools/propprep.py` + `Scripts\ImportProps.ps1` for the 17 new props; `zone.mjs` `decoIf()` places them
+   only after that import, so re-run `node tools/gen-data.mjs` afterwards.
+3. Screenshots (`RunNative.ps1 -HLAuto=veteran -HLViews -HLViewSet=landmarks`) were not taken; no views were added.
+
+Recommendation (game code, not changed here): add `TEXT("SM_HV_")` and `TEXT("SM_EGY_")` to `KitFams` in
+`HLWorldActor.cpp`, so the 550 hive segments and 110 dungeon segments draw as instanced components instead of one
+component each.
+
+Builders added in `src/`: `rodin_full.py` (Gen-2 full generation, budget-capped ledger), `fit_rodin.py` (fit a Rodin GLB to a
+box, decimate, optional shared-atlas quadrant + `pack_quads.py`), `block_building.py` (box-fitted blocks with FLUX plates,
+specs `blocks_ATL_*.json`; plates live in the ignored `work/plates/`, prompts in `concept_prompts/`), `export_prop.py`,
+`publish_batch.py` (manifest), `contact_sheet.py`.
+
+Deviations: EGY wall segments are full-thickness 9 × 4 × 9 m blocks rather than 0.3–0.6 m facings (one mesh dresses both
+rooms of a divider); the gym's inner faces are painted on the Hollywood High meshes instead of separate `IN_GYM_*` modules;
+no kerb modules or crossing card; `BD_RKO` is 34 m tall with its tower above the 14 m box; the turned boxes (Fire Station,
+Columbia, Chaplin, Poverty Row, Christie, both La Brea blocks) use nominal [box d, box w, h].
+
 ## Integrating new pieces
 
 1. Deliver to `art/buildings/` exactly as the SPEC says: FBX, metres, +Z up, −Y front, one material, triangulated. Use the footprint-centre-ground origin for buildings and front-plane-bottom-left for modules and sign cards. Add an `assets[]` entry to `manifest.json` with `id`, `kind`, `file`, `texture`, `nominal` [w, d, h] and `tris`, plus `attachments: [{asset, location, rotation?, scale?}]` for any sign cards (bottom-left of the card, in the landmark's Blender frame).
