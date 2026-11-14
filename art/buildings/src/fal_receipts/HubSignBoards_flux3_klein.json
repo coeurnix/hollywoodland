@@ -1,0 +1,23 @@
+{
+  "id": "HubSignBoards_flux3_klein",
+  "provider": "fal.ai",
+  "model": "blackforestlabs/flux-3/klein/text-to-image",
+  "prompt": "A flat front-facing square sheet made entirely of warm aged ivory-painted wooden signboard surface for a1930Hollywood classic early World of Warcraft style game. Hand-painted albedo texture, restrained broad brush strokes, fine subtle weathered paint grain, softly shaded edges with warm golden overhead light and cool sepia lower shading. Simple blank ivory signboard across the whole image with no gaps, no scene, no ground, no sky, no perspective, no lettering, no symbols, no logos, no nailheads, no frame, no stains shaped like letters, no people. Every pixel is ivory painted board material, suitable as the neutral interior background for many separate period ArtDeco and Mission business signs. A quiet painted surface with high readability for typography added later.",
+  "references": [],
+  "image_size": {
+    "width": 2048,
+    "height": 2048
+  },
+  "seed": 19301113,
+  "output": "concept/SIGN_HubBoards_34.png",
+  "status": "downloaded",
+  "request_id": "01a1d874-c12f-7f42-b419-a7e69c5940d3",
+  "elapsed_seconds": 8.13,
+  "timings": {
+    "prompt_expansion": 6.699999630654929e-06,
+    "inference": 2.22916996999993,
+    "safety_checker": 0.043546111999603454
+  },
+  "width": 2048,
+  "height": 2048
+}

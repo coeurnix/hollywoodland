@@ -156,17 +156,38 @@ export function signCard(b, north, id, t, z, proud = 0.3) {
 }
 
 // A landmark that replaces its box: footprint-centre origin, front +X. Returns { body, extra } (body becomes the box's prop).
-export function landmark(b, north, id) {
-  const k = KIT[id], f = frame(b, north);
-  const sw = b.w / k.nominal[0];
+//   face: true / 'S' = front faces +y (a building north of its street; the SPEC's "S"), false / 'N' = -y, 'W' = -x, 'E' = +x.
+//   opts.mirror: flip it across (the right-hand one of a mirrored pair: wings, forecourt and courtyard walls).
+// The mesh is stretched to the box (a warning past 10%, the box should match the nominal size). Sign attachments come
+// from the manifest (bottom-left origin, Blender frame: x across left to right from the street, -y forward, z up).
+const FACES = {
+  S: { F: [0, 1], u: [1, 0], yaw: 90 }, N: { F: [0, -1], u: [-1, 0], yaw: -90 },
+  W: { F: [-1, 0], u: [0, 1], yaw: 180 }, E: { F: [1, 0], u: [0, -1], yaw: 0 },
+};
+export function landmark(b, face, id, opts = {}) {
+  const k = KIT[id];
+  if (!k) throw new Error(`unknown landmark ${id}`);
+  const f = FACES[face === true ? 'S' : face === false ? 'N' : face];
+  const across = f.F[0] ? b.d : b.w, deep = f.F[0] ? b.w : b.d;
+  const sw = across / k.nominal[0], sd = deep / k.nominal[1];
+  if (Math.abs(sw - 1) > 0.1 || Math.abs(sd - 1) > 0.1) console.warn(`landmark ${id}: box ${across}x${deep} vs nominal ${k.nominal[0]}x${k.nominal[1]}`);
+  const m = opts.mirror ? -1 : 1;
   const c = [b.x + b.w / 2, b.y + b.d / 2];
-  const body = { m: k.mesh, x: r2(c[0]), y: r2(c[1]), z: 0, yaw: f.yaw, s: [1, r2(sw), 1] };
-  // attachments are in the source (Blender) frame: x across (left to right from the street), -y forward
+  const body = { m: k.mesh, x: r2(c[0]), y: r2(c[1]), z: r2(opts.z || 0), yaw: f.yaw, s: [r2(sd), r2(sw * m), 1] };
   const extra = [];
   for (const a of k.attachments || []) {
-    const [ax, ay, az] = a.location;
-    const fwd = -ay, right = ax * sw;
-    put(extra, a.asset, [c[0] + f.F[0] * fwd + f.u[0] * right, c[1] + f.F[1] * fwd + f.u[1] * right], f.yaw, [1, 1, 1], az);
+    const [ax, ay, az] = a.location, [sx, , sz] = a.scale || [1, 1, 1];
+    const cw = (KIT[a.asset].nominal[0]) * sx;
+    // a mirrored parent keeps its signs readable: the card's span [ax, ax + cw] maps to [-ax - cw, -ax]
+    const fwd = -ay * sd, right = (m > 0 ? ax : -ax - cw) * sw;
+    put(extra, a.asset, [c[0] + f.F[0] * fwd + f.u[0] * right, c[1] + f.F[1] * fwd + f.u[1] * right], f.yaw, [1, sx, sz], az + (opts.z || 0));
   }
   return { body, extra };
+}
+// A non-colliding landmark (a gate, a shelter, a kiosk): its pieces only, centred on (x, y).
+export function landmarkDeco(id, x, y, face, opts = {}) {
+  const k = KIT[id], f = FACES[face === true ? 'S' : face === false ? 'N' : face];
+  const [w, d] = f.F[0] ? [k.nominal[1], k.nominal[0]] : [k.nominal[0], k.nominal[1]];
+  const { body, extra } = landmark({ x: x - w / 2, y: y - d / 2, w, d }, face, id, opts);
+  return [body, ...extra];
 }

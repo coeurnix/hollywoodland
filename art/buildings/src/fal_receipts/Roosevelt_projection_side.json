@@ -1,0 +1,25 @@
+{
+  "id": "Roosevelt_projection_side",
+  "provider": "fal.ai",
+  "model": "blackforestlabs/flux-3/klein/edit-image",
+  "prompt": "Create a matching RIGHT SIDE ELEVATION of the1930 Hollywood Roosevelt hotel from this front-reference style. Side facade exactly58m wide by24m tall; SEVEN floors total: one4.5m shaded ground arcade with TEN shallow arches and dark timber doors, SIX3m upper floors each with TEN evenly spaced regular square sash windows. TOP upper floor has square windows too, no triple-arch top band on this side. A broad dark-green base dado and a terracotta pent-roof band at roof edge. No balconies on side; painted plaster with some subtle age. Chunky classic early World of Warcraft HAND-PAINTED ALBEDO style, broad restrained brush texture, warm ivory cream stucco, thick cream window surrounds/sills, deep cool sepia AO in recesses and at base, dark bottle-green sash glass with painted warm reflections, red terracotta tile coping. Entire subject isolated on uniform warm grey, full subject clear margin, no people, cars, text, letters, signs, logos, modern equipment, scene, sky or foliage. Flat orthographic view, no perspective.",
+  "references": [
+    "concept/LM_Roosevelt_front.png"
+  ],
+  "image_size": {
+    "width": 1536,
+    "height": 768
+  },
+  "seed": 19301113,
+  "output": "work/hub_hotels/projection/roosevelt_side.png",
+  "status": "downloaded",
+  "request_id": "01a1d854-f85c-7843-af5a-c16118ed5f6d",
+  "elapsed_seconds": 10.59,
+  "timings": {
+    "prompt_expansion": 1.0649999921952258e-05,
+    "inference": 3.0239766000013333,
+    "safety_checker": 0.022502580999571364
+  },
+  "width": 1536,
+  "height": 768
+}

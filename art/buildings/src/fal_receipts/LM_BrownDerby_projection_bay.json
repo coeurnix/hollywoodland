@@ -1,0 +1,25 @@
+{
+  "id": "LM_BrownDerby_projection_bay",
+  "provider": "fal.ai",
+  "model": "blackforestlabs/flux-3/klein/edit-image",
+  "prompt": "Use case: stylized-concept. Asset: original hand-painted 1930 Hollywood MMO architectural texture plate, matching the reference cream stucco and ochre/red Mission restaurant. Generate ONE repeated facade bay 4.5m wide by8m high, pure orthographic elevation, entire rectangular image full-bleed architecture with no background or perspective. Warm cream ivory stucco, oxblood base skirting occupying bottom8percent. ONE large dark warm timber restaurant window with a round arch, window begins10percent above bottom and arch top at65percent of image height, width65percent of total bay; ochre chunky arched masonry surround. Warm amber subtle interior glow in glass, no visible people, tables or scenery. Uppermost30percent is plain pale cream stucco, no roof, no awning, no sign, no lettering. Hand painted classic early World of Warcraft style, broad brush marks, restrained warm highlights from above, darker cool grime at base, painted AO. Rectangular straight masonry edges butt to next bay. No sky, ground, labels, numerals, photographic textures or external frame.",
+  "references": [
+    "concept/LM_BrownDerby_front.png"
+  ],
+  "image_size": {
+    "width": 768,
+    "height": 1536
+  },
+  "seed": 19301113,
+  "output": "work/hub_deco/projection/LM_BrownDerby_bay.png",
+  "status": "downloaded",
+  "request_id": "01a1d87e-fd94-7533-ada0-504049f6283a",
+  "elapsed_seconds": 7.15,
+  "timings": {
+    "prompt_expansion": 1.2659999811148737e-05,
+    "inference": 0.9320912919993134,
+    "safety_checker": 0.01983716600079788
+  },
+  "width": 768,
+  "height": 1536
+}

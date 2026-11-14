@@ -1,0 +1,25 @@
+{
+  "id": "projection_hotel_side",
+  "provider": "fal.ai",
+  "model": "blackforestlabs/flux-3/klein/edit-image",
+  "prompt": "Use case: stylized-concept. Use input image only as architectural style reference. Hand-painted early World of Warcraft classic MMO architecture, warm ivory Mission Revival stucco, chunky window frames, cool dark lower AO, dark walnut balcony timber and green-and-cream striped awnings. Historical1930 hotel. No text, signs, people, cars, sky, streets or modern items. Plain neutral grey background. A straight orthographic SIDE elevation of the Hollywood Hotel main range short end,26m wide and14m tall, three readable floors with five evenly spaced dark sash windows per floor. Low slate brown hipped roof with red terracotta ridge cap. Match reference warm material colors and brushwork. Full building centred, minimal margin.",
+  "references": [
+    "concept/LM_HollywoodHotel_34.png"
+  ],
+  "image_size": {
+    "width": 1536,
+    "height": 1024
+  },
+  "seed": 19301113,
+  "output": "work/hub_hotels/projection/hotel_side.png",
+  "status": "downloaded",
+  "request_id": "01a1d87e-565c-7701-b6ea-bb78b666548d",
+  "elapsed_seconds": 53.61,
+  "timings": {
+    "prompt_expansion": 1.3010000657232013e-05,
+    "inference": 3.226451882999754,
+    "safety_checker": 0.022790399998484645
+  },
+  "width": 1536,
+  "height": 1024
+}

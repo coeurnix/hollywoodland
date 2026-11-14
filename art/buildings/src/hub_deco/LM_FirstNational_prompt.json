@@ -1,0 +1,11 @@
+{
+  "tool": "built-in image_gen",
+  "prompt": "Use case: stylized-concept. Create ORIGINAL classic early World of Warcraft hand-painted game architecture art, not a photographic texture. Reference image for historic silhouette only. TWO PANEL sheet on plain neutral grey, left complete elevated three-quarter view of front and LEFT street side including all roof surfaces, right straight front elevation of same asset, exact centre split, no captions. Hollywood Security First National Bank1930, Gothic/Art Deco fantasy bank by Meyer and Holler. Main game footprint42m wide38m deep, stepped wings16-19m tall with a southwest corner square tower reaching22m and its steep modest roof spire rising to27m. Broad low footprint, not a modern narrow skyscraper. Ivory/buff limestone, darker sandstone base, small regular dark blue-black window grid, large arched groundfloor banking windows, ornate pointed parapet panels/finials, stepped vertical buttresses. Corner tower with Gothic arched belfry niches, no statues, pyramidal roof, small round clock on projecting corner bracket near the entrance at6m high. Huge dark welcoming recessed bank door, blank name plaque over entrance, no words/text/numerals. Finished tar-and-gravel roofs behind ornate coping, rear plain but finished with windows. Chunky forms, warm painted top light, cool base grime/AO, bold sill stones, restrained brushwork. No people, vehicles, ground, sky, city scene or modern additions. Entire building visible in both panels.",
+  "reference": "work/hub_deco/FirstNational_historic.jpg",
+  "output": "work/hub_deco/LM_FirstNational_concept_sheet.png",
+  "split": {
+    "left": "concept/LM_FirstNational_34.png",
+    "right": "concept/LM_FirstNational_front.png"
+  },
+  "review": "Gothic/Deco hybrid, stepped wing roofs, clock and arched banking base passed. Model mirrors tower mass to southwest corner for SPEC south/west street facades; simplifies generated figure niches to relief medallions; exact42x38x22 main box wins."
+}

@@ -1,0 +1,25 @@
+{
+  "id": "LM_FirstNational_projection_door",
+  "provider": "fal.ai",
+  "model": "blackforestlabs/flux-3/klein/edit-image",
+  "prompt": "Original1930 Hollywood game texture painting in the exact reference style: classic early World of Warcraft chunky hand-painted albedo, warm light from above, cooler grime at base, restrained brush marks and painted AO. Pure orthographic straight-on elevation, no perspective, no cast shadows outside the texture. Rectangular FULL-BLEED texture plate filling every image edge. No grey background, surround, ground, sky, people, letters, numbers, logos, frames or labels. No photographic detail. ONE pair of tall dark bottle-green timber banking entrance doors with brass pull handles, no words or insignia, rectangular straight front elevation. Dark green panels with subtle upper dark glass transom and painted reflected streaks, soft warm top-light, cool deep base. Door leaves fill the entire texture plate, no surrounding building or arch, no background.",
+  "references": [
+    "concept/LM_FirstNational_front.png"
+  ],
+  "image_size": {
+    "width": 768,
+    "height": 1536
+  },
+  "seed": 19301113,
+  "output": "work/hub_deco/projection/LM_FirstNational_door.png",
+  "status": "downloaded",
+  "request_id": "01a1d856-848e-7c22-81ae-07b0e063249a",
+  "elapsed_seconds": 6.5,
+  "timings": {
+    "prompt_expansion": 1.000999986899842e-05,
+    "inference": 1.8042106730008527,
+    "safety_checker": 0.019125087001157226
+  },
+  "width": 768,
+  "height": 1536
+}

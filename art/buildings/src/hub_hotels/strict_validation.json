@@ -1,0 +1,225 @@
+{
+  "version": 1,
+  "assets": [
+    {
+      "id": "LM_Roosevelt",
+      "input_sha256": "37077dff300553fd0aebe803d12a123fb7a697541d8907032df9db4eafa69acc",
+      "glb_welded": {
+        "tris": 9656,
+        "vertices": 6352,
+        "branch_edges": 0,
+        "zero_area_faces": 0,
+        "loose_vertices": 0,
+        "orientation_discontinuities": 0,
+        "boundary_edges": 4578,
+        "uv_zero_area_triangles": 0
+      },
+      "fbx_roundtrip": {
+        "bounds": [
+          [
+            -37.000004,
+            -29.000004,
+            0.0
+          ],
+          [
+            37.000004,
+            29.000004,
+            27.1
+          ]
+        ],
+        "tris": 9656,
+        "material_slots": 1,
+        "triangulated": true,
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "rotation": [
+          0.0,
+          -0.0,
+          8.742277657347586e-08
+        ],
+        "zero_area_faces": 0,
+        "branch_edges": 0,
+        "boundary_edges": 4578,
+        "loose_vertices": 0
+      },
+      "fbx_welded": {
+        "tris": 9656,
+        "vertices": 6352,
+        "branch_edges": 0,
+        "zero_area_faces": 0,
+        "loose_vertices": 0,
+        "orientation_discontinuities": 0,
+        "boundary_edges": 4578,
+        "uv_zero_area_triangles": 0
+      }
+    },
+    {
+      "id": "LM_HollywoodHotel",
+      "input_sha256": "a0f7cb46b1696a138d5e72ee30a5ba130b33f56b374ece121f5082020ffaefbb",
+      "glb_welded": {
+        "tris": 8743,
+        "vertices": 6165,
+        "branch_edges": 0,
+        "zero_area_faces": 0,
+        "loose_vertices": 0,
+        "orientation_discontinuities": 0,
+        "boundary_edges": 3609,
+        "uv_zero_area_triangles": 0
+      },
+      "fbx_roundtrip": {
+        "bounds": [
+          [
+            -58.000004,
+            -13.020001,
+            0.0
+          ],
+          [
+            58.000004,
+            13.000005,
+            14.0
+          ]
+        ],
+        "tris": 8743,
+        "material_slots": 1,
+        "triangulated": true,
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "rotation": [
+          0.0,
+          -0.0,
+          8.742277657347586e-08
+        ],
+        "zero_area_faces": 0,
+        "branch_edges": 0,
+        "boundary_edges": 3609,
+        "loose_vertices": 0
+      },
+      "fbx_welded": {
+        "tris": 8743,
+        "vertices": 6165,
+        "branch_edges": 0,
+        "zero_area_faces": 0,
+        "loose_vertices": 0,
+        "orientation_discontinuities": 0,
+        "boundary_edges": 3609,
+        "uv_zero_area_triangles": 0
+      }
+    },
+    {
+      "id": "LM_HollywoodHotel_Wing",
+      "input_sha256": "2ec419c95662680560cd1f02fc5630a83868ba6167f65358d8707a4eb219ae25",
+      "glb_welded": {
+        "tris": 4300,
+        "vertices": 3029,
+        "branch_edges": 0,
+        "zero_area_faces": 0,
+        "loose_vertices": 0,
+        "orientation_discontinuities": 0,
+        "boundary_edges": 1848,
+        "uv_zero_area_triangles": 0
+      },
+      "fbx_roundtrip": {
+        "bounds": [
+          [
+            -12.000002,
+            -26.000002,
+            0.0
+          ],
+          [
+            12.000002,
+            26.000002,
+            12.0
+          ]
+        ],
+        "tris": 4300,
+        "material_slots": 1,
+        "triangulated": true,
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "rotation": [
+          0.0,
+          -0.0,
+          8.742277657347586e-08
+        ],
+        "zero_area_faces": 0,
+        "branch_edges": 0,
+        "boundary_edges": 1848,
+        "loose_vertices": 0
+      },
+      "fbx_welded": {
+        "tris": 4300,
+        "vertices": 3029,
+        "branch_edges": 0,
+        "zero_area_faces": 0,
+        "loose_vertices": 0,
+        "orientation_discontinuities": 0,
+        "boundary_edges": 1848,
+        "uv_zero_area_triangles": 0
+      }
+    },
+    {
+      "id": "LM_HollywoodHotel_CourtWall",
+      "input_sha256": "1bbc3c2b5792a04a60f996db2f94d636f1f56196986ac5772b6dfddae573d0dd",
+      "glb_welded": {
+        "tris": 732,
+        "vertices": 470,
+        "branch_edges": 0,
+        "zero_area_faces": 0,
+        "loose_vertices": 0,
+        "orientation_discontinuities": 0,
+        "boundary_edges": 274,
+        "uv_zero_area_triangles": 0
+      },
+      "fbx_roundtrip": {
+        "bounds": [
+          [
+            -13.0,
+            -3.000001,
+            0.0
+          ],
+          [
+            13.0,
+            3.000001,
+            6.0
+          ]
+        ],
+        "tris": 732,
+        "material_slots": 1,
+        "triangulated": true,
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "rotation": [
+          0.0,
+          -0.0,
+          8.742277657347586e-08
+        ],
+        "zero_area_faces": 0,
+        "branch_edges": 0,
+        "boundary_edges": 274,
+        "loose_vertices": 0
+      },
+      "fbx_welded": {
+        "tris": 732,
+        "vertices": 470,
+        "branch_edges": 0,
+        "zero_area_faces": 0,
+        "loose_vertices": 0,
+        "orientation_discontinuities": 0,
+        "boundary_edges": 274,
+        "uv_zero_area_triangles": 0
+      }
+    }
+  ]
+}

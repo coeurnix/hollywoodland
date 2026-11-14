@@ -1,0 +1,43 @@
+{
+  "uploaded_authored": {
+    "vertices": 372,
+    "faces": 190,
+    "position_uv_hash": "f35d6e529c1b54d7631ff0a81adf113f56a889edad6dc3f78d4b164775263a05"
+  },
+  "cleaned_authored": {
+    "vertices": 133,
+    "faces": 190,
+    "position_uv_hash": "f35d6e529c1b54d7631ff0a81adf113f56a889edad6dc3f78d4b164775263a05"
+  },
+  "returned": {
+    "vertices": 372,
+    "faces": 190,
+    "position_uv_hash": "4940f227e64e8e7c2f6c492f2097368e2359d262c05621cb2f3244bd01398acc"
+  },
+  "equal": false,
+  "baked_to_authored_mesh": true,
+  "authored_geometry_uv_unchanged_during_bake": true,
+  "cleanup": {
+    "id": "LM_Kiosk_Auction",
+    "removed_buried_triangles": 0,
+    "before": {
+      "vertices": 133,
+      "tris": 190,
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "boundary_edges": 62,
+      "loose_vertices": 0,
+      "inconsistent_shared_edges": 0
+    },
+    "after": {
+      "vertices": 133,
+      "tris": 190,
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "boundary_edges": 62,
+      "loose_vertices": 0,
+      "inconsistent_shared_edges": 0
+    },
+    "surviving_face_uvs_unchanged": true
+  }
+}

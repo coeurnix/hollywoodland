@@ -1,0 +1,60 @@
+{
+  "method": "orthographic role-plane camera projection and Cycles selected-to-active EMIT bake",
+  "frozen_input_sha256": "2db94018200931b8b9cd3f8a07763de93437a03db3ffdc066d82ba14a994ef97",
+  "uploaded_authored": {
+    "vertices": 458,
+    "faces": 480,
+    "position_uv_hash": "99dcf544a31f8fc4ddb90df4cf65e3295d2d2a8f1702a5f90e4b6dfdc9894ba6"
+  },
+  "authored_geometry_uv_unchanged_during_bake": true,
+  "after_bake_before_cleanup": {
+    "vertices": 458,
+    "faces": 480,
+    "position_uv_hash": "99dcf544a31f8fc4ddb90df4cf65e3295d2d2a8f1702a5f90e4b6dfdc9894ba6"
+  },
+  "after_cleanup": {
+    "vertices": 458,
+    "faces": 480,
+    "position_uv_hash": "99dcf544a31f8fc4ddb90df4cf65e3295d2d2a8f1702a5f90e4b6dfdc9894ba6"
+  },
+  "projection_face_counts": {
+    "wall": 76,
+    "glass": 34,
+    "stone": 278,
+    "roof": 2,
+    "metal": 88,
+    "sign": 2
+  },
+  "projection_images": {
+    "roof": "work\\hub_deco\\projection\\LM_Pantages_roof_v2.png",
+    "wall": "work\\hub_deco\\projection\\LM_PoliceStation_bay.png",
+    "upper": "work\\hub_deco\\projection\\LM_PoliceStation_bay.png",
+    "stone": "work\\hub_deco\\projection\\LM_Taft_stone.png",
+    "glass": "work\\hub_deco\\projection\\LM_FirstNational_door.png"
+  },
+  "cleanup": null,
+  "material_slots": 1,
+  "material_name": "M_LM_PoliceStation",
+  "two_failed_Rodin_attempts": true,
+  "frozen_input_geometry": {
+    "vertices": 1602,
+    "faces": 804,
+    "position_uv_hash": "d583d76c8176317b8dc891b54236e3f7f3bd1200a1011e736a14cff7aeb9622c"
+  },
+  "deliberate_authored_geometry_correction": {
+    "reason": "Remove six window-trim/bar groups and upper sills whose spacing conflicted with repeated facade bays; generated texture supplies arched surrounds, security bars and sills. Entrance trim, silhouette and box dimensions retained.",
+    "removed_triangles": 324,
+    "before": {
+      "vertices": 1602,
+      "faces": 804,
+      "position_uv_hash": "d583d76c8176317b8dc891b54236e3f7f3bd1200a1011e736a14cff7aeb9622c"
+    },
+    "after": {
+      "vertices": 458,
+      "faces": 480,
+      "position_uv_hash": "99dcf544a31f8fc4ddb90df4cf65e3295d2d2a8f1702a5f90e4b6dfdc9894ba6"
+    }
+  },
+  "normal_orientation_repair": "Weld split GLB vertices before recalculating face normals; avoids independently orienting disconnected triangles that later share welded edges.",
+  "actual_fbx_inconsistent_shared_edges": 0
+}

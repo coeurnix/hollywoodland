@@ -1,0 +1,98 @@
+{
+  "id": "LM_Roosevelt",
+  "kind": "landmark",
+  "phase": 3,
+  "model": "work/LM_Roosevelt_input.glb",
+  "source": "src/hub_hotels/LM_Roosevelt.blend",
+  "concept": [
+    "concept/LM_Roosevelt_34.png",
+    "concept/LM_Roosevelt_front.png"
+  ],
+  "reference": "concept/LM_Roosevelt_34.png",
+  "prompts": {
+    "34": "Use case: stylized-concept. LM_Roosevelt architecture for a 1930 Hollywood classic early World of Warcraft MMO. One isolated full-building THREE QUARTER concept showing street front, right side and roof, plain neutral warm grey background. Historic Hollywood Roosevelt Spanish Colonial Revival character, adapted to a WIDE 74m frontage x58m depth x24m tall rectangular collision mass: SEVEN readable floors total, one 4.5m ground arcade and six compact 3m upper floors. Cream ivory stucco, repeated dark square sash windows with bold cream sills, grouped arched windows with thin columnettes only at topmost floor and a few central upper bays, dark wrought iron balcony bands. Ground frontage: broad shaded arched arcade, central inviting taller dark arch with warm amber doorway, discreet green/oxblood accents. Red terracotta shallow pent-roof edges and low flat tar roof within, restrained Spanish baroque relief near central entry. Blank narrow rooftop sign backing with exposed dark iron supports, no letters. Main envelope fills rectangular box on all sides, no tall tower or deep courtyard cutouts. Roof/back are finished. Chunky readable silhouettes, hand-painted warm top highlights and cool lower AO, restrained brush texture. No people, cars, signs/text, logos, modern post1930 details, palm trees, surrounding street or sky.",
+    "front": "Use case: stylized-concept. LM_Roosevelt FRONT ELEVATION companion reference for a 1930 Hollywood MMO building. Exactly straight orthographic street front, full facade, no perspective, plain warm grey background. Cream Spanish Colonial Revival hotel, exact facade aspect74m wide by24m tall, ground arcade4.5m high and SIX compact upper floors3m each; seven floors total. Repeated regular square dark sash windows with broad cream sills; topmost row grouped triple arched windows with columnettes; two central upper rows have small iron balconies. Full-width ground-floor shaded arched arcade with a taller central welcoming amber lit doorway and restrained baroque stucco surround. Low terracotta tile roof edge and tar flat roof. Thin blank iron rooftop sign backing above roof centre, no lettering. Chunky classic early World of Warcraft hand-painted architectural art, cream, sand, terracotta, warm top highlights and cool painted lower AO, dark bottle-green base accents. Match the generated three-quarter Roosevelt concept's architectural vocabulary. No people, vehicles, text, logos, exterior scene, sky, palm trees, tall tower."
+  },
+  "material": "Shaded",
+  "resolution": "Basic",
+  "metadata": {
+    "nominal": [
+      74,
+      58,
+      24
+    ],
+    "budget": 20000,
+    "fits_box": "Roosevelt Hotel",
+    "sign_attachments": [
+      {
+        "id": "SIGN_Roosevelt",
+        "text": "HOTEL ROOSEVELT",
+        "centre": [
+          0,
+          -25.09,
+          26.0
+        ],
+        "size_m": [
+          24.6,
+          1.8
+        ],
+        "front": "-Y",
+        "separate_card": true
+      }
+    ],
+    "notes": "Seven readable floors:4.5m ground arcade and six3m upper floors. Original asymmetrical T footprint is adapted to SPEC rectangular collision envelope. Ground arches are1.15m shallow recesses; all four sides and complete roof finished."
+  },
+  "audit": {
+    "tris": 9656,
+    "bounds": [
+      [
+        -37.0,
+        -29.0,
+        0.0
+      ],
+      [
+        37.0,
+        29.0,
+        27.1
+      ]
+    ],
+    "material_slots": 1,
+    "zero_area_faces": 0,
+    "branch_edges": 0,
+    "boundary_edges": 4578,
+    "loose_vertices": 0,
+    "uv_min": [
+      0.009999999776482582,
+      0.009999999776482582
+    ],
+    "uv_max": [
+      0.9626190662384033,
+      0.9825806617736816
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "origin": "footprint-centre-ground",
+    "export_bounds": [
+      [
+        -37.0,
+        -29.0,
+        0.0
+      ],
+      [
+        37.0,
+        29.0,
+        27.1
+      ]
+    ],
+    "export_tris": 9656
+  },
+  "uv_policy": "One padded2K atlas; disjoint semantic patches; only congruent repeated bays/features stack. Wall regions >=67px/m, broad roof repeating patches >=78px/m at2K. Gable54.6px/m. Sign backing30px/m; separate lettering card. Bake repeated regions from one chosen congruent representative per patch if a full-mesh returned UV bake differs by face. No wall-role blanket stacking."
+}

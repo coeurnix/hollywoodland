@@ -1,0 +1,43 @@
+{
+  "uploaded_authored": {
+    "vertices": 1930,
+    "faces": 964,
+    "position_uv_hash": "3adf43930c78fa640d457349b1012e6ecdfd67705bfcdb3251a1ed948b2e3b2d"
+  },
+  "cleaned_authored": {
+    "vertices": 620,
+    "faces": 964,
+    "position_uv_hash": "3adf43930c78fa640d457349b1012e6ecdfd67705bfcdb3251a1ed948b2e3b2d"
+  },
+  "returned": {
+    "vertices": 1930,
+    "faces": 964,
+    "position_uv_hash": "f7769dccbaf78192a8435d1806473ba17744763f03622d0bd544a3a89ada35e2"
+  },
+  "equal": false,
+  "baked_to_authored_mesh": true,
+  "authored_geometry_uv_unchanged_during_bake": true,
+  "cleanup": {
+    "id": "LM_RedCarStop",
+    "removed_buried_triangles": 0,
+    "before": {
+      "vertices": 620,
+      "tris": 964,
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "boundary_edges": 224,
+      "loose_vertices": 0,
+      "inconsistent_shared_edges": 0
+    },
+    "after": {
+      "vertices": 620,
+      "tris": 964,
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "boundary_edges": 224,
+      "loose_vertices": 0,
+      "inconsistent_shared_edges": 0
+    },
+    "surviving_face_uvs_unchanged": true
+  }
+}

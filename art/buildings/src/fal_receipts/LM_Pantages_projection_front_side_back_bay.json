@@ -1,0 +1,25 @@
+{
+  "id": "LM_Pantages_projection_front_side_back_bay",
+  "provider": "fal.ai",
+  "model": "blackforestlabs/flux-3/klein/edit-image",
+  "prompt": "Original1930 Hollywood game texture painting in the exact reference style: classic early World of Warcraft chunky hand-painted albedo, warm light from above, cooler grime at base, restrained brush marks and painted AO. Pure orthographic straight-on elevation, no perspective, no cast shadows outside the texture. Rectangular FULL-BLEED texture plate filling every image edge. No grey background, surround, ground, sky, people, letters, numbers, logos, frames or labels. No photographic detail. ONE single narrow repeated Art Deco cinema facade bay7m wide18m high. Full-height planar front elevation including4.5m high ground-floor black-glass shopfront with blank oxblood door and chrome frames; above this two very tall dark rectangular upper windows in ivory fluted piers, uppermost band rich shallow golden lotus/zigzag geometric relief. Bold readable cream/ochre relief, black marble bulkhead, oxblood accents. Exactly one bay, no whole building, no marquee, no blade, no roof. Edges are plain masonry strips so bays butt together. Windows occupy most of central bay; warm highlights and dark blue painted reflections. Entire plate is architecture.",
+  "references": [
+    "concept/LM_Pantages_front.png"
+  ],
+  "image_size": {
+    "width": 768,
+    "height": 1536
+  },
+  "seed": 19301113,
+  "output": "work/hub_deco/projection/LM_Pantages_front_side_back_bay.png",
+  "status": "downloaded",
+  "request_id": "01a1d856-2f37-7b31-a82b-9522c3567198",
+  "elapsed_seconds": 43.51,
+  "timings": {
+    "prompt_expansion": 9.910000017043785e-06,
+    "inference": 1.8167546139993647,
+    "safety_checker": 0.019748810000237427
+  },
+  "width": 768,
+  "height": 1536
+}

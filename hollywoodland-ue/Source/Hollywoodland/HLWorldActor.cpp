@@ -992,9 +992,12 @@ void AHLWorldActor::AutoTest(float Dt)
 		static const FView Nature[] = { { 298, 150, -90, 3, 14 }, { 300, -60, -90, 8, 26 }, { 420, -10, 20, 14, 22 }, { 700, 360, 45, 12, 25 }, { -150, 350, 180, 6, 30 },
 			{ 60, 12, 90, 12, 18, 1 }, { 60, 150, 90, 10, 26, 1 }, { 60, 222, 90, 6, 22, 1 } };
 		static FString Set; static bool bSet = FParse::Value(FCommandLine::Get(), TEXT("HLViewSet="), Set);
-		const bool bNature = bSet && Set == TEXT("nature");
-		const FView* Views = bNature ? Nature : Fronts;
-		const int32 NViews = bNature ? UE_ARRAY_COUNT(Nature) : UE_ARRAY_COUNT(Fronts);
+		// -HLViewSet=landmarks: the building kit's hub landmarks (art/buildings LM_*)
+		static const FView Landmarks[] = { { 93, 200, -90, 12, 42 }, { 228, 200, -90, 14, 48 }, { 318, 204, -70, 10, 34 }, { 718, 200, -90, 14, 42 },
+			{ 97, 200, 90, 14, 48 }, { 475, 200, 90, 12, 42 }, { 530, 257, 60, 18, 30 }, { 790, 200, 90, 16, 48 }, { 758, 283, 0, 12, 30 }, { 228, 92, 90, 28, 52 } };
+		const bool bNature = bSet && Set == TEXT("nature"), bLandmarks = bSet && Set == TEXT("landmarks");
+		const FView* Views = bNature ? Nature : bLandmarks ? Landmarks : Fronts;
+		const int32 NViews = bNature ? UE_ARRAY_COUNT(Nature) : bLandmarks ? UE_ARRAY_COUNT(Landmarks) : UE_ARRAY_COUNT(Fronts);
 		static int32 Step = -1; static double NextStep = 0;
 		AutoNextShot = 1e9;
 		P->CombatUntil = 0; P->bAutoAttack = false; P->TargetId = 0;

@@ -2809,6 +2809,973 @@
     -0.0,
     2.5
    ]
+  },
+  "LM_Roosevelt": {
+   "mesh": "/Game/Buildings/SM_LM_Roosevelt.SM_LM_Roosevelt",
+   "kind": "landmark",
+   "nominal": [
+    74,
+    58,
+    24
+   ],
+   "tris": 9656,
+   "origin": "footprint-centre-ground",
+   "attachments": [
+    {
+     "asset": "SIGN_Roosevelt",
+     "location": [
+      -12.3,
+      -25.09,
+      25.1
+     ],
+     "rotation": [
+      0,
+      0,
+      0
+     ],
+     "scale": [
+      1.0,
+      1,
+      1.0
+     ]
+    }
+   ],
+   "min": [
+    -29.0,
+    -37.0,
+    0.0
+   ],
+   "max": [
+    29.0,
+    37.0,
+    27.1
+   ]
+  },
+  "LM_Pantages": {
+   "mesh": "/Game/Buildings/SM_LM_Pantages.SM_LM_Pantages",
+   "kind": "landmark",
+   "nominal": [
+    56,
+    58,
+    18
+   ],
+   "tris": 850,
+   "origin": "footprint-centre-ground",
+   "attachments": [
+    {
+     "asset": "SIGN_Pantages",
+     "location": [
+      -1.25,
+      -30.47,
+      8.0
+     ],
+     "rotation": [
+      0,
+      0,
+      0
+     ],
+     "scale": [
+      1.0,
+      1,
+      1.0
+     ]
+    },
+    {
+     "asset": "SIGN_Pantages_Marquee",
+     "location": [
+      -13.5,
+      -30.38,
+      5.45
+     ],
+     "rotation": [
+      0,
+      0,
+      0
+     ],
+     "scale": [
+      1.0,
+      1,
+      1.0
+     ]
+    }
+   ],
+   "min": [
+    -29.0,
+    -28.0,
+    0.0
+   ],
+   "max": [
+    30.49,
+    28.0,
+    34.3
+   ]
+  },
+  "LM_Taft": {
+   "mesh": "/Game/Buildings/SM_LM_Taft.SM_LM_Taft",
+   "kind": "landmark",
+   "nominal": [
+    42,
+    48,
+    36
+   ],
+   "tris": 3808,
+   "origin": "footprint-centre-ground",
+   "attachments": [
+    {
+     "asset": "SIGN_Taft",
+     "location": [
+      -4.0,
+      -24.34,
+      4.8
+     ],
+     "rotation": [
+      0,
+      0,
+      0
+     ],
+     "scale": [
+      1.0,
+      1,
+      1.0
+     ]
+    }
+   ],
+   "min": [
+    -24.0,
+    -21.0,
+    0.0
+   ],
+   "max": [
+    24.5,
+    21.5,
+    39.0
+   ]
+  },
+  "LM_Egyptian_Gateway": {
+   "mesh": "/Game/Buildings/SM_LM_Egyptian_Gateway.SM_LM_Egyptian_Gateway",
+   "kind": "landmark",
+   "nominal": [
+    30,
+    2,
+    10
+   ],
+   "tris": 96,
+   "origin": "footprint-centre-ground",
+   "attachments": [
+    {
+     "asset": "SIGN_Egyptian_Gate",
+     "location": [
+      -5.75,
+      -1.015,
+      8.35
+     ],
+     "rotation": [
+      0,
+      0,
+      0
+     ],
+     "scale": [
+      1.0,
+      1,
+      1.0
+     ]
+    }
+   ],
+   "min": [
+    -1.0,
+    -15.0,
+    0.0
+   ],
+   "max": [
+    1.0,
+    15.0,
+    10.0
+   ]
+  },
+  "LM_HollywoodHotel_CourtWall": {
+   "mesh": "/Game/Buildings/SM_LM_HollywoodHotel_CourtWall.SM_LM_HollywoodHotel_CourtWall",
+   "kind": "landmark",
+   "nominal": [
+    26,
+    6,
+    6
+   ],
+   "tris": 732,
+   "origin": "footprint-centre-ground",
+   "attachments": [],
+   "min": [
+    -3.0,
+    -13.0,
+    0.0
+   ],
+   "max": [
+    3.0,
+    13.0,
+    6.0
+   ]
+  },
+  "LM_FirstNational": {
+   "mesh": "/Game/Buildings/SM_LM_FirstNational.SM_LM_FirstNational",
+   "kind": "landmark",
+   "nominal": [
+    42,
+    38,
+    22
+   ],
+   "tris": 1405,
+   "origin": "footprint-centre-ground",
+   "attachments": [
+    {
+     "asset": "SIGN_FirstNational",
+     "location": [
+      -18.0,
+      -19.36,
+      5.3
+     ],
+     "rotation": [
+      0,
+      0,
+      0
+     ],
+     "scale": [
+      1.0,
+      1,
+      1.0
+     ]
+    }
+   ],
+   "min": [
+    -19.0,
+    -21.0,
+    0.0
+   ],
+   "max": [
+    20.04,
+    21.42,
+    28.0
+   ]
+  },
+  "LM_BrownDerby": {
+   "mesh": "/Game/Buildings/SM_LM_BrownDerby.SM_LM_BrownDerby",
+   "kind": "landmark",
+   "nominal": [
+    30,
+    24,
+    8
+   ],
+   "tris": 408,
+   "origin": "footprint-centre-ground",
+   "attachments": [
+    {
+     "asset": "SIGN_BrownDerby",
+     "location": [
+      -3.5,
+      -8.12,
+      11.0
+     ],
+     "rotation": [
+      0,
+      0,
+      0
+     ],
+     "scale": [
+      1.0,
+      1,
+      1.0
+     ]
+    }
+   ],
+   "min": [
+    -12.0,
+    -15.0,
+    0.0
+   ],
+   "max": [
+    13.25,
+    15.0,
+    13.55
+   ]
+  },
+  "LM_Egyptian": {
+   "mesh": "/Game/Buildings/SM_LM_Egyptian.SM_LM_Egyptian",
+   "kind": "landmark",
+   "nominal": [
+    82,
+    50,
+    15
+   ],
+   "tris": 1124,
+   "origin": "footprint-centre-ground",
+   "attachments": [
+    {
+     "asset": "SIGN_Egyptian",
+     "location": [
+      -15.0,
+      -25.015,
+      10.05
+     ],
+     "rotation": [
+      0,
+      0,
+      0
+     ],
+     "scale": [
+      1.0,
+      1,
+      1.0
+     ]
+    },
+    {
+     "asset": "SIGN_Egyptian_Marquee",
+     "location": [
+      -5.0,
+      -23.015,
+      7.475
+     ],
+     "rotation": [
+      0,
+      0,
+      0
+     ],
+     "scale": [
+      1.0,
+      1,
+      1.0
+     ]
+    }
+   ],
+   "min": [
+    -25.0,
+    -41.0,
+    0.0
+   ],
+   "max": [
+    25.0,
+    41.0,
+    15.0
+   ]
+  },
+  "LM_Egyptian_Wing": {
+   "mesh": "/Game/Buildings/SM_LM_Egyptian_Wing.SM_LM_Egyptian_Wing",
+   "kind": "landmark",
+   "nominal": [
+    26,
+    28,
+    7
+   ],
+   "tris": 1086,
+   "origin": "footprint-centre-ground",
+   "attachments": [],
+   "min": [
+    -14.0,
+    -13.0,
+    0.0
+   ],
+   "max": [
+    14.0,
+    13.0,
+    7.0
+   ]
+  },
+  "LM_Graumans": {
+   "mesh": "/Game/Buildings/SM_LM_Graumans.SM_LM_Graumans",
+   "kind": "landmark",
+   "nominal": [
+    82,
+    58,
+    16
+   ],
+   "tris": 1924,
+   "origin": "footprint-centre-ground",
+   "attachments": [
+    {
+     "asset": "SIGN_Graumans_Marquee",
+     "location": [
+      -5.0,
+      -27.015,
+      4.7
+     ],
+     "rotation": [
+      0,
+      0,
+      0
+     ],
+     "scale": [
+      1.0,
+      1,
+      1.0
+     ]
+    },
+    {
+     "asset": "SIGN_Graumans_Blade",
+     "location": [
+      -37.0,
+      -29.015,
+      2.0
+     ],
+     "rotation": [
+      0,
+      0,
+      0
+     ],
+     "scale": [
+      1.0,
+      1,
+      1.0
+     ]
+    }
+   ],
+   "min": [
+    -29.0,
+    -41.0,
+    0.0
+   ],
+   "max": [
+    29.0,
+    41.0,
+    16.0
+   ]
+  },
+  "LM_RedCarStop": {
+   "mesh": "/Game/Buildings/SM_LM_RedCarStop.SM_LM_RedCarStop",
+   "kind": "landmark",
+   "nominal": [
+    8,
+    3,
+    3.5
+   ],
+   "tris": 964,
+   "origin": "footprint-centre-ground",
+   "attachments": [
+    {
+     "asset": "SIGN_PacificElectric",
+     "location": [
+      -2.1,
+      -1.375,
+      2.385
+     ],
+     "rotation": [
+      0,
+      0,
+      0
+     ],
+     "scale": [
+      1.0,
+      1,
+      1.0
+     ]
+    },
+    {
+     "asset": "SIGN_RedCarTimetable",
+     "location": [
+      2.85,
+      -0.135,
+      1.075
+     ],
+     "rotation": [
+      0,
+      0,
+      0
+     ],
+     "scale": [
+      1.0,
+      1,
+      1.0
+     ]
+    }
+   ],
+   "min": [
+    -1.5,
+    -4.0,
+    0.0
+   ],
+   "max": [
+    1.5,
+    4.0,
+    3.5
+   ]
+  },
+  "LM_Kiosk_Auction": {
+   "mesh": "/Game/Buildings/SM_LM_Kiosk_Auction.SM_LM_Kiosk_Auction",
+   "kind": "landmark",
+   "nominal": [
+    4,
+    4,
+    3.5
+   ],
+   "tris": 190,
+   "origin": "footprint-centre-ground",
+   "attachments": [
+    {
+     "asset": "SIGN_Auction",
+     "location": [
+      -1.3,
+      -1.235,
+      3.075
+     ],
+     "rotation": [
+      0,
+      0,
+      0
+     ],
+     "scale": [
+      0.86666667,
+      1,
+      0.42666667
+     ]
+    }
+   ],
+   "min": [
+    -2.0,
+    -2.0,
+    0.0
+   ],
+   "max": [
+    2.0,
+    2.0,
+    3.5
+   ]
+  },
+  "LM_Graumans_ForecourtWall": {
+   "mesh": "/Game/Buildings/SM_LM_Graumans_ForecourtWall.SM_LM_Graumans_ForecourtWall",
+   "kind": "landmark",
+   "nominal": [
+    6,
+    20,
+    5
+   ],
+   "tris": 190,
+   "origin": "footprint-centre-ground",
+   "attachments": [],
+   "min": [
+    -10.0,
+    -3.0,
+    0.0
+   ],
+   "max": [
+    10.0,
+    3.0,
+    5.0
+   ]
+  },
+  "LM_HollywoodHotel_Wing": {
+   "mesh": "/Game/Buildings/SM_LM_HollywoodHotel_Wing.SM_LM_HollywoodHotel_Wing",
+   "kind": "landmark",
+   "nominal": [
+    24,
+    52,
+    12
+   ],
+   "tris": 4300,
+   "origin": "footprint-centre-ground",
+   "attachments": [],
+   "min": [
+    -26.0,
+    -12.0,
+    0.0
+   ],
+   "max": [
+    26.0,
+    12.0,
+    12.0
+   ]
+  },
+  "LM_HollywoodHotel": {
+   "mesh": "/Game/Buildings/SM_LM_HollywoodHotel.SM_LM_HollywoodHotel",
+   "kind": "landmark",
+   "nominal": [
+    116,
+    26,
+    14
+   ],
+   "tris": 8747,
+   "origin": "footprint-centre-ground",
+   "attachments": [
+    {
+     "asset": "SIGN_HollywoodHotel",
+     "location": [
+      -5.25,
+      -13.035,
+      9.75
+     ],
+     "rotation": [
+      0,
+      0,
+      0
+     ],
+     "scale": [
+      1.0,
+      1,
+      1.0
+     ]
+    }
+   ],
+   "min": [
+    -13.0,
+    -58.0,
+    0.0
+   ],
+   "max": [
+    13.02,
+    58.0,
+    14.0
+   ]
+  },
+  "LM_PoliceStation": {
+   "mesh": "/Game/Buildings/SM_LM_PoliceStation.SM_LM_PoliceStation",
+   "kind": "landmark",
+   "nominal": [
+    46,
+    34,
+    10
+   ],
+   "tris": 480,
+   "origin": "footprint-centre-ground",
+   "attachments": [
+    {
+     "asset": "SIGN_Police",
+     "location": [
+      -4.0,
+      -17.38,
+      7.7
+     ],
+     "rotation": [
+      0,
+      0,
+      0
+     ],
+     "scale": [
+      1.0,
+      1,
+      1.0
+     ]
+    }
+   ],
+   "min": [
+    -17.0,
+    -23.0,
+    0.0
+   ],
+   "max": [
+    17.9,
+    23.0,
+    14.85
+   ]
+  },
+  "SIGN_Pantages": {
+   "mesh": "/Game/Buildings/SM_SIGN_Pantages.SM_SIGN_Pantages",
+   "kind": "sign_card",
+   "nominal": [
+    2.5,
+    22.5
+   ],
+   "tris": 2,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -2.5,
+    0.0
+   ],
+   "max": [
+    0.0,
+    0.0,
+    22.5
+   ]
+  },
+  "SIGN_Graumans_Blade": {
+   "mesh": "/Game/Buildings/SM_SIGN_Graumans_Blade.SM_SIGN_Graumans_Blade",
+   "kind": "sign_card",
+   "nominal": [
+    4,
+    8
+   ],
+   "tris": 2,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -4.0,
+    0.0
+   ],
+   "max": [
+    0.0,
+    0.0,
+    8.0
+   ]
+  },
+  "SIGN_Egyptian": {
+   "mesh": "/Game/Buildings/SM_SIGN_Egyptian.SM_SIGN_Egyptian",
+   "kind": "sign_card",
+   "nominal": [
+    30,
+    1.4
+   ],
+   "tris": 2,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -30.0,
+    0.0
+   ],
+   "max": [
+    0.0,
+    0.0,
+    1.4
+   ]
+  },
+  "SIGN_Egyptian_Gate": {
+   "mesh": "/Game/Buildings/SM_SIGN_Egyptian_Gate.SM_SIGN_Egyptian_Gate",
+   "kind": "sign_card",
+   "nominal": [
+    11.5,
+    1.3
+   ],
+   "tris": 2,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -11.5,
+    0.0
+   ],
+   "max": [
+    0.0,
+    0.0,
+    1.3
+   ]
+  },
+  "SIGN_Roosevelt": {
+   "mesh": "/Game/Buildings/SM_SIGN_Roosevelt.SM_SIGN_Roosevelt",
+   "kind": "sign_card",
+   "nominal": [
+    24.6,
+    1.8
+   ],
+   "tris": 2,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -24.6,
+    0.0
+   ],
+   "max": [
+    0.0,
+    0.0,
+    1.8
+   ]
+  },
+  "SIGN_HollywoodHotel": {
+   "mesh": "/Game/Buildings/SM_SIGN_HollywoodHotel.SM_SIGN_HollywoodHotel",
+   "kind": "sign_card",
+   "nominal": [
+    10.5,
+    1.1
+   ],
+   "tris": 2,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -10.5,
+    0.0
+   ],
+   "max": [
+    0.0,
+    0.0,
+    1.1
+   ]
+  },
+  "SIGN_Graumans_Marquee": {
+   "mesh": "/Game/Buildings/SM_SIGN_Graumans_Marquee.SM_SIGN_Graumans_Marquee",
+   "kind": "sign_card",
+   "nominal": [
+    10,
+    1
+   ],
+   "tris": 2,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -10.0,
+    0.0
+   ],
+   "max": [
+    0.0,
+    0.0,
+    1.0
+   ]
+  },
+  "SIGN_Pantages_Marquee": {
+   "mesh": "/Game/Buildings/SM_SIGN_Pantages_Marquee.SM_SIGN_Pantages_Marquee",
+   "kind": "sign_card",
+   "nominal": [
+    27,
+    1
+   ],
+   "tris": 2,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -27.0,
+    0.0
+   ],
+   "max": [
+    0.0,
+    0.0,
+    1.0
+   ]
+  },
+  "SIGN_Taft": {
+   "mesh": "/Game/Buildings/SM_SIGN_Taft.SM_SIGN_Taft",
+   "kind": "sign_card",
+   "nominal": [
+    8,
+    1.7
+   ],
+   "tris": 2,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -8.0,
+    0.0
+   ],
+   "max": [
+    0.0,
+    0.0,
+    1.7
+   ]
+  },
+  "SIGN_FirstNational": {
+   "mesh": "/Game/Buildings/SM_SIGN_FirstNational.SM_SIGN_FirstNational",
+   "kind": "sign_card",
+   "nominal": [
+    6,
+    1
+   ],
+   "tris": 2,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -6.0,
+    0.0
+   ],
+   "max": [
+    0.0,
+    0.0,
+    1.0
+   ]
+  },
+  "SIGN_Police": {
+   "mesh": "/Game/Buildings/SM_SIGN_Police.SM_SIGN_Police",
+   "kind": "sign_card",
+   "nominal": [
+    8,
+    0.9
+   ],
+   "tris": 2,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -8.0,
+    0.0
+   ],
+   "max": [
+    0.0,
+    0.0,
+    0.9
+   ]
+  },
+  "SIGN_PacificElectric": {
+   "mesh": "/Game/Buildings/SM_SIGN_PacificElectric.SM_SIGN_PacificElectric",
+   "kind": "sign_card",
+   "nominal": [
+    4.2,
+    0.28
+   ],
+   "tris": 2,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -4.2,
+    0.0
+   ],
+   "max": [
+    0.0,
+    0.0,
+    0.28
+   ]
+  },
+  "SIGN_Egyptian_Marquee": {
+   "mesh": "/Game/Buildings/SM_SIGN_Egyptian_Marquee.SM_SIGN_Egyptian_Marquee",
+   "kind": "sign_card",
+   "nominal": [
+    10,
+    1.25
+   ],
+   "tris": 2,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -10.0,
+    0.0
+   ],
+   "max": [
+    0.0,
+    0.0,
+    1.25
+   ]
+  },
+  "SIGN_BrownDerby": {
+   "mesh": "/Game/Buildings/SM_SIGN_BrownDerby.SM_SIGN_BrownDerby",
+   "kind": "sign_card",
+   "nominal": [
+    7,
+    2.5
+   ],
+   "tris": 13,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -7.0,
+    0.0
+   ],
+   "max": [
+    0.0,
+    0.0,
+    2.5
+   ]
+  },
+  "SIGN_RedCarTimetable": {
+   "mesh": "/Game/Buildings/SM_SIGN_RedCarTimetable.SM_SIGN_RedCarTimetable",
+   "kind": "sign_card",
+   "nominal": [
+    0.5,
+    0.95
+   ],
+   "tris": 2,
+   "origin": "front-plane-bottom-left",
+   "attachments": [],
+   "min": [
+    -0.0,
+    -0.5,
+    0.0
+   ],
+   "max": [
+    0.0,
+    0.0,
+    0.95
+   ]
   }
  },
  "recipes": {
@@ -3064,6 +4031,488 @@
    "nominal": [
     8,
     1
+   ]
+  },
+  "SIGN_Pantages": {
+   "id": "SIGN_Pantages",
+   "page": "signs/T_SIGN_02.png",
+   "rect": [
+    0.0078125,
+    0.0078125,
+    0.107421875,
+    0.966796875
+   ],
+   "text": "PANTAGES",
+   "card_mesh": "meshes/SIGN_Pantages.fbx",
+   "nominal": [
+    2.5,
+    22.5
+   ],
+   "concept": [
+    "concept/SIGN_HubBoards_34.png"
+   ],
+   "prompts": {
+    "background_receipt": "src/fal_receipts/HubSignBoards_flux3_klein.json",
+    "generated_background": "A flat front-facing square sheet made entirely of warm aged ivory-painted wooden signboard surface for a1930Hollywood classic early World of Warcraft style game. Hand-painted albedo texture, restrained broad brush strokes, fine subtle weathered paint grain, softly shaded edges with warm golden overhead light and cool sepia lower shading. Simple blank ivory signboard across the whole image with no gaps, no scene, no ground, no sky, no perspective, no lettering, no symbols, no logos, no nailheads, no frame, no stains shaped like letters, no people. Every pixel is ivory painted board material, suitable as the neutral interior background for many separate period ArtDeco and Mission business signs. A quiet painted surface with high readability for typography added later.",
+    "lettering": "Project OFL Limelight and Alegreya Sans Bold; deterministic spelling, SPEC10.1"
+   },
+   "font_sources": [
+    "hollywoodland-ue/Content/Data/Fonts/Limelight-Regular.ttf",
+    "hollywoodland-ue/Content/Data/Fonts/AlegreyaSans-Bold.ttf"
+   ]
+  },
+  "SIGN_Graumans_Blade": {
+   "id": "SIGN_Graumans_Blade",
+   "page": "signs/T_SIGN_02.png",
+   "rect": [
+    0.123046875,
+    0.0078125,
+    0.234375,
+    0.46875
+   ],
+   "text": "GRAUMAN'S CHINESE",
+   "card_mesh": "meshes/SIGN_Graumans_Blade.fbx",
+   "nominal": [
+    4,
+    8
+   ],
+   "concept": [
+    "concept/SIGN_HubBoards_34.png"
+   ],
+   "prompts": {
+    "background_receipt": "src/fal_receipts/HubSignBoards_flux3_klein.json",
+    "generated_background": "A flat front-facing square sheet made entirely of warm aged ivory-painted wooden signboard surface for a1930Hollywood classic early World of Warcraft style game. Hand-painted albedo texture, restrained broad brush strokes, fine subtle weathered paint grain, softly shaded edges with warm golden overhead light and cool sepia lower shading. Simple blank ivory signboard across the whole image with no gaps, no scene, no ground, no sky, no perspective, no lettering, no symbols, no logos, no nailheads, no frame, no stains shaped like letters, no people. Every pixel is ivory painted board material, suitable as the neutral interior background for many separate period ArtDeco and Mission business signs. A quiet painted surface with high readability for typography added later.",
+    "lettering": "Project OFL Limelight and Alegreya Sans Bold; deterministic spelling, SPEC10.1"
+   },
+   "font_sources": [
+    "hollywoodland-ue/Content/Data/Fonts/Limelight-Regular.ttf",
+    "hollywoodland-ue/Content/Data/Fonts/AlegreyaSans-Bold.ttf"
+   ]
+  },
+  "SIGN_Egyptian": {
+   "id": "SIGN_Egyptian",
+   "page": "signs/T_SIGN_02.png",
+   "rect": [
+    0.365234375,
+    0.0078125,
+    0.615234375,
+    0.029296875
+   ],
+   "text": "EGYPTIAN",
+   "card_mesh": "meshes/SIGN_Egyptian.fbx",
+   "nominal": [
+    30,
+    1.4
+   ],
+   "concept": [
+    "concept/SIGN_HubBoards_34.png"
+   ],
+   "prompts": {
+    "background_receipt": "src/fal_receipts/HubSignBoards_flux3_klein.json",
+    "generated_background": "A flat front-facing square sheet made entirely of warm aged ivory-painted wooden signboard surface for a1930Hollywood classic early World of Warcraft style game. Hand-painted albedo texture, restrained broad brush strokes, fine subtle weathered paint grain, softly shaded edges with warm golden overhead light and cool sepia lower shading. Simple blank ivory signboard across the whole image with no gaps, no scene, no ground, no sky, no perspective, no lettering, no symbols, no logos, no nailheads, no frame, no stains shaped like letters, no people. Every pixel is ivory painted board material, suitable as the neutral interior background for many separate period ArtDeco and Mission business signs. A quiet painted surface with high readability for typography added later.",
+    "lettering": "Project OFL Limelight and Alegreya Sans Bold; deterministic spelling, SPEC10.1"
+   },
+   "font_sources": [
+    "hollywoodland-ue/Content/Data/Fonts/Limelight-Regular.ttf",
+    "hollywoodland-ue/Content/Data/Fonts/AlegreyaSans-Bold.ttf"
+   ]
+  },
+  "SIGN_Egyptian_Gate": {
+   "id": "SIGN_Egyptian_Gate",
+   "page": "signs/T_SIGN_02.png",
+   "rect": [
+    0.365234375,
+    0.044921875,
+    0.615234375,
+    0.0693359375
+   ],
+   "text": "EGYPTIAN",
+   "card_mesh": "meshes/SIGN_Egyptian_Gate.fbx",
+   "nominal": [
+    11.5,
+    1.3
+   ],
+   "concept": [
+    "concept/SIGN_HubBoards_34.png"
+   ],
+   "prompts": {
+    "background_receipt": "src/fal_receipts/HubSignBoards_flux3_klein.json",
+    "generated_background": "A flat front-facing square sheet made entirely of warm aged ivory-painted wooden signboard surface for a1930Hollywood classic early World of Warcraft style game. Hand-painted albedo texture, restrained broad brush strokes, fine subtle weathered paint grain, softly shaded edges with warm golden overhead light and cool sepia lower shading. Simple blank ivory signboard across the whole image with no gaps, no scene, no ground, no sky, no perspective, no lettering, no symbols, no logos, no nailheads, no frame, no stains shaped like letters, no people. Every pixel is ivory painted board material, suitable as the neutral interior background for many separate period ArtDeco and Mission business signs. A quiet painted surface with high readability for typography added later.",
+    "lettering": "Project OFL Limelight and Alegreya Sans Bold; deterministic spelling, SPEC10.1"
+   },
+   "font_sources": [
+    "hollywoodland-ue/Content/Data/Fonts/Limelight-Regular.ttf",
+    "hollywoodland-ue/Content/Data/Fonts/AlegreyaSans-Bold.ttf"
+   ]
+  },
+  "SIGN_Roosevelt": {
+   "id": "SIGN_Roosevelt",
+   "page": "signs/T_SIGN_02.png",
+   "rect": [
+    0.365234375,
+    0.1220703125,
+    0.615234375,
+    0.044921875
+   ],
+   "text": "HOTEL ROOSEVELT",
+   "card_mesh": "meshes/SIGN_Roosevelt.fbx",
+   "nominal": [
+    24.6,
+    1.8
+   ],
+   "concept": [
+    "concept/SIGN_HubBoards_34.png"
+   ],
+   "prompts": {
+    "background_receipt": "src/fal_receipts/HubSignBoards_flux3_klein.json",
+    "generated_background": "A flat front-facing square sheet made entirely of warm aged ivory-painted wooden signboard surface for a1930Hollywood classic early World of Warcraft style game. Hand-painted albedo texture, restrained broad brush strokes, fine subtle weathered paint grain, softly shaded edges with warm golden overhead light and cool sepia lower shading. Simple blank ivory signboard across the whole image with no gaps, no scene, no ground, no sky, no perspective, no lettering, no symbols, no logos, no nailheads, no frame, no stains shaped like letters, no people. Every pixel is ivory painted board material, suitable as the neutral interior background for many separate period ArtDeco and Mission business signs. A quiet painted surface with high readability for typography added later.",
+    "lettering": "Project OFL Limelight and Alegreya Sans Bold; deterministic spelling, SPEC10.1"
+   },
+   "font_sources": [
+    "hollywoodland-ue/Content/Data/Fonts/Limelight-Regular.ttf",
+    "hollywoodland-ue/Content/Data/Fonts/AlegreyaSans-Bold.ttf"
+   ]
+  },
+  "SIGN_HollywoodHotel": {
+   "id": "SIGN_HollywoodHotel",
+   "page": "signs/T_SIGN_02.png",
+   "rect": [
+    0.365234375,
+    0.1748046875,
+    0.615234375,
+    0.064453125
+   ],
+   "text": "HOLLYWOOD HOTEL",
+   "card_mesh": "meshes/SIGN_HollywoodHotel.fbx",
+   "nominal": [
+    10.5,
+    1.1
+   ],
+   "concept": [
+    "concept/SIGN_HubBoards_34.png"
+   ],
+   "prompts": {
+    "background_receipt": "src/fal_receipts/HubSignBoards_flux3_klein.json",
+    "generated_background": "A flat front-facing square sheet made entirely of warm aged ivory-painted wooden signboard surface for a1930Hollywood classic early World of Warcraft style game. Hand-painted albedo texture, restrained broad brush strokes, fine subtle weathered paint grain, softly shaded edges with warm golden overhead light and cool sepia lower shading. Simple blank ivory signboard across the whole image with no gaps, no scene, no ground, no sky, no perspective, no lettering, no symbols, no logos, no nailheads, no frame, no stains shaped like letters, no people. Every pixel is ivory painted board material, suitable as the neutral interior background for many separate period ArtDeco and Mission business signs. A quiet painted surface with high readability for typography added later.",
+    "lettering": "Project OFL Limelight and Alegreya Sans Bold; deterministic spelling, SPEC10.1"
+   },
+   "font_sources": [
+    "hollywoodland-ue/Content/Data/Fonts/Limelight-Regular.ttf",
+    "hollywoodland-ue/Content/Data/Fonts/AlegreyaSans-Bold.ttf"
+   ]
+  },
+  "SIGN_Graumans_Marquee": {
+   "id": "SIGN_Graumans_Marquee",
+   "page": "signs/T_SIGN_02.png",
+   "rect": [
+    0.365234375,
+    0.2470703125,
+    0.615234375,
+    0.0615234375
+   ],
+   "text": "HELL'S ANGELS",
+   "card_mesh": "meshes/SIGN_Graumans_Marquee.fbx",
+   "nominal": [
+    10,
+    1
+   ],
+   "concept": [
+    "concept/SIGN_HubBoards_34.png"
+   ],
+   "prompts": {
+    "background_receipt": "src/fal_receipts/HubSignBoards_flux3_klein.json",
+    "generated_background": "A flat front-facing square sheet made entirely of warm aged ivory-painted wooden signboard surface for a1930Hollywood classic early World of Warcraft style game. Hand-painted albedo texture, restrained broad brush strokes, fine subtle weathered paint grain, softly shaded edges with warm golden overhead light and cool sepia lower shading. Simple blank ivory signboard across the whole image with no gaps, no scene, no ground, no sky, no perspective, no lettering, no symbols, no logos, no nailheads, no frame, no stains shaped like letters, no people. Every pixel is ivory painted board material, suitable as the neutral interior background for many separate period ArtDeco and Mission business signs. A quiet painted surface with high readability for typography added later.",
+    "lettering": "Project OFL Limelight and Alegreya Sans Bold; deterministic spelling, SPEC10.1"
+   },
+   "font_sources": [
+    "hollywoodland-ue/Content/Data/Fonts/Limelight-Regular.ttf",
+    "hollywoodland-ue/Content/Data/Fonts/AlegreyaSans-Bold.ttf"
+   ]
+  },
+  "SIGN_Pantages_Marquee": {
+   "id": "SIGN_Pantages_Marquee",
+   "page": "signs/T_SIGN_02.png",
+   "rect": [
+    0.365234375,
+    0.31640625,
+    0.615234375,
+    0.03125
+   ],
+   "text": "",
+   "card_mesh": "meshes/SIGN_Pantages_Marquee.fbx",
+   "nominal": [
+    27,
+    1
+   ],
+   "concept": [
+    "concept/SIGN_HubBoards_34.png"
+   ],
+   "prompts": {
+    "background_receipt": "src/fal_receipts/HubSignBoards_flux3_klein.json",
+    "generated_background": "A flat front-facing square sheet made entirely of warm aged ivory-painted wooden signboard surface for a1930Hollywood classic early World of Warcraft style game. Hand-painted albedo texture, restrained broad brush strokes, fine subtle weathered paint grain, softly shaded edges with warm golden overhead light and cool sepia lower shading. Simple blank ivory signboard across the whole image with no gaps, no scene, no ground, no sky, no perspective, no lettering, no symbols, no logos, no nailheads, no frame, no stains shaped like letters, no people. Every pixel is ivory painted board material, suitable as the neutral interior background for many separate period ArtDeco and Mission business signs. A quiet painted surface with high readability for typography added later.",
+    "lettering": "Project OFL Limelight and Alegreya Sans Bold; deterministic spelling, SPEC10.1"
+   },
+   "font_sources": [
+    "hollywoodland-ue/Content/Data/Fonts/Limelight-Regular.ttf",
+    "hollywoodland-ue/Content/Data/Fonts/AlegreyaSans-Bold.ttf"
+   ]
+  },
+  "SIGN_Taft": {
+   "id": "SIGN_Taft",
+   "page": "signs/T_SIGN_03.png",
+   "rect": [
+    0.0078125,
+    0.0078125,
+    0.966796875,
+    0.205078125
+   ],
+   "text": "TAFT BUILDING",
+   "card_mesh": "meshes/SIGN_Taft.fbx",
+   "nominal": [
+    8,
+    1.7
+   ],
+   "concept": [
+    "concept/SIGN_HubBoards_34.png"
+   ],
+   "prompts": {
+    "background_receipt": "src/fal_receipts/HubSignBoards_flux3_klein.json",
+    "generated_background": "A flat front-facing square sheet made entirely of warm aged ivory-painted wooden signboard surface for a1930Hollywood classic early World of Warcraft style game. Hand-painted albedo texture, restrained broad brush strokes, fine subtle weathered paint grain, softly shaded edges with warm golden overhead light and cool sepia lower shading. Simple blank ivory signboard across the whole image with no gaps, no scene, no ground, no sky, no perspective, no lettering, no symbols, no logos, no nailheads, no frame, no stains shaped like letters, no people. Every pixel is ivory painted board material, suitable as the neutral interior background for many separate period ArtDeco and Mission business signs. A quiet painted surface with high readability for typography added later.",
+    "lettering": "Project OFL Limelight and Alegreya Sans Bold; deterministic spelling, SPEC10.1"
+   },
+   "font_sources": [
+    "hollywoodland-ue/Content/Data/Fonts/Limelight-Regular.ttf",
+    "hollywoodland-ue/Content/Data/Fonts/AlegreyaSans-Bold.ttf"
+   ]
+  },
+  "SIGN_FirstNational": {
+   "id": "SIGN_FirstNational",
+   "page": "signs/T_SIGN_03.png",
+   "rect": [
+    0.0078125,
+    0.220703125,
+    0.966796875,
+    0.1611328125
+   ],
+   "text": "SECURITY FIRST NATIONAL BANK",
+   "card_mesh": "meshes/SIGN_FirstNational.fbx",
+   "nominal": [
+    6,
+    1
+   ],
+   "concept": [
+    "concept/SIGN_HubBoards_34.png"
+   ],
+   "prompts": {
+    "background_receipt": "src/fal_receipts/HubSignBoards_flux3_klein.json",
+    "generated_background": "A flat front-facing square sheet made entirely of warm aged ivory-painted wooden signboard surface for a1930Hollywood classic early World of Warcraft style game. Hand-painted albedo texture, restrained broad brush strokes, fine subtle weathered paint grain, softly shaded edges with warm golden overhead light and cool sepia lower shading. Simple blank ivory signboard across the whole image with no gaps, no scene, no ground, no sky, no perspective, no lettering, no symbols, no logos, no nailheads, no frame, no stains shaped like letters, no people. Every pixel is ivory painted board material, suitable as the neutral interior background for many separate period ArtDeco and Mission business signs. A quiet painted surface with high readability for typography added later.",
+    "lettering": "Project OFL Limelight and Alegreya Sans Bold; deterministic spelling, SPEC10.1"
+   },
+   "font_sources": [
+    "hollywoodland-ue/Content/Data/Fonts/Limelight-Regular.ttf",
+    "hollywoodland-ue/Content/Data/Fonts/AlegreyaSans-Bold.ttf"
+   ]
+  },
+  "SIGN_Police": {
+   "id": "SIGN_Police",
+   "page": "signs/T_SIGN_03.png",
+   "rect": [
+    0.0078125,
+    0.3896484375,
+    0.966796875,
+    0.10888671875
+   ],
+   "text": "HOLLYWOOD POLICE",
+   "card_mesh": "meshes/SIGN_Police.fbx",
+   "nominal": [
+    8,
+    0.9
+   ],
+   "concept": [
+    "concept/SIGN_HubBoards_34.png"
+   ],
+   "prompts": {
+    "background_receipt": "src/fal_receipts/HubSignBoards_flux3_klein.json",
+    "generated_background": "A flat front-facing square sheet made entirely of warm aged ivory-painted wooden signboard surface for a1930Hollywood classic early World of Warcraft style game. Hand-painted albedo texture, restrained broad brush strokes, fine subtle weathered paint grain, softly shaded edges with warm golden overhead light and cool sepia lower shading. Simple blank ivory signboard across the whole image with no gaps, no scene, no ground, no sky, no perspective, no lettering, no symbols, no logos, no nailheads, no frame, no stains shaped like letters, no people. Every pixel is ivory painted board material, suitable as the neutral interior background for many separate period ArtDeco and Mission business signs. A quiet painted surface with high readability for typography added later.",
+    "lettering": "Project OFL Limelight and Alegreya Sans Bold; deterministic spelling, SPEC10.1"
+   },
+   "font_sources": [
+    "hollywoodland-ue/Content/Data/Fonts/Limelight-Regular.ttf",
+    "hollywoodland-ue/Content/Data/Fonts/AlegreyaSans-Bold.ttf"
+   ]
+  },
+  "SIGN_PacificElectric": {
+   "id": "SIGN_PacificElectric",
+   "page": "signs/T_SIGN_03.png",
+   "rect": [
+    0.0078125,
+    0.50634765625,
+    0.966796875,
+    0.064453125
+   ],
+   "text": "PACIFIC ELECTRIC",
+   "card_mesh": "meshes/SIGN_PacificElectric.fbx",
+   "nominal": [
+    4.2,
+    0.28
+   ],
+   "concept": [
+    "concept/SIGN_HubBoards_34.png"
+   ],
+   "prompts": {
+    "background_receipt": "src/fal_receipts/HubSignBoards_flux3_klein.json",
+    "generated_background": "A flat front-facing square sheet made entirely of warm aged ivory-painted wooden signboard surface for a1930Hollywood classic early World of Warcraft style game. Hand-painted albedo texture, restrained broad brush strokes, fine subtle weathered paint grain, softly shaded edges with warm golden overhead light and cool sepia lower shading. Simple blank ivory signboard across the whole image with no gaps, no scene, no ground, no sky, no perspective, no lettering, no symbols, no logos, no nailheads, no frame, no stains shaped like letters, no people. Every pixel is ivory painted board material, suitable as the neutral interior background for many separate period ArtDeco and Mission business signs. A quiet painted surface with high readability for typography added later.",
+    "lettering": "Project OFL Limelight and Alegreya Sans Bold; deterministic spelling, SPEC10.1"
+   },
+   "font_sources": [
+    "hollywoodland-ue/Content/Data/Fonts/Limelight-Regular.ttf",
+    "hollywoodland-ue/Content/Data/Fonts/AlegreyaSans-Bold.ttf"
+   ]
+  },
+  "SIGN_Egyptian_Marquee": {
+   "id": "SIGN_Egyptian_Marquee",
+   "page": "signs/T_SIGN_03.png",
+   "rect": [
+    0.0078125,
+    0.57861328125,
+    0.966796875,
+    0.12060546875
+   ],
+   "text": "ROBIN HOOD \u00b7 DOUGLAS FAIRBANKS",
+   "card_mesh": "meshes/SIGN_Egyptian_Marquee.fbx",
+   "nominal": [
+    10,
+    1.25
+   ],
+   "concept": [
+    "concept/SIGN_HubBoards_34.png"
+   ],
+   "prompts": {
+    "background_receipt": "src/fal_receipts/HubSignBoards_flux3_klein.json",
+    "generated_background": "A flat front-facing square sheet made entirely of warm aged ivory-painted wooden signboard surface for a1930Hollywood classic early World of Warcraft style game. Hand-painted albedo texture, restrained broad brush strokes, fine subtle weathered paint grain, softly shaded edges with warm golden overhead light and cool sepia lower shading. Simple blank ivory signboard across the whole image with no gaps, no scene, no ground, no sky, no perspective, no lettering, no symbols, no logos, no nailheads, no frame, no stains shaped like letters, no people. Every pixel is ivory painted board material, suitable as the neutral interior background for many separate period ArtDeco and Mission business signs. A quiet painted surface with high readability for typography added later.",
+    "lettering": "Project OFL Limelight and Alegreya Sans Bold; deterministic spelling, SPEC10.1"
+   },
+   "font_sources": [
+    "hollywoodland-ue/Content/Data/Fonts/Limelight-Regular.ttf",
+    "hollywoodland-ue/Content/Data/Fonts/AlegreyaSans-Bold.ttf"
+   ]
+  },
+  "SIGN_BrownDerby": {
+   "id": "SIGN_BrownDerby",
+   "page": "signs/T_SIGN_03.png",
+   "rect": [
+    0.0078125,
+    0.70703125,
+    0.4921875,
+    0.17578125
+   ],
+   "text": "THE BROWN DERBY",
+   "card_mesh": "meshes/SIGN_BrownDerby.fbx",
+   "nominal": [
+    7,
+    2.5
+   ],
+   "concept": [
+    "concept/SIGN_HubBoards_34.png"
+   ],
+   "prompts": {
+    "background_receipt": "src/fal_receipts/HubSignBoards_flux3_klein.json",
+    "generated_background": "A flat front-facing square sheet made entirely of warm aged ivory-painted wooden signboard surface for a1930Hollywood classic early World of Warcraft style game. Hand-painted albedo texture, restrained broad brush strokes, fine subtle weathered paint grain, softly shaded edges with warm golden overhead light and cool sepia lower shading. Simple blank ivory signboard across the whole image with no gaps, no scene, no ground, no sky, no perspective, no lettering, no symbols, no logos, no nailheads, no frame, no stains shaped like letters, no people. Every pixel is ivory painted board material, suitable as the neutral interior background for many separate period ArtDeco and Mission business signs. A quiet painted surface with high readability for typography added later.",
+    "lettering": "Project OFL Limelight and Alegreya Sans Bold; deterministic spelling, SPEC10.1"
+   },
+   "font_sources": [
+    "hollywoodland-ue/Content/Data/Fonts/Limelight-Regular.ttf",
+    "hollywoodland-ue/Content/Data/Fonts/AlegreyaSans-Bold.ttf"
+   ],
+   "profile_m": [
+    [
+     0.3999999999999999,
+     0
+    ],
+    [
+     6.6,
+     0
+    ],
+    [
+     7.0,
+     0.15
+    ],
+    [
+     6.6,
+     0.4
+    ],
+    [
+     5.5,
+     0.4
+    ],
+    [
+     5.5,
+     1
+    ],
+    [
+     5.2,
+     1.7
+    ],
+    [
+     4.55,
+     2.3
+    ],
+    [
+     3.5,
+     2.5
+    ],
+    [
+     2.45,
+     2.3
+    ],
+    [
+     1.8,
+     1.7
+    ],
+    [
+     1.5,
+     1
+    ],
+    [
+     1.5,
+     0.4
+    ],
+    [
+     0.3999999999999999,
+     0.4
+    ],
+    [
+     0.0,
+     0.15
+    ]
+   ]
+  },
+  "SIGN_RedCarTimetable": {
+   "id": "SIGN_RedCarTimetable",
+   "page": "signs/T_SIGN_03.png",
+   "rect": [
+    0.5078125,
+    0.70703125,
+    0.1318359375,
+    0.25048828125
+   ],
+   "text": "PACIFIC ELECTRIC / HOLLYWOOD / LOS ANGELES / DAILY SERVICE / ASK AGENT",
+   "card_mesh": "meshes/SIGN_RedCarTimetable.fbx",
+   "nominal": [
+    0.5,
+    0.95
+   ],
+   "concept": [
+    "concept/SIGN_HubBoards_34.png"
+   ],
+   "prompts": {
+    "background_receipt": "src/fal_receipts/HubSignBoards_flux3_klein.json",
+    "generated_background": "A flat front-facing square sheet made entirely of warm aged ivory-painted wooden signboard surface for a1930Hollywood classic early World of Warcraft style game. Hand-painted albedo texture, restrained broad brush strokes, fine subtle weathered paint grain, softly shaded edges with warm golden overhead light and cool sepia lower shading. Simple blank ivory signboard across the whole image with no gaps, no scene, no ground, no sky, no perspective, no lettering, no symbols, no logos, no nailheads, no frame, no stains shaped like letters, no people. Every pixel is ivory painted board material, suitable as the neutral interior background for many separate period ArtDeco and Mission business signs. A quiet painted surface with high readability for typography added later.",
+    "lettering": "Project OFL Limelight and Alegreya Sans Bold; deterministic spelling, SPEC10.1"
+   },
+   "font_sources": [
+    "hollywoodland-ue/Content/Data/Fonts/Limelight-Regular.ttf",
+    "hollywoodland-ue/Content/Data/Fonts/AlegreyaSans-Bold.ttf"
    ]
   }
  }

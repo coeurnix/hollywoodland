@@ -1,0 +1,25 @@
+{
+  "id": "LM_FirstNational_projection_front_side_back_belfry",
+  "provider": "fal.ai",
+  "model": "blackforestlabs/flux-3/klein/edit-image",
+  "prompt": "Original1930 Hollywood game texture painting in the exact reference style: classic early World of Warcraft chunky hand-painted albedo, warm light from above, cooler grime at base, restrained brush marks and painted AO. Pure orthographic straight-on elevation, no perspective, no cast shadows outside the texture. Rectangular FULL-BLEED texture plate filling every image edge. No grey background, surround, ground, sky, people, letters, numbers, logos, frames or labels. No photographic detail. ONE upper Gothic tower belfry-niche wall bay4m wide by4m high. Pale ivory ashlar, a single deep pointed arched niche with dark slate shadowed recess and a simple abstract gold floral medallion inside, broad stone borders, no people/statues, no window grid, no roof or spire. Restrained carved fluting. Full-bleed one bay.",
+  "references": [
+    "concept/LM_FirstNational_front.png"
+  ],
+  "image_size": {
+    "width": 1024,
+    "height": 1024
+  },
+  "seed": 19301113,
+  "output": "work/hub_deco/projection/LM_FirstNational_front_side_back_belfry.png",
+  "status": "downloaded",
+  "request_id": "01a1d856-77ca-7cc0-88ca-26f6f1041487",
+  "elapsed_seconds": 5.16,
+  "timings": {
+    "prompt_expansion": 9.500000032858225e-06,
+    "inference": 0.8676117099985277,
+    "safety_checker": 0.018546413999501965
+  },
+  "width": 1024,
+  "height": 1024
+}

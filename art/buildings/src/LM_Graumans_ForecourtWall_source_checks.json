@@ -1,0 +1,43 @@
+{
+  "uploaded_authored": {
+    "vertices": 396,
+    "faces": 190,
+    "position_uv_hash": "fdf35d4c717a1bd735e051e8977693c47ae044d00d1a0beb8fea2c5e6bef6700"
+  },
+  "cleaned_authored": {
+    "vertices": 178,
+    "faces": 190,
+    "position_uv_hash": "fdf35d4c717a1bd735e051e8977693c47ae044d00d1a0beb8fea2c5e6bef6700"
+  },
+  "returned": {
+    "vertices": 396,
+    "faces": 190,
+    "position_uv_hash": "b7d943d9da27be7d2cedb94e0e33beea08ba0af1ec421fb203ef2fa6e5ffb90f"
+  },
+  "equal": false,
+  "baked_to_authored_mesh": true,
+  "authored_geometry_uv_unchanged_during_bake": true,
+  "cleanup": {
+    "id": "LM_Graumans_ForecourtWall",
+    "removed_buried_triangles": 0,
+    "before": {
+      "vertices": 178,
+      "tris": 190,
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "boundary_edges": 244,
+      "loose_vertices": 0,
+      "inconsistent_shared_edges": 0
+    },
+    "after": {
+      "vertices": 178,
+      "tris": 190,
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "boundary_edges": 244,
+      "loose_vertices": 0,
+      "inconsistent_shared_edges": 0
+    },
+    "surviving_face_uvs_unchanged": true
+  }
+}

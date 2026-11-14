@@ -1,0 +1,31 @@
+{
+  "bounds": [
+    [
+      -41.000004,
+      -25.000004,
+      0.0
+    ],
+    [
+      41.000004,
+      25.000004,
+      15.0
+    ]
+  ],
+  "tris": 1124,
+  "material_slots": 1,
+  "triangulated": true,
+  "scale": [
+    1.0,
+    1.0,
+    1.0
+  ],
+  "rotation": [
+    0.0,
+    -0.0,
+    8.742277657347586e-08
+  ],
+  "zero_area_faces": 0,
+  "branch_edges": 0,
+  "boundary_edges": 252,
+  "loose_vertices": 0
+}

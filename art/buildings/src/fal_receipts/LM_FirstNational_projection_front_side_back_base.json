@@ -1,0 +1,25 @@
+{
+  "id": "LM_FirstNational_projection_front_side_back_base",
+  "provider": "fal.ai",
+  "model": "blackforestlabs/flux-3/klein/edit-image",
+  "prompt": "Original1930 Hollywood game texture painting in the exact reference style: classic early World of Warcraft chunky hand-painted albedo, warm light from above, cooler grime at base, restrained brush marks and painted AO. Pure orthographic straight-on elevation, no perspective, no cast shadows outside the texture. Rectangular FULL-BLEED texture plate filling every image edge. No grey background, surround, ground, sky, people, letters, numbers, logos, frames or labels. No photographic detail. ONE ground-floor banking-hall facade bay4m wide by6m high. Pale ivory ashlar and thick warm sandstone arch, exactlyONE very tall round-arched dark banking window with thick dark bronze mullions, sill atbottom12percent and arch crown at90percent height. Broad plain limestone edge piers. No door, no sign, no extra windows, no roof, no whole building. Full-bleed one completebay.",
+  "references": [
+    "concept/LM_FirstNational_front.png"
+  ],
+  "image_size": {
+    "width": 1024,
+    "height": 1536
+  },
+  "seed": 19301113,
+  "output": "work/hub_deco/projection/LM_FirstNational_front_side_back_base.png",
+  "status": "downloaded",
+  "request_id": "01a1d856-7228-7ac2-8590-7cf7c14656d4",
+  "elapsed_seconds": 5.57,
+  "timings": {
+    "prompt_expansion": 9.39100004870852e-06,
+    "inference": 1.141192482000406,
+    "safety_checker": 0.027711385999282356
+  },
+  "width": 1024,
+  "height": 1536
+}

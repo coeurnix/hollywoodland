@@ -1,0 +1,100 @@
+{
+  "MSN_G_Bay6A": {
+    "uploaded": {
+      "vertices": 253,
+      "faces": 360,
+      "position_uv_hash": "b14cf3a81c365cbf27496c081340d1ce4de5162fc29e3523c2c0be6d5c0ba3c5"
+    },
+    "returned": {
+      "vertices": 253,
+      "faces": 360,
+      "position_uv_hash": "1594df11278e6366ed5a418900bd2f3f8b2efa5d992038e58b51e6ae97860433"
+    },
+    "equal": false,
+    "baked_to_authored_mesh": true
+  },
+  "MSN_U_Bay3A": {
+    "uploaded": {
+      "vertices": 147,
+      "faces": 216,
+      "position_uv_hash": "83f81fe20a67402ccaf6d30d9f356277b92c4c4279c8fe5e35fe3a9c46dea077"
+    },
+    "returned": {
+      "vertices": 147,
+      "faces": 216,
+      "position_uv_hash": "83f81fe20a67402ccaf6d30d9f356277b92c4c4279c8fe5e35fe3a9c46dea077"
+    },
+    "equal": true,
+    "baked_to_authored_mesh": true
+  },
+  "MSN_Pilaster1_G": {
+    "uploaded": {
+      "vertices": 81,
+      "faces": 128,
+      "position_uv_hash": "8c3e23753705d5f0e2a17386b60b0147db8bc61ff7cc3d57e94f3b208e27da45"
+    },
+    "returned": {
+      "vertices": 81,
+      "faces": 128,
+      "position_uv_hash": "5d28583014a2614b8bbac15cf5fac662c0e517335d98f63c95fd22beabbe898e"
+    },
+    "equal": false,
+    "baked_to_authored_mesh": true
+  },
+  "MSN_Parapet4": {
+    "uploaded": {
+      "vertices": 148,
+      "faces": 245,
+      "position_uv_hash": "2b9b9471391c229932543df2f0155d777c0aa6b7dec7d6e07335c2e0dbb44e6b"
+    },
+    "returned": {
+      "vertices": 148,
+      "faces": 245,
+      "position_uv_hash": "62347fe2caf406d1dd6e09c54a3cf41229f2b9ea240e2df6f82d13c40c537714"
+    },
+    "equal": false,
+    "baked_to_authored_mesh": true
+  },
+  "MSN_CrestA": {
+    "uploaded": {
+      "vertices": 156,
+      "faces": 250,
+      "position_uv_hash": "1dd31617dbf32fa84e9e4fb317a289cfd148637998720f9945fe54145df42328"
+    },
+    "returned": {
+      "vertices": 156,
+      "faces": 250,
+      "position_uv_hash": "ce01d5f4c60b25b57ad08b2f959a3e2f1d337b97027d09a0546363bb1ebe902c"
+    },
+    "equal": false,
+    "baked_to_authored_mesh": true
+  },
+  "MSN_CrestB": {
+    "uploaded": {
+      "vertices": 145,
+      "faces": 224,
+      "position_uv_hash": "03ef0f613b5ee3a76bc928b2fe8eb25eeeeb318d5aaf5b089762f7c0f2b394c7"
+    },
+    "returned": {
+      "vertices": 145,
+      "faces": 224,
+      "position_uv_hash": "82312f6fa3d2a3d8db0a8f17a8cc9732448e7138aac0fe4da7e4742fbc16a298"
+    },
+    "equal": false,
+    "baked_to_authored_mesh": true
+  },
+  "MSN_Awning6": {
+    "uploaded": {
+      "vertices": 162,
+      "faces": 256,
+      "position_uv_hash": "2518a9f4083f876a91b13748c045e5e1400a7bbc8020ee31280a92c82ef4ed90"
+    },
+    "returned": {
+      "vertices": 162,
+      "faces": 256,
+      "position_uv_hash": "7f258b43d496489a5ae0ad222d4e4a6f429725e86bdb419c90125b75920698b7"
+    },
+    "equal": false,
+    "baked_to_authored_mesh": true
+  }
+}

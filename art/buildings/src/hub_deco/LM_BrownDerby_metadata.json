@@ -1,0 +1,86 @@
+{
+  "id": "LM_BrownDerby",
+  "kind": "landmark",
+  "nominal": [
+    30,
+    24,
+    8
+  ],
+  "origin": "footprint-centre-ground",
+  "front": "-Y",
+  "up": "+Z",
+  "units": "meters",
+  "source": "src/hub_deco/LM_BrownDerby.blend",
+  "object": "LM_BrownDerby",
+  "material": "M_LM_BrownDerby",
+  "input_glb": "work/LM_BrownDerby_input.glb",
+  "concept": [
+    "concept/LM_BrownDerby_34.png",
+    "concept/LM_BrownDerby_front.png"
+  ],
+  "prompts": "src/hub_deco/LM_BrownDerby_prompt.json",
+  "sign_attachment_rectangles": [
+    {
+      "id": "SIGN_BrownDerby",
+      "rect": [
+        [
+          -3.1,
+          -8.12,
+          11
+        ],
+        [
+          3.1,
+          -8.12,
+          13.5
+        ]
+      ],
+      "normal": [
+        0,
+        -1,
+        0
+      ],
+      "size_m": [
+        6.2,
+        2.5
+      ],
+      "notes": "Small independent hat-shaped roof sign; local front-Y, integrator rotates toward Vine."
+    }
+  ],
+  "notes": "Authored efficient geometry and own UVs. Repeated identical architectural bays intentionally stacked; disjoint semantic UV fields. No copied photograph, no baked lettering. Hidden attachment faces omitted; deliberate open boundaries. Main box exact; bounds include permitted street projections and roof props.",
+  "main_box_bounds": [
+    [
+      -15.0,
+      -12.0,
+      0
+    ],
+    [
+      15.0,
+      12.0,
+      8
+    ]
+  ],
+  "input_sha256": "503965f1d51b36e5c90979032443926ee79b99e6957f0cee79c7430958a6e59a",
+  "authored_audit": {
+    "tris": 408,
+    "bounds": [
+      [
+        -15.0,
+        -13.25,
+        0.0
+      ],
+      [
+        15.0,
+        12.0,
+        13.550000190734863
+      ]
+    ],
+    "zero_area_faces": 0,
+    "branch_edges": 0,
+    "loose_vertices": 0,
+    "material_slots": 1,
+    "boundary_edges": 348,
+    "measured_from": "authored Blender mesh; final FBX roundtrip audit required by integrator"
+  },
+  "research": "src/hub_root/research.json",
+  "uv_density_notes": "Repeated4-6m facade bays exceed90px/m; separate roof field30+px/m."
+}

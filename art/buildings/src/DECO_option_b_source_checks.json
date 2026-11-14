@@ -1,0 +1,90 @@
+{
+  "DECO_G_Bay6A": {
+    "uploaded": {
+      "vertices": 253,
+      "faces": 360,
+      "position_uv_hash": "b14cf3a81c365cbf27496c081340d1ce4de5162fc29e3523c2c0be6d5c0ba3c5"
+    },
+    "returned": {
+      "vertices": 253,
+      "faces": 360,
+      "position_uv_hash": "1594df11278e6366ed5a418900bd2f3f8b2efa5d992038e58b51e6ae97860433"
+    },
+    "equal": false,
+    "baked_to_authored_mesh": true
+  },
+  "DECO_U_Bay3A": {
+    "uploaded": {
+      "vertices": 147,
+      "faces": 216,
+      "position_uv_hash": "83f81fe20a67402ccaf6d30d9f356277b92c4c4279c8fe5e35fe3a9c46dea077"
+    },
+    "returned": {
+      "vertices": 147,
+      "faces": 216,
+      "position_uv_hash": "83f81fe20a67402ccaf6d30d9f356277b92c4c4279c8fe5e35fe3a9c46dea077"
+    },
+    "equal": true,
+    "baked_to_authored_mesh": true
+  },
+  "DECO_Pilaster1_G": {
+    "uploaded": {
+      "vertices": 81,
+      "faces": 128,
+      "position_uv_hash": "8c3e23753705d5f0e2a17386b60b0147db8bc61ff7cc3d57e94f3b208e27da45"
+    },
+    "returned": {
+      "vertices": 81,
+      "faces": 128,
+      "position_uv_hash": "5d28583014a2614b8bbac15cf5fac662c0e517335d98f63c95fd22beabbe898e"
+    },
+    "equal": false,
+    "baked_to_authored_mesh": true
+  },
+  "DECO_Parapet4": {
+    "uploaded": {
+      "vertices": 133,
+      "faces": 216,
+      "position_uv_hash": "0624c551a1da3ab8cbb114e1341bb52e5d72baff5a27d24357e72ebb232cff2a"
+    },
+    "returned": {
+      "vertices": 133,
+      "faces": 216,
+      "position_uv_hash": "09b16ba0d4a06a9df040370a44efc83809cc080676ab7789d764364cba6a7735"
+    },
+    "equal": false,
+    "baked_to_authored_mesh": true
+  },
+  "DECO_CrestA": {
+    "uploaded": {
+      "vertices": 156,
+      "faces": 250,
+      "position_uv_hash": "f8b7b5bf944081fea8d49399efe778fc141903ecce8f37c573ba4173e9dfd9d0"
+    },
+    "returned": {
+      "vertices": 156,
+      "faces": 250,
+      "position_uv_hash": "8f81ebaaa8e2abe06e0848f4d55f167a569c0b3713da90743a4848f08e2f4be1"
+    },
+    "equal": false,
+    "baked_to_authored_mesh": true
+  },
+  "DECO_CrestB": {
+    "projection_fallback_after_two_failures": true,
+    "baked_to_authored_mesh": true
+  },
+  "DECO_Awning6": {
+    "uploaded": {
+      "vertices": 162,
+      "faces": 256,
+      "position_uv_hash": "2518a9f4083f876a91b13748c045e5e1400a7bbc8020ee31280a92c82ef4ed90"
+    },
+    "returned": {
+      "vertices": 162,
+      "faces": 256,
+      "position_uv_hash": "7f258b43d496489a5ae0ad222d4e4a6f429725e86bdb419c90125b75920698b7"
+    },
+    "equal": false,
+    "baked_to_authored_mesh": true
+  }
+}

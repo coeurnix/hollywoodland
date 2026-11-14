@@ -1,0 +1,25 @@
+{
+  "id": "LM_BrownDerby_projection_tiles",
+  "provider": "fal.ai",
+  "model": "blackforestlabs/flux-3/klein/edit-image",
+  "prompt": "Use case: stylized-concept. Original hand-painted warm terracotta barrel-tile roof material for a1930 Spanish Mission restaurant in a classic early World of Warcraft game. A long broad rectangular full-bleed orthographic roof surface, two rows of small rounded terracotta barrel tiles, at least40 narrow vertical ribs across width, repeated regular pattern, ochre top highlights and deep oxblood crevice AO, weathered brick red/terracotta colors and restrained brush strokes. No perspective, no building, no roof outline, no gutter, no sky or ground, no people, no words or labels. Texture fills every edge; seamless left/right edges. This is a material plate for a30m wide shallow tiled eave, tiles should be small and numerous.",
+  "references": [
+    "concept/LM_BrownDerby_front.png"
+  ],
+  "image_size": {
+    "width": 1536,
+    "height": 512
+  },
+  "seed": 19301113,
+  "output": "work/hub_deco/projection/LM_BrownDerby_tiles.png",
+  "status": "downloaded",
+  "request_id": "01a1d87f-0b9f-7fb1-979c-9cdb5fa7f0b0",
+  "elapsed_seconds": 11.47,
+  "timings": {
+    "prompt_expansion": 1.1579999409150332e-05,
+    "inference": 1.5987608959999307,
+    "safety_checker": 0.014682723000078113
+  },
+  "width": 1536,
+  "height": 512
+}

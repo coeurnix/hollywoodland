@@ -1,0 +1,238 @@
+{
+  "LM_Pantages": {
+    "frozen_input_after_weld_and_tri": {
+      "tris": 788,
+      "branch_edges": 0,
+      "zero_area_faces": 0,
+      "loose_vertices": 0,
+      "noncontiguous_twoface_edges": 0,
+      "boundary_edges": 740
+    },
+    "actual_FBX_roundtrip": {
+      "bounds": [
+        [
+          -28.000002,
+          -30.490002,
+          0.0
+        ],
+        [
+          28.000002,
+          29.000002,
+          34.299999
+        ]
+      ],
+      "tris": 788,
+      "material_slots": 1,
+      "triangulated": true,
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "boundary_edges": 740,
+      "loose_vertices": 0
+    },
+    "post_finish_FBX_roundtrip": {
+      "bounds": [
+        [
+          -28.000002,
+          -30.490002,
+          0.0
+        ],
+        [
+          28.000002,
+          29.000002,
+          34.299999
+        ]
+      ],
+      "tris": 850,
+      "material_slots": 1,
+      "triangulated": true,
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "boundary_edges": 732,
+      "loose_vertices": 0
+    }
+  },
+  "LM_Taft": {
+    "frozen_input_after_weld_and_tri": {
+      "tris": 3808,
+      "branch_edges": 0,
+      "zero_area_faces": 0,
+      "loose_vertices": 0,
+      "noncontiguous_twoface_edges": 0,
+      "boundary_edges": 2756
+    },
+    "actual_FBX_roundtrip": {
+      "bounds": [
+        [
+          -21.500002,
+          -24.500002,
+          0.0
+        ],
+        [
+          21.000002,
+          24.000002,
+          39.0
+        ]
+      ],
+      "tris": 3808,
+      "material_slots": 1,
+      "triangulated": true,
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "boundary_edges": 2756,
+      "loose_vertices": 0
+    }
+  },
+  "LM_FirstNational": {
+    "frozen_input_after_weld_and_tri": {
+      "tris": 1405,
+      "branch_edges": 0,
+      "zero_area_faces": 0,
+      "loose_vertices": 0,
+      "noncontiguous_twoface_edges": 0,
+      "boundary_edges": 1309
+    },
+    "actual_FBX_roundtrip": {
+      "bounds": [
+        [
+          -21.420002,
+          -20.035002,
+          0.0
+        ],
+        [
+          21.000002,
+          19.000002,
+          28.0
+        ]
+      ],
+      "tris": 1405,
+      "material_slots": 1,
+      "triangulated": true,
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "boundary_edges": 1309,
+      "loose_vertices": 0
+    }
+  },
+  "LM_BrownDerby": {
+    "frozen_input_after_weld_and_tri": {
+      "tris": 408,
+      "branch_edges": 0,
+      "zero_area_faces": 0,
+      "loose_vertices": 0,
+      "noncontiguous_twoface_edges": 0,
+      "boundary_edges": 348
+    },
+    "actual_FBX_roundtrip": {
+      "bounds": [
+        [
+          -15.000001,
+          -13.250001,
+          0.0
+        ],
+        [
+          15.000001,
+          12.000001,
+          13.55
+        ]
+      ],
+      "tris": 408,
+      "material_slots": 1,
+      "triangulated": true,
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "boundary_edges": 348,
+      "loose_vertices": 0
+    }
+  },
+  "LM_PoliceStation": {
+    "frozen_input_after_weld_and_tri": {
+      "tris": 804,
+      "branch_edges": 0,
+      "zero_area_faces": 0,
+      "loose_vertices": 0,
+      "noncontiguous_twoface_edges": 0,
+      "boundary_edges": 864
+    },
+    "actual_FBX_roundtrip": {
+      "bounds": [
+        [
+          -23.000002,
+          -17.9,
+          0.0
+        ],
+        [
+          23.000002,
+          17.000002,
+          14.85
+        ]
+      ],
+      "tris": 804,
+      "material_slots": 1,
+      "triangulated": true,
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "boundary_edges": 864,
+      "loose_vertices": 0
+    }
+  }
+}

@@ -1,0 +1,134 @@
+[
+  {
+    "id": "LM_Pantages_projection_front_side_back_bay",
+    "references": [
+      "concept/LM_Pantages_front.png"
+    ],
+    "prompt": "Original1930 Hollywood game texture painting in the exact reference style: classic early World of Warcraft chunky hand-painted albedo, warm light from above, cooler grime at base, restrained brush marks and painted AO. Pure orthographic straight-on elevation, no perspective, no cast shadows outside the texture. Rectangular FULL-BLEED texture plate filling every image edge. No grey background, surround, ground, sky, people, letters, numbers, logos, frames or labels. No photographic detail. ONE single narrow repeated Art Deco cinema facade bay7m wide18m high. Full-height planar front elevation including4.5m high ground-floor black-glass shopfront with blank oxblood door and chrome frames; above this two very tall dark rectangular upper windows in ivory fluted piers, uppermost band rich shallow golden lotus/zigzag geometric relief. Bold readable cream/ochre relief, black marble bulkhead, oxblood accents. Exactly one bay, no whole building, no marquee, no blade, no roof. Edges are plain masonry strips so bays butt together. Windows occupy most of central bay; warm highlights and dark blue painted reflections. Entire plate is architecture.",
+    "output": "work/hub_deco/projection/LM_Pantages_front_side_back_bay.png",
+    "image_size": {
+      "width": 768,
+      "height": 1536
+    }
+  },
+  {
+    "id": "LM_Pantages_projection_stone_relief",
+    "references": [
+      "concept/LM_Pantages_front.png"
+    ],
+    "prompt": "Original1930 Hollywood game texture painting in the exact reference style: classic early World of Warcraft chunky hand-painted albedo, warm light from above, cooler grime at base, restrained brush marks and painted AO. Pure orthographic straight-on elevation, no perspective, no cast shadows outside the texture. Rectangular FULL-BLEED texture plate filling every image edge. No grey background, surround, ground, sky, people, letters, numbers, logos, frames or labels. No photographic detail. ONE Art Deco fluted pale ivory limestone pier texture plate, long broad vertical shallow flutes, restrained golden zigzag/lotus relief at top15percent, majority plain warm stone, subtle cracks/AO, no windows, no building outlines. Broad ivory fields that can map onto small trim blocks. Full-bleed seamless left/right edge.",
+    "output": "work/hub_deco/projection/LM_Pantages_stone_relief.png",
+    "image_size": {
+      "width": 768,
+      "height": 1536
+    }
+  },
+  {
+    "id": "LM_Pantages_projection_roof",
+    "references": [
+      "concept/LM_Pantages_front.png"
+    ],
+    "prompt": "Original1930 Hollywood game texture painting in the exact reference style: classic early World of Warcraft chunky hand-painted albedo, warm light from above, cooler grime at base, restrained brush marks and painted AO. Pure orthographic straight-on elevation, no perspective, no cast shadows outside the texture. Rectangular FULL-BLEED texture plate filling every image edge. No grey background, surround, ground, sky, people, letters, numbers, logos, frames or labels. No photographic detail. Flat orthographic top-down roof material swatch: dark warm slate tar-and-gravel roof, restrained coarse tan gravel flecks, subtle broad tar seams, seamless edges, no architectural objects, no parapets, no walls, no windows or building silhouette. Roof material fills every pixel.",
+    "output": "work/hub_deco/projection/LM_Pantages_roof.png",
+    "image_size": {
+      "width": 1536,
+      "height": 1536
+    }
+  },
+  {
+    "id": "LM_Taft_projection_front_side_back_floor",
+    "references": [
+      "concept/LM_Taft_front.png"
+    ],
+    "prompt": "Original1930 Hollywood game texture painting in the exact reference style: classic early World of Warcraft chunky hand-painted albedo, warm light from above, cooler grime at base, restrained brush marks and painted AO. Pure orthographic straight-on elevation, no perspective, no cast shadows outside the texture. Rectangular FULL-BLEED texture plate filling every image edge. No grey background, surround, ground, sky, people, letters, numbers, logos, frames or labels. No photographic detail. ONE repeated Neo-Renaissance buff-brick office facade FLOOR BAY,4.2m wide by2.8125m tall. Warm sepia/buff brick field, exactlyONE small centered dark double-hung rectangular window with cream stone lintel and heavy cream sill. Window bottom is28percent from bottom of texture, top90percent; window width40percent of total width. No cornice, no roof, no ground floor, no other windows. Straight brick courses butt seamlessly at left/right edges.",
+    "output": "work/hub_deco/projection/LM_Taft_front_side_back_floor.png",
+    "image_size": {
+      "width": 1536,
+      "height": 1024
+    }
+  },
+  {
+    "id": "LM_Taft_projection_front_side_back_base",
+    "references": [
+      "concept/LM_Taft_front.png"
+    ],
+    "prompt": "Original1930 Hollywood game texture painting in the exact reference style: classic early World of Warcraft chunky hand-painted albedo, warm light from above, cooler grime at base, restrained brush marks and painted AO. Pure orthographic straight-on elevation, no perspective, no cast shadows outside the texture. Rectangular FULL-BLEED texture plate filling every image edge. No grey background, surround, ground, sky, people, letters, numbers, logos, frames or labels. No photographic detail. ONE ground-plus-mezzanine Neo-Renaissance commercial facade bay4.2m wide by7.5m high. Classical pale cream rusticated stone surrounds, bottom60percent is one dark tall shopfront with timber double-door and transom, upper40percent exactlyONE dark mezzanine window. Very broad cream stone piers at both edges. No written signs, no roof, no cornice, no repeated multiple bays. Full-bleed single bay.",
+    "output": "work/hub_deco/projection/LM_Taft_front_side_back_base.png",
+    "image_size": {
+      "width": 1024,
+      "height": 1536
+    }
+  },
+  {
+    "id": "LM_Taft_projection_front_side_back_crown",
+    "references": [
+      "concept/LM_Taft_front.png"
+    ],
+    "prompt": "Original1930 Hollywood game texture painting in the exact reference style: classic early World of Warcraft chunky hand-painted albedo, warm light from above, cooler grime at base, restrained brush marks and painted AO. Pure orthographic straight-on elevation, no perspective, no cast shadows outside the texture. Rectangular FULL-BLEED texture plate filling every image edge. No grey background, surround, ground, sky, people, letters, numbers, logos, frames or labels. No photographic detail. ONE Neo-Renaissance upper office facade bay4.2m wide by6m high. Two dark rectangular office windows vertically stacked one above the other inside a single colossal pale cream Corinthian-style pilaster surround. Warm stone entablature band at top. Full-bleed one bay, broad stone borders, no brick middle floors, no roof, no cornice projection, no extra bays.",
+    "output": "work/hub_deco/projection/LM_Taft_front_side_back_crown.png",
+    "image_size": {
+      "width": 1024,
+      "height": 1536
+    }
+  },
+  {
+    "id": "LM_Taft_projection_stone",
+    "references": [
+      "concept/LM_Taft_front.png"
+    ],
+    "prompt": "Original1930 Hollywood game texture painting in the exact reference style: classic early World of Warcraft chunky hand-painted albedo, warm light from above, cooler grime at base, restrained brush marks and painted AO. Pure orthographic straight-on elevation, no perspective, no cast shadows outside the texture. Rectangular FULL-BLEED texture plate filling every image edge. No grey background, surround, ground, sky, people, letters, numbers, logos, frames or labels. No photographic detail. A pure pale warm cream limestone and cast-stone material plate, large rectangular ashlar blocks, subtle chisel brush texture, warmer upper edge, cooler darker bottom edge, very restrained corner grime. No windows, no architecture silhouette, no ornament, no lettering. Seamless sides, fills the entire frame.",
+    "output": "work/hub_deco/projection/LM_Taft_stone.png",
+    "image_size": {
+      "width": 1024,
+      "height": 1024
+    }
+  },
+  {
+    "id": "LM_FirstNational_projection_front_side_back_floor",
+    "references": [
+      "concept/LM_FirstNational_front.png"
+    ],
+    "prompt": "Original1930 Hollywood game texture painting in the exact reference style: classic early World of Warcraft chunky hand-painted albedo, warm light from above, cooler grime at base, restrained brush marks and painted AO. Pure orthographic straight-on elevation, no perspective, no cast shadows outside the texture. Rectangular FULL-BLEED texture plate filling every image edge. No grey background, surround, ground, sky, people, letters, numbers, logos, frames or labels. No photographic detail. ONE Gothic/Art Deco bank-office facade FLOOR BAY,4m wide by3m tall. Pale ivory limestone field with exactlyONE small centered dark blue-black double-hung rectangular office window, broad plain cream stone vertical borders and subtle sill. Window bottom28percent and top90percent, window width42percent. No pointed arch on this floor, no roof, no multiple bays, no whole building.",
+    "output": "work/hub_deco/projection/LM_FirstNational_front_side_back_floor.png",
+    "image_size": {
+      "width": 1536,
+      "height": 1024
+    }
+  },
+  {
+    "id": "LM_FirstNational_projection_front_side_back_base",
+    "references": [
+      "concept/LM_FirstNational_front.png"
+    ],
+    "prompt": "Original1930 Hollywood game texture painting in the exact reference style: classic early World of Warcraft chunky hand-painted albedo, warm light from above, cooler grime at base, restrained brush marks and painted AO. Pure orthographic straight-on elevation, no perspective, no cast shadows outside the texture. Rectangular FULL-BLEED texture plate filling every image edge. No grey background, surround, ground, sky, people, letters, numbers, logos, frames or labels. No photographic detail. ONE ground-floor banking-hall facade bay4m wide by6m high. Pale ivory ashlar and thick warm sandstone arch, exactlyONE very tall round-arched dark banking window with thick dark bronze mullions, sill atbottom12percent and arch crown at90percent height. Broad plain limestone edge piers. No door, no sign, no extra windows, no roof, no whole building. Full-bleed one completebay.",
+    "output": "work/hub_deco/projection/LM_FirstNational_front_side_back_base.png",
+    "image_size": {
+      "width": 1024,
+      "height": 1536
+    }
+  },
+  {
+    "id": "LM_FirstNational_projection_front_side_back_belfry",
+    "references": [
+      "concept/LM_FirstNational_front.png"
+    ],
+    "prompt": "Original1930 Hollywood game texture painting in the exact reference style: classic early World of Warcraft chunky hand-painted albedo, warm light from above, cooler grime at base, restrained brush marks and painted AO. Pure orthographic straight-on elevation, no perspective, no cast shadows outside the texture. Rectangular FULL-BLEED texture plate filling every image edge. No grey background, surround, ground, sky, people, letters, numbers, logos, frames or labels. No photographic detail. ONE upper Gothic tower belfry-niche wall bay4m wide by4m high. Pale ivory ashlar, a single deep pointed arched niche with dark slate shadowed recess and a simple abstract gold floral medallion inside, broad stone borders, no people/statues, no window grid, no roof or spire. Restrained carved fluting. Full-bleed one bay.",
+    "output": "work/hub_deco/projection/LM_FirstNational_front_side_back_belfry.png",
+    "image_size": {
+      "width": 1024,
+      "height": 1024
+    }
+  },
+  {
+    "id": "LM_FirstNational_projection_door",
+    "references": [
+      "concept/LM_FirstNational_front.png"
+    ],
+    "prompt": "Original1930 Hollywood game texture painting in the exact reference style: classic early World of Warcraft chunky hand-painted albedo, warm light from above, cooler grime at base, restrained brush marks and painted AO. Pure orthographic straight-on elevation, no perspective, no cast shadows outside the texture. Rectangular FULL-BLEED texture plate filling every image edge. No grey background, surround, ground, sky, people, letters, numbers, logos, frames or labels. No photographic detail. ONE pair of tall dark bottle-green timber banking entrance doors with brass pull handles, no words or insignia, rectangular straight front elevation. Dark green panels with subtle upper dark glass transom and painted reflected streaks, soft warm top-light, cool deep base. Door leaves fill the entire texture plate, no surrounding building or arch, no background.",
+    "output": "work/hub_deco/projection/LM_FirstNational_door.png",
+    "image_size": {
+      "width": 768,
+      "height": 1536
+    }
+  }
+]

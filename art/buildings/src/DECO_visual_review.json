@@ -1,0 +1,154 @@
+{
+  "family": "DECO",
+  "reviewed_views": [
+    "front 3/4",
+    "back 3/4",
+    "top at45degrees"
+  ],
+  "all27_reviewed": true,
+  "contact": "work/DECO_candidate/preview/DECO_contact.png",
+  "records": [
+    {
+      "id": "DECO_G_Bay4A",
+      "status": "pass",
+      "reason": "Readable architectural texture, exact exported nominal dimensions, clean source-author geometry."
+    },
+    {
+      "id": "DECO_G_Bay4B",
+      "status": "pass",
+      "reason": "Readable architectural texture, exact exported nominal dimensions, clean source-author geometry."
+    },
+    {
+      "id": "DECO_G_Bay6A",
+      "status": "pass",
+      "reason": "Readable architectural texture, exact exported nominal dimensions, clean source-author geometry."
+    },
+    {
+      "id": "DECO_G_Bay6B",
+      "status": "pass",
+      "reason": "Readable architectural texture, exact exported nominal dimensions, clean source-author geometry."
+    },
+    {
+      "id": "DECO_G_Bay8A",
+      "status": "pass",
+      "reason": "Readable architectural texture, exact exported nominal dimensions, clean source-author geometry."
+    },
+    {
+      "id": "DECO_G_Bay8B",
+      "status": "pass",
+      "reason": "Readable architectural texture, exact exported nominal dimensions, clean source-author geometry."
+    },
+    {
+      "id": "DECO_G_Entry4",
+      "status": "pass",
+      "reason": "Readable architectural texture, exact exported nominal dimensions, clean source-author geometry."
+    },
+    {
+      "id": "DECO_U_Bay2A",
+      "status": "pass",
+      "reason": "Readable architectural texture, exact exported nominal dimensions, clean source-author geometry."
+    },
+    {
+      "id": "DECO_U_Bay2B",
+      "status": "pass",
+      "reason": "Readable architectural texture, exact exported nominal dimensions, clean source-author geometry."
+    },
+    {
+      "id": "DECO_U_Bay3A",
+      "status": "pass",
+      "reason": "Readable architectural texture, exact exported nominal dimensions, clean source-author geometry."
+    },
+    {
+      "id": "DECO_U_Bay3B",
+      "status": "pass",
+      "reason": "Readable architectural texture, exact exported nominal dimensions, clean source-author geometry."
+    },
+    {
+      "id": "DECO_U_Bay4A",
+      "status": "pass",
+      "reason": "Readable architectural texture, exact exported nominal dimensions, clean source-author geometry."
+    },
+    {
+      "id": "DECO_U_Bay4B",
+      "status": "pass",
+      "reason": "Readable architectural texture, exact exported nominal dimensions, clean source-author geometry."
+    },
+    {
+      "id": "DECO_Pilaster1_G",
+      "status": "pass",
+      "reason": "Readable architectural texture, exact exported nominal dimensions, clean source-author geometry."
+    },
+    {
+      "id": "DECO_Corner_G",
+      "status": "pass",
+      "reason": "Readable architectural texture, exact exported nominal dimensions, clean source-author geometry."
+    },
+    {
+      "id": "DECO_Pilaster1_U",
+      "status": "pass",
+      "reason": "Readable architectural texture, exact exported nominal dimensions, clean source-author geometry."
+    },
+    {
+      "id": "DECO_Corner_U",
+      "status": "pass",
+      "reason": "Readable architectural texture, exact exported nominal dimensions, clean source-author geometry."
+    },
+    {
+      "id": "DECO_Parapet2",
+      "status": "pass",
+      "reason": "Root reviewed second references/projection and final cleanup; exposed backs and canopy shells pass.",
+      "earlier_hold": "lower70 percent requires plain stucco; ornament melted"
+    },
+    {
+      "id": "DECO_Parapet4",
+      "status": "pass",
+      "reason": "Root reviewed second references/projection and final cleanup; exposed backs and canopy shells pass.",
+      "earlier_hold": "lower70 percent requires plain stucco; ornament melted"
+    },
+    {
+      "id": "DECO_CrestA",
+      "status": "pass",
+      "reason": "Readable architectural texture, exact exported nominal dimensions, clean source-author geometry."
+    },
+    {
+      "id": "DECO_CrestB",
+      "status": "pass",
+      "reason": "Root reviewed second references/projection and final cleanup; exposed backs and canopy shells pass.",
+      "earlier_hold": "blank sign board clay-smear"
+    },
+    {
+      "id": "DECO_Awning4",
+      "status": "pass",
+      "reason": "Root reviewed second references/projection and final cleanup; exposed backs and canopy shells pass.",
+      "earlier_hold": "upper canvas painted cream wall instead of stripe"
+    },
+    {
+      "id": "DECO_Awning6",
+      "status": "pass",
+      "reason": "Root reviewed second references/projection and final cleanup; exposed backs and canopy shells pass.",
+      "earlier_hold": "upper canvas painted cream wall instead of stripe"
+    },
+    {
+      "id": "DECO_Wall",
+      "status": "pass",
+      "reason": "Readable architectural texture, exact exported nominal dimensions, clean source-author geometry."
+    },
+    {
+      "id": "DECO_Roof",
+      "status": "pass",
+      "reason": "Readable architectural texture, exact exported nominal dimensions, clean source-author geometry."
+    },
+    {
+      "id": "DECO_Damaged_G_Bay6",
+      "status": "pass",
+      "reason": "Readable architectural texture, exact exported nominal dimensions, clean source-author geometry."
+    },
+    {
+      "id": "DECO_Damaged_U_Bay3",
+      "status": "pass",
+      "reason": "Readable architectural texture, exact exported nominal dimensions, clean source-author geometry."
+    }
+  ],
+  "pending_root_postprocess": "Crest thickness and back/top faces after final texture review.",
+  "final_root_review_complete": true
+}

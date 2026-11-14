@@ -1,0 +1,43 @@
+{
+  "uploaded_authored": {
+    "vertices": 192,
+    "faces": 96,
+    "position_uv_hash": "5e8719f1e547a7a8147f7d35e4c6cb355fe70ebd02e9b9822a9fafcb27a96fdf"
+  },
+  "cleaned_authored": {
+    "vertices": 56,
+    "faces": 96,
+    "position_uv_hash": "5e8719f1e547a7a8147f7d35e4c6cb355fe70ebd02e9b9822a9fafcb27a96fdf"
+  },
+  "returned": {
+    "vertices": 192,
+    "faces": 96,
+    "position_uv_hash": "5209d82b37f2e30d2905f6d3e58b8f3e6f60011d64e657174f9ddff1f17fad9c"
+  },
+  "equal": false,
+  "baked_to_authored_mesh": true,
+  "authored_geometry_uv_unchanged_during_bake": true,
+  "cleanup": {
+    "id": "LM_Egyptian_Gateway",
+    "removed_buried_triangles": 0,
+    "before": {
+      "vertices": 56,
+      "tris": 96,
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "boundary_edges": 24,
+      "loose_vertices": 0,
+      "inconsistent_shared_edges": 0
+    },
+    "after": {
+      "vertices": 56,
+      "tris": 96,
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "boundary_edges": 24,
+      "loose_vertices": 0,
+      "inconsistent_shared_edges": 0
+    },
+    "surviving_face_uvs_unchanged": true
+  }
+}

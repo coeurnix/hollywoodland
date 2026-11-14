@@ -4,7 +4,7 @@
 // Props (art/props, imported by tools/propprep.py): a box may carry `prop` (drawn instead of its cube, the box stays the collision),
 // an object may carry `prop` (drawn instead of its primitive), and `props` lists free-standing dressing (no collision).
 import { PROPS as PROPS_TABLE, placement, footprint, fitBox, rng } from './props.mjs';
-import { kitFront, roofProps, landmark, signCard } from './facades.mjs';
+import { kitFront, roofProps, landmark, landmarkDeco, signCard } from './facades.mjs';
 import { propCols } from './collide.mjs';
 const C = { road: [0.13, 0.13, 0.14], walk: [0.3, 0.29, 0.27], lot: [0.34, 0.31, 0.24], hill: [0.36, 0.34, 0.22], shop: [0.48, 0.44, 0.38], shop2: [0.42, 0.4, 0.42],
   landmark: [0.72, 0.62, 0.42], hive: [0.22, 0.12, 0.26], civic: [0.6, 0.6, 0.62], wreck: [0.2, 0.22, 0.25], interior: [0.25, 0.2, 0.18], seat: [0.4, 0.1, 0.1] };
@@ -130,31 +130,38 @@ strip(X0, 199.2, X1, 199.5, [0.5, 0.5, 0.52]); strip(X0, 200.5, X1, 200.8, [0.5,
 
 // North side of the boulevard
 { const r = shops(30, 48, 150, 186, 1); facades(r, true); signs(r, true); escapes(r, true); }
-box(52, 108, 134, 166, 16, C.landmark, "Grauman's Chinese Theatre");
-box(52, 166, 58, 186, 5, C.landmark); box(128, 166, 134, 186, 5, C.landmark);                // forecourt walls
+// the hub landmarks (art/buildings LM_*): the mesh replaces the box and carries its sign cards. face: the SPEC's front
+// letter (S = +y, the north side of the boulevard; N = -y; W = -x). Mirrored pairs flip the right-hand one.
+const LM = (b, face, id, opts) => { const { body, extra } = landmark(b, face, id, opts); b.prop = body; b.noSign = true; props.push(...extra); return b; };
+LM(box(52, 108, 134, 166, 16, C.landmark, "Grauman's Chinese Theatre"), 'S', 'LM_Graumans');
+LM(box(52, 166, 58, 186, 5, C.landmark), 'S', 'LM_Graumans_ForecourtWall'); LM(box(128, 166, 134, 186, 5, C.landmark), 'S', 'LM_Graumans_ForecourtWall', { mirror: true }); // forecourt walls
 { const r = shops(154, 168, 150, 186, 2, ['Max Factor Salon']); facades(r, true); signs(r, true); }
-box(170, 160, 286, 186, 14, C.landmark, 'Hollywood Hotel'); box(170, 108, 194, 160, 12, C.landmark); box(262, 108, 286, 160, 12, C.landmark);
-box(194, 104, 220, 110, 6, C.landmark); box(236, 104, 262, 110, 6, C.landmark);              // ballroom north wall with a 16 m gap
-box(310, 148, 352, 186, 22, C.civic, 'First National Bank');
+LM(box(170, 160, 286, 186, 14, C.landmark, 'Hollywood Hotel'), 'S', 'LM_HollywoodHotel');
+LM(box(170, 108, 194, 160, 12, C.landmark), 'S', 'LM_HollywoodHotel_Wing'); LM(box(262, 108, 286, 160, 12, C.landmark), 'S', 'LM_HollywoodHotel_Wing', { mirror: true });
+LM(box(194, 104, 220, 110, 6, C.landmark), 'S', 'LM_HollywoodHotel_CourtWall'); LM(box(236, 104, 262, 110, 6, C.landmark), 'S', 'LM_HollywoodHotel_CourtWall', { mirror: true }); // ballroom north wall with a 16 m gap
+LM(box(310, 148, 352, 186, 22, C.civic, 'First National Bank'), 'S', 'LM_FirstNational');
+// the Pacific Electric stop on the north kerb by the red car (non-colliding)
+props.push(...landmarkDeco('LM_RedCarStop', 268, 187.5, 'S'));
 { const r = shops(356, 416, 150, 186, 3, ['Hollywood Gun Shop', 'Haberdashery']); facades(r, true); signs(r, true); escapes(r, true); }
 { const r = shops(434, 516, 150, 186, 4, ['Drugstore']); facades(r, true); signs(r, true); escapes(r, true); }
 { const r = shops(534, 606, 150, 186, 5); facades(r, true); signs(r, true); escapes(r, true); }
 { const r = shops(626, 688, 150, 186, 6); facades(r, true); signs(r, true); escapes(r, true); }
-box(690, 128, 746, 186, 18, C.landmark, 'Pantages Theatre');
+LM(box(690, 128, 746, 186, 18, C.landmark, 'Pantages Theatre'), 'S', 'LM_Pantages');
 { const r = shops(770, 840, 150, 186, 7); facades(r, true); signs(r, true); escapes(r, true); }
 // South side
 { const r = shops(30, 56, 214, 250, 8); facades(r, false); signs(r, false); escapes(r, false); }
-box(60, 214, 134, 272, 24, C.landmark, 'Roosevelt Hotel');
+LM(box(60, 214, 134, 272, 24, C.landmark, 'Roosevelt Hotel'), 'N', 'LM_Roosevelt');
 { const r = shops(154, 286, 214, 250, 9); facades(r, false); signs(r, false); escapes(r, false); }
 { const r = shops(310, 416, 214, 250, 10); facades(r, false); signs(r, false); escapes(r, false); }
-box(434, 214, 460, 242, 7, C.landmark); box(490, 214, 516, 242, 7, C.landmark);              // Egyptian courtyard wings
-box(434, 242, 516, 292, 15, C.landmark, 'The Egyptian Theatre');
+LM(box(434, 214, 460, 242, 7, C.landmark), 'N', 'LM_Egyptian_Wing'); LM(box(490, 214, 516, 242, 7, C.landmark), 'N', 'LM_Egyptian_Wing', { mirror: true }); // Egyptian courtyard wings
+LM(box(434, 242, 516, 292, 15, C.landmark, 'The Egyptian Theatre'), 'N', 'LM_Egyptian');
+props.push(...landmarkDeco('LM_Egyptian_Gateway', 475, 215, 'N'));                         // the pylon gate at the courtyard mouth
 { const r = shops(534, 606, 214, 252, 11); facades(r, false); signs(r, false); escapes(r, false); }
-box(538, 262, 584, 296, 10, C.civic, 'Hollywood Police Station');
+LM(box(538, 262, 584, 296, 10, C.civic, 'Hollywood Police Station'), 'N', 'LM_PoliceStation');
 { const r = shops(626, 746, 214, 250, 12); facades(r, false); signs(r, false); escapes(r, false); }
-const taft = box(770, 214, 812, 262, 36, C.landmark, 'Taft Building');
-props.push(...signCard(taft, false, 'SIGN_Auction', 812 - 781, 3.3));   // the auction rooms on the Taft's ground floor (x 781)
-box(770, 274, 800, 298, 8, C.landmark, 'Brown Derby');
+LM(box(770, 214, 812, 262, 36, C.landmark, 'Taft Building'), 'N', 'LM_Taft');
+props.push(...landmarkDeco('LM_Kiosk_Auction', 785.5, 211.8, 'N'));                       // the auction booth by Miss Reed, clear of the gathering point (776, 208)
+LM(box(770, 268, 794, 298, 8, C.landmark, 'Brown Derby'), 'W', 'LM_BrownDerby');           // faces Vine: 30 m along it, 24 deep
 box(470, 248, 482, 250, 5, C.hive);                                                           // (decor) hive growth at the Egyptian door
 // Hollywood High (Sunset & Highland)
 box(196, 344, 262, 352, 9, C.civic, 'Hollywood High School'); box(196, 352, 204, 404, 9, C.civic); box(254, 352, 262, 404, 9, C.civic); // gym: open to the south
@@ -344,9 +351,7 @@ for (let y = -80; y < 540; y += 30) for (const x of [288.6, 307.4]) if ((y < 180
   letters.forEach((c, i) => { deco(`sign_${c.toLowerCase()}`, x + w(c) / 2, -700 + [0, 5, 2][i % 3], 90, S, -2); x += w(c) + GAP; });
 }
 // theatre marquees (hung from the front wall) and a theatre front on Vine
-deco('marquee', 718, 186 + 1.4, 90, 1, 6.2);                   // Pantages
-deco('marquee', 93, 166 + 1.4, 90, [1, 1.6, 1], 7);             // Grauman's, over the forecourt
-deco('marquee', 475, 242 - 1.4, -90, 1, 5.5);                   // the Egyptian, over the dungeon door
+// (the Pantages, Grauman's and the Egyptian carry their own marquees: art/buildings sign cards)
 deco('theatre_facade', 662, 214 + 1.2, -90);
 // cars abandoned along the kerbs (solid: they are cover), the newsreel truck and a delivery van
 [['car_tudor', 180, 192.4, 180], ['car_sedan_burgundy', 430, 207.6, 0], ['car_chevrolet', 560, 192.4, 180], ['car_chevrolet_blue', 650, 207.6, 0],

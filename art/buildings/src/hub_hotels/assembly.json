@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "coordinate_space": "local main-range centre, +Z up, street front -Y",
+  "instances": [
+    {"id": "LM_HollywoodHotel", "translation": [0, 0, 0], "rotation_z": 0, "mirror_x": false},
+    {"id": "LM_HollywoodHotel_Wing", "translation": [-46, 39, 0], "rotation_z": 0, "mirror_x": false},
+    {"id": "LM_HollywoodHotel_Wing", "translation": [46, 39, 0], "rotation_z": 0, "mirror_x": true},
+    {"id": "LM_HollywoodHotel_CourtWall", "translation": [-21, 68, 0], "rotation_z": 0, "mirror_x": false},
+    {"id": "LM_HollywoodHotel_CourtWall", "translation": [21, 68, 0], "rotation_z": 0, "mirror_x": true}
+  ],
+  "measured_layout": {
+    "main_footprint": [[-58, -13], [58, 13]],
+    "left_wing_footprint": [[-58, 13], [-34, 65]],
+    "right_wing_footprint": [[34, 13], [58, 65]],
+    "courtyard_rectangle": [[-34, 13], [34, 65]],
+    "left_wall_footprint": [[-34, 65], [-8, 71]],
+    "right_wall_footprint": [[8, 65], [34, 71]],
+    "north_gap_width_m": 16,
+    "note": "Each wing and wall is authored symmetrically on both long faces; mirrored export must apply normals/transforms. Architectural veranda recesses are shallow decoration. Collision boxes stay unchanged."
+  }
+}

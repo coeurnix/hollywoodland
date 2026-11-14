@@ -1,0 +1,25 @@
+{
+  "id": "LM_Taft_projection_stone",
+  "provider": "fal.ai",
+  "model": "blackforestlabs/flux-3/klein/edit-image",
+  "prompt": "Original1930 Hollywood game texture painting in the exact reference style: classic early World of Warcraft chunky hand-painted albedo, warm light from above, cooler grime at base, restrained brush marks and painted AO. Pure orthographic straight-on elevation, no perspective, no cast shadows outside the texture. Rectangular FULL-BLEED texture plate filling every image edge. No grey background, surround, ground, sky, people, letters, numbers, logos, frames or labels. No photographic detail. A pure pale warm cream limestone and cast-stone material plate, large rectangular ashlar blocks, subtle chisel brush texture, warmer upper edge, cooler darker bottom edge, very restrained corner grime. No windows, no architecture silhouette, no ornament, no lettering. Seamless sides, fills the entire frame.",
+  "references": [
+    "concept/LM_Taft_front.png"
+  ],
+  "image_size": {
+    "width": 1024,
+    "height": 1024
+  },
+  "seed": 19301113,
+  "output": "work/hub_deco/projection/LM_Taft_stone.png",
+  "status": "downloaded",
+  "request_id": "01a1d856-5b56-7b30-bb67-d5ed621b68cb",
+  "elapsed_seconds": 5.52,
+  "timings": {
+    "prompt_expansion": 1.2370000149530824e-05,
+    "inference": 0.8699943219999113,
+    "safety_checker": 0.01463571500062244
+  },
+  "width": 1024,
+  "height": 1024
+}

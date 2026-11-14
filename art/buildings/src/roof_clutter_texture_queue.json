@@ -1,0 +1,572 @@
+{
+  "version": 1,
+  "atlas_target": "ATL_NEUTRAL",
+  "assets": [
+    {
+      "id": "RF_WaterTank",
+      "phase": 2,
+      "kind": "prop",
+      "family": null,
+      "model": "work/roof_clutter/RF_WaterTank/RF_WaterTank_input.glb",
+      "reference": "concept/RF_WaterTank_34.png",
+      "source": "src/roof_clutter_RF_WaterTank.blend",
+      "material": "Shaded",
+      "resolution": "Basic",
+      "status": "ready_for_root_owned_texture_only",
+      "texture_notes": "Use hand-painted albedo, warm top light, cool corner AO. No background, people or lettering. Bake returned colour back onto this original UV mesh; then repack into shared family-neutral atlas. PrepColor is material guidance only. 12-sided wooden stave tank, three steel hoops, splayed diagonally-braced frame, service ladder; roof prop.",
+      "metadata": {
+        "nominal": [
+          3.45,
+          3.45,
+          5.38
+        ],
+        "notes": "12-sided wooden stave tank, three steel hoops, splayed diagonally-braced frame, service ladder; roof prop.",
+        "support_dimensions_m": {
+          "ground_centre_shift_xy": [
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "audit": {
+        "id": "RF_WaterTank",
+        "tris": 1218,
+        "budget": 1500,
+        "material_slots": 1,
+        "zero_area_faces": 0,
+        "branch_edges": 0,
+        "boundary_edges": 16,
+        "loose_vertices": 0,
+        "bounds": [
+          [
+            -1.725,
+            -1.725,
+            0.0
+          ],
+          [
+            1.725,
+            1.725,
+            5.38
+          ]
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "uv_layers": 1,
+        "uv_padding_fraction": 0.008,
+        "origin": "ground-centre",
+        "export_bounds": [
+          [
+            -1.725,
+            -1.725,
+            0.0
+          ],
+          [
+            1.725,
+            1.725,
+            5.38
+          ]
+        ],
+        "export_tris": 1218,
+        "export_material_slots": 1
+      }
+    },
+    {
+      "id": "RF_Billboard8x4",
+      "phase": 2,
+      "kind": "prop",
+      "family": null,
+      "model": "work/roof_clutter/RF_Billboard8x4/RF_Billboard8x4_input.glb",
+      "reference": "concept/RF_Billboard8x4_34.png",
+      "source": "src/roof_clutter_RF_Billboard8x4.blend",
+      "material": "Shaded",
+      "resolution": "Basic",
+      "status": "ready_for_root_owned_texture_only",
+      "texture_notes": "Use hand-painted albedo, warm top light, cool corner AO. No background, people or lettering. Bake returned colour back onto this original UV mesh; then repack into shared family-neutral atlas. PrepColor is material guidance only. Blank structural backing takes a separate sign-page poster. Poster face is exactly 8x4 metres; nominal and bounds include frame/supports.",
+      "metadata": {
+        "nominal": [
+          8.44,
+          3.34,
+          6.18
+        ],
+        "poster_face": {
+          "size_m": [
+            8,
+            4
+          ],
+          "centre": [
+            0.0,
+            -0.9059999737739564,
+            3.5
+          ],
+          "front": "-Y",
+          "bottom_m": 1.5,
+          "separate_card": true
+        },
+        "support_dimensions_m": {
+          "rear_depth": 2.2,
+          "uprights": 3,
+          "catwalk_front": -0.85,
+          "ground_centre_shift_xy": [
+            0.0,
+            0.8399999737739563
+          ]
+        },
+        "notes": "Blank structural backing takes a separate sign-page poster. Poster face is exactly 8x4 metres; nominal and bounds include frame/supports."
+      },
+      "audit": {
+        "id": "RF_Billboard8x4",
+        "tris": 980,
+        "budget": 1500,
+        "material_slots": 1,
+        "zero_area_faces": 0,
+        "branch_edges": 0,
+        "boundary_edges": 24,
+        "loose_vertices": 0,
+        "bounds": [
+          [
+            -4.22,
+            -1.69,
+            0.0
+          ],
+          [
+            4.22,
+            1.69,
+            6.1975
+          ]
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "uv_layers": 1,
+        "uv_padding_fraction": 0.008,
+        "origin": "ground-centre",
+        "export_bounds": [
+          [
+            -4.22,
+            -1.69,
+            0.0
+          ],
+          [
+            4.22,
+            1.69,
+            6.1975
+          ]
+        ],
+        "export_tris": 980,
+        "export_material_slots": 1
+      }
+    },
+    {
+      "id": "RF_Billboard12x5",
+      "phase": 2,
+      "kind": "prop",
+      "family": null,
+      "model": "work/roof_clutter/RF_Billboard12x5/RF_Billboard12x5_input.glb",
+      "reference": "concept/RF_Billboard12x5_34.png",
+      "source": "src/roof_clutter_RF_Billboard12x5.blend",
+      "material": "Shaded",
+      "resolution": "Basic",
+      "status": "ready_for_root_owned_texture_only",
+      "texture_notes": "Use hand-painted albedo, warm top light, cool corner AO. No background, people or lettering. Bake returned colour back onto this original UV mesh; then repack into shared family-neutral atlas. PrepColor is material guidance only. Blank structural backing takes a separate sign-page poster. Poster face is exactly 12x5 metres; nominal and bounds include frame/supports.",
+      "metadata": {
+        "nominal": [
+          12.44,
+          4.24,
+          7.4799999999999995
+        ],
+        "poster_face": {
+          "size_m": [
+            12,
+            5
+          ],
+          "centre": [
+            0.0,
+            -1.3560000214576722,
+            4.3
+          ],
+          "front": "-Y",
+          "bottom_m": 1.8,
+          "separate_card": true
+        },
+        "support_dimensions_m": {
+          "rear_depth": 3.1,
+          "uprights": 4,
+          "catwalk_front": -0.85,
+          "ground_centre_shift_xy": [
+            0.0,
+            1.2900000214576721
+          ]
+        },
+        "notes": "Blank structural backing takes a separate sign-page poster. Poster face is exactly 12x5 metres; nominal and bounds include frame/supports."
+      },
+      "audit": {
+        "id": "RF_Billboard12x5",
+        "tris": 1274,
+        "budget": 1500,
+        "material_slots": 1,
+        "zero_area_faces": 0,
+        "branch_edges": 0,
+        "boundary_edges": 32,
+        "loose_vertices": 0,
+        "bounds": [
+          [
+            -6.22,
+            -2.14,
+            0.0
+          ],
+          [
+            6.22,
+            2.14,
+            7.4975
+          ]
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "uv_layers": 1,
+        "uv_padding_fraction": 0.008,
+        "origin": "ground-centre",
+        "export_bounds": [
+          [
+            -6.22,
+            -2.14,
+            0.0
+          ],
+          [
+            6.22,
+            2.14,
+            7.4975
+          ]
+        ],
+        "export_tris": 1274,
+        "export_material_slots": 1
+      }
+    },
+    {
+      "id": "RF_StairBulkhead",
+      "phase": 2,
+      "kind": "prop",
+      "family": null,
+      "model": "work/roof_clutter/RF_StairBulkhead/RF_StairBulkhead_input.glb",
+      "reference": "concept/RF_StairBulkhead_34.png",
+      "source": "src/roof_clutter_RF_StairBulkhead.blend",
+      "material": "Shaded",
+      "resolution": "Basic",
+      "status": "ready_for_root_owned_texture_only",
+      "texture_notes": "Use hand-painted albedo, warm top light, cool corner AO. No background, people or lettering. Bake returned colour back onto this original UV mesh; then repack into shared family-neutral atlas. PrepColor is material guidance only. Cream stucco exit hut with an oxblood door, rear-falling shed roof, drip hood, flashing and side louvers; no navigable interior.",
+      "metadata": {
+        "nominal": [
+          3.22,
+          4.48,
+          3.0
+        ],
+        "notes": "Cream stucco exit hut with an oxblood door, rear-falling shed roof, drip hood, flashing and side louvers; no navigable interior.",
+        "support_dimensions_m": {
+          "ground_centre_shift_xy": [
+            0.0,
+            -0.18500006198883057
+          ]
+        }
+      },
+      "audit": {
+        "id": "RF_StairBulkhead",
+        "tris": 262,
+        "budget": 1500,
+        "material_slots": 1,
+        "zero_area_faces": 0,
+        "branch_edges": 0,
+        "boundary_edges": 12,
+        "loose_vertices": 0,
+        "bounds": [
+          [
+            -1.61,
+            -2.295,
+            0.0
+          ],
+          [
+            1.61,
+            2.295,
+            3.0
+          ]
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "uv_layers": 1,
+        "uv_padding_fraction": 0.008,
+        "origin": "ground-centre",
+        "export_bounds": [
+          [
+            -1.61,
+            -2.295,
+            0.0
+          ],
+          [
+            1.61,
+            2.295,
+            3.0
+          ]
+        ],
+        "export_tris": 262,
+        "export_material_slots": 1
+      }
+    },
+    {
+      "id": "RF_ChimneyBrick",
+      "phase": 2,
+      "kind": "prop",
+      "family": null,
+      "model": "work/roof_clutter/RF_ChimneyBrick/RF_ChimneyBrick_input.glb",
+      "reference": "concept/RF_ChimneyBrick_34.png",
+      "source": "src/roof_clutter_RF_ChimneyBrick.blend",
+      "material": "Shaded",
+      "resolution": "Basic",
+      "status": "ready_for_root_owned_texture_only",
+      "texture_notes": "Use hand-painted albedo, warm top light, cool corner AO. No background, people or lettering. Bake returned colour back onto this original UV mesh; then repack into shared family-neutral atlas. PrepColor is material guidance only. Sepia brick chimney with cream stone cap and two geometric recessed flue openings. Brick courses and soot supplied in texture.",
+      "metadata": {
+        "nominal": [
+          1.24,
+          1.24,
+          2.15
+        ],
+        "notes": "Sepia brick chimney with cream stone cap and two geometric recessed flue openings. Brick courses and soot supplied in texture.",
+        "support_dimensions_m": {
+          "ground_centre_shift_xy": [
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "audit": {
+        "id": "RF_ChimneyBrick",
+        "tris": 118,
+        "budget": 300,
+        "material_slots": 1,
+        "zero_area_faces": 0,
+        "branch_edges": 0,
+        "boundary_edges": 4,
+        "loose_vertices": 0,
+        "bounds": [
+          [
+            -0.62,
+            -0.62,
+            0.0
+          ],
+          [
+            0.62,
+            0.62,
+            2.15
+          ]
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "uv_layers": 1,
+        "uv_padding_fraction": 0.008,
+        "origin": "ground-centre",
+        "export_bounds": [
+          [
+            -0.62,
+            -0.62,
+            0.0
+          ],
+          [
+            0.62,
+            0.62,
+            2.15
+          ]
+        ],
+        "export_tris": 118,
+        "export_material_slots": 1
+      }
+    },
+    {
+      "id": "RF_VentMetal",
+      "phase": 2,
+      "kind": "prop",
+      "family": null,
+      "model": "work/roof_clutter/RF_VentMetal/RF_VentMetal_input.glb",
+      "reference": "concept/RF_VentMetal_34.png",
+      "source": "src/roof_clutter_RF_VentMetal.blend",
+      "material": "Shaded",
+      "resolution": "Basic",
+      "status": "ready_for_root_owned_texture_only",
+      "texture_notes": "Use hand-painted albedo, warm top light, cool corner AO. No background, people or lettering. Bake returned colour back onto this original UV mesh; then repack into shared family-neutral atlas. PrepColor is material guidance only. Eight-sided galvanized metal shaft, open rain gap, four cap struts, broad low mushroom hood.",
+      "metadata": {
+        "nominal": [
+          1.16,
+          1.16,
+          1.8
+        ],
+        "notes": "Eight-sided galvanized metal shaft, open rain gap, four cap struts, broad low mushroom hood.",
+        "support_dimensions_m": {
+          "ground_centre_shift_xy": [
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "audit": {
+        "id": "RF_VentMetal",
+        "tris": 262,
+        "budget": 300,
+        "material_slots": 1,
+        "zero_area_faces": 0,
+        "branch_edges": 0,
+        "boundary_edges": 4,
+        "loose_vertices": 0,
+        "bounds": [
+          [
+            -0.58,
+            -0.58,
+            0.0
+          ],
+          [
+            0.58,
+            0.58,
+            1.8
+          ]
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "uv_layers": 1,
+        "uv_padding_fraction": 0.008,
+        "origin": "ground-centre",
+        "export_bounds": [
+          [
+            -0.58,
+            -0.58,
+            0.0
+          ],
+          [
+            0.58,
+            0.58,
+            1.8
+          ]
+        ],
+        "export_tris": 262,
+        "export_material_slots": 1
+      }
+    },
+    {
+      "id": "RF_Skylight",
+      "phase": 2,
+      "kind": "prop",
+      "family": null,
+      "model": "work/roof_clutter/RF_Skylight/RF_Skylight_input.glb",
+      "reference": "concept/RF_Skylight_34.png",
+      "source": "src/roof_clutter_RF_Skylight.blend",
+      "material": "Shaded",
+      "resolution": "Basic",
+      "status": "ready_for_root_owned_texture_only",
+      "texture_notes": "Use hand-painted albedo, warm top light, cool corner AO. No background, people or lettering. Bake returned colour back onto this original UV mesh; then repack into shared family-neutral atlas. PrepColor is material guidance only. Pitched 3x4m glazed lantern with masonry curb, slate flashing, ridge and transverse sash mullions. Opaque painted glass.",
+      "metadata": {
+        "nominal": [
+          3.15,
+          4.15,
+          1.31
+        ],
+        "notes": "Pitched 3x4m glazed lantern with masonry curb, slate flashing, ridge and transverse sash mullions. Opaque painted glass.",
+        "support_dimensions_m": {
+          "ground_centre_shift_xy": [
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "audit": {
+        "id": "RF_Skylight",
+        "tris": 434,
+        "budget": 1500,
+        "material_slots": 1,
+        "zero_area_faces": 0,
+        "branch_edges": 0,
+        "boundary_edges": 4,
+        "loose_vertices": 0,
+        "bounds": [
+          [
+            -1.575,
+            -2.075,
+            0.0
+          ],
+          [
+            1.575,
+            2.075,
+            1.31
+          ]
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "uv_layers": 1,
+        "uv_padding_fraction": 0.008,
+        "origin": "ground-centre",
+        "export_bounds": [
+          [
+            -1.575,
+            -2.075,
+            0.0
+          ],
+          [
+            1.575,
+            2.075,
+            1.31
+          ]
+        ],
+        "export_tris": 434,
+        "export_material_slots": 1
+      }
+    }
+  ]
+}

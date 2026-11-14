@@ -1,0 +1,32 @@
+{
+  "BRK_G_Bay6A": {
+    "street": {
+      "min_px_m": 184.174,
+      "max_px_m": 200.0
+    }
+  },
+  "BRK_U_Bay3A": {
+    "street": {
+      "min_px_m": 189.148,
+      "max_px_m": 200.0
+    }
+  },
+  "LM_Drugstore": {
+    "street": {
+      "min_px_m": 66.202,
+      "max_px_m": 70.0
+    },
+    "other": {
+      "min_px_m": 47.287,
+      "max_px_m": 50.0
+    },
+    "roof": {
+      "min_px_m": 40.0,
+      "max_px_m": 40.0
+    },
+    "awning": {
+      "min_px_m": 108.102,
+      "max_px_m": 141.421
+    }
+  }
+}

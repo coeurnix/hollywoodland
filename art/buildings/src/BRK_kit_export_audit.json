@@ -1,0 +1,839 @@
+{
+  "BRK_G_Bay4A": {
+    "bounds": [
+      [
+        0.0,
+        -0.25,
+        0.0
+      ],
+      [
+        4.0,
+        0.0,
+        4.5
+      ]
+    ],
+    "tris": 90,
+    "material_slots": 1,
+    "triangulated": true,
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "rotation": [
+      0.0,
+      -0.0,
+      8.742277657347586e-08
+    ],
+    "zero_area_faces": 0,
+    "branch_edges": 0,
+    "boundary_edges": 28,
+    "loose_vertices": 0
+  },
+  "BRK_G_Bay4B": {
+    "bounds": [
+      [
+        0.0,
+        -0.25,
+        0.0
+      ],
+      [
+        4.0,
+        0.0,
+        4.5
+      ]
+    ],
+    "tris": 90,
+    "material_slots": 1,
+    "triangulated": true,
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "rotation": [
+      0.0,
+      -0.0,
+      8.742277657347586e-08
+    ],
+    "zero_area_faces": 0,
+    "branch_edges": 0,
+    "boundary_edges": 28,
+    "loose_vertices": 0
+  },
+  "BRK_G_Bay6A": {
+    "bounds": [
+      [
+        0.0,
+        -0.25,
+        0.0
+      ],
+      [
+        6.0,
+        1e-06,
+        4.5
+      ]
+    ],
+    "tris": 90,
+    "material_slots": 1,
+    "triangulated": true,
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "rotation": [
+      0.0,
+      -0.0,
+      8.742277657347586e-08
+    ],
+    "zero_area_faces": 0,
+    "branch_edges": 0,
+    "boundary_edges": 28,
+    "loose_vertices": 0
+  },
+  "BRK_G_Bay6B": {
+    "bounds": [
+      [
+        0.0,
+        -0.25,
+        0.0
+      ],
+      [
+        6.0,
+        1e-06,
+        4.5
+      ]
+    ],
+    "tris": 90,
+    "material_slots": 1,
+    "triangulated": true,
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "rotation": [
+      0.0,
+      -0.0,
+      8.742277657347586e-08
+    ],
+    "zero_area_faces": 0,
+    "branch_edges": 0,
+    "boundary_edges": 28,
+    "loose_vertices": 0
+  },
+  "BRK_G_Bay8A": {
+    "bounds": [
+      [
+        0.0,
+        -0.25,
+        0.0
+      ],
+      [
+        8.0,
+        1e-06,
+        4.5
+      ]
+    ],
+    "tris": 90,
+    "material_slots": 1,
+    "triangulated": true,
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "rotation": [
+      0.0,
+      -0.0,
+      8.742277657347586e-08
+    ],
+    "zero_area_faces": 0,
+    "branch_edges": 0,
+    "boundary_edges": 28,
+    "loose_vertices": 0
+  },
+  "BRK_G_Bay8B": {
+    "bounds": [
+      [
+        0.0,
+        -0.25,
+        0.0
+      ],
+      [
+        8.0,
+        1e-06,
+        4.5
+      ]
+    ],
+    "tris": 90,
+    "material_slots": 1,
+    "triangulated": true,
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "rotation": [
+      0.0,
+      -0.0,
+      8.742277657347586e-08
+    ],
+    "zero_area_faces": 0,
+    "branch_edges": 0,
+    "boundary_edges": 28,
+    "loose_vertices": 0
+  },
+  "BRK_G_Entry4": {
+    "bounds": [
+      [
+        0.0,
+        -0.25,
+        0.0
+      ],
+      [
+        4.0,
+        1.0,
+        4.5
+      ]
+    ],
+    "tris": 76,
+    "material_slots": 1,
+    "triangulated": true,
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "rotation": [
+      0.0,
+      -0.0,
+      8.742277657347586e-08
+    ],
+    "zero_area_faces": 0,
+    "branch_edges": 0,
+    "boundary_edges": 26,
+    "loose_vertices": 0
+  },
+  "BRK_U_Bay2A": {
+    "bounds": [
+      [
+        0.0,
+        -0.125,
+        0.0
+      ],
+      [
+        2.0,
+        0.0,
+        3.5
+      ]
+    ],
+    "tris": 6,
+    "material_slots": 1,
+    "triangulated": true,
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "rotation": [
+      0.0,
+      -0.0,
+      8.742277657347586e-08
+    ],
+    "zero_area_faces": 0,
+    "branch_edges": 0,
+    "boundary_edges": 8,
+    "loose_vertices": 0
+  },
+  "BRK_U_Bay2B": {
+    "bounds": [
+      [
+        0.0,
+        -0.125,
+        0.0
+      ],
+      [
+        2.0,
+        0.0,
+        3.5
+      ]
+    ],
+    "tris": 12,
+    "material_slots": 1,
+    "triangulated": true,
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "rotation": [
+      0.0,
+      -0.0,
+      8.742277657347586e-08
+    ],
+    "zero_area_faces": 0,
+    "branch_edges": 0,
+    "boundary_edges": 10,
+    "loose_vertices": 0
+  },
+  "BRK_U_Bay3A": {
+    "bounds": [
+      [
+        0.0,
+        -0.125,
+        0.0
+      ],
+      [
+        3.0,
+        0.0,
+        3.5
+      ]
+    ],
+    "tris": 6,
+    "material_slots": 1,
+    "triangulated": true,
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "rotation": [
+      0.0,
+      -0.0,
+      8.742277657347586e-08
+    ],
+    "zero_area_faces": 0,
+    "branch_edges": 0,
+    "boundary_edges": 8,
+    "loose_vertices": 0
+  },
+  "BRK_U_Bay3B": {
+    "bounds": [
+      [
+        0.0,
+        -0.125,
+        0.0
+      ],
+      [
+        3.0,
+        0.0,
+        3.5
+      ]
+    ],
+    "tris": 12,
+    "material_slots": 1,
+    "triangulated": true,
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "rotation": [
+      0.0,
+      -0.0,
+      8.742277657347586e-08
+    ],
+    "zero_area_faces": 0,
+    "branch_edges": 0,
+    "boundary_edges": 10,
+    "loose_vertices": 0
+  },
+  "BRK_U_Bay4A": {
+    "bounds": [
+      [
+        0.0,
+        -0.125,
+        0.0
+      ],
+      [
+        4.0,
+        0.0,
+        3.5
+      ]
+    ],
+    "tris": 6,
+    "material_slots": 1,
+    "triangulated": true,
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "rotation": [
+      0.0,
+      -0.0,
+      8.742277657347586e-08
+    ],
+    "zero_area_faces": 0,
+    "branch_edges": 0,
+    "boundary_edges": 8,
+    "loose_vertices": 0
+  },
+  "BRK_U_Bay4B": {
+    "bounds": [
+      [
+        0.0,
+        -0.125,
+        0.0
+      ],
+      [
+        4.0,
+        0.0,
+        3.5
+      ]
+    ],
+    "tris": 12,
+    "material_slots": 1,
+    "triangulated": true,
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "rotation": [
+      0.0,
+      -0.0,
+      8.742277657347586e-08
+    ],
+    "zero_area_faces": 0,
+    "branch_edges": 0,
+    "boundary_edges": 10,
+    "loose_vertices": 0
+  },
+  "BRK_Pilaster1_G": {
+    "bounds": [
+      [
+        0.0,
+        -0.125,
+        0.0
+      ],
+      [
+        1.0,
+        -0.125,
+        4.5
+      ]
+    ],
+    "tris": 2,
+    "material_slots": 1,
+    "triangulated": true,
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "rotation": [
+      0.0,
+      -0.0,
+      8.742277657347586e-08
+    ],
+    "zero_area_faces": 0,
+    "branch_edges": 0,
+    "boundary_edges": 4,
+    "loose_vertices": 0
+  },
+  "BRK_Corner_G": {
+    "bounds": [
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.5,
+        0.5,
+        4.5
+      ]
+    ],
+    "tris": 4,
+    "material_slots": 1,
+    "triangulated": true,
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "rotation": [
+      0.0,
+      -0.0,
+      8.742277657347586e-08
+    ],
+    "zero_area_faces": 0,
+    "branch_edges": 0,
+    "boundary_edges": 6,
+    "loose_vertices": 0
+  },
+  "BRK_Pilaster1_U": {
+    "bounds": [
+      [
+        0.0,
+        -0.125,
+        0.0
+      ],
+      [
+        1.0,
+        -0.125,
+        3.5
+      ]
+    ],
+    "tris": 2,
+    "material_slots": 1,
+    "triangulated": true,
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "rotation": [
+      0.0,
+      -0.0,
+      8.742277657347586e-08
+    ],
+    "zero_area_faces": 0,
+    "branch_edges": 0,
+    "boundary_edges": 4,
+    "loose_vertices": 0
+  },
+  "BRK_Corner_U": {
+    "bounds": [
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.5,
+        0.5,
+        3.5
+      ]
+    ],
+    "tris": 4,
+    "material_slots": 1,
+    "triangulated": true,
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "rotation": [
+      0.0,
+      -0.0,
+      8.742277657347586e-08
+    ],
+    "zero_area_faces": 0,
+    "branch_edges": 0,
+    "boundary_edges": 6,
+    "loose_vertices": 0
+  },
+  "BRK_Parapet2": {
+    "bounds": [
+      [
+        -0.0,
+        -0.25,
+        0.0
+      ],
+      [
+        2.0,
+        0.25,
+        1.5
+      ]
+    ],
+    "tris": 26,
+    "material_slots": 1,
+    "triangulated": true,
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "rotation": [
+      0.0,
+      -0.0,
+      8.742277657347586e-08
+    ],
+    "zero_area_faces": 0,
+    "branch_edges": 0,
+    "boundary_edges": 4,
+    "loose_vertices": 0
+  },
+  "BRK_Parapet4": {
+    "bounds": [
+      [
+        -0.0,
+        -0.25,
+        0.0
+      ],
+      [
+        4.0,
+        0.25,
+        1.5
+      ]
+    ],
+    "tris": 26,
+    "material_slots": 1,
+    "triangulated": true,
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "rotation": [
+      0.0,
+      -0.0,
+      8.742277657347586e-08
+    ],
+    "zero_area_faces": 0,
+    "branch_edges": 0,
+    "boundary_edges": 4,
+    "loose_vertices": 0
+  },
+  "BRK_CrestA": {
+    "bounds": [
+      [
+        -0.0,
+        -0.125,
+        0.0
+      ],
+      [
+        4.0,
+        0.125,
+        2.0
+      ]
+    ],
+    "tris": 42,
+    "material_slots": 1,
+    "triangulated": true,
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "rotation": [
+      0.0,
+      -0.0,
+      8.742277657347586e-08
+    ],
+    "zero_area_faces": 0,
+    "branch_edges": 0,
+    "boundary_edges": 4,
+    "loose_vertices": 0
+  },
+  "BRK_CrestB": {
+    "bounds": [
+      [
+        -0.0,
+        -0.125,
+        0.0
+      ],
+      [
+        4.0,
+        0.125,
+        2.0
+      ]
+    ],
+    "tris": 42,
+    "material_slots": 1,
+    "triangulated": true,
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "rotation": [
+      0.0,
+      -0.0,
+      8.742277657347586e-08
+    ],
+    "zero_area_faces": 0,
+    "branch_edges": 0,
+    "boundary_edges": 4,
+    "loose_vertices": 0
+  },
+  "BRK_Awning4": {
+    "bounds": [
+      [
+        -0.0,
+        -1.2625,
+        2.7
+      ],
+      [
+        4.0,
+        0.005409,
+        3.511269
+      ]
+    ],
+    "tris": 18,
+    "material_slots": 1,
+    "triangulated": true,
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "rotation": [
+      0.0,
+      -0.0,
+      8.742277657347586e-08
+    ],
+    "zero_area_faces": 0,
+    "branch_edges": 0,
+    "boundary_edges": 4,
+    "loose_vertices": 0
+  },
+  "BRK_Awning6": {
+    "bounds": [
+      [
+        -0.0,
+        -1.2625,
+        2.7
+      ],
+      [
+        6.0,
+        0.00541,
+        3.511269
+      ]
+    ],
+    "tris": 18,
+    "material_slots": 1,
+    "triangulated": true,
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "rotation": [
+      0.0,
+      -0.0,
+      8.742277657347586e-08
+    ],
+    "zero_area_faces": 0,
+    "branch_edges": 0,
+    "boundary_edges": 4,
+    "loose_vertices": 0
+  },
+  "BRK_Wall": {
+    "bounds": [
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        4.0,
+        0.0,
+        3.5
+      ]
+    ],
+    "tris": 2,
+    "material_slots": 1,
+    "triangulated": true,
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "rotation": [
+      0.0,
+      -0.0,
+      8.742277657347586e-08
+    ],
+    "zero_area_faces": 0,
+    "branch_edges": 0,
+    "boundary_edges": 4,
+    "loose_vertices": 0
+  },
+  "BRK_Roof": {
+    "bounds": [
+      [
+        -0.0,
+        0.0,
+        0.0
+      ],
+      [
+        4.0,
+        4.0,
+        0.0
+      ]
+    ],
+    "tris": 2,
+    "material_slots": 1,
+    "triangulated": true,
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "rotation": [
+      0.0,
+      -0.0,
+      8.742277657347586e-08
+    ],
+    "zero_area_faces": 0,
+    "branch_edges": 0,
+    "boundary_edges": 4,
+    "loose_vertices": 0
+  },
+  "BRK_Damaged_G_Bay6": {
+    "bounds": [
+      [
+        0.0,
+        -0.25,
+        0.0
+      ],
+      [
+        6.0,
+        1e-06,
+        4.5
+      ]
+    ],
+    "tris": 94,
+    "material_slots": 1,
+    "triangulated": true,
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "rotation": [
+      0.0,
+      -0.0,
+      8.742277657347586e-08
+    ],
+    "zero_area_faces": 0,
+    "branch_edges": 0,
+    "boundary_edges": 36,
+    "loose_vertices": 0
+  },
+  "BRK_Damaged_U_Bay3": {
+    "bounds": [
+      [
+        0.0,
+        -0.125,
+        0.0
+      ],
+      [
+        3.0,
+        0.0,
+        3.5
+      ]
+    ],
+    "tris": 10,
+    "material_slots": 1,
+    "triangulated": true,
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "rotation": [
+      0.0,
+      -0.0,
+      8.742277657347586e-08
+    ],
+    "zero_area_faces": 0,
+    "branch_edges": 0,
+    "boundary_edges": 16,
+    "loose_vertices": 0
+  }
+}

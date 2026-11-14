@@ -1,0 +1,1082 @@
+[
+  {
+    "id": "BRK_G_Bay4A",
+    "family": "BRK",
+    "nominal": [
+      4,
+      4.5
+    ],
+    "description": "ground-floor shop window and door; door right, broad window left",
+    "kind": "module"
+  },
+  {
+    "id": "BRK_G_Bay4B",
+    "family": "BRK",
+    "nominal": [
+      4,
+      4.5
+    ],
+    "description": "ground-floor shop window and door; central door between two windows",
+    "kind": "module"
+  },
+  {
+    "id": "BRK_G_Bay6A",
+    "family": "BRK",
+    "nominal": [
+      6,
+      4.5
+    ],
+    "description": "ground-floor shop window and door; door right, broad window left",
+    "kind": "module"
+  },
+  {
+    "id": "BRK_G_Bay6B",
+    "family": "BRK",
+    "nominal": [
+      6,
+      4.5
+    ],
+    "description": "ground-floor shop window and door; central door between two windows",
+    "kind": "module"
+  },
+  {
+    "id": "BRK_G_Bay8A",
+    "family": "BRK",
+    "nominal": [
+      8,
+      4.5
+    ],
+    "description": "ground-floor shop window and door; door right, broad window left",
+    "kind": "module"
+  },
+  {
+    "id": "BRK_G_Bay8B",
+    "family": "BRK",
+    "nominal": [
+      8,
+      4.5
+    ],
+    "description": "ground-floor shop window and door; central door between two windows",
+    "kind": "module"
+  },
+  {
+    "id": "BRK_G_Entry4",
+    "family": "BRK",
+    "nominal": [
+      4,
+      4.5
+    ],
+    "description": "recessed upper-storey stair entrance, dark double doors, 1 metre recess",
+    "kind": "module"
+  },
+  {
+    "id": "BRK_U_Bay2A",
+    "family": "BRK",
+    "nominal": [
+      2,
+      3.5
+    ],
+    "description": "upper-floor double-hung window",
+    "kind": "module"
+  },
+  {
+    "id": "BRK_U_Bay2B",
+    "family": "BRK",
+    "nominal": [
+      2,
+      3.5
+    ],
+    "description": "upper-floor paired narrow windows",
+    "kind": "module"
+  },
+  {
+    "id": "BRK_U_Bay3A",
+    "family": "BRK",
+    "nominal": [
+      3,
+      3.5
+    ],
+    "description": "upper-floor double-hung window",
+    "kind": "module"
+  },
+  {
+    "id": "BRK_U_Bay3B",
+    "family": "BRK",
+    "nominal": [
+      3,
+      3.5
+    ],
+    "description": "upper-floor paired narrow windows",
+    "kind": "module"
+  },
+  {
+    "id": "BRK_U_Bay4A",
+    "family": "BRK",
+    "nominal": [
+      4,
+      3.5
+    ],
+    "description": "upper-floor double-hung window",
+    "kind": "module"
+  },
+  {
+    "id": "BRK_U_Bay4B",
+    "family": "BRK",
+    "nominal": [
+      4,
+      3.5
+    ],
+    "description": "upper-floor paired narrow windows",
+    "kind": "module"
+  },
+  {
+    "id": "BRK_Pilaster1_G",
+    "family": "BRK",
+    "nominal": [
+      1,
+      4.5
+    ],
+    "description": "plain vertical pier and width filler",
+    "kind": "module"
+  },
+  {
+    "id": "BRK_Corner_G",
+    "family": "BRK",
+    "nominal": [
+      1,
+      4.5
+    ],
+    "description": "outside corner, 0.5 metre wrapping each face at 90 degrees",
+    "kind": "module"
+  },
+  {
+    "id": "BRK_Pilaster1_U",
+    "family": "BRK",
+    "nominal": [
+      1,
+      3.5
+    ],
+    "description": "plain vertical pier and width filler",
+    "kind": "module"
+  },
+  {
+    "id": "BRK_Corner_U",
+    "family": "BRK",
+    "nominal": [
+      1,
+      3.5
+    ],
+    "description": "outside corner, 0.5 metre wrapping each face at 90 degrees",
+    "kind": "module"
+  },
+  {
+    "id": "BRK_Parapet2",
+    "family": "BRK",
+    "nominal": [
+      2,
+      1.5
+    ],
+    "description": "top parapet, lower 70 percent plain, coping upper 30 percent",
+    "kind": "module"
+  },
+  {
+    "id": "BRK_Parapet4",
+    "family": "BRK",
+    "nominal": [
+      4,
+      1.5
+    ],
+    "description": "top parapet, lower 70 percent plain, coping upper 30 percent",
+    "kind": "module"
+  },
+  {
+    "id": "BRK_CrestA",
+    "family": "BRK",
+    "nominal": [
+      4,
+      2
+    ],
+    "description": "ornamental parapet centrepiece, simple curved gable",
+    "kind": "module"
+  },
+  {
+    "id": "BRK_CrestB",
+    "family": "BRK",
+    "nominal": [
+      4,
+      2
+    ],
+    "description": "ornamental parapet centrepiece, stepped signboard with blank panel",
+    "kind": "module"
+  },
+  {
+    "id": "BRK_Awning4",
+    "family": "BRK",
+    "nominal": [
+      4,
+      3.5
+    ],
+    "description": "separate canvas awning, bottom at 2.7 m, top at 3.5 m, projects 1.25 m, blank space below, no facade",
+    "kind": "module"
+  },
+  {
+    "id": "BRK_Awning6",
+    "family": "BRK",
+    "nominal": [
+      6,
+      3.5
+    ],
+    "description": "separate canvas awning, bottom at 2.7 m, top at 3.5 m, projects 1.25 m, blank space below, no facade",
+    "kind": "module"
+  },
+  {
+    "id": "BRK_Wall",
+    "family": "BRK",
+    "nominal": [
+      4,
+      3.5
+    ],
+    "description": "plain seamless wall panel",
+    "kind": "wall"
+  },
+  {
+    "id": "BRK_Roof",
+    "family": "BRK",
+    "nominal": [
+      4,
+      4
+    ],
+    "description": "plain flat tar-and-gravel roof cap",
+    "kind": "roof"
+  },
+  {
+    "id": "BRK_Damaged_G_Bay6",
+    "family": "BRK",
+    "nominal": [
+      6,
+      4.5
+    ],
+    "description": "ground storefront, boards over one window, soot above lintel, otherwise intact",
+    "kind": "module"
+  },
+  {
+    "id": "BRK_Damaged_U_Bay3",
+    "family": "BRK",
+    "nominal": [
+      3,
+      3.5
+    ],
+    "description": "upper window bay with cracked plaster or brick and taped glass, otherwise intact",
+    "kind": "module"
+  },
+  {
+    "id": "SPN_G_Bay4A",
+    "family": "SPN",
+    "nominal": [
+      4,
+      4.5
+    ],
+    "description": "ground-floor shop window and door; door right, broad window left",
+    "kind": "module"
+  },
+  {
+    "id": "SPN_G_Bay4B",
+    "family": "SPN",
+    "nominal": [
+      4,
+      4.5
+    ],
+    "description": "ground-floor shop window and door; central door between two windows",
+    "kind": "module"
+  },
+  {
+    "id": "SPN_G_Bay6A",
+    "family": "SPN",
+    "nominal": [
+      6,
+      4.5
+    ],
+    "description": "ground-floor shop window and door; door right, broad window left",
+    "kind": "module"
+  },
+  {
+    "id": "SPN_G_Bay6B",
+    "family": "SPN",
+    "nominal": [
+      6,
+      4.5
+    ],
+    "description": "ground-floor shop window and door; central door between two windows",
+    "kind": "module"
+  },
+  {
+    "id": "SPN_G_Bay8A",
+    "family": "SPN",
+    "nominal": [
+      8,
+      4.5
+    ],
+    "description": "ground-floor shop window and door; door right, broad window left",
+    "kind": "module"
+  },
+  {
+    "id": "SPN_G_Bay8B",
+    "family": "SPN",
+    "nominal": [
+      8,
+      4.5
+    ],
+    "description": "ground-floor shop window and door; central door between two windows",
+    "kind": "module"
+  },
+  {
+    "id": "SPN_G_Entry4",
+    "family": "SPN",
+    "nominal": [
+      4,
+      4.5
+    ],
+    "description": "recessed upper-storey stair entrance, dark double doors, 1 metre recess",
+    "kind": "module"
+  },
+  {
+    "id": "SPN_U_Bay2A",
+    "family": "SPN",
+    "nominal": [
+      2,
+      3.5
+    ],
+    "description": "upper-floor double-hung window",
+    "kind": "module"
+  },
+  {
+    "id": "SPN_U_Bay2B",
+    "family": "SPN",
+    "nominal": [
+      2,
+      3.5
+    ],
+    "description": "upper-floor paired narrow windows",
+    "kind": "module"
+  },
+  {
+    "id": "SPN_U_Bay3A",
+    "family": "SPN",
+    "nominal": [
+      3,
+      3.5
+    ],
+    "description": "upper-floor double-hung window",
+    "kind": "module"
+  },
+  {
+    "id": "SPN_U_Bay3B",
+    "family": "SPN",
+    "nominal": [
+      3,
+      3.5
+    ],
+    "description": "upper-floor paired narrow windows",
+    "kind": "module"
+  },
+  {
+    "id": "SPN_U_Bay4A",
+    "family": "SPN",
+    "nominal": [
+      4,
+      3.5
+    ],
+    "description": "upper-floor double-hung window",
+    "kind": "module"
+  },
+  {
+    "id": "SPN_U_Bay4B",
+    "family": "SPN",
+    "nominal": [
+      4,
+      3.5
+    ],
+    "description": "upper-floor paired narrow windows",
+    "kind": "module"
+  },
+  {
+    "id": "SPN_Pilaster1_G",
+    "family": "SPN",
+    "nominal": [
+      1,
+      4.5
+    ],
+    "description": "plain vertical pier and width filler",
+    "kind": "module"
+  },
+  {
+    "id": "SPN_Corner_G",
+    "family": "SPN",
+    "nominal": [
+      1,
+      4.5
+    ],
+    "description": "outside corner, 0.5 metre wrapping each face at 90 degrees",
+    "kind": "module"
+  },
+  {
+    "id": "SPN_Pilaster1_U",
+    "family": "SPN",
+    "nominal": [
+      1,
+      3.5
+    ],
+    "description": "plain vertical pier and width filler",
+    "kind": "module"
+  },
+  {
+    "id": "SPN_Corner_U",
+    "family": "SPN",
+    "nominal": [
+      1,
+      3.5
+    ],
+    "description": "outside corner, 0.5 metre wrapping each face at 90 degrees",
+    "kind": "module"
+  },
+  {
+    "id": "SPN_Parapet2",
+    "family": "SPN",
+    "nominal": [
+      2,
+      1.5
+    ],
+    "description": "top parapet, lower 70 percent plain, coping upper 30 percent",
+    "kind": "module"
+  },
+  {
+    "id": "SPN_Parapet4",
+    "family": "SPN",
+    "nominal": [
+      4,
+      1.5
+    ],
+    "description": "top parapet, lower 70 percent plain, coping upper 30 percent",
+    "kind": "module"
+  },
+  {
+    "id": "SPN_CrestA",
+    "family": "SPN",
+    "nominal": [
+      4,
+      2
+    ],
+    "description": "ornamental parapet centrepiece, simple curved gable",
+    "kind": "module"
+  },
+  {
+    "id": "SPN_CrestB",
+    "family": "SPN",
+    "nominal": [
+      4,
+      2
+    ],
+    "description": "ornamental parapet centrepiece, stepped signboard with blank panel",
+    "kind": "module"
+  },
+  {
+    "id": "SPN_Awning4",
+    "family": "SPN",
+    "nominal": [
+      4,
+      3.5
+    ],
+    "description": "separate canvas awning, bottom at 2.7 m, top at 3.5 m, projects 1.25 m, blank space below, no facade",
+    "kind": "module"
+  },
+  {
+    "id": "SPN_Awning6",
+    "family": "SPN",
+    "nominal": [
+      6,
+      3.5
+    ],
+    "description": "separate canvas awning, bottom at 2.7 m, top at 3.5 m, projects 1.25 m, blank space below, no facade",
+    "kind": "module"
+  },
+  {
+    "id": "SPN_Wall",
+    "family": "SPN",
+    "nominal": [
+      4,
+      3.5
+    ],
+    "description": "plain seamless wall panel",
+    "kind": "wall"
+  },
+  {
+    "id": "SPN_Roof",
+    "family": "SPN",
+    "nominal": [
+      4,
+      4
+    ],
+    "description": "plain flat tar-and-gravel roof cap",
+    "kind": "roof"
+  },
+  {
+    "id": "SPN_Damaged_G_Bay6",
+    "family": "SPN",
+    "nominal": [
+      6,
+      4.5
+    ],
+    "description": "ground storefront, boards over one window, soot above lintel, otherwise intact",
+    "kind": "module"
+  },
+  {
+    "id": "SPN_Damaged_U_Bay3",
+    "family": "SPN",
+    "nominal": [
+      3,
+      3.5
+    ],
+    "description": "upper window bay with cracked plaster or brick and taped glass, otherwise intact",
+    "kind": "module"
+  },
+  {
+    "id": "DECO_G_Bay4A",
+    "family": "DECO",
+    "nominal": [
+      4,
+      4.5
+    ],
+    "description": "ground-floor shop window and door; door right, broad window left",
+    "kind": "module"
+  },
+  {
+    "id": "DECO_G_Bay4B",
+    "family": "DECO",
+    "nominal": [
+      4,
+      4.5
+    ],
+    "description": "ground-floor shop window and door; central door between two windows",
+    "kind": "module"
+  },
+  {
+    "id": "DECO_G_Bay6A",
+    "family": "DECO",
+    "nominal": [
+      6,
+      4.5
+    ],
+    "description": "ground-floor shop window and door; door right, broad window left",
+    "kind": "module"
+  },
+  {
+    "id": "DECO_G_Bay6B",
+    "family": "DECO",
+    "nominal": [
+      6,
+      4.5
+    ],
+    "description": "ground-floor shop window and door; central door between two windows",
+    "kind": "module"
+  },
+  {
+    "id": "DECO_G_Bay8A",
+    "family": "DECO",
+    "nominal": [
+      8,
+      4.5
+    ],
+    "description": "ground-floor shop window and door; door right, broad window left",
+    "kind": "module"
+  },
+  {
+    "id": "DECO_G_Bay8B",
+    "family": "DECO",
+    "nominal": [
+      8,
+      4.5
+    ],
+    "description": "ground-floor shop window and door; central door between two windows",
+    "kind": "module"
+  },
+  {
+    "id": "DECO_G_Entry4",
+    "family": "DECO",
+    "nominal": [
+      4,
+      4.5
+    ],
+    "description": "recessed upper-storey stair entrance, dark double doors, 1 metre recess",
+    "kind": "module"
+  },
+  {
+    "id": "DECO_U_Bay2A",
+    "family": "DECO",
+    "nominal": [
+      2,
+      3.5
+    ],
+    "description": "upper-floor double-hung window",
+    "kind": "module"
+  },
+  {
+    "id": "DECO_U_Bay2B",
+    "family": "DECO",
+    "nominal": [
+      2,
+      3.5
+    ],
+    "description": "upper-floor paired narrow windows",
+    "kind": "module"
+  },
+  {
+    "id": "DECO_U_Bay3A",
+    "family": "DECO",
+    "nominal": [
+      3,
+      3.5
+    ],
+    "description": "upper-floor double-hung window",
+    "kind": "module"
+  },
+  {
+    "id": "DECO_U_Bay3B",
+    "family": "DECO",
+    "nominal": [
+      3,
+      3.5
+    ],
+    "description": "upper-floor paired narrow windows",
+    "kind": "module"
+  },
+  {
+    "id": "DECO_U_Bay4A",
+    "family": "DECO",
+    "nominal": [
+      4,
+      3.5
+    ],
+    "description": "upper-floor double-hung window",
+    "kind": "module"
+  },
+  {
+    "id": "DECO_U_Bay4B",
+    "family": "DECO",
+    "nominal": [
+      4,
+      3.5
+    ],
+    "description": "upper-floor paired narrow windows",
+    "kind": "module"
+  },
+  {
+    "id": "DECO_Pilaster1_G",
+    "family": "DECO",
+    "nominal": [
+      1,
+      4.5
+    ],
+    "description": "plain vertical pier and width filler",
+    "kind": "module"
+  },
+  {
+    "id": "DECO_Corner_G",
+    "family": "DECO",
+    "nominal": [
+      1,
+      4.5
+    ],
+    "description": "outside corner, 0.5 metre wrapping each face at 90 degrees",
+    "kind": "module"
+  },
+  {
+    "id": "DECO_Pilaster1_U",
+    "family": "DECO",
+    "nominal": [
+      1,
+      3.5
+    ],
+    "description": "plain vertical pier and width filler",
+    "kind": "module"
+  },
+  {
+    "id": "DECO_Corner_U",
+    "family": "DECO",
+    "nominal": [
+      1,
+      3.5
+    ],
+    "description": "outside corner, 0.5 metre wrapping each face at 90 degrees",
+    "kind": "module"
+  },
+  {
+    "id": "DECO_Parapet2",
+    "family": "DECO",
+    "nominal": [
+      2,
+      1.5
+    ],
+    "description": "top parapet, lower 70 percent plain, coping upper 30 percent",
+    "kind": "module"
+  },
+  {
+    "id": "DECO_Parapet4",
+    "family": "DECO",
+    "nominal": [
+      4,
+      1.5
+    ],
+    "description": "top parapet, lower 70 percent plain, coping upper 30 percent",
+    "kind": "module"
+  },
+  {
+    "id": "DECO_CrestA",
+    "family": "DECO",
+    "nominal": [
+      4,
+      2
+    ],
+    "description": "ornamental parapet centrepiece, simple curved gable",
+    "kind": "module"
+  },
+  {
+    "id": "DECO_CrestB",
+    "family": "DECO",
+    "nominal": [
+      4,
+      2
+    ],
+    "description": "ornamental parapet centrepiece, stepped signboard with blank panel",
+    "kind": "module"
+  },
+  {
+    "id": "DECO_Awning4",
+    "family": "DECO",
+    "nominal": [
+      4,
+      3.5
+    ],
+    "description": "separate canvas awning, bottom at 2.7 m, top at 3.5 m, projects 1.25 m, blank space below, no facade",
+    "kind": "module"
+  },
+  {
+    "id": "DECO_Awning6",
+    "family": "DECO",
+    "nominal": [
+      6,
+      3.5
+    ],
+    "description": "separate canvas awning, bottom at 2.7 m, top at 3.5 m, projects 1.25 m, blank space below, no facade",
+    "kind": "module"
+  },
+  {
+    "id": "DECO_Wall",
+    "family": "DECO",
+    "nominal": [
+      4,
+      3.5
+    ],
+    "description": "plain seamless wall panel",
+    "kind": "wall"
+  },
+  {
+    "id": "DECO_Roof",
+    "family": "DECO",
+    "nominal": [
+      4,
+      4
+    ],
+    "description": "plain flat tar-and-gravel roof cap",
+    "kind": "roof"
+  },
+  {
+    "id": "DECO_Damaged_G_Bay6",
+    "family": "DECO",
+    "nominal": [
+      6,
+      4.5
+    ],
+    "description": "ground storefront, boards over one window, soot above lintel, otherwise intact",
+    "kind": "module"
+  },
+  {
+    "id": "DECO_Damaged_U_Bay3",
+    "family": "DECO",
+    "nominal": [
+      3,
+      3.5
+    ],
+    "description": "upper window bay with cracked plaster or brick and taped glass, otherwise intact",
+    "kind": "module"
+  },
+  {
+    "id": "MSN_G_Bay4A",
+    "family": "MSN",
+    "nominal": [
+      4,
+      4.5
+    ],
+    "description": "ground-floor shop window and door; door right, broad window left",
+    "kind": "module"
+  },
+  {
+    "id": "MSN_G_Bay4B",
+    "family": "MSN",
+    "nominal": [
+      4,
+      4.5
+    ],
+    "description": "ground-floor shop window and door; central door between two windows",
+    "kind": "module"
+  },
+  {
+    "id": "MSN_G_Bay6A",
+    "family": "MSN",
+    "nominal": [
+      6,
+      4.5
+    ],
+    "description": "ground-floor shop window and door; door right, broad window left",
+    "kind": "module"
+  },
+  {
+    "id": "MSN_G_Bay6B",
+    "family": "MSN",
+    "nominal": [
+      6,
+      4.5
+    ],
+    "description": "ground-floor shop window and door; central door between two windows",
+    "kind": "module"
+  },
+  {
+    "id": "MSN_G_Bay8A",
+    "family": "MSN",
+    "nominal": [
+      8,
+      4.5
+    ],
+    "description": "ground-floor shop window and door; door right, broad window left",
+    "kind": "module"
+  },
+  {
+    "id": "MSN_G_Bay8B",
+    "family": "MSN",
+    "nominal": [
+      8,
+      4.5
+    ],
+    "description": "ground-floor shop window and door; central door between two windows",
+    "kind": "module"
+  },
+  {
+    "id": "MSN_G_Entry4",
+    "family": "MSN",
+    "nominal": [
+      4,
+      4.5
+    ],
+    "description": "recessed upper-storey stair entrance, dark double doors, 1 metre recess",
+    "kind": "module"
+  },
+  {
+    "id": "MSN_U_Bay2A",
+    "family": "MSN",
+    "nominal": [
+      2,
+      3.5
+    ],
+    "description": "upper-floor double-hung window",
+    "kind": "module"
+  },
+  {
+    "id": "MSN_U_Bay2B",
+    "family": "MSN",
+    "nominal": [
+      2,
+      3.5
+    ],
+    "description": "upper-floor paired narrow windows",
+    "kind": "module"
+  },
+  {
+    "id": "MSN_U_Bay3A",
+    "family": "MSN",
+    "nominal": [
+      3,
+      3.5
+    ],
+    "description": "upper-floor double-hung window",
+    "kind": "module"
+  },
+  {
+    "id": "MSN_U_Bay3B",
+    "family": "MSN",
+    "nominal": [
+      3,
+      3.5
+    ],
+    "description": "upper-floor paired narrow windows",
+    "kind": "module"
+  },
+  {
+    "id": "MSN_U_Bay4A",
+    "family": "MSN",
+    "nominal": [
+      4,
+      3.5
+    ],
+    "description": "upper-floor double-hung window",
+    "kind": "module"
+  },
+  {
+    "id": "MSN_U_Bay4B",
+    "family": "MSN",
+    "nominal": [
+      4,
+      3.5
+    ],
+    "description": "upper-floor paired narrow windows",
+    "kind": "module"
+  },
+  {
+    "id": "MSN_Pilaster1_G",
+    "family": "MSN",
+    "nominal": [
+      1,
+      4.5
+    ],
+    "description": "plain vertical pier and width filler",
+    "kind": "module"
+  },
+  {
+    "id": "MSN_Corner_G",
+    "family": "MSN",
+    "nominal": [
+      1,
+      4.5
+    ],
+    "description": "outside corner, 0.5 metre wrapping each face at 90 degrees",
+    "kind": "module"
+  },
+  {
+    "id": "MSN_Pilaster1_U",
+    "family": "MSN",
+    "nominal": [
+      1,
+      3.5
+    ],
+    "description": "plain vertical pier and width filler",
+    "kind": "module"
+  },
+  {
+    "id": "MSN_Corner_U",
+    "family": "MSN",
+    "nominal": [
+      1,
+      3.5
+    ],
+    "description": "outside corner, 0.5 metre wrapping each face at 90 degrees",
+    "kind": "module"
+  },
+  {
+    "id": "MSN_Parapet2",
+    "family": "MSN",
+    "nominal": [
+      2,
+      1.5
+    ],
+    "description": "top parapet, lower 70 percent plain, coping upper 30 percent",
+    "kind": "module"
+  },
+  {
+    "id": "MSN_Parapet4",
+    "family": "MSN",
+    "nominal": [
+      4,
+      1.5
+    ],
+    "description": "top parapet, lower 70 percent plain, coping upper 30 percent",
+    "kind": "module"
+  },
+  {
+    "id": "MSN_CrestA",
+    "family": "MSN",
+    "nominal": [
+      4,
+      2
+    ],
+    "description": "ornamental parapet centrepiece, simple curved gable",
+    "kind": "module"
+  },
+  {
+    "id": "MSN_CrestB",
+    "family": "MSN",
+    "nominal": [
+      4,
+      2
+    ],
+    "description": "ornamental parapet centrepiece, stepped signboard with blank panel",
+    "kind": "module"
+  },
+  {
+    "id": "MSN_Awning4",
+    "family": "MSN",
+    "nominal": [
+      4,
+      3.5
+    ],
+    "description": "separate canvas awning, bottom at 2.7 m, top at 3.5 m, projects 1.25 m, blank space below, no facade",
+    "kind": "module"
+  },
+  {
+    "id": "MSN_Awning6",
+    "family": "MSN",
+    "nominal": [
+      6,
+      3.5
+    ],
+    "description": "separate canvas awning, bottom at 2.7 m, top at 3.5 m, projects 1.25 m, blank space below, no facade",
+    "kind": "module"
+  },
+  {
+    "id": "MSN_Wall",
+    "family": "MSN",
+    "nominal": [
+      4,
+      3.5
+    ],
+    "description": "plain seamless wall panel",
+    "kind": "wall"
+  },
+  {
+    "id": "MSN_Roof",
+    "family": "MSN",
+    "nominal": [
+      4,
+      4
+    ],
+    "description": "plain flat tar-and-gravel roof cap",
+    "kind": "roof"
+  },
+  {
+    "id": "MSN_Damaged_G_Bay6",
+    "family": "MSN",
+    "nominal": [
+      6,
+      4.5
+    ],
+    "description": "ground storefront, boards over one window, soot above lintel, otherwise intact",
+    "kind": "module"
+  },
+  {
+    "id": "MSN_Damaged_U_Bay3",
+    "family": "MSN",
+    "nominal": [
+      3,
+      3.5
+    ],
+    "description": "upper window bay with cracked plaster or brick and taped glass, otherwise intact",
+    "kind": "module"
+  }
+]

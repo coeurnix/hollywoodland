@@ -1,0 +1,32 @@
+[
+  {
+    "id": "BRK_Pilaster1_G",
+    "final_tris": 2,
+    "proxy_tris": 128,
+    "reason": "Texture proxy subdivision preserves silhouette and UV interpolation; final mesh stays authored and minimal."
+  },
+  {
+    "id": "BRK_Parapet4",
+    "final_tris": 6,
+    "proxy_tris": 216,
+    "reason": "Texture proxy subdivision preserves silhouette and UV interpolation; final mesh stays authored and minimal."
+  },
+  {
+    "id": "BRK_CrestA",
+    "final_tris": 10,
+    "proxy_tris": 250,
+    "reason": "Texture proxy subdivision preserves silhouette and UV interpolation; final mesh stays authored and minimal."
+  },
+  {
+    "id": "BRK_CrestB",
+    "final_tris": 10,
+    "proxy_tris": 250,
+    "reason": "Texture proxy subdivision preserves silhouette and UV interpolation; final mesh stays authored and minimal."
+  },
+  {
+    "id": "BRK_Awning6",
+    "final_tris": 4,
+    "proxy_tris": 256,
+    "reason": "Texture proxy subdivision preserves silhouette and UV interpolation; final mesh stays authored and minimal."
+  }
+]

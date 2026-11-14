@@ -1,0 +1,39 @@
+{
+  "method": "orthographic role-plane camera projection and Cycles selected-to-active EMIT bake",
+  "frozen_input_sha256": "abf695074c88fc8bcb8662b2f6d0d32b206cb4abf66a193ebbd9aa7285751906",
+  "uploaded_authored": {
+    "vertices": 1888,
+    "faces": 788,
+    "position_uv_hash": "9a1ba356daffabe3d604d87b12b40456edd79d99b57f35fac15de4cac7433c4d"
+  },
+  "authored_geometry_uv_unchanged_during_bake": true,
+  "after_bake_before_cleanup": {
+    "vertices": 1888,
+    "faces": 788,
+    "position_uv_hash": "9a1ba356daffabe3d604d87b12b40456edd79d99b57f35fac15de4cac7433c4d"
+  },
+  "after_cleanup": {
+    "vertices": 902,
+    "faces": 850,
+    "position_uv_hash": "c36af4bca6be4d34d5adae86661bb570e5ab91939cdacfb84c3874e020163e62"
+  },
+  "projection_face_counts": {
+    "wall": 64,
+    "roof": 2,
+    "stone": 292,
+    "metal": 114,
+    "sign": 4,
+    "bulb": 312
+  },
+  "projection_images": {
+    "roof": "work\\hub_deco\\projection\\LM_Pantages_roof_v2.png",
+    "wall": "work\\hub_deco\\projection\\LM_Pantages_front_side_back_bay.png",
+    "upper": "work\\hub_deco\\projection\\LM_Pantages_front_side_back_bay.png",
+    "stone": "work\\hub_deco\\projection\\LM_Pantages_stone_relief.png",
+    "glass": "work\\hub_deco\\projection\\LM_FirstNational_door.png"
+  },
+  "cleanup": "Post-bake crown exterior/back cleanup; existing stone UV field retained.",
+  "material_slots": 1,
+  "material_name": "M_LM_Pantages",
+  "two_failed_Rodin_attempts": true
+}

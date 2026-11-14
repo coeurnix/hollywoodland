@@ -1,0 +1,40 @@
+{
+  "method": "orthographic role-plane camera projection and Cycles selected-to-active EMIT bake",
+  "frozen_input_sha256": "503965f1d51b36e5c90979032443926ee79b99e6957f0cee79c7430958a6e59a",
+  "uploaded_authored": {
+    "vertices": 768,
+    "faces": 408,
+    "position_uv_hash": "57be8ae6c917514ddd1c46de85526ff45e481143b62c8c6313148f0658548abb"
+  },
+  "authored_geometry_uv_unchanged_during_bake": true,
+  "after_bake_before_cleanup": {
+    "vertices": 768,
+    "faces": 408,
+    "position_uv_hash": "57be8ae6c917514ddd1c46de85526ff45e481143b62c8c6313148f0658548abb"
+  },
+  "after_cleanup": {
+    "vertices": 387,
+    "faces": 408,
+    "position_uv_hash": "57be8ae6c917514ddd1c46de85526ff45e481143b62c8c6313148f0658548abb"
+  },
+  "projection_face_counts": {
+    "wall": 52,
+    "glass": 2,
+    "stone": 248,
+    "roof": 2,
+    "upper": 4,
+    "metal": 46,
+    "sign": 54
+  },
+  "projection_images": {
+    "roof": "work\\hub_deco\\projection\\LM_Pantages_roof_v2.png",
+    "wall": "work\\hub_deco\\projection\\LM_BrownDerby_bay.png",
+    "upper": "work\\hub_deco\\projection\\LM_BrownDerby_tiles.png",
+    "stone": "work\\hub_deco\\projection\\LM_BrownDerby_stucco.png",
+    "glass": "work\\hub_deco\\projection\\LM_BrownDerby_door.png"
+  },
+  "cleanup": null,
+  "material_slots": 1,
+  "material_name": "M_LM_BrownDerby",
+  "two_failed_Rodin_attempts": true
+}

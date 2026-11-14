@@ -1,0 +1,38 @@
+[
+  {
+    "id": "BRK_G_Bay4A",
+    "view": "front",
+    "prompt": "Use case stylized-concept. Asset BRK_G_Bay4A. One 1930 Hollywood modular architecture piece, exactly 4 metres wide by 4.5 metres high. ground-floor shop window and door; door right, broad window left. Style 1910s brick commercial: warm sepia brick, chunky cream stone trim, bottle-green painted wood, dark slate painted glass, oxblood doors. Classic early World of Warcraft hand-painted low-poly art, bold simple readable forms, warm painted top light, cooler lower shadows, restrained brushwork and grime. Straight orthographic front elevation, no perspective. Thin facade only, depth at most 1 m, front towards viewer. Exact width-to-height proportions. Neutral grey plain background with narrow margins. No people, no vehicles, no sky, no ground, no text, no full building, no awning unless explicitly specified.",
+    "path": "art/buildings/concept/BRK_G_Bay4A_front.png"
+  },
+  {
+    "id": "BRK_G_Bay4A",
+    "view": "34",
+    "prompt": "Use case stylized-concept. Asset BRK_G_Bay4A. One 1930 Hollywood modular architecture piece, exactly 4 metres wide by 4.5 metres high. ground-floor shop window and door; door right, broad window left. Style 1910s brick commercial: warm sepia brick, chunky cream stone trim, bottle-green painted wood, dark slate painted glass, oxblood doors. Classic early World of Warcraft hand-painted low-poly art, bold simple readable forms, warm painted top light, cooler lower shadows, restrained brushwork and grime. Clean three-quarter view showing front and right edge. Thin facade only, depth at most 1 m, front towards viewer. Exact width-to-height proportions. Neutral grey plain background with narrow margins. No people, no vehicles, no sky, no ground, no text, no full building, no awning unless explicitly specified.",
+    "path": "art/buildings/concept/BRK_G_Bay4A_34.png"
+  },
+  {
+    "id": "BRK_G_Bay4B",
+    "view": "front",
+    "prompt": "Use case stylized-concept. Asset BRK_G_Bay4B. One 1930 Hollywood modular architecture piece, exactly 4 metres wide by 4.5 metres high. ground-floor shop window and door; central door between two windows. Style 1910s brick commercial: warm sepia brick, chunky cream stone trim, bottle-green painted wood, dark slate painted glass, oxblood doors. Classic early World of Warcraft hand-painted low-poly art, bold simple readable forms, warm painted top light, cooler lower shadows, restrained brushwork and grime. Straight orthographic front elevation, no perspective. Thin facade only, depth at most 1 m, front towards viewer. Exact width-to-height proportions. Neutral grey plain background with narrow margins. No people, no vehicles, no sky, no ground, no text, no full building, no awning unless explicitly specified.",
+    "path": "art/buildings/concept/BRK_G_Bay4B_front.png"
+  },
+  {
+    "id": "BRK_G_Bay4B",
+    "view": "34",
+    "prompt": "Use case stylized-concept. Asset BRK_G_Bay4B. One 1930 Hollywood modular architecture piece, exactly 4 metres wide by 4.5 metres high. ground-floor shop window and door; central door between two windows. Style 1910s brick commercial: warm sepia brick, chunky cream stone trim, bottle-green painted wood, dark slate painted glass, oxblood doors. Classic early World of Warcraft hand-painted low-poly art, bold simple readable forms, warm painted top light, cooler lower shadows, restrained brushwork and grime. Clean three-quarter view showing front and right edge. Thin facade only, depth at most 1 m, front towards viewer. Exact width-to-height proportions. Neutral grey plain background with narrow margins. No people, no vehicles, no sky, no ground, no text, no full building, no awning unless explicitly specified.",
+    "path": "art/buildings/concept/BRK_G_Bay4B_34.png"
+  },
+  {
+    "id": "BRK_G_Bay6B",
+    "view": "front",
+    "prompt": "Use case stylized-concept. Asset BRK_G_Bay6B. One 1930 Hollywood modular architecture piece, exactly 6 metres wide by 4.5 metres high. ground-floor shop window and door; central door between two windows. Style 1910s brick commercial: warm sepia brick, chunky cream stone trim, bottle-green painted wood, dark slate painted glass, oxblood doors. Classic early World of Warcraft hand-painted low-poly art, bold simple readable forms, warm painted top light, cooler lower shadows, restrained brushwork and grime. Straight orthographic front elevation, no perspective. Thin facade only, depth at most 1 m, front towards viewer. Exact width-to-height proportions. Neutral grey plain background with narrow margins. No people, no vehicles, no sky, no ground, no text, no full building, no awning unless explicitly specified.",
+    "path": "art/buildings/concept/BRK_G_Bay6B_front.png"
+  },
+  {
+    "id": "BRK_G_Bay6B",
+    "view": "34",
+    "prompt": "Use case stylized-concept. Asset BRK_G_Bay6B. One 1930 Hollywood modular architecture piece, exactly 6 metres wide by 4.5 metres high. ground-floor shop window and door; central door between two windows. Style 1910s brick commercial: warm sepia brick, chunky cream stone trim, bottle-green painted wood, dark slate painted glass, oxblood doors. Classic early World of Warcraft hand-painted low-poly art, bold simple readable forms, warm painted top light, cooler lower shadows, restrained brushwork and grime. Clean three-quarter view showing front and right edge. Thin facade only, depth at most 1 m, front towards viewer. Exact width-to-height proportions. Neutral grey plain background with narrow margins. No people, no vehicles, no sky, no ground, no text, no full building, no awning unless explicitly specified.",
+    "path": "art/buildings/concept/BRK_G_Bay6B_34.png"
+  }
+]

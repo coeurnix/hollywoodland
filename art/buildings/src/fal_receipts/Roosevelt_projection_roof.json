@@ -1,0 +1,25 @@
+{
+  "id": "Roosevelt_projection_roof",
+  "provider": "fal.ai",
+  "model": "blackforestlabs/flux-3/klein/edit-image",
+  "prompt": "Generate the matching ROOF MATERIAL VIEW only for the hand-painted1930 hotel: exact perpendicular top-down orthographic square6m x6m patch of a FLAT TAR AND GRAVEL roof, warm charcoal/slate grey with large irregular darker tar repair patches, restrained coarse brush texture and dusty buff edge highlights. No building outline, NO windows or doorways, no red tiles, no protrusions, no perspective. Fill the entire square with this roof surface, no background. Chunky early World of Warcraft painted game material, large readable patterns, warm top-lit highlights and cooler shadowed cracks, not a photograph or realistic render. No text, labels, people, plants, shadows of external objects, logos or modern equipment.",
+  "references": [
+    "concept/LM_Roosevelt_34.png"
+  ],
+  "image_size": {
+    "width": 1024,
+    "height": 1024
+  },
+  "seed": 19301113,
+  "output": "work/hub_hotels/projection/roosevelt_roof.png",
+  "status": "downloaded",
+  "request_id": "01a1d854-f5e0-7473-bdd2-7946cca0f354",
+  "elapsed_seconds": 9.27,
+  "timings": {
+    "prompt_expansion": 1.5149999853747431e-05,
+    "inference": 2.0754752660013764,
+    "safety_checker": 0.017607495001357165
+  },
+  "width": 1024,
+  "height": 1024
+}

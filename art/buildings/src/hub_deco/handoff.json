@@ -1,0 +1,102 @@
+{
+  "status": "Authored models and frozen texture inputs ready; root owns texturing, sign cards, final textured review and publication.",
+  "assets": [
+    {
+      "id": "LM_Pantages",
+      "source": "src/hub_deco/LM_Pantages.blend",
+      "input": "work/LM_Pantages_input.glb",
+      "metadata": "src/hub_deco/LM_Pantages_metadata.json",
+      "input_sha256": "abf695074c88fc8bcb8662b2f6d0d32b206cb4abf66a193ebbd9aa7285751906",
+      "authored_triangles": 788,
+      "concept_review": "pass before modeling",
+      "geometry_review_views": [
+        "front",
+        "back",
+        "top"
+      ],
+      "geometry_review": "pass with post-bake crown cleanup required",
+      "final_texture_review": "pending root bake"
+    },
+    {
+      "id": "LM_Taft",
+      "source": "src/hub_deco/LM_Taft.blend",
+      "input": "work/LM_Taft_input.glb",
+      "metadata": "src/hub_deco/LM_Taft_metadata.json",
+      "input_sha256": "217c43462ca9b1e456346669779b13f4f541546b4c84a82d8d07084370ecb993",
+      "authored_triangles": 3808,
+      "concept_review": "pass before modeling",
+      "geometry_review_views": [
+        "front",
+        "back",
+        "top"
+      ],
+      "geometry_review": "pass",
+      "final_texture_review": "pending root bake"
+    },
+    {
+      "id": "LM_FirstNational",
+      "source": "src/hub_deco/LM_FirstNational.blend",
+      "input": "work/LM_FirstNational_input.glb",
+      "metadata": "src/hub_deco/LM_FirstNational_metadata.json",
+      "input_sha256": "b0a6c3a3c95cd2ad19be99e5384deb9434a1a6978de7620163e9ed7f19cf6c53",
+      "authored_triangles": 1405,
+      "concept_review": "pass before modeling",
+      "geometry_review_views": [
+        "front",
+        "back",
+        "top"
+      ],
+      "geometry_review": "pass",
+      "final_texture_review": "pending root bake"
+    },
+    {
+      "id": "LM_BrownDerby",
+      "source": "src/hub_deco/LM_BrownDerby.blend",
+      "input": "work/LM_BrownDerby_input.glb",
+      "metadata": "src/hub_deco/LM_BrownDerby_metadata.json",
+      "input_sha256": "503965f1d51b36e5c90979032443926ee79b99e6957f0cee79c7430958a6e59a",
+      "authored_triangles": 408,
+      "concept_review": "pass before modeling",
+      "geometry_review_views": [
+        "front",
+        "back",
+        "top"
+      ],
+      "geometry_review": "pass",
+      "final_texture_review": "pending root bake"
+    },
+    {
+      "id": "LM_PoliceStation",
+      "source": "src/hub_deco/LM_PoliceStation.blend",
+      "input": "work/LM_PoliceStation_input.glb",
+      "metadata": "src/hub_deco/LM_PoliceStation_metadata.json",
+      "input_sha256": "2db94018200931b8b9cd3f8a07763de93437a03db3ffdc066d82ba14a994ef97",
+      "authored_triangles": 804,
+      "concept_review": "pass before modeling",
+      "geometry_review_views": [
+        "front",
+        "back",
+        "top"
+      ],
+      "geometry_review": "pass",
+      "final_texture_review": "pending root bake"
+    }
+  ],
+  "strict_audit": "src/hub_deco/strict_delivery_audit.json",
+  "geometry_contacts": [
+    "work/hub_deco/geometry_contact.png",
+    "work/hub_deco/low_geometry_contact.png"
+  ],
+  "research": [
+    "src/hub_deco_research.json",
+    "src/hub_root/research.json"
+  ],
+  "pipeline": [
+    "Generate/review concept views first (done)",
+    "Run build_landmarks.py -- <ID> to rebuild own source/input before submission",
+    "Frozen submitted input GLBs are immutable",
+    "Root normalizes a separate material-only upload proxy, runs Rodin or SPEC15 fallback and bakes to own UVs",
+    "After Pantages bake, apply LM_Pantages_finish.py apply(obj); retains oneM and stoneUVs",
+    "Root final FBX export/audit and front/back/top textured review before publishing"
+  ]
+}

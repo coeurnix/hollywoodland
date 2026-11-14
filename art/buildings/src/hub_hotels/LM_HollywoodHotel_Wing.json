@@ -1,0 +1,92 @@
+{
+  "id": "LM_HollywoodHotel_Wing",
+  "kind": "landmark",
+  "phase": 3,
+  "model": "work/LM_HollywoodHotel_Wing_input.glb",
+  "source": "src/hub_hotels/LM_HollywoodHotel_Wing.blend",
+  "concept": [
+    "concept/LM_HollywoodHotel_Wing_34.png",
+    "concept/LM_HollywoodHotel_Wing_front.png"
+  ],
+  "reference": "concept/LM_HollywoodHotel_Wing_34.png",
+  "prompts": {
+    "34": "Use case: stylized-concept. LM_HollywoodHotel_Wing, one standalone north WING of historic Hollywood Hotel adapted to 1930 classic MMO. Isolated full three-quarter view showing short FRONT end24m wide, LONG RIGHT SIDE52m and roof, plain warm grey background. Precise24m width x52m depth x12m height low rectangular Mission Revival hotel wing, THREE readable floors. Cream stucco, dark square sash windows, long shaded veranda along BOTH52m sides, sturdy ground round columns and dark upper timber balustrade, French doors behind, green-and-cream striped canvas awnings above veranda, broad low weathered slate-brown hipped roof with terracotta ridge accent. Short front end has a softly shaped central Mission gable and welcoming arched door. Long inner courtyard side is equally finished for mirror reuse, not a blank service wall. Early World of Warcraft hand-painted chunky architecture, bold frames and sills, warm upper highlights cool painted lower AO. No attached main hotel, no other wings, no people, cars, palm trees, lettering, signs, logos, sky, ground scene or post1930 items.",
+    "front": "Use case: stylized-concept. LM_HollywoodHotel_Wing FRONT ELEVATION, companion reference for the 24m wide x52m deep x12m high north wing of historic1930 Hollywood Hotel. Straight orthographic short24m front face, three readable floors, full standalone building front on warm grey neutral background. Cream Mission Revival stucco, central softly scalloped Mission gable with little arched vent, low weathered slate-brown hipped roof behind with terracotta ridge; five repeated sash-window bays on upper floors. Central warm dark arched double entrance flanked by shaded veranda columns and green-and-cream striped awnings, dark timber balcony rails and French doors on middle floor. Bold thick sills and frames, classic early World of Warcraft hand-painted warmth with cool lower painted AO, intact aged architecture. No extra buildings, wings, people, vehicles, signage, text, palms, street, sky or modern items."
+  },
+  "material": "Shaded",
+  "resolution": "Basic",
+  "metadata": {
+    "nominal": [
+      24,
+      52,
+      12
+    ],
+    "budget": 10000,
+    "fits_box": "Hollywood Hotel Wing",
+    "also_fits": [
+      {
+        "size": [
+          24,
+          52,
+          12
+        ],
+        "mirror": true
+      }
+    ],
+    "sign_attachments": [],
+    "notes": "Three readable floors. Shaded shallow verandas with round columns, timber rails/French doors, green/cream striped canvas; low slate-brown hipped roof with Mission gables. Front/back and both sides finished, including courtyard-facing faces. Veranda setback1.25m stays within box."
+  },
+  "audit": {
+    "tris": 4300,
+    "bounds": [
+      [
+        -12.0,
+        -26.000002,
+        0.0
+      ],
+      [
+        12.0,
+        26.000002,
+        12.0
+      ]
+    ],
+    "material_slots": 1,
+    "zero_area_faces": 0,
+    "branch_edges": 0,
+    "boundary_edges": 1848,
+    "loose_vertices": 0,
+    "uv_min": [
+      0.009999999776482582,
+      0.009999999776482582
+    ],
+    "uv_max": [
+      0.9571428298950195,
+      0.8079166412353516
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "origin": "footprint-centre-ground",
+    "export_bounds": [
+      [
+        -12.0,
+        -26.000002,
+        0.0
+      ],
+      [
+        12.0,
+        26.000002,
+        12.0
+      ]
+    ],
+    "export_tris": 4300
+  },
+  "uv_policy": "One padded2K atlas; disjoint semantic patches; only congruent repeated bays/features stack. Wall regions >=67px/m, broad roof repeating patches >=78px/m at2K. Gable54.6px/m. Sign backing30px/m; separate lettering card. Bake repeated regions from one chosen congruent representative per patch if a full-mesh returned UV bake differs by face. No wall-role blanket stacking."
+}

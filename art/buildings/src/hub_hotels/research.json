@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "checked": "2026-11-13",
+  "scope": [
+    "LM_Roosevelt",
+    "LM_HollywoodHotel",
+    "LM_HollywoodHotel_Wing",
+    "LM_HollywoodHotel_CourtWall"
+  ],
+  "sources": [
+    {
+      "url": "https://npgallery.nps.gov/GetAsset/236d3254-47ee-4b31-9045-c2999cc465f2/",
+      "institution": "National Park Service",
+      "document": "Hollywood Boulevard Commercial and Entertainment District nomination",
+      "page": 18,
+      "findings": "Roosevelt: Spanish Colonial Revival, asymmetrical T plan, grouped arched windows with columnettes, wrought iron balconies, pierced concrete grilles, Churrigueresque facade ornament and red tile roof. Registration's older date is superseded for opening by Academy/owner sources."
+    },
+    {
+      "url": "https://www.academymuseum.org/hollywood-past-and-present/roosevelt-hotel",
+      "institution": "Academy Museum",
+      "findings": "Twelve-storey Roosevelt opened 1927 and hosted first Academy Awards in 1929. Historic facade image examined for restrained upper arches, regular square windows and roof sign support.",
+      "local_visual": "work/hub_hotels/research/roosevelt_historic.jpg",
+      "visual_limit": "Image spans early to mid 20th century: Cinegrill signage is excluded from 1930 model."
+    },
+    {
+      "url": "https://www.thehollywoodroosevelt.com/heritage/",
+      "institution": "Hollywood Roosevelt official history",
+      "findings": "Opening 1927 and original Spanish Colonial interior identity corroborated. Later pool artwork, renovations and modern venue signage excluded."
+    },
+    {
+      "url": "https://www.pbssocal.org/history-society/a-charming-hostelry-the-hollywood-hotel-story",
+      "institution": "PBS SoCal; archival photographs credited to Security Pacific National Bank Collection / Los Angeles Public Library",
+      "findings": "Mission design by Dennis and Farwell; historic verandas and rambling hotel retained into 1930. Unbuilt Italian Renaissance replacement excluded.",
+      "local_visuals": [
+        "work/hub_hotels/research/hollywood_1930_aerial.jpg",
+        "work/hub_hotels/research/hollywood_corner.jpg"
+      ],
+      "visual_observations": "Circa-1930 aerial shows long low main frontage, several shaped Mission gables and dark hipped/low pitched roofs; corner view shows round porch columns, dark balustrades, square upper windows and arched lower windows."
+    }
+  ],
+  "interpretation": {
+    "dimensions": "SPEC fixed collision boxes win over real historic T plan and irregular original hotel. Roosevelt is compressed to seven readable floors, all four main planes fill74x58x24. HollywoodHotel separates main/wings/courtyard wall to prescribed boxes.",
+    "courtyard": "Main rear facade and both wing long faces are fully finished with veranda/French-door rhythms; no navigable interior or ceiling needed.",
+    "palette": "Warm cream stucco, terracotta tile accents, muted slate brown broad roofs on HollywoodHotel, bottle-green striped canvas awnings and dark timber/iron details.",
+    "letters": "All lettering uses separate sign cards; backing geometry stays blank.",
+    "reference_policy": "Historic photographs are research reference only, never copied into runtime textures."
+  }
+}

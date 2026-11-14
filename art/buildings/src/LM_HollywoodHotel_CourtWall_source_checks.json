@@ -1,0 +1,21 @@
+{
+  "uploaded_authored": {
+    "vertices": 1228,
+    "faces": 732,
+    "position_uv_hash": "48e22cdaeca86150f479cfb2179e2eae6246c611cce6f4f5ca70fa1a780d21c2"
+  },
+  "cleaned_authored": {
+    "vertices": 1228,
+    "faces": 732,
+    "position_uv_hash": "48e22cdaeca86150f479cfb2179e2eae6246c611cce6f4f5ca70fa1a780d21c2"
+  },
+  "returned": {
+    "vertices": 1228,
+    "faces": 732,
+    "position_uv_hash": "4035175571207a1632731986a9ebf6d160131aac403596d4f6ae7ca197f91c2b"
+  },
+  "equal": false,
+  "baked_to_authored_mesh": true,
+  "authored_geometry_uv_unchanged_during_bake": true,
+  "cleanup": null
+}

@@ -1,0 +1,25 @@
+{
+  "id": "projection_hotel_roof",
+  "provider": "fal.ai",
+  "model": "blackforestlabs/flux-3/klein/edit-image",
+  "prompt": "Use case: stylized-concept. Use input image only as architectural style reference. Hand-painted early World of Warcraft classic MMO architecture, warm ivory Mission Revival stucco, chunky window frames, cool dark lower AO, dark walnut balcony timber and green-and-cream striped awnings. Historical1930 hotel. No text, signs, people, cars, sky, streets or modern items. Plain neutral grey background. A square close up straight orthographic TOP DOWN roof material projection plate. Fill the entire image edge to edge with repeating small weathered slate BROWN roof shingles, restrained charcoal slate and warm muted umber colors, hand painted tile overlaps and warm top highlights. This is one uninterrupted flat square roof plane with no hip seams, ridge lines, vents, walls, edges, background or perspective. Consistent small rhythmic rows of chunky worn shingles, not noisy or photorealistic.",
+  "references": [
+    "concept/LM_HollywoodHotel_34.png"
+  ],
+  "image_size": {
+    "width": 1024,
+    "height": 1024
+  },
+  "seed": 19301117,
+  "output": "work/hub_hotels/projection/hotel_roof.png",
+  "status": "downloaded",
+  "request_id": "01a1d87f-16cb-7691-a6e0-6063b63dd4ba",
+  "elapsed_seconds": 7.62,
+  "timings": {
+    "prompt_expansion": 1.3050000234215986e-05,
+    "inference": 2.0663108759999886,
+    "safety_checker": 0.014886237000609981
+  },
+  "width": 1024,
+  "height": 1024
+}

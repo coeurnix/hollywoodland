@@ -1,0 +1,3037 @@
+{
+  "length_m": 120,
+  "families": [
+    "BRK",
+    "DECO",
+    "MSN",
+    "SPN"
+  ],
+  "heights_m": [
+    6,
+    9,
+    12,
+    15
+  ],
+  "placements": [
+    {
+      "id": "BRK_Corner_G",
+      "location": [
+        0.5,
+        0,
+        0
+      ],
+      "scale": [
+        -1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "BRK_Corner_G",
+      "location": [
+        15.5,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "BRK_G_Bay8A",
+      "location": [
+        0.5,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "BRK_Awning6",
+      "location": [
+        0.5,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "BRK_G_Bay6B",
+      "location": [
+        8.5,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "BRK_Pilaster1_G",
+      "location": [
+        14.5,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "BRK_Parapet2",
+      "location": [
+        0,
+        0,
+        4.5
+      ],
+      "scale": [
+        1,
+        1,
+        1.0
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "BRK_Parapet2",
+      "location": [
+        2,
+        0,
+        4.5
+      ],
+      "scale": [
+        1,
+        1,
+        1.0
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "BRK_Parapet2",
+      "location": [
+        4,
+        0,
+        4.5
+      ],
+      "scale": [
+        1,
+        1,
+        1.0
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "BRK_Parapet2",
+      "location": [
+        6,
+        0,
+        4.5
+      ],
+      "scale": [
+        1,
+        1,
+        1.0
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "BRK_Parapet2",
+      "location": [
+        8,
+        0,
+        4.5
+      ],
+      "scale": [
+        1,
+        1,
+        1.0
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "BRK_Parapet2",
+      "location": [
+        10,
+        0,
+        4.5
+      ],
+      "scale": [
+        1,
+        1,
+        1.0
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "BRK_Parapet2",
+      "location": [
+        12,
+        0,
+        4.5
+      ],
+      "scale": [
+        1,
+        1,
+        1.0
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "BRK_Parapet2",
+      "location": [
+        14,
+        0,
+        4.5
+      ],
+      "scale": [
+        1,
+        1,
+        1.0
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "BRK_CrestA",
+      "location": [
+        6.0,
+        0,
+        6
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "BRK_G_Bay6A",
+      "location": [
+        0,
+        6,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": -1.5707963267948966
+    },
+    {
+      "id": "BRK_G_Bay6A",
+      "location": [
+        0,
+        12,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": -1.5707963267948966
+    },
+    {
+      "id": "BRK_G_Bay6A",
+      "location": [
+        0,
+        18,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": -1.5707963267948966
+    },
+    {
+      "id": "BRK_G_Bay6A",
+      "location": [
+        0,
+        24,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": -1.5707963267948966
+    },
+    {
+      "id": "BRK_G_Bay6A",
+      "location": [
+        0,
+        30,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": -1.5707963267948966
+    },
+    {
+      "id": "BRK_G_Bay6A",
+      "location": [
+        0,
+        36,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": -1.5707963267948966
+    },
+    {
+      "id": "BRK_Wall",
+      "location": [
+        16,
+        0,
+        0
+      ],
+      "scale": [
+        9,
+        1,
+        1.2857142857142858
+      ],
+      "rotation_z": 1.5707963267948966
+    },
+    {
+      "id": "BRK_Wall",
+      "location": [
+        16,
+        36,
+        0
+      ],
+      "scale": [
+        4.0,
+        1,
+        1.2857142857142858
+      ],
+      "rotation_z": 3.141592653589793
+    },
+    {
+      "id": "BRK_Roof",
+      "location": [
+        0,
+        0,
+        4.5
+      ],
+      "scale": [
+        4.0,
+        9,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "RF_WaterTank",
+      "location": [
+        8.0,
+        26,
+        4.5
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "RF_VentMetal",
+      "location": [
+        12.0,
+        9,
+        4.5
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "RF_Billboard8x4",
+      "location": [
+        8.0,
+        17,
+        4.5
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "DR_BoardedWindow15",
+      "location": [
+        1.2,
+        -0.02,
+        1.1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "SPN_G_Bay8B",
+      "location": [
+        16,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "SPN_Awning6",
+      "location": [
+        16,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "SPN_Damaged_G_Bay6",
+      "location": [
+        24,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "SPN_U_Bay4B",
+      "location": [
+        16,
+        0,
+        4.5
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "SPN_U_Bay4B",
+      "location": [
+        20,
+        0,
+        4.5
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "SPN_U_Bay3A",
+      "location": [
+        24,
+        0,
+        4.5
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "SPN_U_Bay3A",
+      "location": [
+        27,
+        0,
+        4.5
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "SPN_Parapet2",
+      "location": [
+        16,
+        0,
+        8.0
+      ],
+      "scale": [
+        1,
+        1,
+        0.6666666666666666
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "SPN_Parapet2",
+      "location": [
+        18,
+        0,
+        8.0
+      ],
+      "scale": [
+        1,
+        1,
+        0.6666666666666666
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "SPN_Parapet2",
+      "location": [
+        20,
+        0,
+        8.0
+      ],
+      "scale": [
+        1,
+        1,
+        0.6666666666666666
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "SPN_Parapet2",
+      "location": [
+        22,
+        0,
+        8.0
+      ],
+      "scale": [
+        1,
+        1,
+        0.6666666666666666
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "SPN_Parapet2",
+      "location": [
+        24,
+        0,
+        8.0
+      ],
+      "scale": [
+        1,
+        1,
+        0.6666666666666666
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "SPN_Parapet2",
+      "location": [
+        26,
+        0,
+        8.0
+      ],
+      "scale": [
+        1,
+        1,
+        0.6666666666666666
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "SPN_Parapet2",
+      "location": [
+        28,
+        0,
+        8.0
+      ],
+      "scale": [
+        1,
+        1,
+        0.6666666666666666
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "SPN_CrestB",
+      "location": [
+        21.0,
+        0,
+        9
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "SPN_Wall",
+      "location": [
+        16,
+        36,
+        0
+      ],
+      "scale": [
+        9,
+        1,
+        2.2857142857142856
+      ],
+      "rotation_z": -1.5707963267948966
+    },
+    {
+      "id": "SPN_Wall",
+      "location": [
+        30,
+        0,
+        0
+      ],
+      "scale": [
+        9,
+        1,
+        2.2857142857142856
+      ],
+      "rotation_z": 1.5707963267948966
+    },
+    {
+      "id": "SPN_Wall",
+      "location": [
+        30,
+        36,
+        0
+      ],
+      "scale": [
+        3.5,
+        1,
+        2.2857142857142856
+      ],
+      "rotation_z": 3.141592653589793
+    },
+    {
+      "id": "SPN_Roof",
+      "location": [
+        16,
+        0,
+        8.0
+      ],
+      "scale": [
+        3.5,
+        9,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "RF_WaterTank",
+      "location": [
+        23.0,
+        26,
+        8.0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "RF_VentMetal",
+      "location": [
+        26.5,
+        9,
+        8.0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "RF_Billboard8x4",
+      "location": [
+        23.0,
+        17,
+        8.0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "DECO_G_Bay8A",
+      "location": [
+        30,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "DECO_Awning6",
+      "location": [
+        30,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "DECO_G_Bay8B",
+      "location": [
+        38,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "DECO_G_Bay4A",
+      "location": [
+        46,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "DECO_Awning4",
+      "location": [
+        46,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "DECO_U_Bay4A",
+      "location": [
+        30,
+        0,
+        4.5
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "DECO_U_Bay4A",
+      "location": [
+        34,
+        0,
+        4.5
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "DECO_U_Bay4B",
+      "location": [
+        38,
+        0,
+        4.5
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "DECO_U_Bay4B",
+      "location": [
+        42,
+        0,
+        4.5
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "DECO_U_Bay2A",
+      "location": [
+        46,
+        0,
+        4.5
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "DECO_U_Bay2A",
+      "location": [
+        48,
+        0,
+        4.5
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "DECO_U_Bay4A",
+      "location": [
+        30,
+        0,
+        8.0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "DECO_U_Bay4A",
+      "location": [
+        34,
+        0,
+        8.0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "DECO_U_Bay4B",
+      "location": [
+        38,
+        0,
+        8.0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "DECO_U_Bay4B",
+      "location": [
+        42,
+        0,
+        8.0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "DECO_U_Bay2A",
+      "location": [
+        46,
+        0,
+        8.0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "DECO_U_Bay2A",
+      "location": [
+        48,
+        0,
+        8.0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "DECO_Parapet2",
+      "location": [
+        30,
+        0,
+        11.5
+      ],
+      "scale": [
+        1,
+        1,
+        0.3333333333333333
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "DECO_Parapet2",
+      "location": [
+        32,
+        0,
+        11.5
+      ],
+      "scale": [
+        1,
+        1,
+        0.3333333333333333
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "DECO_Parapet2",
+      "location": [
+        34,
+        0,
+        11.5
+      ],
+      "scale": [
+        1,
+        1,
+        0.3333333333333333
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "DECO_Parapet2",
+      "location": [
+        36,
+        0,
+        11.5
+      ],
+      "scale": [
+        1,
+        1,
+        0.3333333333333333
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "DECO_Parapet2",
+      "location": [
+        38,
+        0,
+        11.5
+      ],
+      "scale": [
+        1,
+        1,
+        0.3333333333333333
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "DECO_Parapet2",
+      "location": [
+        40,
+        0,
+        11.5
+      ],
+      "scale": [
+        1,
+        1,
+        0.3333333333333333
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "DECO_Parapet2",
+      "location": [
+        42,
+        0,
+        11.5
+      ],
+      "scale": [
+        1,
+        1,
+        0.3333333333333333
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "DECO_Parapet2",
+      "location": [
+        44,
+        0,
+        11.5
+      ],
+      "scale": [
+        1,
+        1,
+        0.3333333333333333
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "DECO_Parapet2",
+      "location": [
+        46,
+        0,
+        11.5
+      ],
+      "scale": [
+        2.0,
+        1,
+        0.3333333333333333
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "DECO_CrestA",
+      "location": [
+        38.0,
+        0,
+        12
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "DECO_Wall",
+      "location": [
+        30,
+        36,
+        0
+      ],
+      "scale": [
+        9,
+        1,
+        3.2857142857142856
+      ],
+      "rotation_z": -1.5707963267948966
+    },
+    {
+      "id": "DECO_Wall",
+      "location": [
+        50,
+        0,
+        0
+      ],
+      "scale": [
+        9,
+        1,
+        3.2857142857142856
+      ],
+      "rotation_z": 1.5707963267948966
+    },
+    {
+      "id": "DECO_Wall",
+      "location": [
+        50,
+        36,
+        0
+      ],
+      "scale": [
+        5.0,
+        1,
+        3.2857142857142856
+      ],
+      "rotation_z": 3.141592653589793
+    },
+    {
+      "id": "DECO_Roof",
+      "location": [
+        30,
+        0,
+        11.5
+      ],
+      "scale": [
+        5.0,
+        9,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "RF_WaterTank",
+      "location": [
+        40.0,
+        26,
+        11.5
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "RF_VentMetal",
+      "location": [
+        45.0,
+        9,
+        11.5
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "RF_Billboard8x4",
+      "location": [
+        40.0,
+        17,
+        11.5
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "DR_BoardedWindow15",
+      "location": [
+        31.2,
+        -0.02,
+        1.1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "MSN_G_Bay8B",
+      "location": [
+        50,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "MSN_Awning6",
+      "location": [
+        50,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "MSN_G_Bay8A",
+      "location": [
+        58,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "MSN_Pilaster1_G",
+      "location": [
+        66,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "MSN_Pilaster1_G",
+      "location": [
+        67,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "MSN_U_Bay4B",
+      "location": [
+        50,
+        0,
+        4.5
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "MSN_U_Bay4B",
+      "location": [
+        54,
+        0,
+        4.5
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "MSN_U_Bay4A",
+      "location": [
+        58,
+        0,
+        4.5
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "MSN_U_Bay4A",
+      "location": [
+        62,
+        0,
+        4.5
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "MSN_Pilaster1_U",
+      "location": [
+        66,
+        0,
+        4.5
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "MSN_Pilaster1_U",
+      "location": [
+        67,
+        0,
+        4.5
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "MSN_U_Bay4B",
+      "location": [
+        50,
+        0,
+        8.0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "MSN_U_Bay4B",
+      "location": [
+        54,
+        0,
+        8.0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "MSN_U_Bay4A",
+      "location": [
+        58,
+        0,
+        8.0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "MSN_U_Bay4A",
+      "location": [
+        62,
+        0,
+        8.0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "MSN_Pilaster1_U",
+      "location": [
+        66,
+        0,
+        8.0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "MSN_Pilaster1_U",
+      "location": [
+        67,
+        0,
+        8.0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "MSN_U_Bay4B",
+      "location": [
+        50,
+        0,
+        11.5
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "MSN_U_Bay4B",
+      "location": [
+        54,
+        0,
+        11.5
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "MSN_U_Bay4A",
+      "location": [
+        58,
+        0,
+        11.5
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "MSN_U_Bay4A",
+      "location": [
+        62,
+        0,
+        11.5
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "MSN_Pilaster1_U",
+      "location": [
+        66,
+        0,
+        11.5
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "MSN_Pilaster1_U",
+      "location": [
+        67,
+        0,
+        11.5
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "MSN_CrestB",
+      "location": [
+        57.0,
+        0,
+        15
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "MSN_Wall",
+      "location": [
+        50,
+        36,
+        0
+      ],
+      "scale": [
+        9,
+        1,
+        4.285714285714286
+      ],
+      "rotation_z": -1.5707963267948966
+    },
+    {
+      "id": "MSN_Wall",
+      "location": [
+        68,
+        0,
+        0
+      ],
+      "scale": [
+        9,
+        1,
+        4.285714285714286
+      ],
+      "rotation_z": 1.5707963267948966
+    },
+    {
+      "id": "MSN_Wall",
+      "location": [
+        68,
+        36,
+        0
+      ],
+      "scale": [
+        4.5,
+        1,
+        4.285714285714286
+      ],
+      "rotation_z": 3.141592653589793
+    },
+    {
+      "id": "MSN_Roof",
+      "location": [
+        50,
+        0,
+        15.0
+      ],
+      "scale": [
+        4.5,
+        9,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "RF_WaterTank",
+      "location": [
+        59.0,
+        26,
+        15.0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "RF_VentMetal",
+      "location": [
+        63.5,
+        9,
+        15.0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "RF_Billboard8x4",
+      "location": [
+        59.0,
+        17,
+        15.0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "DR_SandbagStack3",
+      "location": [
+        54,
+        -0.15,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "SPN_G_Bay8A",
+      "location": [
+        68,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "SPN_Awning6",
+      "location": [
+        68,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "SPN_G_Bay4B",
+      "location": [
+        76,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "SPN_Parapet2",
+      "location": [
+        68,
+        0,
+        4.5
+      ],
+      "scale": [
+        1,
+        1,
+        1.0
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "SPN_Parapet2",
+      "location": [
+        70,
+        0,
+        4.5
+      ],
+      "scale": [
+        1,
+        1,
+        1.0
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "SPN_Parapet2",
+      "location": [
+        72,
+        0,
+        4.5
+      ],
+      "scale": [
+        1,
+        1,
+        1.0
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "SPN_Parapet2",
+      "location": [
+        74,
+        0,
+        4.5
+      ],
+      "scale": [
+        1,
+        1,
+        1.0
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "SPN_Parapet2",
+      "location": [
+        76,
+        0,
+        4.5
+      ],
+      "scale": [
+        2.0,
+        1,
+        1.0
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "SPN_CrestA",
+      "location": [
+        72.0,
+        0,
+        6
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "SPN_Wall",
+      "location": [
+        68,
+        36,
+        0
+      ],
+      "scale": [
+        9,
+        1,
+        1.2857142857142858
+      ],
+      "rotation_z": -1.5707963267948966
+    },
+    {
+      "id": "SPN_Wall",
+      "location": [
+        80,
+        0,
+        0
+      ],
+      "scale": [
+        9,
+        1,
+        1.2857142857142858
+      ],
+      "rotation_z": 1.5707963267948966
+    },
+    {
+      "id": "SPN_Wall",
+      "location": [
+        80,
+        36,
+        0
+      ],
+      "scale": [
+        3.0,
+        1,
+        1.2857142857142858
+      ],
+      "rotation_z": 3.141592653589793
+    },
+    {
+      "id": "SPN_Roof",
+      "location": [
+        68,
+        0,
+        4.5
+      ],
+      "scale": [
+        3.0,
+        9,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "RF_WaterTank",
+      "location": [
+        74.0,
+        26,
+        4.5
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "RF_VentMetal",
+      "location": [
+        77.0,
+        9,
+        4.5
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "DR_BoardedWindow15",
+      "location": [
+        69.2,
+        -0.02,
+        1.1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "DECO_G_Bay8B",
+      "location": [
+        80,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "DECO_Awning6",
+      "location": [
+        80,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "DECO_Pilaster1_G",
+      "location": [
+        88,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "DECO_Pilaster1_G",
+      "location": [
+        89,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "DECO_U_Bay4B",
+      "location": [
+        80,
+        0,
+        4.5
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "DECO_U_Bay4B",
+      "location": [
+        84,
+        0,
+        4.5
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "DECO_Pilaster1_U",
+      "location": [
+        88,
+        0,
+        4.5
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "DECO_Pilaster1_U",
+      "location": [
+        89,
+        0,
+        4.5
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "DECO_Parapet2",
+      "location": [
+        80,
+        0,
+        8.0
+      ],
+      "scale": [
+        1,
+        1,
+        0.6666666666666666
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "DECO_Parapet2",
+      "location": [
+        82,
+        0,
+        8.0
+      ],
+      "scale": [
+        1,
+        1,
+        0.6666666666666666
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "DECO_Parapet2",
+      "location": [
+        84,
+        0,
+        8.0
+      ],
+      "scale": [
+        1,
+        1,
+        0.6666666666666666
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "DECO_Parapet2",
+      "location": [
+        86,
+        0,
+        8.0
+      ],
+      "scale": [
+        1,
+        1,
+        0.6666666666666666
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "DECO_Parapet2",
+      "location": [
+        88,
+        0,
+        8.0
+      ],
+      "scale": [
+        0.5,
+        1,
+        0.6666666666666666
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "DECO_Parapet2",
+      "location": [
+        89,
+        0,
+        8.0
+      ],
+      "scale": [
+        0.5,
+        1,
+        0.6666666666666666
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "DECO_Wall",
+      "location": [
+        80,
+        36,
+        0
+      ],
+      "scale": [
+        9,
+        1,
+        2.2857142857142856
+      ],
+      "rotation_z": -1.5707963267948966
+    },
+    {
+      "id": "DECO_Wall",
+      "location": [
+        90,
+        0,
+        0
+      ],
+      "scale": [
+        9,
+        1,
+        2.2857142857142856
+      ],
+      "rotation_z": 1.5707963267948966
+    },
+    {
+      "id": "DECO_Wall",
+      "location": [
+        90,
+        36,
+        0
+      ],
+      "scale": [
+        2.5,
+        1,
+        2.2857142857142856
+      ],
+      "rotation_z": 3.141592653589793
+    },
+    {
+      "id": "DECO_Roof",
+      "location": [
+        80,
+        0,
+        8.0
+      ],
+      "scale": [
+        2.5,
+        9,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "RF_WaterTank",
+      "location": [
+        85.0,
+        26,
+        8.0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "RF_VentMetal",
+      "location": [
+        87.5,
+        9,
+        8.0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "MSN_G_Bay8A",
+      "location": [
+        90,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "MSN_Awning6",
+      "location": [
+        90,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "MSN_G_Bay8B",
+      "location": [
+        98,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "MSN_U_Bay4A",
+      "location": [
+        90,
+        0,
+        4.5
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "MSN_U_Bay4A",
+      "location": [
+        94,
+        0,
+        4.5
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "MSN_U_Bay4B",
+      "location": [
+        98,
+        0,
+        4.5
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "MSN_U_Bay4B",
+      "location": [
+        102,
+        0,
+        4.5
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "MSN_U_Bay4A",
+      "location": [
+        90,
+        0,
+        8.0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "MSN_U_Bay4A",
+      "location": [
+        94,
+        0,
+        8.0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "MSN_U_Bay4B",
+      "location": [
+        98,
+        0,
+        8.0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "MSN_U_Bay4B",
+      "location": [
+        102,
+        0,
+        8.0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "MSN_Parapet2",
+      "location": [
+        90,
+        0,
+        11.5
+      ],
+      "scale": [
+        1,
+        1,
+        0.3333333333333333
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "MSN_Parapet2",
+      "location": [
+        92,
+        0,
+        11.5
+      ],
+      "scale": [
+        1,
+        1,
+        0.3333333333333333
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "MSN_Parapet2",
+      "location": [
+        94,
+        0,
+        11.5
+      ],
+      "scale": [
+        1,
+        1,
+        0.3333333333333333
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "MSN_Parapet2",
+      "location": [
+        96,
+        0,
+        11.5
+      ],
+      "scale": [
+        1,
+        1,
+        0.3333333333333333
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "MSN_Parapet2",
+      "location": [
+        98,
+        0,
+        11.5
+      ],
+      "scale": [
+        1,
+        1,
+        0.3333333333333333
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "MSN_Parapet2",
+      "location": [
+        100,
+        0,
+        11.5
+      ],
+      "scale": [
+        1,
+        1,
+        0.3333333333333333
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "MSN_Parapet2",
+      "location": [
+        102,
+        0,
+        11.5
+      ],
+      "scale": [
+        1,
+        1,
+        0.3333333333333333
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "MSN_Parapet2",
+      "location": [
+        104,
+        0,
+        11.5
+      ],
+      "scale": [
+        1,
+        1,
+        0.3333333333333333
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "MSN_CrestA",
+      "location": [
+        96.0,
+        0,
+        12
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "MSN_Wall",
+      "location": [
+        90,
+        36,
+        0
+      ],
+      "scale": [
+        9,
+        1,
+        3.2857142857142856
+      ],
+      "rotation_z": -1.5707963267948966
+    },
+    {
+      "id": "MSN_Wall",
+      "location": [
+        106,
+        0,
+        0
+      ],
+      "scale": [
+        9,
+        1,
+        3.2857142857142856
+      ],
+      "rotation_z": 1.5707963267948966
+    },
+    {
+      "id": "MSN_Wall",
+      "location": [
+        106,
+        36,
+        0
+      ],
+      "scale": [
+        4.0,
+        1,
+        3.2857142857142856
+      ],
+      "rotation_z": 3.141592653589793
+    },
+    {
+      "id": "MSN_Roof",
+      "location": [
+        90,
+        0,
+        11.5
+      ],
+      "scale": [
+        4.0,
+        9,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "RF_WaterTank",
+      "location": [
+        98.0,
+        26,
+        11.5
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "RF_VentMetal",
+      "location": [
+        102.0,
+        9,
+        11.5
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "RF_Billboard8x4",
+      "location": [
+        98.0,
+        17,
+        11.5
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "DR_BoardedWindow15",
+      "location": [
+        91.2,
+        -0.02,
+        1.1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "DR_Rubble2",
+      "location": [
+        94,
+        -1.1,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "BRK_G_Bay8B",
+      "location": [
+        106,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "BRK_Awning6",
+      "location": [
+        106,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "BRK_Damaged_G_Bay6",
+      "location": [
+        114,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "BRK_U_Bay4B",
+      "location": [
+        106,
+        0,
+        4.5
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "BRK_U_Bay4B",
+      "location": [
+        110,
+        0,
+        4.5
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "BRK_U_Bay3A",
+      "location": [
+        114,
+        0,
+        4.5
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "BRK_U_Bay3A",
+      "location": [
+        117,
+        0,
+        4.5
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "BRK_U_Bay4B",
+      "location": [
+        106,
+        0,
+        8.0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "BRK_U_Bay4B",
+      "location": [
+        110,
+        0,
+        8.0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "BRK_U_Bay3A",
+      "location": [
+        114,
+        0,
+        8.0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "BRK_U_Bay3A",
+      "location": [
+        117,
+        0,
+        8.0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "BRK_U_Bay4B",
+      "location": [
+        106,
+        0,
+        11.5
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "BRK_U_Bay4B",
+      "location": [
+        110,
+        0,
+        11.5
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "BRK_U_Bay3A",
+      "location": [
+        114,
+        0,
+        11.5
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "BRK_U_Bay3A",
+      "location": [
+        117,
+        0,
+        11.5
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "BRK_CrestB",
+      "location": [
+        111.0,
+        0,
+        15
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "BRK_Wall",
+      "location": [
+        106,
+        36,
+        0
+      ],
+      "scale": [
+        9,
+        1,
+        4.285714285714286
+      ],
+      "rotation_z": -1.5707963267948966
+    },
+    {
+      "id": "BRK_Wall",
+      "location": [
+        120,
+        0,
+        0
+      ],
+      "scale": [
+        9,
+        1,
+        4.285714285714286
+      ],
+      "rotation_z": 1.5707963267948966
+    },
+    {
+      "id": "BRK_Wall",
+      "location": [
+        120,
+        36,
+        0
+      ],
+      "scale": [
+        3.5,
+        1,
+        4.285714285714286
+      ],
+      "rotation_z": 3.141592653589793
+    },
+    {
+      "id": "BRK_Roof",
+      "location": [
+        106,
+        0,
+        15.0
+      ],
+      "scale": [
+        3.5,
+        9,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "RF_WaterTank",
+      "location": [
+        113.0,
+        26,
+        15.0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "RF_VentMetal",
+      "location": [
+        116.5,
+        9,
+        15.0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    },
+    {
+      "id": "RF_Billboard8x4",
+      "location": [
+        113.0,
+        17,
+        15.0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "rotation_z": 0
+    }
+  ],
+  "module_fit_checks": [
+    {
+      "building": 0,
+      "floor": 0,
+      "front_span_m": 16.0,
+      "expected_m": 16,
+      "gap_m": 0.0
+    },
+    {
+      "building": 1,
+      "floor": 0,
+      "front_span_m": 14,
+      "expected_m": 14,
+      "gap_m": 0
+    },
+    {
+      "building": 1,
+      "floor": 1,
+      "front_span_m": 14,
+      "expected_m": 14,
+      "gap_m": 0
+    },
+    {
+      "building": 2,
+      "floor": 0,
+      "front_span_m": 20,
+      "expected_m": 20,
+      "gap_m": 0
+    },
+    {
+      "building": 2,
+      "floor": 1,
+      "front_span_m": 20,
+      "expected_m": 20,
+      "gap_m": 0
+    },
+    {
+      "building": 2,
+      "floor": 2,
+      "front_span_m": 20,
+      "expected_m": 20,
+      "gap_m": 0
+    },
+    {
+      "building": 3,
+      "floor": 0,
+      "front_span_m": 18,
+      "expected_m": 18,
+      "gap_m": 0
+    },
+    {
+      "building": 3,
+      "floor": 1,
+      "front_span_m": 18,
+      "expected_m": 18,
+      "gap_m": 0
+    },
+    {
+      "building": 3,
+      "floor": 2,
+      "front_span_m": 18,
+      "expected_m": 18,
+      "gap_m": 0
+    },
+    {
+      "building": 3,
+      "floor": 3,
+      "front_span_m": 18,
+      "expected_m": 18,
+      "gap_m": 0
+    },
+    {
+      "building": 4,
+      "floor": 0,
+      "front_span_m": 12,
+      "expected_m": 12,
+      "gap_m": 0
+    },
+    {
+      "building": 5,
+      "floor": 0,
+      "front_span_m": 10,
+      "expected_m": 10,
+      "gap_m": 0
+    },
+    {
+      "building": 5,
+      "floor": 1,
+      "front_span_m": 10,
+      "expected_m": 10,
+      "gap_m": 0
+    },
+    {
+      "building": 6,
+      "floor": 0,
+      "front_span_m": 16,
+      "expected_m": 16,
+      "gap_m": 0
+    },
+    {
+      "building": 6,
+      "floor": 1,
+      "front_span_m": 16,
+      "expected_m": 16,
+      "gap_m": 0
+    },
+    {
+      "building": 6,
+      "floor": 2,
+      "front_span_m": 16,
+      "expected_m": 16,
+      "gap_m": 0
+    },
+    {
+      "building": 7,
+      "floor": 0,
+      "front_span_m": 14,
+      "expected_m": 14,
+      "gap_m": 0
+    },
+    {
+      "building": 7,
+      "floor": 1,
+      "front_span_m": 14,
+      "expected_m": 14,
+      "gap_m": 0
+    },
+    {
+      "building": 7,
+      "floor": 2,
+      "front_span_m": 14,
+      "expected_m": 14,
+      "gap_m": 0
+    },
+    {
+      "building": 7,
+      "floor": 3,
+      "front_span_m": 14,
+      "expected_m": 14,
+      "gap_m": 0
+    }
+  ],
+  "gap_check_passed": true,
+  "street_camera": {
+    "behind_figure_m": 3,
+    "pitch_down_degrees": 20,
+    "figure_h_m": 1.8
+  },
+  "aerial_camera_z_m": 30,
+  "notes": "12/15 m parapet recipe exception documented in README. Neutral proof staging roadway and silhouette are not runtime assets."
+}

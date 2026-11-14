@@ -1,0 +1,7 @@
+{
+  "asset": "DECO_Awning6",
+  "file": "concept/DECO_Awning6_front.png",
+  "tool": "built-in image_gen",
+  "prompt": "Use case: precise-object-edit. Game art concept replacement DECO_Awning6_front. Use SPN_Awning6_34 as structural reference. ONE isolated six-metre-wide Art Deco 1930 shop canvas awning, neutral grey, front elevation slightly above, full slope and valance visible. Broad alternating oxblood and ivory stripes from back rail to front valance; classic MMO painted top light/AO. Only canopy, no wall, facade, fascia, pillars, sign, letters, people, floor.",
+  "reason": "Remove building fascia from texture-only second reference; isolate canvas canopy."
+}

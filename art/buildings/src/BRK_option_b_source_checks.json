@@ -1,0 +1,70 @@
+{
+  "BRK_G_Bay6A": {
+    "uploaded": {
+      "vertices": 84,
+      "faces": 90,
+      "position_uv_hash": "0789ed2a12680aee677377b76acd17bd8a45c7d269284ef0117f30da130f3e40"
+    },
+    "returned": {
+      "vertices": 84,
+      "faces": 90,
+      "position_uv_hash": "0789ed2a12680aee677377b76acd17bd8a45c7d269284ef0117f30da130f3e40"
+    },
+    "equal": true,
+    "baked_to_authored_mesh": true
+  },
+  "BRK_U_Bay3A": {
+    "projection_fallback_after_two_failures": true,
+    "baked_to_authored_mesh": true
+  },
+  "BRK_Pilaster1_G": {
+    "uploaded": {
+      "vertices": 81,
+      "faces": 128,
+      "position_uv_hash": "8c3e23753705d5f0e2a17386b60b0147db8bc61ff7cc3d57e94f3b208e27da45"
+    },
+    "returned": {
+      "vertices": 81,
+      "faces": 128,
+      "position_uv_hash": "5d28583014a2614b8bbac15cf5fac662c0e517335d98f63c95fd22beabbe898e"
+    },
+    "equal": false,
+    "baked_to_authored_mesh": true
+  },
+  "BRK_Parapet4": {
+    "projection_fallback_after_two_failures": true,
+    "baked_to_authored_mesh": true
+  },
+  "BRK_CrestA": {
+    "projection_fallback_after_two_failures": true,
+    "baked_to_authored_mesh": true
+  },
+  "BRK_CrestB": {
+    "uploaded": {
+      "vertices": 156,
+      "faces": 250,
+      "position_uv_hash": "ae0d0d14baf933437865a0dd445c2f5e464d2daa1f52a9939bc669fd167549ce"
+    },
+    "returned": {
+      "vertices": 156,
+      "faces": 250,
+      "position_uv_hash": "05823e304066414a9afe6bd8720826c9d0d570ef8895dc9f653ea172d6f87b45"
+    },
+    "equal": false,
+    "baked_to_authored_mesh": true
+  },
+  "BRK_Awning6": {
+    "uploaded": {
+      "vertices": 162,
+      "faces": 256,
+      "position_uv_hash": "2518a9f4083f876a91b13748c045e5e1400a7bbc8020ee31280a92c82ef4ed90"
+    },
+    "returned": {
+      "vertices": 162,
+      "faces": 256,
+      "position_uv_hash": "7f258b43d496489a5ae0ad222d4e4a6f429725e86bdb419c90125b75920698b7"
+    },
+    "equal": false,
+    "baked_to_authored_mesh": true
+  }
+}

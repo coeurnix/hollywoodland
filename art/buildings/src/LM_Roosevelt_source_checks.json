@@ -1,0 +1,596 @@
+{
+  "method": "camera_projection_emit_bake",
+  "rodin_failures_before_fallback": 2,
+  "frozen_input_sha256": "37077dff300553fd0aebe803d12a123fb7a697541d8907032df9db4eafa69acc",
+  "authored_before": {
+    "vertices": 17224,
+    "faces": 9656,
+    "position_uv_hash": "ac36f33dfed3c615a3df00a27a8f4bee36b23983051adf4a8ce42d2daba0e5fe"
+  },
+  "authored_after_bake": {
+    "vertices": 17224,
+    "faces": 9656,
+    "position_uv_hash": "ac36f33dfed3c615a3df00a27a8f4bee36b23983051adf4a8ce42d2daba0e5fe"
+  },
+  "authored_after_export_weld": {
+    "vertices": 6352,
+    "faces": 9656,
+    "position_uv_hash": "ac36f33dfed3c615a3df00a27a8f4bee36b23983051adf4a8ce42d2daba0e5fe"
+  },
+  "authored_geometry_uv_unchanged_during_bake": true,
+  "position_uv_hash_preserved_after_export": true,
+  "strict_before": {
+    "tris": 9656,
+    "branch_edges": 0,
+    "zero_area_faces": 0,
+    "loose_vertices": 0,
+    "orientation_discontinuities": 0,
+    "boundary_edges": 4578
+  },
+  "strict_after": {
+    "tris": 9656,
+    "branch_edges": 0,
+    "zero_area_faces": 0,
+    "loose_vertices": 0,
+    "orientation_discontinuities": 0,
+    "boundary_edges": 4578
+  },
+  "fbx_roundtrip_welded": {
+    "tris": 9656,
+    "branch_edges": 0,
+    "zero_area_faces": 0,
+    "loose_vertices": 0,
+    "orientation_discontinuities": 0,
+    "boundary_edges": 4578
+  },
+  "projection_sources": {
+    "front": "C:\\Users\\theco\\Projects\\hollywoodland\\art\\buildings\\concept\\LM_Roosevelt_front.png",
+    "threequarter": "C:\\Users\\theco\\Projects\\hollywoodland\\art\\buildings\\concept\\LM_Roosevelt_34.png",
+    "side": "C:\\Users\\theco\\Projects\\hollywoodland\\art\\buildings\\work\\hub_hotels\\projection\\roosevelt_side.png",
+    "back": "C:\\Users\\theco\\Projects\\hollywoodland\\art\\buildings\\work\\hub_hotels\\projection\\roosevelt_back.png",
+    "roof": "C:\\Users\\theco\\Projects\\hollywoodland\\art\\buildings\\work\\hub_hotels\\projection\\roosevelt_roof.png"
+  },
+  "projection_planes": [
+    {
+      "role": "upper",
+      "local_m": [
+        0,
+        0,
+        7,
+        7
+      ],
+      "source": "side",
+      "crop_pixels": [
+        81,
+        185,
+        111,
+        272
+      ],
+      "atlas_rect": [
+        0.01,
+        0.01,
+        0.24,
+        0.24
+      ]
+    },
+    {
+      "role": "door",
+      "local_m": [
+        0,
+        0,
+        7,
+        7
+      ],
+      "source": "side",
+      "crop_pixels": [
+        81,
+        185,
+        111,
+        272
+      ],
+      "atlas_rect": [
+        0.26,
+        0.01,
+        0.49,
+        0.24
+      ]
+    },
+    {
+      "role": "wall",
+      "local_m": [
+        0,
+        0,
+        6,
+        6
+      ],
+      "source": "side",
+      "crop_pixels": [
+        81,
+        185,
+        111,
+        272
+      ],
+      "atlas_rect": [
+        0.01,
+        0.26,
+        0.24,
+        0.49
+      ]
+    },
+    {
+      "role": "trim",
+      "local_m": [
+        0,
+        0,
+        4,
+        4
+      ],
+      "source": "side",
+      "crop_pixels": [
+        81,
+        185,
+        111,
+        272
+      ],
+      "atlas_rect": [
+        0.51,
+        0.26,
+        0.74,
+        0.49
+      ]
+    },
+    {
+      "role": "canvas",
+      "local_m": [
+        0,
+        0,
+        6.5,
+        6.5
+      ],
+      "source": "side",
+      "crop_pixels": [
+        81,
+        185,
+        111,
+        272
+      ],
+      "atlas_rect": [
+        0.01,
+        0.51,
+        0.24,
+        0.74
+      ]
+    },
+    {
+      "role": "gable",
+      "local_m": [
+        0,
+        0,
+        18,
+        8.5
+      ],
+      "source": "side",
+      "crop_pixels": [
+        81,
+        185,
+        111,
+        272
+      ],
+      "atlas_rect": [
+        0.51,
+        0.51,
+        0.99,
+        0.74
+      ]
+    },
+    {
+      "role": "timber",
+      "local_m": [
+        0,
+        0,
+        7,
+        7
+      ],
+      "source": "front",
+      "crop_pixels": [
+        153,
+        602,
+        190,
+        686
+      ],
+      "atlas_rect": [
+        0.76,
+        0.26,
+        0.99,
+        0.49
+      ]
+    },
+    {
+      "role": "metal",
+      "local_m": [
+        0,
+        0,
+        4,
+        8.761904762
+      ],
+      "source": "threequarter",
+      "crop_pixels": [
+        580,
+        76,
+        691,
+        88
+      ],
+      "atlas_rect": [
+        0.26,
+        0.51,
+        0.365,
+        0.74
+      ]
+    },
+    {
+      "role": "sign",
+      "local_m": [
+        0,
+        0,
+        32,
+        15
+      ],
+      "source": "threequarter",
+      "crop_pixels": [
+        580,
+        76,
+        691,
+        88
+      ],
+      "atlas_rect": [
+        0.01,
+        0.76,
+        0.49,
+        0.99
+      ]
+    },
+    {
+      "role": "ground",
+      "local_m": [
+        0,
+        0,
+        6,
+        6
+      ],
+      "source": "threequarter",
+      "crop_pixels": [
+        130,
+        884,
+        262,
+        907
+      ],
+      "atlas_rect": [
+        0.51,
+        0.76,
+        0.74,
+        0.99
+      ]
+    },
+    {
+      "role": "roof",
+      "local_m": [
+        0,
+        0,
+        6,
+        6
+      ],
+      "source": "roof",
+      "crop_pixels": [
+        82,
+        82,
+        942,
+        942
+      ],
+      "atlas_rect": [
+        0.26,
+        0.26,
+        0.49,
+        0.49
+      ]
+    },
+    {
+      "role": "tile",
+      "local_m": [
+        0,
+        0,
+        6,
+        13.142857143
+      ],
+      "source": "front",
+      "crop_pixels": [
+        335,
+        77,
+        610,
+        113
+      ],
+      "atlas_rect": [
+        0.385,
+        0.51,
+        0.49,
+        0.74
+      ]
+    },
+    {
+      "role": "upper",
+      "local_m": [
+        0,
+        0,
+        1.9,
+        7
+      ],
+      "source": "side",
+      "crop_pixels": [
+        81,
+        185,
+        111,
+        272
+      ],
+      "atlas_rect": [
+        0.01,
+        0.01,
+        0.07242857142857141,
+        0.24
+      ]
+    },
+    {
+      "role": "upper",
+      "local_m": [
+        4.1,
+        0,
+        7,
+        7
+      ],
+      "source": "side",
+      "crop_pixels": [
+        81,
+        185,
+        111,
+        272
+      ],
+      "atlas_rect": [
+        0.14471428571428568,
+        0.01,
+        0.24,
+        0.24
+      ]
+    },
+    {
+      "role": "upper",
+      "local_m": [
+        1.9,
+        0,
+        4.1,
+        0.43
+      ],
+      "source": "side",
+      "crop_pixels": [
+        81,
+        185,
+        111,
+        272
+      ],
+      "atlas_rect": [
+        0.07242857142857141,
+        0.01,
+        0.14471428571428568,
+        0.02412857142857143
+      ]
+    },
+    {
+      "role": "upper",
+      "local_m": [
+        1.9,
+        2.28,
+        4.1,
+        7
+      ],
+      "source": "side",
+      "crop_pixels": [
+        81,
+        185,
+        111,
+        272
+      ],
+      "atlas_rect": [
+        0.07242857142857141,
+        0.08491428571428569,
+        0.14471428571428568,
+        0.24
+      ]
+    },
+    {
+      "role": "upper",
+      "local_m": [
+        1.9,
+        0.43,
+        4.1,
+        2.28
+      ],
+      "source": "front",
+      "crop_pixels": [
+        360,
+        215,
+        410,
+        253
+      ],
+      "atlas_rect": [
+        0.07242857142857141,
+        0.02412857142857143,
+        0.14471428571428568,
+        0.08491428571428569
+      ]
+    },
+    {
+      "role": "arc",
+      "local_m": [
+        0,
+        0,
+        7,
+        7
+      ],
+      "source": "front",
+      "crop_pixels": [
+        78,
+        520,
+        276,
+        698
+      ],
+      "atlas_rect": [
+        0.51,
+        0.01,
+        0.74,
+        0.24
+      ]
+    },
+    {
+      "role": "entry",
+      "local_m": [
+        0,
+        0,
+        7,
+        7
+      ],
+      "source": "front",
+      "crop_pixels": [
+        994,
+        515,
+        1199,
+        698
+      ],
+      "atlas_rect": [
+        0.76,
+        0.01,
+        0.99,
+        0.24
+      ]
+    },
+    {
+      "role": "archupper",
+      "local_m": [
+        0,
+        0,
+        3.1,
+        3.1
+      ],
+      "source": "back",
+      "crop_pixels": [
+        95,
+        105,
+        155,
+        170
+      ],
+      "atlas_rect": [
+        0.76,
+        0.76,
+        0.99,
+        0.99
+      ]
+    },
+    {
+      "role": "archupper",
+      "local_m": [
+        0,
+        0,
+        0.27,
+        3.1
+      ],
+      "source": "side",
+      "crop_pixels": [
+        81,
+        185,
+        111,
+        272
+      ],
+      "atlas_rect": [
+        0.76,
+        0.76,
+        0.7800322580645161,
+        0.99
+      ]
+    },
+    {
+      "role": "archupper",
+      "local_m": [
+        1.79,
+        0,
+        3.1,
+        3.1
+      ],
+      "source": "side",
+      "crop_pixels": [
+        81,
+        185,
+        111,
+        272
+      ],
+      "atlas_rect": [
+        0.8928064516129033,
+        0.76,
+        0.99,
+        0.99
+      ]
+    },
+    {
+      "role": "archupper",
+      "local_m": [
+        0.27,
+        2.72,
+        1.79,
+        3.1
+      ],
+      "source": "side",
+      "crop_pixels": [
+        81,
+        185,
+        111,
+        272
+      ],
+      "atlas_rect": [
+        0.7800322580645161,
+        0.9618064516129032,
+        0.8928064516129033,
+        0.99
+      ]
+    },
+    {
+      "role": "archupper",
+      "local_m": [
+        0.27,
+        0,
+        1.79,
+        2.72
+      ],
+      "source": "back",
+      "crop_pixels": [
+        115,
+        119,
+        143,
+        156
+      ],
+      "atlas_rect": [
+        0.7800322580645161,
+        0.76,
+        0.8928064516129033,
+        0.9618064516129032
+      ]
+    }
+  ],
+  "paint_fixes": [
+    "Periodic roof seams matched actual5.692307x5.8m tile extents",
+    "Warm stone trim/wall padding8px",
+    "Blank metal sign backings painted without text or background",
+    "Terracotta tile and paving seams matched"
+  ],
+  "texture": {
+    "width": 2048,
+    "height": 2048,
+    "channels": "RGB",
+    "bit_depth": 8,
+    "color_space": "sRGB"
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "method": "orthographic role-plane camera projection and Cycles selected-to-active EMIT bake",
+  "frozen_input_sha256": "217c43462ca9b1e456346669779b13f4f541546b4c84a82d8d07084370ecb993",
+  "uploaded_authored": {
+    "vertices": 7616,
+    "faces": 3808,
+    "position_uv_hash": "c057b90bcc17ccc7a759dc73036f0f15b7d7d591b9c75a0c32dcc30789a22eef"
+  },
+  "authored_geometry_uv_unchanged_during_bake": true,
+  "after_bake_before_cleanup": {
+    "vertices": 7616,
+    "faces": 3808,
+    "position_uv_hash": "c057b90bcc17ccc7a759dc73036f0f15b7d7d591b9c75a0c32dcc30789a22eef"
+  },
+  "after_cleanup": {
+    "vertices": 3586,
+    "faces": 3808,
+    "position_uv_hash": "c057b90bcc17ccc7a759dc73036f0f15b7d7d591b9c75a0c32dcc30789a22eef"
+  },
+  "projection_face_counts": {
+    "base": 88,
+    "wall": 704,
+    "stone": 2904,
+    "upper": 88,
+    "roof": 2,
+    "metal": 20,
+    "sign": 2
+  },
+  "projection_images": {
+    "roof": "work\\hub_deco\\projection\\LM_Pantages_roof_v2.png",
+    "wall": "work\\hub_deco\\projection\\LM_Taft_front_side_back_floor.png",
+    "base": "work\\hub_deco\\projection\\LM_Taft_front_side_back_base.png",
+    "upper": "work\\hub_deco\\projection\\LM_Taft_front_side_back_crown.png",
+    "stone": "work\\hub_deco\\projection\\LM_Taft_stone.png",
+    "glass": "work\\hub_deco\\projection\\LM_FirstNational_door.png"
+  },
+  "cleanup": null,
+  "material_slots": 1,
+  "material_name": "M_LM_Taft",
+  "two_failed_Rodin_attempts": true
+}

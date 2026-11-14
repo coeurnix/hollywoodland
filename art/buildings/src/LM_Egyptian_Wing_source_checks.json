@@ -1,0 +1,43 @@
+{
+  "uploaded_authored": {
+    "vertices": 2254,
+    "faces": 1090,
+    "position_uv_hash": "790f838ed14534fb72d92317e801ffca7e8ebf325b8f910fe0798e95e2e68615"
+  },
+  "cleaned_authored": {
+    "vertices": 653,
+    "faces": 1086,
+    "position_uv_hash": "42d39746952449d02afa67d7fea0f72eaddb390b6bf6d134ee31904fdbda1c24"
+  },
+  "returned": {
+    "vertices": 2254,
+    "faces": 1090,
+    "position_uv_hash": "bd32af7835a9bb86cde93ecc80eb5df8b54cfb89045aadc48c54ed1dfe25b558"
+  },
+  "equal": false,
+  "baked_to_authored_mesh": true,
+  "authored_geometry_uv_unchanged_during_bake": true,
+  "cleanup": {
+    "id": "LM_Egyptian_Wing",
+    "removed_buried_triangles": 4,
+    "before": {
+      "vertices": 653,
+      "tris": 1090,
+      "zero_area_faces": 0,
+      "branch_edges": 2,
+      "boundary_edges": 214,
+      "loose_vertices": 0,
+      "inconsistent_shared_edges": 0
+    },
+    "after": {
+      "vertices": 653,
+      "tris": 1086,
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "boundary_edges": 216,
+      "loose_vertices": 0,
+      "inconsistent_shared_edges": 0
+    },
+    "surviving_face_uvs_unchanged": true
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "tool": "built-in image_gen",
+  "prompt": "Use case: stylized-concept. Original stylized1930 Hollywood classic early World of Warcraft hand-painted game architecture concept, reference photo for historic architecture only. TWO PANEL neutral-grey concept sheet, left complete elevated3/4 view showing front, left street facade and entire roof, right complete straight FRONT elevation. Split exactly centre. SAME Taft Building in both views, exact main game box42m wide48m deep36m tall, broad twelve-storey rectangular buff-brick office tower, regular closely spaced dark double-hung windows in12 distinct readable floors. Historic Walker & Eisen Neo-Renaissance: chunky limestone lower2floors with ground shop arcade, buff brick middle8floors, pale stone top2floors with giant Corinthian-style pilasters, heavy projecting classical cornice confined footprint, flat tar/gravel roof with broad coping and low stair bulkhead. Front and left facades equally rich, finished simpler windowed backs. Slightly exaggerated stone sill/frames, painted warm top light, cooler grime atbase, restrained brush texture. Blank stone name plaque above entrance, NO text/letters. Roof props minimal. No people, cars, street, ground, sky, photographic textures or modern additions. Entire building contained in each panel. Architectural illustration with large readable forms; no tower spire or signage blade.",
+  "reference": "work/hub_deco/Taft_1930.jpg",
+  "output": "work/hub_deco/LM_Taft_concept_sheet.png",
+  "split": {
+    "left": "concept/LM_Taft_34.png",
+    "right": "concept/LM_Taft_front.png"
+  },
+  "review": "Passed: regular brick fenestration, stone base and colossal upper pilasters, strong heavy cornice, finished roof. Exact42x48x36 collision box wins over concept proportions."
+}

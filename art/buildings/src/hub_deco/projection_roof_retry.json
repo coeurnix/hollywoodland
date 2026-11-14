@@ -1,0 +1,14 @@
+[
+  {
+    "id": "LM_Pantages_projection_roof_v2",
+    "references": [
+      "concept/LM_Pantages_34.png"
+    ],
+    "prompt": "Top-down seamless hand-painted game texture MATERIAL ONLY. Dark nearly black warm brown TAR AND GRAVEL FLAT ROOF. Random irregular tiny tan gravel flecks embedded in continuous dark rough asphalt, restrained painterly grain, a few very broad irregular tar repair patches. Completely flat orthographic texture plate filling every pixel. Absolutely NO rectangular stones, brick, paving, tiles, masonry blocks, stone joints, walls, windows, parapets, objects, text, ground or sky. Use the dark gravel roof material visible on the reference ONLY; ignore all building stone. Random organic gravel stippling, continuous tar binder. Early World of Warcraft painted albedo, soft warm top-light.",
+    "output": "work/hub_deco/projection/LM_Pantages_roof_v2.png",
+    "image_size": {
+      "width": 1536,
+      "height": 1536
+    }
+  }
+]

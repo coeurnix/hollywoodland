@@ -1,0 +1,8 @@
+{
+  "asset": "BRK_G_Bay4A",
+  "view": "front",
+  "reference": "concept/BRK_G_Bay6A_front.png",
+  "prompt": "Correct the design for BRK_G_Bay4A: a SINGLE GROUND FLOOR ONLY modular brick storefront, exactly 4 metres wide and 4.5 metres tall. Use this reference's style and colors. One tall shop window at left and one oxblood door at right, both extending from near the floor up to a transom at 3.5 metres. Cream stone lintel at 3.75 m, narrow brick band and chunky cornice at 4.5 m. NO upper-storey windows, NO second floor, NO upper window band. The entire height is one shop floor. Straight front orthographic elevation, plain neutral grey background. Sepia red brick, bottle green frames, dark slate painted glass, warm hand-painted classic MMO brushwork. No awning, no people, no ground, no text.",
+  "output": "concept/BRK_G_Bay4A_front.png",
+  "rejected": "work/BRK_G_Bay4A_front_rejected.png"
+}

@@ -1,0 +1,14 @@
+{
+  "uploaded": {
+    "vertices": 1025,
+    "faces": 809,
+    "world_position_uv_hash": "aaa3b73f321b8bcdbf8422446db5f1696f83fbe192f7698273165fe31e41541d"
+  },
+  "returned": {
+    "vertices": 1025,
+    "faces": 809,
+    "world_position_uv_hash": "865f3a95526a5d242487fc92ae7a8d1c8efe7b31bd3c3cac48efe192e5b84e00"
+  },
+  "geometry_uv_signature_equal": false,
+  "baked_to_own_mesh_and_uvs": true
+}

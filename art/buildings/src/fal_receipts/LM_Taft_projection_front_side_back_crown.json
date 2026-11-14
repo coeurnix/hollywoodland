@@ -1,0 +1,25 @@
+{
+  "id": "LM_Taft_projection_front_side_back_crown",
+  "provider": "fal.ai",
+  "model": "blackforestlabs/flux-3/klein/edit-image",
+  "prompt": "Original1930 Hollywood game texture painting in the exact reference style: classic early World of Warcraft chunky hand-painted albedo, warm light from above, cooler grime at base, restrained brush marks and painted AO. Pure orthographic straight-on elevation, no perspective, no cast shadows outside the texture. Rectangular FULL-BLEED texture plate filling every image edge. No grey background, surround, ground, sky, people, letters, numbers, logos, frames or labels. No photographic detail. ONE Neo-Renaissance upper office facade bay4.2m wide by6m high. Two dark rectangular office windows vertically stacked one above the other inside a single colossal pale cream Corinthian-style pilaster surround. Warm stone entablature band at top. Full-bleed one bay, broad stone borders, no brick middle floors, no roof, no cornice projection, no extra bays.",
+  "references": [
+    "concept/LM_Taft_front.png"
+  ],
+  "image_size": {
+    "width": 1024,
+    "height": 1536
+  },
+  "seed": 19301113,
+  "output": "work/hub_deco/projection/LM_Taft_front_side_back_crown.png",
+  "status": "downloaded",
+  "request_id": "01a1d856-60bc-74c2-bc26-662d4794643f",
+  "elapsed_seconds": 8.1,
+  "timings": {
+    "prompt_expansion": 1.2319999996179831e-05,
+    "inference": 1.0961603120013024,
+    "safety_checker": 0.024153807999027777
+  },
+  "width": 1024,
+  "height": 1536
+}

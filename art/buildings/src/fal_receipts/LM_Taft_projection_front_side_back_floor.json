@@ -1,0 +1,25 @@
+{
+  "id": "LM_Taft_projection_front_side_back_floor",
+  "provider": "fal.ai",
+  "model": "blackforestlabs/flux-3/klein/edit-image",
+  "prompt": "Original1930 Hollywood game texture painting in the exact reference style: classic early World of Warcraft chunky hand-painted albedo, warm light from above, cooler grime at base, restrained brush marks and painted AO. Pure orthographic straight-on elevation, no perspective, no cast shadows outside the texture. Rectangular FULL-BLEED texture plate filling every image edge. No grey background, surround, ground, sky, people, letters, numbers, logos, frames or labels. No photographic detail. ONE repeated Neo-Renaissance buff-brick office facade FLOOR BAY,4.2m wide by2.8125m tall. Warm sepia/buff brick field, exactlyONE small centered dark double-hung rectangular window with cream stone lintel and heavy cream sill. Window bottom is28percent from bottom of texture, top90percent; window width40percent of total width. No cornice, no roof, no ground floor, no other windows. Straight brick courses butt seamlessly at left/right edges.",
+  "references": [
+    "concept/LM_Taft_front.png"
+  ],
+  "image_size": {
+    "width": 1536,
+    "height": 1024
+  },
+  "seed": 19301113,
+  "output": "work/hub_deco/projection/LM_Taft_front_side_back_floor.png",
+  "status": "downloaded",
+  "request_id": "01a1d856-33eb-7c00-af23-43d04cd6fc5c",
+  "elapsed_seconds": 11.12,
+  "timings": {
+    "prompt_expansion": 1.173999999082298e-05,
+    "inference": 1.1323829039993143,
+    "safety_checker": 0.019711226999788778
+  },
+  "width": 1536,
+  "height": 1024
+}

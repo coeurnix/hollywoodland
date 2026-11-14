@@ -41,3 +41,14 @@ vo-src/
 art/foliage/raw/
 art/foliage/src/
 art/foliage/state.json
+# building kit (art/buildings): commit the game-ready kit and its sources; keep the bulk local
+# (see art/buildings/HANDOVER.md: concept sheets, raw Rodin GLBs, work dirs and the big kit .blend files)
+art/buildings/work/
+art/buildings/concept/
+art/buildings/src/rodin/
+art/buildings/src/*.blend
+*.blend1
+art/buildings/meshes/*.glb
+art/buildings/preview/*
+!art/buildings/preview/*_contact.png
+!art/buildings/preview/KitProof_*.png

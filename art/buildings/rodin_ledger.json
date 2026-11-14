@@ -1,0 +1,1734 @@
+{
+  "credits_used": 32.5,
+  "calls": [
+    {
+      "asset": "BRK_G_Bay6A",
+      "attempt": 1,
+      "task_uuid": "4869167b-7b75-4233-b944-fa94865b10be",
+      "options": {
+        "material": "All",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high"
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "downloads": [
+        "work\\BRK_G_Bay6A\\base_basic_pbr.glb",
+        "work\\BRK_G_Bay6A\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "BRK_U_Bay3A",
+      "attempt": 1,
+      "task_uuid": "d33de903-7175-4d89-8707-75080f59791f",
+      "options": {
+        "material": "All",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high"
+      },
+      "credits_consumed": 0,
+      "status": "failed",
+      "error": "Generation failed",
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "failed submission/task absent from complete usage window"
+    },
+    {
+      "asset": "LM_Drugstore",
+      "attempt": 1,
+      "task_uuid": "6e2dff88-fb65-496e-9bbe-b58d9b9d3990",
+      "options": {
+        "material": "All",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high"
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "downloads": [
+        "work\\LM_Drugstore\\base_basic_pbr.glb",
+        "work\\LM_Drugstore\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "BRK_U_Bay3A",
+      "attempt": 2,
+      "task_uuid": "66479ed6-5a1f-4f72-aa56-d6be2792d0e0",
+      "options": {
+        "material": "All",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high"
+      },
+      "credits_consumed": 0,
+      "status": "failed",
+      "reference": "concept/BRK_U_Bay3A_34.png",
+      "error": "Generation failed",
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "failed submission/task absent from complete usage window"
+    },
+    {
+      "asset": "LM_Drugstore",
+      "attempt": 2,
+      "task_uuid": "db58b558-4d28-416f-b658-423bbd5fd55c",
+      "options": {
+        "material": "All",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high"
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/LM_Drugstore_34.png",
+      "downloads": [
+        "work\\LM_Drugstore\\base_basic_pbr.glb",
+        "work\\LM_Drugstore\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "ATL_BRK",
+      "attempt": 1,
+      "task_uuid": "85ad286a-d103-4177-b6f6-9f35dbd38412",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Hand-painted early classic MMO architecture, warm cream stone and sepia brick, painted ambient occlusion, dark slate glass, bottle green wood and oxblood doors. Preserve shared UV layout. No lettering, no people, no sky or ground. Restrained brush texture, simple readable shapes, top lighting."
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/ATL_BRK_front.png",
+      "downloads": [
+        "work\\ATL_BRK\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "BRK_Pilaster1_G",
+      "attempt": 1,
+      "task_uuid": null,
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high"
+      },
+      "credits_consumed": 0,
+      "status": "failed",
+      "reference": "concept/BRK_Pilaster1_G_front.png",
+      "error": "('Connection aborted.', TimeoutError('The write operation timed out'))",
+      "credits_reported_on_submission": 0,
+      "billing_status": "failed submission/task absent from complete usage window"
+    },
+    {
+      "asset": "BRK_Pilaster1_G",
+      "attempt": 2,
+      "task_uuid": "4770632d-efc2-42b9-8707-dd90b4b8b5ff",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high"
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/BRK_Pilaster1_G_34.png",
+      "downloads": [
+        "work\\BRK_Pilaster1_G\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "BRK_Parapet4",
+      "attempt": 1,
+      "task_uuid": null,
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high"
+      },
+      "credits_consumed": 0,
+      "status": "failed",
+      "reference": "concept/BRK_Parapet4_front.png",
+      "error": "('Connection aborted.', TimeoutError('The write operation timed out'))",
+      "credits_reported_on_submission": 0,
+      "billing_status": "failed submission/task absent from complete usage window"
+    },
+    {
+      "asset": "BRK_Parapet4",
+      "attempt": 2,
+      "task_uuid": null,
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high"
+      },
+      "credits_consumed": 0,
+      "status": "failed",
+      "reference": "concept/BRK_Parapet4_34.png",
+      "error": "('Connection aborted.', TimeoutError('The write operation timed out'))",
+      "credits_reported_on_submission": 0,
+      "billing_status": "failed submission/task absent from complete usage window"
+    },
+    {
+      "asset": "BRK_CrestA",
+      "attempt": 1,
+      "task_uuid": "14713c45-f2e1-4d01-bf66-50b0bc1a10ce",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high"
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/BRK_CrestA_front.png",
+      "downloads": [
+        "work\\BRK_CrestA\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "BRK_CrestB",
+      "attempt": 1,
+      "task_uuid": "6baa53cd-043c-4577-a322-4df2cfb17c53",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high"
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/BRK_CrestB_front.png",
+      "downloads": [
+        "work\\BRK_CrestB\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "BRK_Awning6",
+      "attempt": 1,
+      "task_uuid": "8b74e974-a917-49af-83ec-b229b944c449",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high"
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/BRK_Awning6_front.png",
+      "downloads": [
+        "work\\BRK_Awning6\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "BRK_Awning6",
+      "attempt": 2,
+      "task_uuid": "143f888e-e32b-42b2-bdb3-8b7b356acf59",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high"
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/BRK_Awning6_34.png",
+      "downloads": [
+        "work\\BRK_Awning6\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "BRK_CrestA",
+      "attempt": 2,
+      "task_uuid": "8a2a8297-1c6e-4624-a124-d13564a5b10f",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Hand-painted early classic MMO architecture. Warm cream stone, sepia brick, painted ambient occlusion, dark green wood and slate glass. Paint every surface as the architectural material. No background, sky, ground, rocks, rubble, lettering or people."
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/BRK_CrestA_34.png",
+      "downloads": [
+        "work\\BRK_CrestA\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "SPN_G_Bay6A",
+      "attempt": 1,
+      "task_uuid": "32459913-ef73-47fb-a899-f500e6d37710",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Hand-painted early classic MMO architecture. Warm cream stone, sepia brick, painted ambient occlusion, dark green wood and slate glass. Paint every surface as the architectural material. No background, sky, ground, rocks, rubble, lettering or people."
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/SPN_G_Bay6A_front.png",
+      "downloads": [
+        "work\\SPN_G_Bay6A\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "SPN_U_Bay3A",
+      "attempt": 1,
+      "task_uuid": "a1f3ca4f-03dd-4417-b645-307796da64e0",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Hand-painted early classic MMO architecture. Warm cream stone, sepia brick, painted ambient occlusion, dark green wood and slate glass. Paint every surface as the architectural material. No background, sky, ground, rocks, rubble, lettering or people."
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/SPN_U_Bay3A_front.png",
+      "downloads": [
+        "work\\SPN_U_Bay3A\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "SPN_Pilaster1_G",
+      "attempt": 1,
+      "task_uuid": "d0667b3c-1bc2-4508-a8db-8770616a50bb",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Hand-painted early classic MMO architecture. Warm cream stone, sepia brick, painted ambient occlusion, dark green wood and slate glass. Paint every surface as the architectural material. No background, sky, ground, rocks, rubble, lettering or people."
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/SPN_Pilaster1_G_front.png",
+      "downloads": [
+        "work\\SPN_Pilaster1_G\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "SPN_Parapet4",
+      "attempt": 1,
+      "task_uuid": "ff2e22bd-36ae-4738-a334-04eddcc9e444",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Hand-painted early classic MMO architecture. Warm cream stone, sepia brick, painted ambient occlusion, dark green wood and slate glass. Paint every surface as the architectural material. No background, sky, ground, rocks, rubble, lettering or people."
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/SPN_Parapet4_front.png",
+      "downloads": [
+        "work\\SPN_Parapet4\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "SPN_CrestA",
+      "attempt": 1,
+      "task_uuid": "3c9233ec-8fec-49c1-a89d-226fcd4a9a46",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Hand-painted early classic MMO architecture. Warm cream stone, sepia brick, painted ambient occlusion, dark green wood and slate glass. Paint every surface as the architectural material. No background, sky, ground, rocks, rubble, lettering or people."
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/SPN_CrestA_front.png",
+      "downloads": [
+        "work\\SPN_CrestA\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "SPN_CrestB",
+      "attempt": 1,
+      "task_uuid": "195872d0-0d18-4381-9b32-1104558323e1",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Hand-painted early classic MMO architecture. Warm cream stone, sepia brick, painted ambient occlusion, dark green wood and slate glass. Paint every surface as the architectural material. No background, sky, ground, rocks, rubble, lettering or people."
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/SPN_CrestB_front.png",
+      "downloads": [
+        "work\\SPN_CrestB\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "SPN_Awning6",
+      "attempt": 1,
+      "task_uuid": "712cf0b9-c993-4163-9e6a-b6833f98deb3",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Hand-painted early classic MMO architecture. Warm cream stone, sepia brick, painted ambient occlusion, dark green wood and slate glass. Paint every surface as the architectural material. No background, sky, ground, rocks, rubble, lettering or people."
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/SPN_Awning6_34.png",
+      "downloads": [
+        "work\\SPN_Awning6\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "DECO_G_Bay6A",
+      "attempt": 1,
+      "task_uuid": "ad401772-81a6-4ea0-a23b-9b93de60e9be",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Hand-painted early classic MMO asset. Use cream and buff stone, black marble, restrained chrome and oxblood accents. Painted top-light and ambient occlusion, restrained brush texture. Paint every model surface as its actual material. No background, sky, ground, lettering or people. No unrelated added objects or photographic shading."
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/DECO_G_Bay6A_front.png",
+      "downloads": [
+        "work\\DECO_G_Bay6A\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "DECO_U_Bay3A",
+      "attempt": 1,
+      "task_uuid": "6ba6765c-9ea4-48fa-835a-1f140d606574",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Hand-painted early classic MMO asset. Use cream and buff stone, black marble, restrained chrome and oxblood accents. Painted top-light and ambient occlusion, restrained brush texture. Paint every model surface as its actual material. No background, sky, ground, lettering or people. No unrelated added objects or photographic shading."
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/DECO_U_Bay3A_front.png",
+      "downloads": [
+        "work\\DECO_U_Bay3A\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "DECO_Pilaster1_G",
+      "attempt": 1,
+      "task_uuid": "d160bc3d-d329-4e1f-affd-13e615b1bfde",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Hand-painted early classic MMO asset. Use cream and buff stone, black marble, restrained chrome and oxblood accents. Painted top-light and ambient occlusion, restrained brush texture. Paint every model surface as its actual material. No background, sky, ground, lettering or people. No unrelated added objects or photographic shading."
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/DECO_Pilaster1_G_front.png",
+      "downloads": [
+        "work\\DECO_Pilaster1_G\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "DECO_Parapet4",
+      "attempt": 1,
+      "task_uuid": "3d01a71b-d0e9-4735-8c7a-865ea3e61946",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Hand-painted early classic MMO asset. Use cream and buff stone, black marble, restrained chrome and oxblood accents. Painted top-light and ambient occlusion, restrained brush texture. Paint every model surface as its actual material. No background, sky, ground, lettering or people. No unrelated added objects or photographic shading."
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/DECO_Parapet4_front.png",
+      "downloads": [
+        "work\\DECO_Parapet4\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "DECO_CrestA",
+      "attempt": 1,
+      "task_uuid": "444a3a24-5643-485b-a277-968eff90db64",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Hand-painted early classic MMO asset. Use cream and buff stone, black marble, restrained chrome and oxblood accents. Painted top-light and ambient occlusion, restrained brush texture. Paint every model surface as its actual material. No background, sky, ground, lettering or people. No unrelated added objects or photographic shading."
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/DECO_CrestA_front.png",
+      "downloads": [
+        "work\\DECO_CrestA\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "DECO_CrestB",
+      "attempt": 1,
+      "task_uuid": "484244d0-5119-4287-b07a-4bb35571131d",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Hand-painted early classic MMO asset. Use cream and buff stone, black marble, restrained chrome and oxblood accents. Painted top-light and ambient occlusion, restrained brush texture. Paint every model surface as its actual material. No background, sky, ground, lettering or people. No unrelated added objects or photographic shading."
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/DECO_CrestB_front.png",
+      "downloads": [
+        "work\\DECO_CrestB\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "DECO_Awning6",
+      "attempt": 1,
+      "task_uuid": "0ffe6bc6-b55a-4bb4-b963-d70624cbd0c4",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Hand-painted early classic MMO asset. Use cream and buff stone, black marble, restrained chrome and oxblood accents. Painted top-light and ambient occlusion, restrained brush texture. Paint every model surface as its actual material. No background, sky, ground, lettering or people. No unrelated added objects or photographic shading."
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/DECO_Awning6_34.png",
+      "downloads": [
+        "work\\DECO_Awning6\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "SPN_U_Bay3A",
+      "attempt": 2,
+      "task_uuid": "ef13027b-8a0e-45e4-83f3-dc0ea847a00e",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Hand-painted early classic MMO asset. Use ivory stucco, terracotta tile and bulkheads, dark green ironwork and warm wood. Painted top-light and ambient occlusion, restrained brush texture. Paint every model surface as its actual material. No background, sky, ground, lettering or people. No unrelated added objects or photographic shading."
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/SPN_U_Bay3A_34.png",
+      "input_model": "work/SPN_U_Bay3A_input.glb",
+      "downloads": [
+        "work\\SPN_U_Bay3A\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "SPN_CrestB",
+      "attempt": 2,
+      "task_uuid": "6db9d806-3ea8-475b-a7a9-3facc6ae46e4",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Hand-painted early classic MMO asset. Use ivory stucco, terracotta tile and bulkheads, dark green ironwork and warm wood. Painted top-light and ambient occlusion, restrained brush texture. Paint every model surface as its actual material. No background, sky, ground, lettering or people. No unrelated added objects or photographic shading."
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/SPN_CrestB_34.png",
+      "input_model": "work/SPN_CrestB_input.glb",
+      "downloads": [
+        "work\\SPN_CrestB\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "DECO_CrestB",
+      "attempt": 2,
+      "task_uuid": "9e473194-1d73-4ebd-8d5e-bb0809f8bbf9",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Hand-painted early classic MMO asset. Use cream and buff stone, black marble, restrained chrome and oxblood accents. Painted top-light and ambient occlusion, restrained brush texture. Paint every model surface as its actual material. No background, sky, ground, lettering or people. No unrelated added objects or photographic shading."
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/DECO_CrestB_34.png",
+      "input_model": "work/DECO_CrestB_input.glb",
+      "downloads": [
+        "work\\DECO_CrestB\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "DECO_Parapet4",
+      "attempt": 2,
+      "task_uuid": "cea4067a-ff89-4422-83df-06c38d598e48",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Hand-painted early classic MMO asset. Use cream and buff stone, black marble, restrained chrome and oxblood accents. Painted top-light and ambient occlusion, restrained brush texture. Paint every model surface as its actual material. No background, sky, ground, lettering or people. No unrelated added objects or photographic shading."
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/DECO_Parapet4_34.png",
+      "input_model": "work/DECO_Parapet4_input.glb",
+      "downloads": [
+        "work\\DECO_Parapet4\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "DECO_Awning6",
+      "attempt": 2,
+      "task_uuid": "f5ac4741-8c51-4879-b89a-e89e01fdbfc3",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Hand-painted early classic MMO asset. Use cream and buff stone, black marble, restrained chrome and oxblood accents. Painted top-light and ambient occlusion, restrained brush texture. Paint every model surface as its actual material. No background, sky, ground, lettering or people. No unrelated added objects or photographic shading."
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/DECO_Awning6_front.png",
+      "input_model": "work/DECO_Awning6_input.glb",
+      "downloads": [
+        "work\\DECO_Awning6\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "MSN_G_Bay6A",
+      "attempt": 1,
+      "task_uuid": "4345784f-9d26-4105-9c98-9b26a4e969e2",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Hand-painted early classic MMO asset. Use sand stucco, dark timber, small green windows and terracotta trim. Painted top-light and ambient occlusion, restrained brush texture. Paint every model surface as its actual material. No background, sky, ground, lettering or people. No unrelated added objects or photographic shading."
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/MSN_G_Bay6A_front.png",
+      "input_model": "work/MSN_G_Bay6A_input.glb",
+      "downloads": [
+        "work\\MSN_G_Bay6A\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "MSN_U_Bay3A",
+      "attempt": 1,
+      "task_uuid": "0df87e31-b09d-4905-ae22-754b4f0f67e9",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Hand-painted early classic MMO asset. Use sand stucco, dark timber, small green windows and terracotta trim. Painted top-light and ambient occlusion, restrained brush texture. Paint every model surface as its actual material. No background, sky, ground, lettering or people. No unrelated added objects or photographic shading."
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/MSN_U_Bay3A_front.png",
+      "input_model": "work/MSN_U_Bay3A_input.glb",
+      "downloads": [
+        "work\\MSN_U_Bay3A\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "MSN_Pilaster1_G",
+      "attempt": 1,
+      "task_uuid": "f822e8b4-b6fa-4ff4-8991-f1ad325268f1",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Hand-painted early classic MMO asset. Use sand stucco, dark timber, small green windows and terracotta trim. Painted top-light and ambient occlusion, restrained brush texture. Paint every model surface as its actual material. No background, sky, ground, lettering or people. No unrelated added objects or photographic shading."
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/MSN_Pilaster1_G_front.png",
+      "input_model": "work/MSN_Pilaster1_G_input.glb",
+      "downloads": [
+        "work\\MSN_Pilaster1_G\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "MSN_Parapet4",
+      "attempt": 1,
+      "task_uuid": "72614dfa-8084-450b-8401-8dc8fb0175b2",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Hand-painted early classic MMO asset. Use sand stucco, dark timber, small green windows and terracotta trim. Painted top-light and ambient occlusion, restrained brush texture. Paint every model surface as its actual material. No background, sky, ground, lettering or people. No unrelated added objects or photographic shading."
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/MSN_Parapet4_front.png",
+      "input_model": "work/MSN_Parapet4_input.glb",
+      "downloads": [
+        "work\\MSN_Parapet4\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "MSN_CrestA",
+      "attempt": 1,
+      "task_uuid": "4f5f15c4-615f-4c02-ab41-50f237faad20",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Hand-painted early classic MMO asset. Use sand stucco, dark timber, small green windows and terracotta trim. Painted top-light and ambient occlusion, restrained brush texture. Paint every model surface as its actual material. No background, sky, ground, lettering or people. No unrelated added objects or photographic shading."
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/MSN_CrestA_front.png",
+      "input_model": "work/MSN_CrestA_input.glb",
+      "downloads": [
+        "work\\MSN_CrestA\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "MSN_CrestB",
+      "attempt": 1,
+      "task_uuid": "97a3bbc1-4ac1-45c3-be9a-053dfe6c770d",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Hand-painted early classic MMO asset. Use sand stucco, dark timber, small green windows and terracotta trim. Painted top-light and ambient occlusion, restrained brush texture. Paint every model surface as its actual material. No background, sky, ground, lettering or people. No unrelated added objects or photographic shading."
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/MSN_CrestB_front.png",
+      "input_model": "work/MSN_CrestB_input.glb",
+      "downloads": [
+        "work\\MSN_CrestB\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "MSN_Awning6",
+      "attempt": 1,
+      "task_uuid": "357dfea4-5c0c-4311-b0f2-ab1876bfd803",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Hand-painted early classic MMO asset. Use sand stucco, dark timber, small green windows and terracotta trim. Painted top-light and ambient occlusion, restrained brush texture. Paint every model surface as its actual material. No background, sky, ground, lettering or people. No unrelated added objects or photographic shading."
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/MSN_Awning6_34.png",
+      "input_model": "work/MSN_Awning6_input.glb",
+      "downloads": [
+        "work\\MSN_Awning6\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "RF_WaterTank",
+      "attempt": 1,
+      "task_uuid": "dca9367b-cd63-4a7a-b332-aaca0d813673",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Use hand-painted albedo, warm top light, cool corner AO. No background, people or lettering. Bake returned colour back onto this original UV mesh; then repack into shared family-neutral atlas. PrepColor is material guidance only. 12-sided wooden stave tank, three steel hoops, splayed diagonally-braced frame, service ladder; roof prop."
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/RF_WaterTank_34.png",
+      "input_model": "work/roof_clutter/RF_WaterTank/RF_WaterTank_input.glb",
+      "downloads": [
+        "work\\RF_WaterTank\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "RF_Billboard8x4",
+      "attempt": 1,
+      "task_uuid": "e7c7bdad-51bb-4230-b50e-c0d689db6d5d",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Use hand-painted albedo, warm top light, cool corner AO. No background, people or lettering. Bake returned colour back onto this original UV mesh; then repack into shared family-neutral atlas. PrepColor is material guidance only. Blank structural backing takes a separate sign-page poster. Poster face is exactly 8x4 metres; nominal and bounds include frame/supports."
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/RF_Billboard8x4_34.png",
+      "input_model": "work/roof_clutter/RF_Billboard8x4/RF_Billboard8x4_input.glb",
+      "downloads": [
+        "work\\RF_Billboard8x4\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "RF_Billboard12x5",
+      "attempt": 1,
+      "task_uuid": "6967ce39-f5bb-447e-a0e4-d5aef7a760d5",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Use hand-painted albedo, warm top light, cool corner AO. No background, people or lettering. Bake returned colour back onto this original UV mesh; then repack into shared family-neutral atlas. PrepColor is material guidance only. Blank structural backing takes a separate sign-page poster. Poster face is exactly 12x5 metres; nominal and bounds include frame/supports."
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/RF_Billboard12x5_34.png",
+      "input_model": "work/roof_clutter/RF_Billboard12x5/RF_Billboard12x5_input.glb",
+      "downloads": [
+        "work\\RF_Billboard12x5\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "RF_StairBulkhead",
+      "attempt": 1,
+      "task_uuid": "97fdfdb3-1cb7-444d-bd8b-9a12466a2204",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Use hand-painted albedo, warm top light, cool corner AO. No background, people or lettering. Bake returned colour back onto this original UV mesh; then repack into shared family-neutral atlas. PrepColor is material guidance only. Cream stucco exit hut with an oxblood door, rear-falling shed roof, drip hood, flashing and side louvers; no navigable interior."
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/RF_StairBulkhead_34.png",
+      "input_model": "work/roof_clutter/RF_StairBulkhead/RF_StairBulkhead_input.glb",
+      "downloads": [
+        "work\\RF_StairBulkhead\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "RF_ChimneyBrick",
+      "attempt": 1,
+      "task_uuid": "57b0faaf-490b-421d-89d9-8e4a5662870d",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Use hand-painted albedo, warm top light, cool corner AO. No background, people or lettering. Bake returned colour back onto this original UV mesh; then repack into shared family-neutral atlas. PrepColor is material guidance only. Sepia brick chimney with cream stone cap and two geometric recessed flue openings. Brick courses and soot supplied in texture."
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/RF_ChimneyBrick_34.png",
+      "input_model": "work/roof_clutter/RF_ChimneyBrick/RF_ChimneyBrick_input.glb",
+      "downloads": [
+        "work\\RF_ChimneyBrick\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "RF_VentMetal",
+      "attempt": 1,
+      "task_uuid": "9f6c0272-13ae-44e9-b069-fc6778df1c4b",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Use hand-painted albedo, warm top light, cool corner AO. No background, people or lettering. Bake returned colour back onto this original UV mesh; then repack into shared family-neutral atlas. PrepColor is material guidance only. Eight-sided galvanized metal shaft, open rain gap, four cap struts, broad low mushroom hood."
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/RF_VentMetal_34.png",
+      "input_model": "work/roof_clutter/RF_VentMetal/RF_VentMetal_input.glb",
+      "downloads": [
+        "work\\RF_VentMetal\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "RF_Skylight",
+      "attempt": 1,
+      "task_uuid": "f4330692-23bb-41e1-9c8e-9b5c83dfe4f5",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Use hand-painted albedo, warm top light, cool corner AO. No background, people or lettering. Bake returned colour back onto this original UV mesh; then repack into shared family-neutral atlas. PrepColor is material guidance only. Pitched 3x4m glazed lantern with masonry curb, slate flashing, ridge and transverse sash mullions. Opaque painted glass."
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/RF_Skylight_34.png",
+      "input_model": "work/roof_clutter/RF_Skylight/RF_Skylight_input.glb",
+      "downloads": [
+        "work\\RF_Skylight\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "DR_BoardedWindow15",
+      "attempt": 1,
+      "task_uuid": "de82be7d-b840-44d5-a3fd-c1deb976f5ca",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Texture only: 1.5 m wide by 1.5 m high boarded-window overlay, three uneven broad horizontal wooden boards and one diagonal brace, hammered dark nail heads. Classic MMO painted warm top light, cool base shadows, restrained brush strokes; no background, characters, typography, modern objects, transparency or hive resin. Preserve authored geometry and UVs."
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/DR_BoardedWindow15_34.png",
+      "input_model": "work/dressing/DR_BoardedWindow15_input.glb",
+      "downloads": [
+        "work\\DR_BoardedWindow15\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "DR_BoardedWindow23",
+      "attempt": 1,
+      "task_uuid": "4f3370a5-b58d-4f27-ab26-2ca36fec6c5c",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Texture only: 2 m wide by 3 m high tall boarded-window overlay, six uneven broad horizontal wooden boards with small gaps, one long diagonal brace, hammered dark nails. Classic MMO painted warm top light, cool base shadows, restrained brush strokes; no background, characters, typography, modern objects, transparency or hive resin. Preserve authored geometry and UVs."
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/DR_BoardedWindow23_34.png",
+      "input_model": "work/dressing/DR_BoardedWindow23_input.glb",
+      "downloads": [
+        "work\\DR_BoardedWindow23\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "DR_SootA",
+      "attempt": 1,
+      "task_uuid": "97456045-1206-4ac2-a88e-03012f7e1f8c",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Texture only: one irregular solid soot-black scorch silhouette for an opaque geometry cutout on a facade: wide sooty base with five tapering upward smoke tongues, 2 m wide by 1.5 m high, dark sepia cooler edges with restrained painted charcoal strokes, no surrounding wall. Classic MMO painted warm top light, cool base shadows, restrained brush strokes; no background, characters, typography, modern objects, transparency or hive resin. Preserve authored geometry and UVs."
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/DR_SootA_34.png",
+      "input_model": "work/dressing/DR_SootA_input.glb",
+      "downloads": [
+        "work\\DR_SootA\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "DR_SootB",
+      "attempt": 1,
+      "task_uuid": "84368be8-236b-4ae4-b9b0-81babf066c2c",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Texture only: one narrow irregular solid soot-black scorch silhouette for an opaque geometry cutout above a window: three long tapering smoke tongues with torn uneven edges, 1.5 m wide by 2.5 m high, restrained painted charcoal brushstrokes, no surrounding wall. Classic MMO painted warm top light, cool base shadows, restrained brush strokes; no background, characters, typography, modern objects, transparency or hive resin. Preserve authored geometry and UVs."
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/DR_SootB_34.png",
+      "input_model": "work/dressing/DR_SootB_input.glb",
+      "downloads": [
+        "work\\DR_SootB\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "DR_BrokenGlass",
+      "attempt": 1,
+      "task_uuid": "00f3b435-6888-43f1-999d-43543c939323",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Texture only: broken shopfront glass overlay, 3 m wide by 2.5 m high silhouette of opaque painted dark bottle-green glass shards remaining around a rectangular window perimeter with a large open broken hole in the center, seven broad angular shard teeth, painted pale warm reflection strokes, no refraction or transparency on glass, no frame or surrounding wall. Classic MMO painted warm top light, cool base shadows, restrained brush strokes; no background, characters, typography, modern objects, transparency or hive resin. Preserve authored geometry and UVs."
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/DR_BrokenGlass_34.png",
+      "input_model": "work/dressing/DR_BrokenGlass_input.glb",
+      "downloads": [
+        "work\\DR_BrokenGlass\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "DR_Crack",
+      "attempt": 1,
+      "task_uuid": "9fbb0183-d5d6-499b-80bf-90e8e7c29214",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Texture only: single branching lightning-shaped masonry crack, 2 m by 2 m overall, four broad thin angular connected fissures, dark sepia almost black interior with warm ochre chipped edge, shape intended to be cut out as opaque geometry with open spaces between branches, no surrounding wall. Classic MMO painted warm top light, cool base shadows, restrained brush strokes; no background, characters, typography, modern objects, transparency or hive resin. Preserve authored geometry and UVs."
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/DR_Crack_34.png",
+      "input_model": "work/dressing/DR_Crack_input.glb",
+      "downloads": [
+        "work\\DR_Crack\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "DR_FallenAwning",
+      "attempt": 1,
+      "task_uuid": "8e89557c-a73b-4467-9107-2fb2607e9829",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Texture only: 4 m long fallen shop awning on its side, crushed bottle-green and cream striped canvas over two bent oxblood metal rails, compressed ground-level shape 1.5 m deep and 0.6 m high, torn triangular canvas corner. Classic MMO painted warm top light, cool base shadows, restrained brush strokes; no background, characters, typography, modern objects, transparency or hive resin. Preserve authored geometry and UVs."
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/DR_FallenAwning_34.png",
+      "input_model": "work/dressing/DR_FallenAwning_input.glb",
+      "downloads": [
+        "work\\DR_FallenAwning\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "DR_Rubble2",
+      "attempt": 1,
+      "task_uuid": "71d021ad-0a5e-400c-8966-fa4529bb7b51",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Texture only: compact 2 m wide by 1.5 m deep 0.65 m high rubble pile with five chunky broken terracotta bricks and three cream stucco masonry chunks, angular faceted shapes, some ochre dust, city under siege rather than total ruin. Classic MMO painted warm top light, cool base shadows, restrained brush strokes; no background, characters, typography, modern objects, transparency or hive resin. Preserve authored geometry and UVs."
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/DR_Rubble2_34.png",
+      "input_model": "work/dressing/DR_Rubble2_input.glb",
+      "downloads": [
+        "work\\DR_Rubble2\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "DR_Rubble4",
+      "attempt": 1,
+      "task_uuid": "a7ef9d04-40b8-4905-9a24-bd8c9ce07c80",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Texture only: 4 m wide by 2 m deep 0.85 m high rubble pile with twelve chunky terracotta and sepia bricks, seven broken ivory stucco masonry slabs and two short splintered wooden beams, big angular readable low-poly shapes, city under siege rather than total ruin. Classic MMO painted warm top light, cool base shadows, restrained brush strokes; no background, characters, typography, modern objects, transparency or hive resin. Preserve authored geometry and UVs."
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/DR_Rubble4_34.png",
+      "input_model": "work/dressing/DR_Rubble4_input.glb",
+      "downloads": [
+        "work\\DR_Rubble4\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "DR_SandbagDoorway4",
+      "attempt": 1,
+      "task_uuid": "cc54038f-715d-466b-abe5-6ba486adaf21",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Texture only: 4 m wide doorway fortification dressing made only of flattened sandbags on either side of an OPEN central 2 m wide doorway and one rough timber lintel above, overall 3.25 m high, only 0.3 m deep, do not fill doorway with bags. Classic MMO painted warm top light, cool base shadows, restrained brush strokes; no background, characters, typography, modern objects, transparency or hive resin. Preserve authored geometry and UVs."
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/DR_SandbagDoorway4_34.png",
+      "input_model": "work/dressing/DR_SandbagDoorway4_input.glb",
+      "downloads": [
+        "work\\DR_SandbagDoorway4\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "DR_SandbagStack3",
+      "attempt": 1,
+      "task_uuid": "24073004-dfd5-4913-9ff9-46d7692cc465",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Texture only: 3 m wide low stack of chunky flattened ochre burlap sandbags, three staggered courses, 1 m high and only 0.3 m deep, broad readable seams, stacked straight along a wall. Classic MMO painted warm top light, cool base shadows, restrained brush strokes; no background, characters, typography, modern objects, transparency or hive resin. Preserve authored geometry and UVs."
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/DR_SandbagStack3_34.png",
+      "input_model": "work/dressing/DR_SandbagStack3_input.glb",
+      "downloads": [
+        "work\\DR_SandbagStack3\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "MSN_Awning6",
+      "attempt": 2,
+      "task_uuid": "fb2564e8-112e-4c92-8e00-3457bbb295ff",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Hand-painted early classic MMO asset. Use sand stucco, dark timber, small green windows and terracotta trim. Painted top-light and ambient occlusion, restrained brush texture. Paint every model surface as its actual material. No background, sky, ground, lettering or people. No unrelated added objects or photographic shading."
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/MSN_Awning6_34.png",
+      "input_model": "work/MSN_Awning6_input.glb",
+      "downloads": [
+        "work\\MSN_Awning6\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "MSN_G_Bay6A",
+      "attempt": 2,
+      "task_uuid": "30109912-507b-4ed8-ada5-8761cfcb6a8d",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Hand-painted early classic MMO asset. Use sand stucco, dark timber, small green windows and terracotta trim. Painted top-light and ambient occlusion, restrained brush texture. Paint every model surface as its actual material. No background, sky, ground, lettering or people. No unrelated added objects or photographic shading."
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/MSN_G_Bay6A_34.png",
+      "input_model": "work/MSN_G_Bay6A_input.glb",
+      "downloads": [
+        "work\\MSN_G_Bay6A\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "MSN_Parapet4",
+      "attempt": 2,
+      "task_uuid": "cf0e77ce-3574-4f87-b521-7337f7d7eb33",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Hand-painted early classic MMO asset. Use sand stucco, dark timber, small green windows and terracotta trim. Painted top-light and ambient occlusion, restrained brush texture. Paint every model surface as its actual material. No background, sky, ground, lettering or people. No unrelated added objects or photographic shading."
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/MSN_Parapet4_34.png",
+      "input_model": "work/MSN_Parapet4_input.glb",
+      "downloads": [
+        "work\\MSN_Parapet4\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "LM_BrownDerby",
+      "attempt": 1,
+      "task_uuid": "920bf1cb-fb6f-414c-be61-97e1195fce36",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Hand-painted early classic MMO1930 Hollywood architecture. Follow the reference architectural colors and materials, restrained painted brushwork, warm top light, cool corner ambient occlusion. Finish all roofs, sides and backs as actual materials. Painted opaque dark glass. Keep sign panels blank. No lettering, people, vehicles, sky, ground or added objects."
+      },
+      "credits_consumed": 0,
+      "status": "failed",
+      "reference": "concept/LM_BrownDerby_34.png",
+      "input_model": "work/LM_BrownDerby_texture_proxy.glb",
+      "error": "Generation failed",
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "failed submission/task absent from complete usage window"
+    },
+    {
+      "asset": "LM_Egyptian",
+      "attempt": 1,
+      "task_uuid": "8316666a-0e11-497f-a767-407698c4b4da",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Hand-painted early classic MMO1930 Hollywood architecture. Follow the reference architectural colors and materials, restrained painted brushwork, warm top light, cool corner ambient occlusion. Finish all roofs, sides and backs as actual materials. Painted opaque dark glass. Keep sign panels blank. No lettering, people, vehicles, sky, ground or added objects."
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/LM_Egyptian_34.png",
+      "input_model": "work/LM_Egyptian_input.glb",
+      "downloads": [
+        "work\\LM_Egyptian\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "LM_Egyptian_Gateway",
+      "attempt": 1,
+      "task_uuid": "500afe9f-2710-44b8-92d5-4271d081cd6a",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Hand-painted early classic MMO1930 Hollywood architecture. Follow the reference architectural colors and materials, restrained painted brushwork, warm top light, cool corner ambient occlusion. Finish all roofs, sides and backs as actual materials. Painted opaque dark glass. Keep sign panels blank. No lettering, people, vehicles, sky, ground or added objects."
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/LM_Egyptian_Gateway_34.png",
+      "input_model": "work/LM_Egyptian_Gateway_input.glb",
+      "downloads": [
+        "work\\LM_Egyptian_Gateway\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "LM_Egyptian_Wing",
+      "attempt": 1,
+      "task_uuid": "80b79d93-1101-4c9f-afe5-3d6ec85050f5",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Hand-painted early classic MMO1930 Hollywood architecture. Follow the reference architectural colors and materials, restrained painted brushwork, warm top light, cool corner ambient occlusion. Finish all roofs, sides and backs as actual materials. Painted opaque dark glass. Keep sign panels blank. No lettering, people, vehicles, sky, ground or added objects."
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/LM_Egyptian_Wing_34.png",
+      "input_model": "work/LM_Egyptian_Wing_input.glb",
+      "downloads": [
+        "work\\LM_Egyptian_Wing\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "LM_FirstNational",
+      "attempt": 1,
+      "task_uuid": "6980ff88-e7e6-4651-a91a-8eed7f498610",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Hand-painted early classic MMO1930 Hollywood architecture. Follow the reference architectural colors and materials, restrained painted brushwork, warm top light, cool corner ambient occlusion. Finish all roofs, sides and backs as actual materials. Painted opaque dark glass. Keep sign panels blank. No lettering, people, vehicles, sky, ground or added objects."
+      },
+      "credits_consumed": 0,
+      "status": "failed",
+      "reference": "concept/LM_FirstNational_34.png",
+      "input_model": "work/LM_FirstNational_input.glb",
+      "error": "Generation failed",
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "failed submission/task absent from complete usage window"
+    },
+    {
+      "asset": "LM_FirstNational",
+      "attempt": 2,
+      "task_uuid": "eea384eb-86fc-405e-9826-3c570e7d3080",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Hand-painted early classic MMO1930 Hollywood architecture. Follow the reference architectural colors and materials, restrained painted brushwork, warm top light, cool corner ambient occlusion. Finish all roofs, sides and backs as actual materials. Painted opaque dark glass. Keep sign panels blank. No lettering, people, vehicles, sky, ground or added objects."
+      },
+      "credits_consumed": 0,
+      "status": "failed",
+      "reference": "concept/LM_FirstNational_front.png",
+      "input_model": "work/LM_FirstNational_texture_proxy.glb",
+      "error": "Generation failed",
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "failed submission/task absent from complete usage window"
+    },
+    {
+      "asset": "LM_HollywoodHotel",
+      "attempt": 1,
+      "task_uuid": "ce417cd6-261c-4ff3-89d5-1ba5c269df18",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Hand-painted early classic MMO1930 Hollywood architecture. Follow the reference architectural colors and materials, restrained painted brushwork, warm top light, cool corner ambient occlusion. Finish all roofs, sides and backs as actual materials. Painted opaque dark glass. Keep sign panels blank. No lettering, people, vehicles, sky, ground or added objects."
+      },
+      "credits_consumed": 0,
+      "status": "failed",
+      "reference": "concept/LM_HollywoodHotel_34.png",
+      "input_model": "work/LM_HollywoodHotel_texture_proxy.glb",
+      "error": "Generation failed",
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "failed submission/task absent from complete usage window"
+    },
+    {
+      "asset": "LM_HollywoodHotel_CourtWall",
+      "attempt": 1,
+      "task_uuid": "ffd8e426-0d20-4e29-aae4-bea736169ae7",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Hand-painted early classic MMO1930 Hollywood architecture. Follow the reference architectural colors and materials, restrained painted brushwork, warm top light, cool corner ambient occlusion. Finish all roofs, sides and backs as actual materials. Painted opaque dark glass. Keep sign panels blank. No lettering, people, vehicles, sky, ground or added objects."
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/LM_HollywoodHotel_CourtWall_34.png",
+      "input_model": "work/LM_HollywoodHotel_CourtWall_texture_proxy.glb",
+      "downloads": [
+        "work\\LM_HollywoodHotel_CourtWall\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "LM_HollywoodHotel_Wing",
+      "attempt": 1,
+      "task_uuid": "2f466982-2c09-4ec7-97a3-2971d57a67f5",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Hand-painted early classic MMO1930 Hollywood architecture. Follow the reference architectural colors and materials, restrained painted brushwork, warm top light, cool corner ambient occlusion. Finish all roofs, sides and backs as actual materials. Painted opaque dark glass. Keep sign panels blank. No lettering, people, vehicles, sky, ground or added objects."
+      },
+      "credits_consumed": 0,
+      "status": "failed",
+      "reference": "concept/LM_HollywoodHotel_Wing_34.png",
+      "input_model": "work/LM_HollywoodHotel_Wing_texture_proxy.glb",
+      "error": "Generation failed",
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "failed submission/task absent from complete usage window"
+    },
+    {
+      "asset": "LM_Kiosk_Auction",
+      "attempt": 1,
+      "task_uuid": "507b37ea-e033-470a-bea5-c30e225e6fba",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Hand-painted early classic MMO1930 Hollywood architecture. Follow the reference architectural colors and materials, restrained painted brushwork, warm top light, cool corner ambient occlusion. Finish all roofs, sides and backs as actual materials. Painted opaque dark glass. Keep sign panels blank. No lettering, people, vehicles, sky, ground or added objects."
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/LM_Kiosk_Auction_34.png",
+      "input_model": "work/LM_Kiosk_Auction_texture_proxy.glb",
+      "downloads": [
+        "work\\LM_Kiosk_Auction\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "LM_Pantages",
+      "attempt": 1,
+      "task_uuid": "fddb1759-c5c1-4917-95c9-23028d106910",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Hand-painted early classic MMO1930 Hollywood architecture. Follow the reference architectural colors and materials, restrained painted brushwork, warm top light, cool corner ambient occlusion. Finish all roofs, sides and backs as actual materials. Painted opaque dark glass. Keep sign panels blank. No lettering, people, vehicles, sky, ground or added objects."
+      },
+      "credits_consumed": 0,
+      "status": "failed",
+      "reference": "concept/LM_Pantages_34.png",
+      "input_model": "work/LM_Pantages_input.glb",
+      "error": "Generation failed",
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "failed submission/task absent from complete usage window"
+    },
+    {
+      "asset": "LM_Pantages",
+      "attempt": 2,
+      "task_uuid": "ff234404-0955-4e26-9a67-a372f5193158",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Hand-painted early classic MMO1930 Hollywood architecture. Follow the reference architectural colors and materials, restrained painted brushwork, warm top light, cool corner ambient occlusion. Finish all roofs, sides and backs as actual materials. Painted opaque dark glass. Keep sign panels blank. No lettering, people, vehicles, sky, ground or added objects."
+      },
+      "credits_consumed": 0,
+      "status": "failed",
+      "reference": "concept/LM_Pantages_front.png",
+      "input_model": "work/LM_Pantages_input.glb",
+      "error": "Generation failed",
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "failed submission/task absent from complete usage window"
+    },
+    {
+      "asset": "LM_PoliceStation",
+      "attempt": 1,
+      "task_uuid": "6c21fb6b-f093-4c6b-b544-fb444d5507f3",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Hand-painted early classic MMO1930 Hollywood architecture. Follow the reference architectural colors and materials, restrained painted brushwork, warm top light, cool corner ambient occlusion. Finish all roofs, sides and backs as actual materials. Painted opaque dark glass. Keep sign panels blank. No lettering, people, vehicles, sky, ground or added objects."
+      },
+      "credits_consumed": 0,
+      "status": "failed",
+      "reference": "concept/LM_PoliceStation_34.png",
+      "input_model": "work/LM_PoliceStation_texture_proxy.glb",
+      "error": "Generation failed",
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "failed submission/task absent from complete usage window"
+    },
+    {
+      "asset": "LM_RedCarStop",
+      "attempt": 1,
+      "task_uuid": "298564ad-7b17-43c1-910f-e84c171c860e",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Hand-painted early classic MMO1930 Hollywood architecture. Follow the reference architectural colors and materials, restrained painted brushwork, warm top light, cool corner ambient occlusion. Finish all roofs, sides and backs as actual materials. Painted opaque dark glass. Keep sign panels blank. No lettering, people, vehicles, sky, ground or added objects."
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/LM_RedCarStop_34.png",
+      "input_model": "work/LM_RedCarStop_texture_proxy.glb",
+      "downloads": [
+        "work\\LM_RedCarStop\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "LM_Roosevelt",
+      "attempt": 1,
+      "task_uuid": "6716e76f-f748-41f5-a69b-97db8d92d2d4",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Hand-painted early classic MMO1930 Hollywood architecture. Follow the reference architectural colors and materials, restrained painted brushwork, warm top light, cool corner ambient occlusion. Finish all roofs, sides and backs as actual materials. Painted opaque dark glass. Keep sign panels blank. No lettering, people, vehicles, sky, ground or added objects."
+      },
+      "credits_consumed": 0,
+      "status": "failed",
+      "reference": "concept/LM_Roosevelt_34.png",
+      "input_model": "work/LM_Roosevelt_input.glb",
+      "error": "Generation failed",
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "failed submission/task absent from complete usage window"
+    },
+    {
+      "asset": "LM_Roosevelt",
+      "attempt": 2,
+      "task_uuid": "1eb3587a-3a37-438e-876d-a23f08876070",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Hand-painted early classic MMO1930 Hollywood architecture. Follow the reference architectural colors and materials, restrained painted brushwork, warm top light, cool corner ambient occlusion. Finish all roofs, sides and backs as actual materials. Painted opaque dark glass. Keep sign panels blank. No lettering, people, vehicles, sky, ground or added objects."
+      },
+      "credits_consumed": 0,
+      "status": "failed",
+      "reference": "concept/LM_Roosevelt_front.png",
+      "input_model": "work/LM_Roosevelt_texture_proxy.glb",
+      "error": "Generation failed",
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "failed submission/task absent from complete usage window"
+    },
+    {
+      "asset": "LM_Taft",
+      "attempt": 1,
+      "task_uuid": "5ac7cea7-8d60-4d3b-af13-5a2f894e84e4",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Hand-painted early classic MMO1930 Hollywood architecture. Follow the reference architectural colors and materials, restrained painted brushwork, warm top light, cool corner ambient occlusion. Finish all roofs, sides and backs as actual materials. Painted opaque dark glass. Keep sign panels blank. No lettering, people, vehicles, sky, ground or added objects."
+      },
+      "credits_consumed": 0,
+      "status": "failed",
+      "reference": "concept/LM_Taft_34.png",
+      "input_model": "work/LM_Taft_input.glb",
+      "error": "Generation failed",
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "failed submission/task absent from complete usage window"
+    },
+    {
+      "asset": "LM_Taft",
+      "attempt": 2,
+      "task_uuid": "f4dd9f91-0e18-4e01-bb52-1c409c37a90d",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Hand-painted early classic MMO1930 Hollywood architecture. Follow the reference architectural colors and materials, restrained painted brushwork, warm top light, cool corner ambient occlusion. Finish all roofs, sides and backs as actual materials. Painted opaque dark glass. Keep sign panels blank. No lettering, people, vehicles, sky, ground or added objects."
+      },
+      "credits_consumed": 0,
+      "status": "failed",
+      "reference": "concept/LM_Taft_front.png",
+      "input_model": "work/LM_Taft_texture_proxy.glb",
+      "error": "Generation failed",
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "failed submission/task absent from complete usage window"
+    },
+    {
+      "asset": "LM_BrownDerby",
+      "attempt": 2,
+      "task_uuid": "3dd9ea33-a87f-4771-b08b-201daba6ea83",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Hand-painted early classic MMO1930 Hollywood architecture. Follow the reference architectural colors and materials, restrained painted brushwork, warm top light, cool corner ambient occlusion. Finish all roofs, sides and backs as actual materials. Painted opaque dark glass. Keep sign panels blank. No lettering, people, vehicles, sky, ground or added objects."
+      },
+      "credits_consumed": 0,
+      "status": "failed",
+      "reference": "concept/LM_BrownDerby_front.png",
+      "input_model": "work/LM_BrownDerby_clean_proxy.glb",
+      "error": "Generation failed",
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "failed submission/task absent from complete usage window"
+    },
+    {
+      "asset": "LM_Graumans",
+      "attempt": 1,
+      "task_uuid": "36981d77-c745-4e2a-9cbd-d4ddee8a493c",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Classic early MMO hand-painted1930 Grauman's Chinese Theatre architecture. Broad low Chinese Theatre main block: yellow-green plaster, coral-red columns and trim, cream stone, dark navy/gold doors, verdigris copper pagoda roof and one original painted dragon frieze across the central16m upper-entry panel. Two stone guardian dogs have painted carved faces, manes and paws. Warm painted top light, cool AO. No text, background, people, modern objects, hive growth, transparency or photographic texture. Preserve authored geometry and UVs."
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/LM_Graumans_34.png",
+      "input_model": "work/LM_Graumans_texture_proxy.glb",
+      "downloads": [
+        "work\\LM_Graumans\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "LM_Graumans_ForecourtWall",
+      "attempt": 1,
+      "task_uuid": "324c69ef-1e56-4215-a266-70b5a1601e08",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Classic early MMO hand-painted1930 Grauman's Chinese Theatre architecture. One long Chinese Theatre forecourt pavilion wall: yellow-green plaster with repeating coral-red Chinese geometric painted borders, cream concrete pilasters, dark green stone base, narrow verdigris roof coping. The short front end has a dark blank inset poster backing, long sides repeat simple decorative geometric panels. Finish top and back. Warm painted top light, cool AO. No text, background, people, modern objects, hive growth, transparency or photographic texture. Preserve authored geometry and UVs."
+      },
+      "credits_consumed": 0.5,
+      "status": "downloaded",
+      "reference": "concept/LM_Graumans_ForecourtWall_34.png",
+      "input_model": "work/LM_Graumans_ForecourtWall_texture_proxy.glb",
+      "downloads": [
+        "work\\LM_Graumans_ForecourtWall\\base_basic_shaded.glb"
+      ],
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "matched account usage"
+    },
+    {
+      "asset": "LM_HollywoodHotel",
+      "attempt": 2,
+      "task_uuid": "80c41ebe-670b-4a0d-b88c-210f727edb9c",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Hand-painted early classic MMO1930 Hollywood architecture. Follow the reference architectural colors and materials, restrained painted brushwork, warm top light, cool corner ambient occlusion. Finish all roofs, sides and backs as actual materials. Painted opaque dark glass. Keep sign panels blank. No lettering, people, vehicles, sky, ground or added objects."
+      },
+      "credits_consumed": 0,
+      "status": "failed",
+      "reference": "concept/LM_HollywoodHotel_front.png",
+      "input_model": "work/LM_HollywoodHotel_clean_proxy.glb",
+      "error": "Generation failed",
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "failed submission/task absent from complete usage window"
+    },
+    {
+      "asset": "LM_HollywoodHotel_Wing",
+      "attempt": 2,
+      "task_uuid": "5fb92917-16d4-4b90-9e74-95e355fecdb9",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Hand-painted early classic MMO1930 Hollywood architecture. Follow the reference architectural colors and materials, restrained painted brushwork, warm top light, cool corner ambient occlusion. Finish all roofs, sides and backs as actual materials. Painted opaque dark glass. Keep sign panels blank. No lettering, people, vehicles, sky, ground or added objects."
+      },
+      "credits_consumed": 0,
+      "status": "failed",
+      "reference": "concept/LM_HollywoodHotel_Wing_front.png",
+      "input_model": "work/LM_HollywoodHotel_Wing_clean_proxy.glb",
+      "error": "Generation failed",
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "failed submission/task absent from complete usage window"
+    },
+    {
+      "asset": "LM_PoliceStation",
+      "attempt": 2,
+      "task_uuid": "852baeaf-3e88-465d-88f2-5dcabea02043",
+      "options": {
+        "material": "Shaded",
+        "resolution": "Basic",
+        "geometry_file_format": "glb",
+        "texture_mode": "high",
+        "prompt": "Hand-painted early classic MMO1930 Hollywood architecture. Follow the reference architectural colors and materials, restrained painted brushwork, warm top light, cool corner ambient occlusion. Finish all roofs, sides and backs as actual materials. Painted opaque dark glass. Keep sign panels blank. No lettering, people, vehicles, sky, ground or added objects."
+      },
+      "credits_consumed": 0,
+      "status": "failed",
+      "reference": "concept/LM_PoliceStation_front.png",
+      "input_model": "work/LM_PoliceStation_clean_proxy.glb",
+      "error": "Generation failed",
+      "credits_reported_on_submission": 0.5,
+      "billing_status": "failed submission/task absent from complete usage window"
+    }
+  ],
+  "started_date_utc": "2026-11-13",
+  "reconciled_utc": "2026-11-14T05:24:35.470442+00:00",
+  "reconciliation": {
+    "complete_since_date": "2026-11-13",
+    "matched_charged_tasks": 65,
+    "unassigned_tasks_in_window": 11
+  }
+}

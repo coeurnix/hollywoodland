@@ -1,0 +1,38 @@
+[
+  {
+    "id": "Roosevelt_projection_side",
+    "output": "work/hub_hotels/projection/roosevelt_side.png",
+    "references": [
+      "concept/LM_Roosevelt_front.png"
+    ],
+    "image_size": {
+      "width": 1536,
+      "height": 768
+    },
+    "prompt": "Create a matching RIGHT SIDE ELEVATION of the1930 Hollywood Roosevelt hotel from this front-reference style. Side facade exactly58m wide by24m tall; SEVEN floors total: one4.5m shaded ground arcade with TEN shallow arches and dark timber doors, SIX3m upper floors each with TEN evenly spaced regular square sash windows. TOP upper floor has square windows too, no triple-arch top band on this side. A broad dark-green base dado and a terracotta pent-roof band at roof edge. No balconies on side; painted plaster with some subtle age. Chunky classic early World of Warcraft HAND-PAINTED ALBEDO style, broad restrained brush texture, warm ivory cream stucco, thick cream window surrounds/sills, deep cool sepia AO in recesses and at base, dark bottle-green sash glass with painted warm reflections, red terracotta tile coping. Entire subject isolated on uniform warm grey, full subject clear margin, no people, cars, text, letters, signs, logos, modern equipment, scene, sky or foliage. Flat orthographic view, no perspective."
+  },
+  {
+    "id": "Roosevelt_projection_back",
+    "output": "work/hub_hotels/projection/roosevelt_back.png",
+    "references": [
+      "concept/LM_Roosevelt_front.png"
+    ],
+    "image_size": {
+      "width": 1536,
+      "height": 640
+    },
+    "prompt": "Create a matching BACK ELEVATION of the1930 Hollywood Roosevelt hotel from the front-reference style. Facade exactly74m wide by24m tall; SEVEN floors total: one4.5m shaded ground arcade with TWELVE shallow arches and dark timber doors, SIX3m upper floors each with TWELVE evenly spaced square sash windows. TOP upper row changes to TWELVE GROUPS of three tiny arched windows, one group per bay. No central grand portal, no balconies, no roof lettering or supports visible. Broad dark green base dado; terracotta shallow pent-roof edge. Subtle cooler soot on rear only, no ruin. Chunky classic early World of Warcraft HAND-PAINTED ALBEDO style, broad restrained brush texture, warm ivory cream stucco, thick cream window surrounds/sills, deep cool sepia AO in recesses and at base, dark bottle-green sash glass with painted warm reflections, red terracotta tile coping. Entire subject isolated on uniform warm grey, full subject clear margin, no people, cars, text, letters, signs, logos, modern equipment, scene, sky or foliage. Flat orthographic view, no perspective."
+  },
+  {
+    "id": "Roosevelt_projection_roof",
+    "output": "work/hub_hotels/projection/roosevelt_roof.png",
+    "references": [
+      "concept/LM_Roosevelt_34.png"
+    ],
+    "image_size": {
+      "width": 1024,
+      "height": 1024
+    },
+    "prompt": "Generate the matching ROOF MATERIAL VIEW only for the hand-painted1930 hotel: exact perpendicular top-down orthographic square6m x6m patch of a FLAT TAR AND GRAVEL roof, warm charcoal/slate grey with large irregular darker tar repair patches, restrained coarse brush texture and dusty buff edge highlights. No building outline, NO windows or doorways, no red tiles, no protrusions, no perspective. Fill the entire square with this roof surface, no background. Chunky early World of Warcraft painted game material, large readable patterns, warm top-lit highlights and cooler shadowed cracks, not a photograph or realistic render. No text, labels, people, plants, shadows of external objects, logos or modern equipment."
+  }
+]

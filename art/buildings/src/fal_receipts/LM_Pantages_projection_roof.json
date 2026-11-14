@@ -1,0 +1,25 @@
+{
+  "id": "LM_Pantages_projection_roof",
+  "provider": "fal.ai",
+  "model": "blackforestlabs/flux-3/klein/edit-image",
+  "prompt": "Original1930 Hollywood game texture painting in the exact reference style: classic early World of Warcraft chunky hand-painted albedo, warm light from above, cooler grime at base, restrained brush marks and painted AO. Pure orthographic straight-on elevation, no perspective, no cast shadows outside the texture. Rectangular FULL-BLEED texture plate filling every image edge. No grey background, surround, ground, sky, people, letters, numbers, logos, frames or labels. No photographic detail. Flat orthographic top-down roof material swatch: dark warm slate tar-and-gravel roof, restrained coarse tan gravel flecks, subtle broad tar seams, seamless edges, no architectural objects, no parapets, no walls, no windows or building silhouette. Roof material fills every pixel.",
+  "references": [
+    "concept/LM_Pantages_front.png"
+  ],
+  "image_size": {
+    "width": 1536,
+    "height": 1536
+  },
+  "seed": 19301113,
+  "output": "work/hub_deco/projection/LM_Pantages_roof.png",
+  "status": "downloaded",
+  "request_id": "01a1d856-2ce0-7d11-a28b-e70c31b3aa93",
+  "elapsed_seconds": 12.68,
+  "timings": {
+    "prompt_expansion": 1.1371000027793343e-05,
+    "inference": 2.33821505800006,
+    "safety_checker": 0.029860738999559544
+  },
+  "width": 1536,
+  "height": 1536
+}

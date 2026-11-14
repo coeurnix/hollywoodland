@@ -1,0 +1,25 @@
+{
+  "id": "LM_BrownDerby_projection_door",
+  "provider": "fal.ai",
+  "model": "blackforestlabs/flux-3/klein/edit-image",
+  "prompt": "Use case: stylized-concept. One original1930 warm brown dark timber double restaurant entrance door, full-bleed straight orthographic elevation. Exactly two matching tall rectangular doors with deep warm brown raised wood panels and a pair of small dull brass handles near center, heavy warm ochre timber frame and a narrow top transom of dark amber glass. Classic early World of Warcraft hand-painted chunky forms, top highlights, painted dark AO in panel reveals, restrained brush grain and worn lower edge. Door fills whole image rectangle edge to edge. No masonry wall, surrounding building, background, steps, roof, labels, signage, text, people or scenery. Width to height about1.2 for a broad double door.",
+  "references": [
+    "concept/LM_BrownDerby_front.png"
+  ],
+  "image_size": {
+    "width": 1024,
+    "height": 1024
+  },
+  "seed": 19301113,
+  "output": "work/hub_deco/projection/LM_BrownDerby_door.png",
+  "status": "downloaded",
+  "request_id": "01a1d87e-fcf7-72b2-8161-18fb533688b2",
+  "elapsed_seconds": 9.99,
+  "timings": {
+    "prompt_expansion": 1.106000036088517e-05,
+    "inference": 2.5390962589999617,
+    "safety_checker": 0.016808555000125125
+  },
+  "width": 1024,
+  "height": 1024
+}

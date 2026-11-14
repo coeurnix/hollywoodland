@@ -1,0 +1,25 @@
+{
+  "id": "LM_Pantages_projection_stone_relief",
+  "provider": "fal.ai",
+  "model": "blackforestlabs/flux-3/klein/edit-image",
+  "prompt": "Original1930 Hollywood game texture painting in the exact reference style: classic early World of Warcraft chunky hand-painted albedo, warm light from above, cooler grime at base, restrained brush marks and painted AO. Pure orthographic straight-on elevation, no perspective, no cast shadows outside the texture. Rectangular FULL-BLEED texture plate filling every image edge. No grey background, surround, ground, sky, people, letters, numbers, logos, frames or labels. No photographic detail. ONE Art Deco fluted pale ivory limestone pier texture plate, long broad vertical shallow flutes, restrained golden zigzag/lotus relief at top15percent, majority plain warm stone, subtle cracks/AO, no windows, no building outlines. Broad ivory fields that can map onto small trim blocks. Full-bleed seamless left/right edge.",
+  "references": [
+    "concept/LM_Pantages_front.png"
+  ],
+  "image_size": {
+    "width": 768,
+    "height": 1536
+  },
+  "seed": 19301113,
+  "output": "work/hub_deco/projection/LM_Pantages_stone_relief.png",
+  "status": "downloaded",
+  "request_id": "01a1d856-2d80-76b3-8ba2-ba0560e73de5",
+  "elapsed_seconds": 11.85,
+  "timings": {
+    "prompt_expansion": 6.989999974393868e-06,
+    "inference": 0.959104348999972,
+    "safety_checker": 0.021219747999566607
+  },
+  "width": 768,
+  "height": 1536
+}

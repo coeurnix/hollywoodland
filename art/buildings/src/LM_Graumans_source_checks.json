@@ -1,0 +1,43 @@
+{
+  "uploaded_authored": {
+    "vertices": 4584,
+    "faces": 1924,
+    "position_uv_hash": "3c8690526c87997895d1899a1c7cbcddc4c8f33fb8a06ea2c69af916c035e5a1"
+  },
+  "cleaned_authored": {
+    "vertices": 1131,
+    "faces": 1924,
+    "position_uv_hash": "3c8690526c87997895d1899a1c7cbcddc4c8f33fb8a06ea2c69af916c035e5a1"
+  },
+  "returned": {
+    "vertices": 4584,
+    "faces": 1924,
+    "position_uv_hash": "2e5281a128de9168ac558e60b2f2a7e4cf105707f3829317daf4359fb4e17668"
+  },
+  "equal": false,
+  "baked_to_authored_mesh": true,
+  "authored_geometry_uv_unchanged_during_bake": true,
+  "cleanup": {
+    "id": "LM_Graumans",
+    "removed_buried_triangles": 0,
+    "before": {
+      "vertices": 1131,
+      "tris": 1924,
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "boundary_edges": 368,
+      "loose_vertices": 0,
+      "inconsistent_shared_edges": 0
+    },
+    "after": {
+      "vertices": 1131,
+      "tris": 1924,
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "boundary_edges": 368,
+      "loose_vertices": 0,
+      "inconsistent_shared_edges": 0
+    },
+    "surviving_face_uvs_unchanged": true
+  }
+}

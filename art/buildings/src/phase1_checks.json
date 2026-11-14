@@ -1,0 +1,121 @@
+{
+  "BRK_G_Bay6A": {
+    "upload_vertices": 84,
+    "returned_vertices": 84,
+    "upload_faces": 90,
+    "returned_faces": 90,
+    "uv_equal": true,
+    "baked_to_own_uvs": true,
+    "source": "rodin_shaded",
+    "max_vertex_delta": 3.427267074584961e-07,
+    "export_material_slots": 1,
+    "export_material": "M_ATL_BRK",
+    "export_triangulated": true,
+    "export_scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "export_rotation": [
+      0.0,
+      -0.0,
+      8.742277657347586e-08
+    ],
+    "bounds": [
+      [
+        0.0,
+        -0.25,
+        0.0
+      ],
+      [
+        6.0,
+        1e-06,
+        4.5
+      ]
+    ],
+    "tris": 90,
+    "zero_area_faces": 0,
+    "loose_vertices": 0,
+    "nonmanifold_branch_edges": 0,
+    "intentional_boundary_edges": 28
+  },
+  "BRK_U_Bay3A": {
+    "upload_vertices": 12,
+    "returned_vertices": 12,
+    "upload_faces": 6,
+    "returned_faces": 6,
+    "uv_equal": false,
+    "baked_to_own_uvs": true,
+    "source": "concept_projection",
+    "export_material_slots": 1,
+    "export_material": "M_ATL_BRK",
+    "export_triangulated": true,
+    "export_scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "export_rotation": [
+      0.0,
+      -0.0,
+      8.742277657347586e-08
+    ],
+    "bounds": [
+      [
+        0.0,
+        -0.125,
+        0.0
+      ],
+      [
+        3.0,
+        0.0,
+        3.5
+      ]
+    ],
+    "tris": 6,
+    "zero_area_faces": 0,
+    "loose_vertices": 0,
+    "nonmanifold_branch_edges": 0,
+    "intentional_boundary_edges": 8
+  },
+  "LM_Drugstore": {
+    "upload_vertices": 108,
+    "returned_vertices": 108,
+    "upload_faces": 58,
+    "returned_faces": 58,
+    "uv_equal": true,
+    "baked_to_own_uvs": true,
+    "source": "rodin_shaded",
+    "max_vertex_delta": 1.430511474609375e-06,
+    "export_material_slots": 1,
+    "export_material": "M_LM_Drugstore",
+    "export_triangulated": true,
+    "export_scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "export_rotation": [
+      0.0,
+      -0.0,
+      8.742277657347586e-08
+    ],
+    "bounds": [
+      [
+        -9.000002,
+        -19.25,
+        0.0
+      ],
+      [
+        9.000002,
+        18.0,
+        6.0
+      ]
+    ],
+    "tris": 58,
+    "zero_area_faces": 0,
+    "loose_vertices": 0,
+    "nonmanifold_branch_edges": 0,
+    "intentional_boundary_edges": 16
+  }
+}

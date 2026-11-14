@@ -1,0 +1,25 @@
+{
+  "id": "LM_Taft_projection_front_side_back_base",
+  "provider": "fal.ai",
+  "model": "blackforestlabs/flux-3/klein/edit-image",
+  "prompt": "Original1930 Hollywood game texture painting in the exact reference style: classic early World of Warcraft chunky hand-painted albedo, warm light from above, cooler grime at base, restrained brush marks and painted AO. Pure orthographic straight-on elevation, no perspective, no cast shadows outside the texture. Rectangular FULL-BLEED texture plate filling every image edge. No grey background, surround, ground, sky, people, letters, numbers, logos, frames or labels. No photographic detail. ONE ground-plus-mezzanine Neo-Renaissance commercial facade bay4.2m wide by7.5m high. Classical pale cream rusticated stone surrounds, bottom60percent is one dark tall shopfront with timber double-door and transom, upper40percent exactlyONE dark mezzanine window. Very broad cream stone piers at both edges. No written signs, no roof, no cornice, no repeated multiple bays. Full-bleed single bay.",
+  "references": [
+    "concept/LM_Taft_front.png"
+  ],
+  "image_size": {
+    "width": 1024,
+    "height": 1536
+  },
+  "seed": 19301113,
+  "output": "work/hub_deco/projection/LM_Taft_front_side_back_base.png",
+  "status": "downloaded",
+  "request_id": "01a1d856-5846-7ed1-88c4-c9317c376cb2",
+  "elapsed_seconds": 6.37,
+  "timings": {
+    "prompt_expansion": 1.3091000027998234e-05,
+    "inference": 1.156551830999888,
+    "safety_checker": 0.024284543998874142
+  },
+  "width": 1024,
+  "height": 1536
+}

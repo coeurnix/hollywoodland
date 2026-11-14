@@ -1,0 +1,43 @@
+{
+  "uploaded_authored": {
+    "vertices": 2322,
+    "faces": 1128,
+    "position_uv_hash": "40393e6b0384d646dccac9ff41fd5d2db480d795d158f3db00ad8fbfbc731ecd"
+  },
+  "cleaned_authored": {
+    "vertices": 676,
+    "faces": 1124,
+    "position_uv_hash": "1a12f875990d28bf0ed734b28462b5033c5fae2bcd87e3f6af43115d5e372c57"
+  },
+  "returned": {
+    "vertices": 2322,
+    "faces": 1128,
+    "position_uv_hash": "5e0dbf7f920aa4a298b315f3e6c118023b9f31832a04cad2be33cd6268dd6b0c"
+  },
+  "equal": false,
+  "baked_to_authored_mesh": true,
+  "authored_geometry_uv_unchanged_during_bake": true,
+  "cleanup": {
+    "id": "LM_Egyptian",
+    "removed_buried_triangles": 4,
+    "before": {
+      "vertices": 676,
+      "tris": 1128,
+      "zero_area_faces": 0,
+      "branch_edges": 2,
+      "boundary_edges": 250,
+      "loose_vertices": 0,
+      "inconsistent_shared_edges": 0
+    },
+    "after": {
+      "vertices": 676,
+      "tris": 1124,
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "boundary_edges": 252,
+      "loose_vertices": 0,
+      "inconsistent_shared_edges": 0
+    },
+    "surviving_face_uvs_unchanged": true
+  }
+}

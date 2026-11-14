@@ -1,0 +1,43 @@
+{
+  "method": "orthographic role-plane camera projection and Cycles selected-to-active EMIT bake",
+  "frozen_input_sha256": "b0a6c3a3c95cd2ad19be99e5384deb9434a1a6978de7620163e9ed7f19cf6c53",
+  "uploaded_authored": {
+    "vertices": 2874,
+    "faces": 1405,
+    "position_uv_hash": "3015fd41246949d9be8d374fea7d45eef73bc5094dcda8d6e9e4a6e97ca4b3dc"
+  },
+  "authored_geometry_uv_unchanged_during_bake": true,
+  "after_bake_before_cleanup": {
+    "vertices": 2874,
+    "faces": 1405,
+    "position_uv_hash": "3015fd41246949d9be8d374fea7d45eef73bc5094dcda8d6e9e4a6e97ca4b3dc"
+  },
+  "after_cleanup": {
+    "vertices": 1399,
+    "faces": 1405,
+    "position_uv_hash": "3015fd41246949d9be8d374fea7d45eef73bc5094dcda8d6e9e4a6e97ca4b3dc"
+  },
+  "projection_face_counts": {
+    "roof": 18,
+    "base": 78,
+    "glass": 2,
+    "stone": 791,
+    "wall": 280,
+    "upper": 116,
+    "bulb": 24,
+    "metal": 94,
+    "sign": 2
+  },
+  "projection_images": {
+    "roof": "work\\hub_deco\\projection\\LM_Pantages_roof_v2.png",
+    "wall": "work\\hub_deco\\projection\\LM_FirstNational_front_side_back_floor.png",
+    "base": "work\\hub_deco\\projection\\LM_FirstNational_front_side_back_base.png",
+    "upper": "work\\hub_deco\\projection\\LM_FirstNational_front_side_back_belfry.png",
+    "stone": "work\\hub_deco\\projection\\LM_Taft_stone.png",
+    "glass": "work\\hub_deco\\projection\\LM_FirstNational_door.png"
+  },
+  "cleanup": null,
+  "material_slots": 1,
+  "material_name": "M_LM_FirstNational",
+  "two_failed_Rodin_attempts": true
+}

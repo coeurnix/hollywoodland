@@ -1,0 +1,25 @@
+{
+  "id": "LM_BrownDerby_projection_stucco",
+  "provider": "fal.ai",
+  "model": "blackforestlabs/flux-3/klein/edit-image",
+  "prompt": "Use case: stylized-concept. Full-bleed material swatch for a hand-painted early World of Warcraft 1930 Mission restaurant. Plain cream ivory lime stucco, warmer golden top and subtly cool sepia worn base, large restrained brush marks and broad mottling, tiny occasional cracks, very slight ochre edge wear. Pure flat orthographic elevation, no perspective, completely filled rectangular image. Mostly plain light ivory field suitable for mapping onto curved Mission parapet and chunky masonry trim. No windows, arches, doors, ornaments, roof, tiles, trim outlines, background, sky, ground, people, letters or labels. Original stylized painted texture, never photography.",
+  "references": [
+    "concept/LM_BrownDerby_front.png"
+  ],
+  "image_size": {
+    "width": 1024,
+    "height": 1024
+  },
+  "seed": 19301113,
+  "output": "work/hub_deco/projection/LM_BrownDerby_stucco.png",
+  "status": "downloaded",
+  "request_id": "01a1d87f-0195-7513-a247-d1fe9f9b590e",
+  "elapsed_seconds": 9.41,
+  "timings": {
+    "prompt_expansion": 9.320000572188292e-06,
+    "inference": 0.8307117539989122,
+    "safety_checker": 0.02266802300073323
+  },
+  "width": 1024,
+  "height": 1024
+}

@@ -1,0 +1,65 @@
+{
+  "research_date": "2026-11-13",
+  "usage": "Institutional historic photographs consulted only for architecture; generated concepts and authored mesh textures do not copy photographs.",
+  "sources": [
+    {
+      "url": "https://www.broadwayinhollywood.com/aboutpantagestheatre",
+      "institution": "Pantages theatre owner",
+      "asset": "LM_Pantages",
+      "findings": [
+        "Opened June4,1930; B.Marcus Priteca; original vaudeville/movie venue.",
+        "Owner's1930 exterior photo shows tall central blade, fluted stepped crown and bright projecting marquee; no post1930 Fox/RKO branding used."
+      ],
+      "image": "https://www.broadwayinhollywood.com/assets/img/Pan-1930-4-ef21b369eb.jpg"
+    },
+    {
+      "url": "https://www.academymuseum.org/hollywood-past-and-present/taft-building",
+      "institution": "Academy Museum",
+      "asset": "LM_Taft",
+      "findings": [
+        "Twelve-story brick/concrete corner office building,1923; Walker and Eisen.",
+        "Institutional1930 photo shows repetitive rectangular windows, stone two-story base/crown, colossal top pilasters and heavy cornice."
+      ],
+      "image": "https://images.ctfassets.net/m3qyzuwrf176/tFMVeu9SWZ8mszJNjG0Ig/0e173bcca92bad582fe5c8869e1f4599/taftbuilding-old.jpg"
+    },
+    {
+      "url": "https://npgallery.nps.gov/GetAsset/236d3254-47ee-4b31-9045-c2999cc465f2/",
+      "institution": "National Park Service1985 district nomination",
+      "assets": [
+        "LM_Pantages",
+        "LM_Taft",
+        "LM_FirstNational"
+      ],
+      "findings": [
+        "Pantages:1930 Art Deco concrete/ersatz stone; lotus upper motifs and zigzag metal window surrounds.",
+        "Taft:1923 L-plan Neo-Renaissance, brick middle and cast classical concrete/terracotta lower and upper stories, regular windows and elaborate entablature.",
+        "First National,6777Hollywood:1927 Meyer&Holler stepped reinforced-concrete tower combining Gothic and Deco; medieval/floral/medallion relief."
+      ],
+      "model_interpretation": "Taft rectangular collision footprint takes precedence over historic L-plan; all42x48x36 box faces finished. All floor/detail proportions stylized for visibility."
+    },
+    {
+      "url": "https://tessa2.lapl.org/digital/collection/photos/id/95196",
+      "institution": "Los Angeles Public Library Security Pacific Collection",
+      "asset": "LM_FirstNational",
+      "findings": [
+        "Record00038192 identifies Meyer&Holler and1927 construction, Gothic/Renaissance interpreted through Art Deco.",
+        "Historic photograph shows stepped wings, corner tower, pointed roof, Gothic parapet ornament, arched ground banking windows."
+      ],
+      "image": "https://tessa2.lapl.org/digital/api/collection/photos/id/95196/download"
+    },
+    {
+      "url": "https://hollywoodhistorictrust.org/historic-sign-poles/hollywood-first-national-bank/",
+      "institution": "Hollywood Historic Trust",
+      "asset": "LM_FirstNational",
+      "findings": [
+        "1928 completion, mixed Neo-Gothic/Art Deco; buttresses, spire and decorative explorer/beehive symbolism."
+      ],
+      "caution": "This page's tallest-building and City Hall chronology is inconsistent with other sources; those claims are not used."
+    }
+  ],
+  "constraints": [
+    "Pantages56x58x18; Taft42x48x36; FirstNational42x38x22.",
+    "Front-Y, centre footprint at ground0, no baked lettering; independent sign cards attach to blank backing rectangles.",
+    "Tower/crest details compressed to game heights; primary painted facade roles repeat with stacked UVs."
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "tool": "built-in image_gen",
+  "prompt": "Use case: stylized-concept. Create original classic early World of Warcraft hand-painted game architecture concept art, NOT a photograph. Reference image is only for historic Pantages1930 architectural silhouette. A TWO PANEL sheet on uniform neutral grey; left panel a complete 3/4 elevated view showing front, right side and entire finished roof; right panel a straight FRONT elevation of SAME asset. Panels divided exactly in centre; NO labels. Hollywood Pantages Theatre in1930, stylized to exact main box width56m depth58m height18m, low broad theatre block. Warm ivory limestone, restrained aged ochre, oxblood inset panels, black glass base, metallic chrome edges. Facade has central massive stepped/fluted ziggurat with geometric lotus/chevron relief, repeated upright piers and dark rectangular upper windows on flanking retail wings. Tall narrow projecting blade sign backing over central entrance and projecting shallow bulb-chaser marquee; both BLANK NO TEXT. Marquee projection only1.5m, blade sign projection1.5m. Main block fills box, all front/side walls intact and at18m roofline, central facade crest may rise above. Finished flat tar/gravel roof with coping and2vents, finished buff rear/service sides. Chunky readable forms, restrained brushwork, warm top light and cool painted base AO. No people, no cars, no street, no ground, no sky, no signage lettering. Entire building contained within each panel, matching proportions across both views. 3:2 wide sheet.",
+  "reference": "work/hub_deco/Pantages_1930.jpg",
+  "output": "work/hub_deco/LM_Pantages_concept_sheet.png",
+  "split": {
+    "left": "concept/LM_Pantages_34.png",
+    "right": "concept/LM_Pantages_front.png"
+  },
+  "review": "Style, clean blank signage, massing and all-side roof review passed. Generated front is taller than box ratio; model will preserve exact56x58x18 box per SPEC15."
+}

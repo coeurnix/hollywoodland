@@ -1,0 +1,110 @@
+{
+  "id": "LM_Pantages",
+  "kind": "landmark",
+  "nominal": [
+    56,
+    58,
+    18
+  ],
+  "origin": "footprint-centre-ground",
+  "front": "-Y",
+  "up": "+Z",
+  "units": "meters",
+  "source": "src/hub_deco/LM_Pantages.blend",
+  "object": "LM_Pantages",
+  "material": "M_LM_Pantages",
+  "input_glb": "work/LM_Pantages_input.glb",
+  "concept": [
+    "concept/LM_Pantages_34.png",
+    "concept/LM_Pantages_front.png"
+  ],
+  "prompts": "src/hub_deco/LM_Pantages_prompt.json",
+  "sign_attachment_rectangles": [
+    {
+      "id": "SIGN_Pantages",
+      "rect": [
+        [
+          -1.25,
+          -30.47,
+          8
+        ],
+        [
+          1.25,
+          -30.47,
+          30.5
+        ]
+      ],
+      "normal": [
+        0,
+        -1,
+        0
+      ],
+      "size_m": [
+        2.5,
+        22.5
+      ]
+    },
+    {
+      "id": "SIGN_Pantages_Marquee",
+      "rect": [
+        [
+          -13.5,
+          -30.38,
+          5.45
+        ],
+        [
+          13.5,
+          -30.38,
+          6.45
+        ]
+      ],
+      "normal": [
+        0,
+        -1,
+        0
+      ],
+      "size_m": [
+        27,
+        1
+      ]
+    }
+  ],
+  "notes": "Authored efficient geometry and own UVs. Repeated identical architectural bays intentionally stacked; disjoint semantic UV fields. No copied photograph, no baked lettering. Hidden attachment faces omitted; deliberate open boundaries. Main box exact; bounds include permitted street projections and roof props.",
+  "main_box_bounds": [
+    [
+      -28.0,
+      -29.0,
+      0
+    ],
+    [
+      28.0,
+      29.0,
+      18
+    ]
+  ],
+  "input_sha256": "abf695074c88fc8bcb8662b2f6d0d32b206cb4abf66a193ebbd9aa7285751906",
+  "authored_audit": {
+    "tris": 788,
+    "bounds": [
+      [
+        -28.0,
+        -30.489999771118164,
+        0.0
+      ],
+      [
+        28.0,
+        29.0,
+        34.29999923706055
+      ]
+    ],
+    "zero_area_faces": 0,
+    "branch_edges": 0,
+    "loose_vertices": 0,
+    "material_slots": 1,
+    "boundary_edges": 740,
+    "measured_from": "authored Blender mesh; final FBX roundtrip audit required by integrator"
+  },
+  "research": "src/hub_deco_research.json",
+  "uv_density_notes": "Street-bay54px/m vertical,79px/m horizontal; roof24px/m, a small documented compromise to retain2048 texture and facade density.",
+  "post_bake_helper": "src/hub_deco/LM_Pantages_finish.py"
+}

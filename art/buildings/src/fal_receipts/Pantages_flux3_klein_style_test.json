@@ -1,0 +1,23 @@
+{
+  "id": "Pantages_flux3_klein_style_test",
+  "provider": "fal.ai",
+  "model": "blackforestlabs/flux-3/klein/text-to-image",
+  "prompt": "A clean isolated three-quarter concept view of the1930Hollywood Pantages Theatre, full building entirely visible with front, right side and flat roof on uniform plain warm-gray background. An early World of Warcraft-style low-poly game building with deliberately chunky proportions and HAND-PAINTED ALBEDO: broad visible but restrained brush strokes, exaggerated bold bevels, warm upper edges, cooler sepia base shadows, painted ambient occlusion under cornices. Broad rectangular56m wide58m deep18m tall two-storey ArtDeco mass. Buff and ivory stone, black marble base, dark blue-green painted glass, oxblood spandrel panels, strong vertical fluted piers, zigzag and lotus reliefs painted into flat surfaces, central stepped crown. A very tall narrow ivory and gold BLANK blade-sign panel above the entrance, ornate stepped sunburst tip, amber bulbs bordering it. A wide shallow blank cream marquee with chunky gold sunburst trim and warm bulbs, dark double entrance doors below it. Finished dark tar-and-gravel flat roof and plain finished right side with repeated dark windows. Major shapes are broad and readable. Stylized hand-painted texture, simple lit game asset, NOT realistic photography, NOT physical rendering, NOT a miniature diorama. No text, letters, people, vehicles, roads, ground plane, foliage, surrounding scene, sky, logos or watermarks. Entire subject fits within image with a clear gray margin.",
+  "references": [],
+  "image_size": {
+    "width": 1024,
+    "height": 1536
+  },
+  "seed": 19301113,
+  "output": "work/fal_test/Pantages34.png",
+  "status": "downloaded",
+  "request_id": "01a1d850-eb76-7040-a051-d7d99d2273a3",
+  "elapsed_seconds": 4.96,
+  "timings": {
+    "prompt_expansion": 7.690000074944692e-06,
+    "inference": 1.5889354629998707,
+    "safety_checker": 0.022394669000277645
+  },
+  "width": 1024,
+  "height": 1536
+}

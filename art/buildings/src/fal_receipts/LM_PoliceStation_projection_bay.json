@@ -1,0 +1,25 @@
+{
+  "id": "LM_PoliceStation_projection_bay",
+  "provider": "fal.ai",
+  "model": "blackforestlabs/flux-3/klein/edit-image",
+  "prompt": "Use case: stylized-concept. Architectural game texture plate matching the reference1930 Hollywood civic police station, classic early World of Warcraft hand-painted style. Pure orthographic straight-on FULL-BLEED rectangular elevation of exactly ONE two-storey facade bay4.5m wide10m high. Dark warm red/sepia brick field and bold cream limestone window surrounds. Ground floor: one tall dark arched window from10percent to42percent height, width65percent of bay; a few black iron vertical security bars. Upper floor: exactly one dark rectangular double-hung window from59percent to86percent height, width55percent of bay, chunky ivory lintel and sill. Bottom7percent is weathered dark slate/green stone skirting. Pale cream horizontal belt at45percent height and simple cornice at top. Masonry fills every pixel, edges straight so repeated bays butt. Warm above highlights, cool lower grime, painted AO and restrained brush marks, stylized original painting. No whole building silhouette, roof, parapet, signs, door, background, sky, ground, humans, photographic detail, words or labels.",
+  "references": [
+    "concept/LM_PoliceStation_front.png"
+  ],
+  "image_size": {
+    "width": 768,
+    "height": 1536
+  },
+  "seed": 19301113,
+  "output": "work/hub_deco/projection/LM_PoliceStation_bay.png",
+  "status": "downloaded",
+  "request_id": "01a1d87f-1321-7b11-b859-10144ce2ab11",
+  "elapsed_seconds": 6.1,
+  "timings": {
+    "prompt_expansion": 1.2120000064896885e-05,
+    "inference": 1.7370239150000089,
+    "safety_checker": 0.018153406000010364
+  },
+  "width": 768,
+  "height": 1536
+}

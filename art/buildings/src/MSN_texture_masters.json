@@ -1,0 +1,44 @@
+[
+  {
+    "id": "MSN_G_Bay6A",
+    "final_tris": 90,
+    "proxy_tris": 360,
+    "reason": "Texture proxy subdivision preserves silhouette and UV interpolation; final mesh stays authored and minimal."
+  },
+  {
+    "id": "MSN_U_Bay3A",
+    "final_tris": 6,
+    "proxy_tris": 216,
+    "reason": "Texture proxy subdivision preserves silhouette and UV interpolation; final mesh stays authored and minimal."
+  },
+  {
+    "id": "MSN_Pilaster1_G",
+    "final_tris": 2,
+    "proxy_tris": 128,
+    "reason": "Texture proxy subdivision preserves silhouette and UV interpolation; final mesh stays authored and minimal."
+  },
+  {
+    "id": "MSN_Parapet4",
+    "final_tris": 5,
+    "proxy_tris": 245,
+    "reason": "Texture proxy subdivision preserves silhouette and UV interpolation; final mesh stays authored and minimal."
+  },
+  {
+    "id": "MSN_CrestA",
+    "final_tris": 10,
+    "proxy_tris": 250,
+    "reason": "Texture proxy subdivision preserves silhouette and UV interpolation; final mesh stays authored and minimal."
+  },
+  {
+    "id": "MSN_CrestB",
+    "final_tris": 14,
+    "proxy_tris": 224,
+    "reason": "Texture proxy subdivision preserves silhouette and UV interpolation; final mesh stays authored and minimal."
+  },
+  {
+    "id": "MSN_Awning6",
+    "final_tris": 4,
+    "proxy_tris": 256,
+    "reason": "Texture proxy subdivision preserves silhouette and UV interpolation; final mesh stays authored and minimal."
+  }
+]

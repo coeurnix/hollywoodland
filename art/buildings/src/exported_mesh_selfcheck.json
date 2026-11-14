@@ -1,0 +1,6855 @@
+{
+  "checked_assets": 163,
+  "all_passed": true,
+  "checks": {
+    "LM_Drugstore": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          -9.000002,
+          -19.25,
+          0.0
+        ],
+        [
+          9.000002,
+          18.0,
+          6.0
+        ]
+      ],
+      "tris": 58,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_LM_Drugstore",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 16,
+      "uv_layers": 1,
+      "budget": 10000,
+      "issues": []
+    },
+    "SIGN_Drugstore": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          12.0,
+          1e-06,
+          1.1
+        ]
+      ],
+      "tris": 2,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_SIGN_01",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 50,
+      "issues": []
+    },
+    "SIGN_SodaFountain": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          12.0,
+          1e-06,
+          0.7
+        ]
+      ],
+      "tris": 2,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_SIGN_01",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 50,
+      "issues": []
+    },
+    "SIGN_Auction": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          3.0,
+          0.0,
+          0.75
+        ]
+      ],
+      "tris": 2,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_SIGN_01",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 50,
+      "issues": []
+    },
+    "SIGN_Haberdashery": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          8.0,
+          1e-06,
+          1.0
+        ]
+      ],
+      "tris": 2,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_SIGN_01",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 50,
+      "issues": []
+    },
+    "BRK_G_Bay4A": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.25,
+          0.0
+        ],
+        [
+          4.0,
+          0.0,
+          4.5
+        ]
+      ],
+      "tris": 90,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_BRK",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 28,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "BRK_G_Bay4B": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.25,
+          0.0
+        ],
+        [
+          4.0,
+          0.0,
+          4.5
+        ]
+      ],
+      "tris": 90,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_BRK",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 28,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "BRK_G_Bay6A": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.25,
+          0.0
+        ],
+        [
+          6.0,
+          1e-06,
+          4.5
+        ]
+      ],
+      "tris": 90,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_BRK",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 28,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "BRK_G_Bay6B": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.25,
+          0.0
+        ],
+        [
+          6.0,
+          1e-06,
+          4.5
+        ]
+      ],
+      "tris": 90,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_BRK",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 28,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "BRK_G_Bay8A": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.25,
+          0.0
+        ],
+        [
+          8.0,
+          1e-06,
+          4.5
+        ]
+      ],
+      "tris": 90,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_BRK",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 28,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "BRK_G_Bay8B": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.25,
+          0.0
+        ],
+        [
+          8.0,
+          1e-06,
+          4.5
+        ]
+      ],
+      "tris": 90,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_BRK",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 28,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "BRK_G_Entry4": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.25,
+          0.0
+        ],
+        [
+          4.0,
+          1.0,
+          4.5
+        ]
+      ],
+      "tris": 76,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_BRK",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 26,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "BRK_U_Bay2A": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.125,
+          0.0
+        ],
+        [
+          2.0,
+          0.0,
+          3.5
+        ]
+      ],
+      "tris": 6,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_BRK",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 8,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "BRK_U_Bay2B": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.125,
+          0.0
+        ],
+        [
+          2.0,
+          0.0,
+          3.5
+        ]
+      ],
+      "tris": 12,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_BRK",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 10,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "BRK_U_Bay3A": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.125,
+          0.0
+        ],
+        [
+          3.0,
+          0.0,
+          3.5
+        ]
+      ],
+      "tris": 6,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_BRK",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 8,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "BRK_U_Bay3B": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.125,
+          0.0
+        ],
+        [
+          3.0,
+          0.0,
+          3.5
+        ]
+      ],
+      "tris": 12,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_BRK",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 10,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "BRK_U_Bay4A": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.125,
+          0.0
+        ],
+        [
+          4.0,
+          0.0,
+          3.5
+        ]
+      ],
+      "tris": 6,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_BRK",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 8,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "BRK_U_Bay4B": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.125,
+          0.0
+        ],
+        [
+          4.0,
+          0.0,
+          3.5
+        ]
+      ],
+      "tris": 12,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_BRK",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 10,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "BRK_Pilaster1_G": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.125,
+          0.0
+        ],
+        [
+          1.0,
+          -0.125,
+          4.5
+        ]
+      ],
+      "tris": 2,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_BRK",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "BRK_Corner_G": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.5,
+          0.5,
+          4.5
+        ]
+      ],
+      "tris": 4,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_BRK",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 6,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "BRK_Pilaster1_U": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.125,
+          0.0
+        ],
+        [
+          1.0,
+          -0.125,
+          3.5
+        ]
+      ],
+      "tris": 2,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_BRK",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "BRK_Corner_U": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.5,
+          0.5,
+          3.5
+        ]
+      ],
+      "tris": 4,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_BRK",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 6,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "BRK_Parapet2": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          -0.0,
+          -0.25,
+          0.0
+        ],
+        [
+          2.0,
+          0.25,
+          1.5
+        ]
+      ],
+      "tris": 26,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_BRK",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "BRK_Parapet4": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          -0.0,
+          -0.25,
+          0.0
+        ],
+        [
+          4.0,
+          0.25,
+          1.5
+        ]
+      ],
+      "tris": 26,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_BRK",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "BRK_CrestA": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          -0.0,
+          -0.125,
+          0.0
+        ],
+        [
+          4.0,
+          0.125,
+          2.0
+        ]
+      ],
+      "tris": 42,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_BRK",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "BRK_CrestB": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          -0.0,
+          -0.125,
+          0.0
+        ],
+        [
+          4.0,
+          0.125,
+          2.0
+        ]
+      ],
+      "tris": 42,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_BRK",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "BRK_Awning4": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          -0.0,
+          -1.2625,
+          2.7
+        ],
+        [
+          4.0,
+          0.005409,
+          3.511269
+        ]
+      ],
+      "tris": 18,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_BRK",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "BRK_Awning6": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          -0.0,
+          -1.2625,
+          2.7
+        ],
+        [
+          6.0,
+          0.00541,
+          3.511269
+        ]
+      ],
+      "tris": 18,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_BRK",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "BRK_Wall": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          4.0,
+          0.0,
+          3.5
+        ]
+      ],
+      "tris": 2,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_BRK_Wall",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 60,
+      "issues": []
+    },
+    "BRK_Roof": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          -0.0,
+          0.0,
+          0.0
+        ],
+        [
+          4.0,
+          4.0,
+          0.0
+        ]
+      ],
+      "tris": 2,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_BRK_Roof",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 60,
+      "issues": []
+    },
+    "BRK_Damaged_G_Bay6": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.25,
+          0.0
+        ],
+        [
+          6.0,
+          1e-06,
+          4.5
+        ]
+      ],
+      "tris": 94,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_BRK",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 36,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "BRK_Damaged_U_Bay3": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.125,
+          0.0
+        ],
+        [
+          3.0,
+          0.0,
+          3.5
+        ]
+      ],
+      "tris": 10,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_BRK",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 16,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "DECO_G_Bay4A": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.25,
+          0.0
+        ],
+        [
+          4.0,
+          0.0,
+          4.5
+        ]
+      ],
+      "tris": 100,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_DECO",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 32,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "DECO_G_Bay4B": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.25,
+          0.0
+        ],
+        [
+          4.0,
+          0.0,
+          4.5
+        ]
+      ],
+      "tris": 100,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_DECO",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 32,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "DECO_G_Bay6A": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.25,
+          0.0
+        ],
+        [
+          6.0,
+          1e-06,
+          4.5
+        ]
+      ],
+      "tris": 100,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_DECO",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 32,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "DECO_G_Bay6B": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.25,
+          0.0
+        ],
+        [
+          6.0,
+          1e-06,
+          4.5
+        ]
+      ],
+      "tris": 100,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_DECO",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 32,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "DECO_G_Bay8A": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.25,
+          0.0
+        ],
+        [
+          8.0,
+          1e-06,
+          4.5
+        ]
+      ],
+      "tris": 100,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_DECO",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 32,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "DECO_G_Bay8B": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.25,
+          0.0
+        ],
+        [
+          8.0,
+          1e-06,
+          4.5
+        ]
+      ],
+      "tris": 100,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_DECO",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 32,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "DECO_G_Entry4": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.25,
+          0.0
+        ],
+        [
+          4.0,
+          1.0,
+          4.5
+        ]
+      ],
+      "tris": 86,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_DECO",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 30,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "DECO_U_Bay2A": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.125,
+          0.0
+        ],
+        [
+          2.0,
+          0.0,
+          3.5
+        ]
+      ],
+      "tris": 6,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_DECO",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 8,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "DECO_U_Bay2B": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.125,
+          0.0
+        ],
+        [
+          2.0,
+          0.0,
+          3.5
+        ]
+      ],
+      "tris": 12,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_DECO",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 10,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "DECO_U_Bay3A": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.125,
+          0.0
+        ],
+        [
+          3.0,
+          0.0,
+          3.5
+        ]
+      ],
+      "tris": 6,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_DECO",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 8,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "DECO_U_Bay3B": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.125,
+          0.0
+        ],
+        [
+          3.0,
+          0.0,
+          3.5
+        ]
+      ],
+      "tris": 12,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_DECO",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 10,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "DECO_U_Bay4A": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.125,
+          0.0
+        ],
+        [
+          4.0,
+          0.0,
+          3.5
+        ]
+      ],
+      "tris": 6,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_DECO",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 8,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "DECO_U_Bay4B": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.125,
+          0.0
+        ],
+        [
+          4.0,
+          0.0,
+          3.5
+        ]
+      ],
+      "tris": 12,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_DECO",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 10,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "DECO_Pilaster1_G": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.125,
+          0.0
+        ],
+        [
+          1.0,
+          -0.125,
+          4.5
+        ]
+      ],
+      "tris": 2,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_DECO",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "DECO_Corner_G": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.5,
+          0.5,
+          4.5
+        ]
+      ],
+      "tris": 4,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_DECO",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 6,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "DECO_Pilaster1_U": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.125,
+          0.0
+        ],
+        [
+          1.0,
+          -0.125,
+          3.5
+        ]
+      ],
+      "tris": 2,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_DECO",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "DECO_Corner_U": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.5,
+          0.5,
+          3.5
+        ]
+      ],
+      "tris": 4,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_DECO",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 6,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "DECO_Parapet2": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          -0.0,
+          0.0,
+          0.0
+        ],
+        [
+          2.0,
+          0.25,
+          1.5
+        ]
+      ],
+      "tris": 26,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_DECO",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "DECO_Parapet4": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          -0.0,
+          0.0,
+          0.0
+        ],
+        [
+          4.0,
+          0.25,
+          1.5
+        ]
+      ],
+      "tris": 26,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_DECO",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "DECO_CrestA": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          -0.0,
+          -0.125,
+          0.0
+        ],
+        [
+          4.0,
+          0.125,
+          2.0
+        ]
+      ],
+      "tris": 42,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_DECO",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "DECO_CrestB": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          -0.0,
+          -0.125,
+          0.0
+        ],
+        [
+          4.0,
+          0.125,
+          2.0
+        ]
+      ],
+      "tris": 42,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_DECO",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "DECO_Awning4": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          -0.0,
+          -1.2625,
+          2.7
+        ],
+        [
+          4.0,
+          0.005409,
+          3.511269
+        ]
+      ],
+      "tris": 18,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_DECO",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "DECO_Awning6": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          -0.0,
+          -1.2625,
+          2.7
+        ],
+        [
+          6.0,
+          0.00541,
+          3.511269
+        ]
+      ],
+      "tris": 18,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_DECO",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "DECO_Wall": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          4.0,
+          0.0,
+          3.5
+        ]
+      ],
+      "tris": 2,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_DECO_Wall",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 60,
+      "issues": []
+    },
+    "DECO_Roof": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          -0.0,
+          0.0,
+          0.0
+        ],
+        [
+          4.0,
+          4.0,
+          0.0
+        ]
+      ],
+      "tris": 2,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_DECO_Roof",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 60,
+      "issues": []
+    },
+    "DECO_Damaged_G_Bay6": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.25,
+          0.0
+        ],
+        [
+          6.0,
+          1e-06,
+          4.5
+        ]
+      ],
+      "tris": 94,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_DECO",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 36,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "DECO_Damaged_U_Bay3": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.125,
+          0.0
+        ],
+        [
+          3.0,
+          0.0,
+          3.5
+        ]
+      ],
+      "tris": 10,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_DECO",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 16,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "MSN_G_Bay4A": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.25,
+          0.0
+        ],
+        [
+          4.0,
+          0.0,
+          4.5
+        ]
+      ],
+      "tris": 100,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_MSN",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 32,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "MSN_G_Bay4B": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.25,
+          0.0
+        ],
+        [
+          4.0,
+          0.0,
+          4.5
+        ]
+      ],
+      "tris": 100,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_MSN",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 32,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "MSN_G_Bay6A": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.25,
+          0.0
+        ],
+        [
+          6.0,
+          1e-06,
+          4.5
+        ]
+      ],
+      "tris": 100,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_MSN",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 32,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "MSN_G_Bay6B": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.25,
+          0.0
+        ],
+        [
+          6.0,
+          1e-06,
+          4.5
+        ]
+      ],
+      "tris": 100,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_MSN",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 32,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "MSN_G_Bay8A": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.25,
+          0.0
+        ],
+        [
+          8.0,
+          1e-06,
+          4.5
+        ]
+      ],
+      "tris": 100,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_MSN",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 32,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "MSN_G_Bay8B": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.25,
+          0.0
+        ],
+        [
+          8.0,
+          1e-06,
+          4.5
+        ]
+      ],
+      "tris": 100,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_MSN",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 32,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "MSN_G_Entry4": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.25,
+          0.0
+        ],
+        [
+          4.0,
+          1.0,
+          4.5
+        ]
+      ],
+      "tris": 86,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_MSN",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 30,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "MSN_U_Bay2A": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.125,
+          0.0
+        ],
+        [
+          2.0,
+          0.0,
+          3.5
+        ]
+      ],
+      "tris": 6,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_MSN",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 8,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "MSN_U_Bay2B": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.125,
+          0.0
+        ],
+        [
+          2.0,
+          0.0,
+          3.5
+        ]
+      ],
+      "tris": 12,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_MSN",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 10,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "MSN_U_Bay3A": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.125,
+          0.0
+        ],
+        [
+          3.0,
+          0.0,
+          3.5
+        ]
+      ],
+      "tris": 6,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_MSN",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 8,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "MSN_U_Bay3B": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.125,
+          0.0
+        ],
+        [
+          3.0,
+          0.0,
+          3.5
+        ]
+      ],
+      "tris": 12,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_MSN",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 10,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "MSN_U_Bay4A": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.125,
+          0.0
+        ],
+        [
+          4.0,
+          0.0,
+          3.5
+        ]
+      ],
+      "tris": 6,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_MSN",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 8,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "MSN_U_Bay4B": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.125,
+          0.0
+        ],
+        [
+          4.0,
+          0.0,
+          3.5
+        ]
+      ],
+      "tris": 12,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_MSN",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 10,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "MSN_Pilaster1_G": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.125,
+          0.0
+        ],
+        [
+          1.0,
+          -0.125,
+          4.5
+        ]
+      ],
+      "tris": 2,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_MSN",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "MSN_Corner_G": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.5,
+          0.5,
+          4.5
+        ]
+      ],
+      "tris": 4,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_MSN",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 6,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "MSN_Pilaster1_U": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.125,
+          0.0
+        ],
+        [
+          1.0,
+          -0.125,
+          3.5
+        ]
+      ],
+      "tris": 2,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_MSN",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "MSN_Corner_U": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.5,
+          0.5,
+          3.5
+        ]
+      ],
+      "tris": 4,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_MSN",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 6,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "MSN_Parapet2": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          -0.0,
+          0.0,
+          0.0
+        ],
+        [
+          2.0,
+          0.25,
+          1.5
+        ]
+      ],
+      "tris": 22,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_MSN",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "MSN_Parapet4": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          -0.0,
+          0.0,
+          0.0
+        ],
+        [
+          4.0,
+          0.25,
+          1.5
+        ]
+      ],
+      "tris": 22,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_MSN",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "MSN_CrestA": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          -0.0,
+          -0.125,
+          0.0
+        ],
+        [
+          4.0,
+          0.125,
+          2.0
+        ]
+      ],
+      "tris": 42,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_MSN",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "MSN_CrestB": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          -0.0,
+          -0.125,
+          0.0
+        ],
+        [
+          4.0,
+          0.125,
+          2.0
+        ]
+      ],
+      "tris": 58,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_MSN",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "MSN_Awning4": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          -0.0,
+          -1.2625,
+          2.7
+        ],
+        [
+          4.0,
+          0.005409,
+          3.511269
+        ]
+      ],
+      "tris": 18,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_MSN",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "MSN_Awning6": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          -0.0,
+          -1.2625,
+          2.7
+        ],
+        [
+          6.0,
+          0.00541,
+          3.511269
+        ]
+      ],
+      "tris": 18,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_MSN",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "MSN_Wall": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          4.0,
+          0.0,
+          3.5
+        ]
+      ],
+      "tris": 2,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_MSN_Wall",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 60,
+      "issues": []
+    },
+    "MSN_Roof": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          -0.0,
+          0.0,
+          0.0
+        ],
+        [
+          4.0,
+          4.0,
+          0.0
+        ]
+      ],
+      "tris": 2,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_MSN_Roof",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 60,
+      "issues": []
+    },
+    "MSN_Damaged_G_Bay6": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.25,
+          0.0
+        ],
+        [
+          6.0,
+          1e-06,
+          4.5
+        ]
+      ],
+      "tris": 94,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_MSN",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 36,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "MSN_Damaged_U_Bay3": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.125,
+          0.0
+        ],
+        [
+          3.0,
+          0.0,
+          3.5
+        ]
+      ],
+      "tris": 10,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_MSN",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 16,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "SPN_G_Bay4A": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.25,
+          0.0
+        ],
+        [
+          4.0,
+          0.0,
+          4.5
+        ]
+      ],
+      "tris": 90,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_SPN",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 28,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "SPN_G_Bay4B": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.25,
+          0.0
+        ],
+        [
+          4.0,
+          0.0,
+          4.5
+        ]
+      ],
+      "tris": 90,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_SPN",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 28,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "SPN_G_Bay6A": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.25,
+          0.0
+        ],
+        [
+          6.0,
+          1e-06,
+          4.5
+        ]
+      ],
+      "tris": 90,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_SPN",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 28,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "SPN_G_Bay6B": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.25,
+          0.0
+        ],
+        [
+          6.0,
+          1e-06,
+          4.5
+        ]
+      ],
+      "tris": 90,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_SPN",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 28,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "SPN_G_Bay8A": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.25,
+          0.0
+        ],
+        [
+          8.0,
+          1e-06,
+          4.5
+        ]
+      ],
+      "tris": 90,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_SPN",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 28,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "SPN_G_Bay8B": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.25,
+          0.0
+        ],
+        [
+          8.0,
+          1e-06,
+          4.5
+        ]
+      ],
+      "tris": 90,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_SPN",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 28,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "SPN_G_Entry4": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.25,
+          0.0
+        ],
+        [
+          4.0,
+          1.0,
+          4.5
+        ]
+      ],
+      "tris": 76,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_SPN",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 26,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "SPN_U_Bay2A": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.43,
+          0.0
+        ],
+        [
+          2.0,
+          0.0,
+          3.5
+        ]
+      ],
+      "tris": 254,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_SPN",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 48,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "SPN_U_Bay2B": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.43,
+          0.0
+        ],
+        [
+          2.0,
+          0.0,
+          3.5
+        ]
+      ],
+      "tris": 262,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_SPN",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 54,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "SPN_U_Bay3A": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.43,
+          0.0
+        ],
+        [
+          3.0,
+          0.0,
+          3.5
+        ]
+      ],
+      "tris": 254,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_SPN",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 48,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "SPN_U_Bay3B": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.43,
+          0.0
+        ],
+        [
+          3.0,
+          0.0,
+          3.5
+        ]
+      ],
+      "tris": 262,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_SPN",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 54,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "SPN_U_Bay4A": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.43,
+          0.0
+        ],
+        [
+          4.0,
+          0.0,
+          3.5
+        ]
+      ],
+      "tris": 254,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_SPN",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 48,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "SPN_U_Bay4B": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.43,
+          0.0
+        ],
+        [
+          4.0,
+          0.0,
+          3.5
+        ]
+      ],
+      "tris": 262,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_SPN",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 54,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "SPN_Pilaster1_G": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.125,
+          0.0
+        ],
+        [
+          1.0,
+          -0.125,
+          4.5
+        ]
+      ],
+      "tris": 2,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_SPN",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "SPN_Corner_G": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.5,
+          0.5,
+          4.5
+        ]
+      ],
+      "tris": 4,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_SPN",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 6,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "SPN_Pilaster1_U": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.125,
+          0.0
+        ],
+        [
+          1.0,
+          -0.125,
+          3.5
+        ]
+      ],
+      "tris": 2,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_SPN",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "SPN_Corner_U": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.5,
+          0.5,
+          3.5
+        ]
+      ],
+      "tris": 4,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_SPN",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 6,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "SPN_Parapet2": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          -0.0,
+          0.0,
+          0.0
+        ],
+        [
+          2.0,
+          0.25,
+          1.5
+        ]
+      ],
+      "tris": 38,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_SPN",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "SPN_Parapet4": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          -0.0,
+          0.0,
+          0.0
+        ],
+        [
+          4.0,
+          0.25,
+          1.5
+        ]
+      ],
+      "tris": 70,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_SPN",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "SPN_CrestA": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          -0.0,
+          -0.125,
+          0.0
+        ],
+        [
+          4.0,
+          0.125,
+          2.0
+        ]
+      ],
+      "tris": 50,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_SPN",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "SPN_CrestB": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          -0.0,
+          -0.125,
+          0.0
+        ],
+        [
+          4.0,
+          0.125,
+          2.0
+        ]
+      ],
+      "tris": 42,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_SPN",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "SPN_Awning4": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          -0.0,
+          -1.2625,
+          2.7
+        ],
+        [
+          4.0,
+          0.005409,
+          3.511269
+        ]
+      ],
+      "tris": 18,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_SPN",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "SPN_Awning6": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          -0.0,
+          -1.2625,
+          2.7
+        ],
+        [
+          6.0,
+          0.00541,
+          3.511269
+        ]
+      ],
+      "tris": 18,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_SPN",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "SPN_Wall": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          4.0,
+          0.0,
+          3.5
+        ]
+      ],
+      "tris": 2,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_SPN_Wall",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 60,
+      "issues": []
+    },
+    "SPN_Roof": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          -0.0,
+          0.0,
+          0.0
+        ],
+        [
+          4.0,
+          4.0,
+          0.0
+        ]
+      ],
+      "tris": 2,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_SPN_Roof",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 60,
+      "issues": []
+    },
+    "SPN_Damaged_G_Bay6": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.25,
+          0.0
+        ],
+        [
+          6.0,
+          1e-06,
+          4.5
+        ]
+      ],
+      "tris": 94,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_SPN",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 36,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "SPN_Damaged_U_Bay3": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.43,
+          0.0
+        ],
+        [
+          3.0,
+          0.0,
+          3.5
+        ]
+      ],
+      "tris": 258,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_SPN",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 56,
+      "uv_layers": 1,
+      "budget": 600,
+      "issues": []
+    },
+    "RF_WaterTank": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          -1.725,
+          -1.725,
+          0.0
+        ],
+        [
+          1.725,
+          1.725,
+          5.38
+        ]
+      ],
+      "tris": 1218,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_NEUTRAL",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 16,
+      "uv_layers": 1,
+      "budget": 1500,
+      "issues": []
+    },
+    "RF_Billboard8x4": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          -4.22,
+          -1.69,
+          0.0
+        ],
+        [
+          4.22,
+          1.69,
+          6.1975
+        ]
+      ],
+      "tris": 980,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_NEUTRAL",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 24,
+      "uv_layers": 1,
+      "budget": 1500,
+      "issues": []
+    },
+    "RF_Billboard12x5": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          -6.22,
+          -2.140001,
+          0.0
+        ],
+        [
+          6.22,
+          2.140001,
+          7.4975
+        ]
+      ],
+      "tris": 1274,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_NEUTRAL",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 32,
+      "uv_layers": 1,
+      "budget": 1500,
+      "issues": []
+    },
+    "RF_StairBulkhead": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          -1.61,
+          -2.295,
+          0.0
+        ],
+        [
+          1.61,
+          2.295,
+          3.0
+        ]
+      ],
+      "tris": 262,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_NEUTRAL",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 12,
+      "uv_layers": 1,
+      "budget": 1500,
+      "issues": []
+    },
+    "RF_ChimneyBrick": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          -0.62,
+          -0.62,
+          0.0
+        ],
+        [
+          0.62,
+          0.62,
+          2.15
+        ]
+      ],
+      "tris": 118,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_NEUTRAL",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 300,
+      "issues": []
+    },
+    "RF_VentMetal": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          -0.58,
+          -0.58,
+          0.0
+        ],
+        [
+          0.58,
+          0.58,
+          1.8
+        ]
+      ],
+      "tris": 262,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_NEUTRAL",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 300,
+      "issues": []
+    },
+    "RF_Skylight": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          -1.575,
+          -2.075,
+          0.0
+        ],
+        [
+          1.575,
+          2.075,
+          1.31
+        ]
+      ],
+      "tris": 434,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_NEUTRAL",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 1500,
+      "issues": []
+    },
+    "DR_BoardedWindow15": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.12,
+          0.0
+        ],
+        [
+          1.5,
+          0.0,
+          1.5
+        ]
+      ],
+      "tris": 108,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_NEUTRAL",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 40,
+      "uv_layers": 1,
+      "budget": 300,
+      "issues": []
+    },
+    "DR_BoardedWindow23": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.16,
+          0.0
+        ],
+        [
+          2.0,
+          0.0,
+          3.0
+        ]
+      ],
+      "tris": 174,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_NEUTRAL",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 64,
+      "uv_layers": 1,
+      "budget": 300,
+      "issues": []
+    },
+    "DR_SandbagStack3": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          -1.5,
+          -0.15,
+          0.0
+        ],
+        [
+          1.5,
+          0.15,
+          1.0
+        ]
+      ],
+      "tris": 440,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_NEUTRAL",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 0,
+      "uv_layers": 1,
+      "budget": 1500,
+      "issues": []
+    },
+    "DR_SandbagDoorway4": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          -2.0,
+          -0.15,
+          0.0
+        ],
+        [
+          2.0,
+          0.15,
+          3.25
+        ]
+      ],
+      "tris": 902,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_NEUTRAL",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 8,
+      "uv_layers": 1,
+      "budget": 1500,
+      "issues": []
+    },
+    "DR_FallenAwning": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          -2.0,
+          -0.75,
+          0.0
+        ],
+        [
+          2.0,
+          0.75,
+          0.6
+        ]
+      ],
+      "tris": 48,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_NEUTRAL",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 0,
+      "uv_layers": 1,
+      "budget": 1500,
+      "issues": []
+    },
+    "DR_SootA": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.006,
+          0.0
+        ],
+        [
+          2.0,
+          -0.006,
+          1.5
+        ]
+      ],
+      "tris": 13,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_NEUTRAL",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 15,
+      "uv_layers": 1,
+      "budget": 50,
+      "issues": []
+    },
+    "DR_SootB": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.006,
+          0.0
+        ],
+        [
+          1.5,
+          -0.006,
+          2.5
+        ]
+      ],
+      "tris": 11,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_NEUTRAL",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 13,
+      "uv_layers": 1,
+      "budget": 50,
+      "issues": []
+    },
+    "DR_Crack": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.006,
+          0.0
+        ],
+        [
+          2.0,
+          -0.006,
+          2.0
+        ]
+      ],
+      "tris": 17,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_NEUTRAL",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 19,
+      "uv_layers": 1,
+      "budget": 50,
+      "issues": []
+    },
+    "DR_MayorNotice": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.008,
+          0.0
+        ],
+        [
+          0.75,
+          -0.008,
+          1.0
+        ]
+      ],
+      "tris": 2,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_NEUTRAL",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 50,
+      "issues": []
+    },
+    "DR_Rubble2": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          -1.0,
+          -0.75,
+          0.0
+        ],
+        [
+          1.0,
+          0.75,
+          0.65
+        ]
+      ],
+      "tris": 128,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_NEUTRAL",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 0,
+      "uv_layers": 1,
+      "budget": 1500,
+      "issues": []
+    },
+    "DR_Rubble4": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          -2.0,
+          -1.0,
+          0.0
+        ],
+        [
+          2.0,
+          1.0,
+          0.85
+        ]
+      ],
+      "tris": 304,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_NEUTRAL",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 0,
+      "uv_layers": 1,
+      "budget": 1500,
+      "issues": []
+    },
+    "DR_BrokenGlass": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          -0.006,
+          0.0
+        ],
+        [
+          3.0,
+          -0.006,
+          2.5
+        ]
+      ],
+      "tris": 26,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_ATL_NEUTRAL",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 28,
+      "uv_layers": 1,
+      "budget": 50,
+      "issues": []
+    },
+    "LM_Roosevelt": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          -37.000004,
+          -29.000004,
+          0.0
+        ],
+        [
+          37.000004,
+          29.000004,
+          27.1
+        ]
+      ],
+      "tris": 9656,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_LM_Roosevelt",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4578,
+      "uv_layers": 1,
+      "budget": 10000,
+      "issues": []
+    },
+    "LM_Pantages": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          -28.000002,
+          -30.490002,
+          0.0
+        ],
+        [
+          28.000002,
+          29.000002,
+          34.299999
+        ]
+      ],
+      "tris": 850,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_LM_Pantages",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 732,
+      "uv_layers": 1,
+      "budget": 10000,
+      "issues": []
+    },
+    "LM_Taft": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          -21.500002,
+          -24.500002,
+          0.0
+        ],
+        [
+          21.000002,
+          24.000002,
+          39.0
+        ]
+      ],
+      "tris": 3808,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_LM_Taft",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 2756,
+      "uv_layers": 1,
+      "budget": 10000,
+      "issues": []
+    },
+    "LM_Egyptian_Gateway": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          -15.0,
+          -1.000001,
+          0.0
+        ],
+        [
+          15.0,
+          1.000001,
+          10.0
+        ]
+      ],
+      "tris": 96,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_LM_Egyptian_Gateway",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 24,
+      "uv_layers": 1,
+      "budget": 10000,
+      "issues": []
+    },
+    "LM_HollywoodHotel_CourtWall": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          -13.0,
+          -3.000001,
+          0.0
+        ],
+        [
+          13.0,
+          3.000001,
+          6.0
+        ]
+      ],
+      "tris": 732,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_LM_HollywoodHotel_CourtWall",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 274,
+      "uv_layers": 1,
+      "budget": 10000,
+      "issues": []
+    },
+    "LM_FirstNational": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          -21.420002,
+          -20.035002,
+          0.0
+        ],
+        [
+          21.000002,
+          19.000002,
+          28.0
+        ]
+      ],
+      "tris": 1405,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_LM_FirstNational",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 1309,
+      "uv_layers": 1,
+      "budget": 10000,
+      "issues": []
+    },
+    "LM_BrownDerby": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          -15.000001,
+          -13.250001,
+          0.0
+        ],
+        [
+          15.000001,
+          12.000001,
+          13.55
+        ]
+      ],
+      "tris": 408,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_LM_BrownDerby",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 348,
+      "uv_layers": 1,
+      "budget": 10000,
+      "issues": []
+    },
+    "LM_Egyptian": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          -41.000004,
+          -25.000004,
+          0.0
+        ],
+        [
+          41.000004,
+          25.000004,
+          15.0
+        ]
+      ],
+      "tris": 1124,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_LM_Egyptian",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 252,
+      "uv_layers": 1,
+      "budget": 10000,
+      "issues": []
+    },
+    "LM_Egyptian_Wing": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          -13.000001,
+          -14.000001,
+          0.0
+        ],
+        [
+          13.000001,
+          14.000001,
+          7.0
+        ]
+      ],
+      "tris": 1086,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_LM_Egyptian_Wing",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 216,
+      "uv_layers": 1,
+      "budget": 10000,
+      "issues": []
+    },
+    "LM_Graumans": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          -41.000004,
+          -29.000004,
+          0.0
+        ],
+        [
+          41.000004,
+          29.000004,
+          16.0
+        ]
+      ],
+      "tris": 1924,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_LM_Graumans",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 368,
+      "uv_layers": 1,
+      "budget": 10000,
+      "issues": []
+    },
+    "LM_RedCarStop": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          -4.0,
+          -1.5,
+          0.0
+        ],
+        [
+          4.0,
+          1.5,
+          3.5
+        ]
+      ],
+      "tris": 964,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_LM_RedCarStop",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 224,
+      "uv_layers": 1,
+      "budget": 10000,
+      "issues": []
+    },
+    "LM_Kiosk_Auction": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          -2.0,
+          -2.0,
+          0.0
+        ],
+        [
+          2.0,
+          2.0,
+          3.5
+        ]
+      ],
+      "tris": 190,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_LM_Kiosk_Auction",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 62,
+      "uv_layers": 1,
+      "budget": 10000,
+      "issues": []
+    },
+    "LM_Graumans_ForecourtWall": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          -3.000001,
+          -10.0,
+          0.0
+        ],
+        [
+          3.000001,
+          10.0,
+          5.0
+        ]
+      ],
+      "tris": 190,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_LM_Graumans_ForecourtWall",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 244,
+      "uv_layers": 1,
+      "budget": 10000,
+      "issues": []
+    },
+    "LM_HollywoodHotel_Wing": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          -12.000002,
+          -26.000002,
+          0.0
+        ],
+        [
+          12.000002,
+          26.000002,
+          12.0
+        ]
+      ],
+      "tris": 4300,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_LM_HollywoodHotel_Wing",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 1848,
+      "uv_layers": 1,
+      "budget": 10000,
+      "issues": []
+    },
+    "LM_HollywoodHotel": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          -58.000004,
+          -13.020001,
+          0.0
+        ],
+        [
+          58.000004,
+          13.000005,
+          14.0
+        ]
+      ],
+      "tris": 8747,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_LM_HollywoodHotel",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 3617,
+      "uv_layers": 1,
+      "budget": 10000,
+      "issues": []
+    },
+    "LM_PoliceStation": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          -23.000002,
+          -17.9,
+          0.0
+        ],
+        [
+          23.000002,
+          17.000002,
+          14.85
+        ]
+      ],
+      "tris": 480,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_LM_PoliceStation",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 396,
+      "uv_layers": 1,
+      "budget": 10000,
+      "issues": [],
+      "file_sha256": "ed670124f895351d1ad2180f08c20794db31523bb2fe8663d1292807d5db4809"
+    },
+    "SIGN_Pantages": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          2.5,
+          0.0,
+          22.5
+        ]
+      ],
+      "tris": 2,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_SIGN_02",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 50,
+      "issues": []
+    },
+    "SIGN_Graumans_Blade": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          4.0,
+          0.0,
+          8.0
+        ]
+      ],
+      "tris": 2,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_SIGN_02",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 50,
+      "issues": []
+    },
+    "SIGN_Egyptian": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          30.0,
+          3e-06,
+          1.4
+        ]
+      ],
+      "tris": 2,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_SIGN_02",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 50,
+      "issues": []
+    },
+    "SIGN_Egyptian_Gate": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          11.5,
+          1e-06,
+          1.3
+        ]
+      ],
+      "tris": 2,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_SIGN_02",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 50,
+      "issues": []
+    },
+    "SIGN_Roosevelt": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          24.6,
+          2e-06,
+          1.8
+        ]
+      ],
+      "tris": 2,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_SIGN_02",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 50,
+      "issues": []
+    },
+    "SIGN_HollywoodHotel": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          10.5,
+          1e-06,
+          1.1
+        ]
+      ],
+      "tris": 2,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_SIGN_02",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 50,
+      "issues": []
+    },
+    "SIGN_Graumans_Marquee": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          10.0,
+          1e-06,
+          1.0
+        ]
+      ],
+      "tris": 2,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_SIGN_02",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 50,
+      "issues": []
+    },
+    "SIGN_Pantages_Marquee": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          27.0,
+          2e-06,
+          1.0
+        ]
+      ],
+      "tris": 2,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_SIGN_02",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 50,
+      "issues": []
+    },
+    "SIGN_Taft": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          8.0,
+          1e-06,
+          1.7
+        ]
+      ],
+      "tris": 2,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_SIGN_03",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 50,
+      "issues": []
+    },
+    "SIGN_FirstNational": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          6.0,
+          1e-06,
+          1.0
+        ]
+      ],
+      "tris": 2,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_SIGN_03",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 50,
+      "issues": []
+    },
+    "SIGN_Police": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          8.0,
+          1e-06,
+          0.9
+        ]
+      ],
+      "tris": 2,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_SIGN_03",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 50,
+      "issues": []
+    },
+    "SIGN_PacificElectric": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          4.2,
+          0.0,
+          0.28
+        ]
+      ],
+      "tris": 2,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_SIGN_03",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 50,
+      "issues": []
+    },
+    "SIGN_Egyptian_Marquee": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          10.0,
+          1e-06,
+          1.25
+        ]
+      ],
+      "tris": 2,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_SIGN_03",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 50,
+      "issues": []
+    },
+    "SIGN_BrownDerby": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          7.0,
+          1e-06,
+          2.5
+        ]
+      ],
+      "tris": 13,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_SIGN_03",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 15,
+      "uv_layers": 1,
+      "budget": 50,
+      "issues": []
+    },
+    "SIGN_RedCarTimetable": {
+      "fbx_version": 7400,
+      "bounds": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.5,
+          0.0,
+          0.95
+        ]
+      ],
+      "tris": 2,
+      "triangulated": true,
+      "material_slots": 1,
+      "material": "M_SIGN_03",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        8.742277657347586e-08
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "zero_area_faces": 0,
+      "branch_edges": 0,
+      "inconsistent_shared_edges": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 4,
+      "uv_layers": 1,
+      "budget": 50,
+      "issues": []
+    }
+  },
+  "failures": [],
+  "boundary_policy": "Intentional open wall-facing and ground-facing boundaries are documented in README."
+}

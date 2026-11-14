@@ -1,0 +1,52 @@
+[
+  {
+    "id": "LM_Pantages",
+    "input": "work/LM_Pantages_input.glb",
+    "reference": "concept/LM_Pantages_34.png",
+    "second_reference": "concept/LM_Pantages_front.png",
+    "metadata": "src/hub_deco/LM_Pantages_metadata.json",
+    "material": "Shaded",
+    "resolution": "Basic",
+    "status": "ready"
+  },
+  {
+    "id": "LM_Taft",
+    "input": "work/LM_Taft_input.glb",
+    "reference": "concept/LM_Taft_34.png",
+    "second_reference": "concept/LM_Taft_front.png",
+    "metadata": "src/hub_deco/LM_Taft_metadata.json",
+    "material": "Shaded",
+    "resolution": "Basic",
+    "status": "ready"
+  },
+  {
+    "id": "LM_FirstNational",
+    "input": "work/LM_FirstNational_input.glb",
+    "reference": "concept/LM_FirstNational_34.png",
+    "second_reference": "concept/LM_FirstNational_front.png",
+    "metadata": "src/hub_deco/LM_FirstNational_metadata.json",
+    "material": "Shaded",
+    "resolution": "Basic",
+    "status": "ready"
+  },
+  {
+    "id": "LM_BrownDerby",
+    "input": "work/LM_BrownDerby_input.glb",
+    "reference": "concept/LM_BrownDerby_34.png",
+    "second_reference": "concept/LM_BrownDerby_front.png",
+    "metadata": "src/hub_deco/LM_BrownDerby_metadata.json",
+    "material": "Shaded",
+    "resolution": "Basic",
+    "status": "ready"
+  },
+  {
+    "id": "LM_PoliceStation",
+    "input": "work/LM_PoliceStation_input.glb",
+    "reference": "concept/LM_PoliceStation_34.png",
+    "second_reference": "concept/LM_PoliceStation_front.png",
+    "metadata": "src/hub_deco/LM_PoliceStation_metadata.json",
+    "material": "Shaded",
+    "resolution": "Basic",
+    "status": "ready"
+  }
+]

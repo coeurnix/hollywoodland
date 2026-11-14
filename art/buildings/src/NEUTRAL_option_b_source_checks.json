@@ -1,0 +1,254 @@
+{
+  "RF_WaterTank": {
+    "uploaded": {
+      "vertices": 2016,
+      "faces": 1218,
+      "position_uv_hash": "45a00d7b095f6bc1d334cf3dc5e6f9cc11916fe57fedae1dec101fb2e63626f8"
+    },
+    "returned": {
+      "vertices": 2018,
+      "faces": 1218,
+      "position_uv_hash": "22c8c27f6ce89107586d980f41a92fa60b1047d1a0cb3d9c1eb1754a15cb5d11"
+    },
+    "equal": false,
+    "baked_to_authored_mesh": true
+  },
+  "RF_Billboard8x4": {
+    "uploaded": {
+      "vertices": 1518,
+      "faces": 980,
+      "position_uv_hash": "859a1566e7f63cdc015babca8cb0f922f1db2ec03c840f3e6441c0a0f70a3c1d"
+    },
+    "returned": {
+      "vertices": 1522,
+      "faces": 980,
+      "position_uv_hash": "d7cd63f82b79a28a935fd4836e0a71dbc654f513d1e049315da727336cbf7fac"
+    },
+    "equal": false,
+    "baked_to_authored_mesh": true
+  },
+  "RF_Billboard12x5": {
+    "uploaded": {
+      "vertices": 1986,
+      "faces": 1274,
+      "position_uv_hash": "43f4e5fae80f7c1b6e0b59e4f0f9a046b5dc97eb7ac34e84a36b8d4a50e4c699"
+    },
+    "returned": {
+      "vertices": 1993,
+      "faces": 1274,
+      "position_uv_hash": "b307c720958e424eba7170b2c813b32c1f80dbe9415cc57e2e777055f001925e"
+    },
+    "equal": false,
+    "baked_to_authored_mesh": true
+  },
+  "RF_StairBulkhead": {
+    "uploaded": {
+      "vertices": 408,
+      "faces": 262,
+      "position_uv_hash": "4eb0ff150cb1536362916ef55676b9127d16aeb7dd070cdb80f70f39586684bd"
+    },
+    "returned": {
+      "vertices": 408,
+      "faces": 262,
+      "position_uv_hash": "17b08a0791017d0136225789d07373998b8ee20efd5254a4be80c2d3bfc01d9b"
+    },
+    "equal": false,
+    "baked_to_authored_mesh": true
+  },
+  "RF_ChimneyBrick": {
+    "uploaded": {
+      "vertices": 176,
+      "faces": 118,
+      "position_uv_hash": "806c94baf1e9eabc6bec7de2e506854eb44813df5a9a4c61341db4c30f1f7a3d"
+    },
+    "returned": {
+      "vertices": 176,
+      "faces": 118,
+      "position_uv_hash": "814a11ff8aefde6149dd87309d2c2e5327b6a98150e9cccb3aa6ed5bc7f65995"
+    },
+    "equal": false,
+    "baked_to_authored_mesh": true
+  },
+  "RF_VentMetal": {
+    "uploaded": {
+      "vertices": 404,
+      "faces": 262,
+      "position_uv_hash": "90876db83021d1409cde627219c5407552dacf618c4092042bcc947925d3a4f2"
+    },
+    "returned": {
+      "vertices": 404,
+      "faces": 262,
+      "position_uv_hash": "c99a58bb4b8dd0ab56ba1aa672f6d97922472a388912fc37412195d17a1df9d8"
+    },
+    "equal": false,
+    "baked_to_authored_mesh": true
+  },
+  "RF_Skylight": {
+    "uploaded": {
+      "vertices": 678,
+      "faces": 434,
+      "position_uv_hash": "06ec447b71a7647bdec1e647a9eb277c88d36b5a9cfbc52b741ff9941c430b2d"
+    },
+    "returned": {
+      "vertices": 678,
+      "faces": 434,
+      "position_uv_hash": "893cc0b55bf9d1c9bb8a31398f34081f262f4d166a0e94d6cb989cdc0e74989b"
+    },
+    "equal": false,
+    "baked_to_authored_mesh": true
+  },
+  "DR_BoardedWindow15": {
+    "uploaded": {
+      "vertices": 200,
+      "faces": 108,
+      "position_uv_hash": "d231bb2e8b6c7083177b1e06aeebae6c66dc2b18473440c726b6a92707462fc1"
+    },
+    "returned": {
+      "vertices": 200,
+      "faces": 108,
+      "position_uv_hash": "dec28665f271e1febeb1d97546eabd17c06d9a677ec546eccd7b362161985347"
+    },
+    "equal": false,
+    "baked_to_authored_mesh": true
+  },
+  "DR_BoardedWindow23": {
+    "uploaded": {
+      "vertices": 320,
+      "faces": 174,
+      "position_uv_hash": "7dbbbac932e815b427cdffcd262193aa55c30daa98df3777da4c1773eb8270eb"
+    },
+    "returned": {
+      "vertices": 320,
+      "faces": 174,
+      "position_uv_hash": "1af8e47481e6cc502bdfd0edfe60d0d03749ba8dd669c5a77c84d355c9349137"
+    },
+    "equal": false,
+    "baked_to_authored_mesh": true
+  },
+  "DR_SandbagStack3": {
+    "uploaded": {
+      "vertices": 800,
+      "faces": 440,
+      "position_uv_hash": "9bed010d235d33cc68d07e4bede37e68ecce0ee76f6dca2f6401a87e7ed1ed93"
+    },
+    "returned": {
+      "vertices": 800,
+      "faces": 440,
+      "position_uv_hash": "b490f9d5cc0292b7ac0be1058e3cf0c1052f24a0f6fb213c166540dcd4a39fc3"
+    },
+    "equal": false,
+    "baked_to_authored_mesh": true
+  },
+  "DR_SandbagDoorway4": {
+    "uploaded": {
+      "vertices": 1640,
+      "faces": 902,
+      "position_uv_hash": "779a8ec5c0dbea7a70cd9eda90249d96f64b01d9cd418f2eb6f779f8f60227ed"
+    },
+    "returned": {
+      "vertices": 1640,
+      "faces": 902,
+      "position_uv_hash": "4ea966791aaa1cc7af832936a75fb4ec84c838f43ce68f3ebb95474df78c0109"
+    },
+    "equal": false,
+    "baked_to_authored_mesh": true
+  },
+  "DR_FallenAwning": {
+    "uploaded": {
+      "vertices": 106,
+      "faces": 48,
+      "position_uv_hash": "b6728c7e1ba901e1a55ea16ca661bbf710df70b239b4a6658c62f55f93c301cf"
+    },
+    "returned": {
+      "vertices": 106,
+      "faces": 48,
+      "position_uv_hash": "a2a70c6feb119311c59e5e52e71bcc8164bf8ffef311cbe46b8f325e619e762d"
+    },
+    "equal": false,
+    "baked_to_authored_mesh": true
+  },
+  "DR_SootA": {
+    "uploaded": {
+      "vertices": 15,
+      "faces": 13,
+      "position_uv_hash": "ca777fe0476c63d6f64d6e9bcfa906c53a36ace81a25ab8812dc61f34bf0b91a"
+    },
+    "returned": {
+      "vertices": 15,
+      "faces": 13,
+      "position_uv_hash": "ab72c79705458765f0e301139dbabb22c5b3c811ba09877f0ded5a5fd98a0ef4"
+    },
+    "equal": false,
+    "baked_to_authored_mesh": true
+  },
+  "DR_SootB": {
+    "uploaded": {
+      "vertices": 13,
+      "faces": 11,
+      "position_uv_hash": "12646782a5184e144eaf3485d62be9e0bff6ceafe946be9e4011a856ec8b1db1"
+    },
+    "returned": {
+      "vertices": 13,
+      "faces": 11,
+      "position_uv_hash": "c39285618ad90dbc1cf400f5aa80ce427350cfc60ece9cba523374ef89f36dfe"
+    },
+    "equal": false,
+    "baked_to_authored_mesh": true
+  },
+  "DR_Crack": {
+    "uploaded": {
+      "vertices": 19,
+      "faces": 17,
+      "position_uv_hash": "c23ccd0b425e114207dfbc261aea83c6c97c274e164d99a4b5c50a455d44db91"
+    },
+    "returned": {
+      "vertices": 19,
+      "faces": 17,
+      "position_uv_hash": "5c032770144ab73b5a3e7de0a67b4c98821d0eb75f1cd28abae5e579a87d5d95"
+    },
+    "equal": false,
+    "baked_to_authored_mesh": true
+  },
+  "DR_Rubble2": {
+    "uploaded": {
+      "vertices": 240,
+      "faces": 128,
+      "position_uv_hash": "bf5838fc5fdeed02f2a8308544d22aa699370eb0a2978d537ff15355ff232b88"
+    },
+    "returned": {
+      "vertices": 240,
+      "faces": 128,
+      "position_uv_hash": "23ffb2f8cadd0b6b0c97cf79dfd40b6e5ec5e1d106689ab628d7f27b885fec40"
+    },
+    "equal": false,
+    "baked_to_authored_mesh": true
+  },
+  "DR_Rubble4": {
+    "uploaded": {
+      "vertices": 570,
+      "faces": 304,
+      "position_uv_hash": "b01883a3a1f7ba416ec83d9798a7487561b2cf69d24d7854044a189f97ae639c"
+    },
+    "returned": {
+      "vertices": 570,
+      "faces": 304,
+      "position_uv_hash": "825a533f5ffb9c6399e0a0e217548f4d7ad9188e5fb2dc601d5494a9a7a766c3"
+    },
+    "equal": false,
+    "baked_to_authored_mesh": true
+  },
+  "DR_BrokenGlass": {
+    "uploaded": {
+      "vertices": 27,
+      "faces": 26,
+      "position_uv_hash": "aeb2aa589c55fada2faa43fe200cdacca2cdcdef1ae0ec5d1fc41300901493b7"
+    },
+    "returned": {
+      "vertices": 27,
+      "faces": 26,
+      "position_uv_hash": "aeb2aa589c55fada2faa43fe200cdacca2cdcdef1ae0ec5d1fc41300901493b7"
+    },
+    "equal": true,
+    "baked_to_authored_mesh": true
+  }
+}

@@ -1,0 +1,768 @@
+{
+  "method": "camera_projection_emit_bake",
+  "rodin_failures_before_fallback": 2,
+  "frozen_input_sha256": "a0f7cb46b1696a138d5e72ee30a5ba130b33f56b374ece121f5082020ffaefbb",
+  "frozen_import_geometry_uv": {
+    "vertices": 17227,
+    "faces": 8743,
+    "position_uv_hash": "e9b3cb945ec5b45fce4eb34a4946f104ba19a66a1505ba937c9f35282a7cd778"
+  },
+  "deliberate_authored_mesh_repairs": [
+    {
+      "change": "Added two1.25m-deep x3.599m-high plaster return faces at x=+/-3.0526316m beside front central arch",
+      "reason": "Close background slits where on-plane entry skin meets1.25m recessed adjacent verandas",
+      "floor_edge_clearance_m": 0.0005,
+      "added_triangles": 4,
+      "nominal_box_unchanged": true,
+      "original_faces_and_uvs_preserved": true
+    }
+  ],
+  "hash_before_own_repair": "e9b3cb945ec5b45fce4eb34a4946f104ba19a66a1505ba937c9f35282a7cd778",
+  "hash_after_own_repair": "4d356b7f7814f6b1c0d268280ff8118ca606ae8474de9698fa4efec5e870e532",
+  "authored_before": {
+    "vertices": 6173,
+    "faces": 8747,
+    "position_uv_hash": "4d356b7f7814f6b1c0d268280ff8118ca606ae8474de9698fa4efec5e870e532"
+  },
+  "authored_after_bake": {
+    "vertices": 6173,
+    "faces": 8747,
+    "position_uv_hash": "4d356b7f7814f6b1c0d268280ff8118ca606ae8474de9698fa4efec5e870e532"
+  },
+  "authored_after_export_weld": {
+    "vertices": 6173,
+    "faces": 8747,
+    "position_uv_hash": "4d356b7f7814f6b1c0d268280ff8118ca606ae8474de9698fa4efec5e870e532"
+  },
+  "authored_geometry_uv_unchanged_during_bake": true,
+  "position_uv_hash_preserved_after_export": true,
+  "strict_before": {
+    "tris": 8747,
+    "branch_edges": 0,
+    "zero_area_faces": 0,
+    "loose_vertices": 0,
+    "orientation_discontinuities": 0,
+    "boundary_edges": 3617
+  },
+  "strict_after": {
+    "tris": 8747,
+    "branch_edges": 0,
+    "zero_area_faces": 0,
+    "loose_vertices": 0,
+    "orientation_discontinuities": 0,
+    "boundary_edges": 3617
+  },
+  "fbx_roundtrip_welded": {
+    "tris": 8747,
+    "branch_edges": 0,
+    "zero_area_faces": 0,
+    "loose_vertices": 0,
+    "orientation_discontinuities": 0,
+    "boundary_edges": 3617
+  },
+  "projection_sources": {
+    "front": "C:\\Users\\theco\\Projects\\hollywoodland\\art\\buildings\\concept\\LM_HollywoodHotel_front.png",
+    "threequarter": "C:\\Users\\theco\\Projects\\hollywoodland\\art\\buildings\\concept\\LM_HollywoodHotel_34.png",
+    "side": "C:\\Users\\theco\\Projects\\hollywoodland\\art\\buildings\\work\\hub_hotels\\projection\\hotel_side.png",
+    "back": "C:\\Users\\theco\\Projects\\hollywoodland\\art\\buildings\\work\\hub_hotels\\projection\\hotel_back.png",
+    "roof": "C:\\Users\\theco\\Projects\\hollywoodland\\art\\buildings\\work\\hub_hotels\\projection\\hotel_roof.png"
+  },
+  "projection_planes": [
+    {
+      "role": "upper",
+      "local_m": [
+        0,
+        0,
+        7,
+        7
+      ],
+      "source": "front",
+      "crop_pixels": [
+        181,
+        298,
+        202,
+        339
+      ],
+      "atlas_rect": [
+        0.01,
+        0.01,
+        0.24,
+        0.24
+      ]
+    },
+    {
+      "role": "door",
+      "local_m": [
+        0,
+        0,
+        7,
+        7
+      ],
+      "source": "front",
+      "crop_pixels": [
+        181,
+        298,
+        202,
+        339
+      ],
+      "atlas_rect": [
+        0.26,
+        0.01,
+        0.49,
+        0.24
+      ]
+    },
+    {
+      "role": "wall",
+      "local_m": [
+        0,
+        0,
+        6,
+        6
+      ],
+      "source": "front",
+      "crop_pixels": [
+        181,
+        298,
+        202,
+        339
+      ],
+      "atlas_rect": [
+        0.01,
+        0.26,
+        0.24,
+        0.49
+      ]
+    },
+    {
+      "role": "trim",
+      "local_m": [
+        0,
+        0,
+        4,
+        4
+      ],
+      "source": "front",
+      "crop_pixels": [
+        181,
+        298,
+        202,
+        339
+      ],
+      "atlas_rect": [
+        0.51,
+        0.26,
+        0.74,
+        0.49
+      ]
+    },
+    {
+      "role": "gable",
+      "local_m": [
+        0,
+        0,
+        18,
+        8.5
+      ],
+      "source": "front",
+      "crop_pixels": [
+        181,
+        298,
+        202,
+        339
+      ],
+      "atlas_rect": [
+        0.51,
+        0.51,
+        0.99,
+        0.74
+      ]
+    },
+    {
+      "role": "archupper",
+      "local_m": [
+        0,
+        0,
+        3.1,
+        3.1
+      ],
+      "source": "front",
+      "crop_pixels": [
+        181,
+        298,
+        202,
+        339
+      ],
+      "atlas_rect": [
+        0.76,
+        0.76,
+        0.99,
+        0.99
+      ]
+    },
+    {
+      "role": "arc",
+      "local_m": [
+        0,
+        0,
+        7,
+        7
+      ],
+      "source": "front",
+      "crop_pixels": [
+        181,
+        298,
+        202,
+        339
+      ],
+      "atlas_rect": [
+        0.51,
+        0.01,
+        0.74,
+        0.24
+      ]
+    },
+    {
+      "role": "trim",
+      "local_m": [
+        0,
+        0,
+        4,
+        4
+      ],
+      "source": "front",
+      "crop_pixels": [
+        44,
+        558,
+        62,
+        621
+      ],
+      "atlas_rect": [
+        0.51,
+        0.26,
+        0.74,
+        0.49
+      ]
+    },
+    {
+      "role": "timber",
+      "local_m": [
+        0,
+        0,
+        7,
+        7
+      ],
+      "source": "front",
+      "crop_pixels": [
+        247,
+        465,
+        260,
+        489
+      ],
+      "atlas_rect": [
+        0.76,
+        0.26,
+        0.99,
+        0.49
+      ]
+    },
+    {
+      "role": "metal",
+      "local_m": [
+        0,
+        0,
+        4,
+        8.761904762
+      ],
+      "source": "front",
+      "crop_pixels": [
+        247,
+        465,
+        260,
+        489
+      ],
+      "atlas_rect": [
+        0.26,
+        0.51,
+        0.365,
+        0.74
+      ]
+    },
+    {
+      "role": "sign",
+      "local_m": [
+        0,
+        0,
+        32,
+        15
+      ],
+      "source": "front",
+      "crop_pixels": [
+        1000,
+        272,
+        1090,
+        301
+      ],
+      "atlas_rect": [
+        0.01,
+        0.76,
+        0.49,
+        0.99
+      ]
+    },
+    {
+      "role": "ground",
+      "local_m": [
+        0,
+        0,
+        6,
+        6
+      ],
+      "source": "front",
+      "crop_pixels": [
+        82,
+        649,
+        187,
+        655
+      ],
+      "atlas_rect": [
+        0.51,
+        0.76,
+        0.74,
+        0.99
+      ]
+    },
+    {
+      "role": "roof",
+      "local_m": [
+        0,
+        0,
+        6,
+        6
+      ],
+      "source": "roof",
+      "crop_pixels": [
+        0,
+        0,
+        1024,
+        1024
+      ],
+      "atlas_rect": [
+        0.26,
+        0.26,
+        0.49,
+        0.49
+      ]
+    },
+    {
+      "role": "tile",
+      "local_m": [
+        0,
+        0,
+        6,
+        13.142857143
+      ],
+      "source": "front",
+      "crop_pixels": [
+        329,
+        191,
+        408,
+        201
+      ],
+      "atlas_rect": [
+        0.385,
+        0.51,
+        0.49,
+        0.74
+      ]
+    },
+    {
+      "role": "canvas",
+      "local_m": [
+        0,
+        0,
+        6.5,
+        6.5
+      ],
+      "source": "front",
+      "crop_pixels": [
+        35,
+        367,
+        203,
+        390
+      ],
+      "atlas_rect": [
+        0.01,
+        0.51,
+        0.24,
+        0.74
+      ]
+    },
+    {
+      "role": "upper",
+      "local_m": [
+        0,
+        0,
+        2.05263,
+        7
+      ],
+      "source": "front",
+      "crop_pixels": [
+        181,
+        298,
+        202,
+        339
+      ],
+      "atlas_rect": [
+        0.01,
+        0.01,
+        0.07744355714285714,
+        0.24
+      ]
+    },
+    {
+      "role": "upper",
+      "local_m": [
+        4.052630000000001,
+        0,
+        7,
+        7
+      ],
+      "source": "front",
+      "crop_pixels": [
+        181,
+        298,
+        202,
+        339
+      ],
+      "atlas_rect": [
+        0.1431578428571429,
+        0.01,
+        0.24,
+        0.24
+      ]
+    },
+    {
+      "role": "upper",
+      "local_m": [
+        2.05263,
+        0,
+        4.052630000000001,
+        0.43
+      ],
+      "source": "front",
+      "crop_pixels": [
+        181,
+        298,
+        202,
+        339
+      ],
+      "atlas_rect": [
+        0.07744355714285714,
+        0.01,
+        0.1431578428571429,
+        0.02412857142857143
+      ]
+    },
+    {
+      "role": "upper",
+      "local_m": [
+        2.05263,
+        2.28,
+        4.052630000000001,
+        7
+      ],
+      "source": "front",
+      "crop_pixels": [
+        181,
+        298,
+        202,
+        339
+      ],
+      "atlas_rect": [
+        0.07744355714285714,
+        0.08491428571428569,
+        0.1431578428571429,
+        0.24
+      ]
+    },
+    {
+      "role": "upper",
+      "local_m": [
+        2.05263,
+        0.43,
+        4.052630000000001,
+        2.28
+      ],
+      "source": "front",
+      "crop_pixels": [
+        107,
+        300,
+        150,
+        345
+      ],
+      "atlas_rect": [
+        0.07744355714285714,
+        0.02412857142857143,
+        0.1431578428571429,
+        0.08491428571428569
+      ]
+    },
+    {
+      "role": "door",
+      "local_m": [
+        0,
+        0,
+        1.8526300000000002,
+        7
+      ],
+      "source": "front",
+      "crop_pixels": [
+        181,
+        298,
+        202,
+        339
+      ],
+      "atlas_rect": [
+        0.26,
+        0.01,
+        0.3208721285714286,
+        0.24
+      ]
+    },
+    {
+      "role": "door",
+      "local_m": [
+        4.25263,
+        0,
+        7,
+        7
+      ],
+      "source": "front",
+      "crop_pixels": [
+        181,
+        298,
+        202,
+        339
+      ],
+      "atlas_rect": [
+        0.3997292714285714,
+        0.01,
+        0.49,
+        0.24
+      ]
+    },
+    {
+      "role": "door",
+      "local_m": [
+        1.8526300000000002,
+        0,
+        4.25263,
+        0.08
+      ],
+      "source": "front",
+      "crop_pixels": [
+        181,
+        298,
+        202,
+        339
+      ],
+      "atlas_rect": [
+        0.3208721285714286,
+        0.01,
+        0.3997292714285714,
+        0.012628571428571428
+      ]
+    },
+    {
+      "role": "door",
+      "local_m": [
+        1.8526300000000002,
+        2.73,
+        4.25263,
+        7
+      ],
+      "source": "front",
+      "crop_pixels": [
+        181,
+        298,
+        202,
+        339
+      ],
+      "atlas_rect": [
+        0.3208721285714286,
+        0.0997,
+        0.3997292714285714,
+        0.24
+      ]
+    },
+    {
+      "role": "door",
+      "local_m": [
+        1.8526300000000002,
+        0.08,
+        4.25263,
+        2.73
+      ],
+      "source": "front",
+      "crop_pixels": [
+        113,
+        561,
+        148,
+        648
+      ],
+      "atlas_rect": [
+        0.3208721285714286,
+        0.012628571428571428,
+        0.3997292714285714,
+        0.0997
+      ]
+    },
+    {
+      "role": "entry",
+      "local_m": [
+        0,
+        0,
+        1.5046300000000001,
+        7
+      ],
+      "source": "front",
+      "crop_pixels": [
+        181,
+        298,
+        202,
+        339
+      ],
+      "atlas_rect": [
+        0.76,
+        0.01,
+        0.8094378428571428,
+        0.24
+      ]
+    },
+    {
+      "role": "entry",
+      "local_m": [
+        4.600630000000001,
+        0,
+        7,
+        7
+      ],
+      "source": "front",
+      "crop_pixels": [
+        181,
+        298,
+        202,
+        339
+      ],
+      "atlas_rect": [
+        0.9111635571428571,
+        0.01,
+        0.99,
+        0.24
+      ]
+    },
+    {
+      "role": "entry",
+      "local_m": [
+        1.5046300000000001,
+        3.3,
+        4.600630000000001,
+        7
+      ],
+      "source": "front",
+      "crop_pixels": [
+        181,
+        298,
+        202,
+        339
+      ],
+      "atlas_rect": [
+        0.8094378428571428,
+        0.11842857142857141,
+        0.9111635571428571,
+        0.24
+      ]
+    },
+    {
+      "role": "entry",
+      "local_m": [
+        1.5046300000000001,
+        0,
+        4.600630000000001,
+        3.3
+      ],
+      "source": "front",
+      "crop_pixels": [
+        1034,
+        510,
+        1148,
+        649
+      ],
+      "atlas_rect": [
+        0.8094378428571428,
+        0.01,
+        0.9111635571428571,
+        0.11842857142857141
+      ]
+    },
+    {
+      "role": "wall",
+      "local_m": [
+        0,
+        0,
+        6,
+        6
+      ],
+      "source": "side",
+      "crop_pixels": [
+        338,
+        259,
+        378,
+        351
+      ],
+      "atlas_rect": [
+        0.01,
+        0.26,
+        0.24,
+        0.49
+      ]
+    },
+    {
+      "role": "gable",
+      "local_m": [
+        0,
+        0,
+        18,
+        8.5
+      ],
+      "source": "back",
+      "crop_pixels": [
+        1240,
+        270,
+        1280,
+        295
+      ],
+      "atlas_rect": [
+        0.51,
+        0.51,
+        0.99,
+        0.74
+      ]
+    }
+  ],
+  "paint_fixes": [
+    "Periodic roof surface edges and low contrast shingles",
+    "Warm stone trim and wall padding8px",
+    "Generated canvas colors repainted as straight green-cream stripes; same0.28m painted continuation on upper wall corrects frozen canopy occlusion",
+    "Blank sign backing free of background and lettering",
+    "Terracotta ridge and porch paving seams matched"
+  ],
+  "texture": {
+    "width": 2048,
+    "height": 2048,
+    "channels": "RGB",
+    "bit_depth": 8,
+    "color_space": "sRGB"
+  }
+}

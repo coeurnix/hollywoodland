@@ -1,0 +1,591 @@
+{
+  "RF_WaterTank": {
+    "bounds": [
+      [
+        -1.725,
+        -1.725,
+        0.0
+      ],
+      [
+        1.725,
+        1.725,
+        5.38
+      ]
+    ],
+    "tris": 1218,
+    "material_slots": 1,
+    "triangulated": true,
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "rotation": [
+      0.0,
+      -0.0,
+      8.742277657347586e-08
+    ],
+    "zero_area_faces": 0,
+    "branch_edges": 0,
+    "boundary_edges": 16,
+    "loose_vertices": 0
+  },
+  "RF_Billboard8x4": {
+    "bounds": [
+      [
+        -4.22,
+        -1.69,
+        0.0
+      ],
+      [
+        4.22,
+        1.69,
+        6.1975
+      ]
+    ],
+    "tris": 980,
+    "material_slots": 1,
+    "triangulated": true,
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "rotation": [
+      0.0,
+      -0.0,
+      8.742277657347586e-08
+    ],
+    "zero_area_faces": 0,
+    "branch_edges": 0,
+    "boundary_edges": 24,
+    "loose_vertices": 0
+  },
+  "RF_Billboard12x5": {
+    "bounds": [
+      [
+        -6.22,
+        -2.140001,
+        0.0
+      ],
+      [
+        6.22,
+        2.140001,
+        7.4975
+      ]
+    ],
+    "tris": 1274,
+    "material_slots": 1,
+    "triangulated": true,
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "rotation": [
+      0.0,
+      -0.0,
+      8.742277657347586e-08
+    ],
+    "zero_area_faces": 0,
+    "branch_edges": 0,
+    "boundary_edges": 32,
+    "loose_vertices": 0
+  },
+  "RF_StairBulkhead": {
+    "bounds": [
+      [
+        -1.61,
+        -2.295,
+        0.0
+      ],
+      [
+        1.61,
+        2.295,
+        3.0
+      ]
+    ],
+    "tris": 262,
+    "material_slots": 1,
+    "triangulated": true,
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "rotation": [
+      0.0,
+      -0.0,
+      8.742277657347586e-08
+    ],
+    "zero_area_faces": 0,
+    "branch_edges": 0,
+    "boundary_edges": 12,
+    "loose_vertices": 0
+  },
+  "RF_ChimneyBrick": {
+    "bounds": [
+      [
+        -0.62,
+        -0.62,
+        0.0
+      ],
+      [
+        0.62,
+        0.62,
+        2.15
+      ]
+    ],
+    "tris": 118,
+    "material_slots": 1,
+    "triangulated": true,
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "rotation": [
+      0.0,
+      -0.0,
+      8.742277657347586e-08
+    ],
+    "zero_area_faces": 0,
+    "branch_edges": 0,
+    "boundary_edges": 4,
+    "loose_vertices": 0
+  },
+  "RF_VentMetal": {
+    "bounds": [
+      [
+        -0.58,
+        -0.58,
+        0.0
+      ],
+      [
+        0.58,
+        0.58,
+        1.8
+      ]
+    ],
+    "tris": 262,
+    "material_slots": 1,
+    "triangulated": true,
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "rotation": [
+      0.0,
+      -0.0,
+      8.742277657347586e-08
+    ],
+    "zero_area_faces": 0,
+    "branch_edges": 0,
+    "boundary_edges": 4,
+    "loose_vertices": 0
+  },
+  "RF_Skylight": {
+    "bounds": [
+      [
+        -1.575,
+        -2.075,
+        0.0
+      ],
+      [
+        1.575,
+        2.075,
+        1.31
+      ]
+    ],
+    "tris": 434,
+    "material_slots": 1,
+    "triangulated": true,
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "rotation": [
+      0.0,
+      -0.0,
+      8.742277657347586e-08
+    ],
+    "zero_area_faces": 0,
+    "branch_edges": 0,
+    "boundary_edges": 4,
+    "loose_vertices": 0
+  },
+  "DR_BoardedWindow15": {
+    "bounds": [
+      [
+        0.0,
+        -0.12,
+        0.0
+      ],
+      [
+        1.5,
+        0.0,
+        1.5
+      ]
+    ],
+    "tris": 108,
+    "material_slots": 1,
+    "triangulated": true,
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "rotation": [
+      0.0,
+      -0.0,
+      8.742277657347586e-08
+    ],
+    "zero_area_faces": 0,
+    "branch_edges": 0,
+    "boundary_edges": 40,
+    "loose_vertices": 0
+  },
+  "DR_BoardedWindow23": {
+    "bounds": [
+      [
+        0.0,
+        -0.16,
+        0.0
+      ],
+      [
+        2.0,
+        0.0,
+        3.0
+      ]
+    ],
+    "tris": 174,
+    "material_slots": 1,
+    "triangulated": true,
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "rotation": [
+      0.0,
+      -0.0,
+      8.742277657347586e-08
+    ],
+    "zero_area_faces": 0,
+    "branch_edges": 0,
+    "boundary_edges": 64,
+    "loose_vertices": 0
+  },
+  "DR_SandbagStack3": {
+    "bounds": [
+      [
+        -1.5,
+        -0.15,
+        0.0
+      ],
+      [
+        1.5,
+        0.15,
+        1.0
+      ]
+    ],
+    "tris": 440,
+    "material_slots": 1,
+    "triangulated": true,
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "rotation": [
+      0.0,
+      -0.0,
+      8.742277657347586e-08
+    ],
+    "zero_area_faces": 0,
+    "branch_edges": 0,
+    "boundary_edges": 0,
+    "loose_vertices": 0
+  },
+  "DR_SandbagDoorway4": {
+    "bounds": [
+      [
+        -2.0,
+        -0.15,
+        0.0
+      ],
+      [
+        2.0,
+        0.15,
+        3.25
+      ]
+    ],
+    "tris": 902,
+    "material_slots": 1,
+    "triangulated": true,
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "rotation": [
+      0.0,
+      -0.0,
+      8.742277657347586e-08
+    ],
+    "zero_area_faces": 0,
+    "branch_edges": 0,
+    "boundary_edges": 8,
+    "loose_vertices": 0
+  },
+  "DR_FallenAwning": {
+    "bounds": [
+      [
+        -2.0,
+        -0.75,
+        0.0
+      ],
+      [
+        2.0,
+        0.75,
+        0.6
+      ]
+    ],
+    "tris": 48,
+    "material_slots": 1,
+    "triangulated": true,
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "rotation": [
+      0.0,
+      -0.0,
+      8.742277657347586e-08
+    ],
+    "zero_area_faces": 0,
+    "branch_edges": 0,
+    "boundary_edges": 0,
+    "loose_vertices": 0
+  },
+  "DR_SootA": {
+    "bounds": [
+      [
+        0.0,
+        -0.006,
+        0.0
+      ],
+      [
+        2.0,
+        -0.006,
+        1.5
+      ]
+    ],
+    "tris": 13,
+    "material_slots": 1,
+    "triangulated": true,
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "rotation": [
+      0.0,
+      -0.0,
+      8.742277657347586e-08
+    ],
+    "zero_area_faces": 0,
+    "branch_edges": 0,
+    "boundary_edges": 15,
+    "loose_vertices": 0
+  },
+  "DR_SootB": {
+    "bounds": [
+      [
+        0.0,
+        -0.006,
+        0.0
+      ],
+      [
+        1.5,
+        -0.006,
+        2.5
+      ]
+    ],
+    "tris": 11,
+    "material_slots": 1,
+    "triangulated": true,
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "rotation": [
+      0.0,
+      -0.0,
+      8.742277657347586e-08
+    ],
+    "zero_area_faces": 0,
+    "branch_edges": 0,
+    "boundary_edges": 13,
+    "loose_vertices": 0
+  },
+  "DR_Crack": {
+    "bounds": [
+      [
+        0.0,
+        -0.006,
+        0.0
+      ],
+      [
+        2.0,
+        -0.006,
+        2.0
+      ]
+    ],
+    "tris": 17,
+    "material_slots": 1,
+    "triangulated": true,
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "rotation": [
+      0.0,
+      -0.0,
+      8.742277657347586e-08
+    ],
+    "zero_area_faces": 0,
+    "branch_edges": 0,
+    "boundary_edges": 19,
+    "loose_vertices": 0
+  },
+  "DR_MayorNotice": {
+    "bounds": [
+      [
+        0.0,
+        -0.008,
+        0.0
+      ],
+      [
+        0.75,
+        -0.008,
+        1.0
+      ]
+    ],
+    "tris": 2,
+    "material_slots": 1,
+    "triangulated": true,
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "rotation": [
+      0.0,
+      -0.0,
+      8.742277657347586e-08
+    ],
+    "zero_area_faces": 0,
+    "branch_edges": 0,
+    "boundary_edges": 4,
+    "loose_vertices": 0
+  },
+  "DR_Rubble2": {
+    "bounds": [
+      [
+        -1.0,
+        -0.75,
+        0.0
+      ],
+      [
+        1.0,
+        0.75,
+        0.65
+      ]
+    ],
+    "tris": 128,
+    "material_slots": 1,
+    "triangulated": true,
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "rotation": [
+      0.0,
+      -0.0,
+      8.742277657347586e-08
+    ],
+    "zero_area_faces": 0,
+    "branch_edges": 0,
+    "boundary_edges": 0,
+    "loose_vertices": 0
+  },
+  "DR_Rubble4": {
+    "bounds": [
+      [
+        -2.0,
+        -1.0,
+        0.0
+      ],
+      [
+        2.0,
+        1.0,
+        0.85
+      ]
+    ],
+    "tris": 304,
+    "material_slots": 1,
+    "triangulated": true,
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "rotation": [
+      0.0,
+      -0.0,
+      8.742277657347586e-08
+    ],
+    "zero_area_faces": 0,
+    "branch_edges": 0,
+    "boundary_edges": 0,
+    "loose_vertices": 0
+  },
+  "DR_BrokenGlass": {
+    "bounds": [
+      [
+        0.0,
+        -0.006,
+        0.0
+      ],
+      [
+        3.0,
+        -0.006,
+        2.5
+      ]
+    ],
+    "tris": 26,
+    "material_slots": 1,
+    "triangulated": true,
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "rotation": [
+      0.0,
+      -0.0,
+      8.742277657347586e-08
+    ],
+    "zero_area_faces": 0,
+    "branch_edges": 0,
+    "boundary_edges": 28,
+    "loose_vertices": 0
+  }
+}

@@ -131,7 +131,9 @@ browser ── itch.io page (iframe, SharedArrayBuffer support) ── UE 5.9 Wa
 23. ~~Worker prompt: persona's last 3 lines; client goals~~ (done: `recent` per speaker; GROUP invites the player, FOLLOW walks the sim over, IDLE parks them).
 
 ### P3 — content and presentation
-24. Art pass per `ASSETS.md` (10 landmarks first). Keep the data-driven box layout as collision; swap visuals per box label.
+24. Art pass per `ASSETS.md`. Keep the data-driven box layout as collision; swap visuals per box label. Buildings: the
+    storefront kit and the hub landmarks are in (`art/buildings`, taken in house 2026-11-14); what is left, and the prompt
+    for whoever continues, is in `art/buildings/HANDOVER.md` (hive wall kit, Hollywood High, aid stations, backdrops).
 25. Items: grow base list to ~680 (bible §8), icons (~700), pocket items, epics set looks; validator rule for unique names.
 26. Quest text to 60-120 words (LLM expand with cache, human spot-check 20). Unbuilt-zone quest titles to ~45/zone.
 27. Audio (music, SFX and ambience done): 1925-and-earlier recordings on radios; voice-over once the dialogue scripts exist. Public-domain film on the Chinese screen (§14 assets).

@@ -1,0 +1,31 @@
+{
+  "reviewed_assets": ["LM_Pantages", "LM_Taft", "LM_FirstNational", "LM_BrownDerby", "LM_PoliceStation"],
+  "reviewed_views_per_asset": ["front", "back", "top", "box"],
+  "suggested_attachment_changes": [],
+  "all_attachments_pass": true,
+  "findings": {
+    "LM_Pantages": {
+      "blade": "All eight PANTAGES letters are visible within the backing; no clipping or occlusion.",
+      "marquee": "Correctly visible at location [-13.5,-30.38,5.45], scale [1,1,1]. Close straight-front render shows the complete blank ivory board and bulb border in front of the metal backing. Its apparent absence in a distant oblique view is the small one-metre board height, not occlusion.",
+      "detail_previews": ["work/LM_Pantages_candidate/preview/SIGN_Pantages_front_detail.png", "work/LM_Pantages_candidate/preview/SIGN_Pantages_Marquee_front_detail.png"]
+    },
+    "LM_Taft": {
+      "result": "TAFT BUILDING is fully visible and centered on the eight-metre plaque; no coordinate or scale change needed.",
+      "detail_preview": "work/LM_Taft_candidate/preview/SIGN_Taft_front_detail.png"
+    },
+    "LM_FirstNational": {
+      "result": "SECURITY FIRST / NATIONAL BANK is fully visible on the entrance plaque, with clear margins and no intersection with the door or corner clock.",
+      "detail_preview": "work/LM_FirstNational_candidate/preview/SIGN_FirstNational_front_detail.png"
+    },
+    "LM_BrownDerby": {
+      "result": "THE / BROWN / DERBY is fully inside the opaque hat card. Location [-3.5,-8.12,11] and scale [1,1,1] fit the authored hat backing; a narrow backing rim remains visible without lettering clipping.",
+      "detail_preview": "work/LM_BrownDerby_candidate/preview/SIGN_BrownDerby_front_detail.png"
+    },
+    "LM_PoliceStation": {
+      "result": "HOLLYWOOD POLICE is fully visible on the centered plaque, with clear border margins. Four signed previews were regenerated after the normal-orientation repair.",
+      "detail_preview": "work/LM_PoliceStation_candidate/preview/SIGN_Police_front_detail.png",
+      "topology_repair": "Welded imported split vertices before recalculating face normals. Actual staged FBX now has zero inconsistent shared edges, zero branch edges, zero zero-area faces, and zero loose vertices; remains480 triangles. Recorded by src/LM_PoliceStation_export_audit.json and src/LM_PoliceStation_source_checks.json."
+    }
+  },
+  "notes": "Only staged previews and this review were produced for attachment integration. No central manifest, central previews, attachment coordinates, sign geometry, or sign textures were modified. Police own mesh normal repair was separately requested and its stage/source output regenerated."
+}

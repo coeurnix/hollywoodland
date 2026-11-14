@@ -1,0 +1,92 @@
+{
+  "id": "LM_HollywoodHotel_CourtWall",
+  "kind": "landmark",
+  "phase": 3,
+  "model": "work/LM_HollywoodHotel_CourtWall_input.glb",
+  "source": "src/hub_hotels/LM_HollywoodHotel_CourtWall.blend",
+  "concept": [
+    "concept/LM_HollywoodHotel_CourtWall_34.png",
+    "concept/LM_HollywoodHotel_CourtWall_front.png"
+  ],
+  "reference": "concept/LM_HollywoodHotel_CourtWall_34.png",
+  "prompts": {
+    "34": "Use case: stylized-concept. LM_HollywoodHotel_CourtWall, one standalone north courtyard closure RANGE, to be reused as two pieces either side of a16m central gap. ONLY ONE solid26m wide x6m deep x6m high piece, full clean three-quarter view on plain neutral warm grey background. Historic1930 Mission Revival Hollywood Hotel matching cream stucco, low shallow weathered slate-brown hipped roof, chunky terracotta coping and softly scalloped central Mission parapet. Long FRONT facing courtyard has four broad arched recessed openings with dark opaque French doors and cream pilasters, green-and-cream striped short awnings above centre doors, dark bronze lanterns; rear and two short ends finished stucco with small dark square windows. This is a solid low building closure fitting26x6x6m, NOT a free-standing thin wall and NOT a gateway: no opening through centre. Chunky early World of Warcraft hand-painted architecture, warm top light cool lower AO, intact aged forms. No people, vehicles, trees, text, logos, signs, modern items, surrounding scene.",
+    "front": "Use case: stylized-concept. LM_HollywoodHotel_CourtWall FRONT ELEVATION for1930 HollywoodHotel Mission Revival courtyard. Straight orthographic view, full26m wide by6m tall low solid closure range, plain warm grey background. Four broad shallow arched recessed French-door bays in cream stucco, chunky pilasters, dark opaque glass in timber doors; green-and-cream striped awnings above central two bays, warm bronze lanterns beside doors. One softly scalloped central Mission parapet reaching6m, terracotta coping, low weathered slate-brown hipped roof behind parapet. Building depth6m but view is exact front. Matching early World of Warcraft hand-painted architecture, warm top highlights cool lower AO, simple intact period forms. This is one solid piece reused twice beside a separate16m gap; do not create a gate or a central passage in the piece. No text, signs, logos, people, cars, plants, sky, surroundings or post1930 items."
+  },
+  "material": "Shaded",
+  "resolution": "Basic",
+  "metadata": {
+    "nominal": [
+      26,
+      6,
+      6
+    ],
+    "budget": 10000,
+    "fits_box": "Hollywood Hotel Court Wall",
+    "also_fits": [
+      {
+        "size": [
+          26,
+          6,
+          6
+        ],
+        "mirror": true
+      }
+    ],
+    "sign_attachments": [],
+    "notes": "One solid26x6x6m courtyard closure range, used twice. Centres atx=-21,+21 produce an exact16m central gap; no gateway opening in the individual mesh. Four arched shallow French-door recesses, finished roof and reverse facade."
+  },
+  "audit": {
+    "tris": 732,
+    "bounds": [
+      [
+        -13.0,
+        -3.0,
+        0.0
+      ],
+      [
+        13.0,
+        3.0,
+        6.0
+      ]
+    ],
+    "material_slots": 1,
+    "zero_area_faces": 0,
+    "branch_edges": 0,
+    "boundary_edges": 274,
+    "loose_vertices": 0,
+    "uv_min": [
+      0.009999999776482582,
+      0.009999999776482582
+    ],
+    "uv_max": [
+      0.7766666412353516,
+      0.772266685962677
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "origin": "footprint-centre-ground",
+    "export_bounds": [
+      [
+        -13.0,
+        -3.0,
+        0.0
+      ],
+      [
+        13.0,
+        3.0,
+        6.0
+      ]
+    ],
+    "export_tris": 732
+  },
+  "uv_policy": "One padded2K atlas; disjoint semantic patches; only congruent repeated bays/features stack. Wall regions >=67px/m, broad roof repeating patches >=78px/m at2K. Gable54.6px/m. Sign backing30px/m; separate lettering card. Bake repeated regions from one chosen congruent representative per patch if a full-mesh returned UV bake differs by face. No wall-role blanket stacking."
+}

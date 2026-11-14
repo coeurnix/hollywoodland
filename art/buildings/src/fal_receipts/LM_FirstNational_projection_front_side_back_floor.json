@@ -1,0 +1,25 @@
+{
+  "id": "LM_FirstNational_projection_front_side_back_floor",
+  "provider": "fal.ai",
+  "model": "blackforestlabs/flux-3/klein/edit-image",
+  "prompt": "Original1930 Hollywood game texture painting in the exact reference style: classic early World of Warcraft chunky hand-painted albedo, warm light from above, cooler grime at base, restrained brush marks and painted AO. Pure orthographic straight-on elevation, no perspective, no cast shadows outside the texture. Rectangular FULL-BLEED texture plate filling every image edge. No grey background, surround, ground, sky, people, letters, numbers, logos, frames or labels. No photographic detail. ONE Gothic/Art Deco bank-office facade FLOOR BAY,4m wide by3m tall. Pale ivory limestone field with exactlyONE small centered dark blue-black double-hung rectangular office window, broad plain cream stone vertical borders and subtle sill. Window bottom28percent and top90percent, window width42percent. No pointed arch on this floor, no roof, no multiple bays, no whole building.",
+  "references": [
+    "concept/LM_FirstNational_front.png"
+  ],
+  "image_size": {
+    "width": 1536,
+    "height": 1024
+  },
+  "seed": 19301113,
+  "output": "work/hub_deco/projection/LM_FirstNational_front_side_back_floor.png",
+  "status": "downloaded",
+  "request_id": "01a1d856-6f65-75e1-98a5-91600f6baad3",
+  "elapsed_seconds": 5.55,
+  "timings": {
+    "prompt_expansion": 1.0870000096474541e-05,
+    "inference": 1.116689933998714,
+    "safety_checker": 0.023388526000417187
+  },
+  "width": 1536,
+  "height": 1024
+}

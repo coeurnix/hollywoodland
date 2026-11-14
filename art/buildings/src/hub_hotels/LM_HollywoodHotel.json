@@ -1,0 +1,99 @@
+{
+  "id": "LM_HollywoodHotel",
+  "kind": "landmark",
+  "phase": 3,
+  "model": "work/LM_HollywoodHotel_input.glb",
+  "source": "src/hub_hotels/LM_HollywoodHotel.blend",
+  "concept": [
+    "concept/LM_HollywoodHotel_34.png",
+    "concept/LM_HollywoodHotel_front.png"
+  ],
+  "reference": "concept/LM_HollywoodHotel_34.png",
+  "prompts": {
+    "34": "Use case: stylized-concept. LM_HollywoodHotel MAIN RANGE ONLY, historic Hollywood Hotel circa1930 Mission Revival, separate buildable MMO landmark piece. One clean isolated full building three-quarter view showing long street front, right end and finished roof, plain warm grey background. Envelope precisely116m frontage x26m depth x14m high; very long low mass with THREE readable floors and central shaped Mission gable reaching14m. Cream ivory stucco, long shaded two-level verandas with chunky round columns at ground and dark timber balcony rails above, repeated dark square sash windows and French doors, bottle-green and cream STRIPED canvas awnings along upper veranda, several softly scalloped Mission gables across frontage, low broad weathered slate-brown hipped roofs with restrained terracotta coping. Central arched welcoming hotel entrance, blank long small sign backing under central gable. Rear courtyard facade also finished with veranda/French-door rhythm, no detached wings shown. Early World of Warcraft hand-painted style, warm top light cool lower AO, broad readable details and rich roof silhouette, aged intact architecture. No people, cars, palms, surroundings, text, lettering, logos, post1930 items, no U-shaped attached wings in this single asset.",
+    "front": "Use case: stylized-concept. LM_HollywoodHotel MAIN RANGE ONLY, FRONT ELEVATION for 1930 Hollywood Mission Revival MMO landmark. Straight orthographic full front with no perspective, plain warm grey background, exceptionally long low facade116m wide by14m high. THREE readable storeys, cream stucco, long lower veranda on sturdy round cream columns; dark timber balcony balustrades on middle level and repeated French doors behind; dark square sash windows on top level; bottle-green and cream striped canvas awnings over middle veranda. Shaped central Mission gable with circular/quatrefoil vent, two smaller scalloped gables either side, low slate-brown hipped roof with terracotta ridge accents behind. Central arched entrance warm lit behind dark door, plain rectangular blank sign backing below gable. Complete standalone long rectangular hotel range, no attached north wings. Early World of Warcraft hand-painted look with chunky forms, warm top lighting cool lower painted AO and restrained age. No people, text, vehicles, logos, modern fittings, palms, sky or street."
+  },
+  "material": "Shaded",
+  "resolution": "Basic",
+  "metadata": {
+    "nominal": [
+      116,
+      26,
+      14
+    ],
+    "budget": 10000,
+    "fits_box": "Hollywood Hotel",
+    "also_fits": [],
+    "sign_attachments": [
+      {
+        "id": "SIGN_HollywoodHotel",
+        "text": "HOLLYWOOD HOTEL",
+        "centre": [
+          0,
+          -13.035,
+          10.3
+        ],
+        "size_m": [
+          10.5,
+          1.1
+        ],
+        "front": "-Y",
+        "separate_card": true
+      }
+    ],
+    "notes": "Three readable floors. Shaded shallow verandas with round columns, timber rails/French doors, green/cream striped canvas; low slate-brown hipped roof with Mission gables. Front/back and both sides finished, including courtyard-facing faces. Veranda setback1.25m stays within box."
+  },
+  "audit": {
+    "tris": 8743,
+    "bounds": [
+      [
+        -58.000004,
+        -13.02,
+        0.0
+      ],
+      [
+        58.000004,
+        13.000001,
+        14.0
+      ]
+    ],
+    "material_slots": 1,
+    "zero_area_faces": 0,
+    "branch_edges": 0,
+    "boundary_edges": 3609,
+    "loose_vertices": 0,
+    "uv_min": [
+      0.009999999776482582,
+      0.009999999776482582
+    ],
+    "uv_max": [
+      0.9606015086174011,
+      0.8079166412353516
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "origin": "footprint-centre-ground",
+    "export_bounds": [
+      [
+        -58.000004,
+        -13.02,
+        0.0
+      ],
+      [
+        58.000004,
+        13.000001,
+        14.0
+      ]
+    ],
+    "export_tris": 8743
+  },
+  "uv_policy": "One padded2K atlas; disjoint semantic patches; only congruent repeated bays/features stack. Wall regions >=67px/m, broad roof repeating patches >=78px/m at2K. Gable54.6px/m. Sign backing30px/m; separate lettering card. Bake repeated regions from one chosen congruent representative per patch if a full-mesh returned UV bake differs by face. No wall-role blanket stacking."
+}
