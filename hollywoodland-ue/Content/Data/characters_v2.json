@@ -3182,384 +3182,448 @@
    "Male": {
     "mesh": "SKV2_Male_newsboy_hat",
     "tex": "T_SKV2_Male_newsboy_D",
-    "hides": true
+    "hides": true,
+    "all_hair": false
    },
    "Female": {
     "mesh": "SKV2_Female_cloche_hat",
     "tex": "T_SKV2_Female_cloche_D",
-    "hides": true
+    "hides": true,
+    "all_hair": false
    }
   },
   "C2": {
    "Male": {
     "mesh": "SKV2_Male_fedora_hat",
     "tex": "T_SKV2_Male_fedora_D",
-    "hides": true
+    "hides": true,
+    "all_hair": false
    },
    "Female": {
     "mesh": "SKV2_Female_cloche_hat",
     "tex": "T_SKV2_Female_cloche_D",
-    "hides": true
+    "hides": true,
+    "all_hair": false
    }
   },
   "C3": {
    "Male": {
     "mesh": "SKV2_Male_fedora_hat",
     "tex": "T_SKV2_Male_fedora_D",
-    "hides": true
+    "hides": true,
+    "all_hair": false
    },
    "Female": {
     "mesh": "SKV2_Female_fedora_tilted_hat",
     "tex": "T_SKV2_Female_fedora_tilted_D",
-    "hides": true
+    "hides": true,
+    "all_hair": false
    }
   },
   "C4": {
    "Male": {
     "mesh": "SKV2_Male_top_hat_hat",
     "tex": "T_SKV2_Male_top_hat_D",
-    "hides": true
+    "hides": true,
+    "all_hair": false
    },
    "Female": {
     "mesh": "SKV2_Female_feather_headband_hat",
     "tex": "T_SKV2_Female_feather_headband_D",
-    "hides": false
+    "hides": false,
+    "all_hair": false
    }
   },
   "C5": {
    "Male": {
     "mesh": "SKV2_Male_fedora_hat",
     "tex": "T_SKV2_Male_fedora_D",
-    "hides": true
+    "hides": true,
+    "all_hair": false
    },
    "Female": {
     "mesh": "SKV2_Female_feather_headband_hat",
     "tex": "T_SKV2_Female_feather_headband_D",
-    "hides": false
+    "hides": false,
+    "all_hair": false
    }
   },
   "C6": {
    "Male": {
     "mesh": "SKV2_Male_fedora_hat",
     "tex": "T_SKV2_Male_fedora_D",
-    "hides": true
+    "hides": true,
+    "all_hair": false
    },
    "Female": {
     "mesh": "SKV2_Female_chitin_tiara_hat",
     "tex": "T_SKV2_Female_chitin_tiara_D",
-    "hides": false
+    "hides": false,
+    "all_hair": false
    }
   },
   "L1": {
    "Male": {
     "mesh": "SKV2_Male_flying_cap_hat",
     "tex": "T_SKV2_Male_flying_cap_D",
-    "hides": true
+    "hides": true,
+    "all_hair": true
    },
    "Female": {
     "mesh": "SKV2_Female_flying_cap_hat",
     "tex": "T_SKV2_Female_flying_cap_D",
-    "hides": true
+    "hides": true,
+    "all_hair": true
    }
   },
   "L2": {
    "Male": {
     "mesh": "SKV2_Male_flying_cap_hat",
     "tex": "T_SKV2_Male_flying_cap_D",
-    "hides": true
+    "hides": true,
+    "all_hair": true
    },
    "Female": {
     "mesh": "SKV2_Female_flying_cap_hat",
     "tex": "T_SKV2_Female_flying_cap_D",
-    "hides": true
+    "hides": true,
+    "all_hair": true
    }
   },
   "L3": {
    "Male": {
     "mesh": "SKV2_Male_cowboy_hat_hat",
     "tex": "T_SKV2_Male_cowboy_hat_D",
-    "hides": true
+    "hides": true,
+    "all_hair": false
    },
    "Female": {
     "mesh": "SKV2_Female_cowboy_hat_hat",
     "tex": "T_SKV2_Female_cowboy_hat_D",
-    "hides": true
+    "hides": true,
+    "all_hair": false
    }
   },
   "L4": {
    "Male": {
     "mesh": "SKV2_Male_flying_cap_hat",
     "tex": "T_SKV2_Male_flying_cap_D",
-    "hides": true
+    "hides": true,
+    "all_hair": true
    },
    "Female": {
     "mesh": "SKV2_Female_flying_cap_hat",
     "tex": "T_SKV2_Female_flying_cap_D",
-    "hides": true
+    "hides": true,
+    "all_hair": true
    }
   },
   "L5": {
    "Male": {
     "mesh": "SKV2_Male_fedora_hat",
     "tex": "T_SKV2_Male_fedora_D",
-    "hides": true
+    "hides": true,
+    "all_hair": false
    },
    "Female": {
     "mesh": "SKV2_Female_fedora_tilted_hat",
     "tex": "T_SKV2_Female_fedora_tilted_D",
-    "hides": true
+    "hides": true,
+    "all_hair": false
    }
   },
   "L6": {
    "Male": {
     "mesh": "SKV2_Male_chitin_helmet_hat",
     "tex": "T_SKV2_Male_chitin_helmet_D",
-    "hides": true
+    "hides": true,
+    "all_hair": false
    },
    "Female": {
     "mesh": "SKV2_Female_chitin_helmet_hat",
     "tex": "T_SKV2_Female_chitin_helmet_D",
-    "hides": true
+    "hides": true,
+    "all_hair": false
    }
   },
   "P1": {
    "Male": {
     "mesh": "SKV2_Male_newsboy_hat",
     "tex": "T_SKV2_Male_newsboy_D",
-    "hides": true
+    "hides": true,
+    "all_hair": false
    },
    "Female": {
     "mesh": "SKV2_Female_newsboy_hat",
     "tex": "T_SKV2_Female_newsboy_D",
-    "hides": true
+    "hides": true,
+    "all_hair": false
    }
   },
   "P2": {
    "Male": {
     "mesh": "SKV2_Male_newsboy_hat",
     "tex": "T_SKV2_Male_newsboy_D",
-    "hides": true
+    "hides": true,
+    "all_hair": false
    },
    "Female": {
     "mesh": "SKV2_Female_newsboy_hat",
     "tex": "T_SKV2_Female_newsboy_D",
-    "hides": true
+    "hides": true,
+    "all_hair": false
    }
   },
   "P3": {
    "Male": {
     "mesh": "SKV2_Male_football_helmet_hat",
     "tex": "T_SKV2_Male_football_helmet_D",
-    "hides": true
+    "hides": true,
+    "all_hair": true
    },
    "Female": {
     "mesh": "SKV2_Female_football_helmet_hat",
     "tex": "T_SKV2_Female_football_helmet_D",
-    "hides": true
+    "hides": true,
+    "all_hair": true
    }
   },
   "P4": {
    "Male": {
     "mesh": "SKV2_Male_flying_cap_hat",
     "tex": "T_SKV2_Male_flying_cap_D",
-    "hides": true
+    "hides": true,
+    "all_hair": true
    },
    "Female": {
     "mesh": "SKV2_Female_flying_cap_hat",
     "tex": "T_SKV2_Female_flying_cap_D",
-    "hides": true
+    "hides": true,
+    "all_hair": true
    }
   },
   "P5": {
    "Male": {
     "mesh": "SKV2_Male_flying_cap_hat",
     "tex": "T_SKV2_Male_flying_cap_D",
-    "hides": true
+    "hides": true,
+    "all_hair": true
    },
    "Female": {
     "mesh": "SKV2_Female_flying_cap_hat",
     "tex": "T_SKV2_Female_flying_cap_D",
-    "hides": true
+    "hides": true,
+    "all_hair": true
    }
   },
   "P6": {
    "Male": {
     "mesh": "SKV2_Male_chitin_helmet_hat",
     "tex": "T_SKV2_Male_chitin_helmet_D",
-    "hides": true
+    "hides": true,
+    "all_hair": false
    },
    "Female": {
     "mesh": "SKV2_Female_chitin_helmet_hat",
     "tex": "T_SKV2_Female_chitin_helmet_D",
-    "hides": true
+    "hides": true,
+    "all_hair": false
    }
   },
   "S1": {
    "Male": {
     "mesh": "SKV2_Male_brodie_helmet_hat",
     "tex": "T_SKV2_Male_brodie_helmet_D",
-    "hides": true
+    "hides": true,
+    "all_hair": false
    },
    "Female": {
     "mesh": "SKV2_Female_brodie_helmet_hat",
     "tex": "T_SKV2_Female_brodie_helmet_D",
-    "hides": true
+    "hides": true,
+    "all_hair": false
    }
   },
   "S2": {
    "Male": {
     "mesh": "SKV2_Male_brodie_helmet_hat",
     "tex": "T_SKV2_Male_brodie_helmet_D",
-    "hides": true
+    "hides": true,
+    "all_hair": false
    },
    "Female": {
     "mesh": "SKV2_Female_brodie_helmet_hat",
     "tex": "T_SKV2_Female_brodie_helmet_D",
-    "hides": true
+    "hides": true,
+    "all_hair": false
    }
   },
   "S3": {
    "Male": {
     "mesh": "SKV2_Male_brodie_helmet_hat",
     "tex": "T_SKV2_Male_brodie_helmet_D",
-    "hides": true
+    "hides": true,
+    "all_hair": false
    },
    "Female": {
     "mesh": "SKV2_Female_brodie_helmet_hat",
     "tex": "T_SKV2_Female_brodie_helmet_D",
-    "hides": true
+    "hides": true,
+    "all_hair": false
    }
   },
   "S4": {
    "Male": {
     "mesh": "SKV2_Male_warrior_helmet_hat",
     "tex": "T_SKV2_Male_warrior_helmet_D",
-    "hides": true
+    "hides": true,
+    "all_hair": false
    },
    "Female": {
     "mesh": "SKV2_Female_warrior_helmet_hat",
     "tex": "T_SKV2_Female_warrior_helmet_D",
-    "hides": true
+    "hides": true,
+    "all_hair": false
    }
   },
   "S5": {
    "Male": {
     "mesh": "SKV2_Male_warrior_helmet_hat",
     "tex": "T_SKV2_Male_warrior_helmet_D",
-    "hides": true
+    "hides": true,
+    "all_hair": false
    },
    "Female": {
     "mesh": "SKV2_Female_warrior_helmet_hat",
     "tex": "T_SKV2_Female_warrior_helmet_D",
-    "hides": true
+    "hides": true,
+    "all_hair": false
    }
   },
   "S6": {
    "Male": {
     "mesh": "SKV2_Male_chitin_helmet_hat",
     "tex": "T_SKV2_Male_chitin_helmet_D",
-    "hides": true
+    "hides": true,
+    "all_hair": false
    },
    "Female": {
     "mesh": "SKV2_Female_chitin_helmet_hat",
     "tex": "T_SKV2_Female_chitin_helmet_D",
-    "hides": true
+    "hides": true,
+    "all_hair": false
    }
   },
   "E1": {
    "Male": {
     "mesh": "SKV2_Male_brodie_helmet_hat",
     "tex": "T_SKV2_Male_brodie_helmet_D",
-    "hides": true
+    "hides": true,
+    "all_hair": false
    },
    "Female": {
     "mesh": "SKV2_Female_brodie_helmet_hat",
     "tex": "T_SKV2_Female_brodie_helmet_D",
-    "hides": true
+    "hides": true,
+    "all_hair": false
    }
   },
   "E2": {
    "Male": {
     "mesh": "SKV2_Male_flying_cap_hat",
     "tex": "T_SKV2_Male_flying_cap_D",
-    "hides": true
+    "hides": true,
+    "all_hair": true
    },
    "Female": {
     "mesh": "SKV2_Female_flying_cap_hat",
     "tex": "T_SKV2_Female_flying_cap_D",
-    "hides": true
+    "hides": true,
+    "all_hair": true
    }
   },
   "E3": {
    "Male": {
     "mesh": "SKV2_Male_cowboy_hat_hat",
     "tex": "T_SKV2_Male_cowboy_hat_D",
-    "hides": true
+    "hides": true,
+    "all_hair": false
    },
    "Female": {
     "mesh": "SKV2_Female_cowboy_hat_hat",
     "tex": "T_SKV2_Female_cowboy_hat_D",
-    "hides": true
+    "hides": true,
+    "all_hair": false
    }
   },
   "E4": {
    "Male": {
     "mesh": "SKV2_Male_miner_helmet_hat",
     "tex": "T_SKV2_Male_miner_helmet_D",
-    "hides": true
+    "hides": true,
+    "all_hair": false
    },
    "Female": {
     "mesh": "SKV2_Female_miner_helmet_hat",
     "tex": "T_SKV2_Female_miner_helmet_D",
-    "hides": true
+    "hides": true,
+    "all_hair": false
    }
   },
   "E5": {
    "Male": {
     "mesh": "SKV2_Male_flying_cap_hat",
     "tex": "T_SKV2_Male_flying_cap_D",
-    "hides": true
+    "hides": true,
+    "all_hair": true
    },
    "Female": {
     "mesh": "SKV2_Female_flying_cap_hat",
     "tex": "T_SKV2_Female_flying_cap_D",
-    "hides": true
+    "hides": true,
+    "all_hair": true
    }
   },
   "E6": {
    "Male": {
     "mesh": "SKV2_Male_nurse_cap_hat",
     "tex": "T_SKV2_Male_nurse_cap_D",
-    "hides": false
+    "hides": false,
+    "all_hair": false
    },
    "Female": {
     "mesh": "SKV2_Female_nurse_cap_hat",
     "tex": "T_SKV2_Female_nurse_cap_D",
-    "hides": false
+    "hides": false,
+    "all_hair": false
    }
   },
   "E7": {
    "Male": {
     "mesh": "SKV2_Male_fedora_hat",
     "tex": "T_SKV2_Male_fedora_D",
-    "hides": true
+    "hides": true,
+    "all_hair": false
    },
    "Female": {
     "mesh": "SKV2_Female_fedora_tilted_hat",
     "tex": "T_SKV2_Female_fedora_tilted_D",
-    "hides": true
+    "hides": true,
+    "all_hair": false
    }
   },
   "E8": {
    "Male": {
     "mesh": "SKV2_Male_newsboy_hat",
     "tex": "T_SKV2_Male_newsboy_D",
-    "hides": true
+    "hides": true,
+    "all_hair": false
    },
    "Female": {
     "mesh": "SKV2_Female_newsboy_hat",
     "tex": "T_SKV2_Female_newsboy_D",
-    "hides": true
+    "hides": true,
+    "all_hair": false
    }
   }
  }

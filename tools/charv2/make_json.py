@@ -34,6 +34,7 @@ HATS = {'C1': ('newsboy', 'cloche'), 'C2': ('fedora', 'cloche'), 'C3': ('fedora'
         'E2': ('flying_cap', 'flying_cap'), 'E3': ('cowboy_hat', 'cowboy_hat'), 'E4': ('miner_helmet', 'miner_helmet'),
         'E5': ('flying_cap', 'flying_cap'), 'E6': ('nurse_cap', 'nurse_cap'), 'E7': ('fedora', 'fedora_tilted'), 'E8': ('newsboy', 'newsboy')}
 OPEN_HATS = {'feather_headband', 'chitin_tiara', 'nurse_cap'}  # the hair shows in full under these
+CLOSED_HATS = {'flying_cap', 'football_helmet'}  # these cover scalp and ears: no hair at all (it bulges out the back otherwise)
 
 
 def mask(names):
@@ -89,7 +90,7 @@ def main():
     for look, per in HATS.items():
         for sex, hat in zip(('Male', 'Female'), per):
             if hat and (EXPORT / f'SKV2_{sex}_{hat}_hat.fbx').exists():
-                hats.setdefault(look, {})[sex] = {'mesh': f'SKV2_{sex}_{hat}_hat', 'tex': f'T_SKV2_{sex}_{hat}_D', 'hides': hat not in OPEN_HATS}
+                hats.setdefault(look, {})[sex] = {'mesh': f'SKV2_{sex}_{hat}_hat', 'tex': f'T_SKV2_{sex}_{hat}_D', 'hides': hat not in OPEN_HATS, 'all_hair': hat in CLOSED_HATS}
     data = {'version': 2, 'zones': ZONES, 'looks': looks, 'hair': hair, 'skin': [list(c) for c in SKIN], 'hats': hats}
     OUT.write_text(json.dumps(data, indent=1), encoding='utf-8')
     print(f'wrote {OUT.name}: {len(looks)} looks, hair {[len(v) for v in hair.values()]}, missing meshes {sorted(set(missing))}')

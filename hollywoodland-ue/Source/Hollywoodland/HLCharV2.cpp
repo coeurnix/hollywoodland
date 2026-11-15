@@ -175,7 +175,7 @@ bool FHLCharsV2::Ready()
 				const TSharedPtr<FJsonObject> O = Sx.Value->AsObject();
 				FHLV2Piece P;
 				P.Mesh = O->GetStringField(TEXT("mesh")); P.Tex = O->GetStringField(TEXT("tex"));
-				P.Socket = TEXT("head"); P.Layer = 9; P.bHidesHair = O->GetBoolField(TEXT("hides"));
+				P.Socket = TEXT("head"); P.Layer = 9; P.bHidesHair = O->GetBoolField(TEXT("hides")); O->TryGetBoolField(TEXT("all_hair"), P.bHidesAllHair);
 				Pieces.Add(FString::Printf(TEXT("%s|%s|hat"), *L.Key, *Sx.Key), P);
 			}
 	const TSharedPtr<FJsonObject>* HairO;

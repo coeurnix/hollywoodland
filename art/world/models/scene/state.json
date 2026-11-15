@@ -1,0 +1,47 @@
+{
+ "sky": {
+  "prompt": "Equirectangular 360 degree panorama of a dramatic golden-hour sunset sky over Los Angeles, 2:1. The horizon is a perfectly straight line exactly across the vertical middle of the image. Above it: layers of glowing orange, coral and rose clouds, brightest and most golden low on the left third where the sun is just touching the horizon with a soft warm glare, fading to dusky violet and deep blue toward the top edge and toward the right. Below the horizon: plain dark warm brown haze, no land features, no hills, no buildings, no water. Photographic, cinematic, no text.",
+  "seed": 673388067,
+  "attempt": 0,
+  "w": 2048,
+  "h": 1024
+ },
+ "title_ridge": {
+  "prompt": "Product reference image of a 3D game terrain asset: a long, steep mountain ridge like Mount Lee in the Hollywood Hills, about four times as wide as it is tall, its crest rising gently from the left to a rounded summit on the right, the slope facing us covered in dense dark green chaparral and scrub oak with dusty tan rocky gullies and a few bare earth firebreaks, a flat back and base like a cut-out landscape piece. A single isolated landform, the whole of it in frame with margin, seen from the front and slightly below, soft even overcast light, no cast shadow, plain pure white background, nothing under it. Painterly but realistic, no text, no letters, no sign, no buildings, no people.",
+  "seed": 34463277,
+  "attempt": 0,
+  "w": 1536,
+  "h": 1024,
+  "task": "670a9bb2-37a5-48ec-91c6-fcf14d4deac9",
+  "sub": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoxLCJqb2JJZHMiOlsiNWNmYjk4MDItYTM1YS00YWNiLWEwZGUtN2RkNGExMTJkZmVlIiwiMDdiYWVkMWYtYjg3Ni00NmI3LTg4ODItODdiNjcyMGJhMmQ1IiwiN2Q4OTY5NjctM2NiNi00NzFmLTliNjAtNGVhMWQ0YzgwZGEyIiwiNzQxNzZkZjgtNTZlNC00MzIxLTlmOWMtZjJjNDMxNTNmNDU2IiwiZmIwMTk5ZTktZGRhMS00NGQ0LWI1NjQtMzdiYTAyOGYzY2RiIiwiODU5ZDlkNmUtMjE1ZS00MzMyLWJiOGItM2EwMDdhNjQ0N2NmIl0sImlhdCI6MTc5NDc2MzA4MH0.53zQToplJVznfAo6lsoFrrtkk58wdOjXMvw98-GHibg",
+  "params": {
+   "tier": "Gen-2",
+   "geometry_file_format": "glb",
+   "material": "PBR",
+   "quality": "high",
+   "mesh_mode": "Raw",
+   "texture_delight": "true",
+   "quality_override": "30000"
+  },
+  "model": "done"
+ },
+ "title_hills": {
+  "prompt": "Product reference image of a 3D game terrain asset: a low range of three rounded foothills side by side, about five times as wide as they are tall, covered in dark olive chaparral, scattered oak trees and dry golden grass, a flat back and base like a cut-out landscape piece. A single isolated landform, the whole of it in frame with margin, seen from the front and slightly below, soft even overcast light, no cast shadow, plain pure white background, nothing under it. Painterly but realistic, no text, no letters, no sign, no buildings, no people.",
+  "seed": 587668213,
+  "attempt": 0,
+  "w": 1536,
+  "h": 1024,
+  "task": "bb712830-0192-4982-9df7-7747d96428f5",
+  "sub": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoxLCJqb2JJZHMiOlsiZjcxYmE3NjUtZDM4NS00ZTg0LTk1YTAtM2YxMzAxZDk4MzBjIiwiM2U5MzlhNDgtOGU3OS00OTcyLThjMzYtYWE0Njk4OGY1Mjg0IiwiMTMwMWNjMWMtNWYyMy00ZjgxLTg4ZTUtZWIxNTI3YjdiNzFkIiwiN2U4MTMxZjUtMDhhYi00ZTM3LThkZjMtMDU0MzUyZTg3YWM4IiwiZGEzMzkxOGEtZjdhMy00NGU1LWIzYWQtZGZmNjg1NjE5ZGY2IiwiZjkzNzIwNDAtMTBjZC00ZTBkLWE3NmYtZWVjZTBjYjE3ZjJlIl0sImlhdCI6MTc5NDc2MzA4MH0.29e41cGrGUO6vMSiq7T4M-Jjvfm6YGH-5EmYVKwP3eY",
+  "params": {
+   "tier": "Gen-2",
+   "geometry_file_format": "glb",
+   "material": "PBR",
+   "quality": "high",
+   "mesh_mode": "Raw",
+   "texture_delight": "true",
+   "quality_override": "30000"
+  },
+  "model": "done"
+ }
+}

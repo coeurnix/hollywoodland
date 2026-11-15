@@ -108,6 +108,14 @@ public:
 	// slot) stands in the foreground, lit by the real sun with passing cloud shadows. Called every frame it is shown.
 	void Showcase(const FHLCharLook* L, float Yaw, const FString& Clip);
 	UPROPERTY() TObjectPtr<AActor> Show;
+	// the character-select backdrop (BuildTitleSet): its own little valley east of the map, out past the terrain, looking
+	// north at the sign on its ridge at sunset (tools/titlegen.py: the Rodin ridge and foothills, the sunset sky)
+	UPROPERTY() TObjectPtr<AActor> TitleSet;
+	UPROPERTY() TObjectPtr<UTexture> SkyDayTex;
+	UPROPERTY() TObjectPtr<UTexture> SkySunsetTex;
+	bool bSkySunset = false;
+	void BuildTitleSet();
+	static inline const FVector2D TitleOrigin = FVector2D(2300.f, 225.f); // zone-0 metres, ground level 0
 	UPROPERTY() TObjectPtr<USceneComponent> ShowChar;
 	UPROPERTY() TObjectPtr<class UPointLightComponent> ShowFill;
 	UPROPERTY() TObjectPtr<AActor> Stage;

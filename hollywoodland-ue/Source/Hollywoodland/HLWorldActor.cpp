@@ -80,6 +80,10 @@ AHLWorldActor::AHLWorldActor()
 	static ConstructorHelpers::FObjectFinder<UMaterialInterface> WallF(TEXT("/Game/HL/M_HLWall.M_HLWall"));
 	MatWall = WallF.Succeeded() ? WallF.Object : nullptr;
 	MatSkyDome = SkyDomeF.Succeeded() ? SkyDomeF.Object : nullptr;
+	static ConstructorHelpers::FObjectFinder<UTexture> SkyDayF(TEXT("/Game/HL/Tex/T_SKY_Day.T_SKY_Day"));
+	static ConstructorHelpers::FObjectFinder<UTexture> SkySunsetF(TEXT("/Game/HL/Tex/T_SKY_Sunset.T_SKY_Sunset"));
+	SkyDayTex = SkyDayF.Succeeded() ? SkyDayF.Object : nullptr;
+	SkySunsetTex = SkySunsetF.Succeeded() ? SkySunsetF.Object : nullptr;
 	static ConstructorHelpers::FObjectFinder<UMaterialInterface> AddF(TEXT("/Game/HL/M_HLAdd.M_HLAdd"));
 	MatAdd = AddF.Succeeded() ? AddF.Object : nullptr;
 	static ConstructorHelpers::FObjectFinder<UMaterialParameterCollection> AmbF(TEXT("/Game/HL/MPC_HLAmbient.MPC_HLAmbient"));
@@ -905,56 +909,21 @@ void AHLWorldActor::Showcase(const FHLCharLook* L, float Yaw, const FString& Cli
 	if (!GetWorld() || !Game.Areas.Num()) return;
 	if (!Show)
 	{
-		// where everything stands (2D zone metres): find the spot on the slopes south of the sign that sees most of its
-		// letters over the hills (terrain samples along each sight line), then put the figure a few metres in front
-		TArray<FVector> Letters; // x, y, mid-height (absolute metres)
-		for (const FHLPropPlace& Pp : Game.Areas[0].Def->Props)
-			if (Pp.Pos.Y < -650.f && Pp.Pos.Y > -750.f && Pp.Mesh.Contains(TEXT("sign_")))
-				Letters.Add(FVector(Pp.Pos.X, Pp.Pos.Y, GroundZ(0, Pp.Pos) + Pp.Z + 9.f));
-		if (Letters.IsEmpty()) for (int32 k = 0; k < 9; ++k) Letters.Add(FVector(190.f + k * 27.f, -700.f, GroundZ(0, FVector2D(190.f + k * 27.f, -700.f)) + 9.f));
-		FVector2D SignP(0, 0); for (const FVector& Lt : Letters) SignP += FVector2D(Lt.X, Lt.Y); SignP /= Letters.Num();
-		float Best = -1e9f; FVector2D BestCam(300.f, -470.f);
-		for (float Y = -380.f; Y <= -335.f; Y += 5.f)
-			for (float X = SignP.X - 20.f; X <= SignP.X + 20.f; X += 5.f)
-			{
-				const FVector2D C(X, Y);
-				const float Cz = GroundZ(0, C) + 1.2f;
-				int32 Seen = 0;
-				for (const FVector& Lt : Letters)
-				{
-					const FVector2D T(Lt.X, Lt.Y);
-					const float Len = FVector2D::Distance(C, T);
-					bool bClear = true;
-					for (float s = 6.f; s < Len - 10.f && bClear; s += 4.f)
-					{
-						const float A = s / Len;
-						if (GroundZ(0, FMath::Lerp(C, T, A)) + 0.5f > FMath::Lerp(Cz, Lt.Z, A)) bClear = false;
-					}
-					Seen += bClear;
-				}
-				const float Dist = FVector2D::Distance(C, SignP);
-				const float Elev = FMath::RadiansToDegrees(FMath::Atan2(Letters[0].Z - Cz, Dist));
-				const float Score = Seen * 10.f - FMath::Abs(Elev - 22.f) * 0.8f - FMath::Abs(X - SignP.X) * 0.03f;
-				if (Score > Best) { Best = Score; BestCam = C; }
-			}
-		// the frame is ~50 degrees tall: the camera pitches up toward the sign (the letters about 16 degrees above the
-		// centre), the feet sit 19.5 degrees under it, and the figure's distance follows (eye 0.9 m over its feet)
-		const FVector2D Dir = (SignP - BestCam).GetSafeNormal();
-		const float Elev = FMath::RadiansToDegrees(FMath::Atan2(Letters[0].Z - GroundZ(0, BestCam) - 1.f, FVector2D::Distance(BestCam, SignP)));
-		ShowPitch = 5.f; (void)Elev;
-		const float Dch = 0.9f / FMath::Tan(FMath::DegreesToRadians(19.5f - ShowPitch)); // feet ~4 degrees above the frame's bottom edge, on the grass
-		ShowCamP = BestCam; ShowCharP = BestCam + Dir * Dch;
-		UE_LOG(LogTemp, Display, TEXT("HL_STATUS showcase cam %.0f,%.0f score %.1f of %d letters, sign at %.0f,%.0f"), BestCam.X, BestCam.Y, Best, Letters.Num(), SignP.X, SignP.Y);
-		ShowSignP = SignP;
+		// the backdrop stage (BuildTitleSet): the camera stands at its origin looking north (-Y), the figure a few metres
+		// in front; the frame is ~50 degrees tall, pitched 5 up, the feet 19.5 degrees under its centre (eye 0.9 m over them)
+		ShowPitch = 5.f;
+		const float Dch = 0.9f / FMath::Tan(FMath::DegreesToRadians(19.5f - ShowPitch));
+		ShowCamP = TitleOrigin; ShowCharP = TitleOrigin + FVector2D(0, -Dch); ShowSignP = TitleOrigin + FVector2D(0, -420);
+		BuildTitleSet();
 	}
 	const FVector2D CharP = ShowCharP, CamP = ShowCamP, SignP = ShowSignP;
 	if (!Show)
 	{
-		Show = GetWorld()->SpawnActor<AActor>(AActor::StaticClass(), FTransform(ToWorld(0, CharP, 0.f)));
+		Show = GetWorld()->SpawnActor<AActor>(AActor::StaticClass(), FTransform(FVector(CharP.X * M, CharP.Y * M, 0.f)));
 		USceneComponent* Root = NewObject<USceneComponent>(Show);
 		Root->SetMobility(EComponentMobility::Movable);
 		Show->SetRootComponent(Root); Root->RegisterComponent();
-		Show->SetActorLocation(ToWorld(0, CharP, 0.f));
+		Show->SetActorLocation(FVector(CharP.X * M, CharP.Y * M, 0.f));
 		ShowChar = NewObject<USceneComponent>(Show);
 		ShowChar->SetMobility(EComponentMobility::Movable);
 		ShowChar->SetupAttachment(Root); ShowChar->RegisterComponent();
@@ -969,15 +938,16 @@ void AHLWorldActor::Showcase(const FHLCharLook* L, float Yaw, const FString& Cli
 		Spawned.Add(Show);
 		// eye level a little under the figure's head, looking toward the sign and only slightly up: the whole figure in
 		// the lower half of the frame, the ridge and the letters above
-		const float Gc = GroundZ(0, CharP);
-		ShowCamLoc = FVector(CamP.X * M, CamP.Y * M, FMath::Max(Gc + 0.9f, GroundZ(0, CamP) + 0.4f) * M);
-		FRotator R = (ToWorld(0, SignP, 0.f) - ShowCamLoc).Rotation();
+		const float Gc = 0.f;
+		ShowCamLoc = FVector(CamP.X * M, CamP.Y * M, 0.9f * M);
+		FRotator R = (FVector(SignP.X * M, SignP.Y * M, 0.f) - ShowCamLoc).Rotation();
 		const float Dh = FVector2D::Distance(CamP, CharP);
 		R.Pitch = FMath::RadiansToDegrees(FMath::Atan2(Gc - ShowCamLoc.Z / M, Dh)) + 19.5f;
 		ShowCamRot = R;
-		Show->SetActorLocation(ToWorld(0, CharP, 0.f));
+		Show->SetActorLocation(FVector(CharP.X * M, CharP.Y * M, 0.f));
 	}
 	ShowWantUntil = FPlatformTime::Seconds() + 0.3;
+	if (TitleSet && TitleSet->IsHidden()) TitleSet->SetActorHiddenInGame(false);
 	if (!L) { Show->SetActorHiddenInGame(true); return; }
 	Show->SetActorHiddenInGame(false);
 	if (!FHLChars::Get().Ready()) return;
@@ -989,9 +959,141 @@ void AHLWorldActor::Showcase(const FHLCharLook* L, float Yaw, const FString& Cli
 	ShadowActor(Show, true);
 }
 
+void AHLWorldActor::BuildTitleSet()
+{
+	if (TitleSet || !GetWorld()) return;
+	TitleSet = GetWorld()->SpawnActor<AActor>(AActor::StaticClass(), FTransform::Identity);
+	USceneComponent* Root = NewObject<USceneComponent>(TitleSet);
+	Root->SetMobility(EComponentMobility::Movable);
+	TitleSet->SetRootComponent(Root); Root->RegisterComponent();
+	Spawned.Add(TitleSet);
+	const FVector2D O = TitleOrigin;
+	auto W = [&](float X, float Y, float Z) { return FVector((O.X + X) * M, (O.Y + Y) * M, Z * M); };
+	// the near ground the figure stands on: grass running out to the foothills
+	if (Cube)
+	{
+		UStaticMeshComponent* G = AddMesh(TitleSet, Cube, W(0, -380, -0.5f), FVector(1800, 820, 1), FLinearColor(0.3f, 0.32f, 0.22f));
+		// its own copy of the grass tile, darker and drier than the boulevard's (the sun is behind the hills)
+		if (UMaterialInstanceDynamic* GM = GroundMid(TEXT("Grass"), FLinearColor::White))
+		{
+			UMaterialInstanceDynamic* D = UMaterialInstanceDynamic::Create(MatGround, this);
+			D->CopyParameterOverrides(GM);
+			D->SetVectorParameterValue(TEXT("Tint"), FLinearColor(0.36f, 0.33f, 0.2f));
+			D->SetScalarParameterValue(TEXT("Glow"), 0.04f);
+			G->SetMaterial(0, D);
+		}
+		G->ComponentTags.Add(TEXT("NoShadow"));
+	}
+	// a landform (tools/titlegen.py, staged 100 m tall and centred on its middle): width across the view, depth, height
+	auto Land = [&](const TCHAR* Name, float Dist, float Across, float Wide, float Deep, float Tall, const FLinearColor& Tint, float Yaw)
+	{
+		const FString Path = FString::Printf(TEXT("/Game/Props/SM_%s.SM_%s"), Name, Name);
+		UStaticMesh* Mesh = LoadObject<UStaticMesh>(nullptr, *Path, nullptr, LOAD_NoWarn);
+		if (!Mesh) { HLBridge::Log(FString::Printf(TEXT("HL title mesh missing: %s"), *Path)); return; }
+		const FBoxSphereBounds Bd = Mesh->GetBounds();
+		const FVector Ext = Bd.BoxExtent * 2.f / M; // metres
+		UStaticMeshComponent* C = NewObject<UStaticMeshComponent>(TitleSet);
+		C->SetStaticMesh(Mesh);
+		C->SetMobility(EComponentMobility::Movable);
+		C->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		C->SetCastShadow(false);
+		C->SetupAttachment(Root);
+		C->RegisterComponent();
+		const bool bSide = FMath::Abs(FMath::Fmod(Yaw, 180.f)) > 45.f; // turned a quarter: the mesh's X runs into the view
+		const FVector S((bSide ? Deep : Wide) / FMath::Max(1.f, Ext.X), (bSide ? Wide : Deep) / FMath::Max(1.f, Ext.Y), Tall / FMath::Max(1.f, Ext.Z));
+		C->SetRelativeScale3D(S);
+		C->SetRelativeRotation(FRotator(0, Yaw, 0));
+		const float ZLo = (Bd.Origin.Z - Bd.BoxExtent.Z) / M * S.Z;
+		C->SetRelativeLocation(W(Across, -Dist, -ZLo - Tall * 0.04f)); // its foot just under the ground
+		C->SetCullDistance(0);
+		C->SetBoundsScale(4.f);
+		if (UMaterialInterface* Mi = C->GetMaterial(0))
+		{
+			UMaterialInstanceDynamic* D = UMaterialInstanceDynamic::Create(Mi, this);
+			D->SetVectorParameterValue(TEXT("Tint"), Tint);
+			D->SetScalarParameterValue(TEXT("Glow"), 0.05f);
+			C->SetMaterial(0, D);
+		}
+	};
+	// the sign's ridge, high and dark against the sky; foothills in front, darker still, their crowns of oak against the haze
+	Land(TEXT("TitleRidge"), 660, 230, 1250, 340, 420, FLinearColor(0.31f, 0.26f, 0.21f), 90);
+	Land(TEXT("TitleRidge"), 760, -230, 1100, 320, 360, FLinearColor(0.27f, 0.23f, 0.19f), 90);  // its shoulder runs on to the left
+	Land(TEXT("TitleRidge"), 360, -260, 760, 260, 92, FLinearColor(0.24f, 0.22f, 0.18f), 270);  // foothills, near and dark
+	Land(TEXT("TitleRidge"), 300, 320, 640, 220, 70, FLinearColor(0.22f, 0.2f, 0.17f), 90);
+	{
+		FRandomStream R(1930);
+		auto Scatter = [&](const TCHAR* Name, int32 N, float MinD, float MaxD, float S0, float S1)
+		{
+			const FString Path = FString::Printf(TEXT("/Game/Props/SM_%s.SM_%s"), Name, Name);
+			UStaticMesh* Mesh = LoadObject<UStaticMesh>(nullptr, *Path, nullptr, LOAD_NoWarn);
+			if (!Mesh) return;
+			UHierarchicalInstancedStaticMeshComponent* C = NewObject<UHierarchicalInstancedStaticMeshComponent>(TitleSet);
+			C->SetStaticMesh(Mesh);
+			C->SetMobility(EComponentMobility::Movable);
+			C->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+			C->SetCastShadow(false);
+			C->SetupAttachment(Root);
+			C->RegisterComponent();
+			for (int32 i = 0; i < N; ++i)
+			{
+				const float D = FMath::Lerp(MinD, MaxD, R.FRand());
+				const float Ang = FMath::DegreesToRadians(R.FRandRange(-48.f, 48.f));
+				const FVector2D P(FMath::Sin(Ang) * D, -FMath::Cos(Ang) * D);
+				if (P.Size() < 9.f) continue; // clear of the figure
+				C->AddInstance(FTransform(FRotator(0, R.FRand() * 360.f, 0), W(P.X, P.Y, -0.1f), FVector(R.FRandRange(S0, S1))), true);
+			}
+		};
+		Scatter(TEXT("ShrubChaparral"), 240, 30, 280, 0.6f, 1.2f);
+		Scatter(TEXT("ShrubSage"), 160, 16, 220, 0.45f, 0.9f);
+		Scatter(TEXT("ShrubBuckwheat"), 120, 10, 160, 0.4f, 0.8f);
+		Scatter(TEXT("OakLive"), 30, 90, 300, 0.7f, 1.2f);
+	}
+	// HOLLYWOODLAND across the ridge's brow, rising a little to the right; the letters glow warm in the last light
+	static const TCHAR* Letters = TEXT("HOLLYWOODLAND");
+	const float LDist = 440, Sc = 2.1f, Gap = 1.8f;
+	TArray<TPair<UStaticMesh*, float>> Row; float Total = -Gap * Sc;
+	for (const TCHAR* L = Letters; *L; ++L)
+	{
+		const FString Path = FString::Printf(TEXT("/Game/Props/SM_Sign%c.SM_Sign%c"), *L, *L);
+		UStaticMesh* Mesh = LoadObject<UStaticMesh>(nullptr, *Path, nullptr, LOAD_NoWarn);
+		const float Wd = Mesh ? Mesh->GetBounds().BoxExtent.Y * 2.f / M * Sc : 8.f * Sc;
+		Row.Add({ Mesh, Wd }); Total += Wd + Gap * Sc;
+	}
+	float X = -Total * 0.5f + 10.f;
+	for (int32 k = 0; k < Row.Num(); ++k)
+	{
+		const float Wd = Row[k].Value;
+		const float Cx = X + Wd * 0.5f;
+		X += Wd + Gap * Sc;
+		if (!Row[k].Key) continue;
+		const float Rise = (Cx + Total * 0.5f) / Total; // 0 at the H, 1 at the D
+		const float Base = LDist * FMath::Tan(FMath::DegreesToRadians(14.4f + 1.8f * Rise)) + 0.9f;
+		UStaticMeshComponent* C = NewObject<UStaticMeshComponent>(TitleSet);
+		C->SetStaticMesh(Row[k].Key);
+		C->SetMobility(EComponentMobility::Movable);
+		C->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		C->SetCastShadow(false);
+		C->SetupAttachment(Root);
+		C->RegisterComponent();
+		C->SetRelativeScale3D(FVector(Sc));
+		C->SetRelativeRotation(FRotator(0, 90, 0));
+		C->SetRelativeLocation(W(Cx, -LDist - Rise * 12.f, Base));
+		C->SetCullDistance(0);
+		if (UMaterialInterface* Mi = C->GetMaterial(0))
+		{
+			UMaterialInstanceDynamic* D = UMaterialInstanceDynamic::Create(Mi, this);
+			D->SetVectorParameterValue(TEXT("Tint"), FLinearColor(1.f, 0.86f, 0.66f));
+			D->SetScalarParameterValue(TEXT("Glow"), 0.6f);
+			C->SetMaterial(0, D);
+		}
+	}
+	TitleSet->SetActorHiddenInGame(true);
+}
+
 void AHLWorldActor::TickStage()
 {
 	if (Show && FPlatformTime::Seconds() > ShowWantUntil && !Show->IsHidden()) Show->SetActorHiddenInGame(true);
+	if (TitleSet && FPlatformTime::Seconds() > ShowWantUntil && !TitleSet->IsHidden()) TitleSet->SetActorHiddenInGame(true);
 	if (!Stage || !StageCap || FPlatformTime::Seconds() < StageWantUntil || Stage->IsHidden()) return;
 	// nobody looked for a moment: stop filming and hide the stage
 	StageCap->bCaptureEveryFrame = false;
@@ -1056,17 +1158,24 @@ void AHLWorldActor::TickSky()
 		SunLight->SetIntensity(D > 0.35f ? FMath::Lerp(1.05f, 2.0f, FMath::SmoothStep(0.35f, 1.f, D)) : FMath::Lerp(0.95f, 1.05f, D / 0.35f));
 		if (!Game.bInWorld)
 		{
-			// clouds rolling over the hills: the sun dims and returns in long, uneven swells
-			const float Ts = GetWorld()->GetTimeSeconds();
-			const float Cl = 0.5f + 0.5f * FMath::PerlinNoise1D(Ts * 0.09f) + 0.25f * FMath::PerlinNoise1D(Ts * 0.31f + 7.f);
-			SunLight->SetIntensity(2.6f * FMath::Lerp(0.45f, 1.1f, FMath::SmoothStep(0.2f, 0.75f, Cl)));
+			// the title: a low sun setting behind the ridge on the left of the view, warm and raking toward the camera
+			SunLight->SetWorldRotation(FRotator(-7.f, 62.f, 0.f));
+			SunLight->SetLightColor(FLinearColor(1.f, 0.55f, 0.3f));
+			SunLight->SetIntensity(2.2f);
 		}
 	}
 	const FLinearColor SkyTint = FMath::Lerp(FLinearColor(1, 1, 1), FLinearColor(1.08f, 0.78f, 0.66f), Gold);
+	// the title: the sunset panorama (tools/titlegen.py) with the sun low on the left of the view; the world: the day sky
+	const bool bTitle = !Game.bInWorld;
+	if (bTitle != bSkySunset && SkySunsetTex && SkyDayTex)
+	{
+		bSkySunset = bTitle;
+		for (UMaterialInstanceDynamic* S : SkyMids) S->SetTextureParameterValue(TEXT("Day"), bTitle ? SkySunsetTex : SkyDayTex);
+	}
 	for (UMaterialInstanceDynamic* S : SkyMids)
 	{
-		S->SetScalarParameterValue(TEXT("Night"), 1.f - D);
-		S->SetVectorParameterValue(TEXT("Tint"), SkyTint * FMath::Lerp(0.85f, 1.f, D));
+		S->SetScalarParameterValue(TEXT("Night"), bTitle ? 0.f : 1.f - D);
+		S->SetVectorParameterValue(TEXT("Tint"), bTitle ? FLinearColor(1, 1, 1) : SkyTint * FMath::Lerp(0.85f, 1.f, D));
 	}
 	FPostProcessSettings& PP = Camera->PostProcessSettings;
 	const float Dg = bIndoors ? 1.f : D, Gg = bIndoors ? 0.f : Gold;
@@ -1094,9 +1203,10 @@ void AHLWorldActor::TickSky()
 	if (Fog)
 	{
 		Fog->SetVisibility(!bIndoors);
-		Fog->SetFogDensity(Game.bInWorld ? 0.009f : 0.0035f); // the character select: clear air to the sign
+		Fog->SetFogDensity(Game.bInWorld ? 0.009f : 0.0028f);
+		Fog->SetFogCutoffDistance(Game.bInWorld ? 0.f : 150000.f); // the title: haze between the hills, a clear sky beyond them // the character select: sunset haze between the hills
 		const FLinearColor Day = FMath::Lerp(FLinearColor(0.55f, 0.62f, 0.74f), FLinearColor(0.85f, 0.6f, 0.42f), Gold);
-		Fog->SetFogInscatteringColor(FMath::Lerp(FLinearColor(0.035f, 0.045f, 0.08f), Day, D));
+		Fog->SetFogInscatteringColor(Game.bInWorld ? FMath::Lerp(FLinearColor(0.035f, 0.045f, 0.08f), Day, D) : FLinearColor(0.34f, 0.17f, 0.09f));
 	}
 	// street lamps after dusk: every lamp head glows (an unlit bulb and a faint additive pool on the pavement), and a few
 	// real point lights move to the lamps nearest the camera (the web renderer cannot afford one light per lamp)
@@ -1655,7 +1765,7 @@ void AHLWorldActor::AutoTest(float Dt)
 			Steps.Add([=] { Visit(TEXT("npc_mount_dealer"), nullptr); Finish(TEXT("q_open_8")); Accept(TEXT("q_open_9")); });
 			Steps.Add([=, this] { Game.QuestEvent(TEXT("do"), TEXT("map")); });
 			Steps.Add([=] { Visit(TEXT("npc_sid_grauman"), nullptr); Finish(TEXT("q_open_9")); });
-			Steps.Add([=, this] { HLBridge::Log(FString::Printf(TEXT("HL_STATUS tour done opening=%d q_hb_01 avail=%d"), Game.InOpening() ? 1 : 0, Game.QuestAvailable(*FHLData::Get().Quest(TEXT("q_hb_01"))) ? 1 : 0)); });
+			Steps.Add([=, this] { HLBridge::Log(FString::Printf(TEXT("HL_STATUS tour done opening=%d q_hb_03 avail=%d"), Game.InOpening() ? 1 : 0, Game.QuestAvailable(*FHLData::Get().Quest(TEXT("q_hb_03"))) ? 1 : 0)); });
 			// Ham It Up: Dolly's emote quest (three different players, a showy emote at each)
 			Steps.Add([=] { Visit(TEXT("npc_dolly"), nullptr); Accept(TEXT("q_hb_ham")); });
 			Steps.Add([=, this]

@@ -28,6 +28,7 @@ struct FHLV2Piece
 	bool bMasked = false;         // alpha-tested (hair cards)
 	FLinearColor Mul = FLinearColor::White; // overall multiply (hair colour)
 	bool bHidesHair = false;      // hat: the hair swaps to its hat-safe variant (<hair>hat)
+	bool bHidesAllHair = false;   // hat: no hair at all (a flying cap or leather helmet covers the scalp and ears)
 };
 
 // Content/Data/characters_v2.json (tools/charv2/make_json.py): per look, sex and slot the garment piece; hair; skin tones

@@ -384,7 +384,7 @@ bool FHLGame::ObjectInteract(int32 AreaIdx, int32 ObjIdx)
 	FHLObjectState& O = Areas[AreaIdx].Objects[ObjIdx];
 	const FHLObjectDef& Def = *O.Def;
 	if (!O.bActive) return false;
-	if (FVector2D::Distance(P->Pos, Def.Pos) > (Def.bBig ? 9.f : 4.5f)) { Error(TEXT("You are too far away.")); return false; }
+	if (FVector2D::Distance(P->Pos, Def.Pos) > (Def.bBig ? 10.f : 6.f)) { Error(TEXT("You are too far away.")); return false; }
 	if (Def.Kind == TEXT("mailbox")) { SfxObject(Def, true); OpenNpcUnitId = 0; OpenNpcMode = TEXT("mail"); return true; }
 	if (Def.Kind == TEXT("redcar")) { SfxObject(Def, true); OpenNpcUnitId = 0; OpenNpcMode = TEXT("redcar"); return true; }
 	if (Def.bSalvage && Player.Salvage <= 0) { Error(TEXT("Requires Salvaging. Ike Brandt at Hollywood & Vine can teach you.")); return false; }

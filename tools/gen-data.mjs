@@ -145,7 +145,9 @@ const personas = buildPersonas({ zones, dungeons, guilds, items, classes });
 const cachePath = new URL('./cache/corpus.json', import.meta.url);
 let extra = [];
 if (existsSync(cachePath)) extra = JSON.parse(readFileSync(cachePath, 'utf8'));
-const fullCorpus = [...corpus, ...extra];
+// the jam is over: nobody is still building or submitting an entry, so lines about that are left out
+const POSTJAM = /\bjam|deadline|submi|compil|\bentry\b|\bentries\b|\bmy (own )?(build|game|thing|project)\b|own game|own thing|\bjudges\b/i;
+const fullCorpus = [...corpus, ...extra].filter((x) => x.s !== 'jam' && !POSTJAM.test(x.text));
 
 // ---- validate ----
 const ids = new Set();
@@ -184,7 +186,7 @@ const sizes = {
   areas: write('areas.json', { areas }),
   quests: write('quests.json', { quests }),
   personas: write('personas.json', { personas }),
-  chat: write('chat.json', { templates, corpus: fullCorpus, convos }),
+  chat: write('chat.json', { templates: templates.filter((x) => !POSTJAM.test(x.text)), corpus: fullCorpus, convos: convos.filter((c) => !c.lines.some((l) => POSTJAM.test(l.t))) }),
 };
 // the Worker's lore pack (world tools for the simulated players)
 {

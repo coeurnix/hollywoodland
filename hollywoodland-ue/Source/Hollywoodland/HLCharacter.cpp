@@ -537,6 +537,7 @@ void FHLCharVisuals::ApplyV2(AActor* Owner, USceneComponent* Parent, FHLCharRig&
 		FHLV2Piece H = V.Hair[Sex][((L.App.Hair % V.Hair[Sex].Num()) + V.Hair[Sex].Num()) % V.Hair[Sex].Num()];
 		H.Mul = FHLChars::HairTint(L.App.HairColor); // greyscale paint (tools/charv2/grey_hair.py) in the chosen colour
 		if (Hat && Hat->bHidesHair && !H.Mesh.IsEmpty()) H.Mesh += TEXT("hat"); // pressed in under the crown (fit_hats.py)
+		if (Hat && Hat->bHidesAllHair) H.Mesh.Reset(); // the cap covers it all
 		if (!H.Mesh.IsEmpty()) Pieces.Add(H);       // an empty style is the bald one
 	}
 	USceneComponent* Root = NewObject<USceneComponent>(Owner);

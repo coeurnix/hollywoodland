@@ -8,6 +8,7 @@
 # clips (melee, casting, sitting, emotes) are retargeted from the v1 skeleton.
 # The FBXs are centimetre files with an unscaled armature (export_v2.py): no import scale here, or the root bone carries it.
 import json, os, glob, struct, zlib, tempfile
+import re
 import unreal
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -15,6 +16,8 @@ EXPORT = os.path.join(ROOT, 'art', 'characters_v2', 'export')
 BASE = '/Game/CharactersV2'
 V1 = '/Game/Characters'
 ONLY = os.environ.get('HL_IMPORT_ONLY', '')
+# HL_IMPORT_MESH: a regex; only the garment/hair/hat meshes whose names match are imported, and the bodies are left alone
+MESH_RE = os.environ.get('HL_IMPORT_MESH', '')
 tools = unreal.AssetToolsHelpers.get_asset_tools()
 mel = unreal.MaterialEditingLibrary
 eal = unreal.EditorAssetLibrary
@@ -255,7 +258,7 @@ def skeleton_for(sex):
 def import_meshes():
     for sex in SEXES:
         f = os.path.join(EXPORT, f'SKV2_{sex}_Body.fbx')
-        if not os.path.exists(f):
+        if MESH_RE or not os.path.exists(f):
             continue
         tools.import_asset_tasks([fbx_task(f, f'{BASE}/Body', f'SKV2_{sex}_Body', skel_options())])
         eal.save_asset(f'{BASE}/Body/SKV2_{sex}_Body_Skeleton', only_if_is_dirty=False)
@@ -270,6 +273,8 @@ def import_meshes():
     for f in glob.glob(os.path.join(EXPORT, 'SKV2_*.fbx')):
         name = os.path.basename(f)[:-4]
         if name.endswith('_Body') or name not in used:
+            continue
+        if MESH_RE and not re.search(MESH_RE, name):
             continue
         sex = 'Female' if name.startswith('SKV2_Female') else 'Male'
         if name.endswith('_hat'):

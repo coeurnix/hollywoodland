@@ -28,10 +28,11 @@ MH_HATS = {'newsboy': 'jujube_newsboy_cap', 'cloche': 'aethelraed_unraed_cloche_
            'm1_helmet': 'mrgreaterthan_m1_helmet', 'stunt_helmet': 'culturalibre_motorcycle_helmet', 'warrior_helmet': 'culturalibre_warrior_helmet',
            'great_helm': 'javherre_casco_caballero_templario_templar_knight_helmet'}
 # Rodin hats: (width between the 5th and 95th percentiles / head width, rim depth under the crown in head heights)
-RODIN = {'top_hat': (1.45, 0.30), 'feather_headband': (1.08, 0.24), 'chitin_tiara': (1.05, 0.26), 'flying_cap': (1.15, 0.58),
+RODIN = {'top_hat': (1.45, 0.30), 'feather_headband': (1.08, 0.24), 'chitin_tiara': (1.05, 0.26), 'flying_cap': (1.04, 0.58),
          'cowboy_hat': (2.0, 0.30), 'football_helmet': (1.25, 0.72), 'brodie_helmet': (1.7, 0.26), 'chitin_helmet': (1.25, 0.45),
          'miner_helmet': (1.4, 0.21), 'nurse_cap': (1.0, 0.22)}
 BRIM = {'brodie_helmet'}  # placed by the brim's edge (the chin strap hangs below it)
+SETTLE = {'flying_cap'}  # close-fitting: lowered until the inside of the crown rests on the skull (no gap over the forehead)
 
 
 def find_mhclo(stem):
@@ -118,6 +119,28 @@ def seat(h, body, top, ctr, hw, hh, width_k, depth_k, brim=False):
     print(f'HL_HAT seat scale {s:.3f}')
 
 
+def settle(h, body, top, ctr, gap=0.006):
+    """Drops a close-fitting hat straight down until the inside of its crown is `gap` above the skull: rays go up from
+    the skull's upper cap to the hat's underside, and the smallest clearance decides the drop."""
+    me = body.evaluated_get(bpy.context.evaluated_depsgraph_get()).to_mesh()
+    g = body.vertex_groups['body'].index
+    mw = body.matrix_world
+    skull = [mw @ v.co for v in me.vertices if any(x.group == g and x.weight > 0.5 for x in v.groups) and (mw @ v.co).z > top - 0.06]
+    hw_ = h.matrix_world
+    tree = BVHTree.FromPolygons([hw_ @ v.co for v in h.data.vertices], [list(p.vertices) for p in h.data.polygons])
+    best = None
+    for p in skull:
+        hit = tree.ray_cast(p + Vector((0, 0, 0.001)), Vector((0, 0, 1)), 0.2)
+        if hit[0] is not None and (best is None or hit[3] < best):
+            best = hit[3]
+    if best is None:
+        return
+    drop = best - gap
+    for v in h.data.vertices:
+        v.co = hw_.inverted() @ ((hw_ @ v.co) - Vector((0, 0, drop)))
+    print(f'HL_HAT settle drop {drop * 100:.1f} cm')
+
+
 def shot(key, top, ctr):
     """Front-three-quarter review render of the head with the hat (review/hats/<sex>_<key>.png)."""
     sc, cam = bb.ensure_scene()
@@ -151,6 +174,8 @@ def hats():
         top, ctr, hw, hh = head_metrics(body)
         h = import_rodin(key, body)
         seat(h, body, top, ctr, hw, hh, wk, dk, key in BRIM)
+        if key in SETTLE:
+            settle(h, body, top, ctr)
         shot(key, top, ctr)
         report[key] = export_v2.run(OUT, f'SKV2_{sex}', {key: f'hat@{key}'}, with_body=False)
         print('HL_HAT ok', key, flush=True)
@@ -165,22 +190,32 @@ def hair():
         top, ctr, hw, hh = head_metrics(body)
         bb.HS.add_mhclo_asset(find_mhclo(stem), body, asset_type='Hair', material_type='MAKESKIN')
         hobj = next(o for o in bpy.data.objects if o.name.endswith('.' + stem))
-        # bake the fit, then press everything above the brim line in under the crown (a dome a little smaller than the
-        # inside of any hat): the brim sits about 0.32 head heights under the crown
+        # bake the fit, then slick everything above the brim line down onto the skull (a few millimetres off it, under
+        # the inside of any hat). Pressing onto the real skull rather than a round dome keeps the hair on the back of the
+        # head (a skull is longer than it is wide): no bald patch where a cap rides high at the back. A short blend
+        # above the brim line keeps the hair below it from stepping.
         dg = bpy.context.evaluated_depsgraph_get()
         me = bpy.data.meshes.new_from_object(hobj.evaluated_get(dg), preserve_all_data_layers=True, depsgraph=dg)
-        brim = top - hh * 0.32
+        skull = skull_tree(body)
+        brim = top - hh * 0.40
         mw = hobj.matrix_world
+        inv = mw.inverted()
         for v in me.vertices:
             p = mw @ v.co
-            if p.z > brim:
-                t = (p.z - brim) / max(top + 0.03 - brim, 1e-6)
-                d = Vector((p.x - ctr.x, p.y - ctr.y))
-                lim = hw * 0.5 * (1.0 - 0.55 * t * t) + 0.004  # the skull's own taper towards the crown
-                if d.length > lim:
-                    d = d.normalized() * lim
-                z = brim + (min(p.z, top + 0.01) - brim) * 0.92
-                v.co = mw.inverted() @ Vector((ctr.x + d.x, ctr.y + d.y, z))
+            if p.z <= brim - 0.02:
+                continue
+            q, n, _, _ = skull.find_nearest(p)
+            if q is None:
+                continue
+            if n.dot(p - q) < 0:
+                n = -n
+            off = 0.004 + 0.003 * max(0.0, min(1.0, (brim - p.z + 0.02) / 0.04))  # a touch more lift near the brim
+            dist = (p - q).dot(n)
+            if dist <= off:
+                continue
+            target = q + n * off
+            w = max(0.0, min(1.0, (p.z - (brim - 0.02)) / 0.03))  # 0 just under the brim line, 1 above it
+            v.co = inv @ p.lerp(target, w)
         for m in list(hobj.modifiers):
             if m.type != 'ARMATURE':
                 hobj.modifiers.remove(m)

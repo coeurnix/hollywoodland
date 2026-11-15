@@ -26,7 +26,7 @@ private:
 	void Play(int32 N, bool bLoop, float FadeS);
 	void Stop(float FadeS);
 
-	float Volume = 0.5f;
+	float Volume = 0.3f; // quieter by default: the score sits under the street, not over it
 	FString Folder;             // native: absolute folder with trailing slash; web: "music/"
 	double Clock = 0, EndsAt = 0, SilenceUntil = 0, CombatHoldUntil = 0, VictoryUntil = 0, SubzoneSince = 0, NextThink = 0;
 	int32 Cur = 0, Last = 0, CombatCur = 0;

@@ -93,13 +93,13 @@ export function toolsFor(s, req) {
       parameters: { type: 'object', properties: { name: { type: 'string', description: 'the name or a few words of it' } }, required: ['name'], additionalProperties: false } },
     { name: 'how', description: 'How a game system works as far as THIS player knows: mounts, talents, dying, rested experience, professions, the auction house, grouping, duels, emotes, picture night, hive surges, money, levelling, the game itself.',
       parameters: { type: 'object', properties: { topic: { type: 'string' } }, required: ['topic'], additionalProperties: false } },
-    { name: 'news', description: 'What is going on in the real world and in the game jam right now (this player reads the news like anyone).',
+    { name: 'news', description: 'What is going on in the real world, and how the (finished) game jam went (this player reads the news like anyone).',
       parameters: { type: 'object', properties: { topic: { type: 'string', description: 'jam, games, tech, world, us, sport, film, or any' } }, required: ['topic'], additionalProperties: false } },
   ];
   const callTool = async (name, args) => {
     if (name === 'news') {
       const tag = norm(args.topic);
-      if (tag.includes('jam')) return NEWS.jam.facts.join(' | ') + ` | deadline ${NEWS.jam.deadline_local}`;
+      if (tag.includes('jam')) return NEWS.jam.facts.join(' | ') + ' | the jam is over: submissions closed and judging is under way';
       const list = NEWS.topics.filter((x) => tag === 'any' || !tag || x.tag === tag || x.text.toLowerCase().includes(tag));
       return (list.length ? list : NEWS.topics).slice(0, 4).map((x) => x.text).join(' | ');
     }

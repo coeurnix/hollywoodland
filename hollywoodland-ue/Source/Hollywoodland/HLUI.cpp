@@ -548,7 +548,7 @@ void SHLGameUI::Interact() const
 	{
 		if (!A.Objects[o].bActive) continue;
 		const float D = FVector2D::Distance(P->Pos, A.Objects[o].Def->Pos) - (A.Objects[o].Def->bBig ? 5.f : 0.f);
-		if (D < Best && D < 4.5f) { Best = D; BestObj = o; BestUnit = 0; }
+		if (D < Best && D < 6.f) { Best = D; BestObj = o; BestUnit = 0; }
 	}
 	if (BestObj >= 0) Gm.ObjectInteract(P->Area, BestObj);
 	else if (BestUnit) { Gm.bLootAll = FSlateApplication::Get().GetModifierKeys().IsShiftDown(); Gm.InteractUnit(BestUnit); }
@@ -1025,7 +1025,12 @@ void SHLGameUI::DrawWorldOverlay() const
 			// why it can't be worked yet, under its name
 			if (!bClash && O.Def->bSalvage && Gm.Player.Salvage <= 0) TxC(S.X, S.Y + 14, TEXT("Requires Salvaging"), 9, FLinearColor(1, 0.35f, 0.3f));
 		}
-		FPick Pk; Pk.Area = P->Area; Pk.Obj = o; Pk.Pos = S + FVector2D(0, 24); Pk.Radius = FMath::Clamp(500.f / FMath::Max(4.f, D), 16.f, 70.f); Pk.Depth = D;
+		// the click lands on the thing itself (a film can lies on the ground, well under its name), the name counts too
+		FVector2D G2 = S + FVector2D(0, 24);
+		Project(World->ToWorld(P->Area, O.Def->Pos, O.Def->bTall ? 3.f : O.Def->bBig ? 1.5f : 0.35f), G2);
+		FPick Pk; Pk.Area = P->Area; Pk.Obj = o; Pk.Pos = G2; Pk.Radius = FMath::Clamp(700.f / FMath::Max(4.f, D), 24.f, 90.f); Pk.Depth = D;
+		Picks.Add(Pk);
+		Pk.Pos = S + FVector2D(0, 8); Pk.Radius = FMath::Max(TW(O.Def->Name, 10) * 0.5f + 6, 22.f);
 		Picks.Add(Pk);
 	}
 	// nameplates: the target first, then nearest first; a label that would overlap one already drawn (or the HUD) waits

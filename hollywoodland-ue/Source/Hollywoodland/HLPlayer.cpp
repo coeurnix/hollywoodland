@@ -802,7 +802,7 @@ bool FHLGame::InOpening() const
 	const FHLUnit* U = PlayerUnit();
 	if (U && U->Level >= 6) return false; // an older save that never saw the opening
 	for (const FHLQuestState& QS : Player.Quests) if (QS.Q->Tour > 0) return true;
-	return !Player.Done.Contains(TEXT("q_hb_01")); // nothing accepted yet: a new character
+	return !Player.Done.Contains(TEXT("q_hb_03")) && !Player.Done.Contains(TEXT("q_hb_06")); // nothing past the tour yet: a new character
 }
 
 void FHLGame::StartTestDrive(int32 Kind)

@@ -337,8 +337,8 @@ void FHLGame::TickMind()
 			Remember(i, TEXT("party"), TEXT("grouped with the player on Franklin Slopes for half an hour"), 0.5f);
 			Remember(i, TEXT("kind"), TEXT("the player healed them through a bad pull"), 0.8f);
 			Remember(i, TEXT("saw"), TEXT("saw the player dancing on the bank steps"), 0.2f);
-			Remember(i, TEXT("talk"), TEXT("the player said they are also in the jam, making a racing game"), 0.5f);
-			NoteTalk(i, Player.Name, TEXT("egyptian tomorrow at 8?")); NoteTalk(i, Sims[i].P->Handle, TEXT("sure if i finish my build"));
+			Remember(i, TEXT("talk"), TEXT("the player said they are making a racing game"), 0.5f);
+			NoteTalk(i, Player.Name, TEXT("egyptian tomorrow at 8?")); NoteTalk(i, Sims[i].P->Handle, TEXT("sure if im not asleep"));
 			FHLRelation& R = Relation(Sims[i]);
 			R.Liking = 3; R.DecayDay -= 5; R.LastSeen -= 5 * 86400; for (FHLEpisode& E : R.Episodes) E.Day -= 5;
 			++Made;

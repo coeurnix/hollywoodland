@@ -3170,6 +3170,28 @@
     0.25,
     0.5
    ]
+  },
+  "title_ridge": {
+   "mesh": "/Game/Props/SM_TitleRidge.SM_TitleRidge",
+   "size": [
+    372.74,
+    284.27,
+    100.0
+   ],
+   "zmin": -50.39,
+   "pivot": "floor",
+   "source": "art/world/models/scene/title_ridge.glb",
+   "tris": 23758,
+   "min": [
+    -187.02,
+    -142.78,
+    -50.38
+   ],
+   "max": [
+    185.72,
+    141.49,
+    49.61
+   ]
   }
  }
 }

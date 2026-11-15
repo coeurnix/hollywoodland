@@ -53,9 +53,6 @@ const opening = [
 ];
 export const quests = [
   ...opening,
-  Q('q_hb_01', 'Pests in the Forecourt', 2, G, G, [kill('mob_invader_worker', 6, 'Invader Workers slain')],
-    "Welcome to the Chinese, friend. I'd shake your hand but I've a theatre full of vermin. Those pale ones, the Workers, are carrying off my forecourt a brick at a time. They don't bite unless you start it. Start it. Six of them ought to make my point.",
-    "Six fewer. I can nearly hear the box office again. You'll do, kid."),
   // a short one that shows off emotes: perform for the other players on the forecourt (any of the showy emotes, aimed
   // at a player; each player counts once)
   Q('q_hb_ham', 'Ham It Up', 2, 'npc_dolly', 'npc_dolly', [{ type: 'do', kind: 'emote_player', count: 3, label: 'Players entertained (/dance, /silly)', npc: '' }],
@@ -179,13 +176,14 @@ export const quests = [
 ];
 // chains
 for (let i = 1; i < 9; ++i) { const a = quests.find((q) => q.id === `q_open_${i}`), b = quests.find((q) => q.id === `q_open_${i + 1}`); a.next = b.id; b.prereq = a.id; }
-quests.find((q) => q.id === 'q_hb_01').prereq = 'q_open_9'; quests.find((q) => q.id === 'q_open_9').next = 'q_hb_01';
+// (Pests in the Forecourt, six Workers for Sid, is gone: Reel One of the tour is the same job)
+quests.find((q) => q.id === 'q_open_9').next = 'q_hb_03';
 quests.find((q) => q.id === 'q_hb_02').prereq = 'q_open_9'; quests.find((q) => q.id === 'q_hb_ham').prereq = 'q_open_9';
 const chain = (a, b) => { quests.find((q) => q.id === a).next = b; quests.find((q) => q.id === b).prereq = a; };
-chain('q_hb_01', 'q_hb_03'); chain('q_hb_03', 'q_hb_04'); chain('q_hb_04', 'q_hb_05'); chain('q_hb_05', 'q_hb_09');
-chain('q_hb_01', 'q_hb_06'); chain('q_hb_06', 'q_hb_07'); chain('q_hb_07', 'q_hb_08'); chain('q_hb_08', 'q_hb_17');
+chain('q_hb_03', 'q_hb_04'); chain('q_hb_04', 'q_hb_05'); chain('q_hb_05', 'q_hb_09');
+chain('q_hb_06', 'q_hb_07'); chain('q_hb_07', 'q_hb_08'); chain('q_hb_08', 'q_hb_17');
 chain('q_hb_17', 'q_hb_18'); chain('q_hb_18', 'q_hb_19'); chain('q_hb_19', 'q_hb_22'); chain('q_hb_22', 'q_hb_23'); chain('q_hb_23', 'q_hb_24');
 chain('q_hb_11', 'q_hb_15'); chain('q_hb_12', 'q_hb_21'); chain('q_hb_14', 'q_hb_14b'); chain('q_hb_14b', 'q_hb_15'); chain('q_hb_28', 'q_hb_29');
 // A quest can have only one prereq; restore the ones overwritten above (first prereq wins for display, all listed here).
-quests.find((q) => q.id === 'q_hb_06').prereq = 'q_hb_01'; quests.find((q) => q.id === 'q_hb_15').prereq = 'q_hb_11';
+quests.find((q) => q.id === 'q_hb_03').prereq = 'q_open_9'; quests.find((q) => q.id === 'q_hb_06').prereq = 'q_open_9'; quests.find((q) => q.id === 'q_hb_15').prereq = 'q_hb_11';
 quests.find((q) => q.id === 'q_hb_20').giver = 'npc_kearney';

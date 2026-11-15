@@ -212,11 +212,11 @@ void FHLGame::TickChat(float Dt)
 			if (!S.bOnline || S.bInParty) continue;
 			if (Ch == TEXT("zone") && !(S.UnitId || S.Level <= 14)) continue; // General is zone-wide; trade and LFG are capital-wide
 			if (Ch == TEXT("lfg") && S.Level < 7) continue;
-			// General is mostly people: the game as a game they found, their evening, the jam; some of it about play itself
+			// General is mostly people: the game as a game they found, their evening; some of it about play itself
 			if (Ch == TEXT("zone") && Chance(0.72f))
 			{
 				const float Tp = Rand();
-				const TCHAR* Sit = Tp < 0.34f ? TEXT("itch") : Tp < 0.6f ? TEXT("life") : Tp < 0.76f ? TEXT("jam") : TEXT("idle");
+				const TCHAR* Sit = Tp < 0.4f ? TEXT("itch") : Tp < 0.7f ? TEXT("life") : TEXT("idle");
 				const FString Line = CorpusLine(S, Sit);
 				if (!Line.IsEmpty()) { AddChat(Ch, S.P->Handle, StyleText(*S.P, Line), SI); LastZoneSituation = TEXT("idle"); break; }
 			}
