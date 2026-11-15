@@ -52,3 +52,22 @@ art/buildings/meshes/*.glb
 art/buildings/preview/*
 !art/buildings/preview/*_contact.png
 !art/buildings/preview/KitProof_*.png
+
+# characters v2 (tools/charv2): the masters, exports and reviews stay local (multi-GB); the imported
+# Content/CharactersV2 assets (1.3 GB, no LFS) are rebuilt with Scripts/ImportCharacters.ps1 -Script import_characters_v2.py
+art/characters/
+art/characters_v2/concepts/
+art/characters_v2/export/
+art/characters_v2/gear/
+art/characters_v2/hats/
+art/characters_v2/looks/
+art/characters_v2/review/
+art/characters_v2/src/
+hollywoodland-ue/Content/CharactersV2/
+# map painting logs
+art/maps/logs/
+# review notes and suggestion packages from playtests (local working material)
+ART-NOTES.md
+SUGGESTED-IMPROVEMENTS.md
+suggestioned-improvements/
+suggested-improvements-v2/
