@@ -1,4 +1,5 @@
 ﻿#include "HLWorldActor.h"
+#include "HLCharV2.h"
 #include "HLBridge.h"
 #include "HLUI.h"
 #include "Camera/CameraComponent.h"
@@ -1685,6 +1686,60 @@ void AHLWorldActor::AutoTest(float Dt)
 		if (Shot != Step && T > NextStep - 0.5) { Shot = Step; FScreenshotRequest::RequestScreenshot(FPaths::ProjectSavedDir() / FString::Printf(TEXT("Screenshots/hl_enemy_%02d.png"), Step), true, false); }
 #endif
 		return;
+	}
+	if (P && FParse::Param(FCommandLine::Get(), TEXT("HLV2Test")))
+	{
+		// v2 character check: four copies of the test outfit around the player, each playing a different clip
+		static bool bBuilt = false; static double Shot1 = 0;
+		static TArray<FHLV2Rig> Rigs;
+		static FVector2D Pin = P->Pos; static float PinYaw = P->Yaw;
+		AutoNextShot = 1e9;
+		P->Pos = Pin; P->Yaw = PinYaw; P->TargetId = 0; P->bAutoAttack = false; P->CombatUntil = 0;
+		CamYaw = PinYaw; CamPitch = 8; CamDist = 2.5f;
+		if (!bBuilt && T > 2)
+		{
+			bBuilt = true; Shot1 = T + 8;
+			const TCHAR* Clips[4] = { TEXT("Idle"), TEXT("Run"), TEXT("Attack_1H_A"), TEXT("Dance") };
+			const float Yaws[4] = { 0, 90, 180, 270 };
+			for (int32 i = 0; i < 4; ++i)
+			{
+				const FVector2D At = P->Pos + FVector2D(FMath::Cos(FMath::DegreesToRadians(P->Yaw + 90)), FMath::Sin(FMath::DegreesToRadians(P->Yaw + 90))) * ((i - 1.5f) * 0.95f)
+					+ FVector2D(FMath::Cos(FMath::DegreesToRadians(P->Yaw)), FMath::Sin(FMath::DegreesToRadians(P->Yaw))) * 2.6f;
+				AActor* A = GetWorld()->SpawnActor<AActor>();
+				USceneComponent* R = NewObject<USceneComponent>(A);
+				A->SetRootComponent(R); R->RegisterComponent();
+				A->SetActorLocationAndRotation(ToWorld(P->Area, At, P->Z), FRotator(0, Yaws[i], 0));
+				TArray<FHLV2Piece> Pieces;
+				FHLV2Piece Coat; Coat.Mesh = TEXT("SKV2_Male_toigo_male_suit_3_coat"); Coat.Tex = TEXT("SKV2_Male_toigo_male_suit_3_D"); Coat.Layer = 3;
+				Coat.Covers = HLZone::Chest | HLZone::Belly | HLZone::UpperArm | HLZone::Forearm; Pieces.Add(Coat);
+				FHLV2Piece Tr = Coat; Tr.Mesh = TEXT("SKV2_Male_toigo_male_suit_3_trousers"); Tr.Layer = 1; Tr.Covers = HLZone::Hips | HLZone::Thigh | HLZone::Calf; Pieces.Add(Tr);
+				FHLV2Piece Sh; Sh.Mesh = TEXT("SKV2_Male_mindfront_shoes_oxford_male_shoes"); Sh.Tex = TEXT("SKV2_Male_mindfront_shoes_oxford_male_D"); Sh.Layer = 2; Sh.Covers = HLZone::Foot; Pieces.Add(Sh);
+				FHLV2Piece Hat; Hat.Mesh = TEXT("SKV2_Male_fedora01_hat"); Hat.Tex = TEXT("SKV2_Male_fedora01_D"); Hat.Socket = TEXT("head"); Hat.Layer = 5; Pieces.Add(Hat);
+				FHLV2Rig& Rig = Rigs.AddDefaulted_GetRef();
+				if (!FHLCharV2::Build(A, R, 0, Pieces, Rig)) { HLBridge::Log(TEXT("HL_V2 build failed")); continue; }
+				if (!FParse::Param(FCommandLine::Get(), TEXT("HLV2NoAnim"))) FHLCharV2::Play(Rig, Clips[i]);
+				{
+					USkeletalMeshComponent* B = Rig.Body.Get();
+					USkeletalMesh* SM = B ? Cast<USkeletalMesh>(B->GetSkinnedAsset()) : nullptr;
+					HLBridge::Log(FString::Printf(TEXT("HL_V2 dbg vis=%d reg=%d hidden=%d mesh=%s render=%d lods=%d world=%s scale=%s"), B && B->IsVisible(), B && B->IsRegistered(), A->IsHidden(),
+						SM ? *SM->GetName() : TEXT("none"), SM && SM->GetResourceForRendering() ? 1 : 0, SM ? SM->GetLODNum() : -1, B ? *B->GetComponentLocation().ToString() : TEXT("-"), B ? *B->GetComponentScale().ToString() : TEXT("-")));
+				}
+				HLBridge::Log(FString::Printf(TEXT("HL_V2 built %d pieces %d clip %s anim %s at %s player %s bounds %s"), i, Rig.Pieces.Num(), Clips[i], FHLCharV2::Anim(0, Clips[i]) ? TEXT("ok") : TEXT("MISSING"),
+					*A->GetActorLocation().ToString(), *ToWorld(P->Area, P->Pos, P->Z).ToString(), *Rig.Body->Bounds.ToString()));
+			}
+		}
+#if !PLATFORM_WASM
+		static int32 Shots = 0;
+		if (bBuilt && Shots < 3 && T >= Shot1 + Shots * 0.9)
+		{
+			FScreenshotRequest::RequestScreenshot(FPaths::ProjectSavedDir() / FString::Printf(TEXT("Screenshots/hl_v2_%02d.png"), Shots), true, false);
+			for (FHLV2Rig& Rg : Rigs) if (USkeletalMeshComponent* B = Rg.Body.Get())
+				HLBridge::Log(FString::Printf(TEXT("HL_V2 pose %s pelvis %s head %s hand_r %s root %s"), *Rg.Clip, *B->GetBoneLocation(TEXT("pelvis")).ToString(), *B->GetBoneLocation(TEXT("head")).ToString(),
+					*B->GetBoneLocation(TEXT("hand_r")).ToString(), *B->GetComponentLocation().ToString()));
+			++Shots;
+		}
+#endif
+		if (bBuilt && T > Shot1 + 4) { UKismetSystemLibrary::QuitGame(this, nullptr, EQuitPreference::Quit, false); return; }
 	}
 	if (P && FParse::Param(FCommandLine::Get(), TEXT("HLLineup")))
 	{

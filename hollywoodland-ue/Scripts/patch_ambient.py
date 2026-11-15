@@ -13,7 +13,7 @@ eal = unreal.EditorAssetLibrary
 mel = unreal.MaterialEditingLibrary
 MPC = '/Game/HL/MPC_HLAmbient'
 MATERIALS = ['/Game/HL/M_HL', '/Game/HL/M_HLGround', '/Game/HL/M_HLWall', '/Game/HL/M_HLTerrain',   '/Game/Characters/M_HLChar', '/Game/Characters/M_HLHair',
-             '/Game/Characters/M_HLProp', '/Game/Enemies/M_HLEnemy', '/Game/Props/M_HLWorldProp', '/Game/Buildings/M_HLWorldProp', '/Game/Props/M_HLFoliage']
+             '/Game/Characters/M_HLProp', '/Game/Enemies/M_HLEnemy', '/Game/Props/M_HLWorldProp', '/Game/Buildings/M_HLWorldProp', '/Game/Props/M_HLFoliage', '/Game/CharactersV2/M_HLCharV2', '/Game/CharactersV2/M_HLCharV2Masked']
 
 
 def collection():
