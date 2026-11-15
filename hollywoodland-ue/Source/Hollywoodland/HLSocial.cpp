@@ -52,7 +52,7 @@ void FHLGame::AddFriend(int32 SimIdx, bool bQuiet)
 	if (Player.Friends.Num() >= 50) { Error(TEXT("Your friends list is full.")); return; }
 	Player.Friends.Add(Sims[SimIdx].P->Id);
 	Relation(Sims[SimIdx]).Familiarity++;
-	if (!bQuiet) System(FString::Printf(TEXT("%s added to friends."), *Sims[SimIdx].P->Handle));
+	if (!bQuiet) { System(FString::Printf(TEXT("%s added to friends."), *Sims[SimIdx].P->Handle)); Toast(FString::Printf(TEXT("%s added to friends"), *Sims[SimIdx].P->Handle)); }
 }
 
 void FHLGame::RemoveFriend(int32 SimIdx)

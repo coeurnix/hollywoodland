@@ -79,6 +79,13 @@ bool FHLGame::DoEmote(const FString& Cmd, const FString& Rest)
 			EmoteCount >= 3 ? TEXT("; they have been emoting over and over") : TEXT(""), bBare ? TEXT("; they are wearing hardly any clothes") : TEXT("")), T && T->Kind == EHLKind::Sim ? T->Id : 0, T ? 0.85f : 0.4f + FMath::Min(0.3f, EmoteCount * 0.08f),
 			E->Anim.IsEmpty() ? nullptr : *E->Anim);
 	}
+	// Ham It Up (q_hb_ham): a showy emote aimed at a player, each player once
+	if (T && T->Kind == EHLKind::Sim && (E->Id == TEXT("silly") || E->Id == TEXT("flirt") || E->Id == TEXT("dance") || E->Id == TEXT("bow"))
+		&& Player.Quests.ContainsByPredicate([](const FHLQuestState& Q) { return Q.Q && Q.Q->Id == TEXT("q_hb_ham") && !Q.bComplete; }))
+	{
+		bool bSeen = false; EmotedAt.Add(T->Id, &bSeen);
+		if (!bSeen) QuestEvent(TEXT("do"), TEXT("emote_player"));
+	}
 	if (P)
 	{
 		P->bSitting = false;

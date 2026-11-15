@@ -618,9 +618,12 @@ void AHLWorldActor::BuildWorld()
 			static const TCHAR* KitFams[] = { TEXT("SM_BRK_"), TEXT("SM_DECO_"), TEXT("SM_MSN_"), TEXT("SM_SPN_"), TEXT("SM_DR_"), TEXT("SM_RF_"), TEXT("SM_HV_"), TEXT("SM_EGY_"), TEXT("SM_ST_"), TEXT("BRK_") }; // repeated modules: instanced (hive wall 550, dungeon walls 110, kerbs)
 			bool bKit = false;
 			for (const TCHAR* F : KitFams) if (P.Mesh.StartsWith(FString(TEXT("/Game/Buildings/")) + F)) { bKit = true; break; }
+			if (P.Mesh.Contains(TEXT("SM_EGY_Pylon"))) bKit = false;
 			if (!bKit)
 			{
 				UStaticMeshComponent* Pc = AddProp(Geo, a, P);
+				if (Pc && a != 0 && (P.Mesh.Contains(TEXT("SM_EgyColumn")) || P.Mesh.Contains(TEXT("SM_HiveSpire")) || P.Mesh.Contains(TEXT("SM_EgyPharaoh")) || P.Mesh.Contains(TEXT("SM_EgySphinx")) || P.Mesh.Contains(TEXT("SM_EGY_Pylon"))))
+					Occluders.Add({ Pc, a });
 				if (Pc && a == 0 && (P.Mesh.Contains(TEXT("SM_StreetLamp")) || P.Mesh.Contains(TEXT("SM_LampSingle"))))
 				{
 					const FBox Bx = Pc->Bounds.GetBox();
@@ -780,6 +783,11 @@ void AHLWorldActor::BuildUnit(const FHLUnit& U, FHLUnitVis& V)
 	if (U.Kind == EHLKind::Mob && U.Mob && FHLEnemyArt::Get().Make(A, Root, V.Enemy, U.Mob->Id))
 	{
 		V.bEnemy = true;
+		if (MatAdd && V.Enemy.Comp.IsValid())
+		{
+			if (!EnemyLift) { EnemyLift = UMaterialInstanceDynamic::Create(MatAdd, this); EnemyLift->SetVectorParameterValue(TEXT("Color"), FLinearColor(0.085f, 0.06f, 0.04f)); }
+			V.Enemy.Comp->SetOverlayMaterial(EnemyLift);
+		}
 		A->SetActorScale3D(FVector(S));
 	}
 	else if (U.Shape == TEXT("bug"))
@@ -1348,6 +1356,25 @@ void AHLWorldActor::Tick(float Dt)
 		Loc.Z = FMath::Max(Loc.Z, (GroundZ(CA, FVector2D(Loc.X / M, Loc.Y / M) - Off) + 0.6f) * M);
 	}
 	Camera->SetWorldLocationAndRotation(Loc, (Focus - Loc).Rotation());
+	if (P && Occluders.Num())
+	{
+		const double Tn = FPlatformTime::Seconds();
+		const FVector Chest = ToWorld(P->Area, P->Pos, P->Z + 1.1f);
+		for (FOccluder& O : Occluders)
+		{
+			UStaticMeshComponent* C = O.C.Get();
+			if (!C) continue;
+			bool bBlock = false;
+			if (O.Area == P->Area)
+			{
+				const FBox Bx = C->Bounds.GetBox().ExpandBy(FVector(40.f, 40.f, 0.f));
+				bBlock = FMath::LineBoxIntersection(Bx, Loc, Chest, Chest - Loc) || Bx.ExpandBy(250.f).IsInside(Loc);
+			}
+			if (bBlock) O.ClearAt = Tn + 0.4;
+			const bool bHide = bBlock || Tn < O.ClearAt;
+			if (bHide != O.bHidden) { O.bHidden = bHide; C->SetVisibility(!bHide); }
+		}
+	}
 	if (!Game.bInWorld && Show && FPlatformTime::Seconds() < ShowWantUntil)
 	{
 		// character select: a slow breathing drift so the scene is alive
@@ -1502,7 +1529,8 @@ void AHLWorldActor::AutoTest(float Dt)
  			{ 229, 322, 90, 12, 44 }, { 500, 284, 90, 12, 34 }, { 608, 268, 0, 12, 34 }, { 125, 424, 90, 14, 36 },
  			{ 878, 170, 0, 14, 34 }, { 298, -92, -90, 4, 30 }, { 60, 140, 90, 18, 30, 1 }, { 60, 30, 90, 14, 26, 1 } };
 		// -HLViewSet=forecourt: the Chinese Theatre's entrance recess from the forecourt (both returns)
-		static const FView Forecourt[] = { { 96, 178, -70, 6, 9 }, { 90, 178, -110, 6, 9 }, { 93, 172, -90, 4, 6 } };
+		static const FView Forecourt[] = { { 96, 178, -70, 6, 9 }, { 90, 178, -110, 6, 9 }, { 93, 172, -90, 4, 6 },
+			{ 54, 34, -90, 10, 16, 1 }, { 24, 46, -90, 10, 14, 1 } }; // and the lobby's pylon and a column (camera behind them)
 		const bool bNature = bSet && Set == TEXT("nature"), bLandmarks = bSet && Set == TEXT("landmarks"), bFore = bSet && Set == TEXT("forecourt");
 		const FView* Views = bFore ? Forecourt : bNature ? Nature : bLandmarks ? Landmarks : Fronts;
 		if (FParse::Param(FCommandLine::Get(), TEXT("HLFilmTest")) && Game.FilmStart <= 0) { Game.FilmStart = Game.Now; Game.FilmEnd = Game.Now + 1e6; } // picture night on (views of the screen)
@@ -1591,6 +1619,21 @@ void AHLWorldActor::AutoTest(float Dt)
 			Steps.Add([=, this] { Game.QuestEvent(TEXT("do"), TEXT("map")); });
 			Steps.Add([=] { Visit(TEXT("npc_sid_grauman"), nullptr); Finish(TEXT("q_open_9")); });
 			Steps.Add([=, this] { HLBridge::Log(FString::Printf(TEXT("HL_STATUS tour done opening=%d q_hb_01 avail=%d"), Game.InOpening() ? 1 : 0, Game.QuestAvailable(*FHLData::Get().Quest(TEXT("q_hb_01"))) ? 1 : 0)); });
+			// Ham It Up: Dolly's emote quest (three different players, a showy emote at each)
+			Steps.Add([=] { Visit(TEXT("npc_dolly"), nullptr); Accept(TEXT("q_hb_ham")); });
+			Steps.Add([=, this]
+			{
+				FHLUnit* Me = Game.PlayerUnit(); int32 Done = 0;
+				static const TCHAR* Em[] = { TEXT("dance"), TEXT("silly"), TEXT("flirt"), TEXT("bow") };
+				for (FHLUnit* U : Game.UnitList) if (U->Kind == EHLKind::Sim && U->Area == Me->Area && !U->bDead && Done < 4)
+				{
+					Me->TargetId = U->Id; Game.DoEmote(Em[Done % 4], FString()); if (Done == 0) Game.DoEmote(TEXT("dance"), FString()); ++Done; // (the repeat must not count)
+				}
+				const FHLQuestState* Q = Game.Player.Quests.FindByPredicate([](const FHLQuestState& S) { return S.Q->Id == TEXT("q_hb_ham"); });
+				HLBridge::Log(FString::Printf(TEXT("HL_STATUS tour ham progress=%d complete=%d"), Q && Q->Progress.Num() ? Q->Progress[0] : -1, Q && Q->bComplete ? 1 : 0));
+			});
+			Steps.Add([=] { Visit(TEXT("npc_dolly"), nullptr); Finish(TEXT("q_hb_ham")); });
+			Steps.Add([=, this] { HLBridge::Log(FString::Printf(TEXT("HL_STATUS tour ham done=%d"), Game.Player.Done.Contains(TEXT("q_hb_ham")) ? 1 : 0)); });
 		}
 		P->CombatUntil = 0; P->bAutoAttack = false; P->TargetId = 0;
 		if (T >= NextStep && T > 4)

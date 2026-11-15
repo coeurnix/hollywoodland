@@ -898,7 +898,15 @@ void SHLGameUI::DrawWorldOverlay() const
 		if (!O.Def->Quest.IsEmpty()) if (const FHLQuestState* QS = Gm.QuestState(O.Def->Quest)) for (int32 i = 0; i < QS->Q->Objectives.Num(); ++i) if (QS->Q->Objectives[i].Kind == O.Def->Kind && QS->Progress[i] < QS->Q->Objectives[i].Count) bWanted = true;
 		FVector2D S;
 		if (!Project(World->ToWorld(P->Area, O.Def->Pos, O.Def->bTall ? 7.5f : O.Def->bBig ? 4 : 1.3f), S)) continue;
-		if (bWanted || D < 12) TxC(S.X, S.Y, (bWanted && !O.Def->Quest.IsEmpty() ? TEXT("* ") : TEXT("")) + O.Def->Name, 10, bWanted ? FLinearColor(1, 0.9f, 0.3f) : ColDim);
+		if (bWanted || D < 12)
+		{
+			const FString Lb = (bWanted && !O.Def->Quest.IsEmpty() ? TEXT("* ") : TEXT("")) + O.Def->Name;
+			const float Lw = TW(Lb, 10) * 0.5f + 3;
+			const FBox2D R(FVector2D(S.X - Lw, S.Y), FVector2D(S.X + Lw, S.Y + 15));
+			bool bClash = false;
+			for (const FBox2D& Bx : HudReserve) if (Bx.Intersect(R)) { bClash = true; break; }
+			if (!bClash) TxC(S.X, S.Y, Lb, 10, bWanted ? FLinearColor(1, 0.9f, 0.3f) : ColDim);
+		}
 		FPick Pk; Pk.Area = P->Area; Pk.Obj = o; Pk.Pos = S + FVector2D(0, 24); Pk.Radius = FMath::Clamp(500.f / FMath::Max(4.f, D), 16.f, 70.f); Pk.Depth = D;
 		Picks.Add(Pk);
 	}
@@ -1254,6 +1262,20 @@ void SHLGameUI::DrawHud() const
 		const float Y = VS.Y * 0.30f, Wd = TW(Gm.NoticeText, Sz, true) + 40;
 		RRc(VS.X * 0.5f - Wd * 0.5f, Y - 6, Wd, Sz * 1.6f + 8, FLinearColor(0, 0, 0, 0.45f * A), 10);
 		TxC(VS.X * 0.5f, Y, Gm.NoticeText, Sz, FLinearColor(Gm.NoticeColor.R, Gm.NoticeColor.G, Gm.NoticeColor.B, A), true);
+	}
+	{
+		const double Life = 2.5 * FHLSettings::Get().TextHold;
+		Gm.Toasts.RemoveAll([&](const FHLGame::FToast& Ts) { return Gm.Now - Ts.At > Life; });
+		float Ty = VS.Y - 128;
+		for (int32 i = Gm.Toasts.Num() - 1; i >= 0; --i)
+		{
+			const FHLGame::FToast& Ts = Gm.Toasts[i];
+			const float Age = (float)(Gm.Now - Ts.At), A = FMath::Clamp((float)(Life - Age) * 2.f, 0.f, 1.f) * FMath::Clamp(Age * 8.f, 0.f, 1.f);
+			const float Wd = TW(Ts.Text, 11, true) + 28, Rise = (1.f - FMath::Clamp(Age * 8.f, 0.f, 1.f)) * 8.f;
+			RRc(VS.X * 0.5f - Wd * 0.5f, Ty - 3 + Rise, Wd, 22, FLinearColor(0.04f, 0.035f, 0.03f, 0.75f * A), 8);
+			TxC(VS.X * 0.5f, Ty + Rise, Ts.Text, 11, FLinearColor(Ts.Color.R, Ts.Color.G, Ts.Color.B, A), true);
+			Ty -= 26;
+		}
 	}
 	if (Gm.Now < Gm.BannerUntil)
 	{

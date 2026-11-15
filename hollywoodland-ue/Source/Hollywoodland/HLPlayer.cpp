@@ -43,7 +43,7 @@ void FHLGame::LearnAbility(const FHLAbility* Ab, bool bFree)
 		const int32 Cost = 10 * Ab->Level;
 		if (Player.Cents < Cost) { Error(TEXT("You can't afford that.")); return; }
 		Player.Cents -= Cost;
-		System(FString::Printf(TEXT("You have learned %s."), *Ab->Name));
+		System(FString::Printf(TEXT("You have learned %s."), *Ab->Name)); Toast(FString::Printf(TEXT("Learned %s"), *Ab->Name));
 		Sound2D(TEXT("ui_learn"));
 	}
 	Player.Known.Add(Ab);
@@ -440,7 +440,7 @@ void FHLGame::UseBag(int32 BagIdx)
 	if (OpenNpcMode == TEXT("vendor")) { SellBag(BagIdx); return; }
 	if (OpenNpcMode == TEXT("bank"))
 	{
-		for (FHLInvSlot& S : Player.Bank) if (!S.Item) { S = Player.Bag[BagIdx]; Player.Bag[BagIdx] = FHLInvSlot(); QuestEvent(TEXT("do"), TEXT("bank_deposit")); return; }
+		for (FHLInvSlot& S : Player.Bank) if (!S.Item) { S = Player.Bag[BagIdx]; Player.Bag[BagIdx] = FHLInvSlot(); Toast(FString::Printf(TEXT("Deposited %s"), *S.Item->Name)); QuestEvent(TEXT("do"), TEXT("bank_deposit")); return; }
 		Error(TEXT("Your bank is full.")); return;
 	}
 	if (It->IsEquip()) { EquipBag(BagIdx); return; }
@@ -564,7 +564,7 @@ bool FHLGame::BuyItem(const FHLItem* Item)
 	if (!AddItem(Item, Item->Buy, false)) return false;
 	Player.Cents -= Cost;
 	Sound2D(TEXT("ui_cash"));
-	System(FString::Printf(TEXT("You buy [%s] for %s."), *Item->Name, *HLMoney(Cost)));
+	System(FString::Printf(TEXT("You buy [%s] for %s."), *Item->Name, *HLMoney(Cost))); Toast(FString::Printf(TEXT("Bought %s"), *Item->Name));
 	QuestEvent(TEXT("do"), TEXT("buy"));
 	return true;
 }
@@ -1198,7 +1198,7 @@ bool FHLGame::ListAuction(int32 BagIdx, int32 Buyout, float Hours)
 	FHLAuction A; A.Item = S.Item; A.Count = S.Count; A.Buyout = FMath::Max(1, Buyout); A.MinBid = FMath::Max(1, A.Buyout * 7 / 10); A.bMine = true; A.ExpiresAt = Now + Hours * 3600.f;
 	Auctions.Insert(A, 0);
 	Player.Bag[BagIdx] = FHLInvSlot();
-	System(FString::Printf(TEXT("Auction created for [%s] at %s (deposit %s)."), *A.Item->Name, *HLMoney(A.Buyout), *HLMoney(Deposit)));
+	System(FString::Printf(TEXT("Auction created for [%s] at %s (deposit %s)."), *A.Item->Name, *HLMoney(A.Buyout), *HLMoney(Deposit))); Toast(FString::Printf(TEXT("Listed %s for %s"), *A.Item->Name, *HLMoney(A.Buyout)));
 	QuestEvent(TEXT("do"), TEXT("auction_list"));
 	return true;
 }

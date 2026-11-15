@@ -266,8 +266,8 @@ static FHLCharLook NpcLook(const FHLChars& C, const FHLNpcDef& N)
 		{ TEXT("npc_teller"), TEXT("C3") }, { TEXT("npc_conductor"), TEXT("C2") }, { TEXT("npc_gunsmith"), TEXT("L2") }, { TEXT("npc_haberdasher"), TEXT("C3") },
 		{ TEXT("npc_auctioneer"), TEXT("C4") }, { TEXT("npc_auctioneer2"), TEXT("C3") }, { TEXT("npc_salvage_trainer"), TEXT("P1") }, { TEXT("npc_derby_cook"), TEXT("C1") },
 		{ TEXT("npc_druggist"), TEXT("C1") }, { TEXT("npc_pantages_manager"), TEXT("C3") }, { TEXT("npc_taft_doorman"), TEXT("C5") }, { TEXT("npc_stagehand"), TEXT("E8") },
-		{ TEXT("npc_chief_davis"), TEXT("C3") }, { TEXT("npc_capt_hynes"), TEXT("S2") }, { TEXT("npc_kearney"), TEXT("S1") } };
-	const bool bWoman = N.Name.StartsWith(TEXT("Miss ")) || N.Name.StartsWith(TEXT("Mrs. ")) || N.Name.StartsWith(TEXT("Annie ")) || N.Name.StartsWith(TEXT("Edith ")) || N.Name.StartsWith(TEXT("Mary ")) || N.Name.StartsWith(TEXT("Sister "));
+		{ TEXT("npc_chief_davis"), TEXT("C3") }, { TEXT("npc_capt_hynes"), TEXT("S2") }, { TEXT("npc_kearney"), TEXT("S1") }, { TEXT("npc_dolly"), TEXT("C2") } };
+	const bool bWoman = N.Name.StartsWith(TEXT("Miss ")) || N.Name.StartsWith(TEXT("Mrs. ")) || N.Name.StartsWith(TEXT("Annie ")) || N.Name.StartsWith(TEXT("Edith ")) || N.Name.StartsWith(TEXT("Mary ")) || N.Name.StartsWith(TEXT("Sister ")) || N.Name.StartsWith(TEXT("Dolly "));
 	FHLCharLook L;
 	L.App = FHLAppearance::FromSeed(GetTypeHash(N.Id), bWoman ? 1 : 0);
 	const uint32 H = GetTypeHash(N.Id);
@@ -860,6 +860,7 @@ void FHLCharVisuals::Drive(FHLCharRig& Rig, const FHLUnit& U, const FHLCharLook&
 		return;
 	}
 	if (U.bSitting) { Play(Rig, ClipFor(S, { TEXT("SitLoop"), TEXT("Idle") }), true); return; }
+	if (U.Kind == EHLKind::Npc && U.Npc && U.Npc->HasRole(TEXT("dancer"))) Rig.bDancing = true; // the forecourt's chorus girl never stops
 	if (Rig.bDancing && !bCasting && !U.bAutoAttack && U.CombatUntil <= Now) { Play(Rig, TEXT("Dance"), true); return; }
 	Rig.bDancing = false;
 	if (bCasting) { Play(Rig, ClipFor(S, { TEXT("CastLoop"), TEXT("Idle") }), true); return; }

@@ -427,6 +427,10 @@ public:
 		// a short centred notice for things that just happened to you (dazed, stunned, sick); the UI raises most of these itself
 		FString NoticeText; FLinearColor NoticeColor = FLinearColor::White; double NoticeStart = 0, NoticeUntil = 0;
 		void Notice(const FString& T, const FLinearColor& C) { NoticeText = T; NoticeColor = C; NoticeStart = Now; NoticeUntil = Now + 2.2 * FHLSettings::Get().TextHold; }
+		TSet<int32> EmotedAt; // players the player has performed an emote for (Ham It Up counts each once)
+		struct FToast { FString Text; FLinearColor Color; double At = 0; };
+		TArray<FToast> Toasts; // newest last; the HUD shows three above the action bar
+		void Toast(const FString& T, const FLinearColor& C = FLinearColor(0.75f, 1.f, 0.7f)) { Toasts.Add({ T, C, Now }); if (Toasts.Num() > 3) Toasts.RemoveAt(0); }
 	void Error(const FString& T) { if (ErrorText != T || Now > ErrorUntil - 2.0) { Sound2D(TEXT("ui_error")); ErrorBark(T); } ErrorText = T; ErrorUntil = Now + 2.5 * FHLSettings::Get().TextHold; }
 	// spoken lines (HLDialogue.cpp): subtitles from dialogue.json, audio vo_<speaker>_<kind> variant n from vo.json
 	int32 Say(const FHLUnit& Speaker, const FHLNpcDef& Npc, const TCHAR* Kind, int32 Line = -1, bool bChat = true); // returns the line, -1 none

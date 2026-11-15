@@ -56,6 +56,11 @@ export const quests = [
   Q('q_hb_01', 'Pests in the Forecourt', 2, G, G, [kill('mob_invader_worker', 6, 'Invader Workers slain')],
     "Welcome to the Chinese, friend. I'd shake your hand but I've a theatre full of vermin. Those pale ones, the Workers, are carrying off my forecourt a brick at a time. They don't bite unless you start it. Start it. Six of them ought to make my point.",
     "Six fewer. I can nearly hear the box office again. You'll do, kid."),
+  // a short one that shows off emotes: perform for the other players on the forecourt (any of the showy emotes, aimed
+  // at a player; each player counts once)
+  Q('q_hb_ham', 'Ham It Up', 2, 'npc_dolly', 'npc_dolly', [{ type: 'do', kind: 'emote_player', count: 3, label: 'Players entertained (click one, then /silly, /flirt, /dance or /bow)', npc: '' }],
+    "Don't mind me, sugar, a girl's got to keep her legs warm between pictures. Say, you've got a face for the pictures, but can you sell it? Pick out three of the loafers on this forecourt and give 'em a show. Click one, then type /dance, or /silly, /flirt, /bow. Type /help in chat for the whole repertoire.",
+    "Now that's what I call a performance! They'll be talking about you down at the Brown Derby. Here, you earned the applause money."),
   Q('q_hb_02', 'Plates for Mr. Factor', 1, 'npc_max_factor', null, [item('Cracked Chitin Plate', 5, 'mob_invader_worker', 0.6)],
     "You have steady hands, I can tell. The shell of these creatures grinds to a powder finer than anything I can import. Bring me five plates off the Workers, cracked is no matter, and I will show you what a chemist can do with a nuisance.",
     "Yes. Yes, this will grind beautifully. Thank you."),
@@ -175,7 +180,7 @@ export const quests = [
 // chains
 for (let i = 1; i < 9; ++i) { const a = quests.find((q) => q.id === `q_open_${i}`), b = quests.find((q) => q.id === `q_open_${i + 1}`); a.next = b.id; b.prereq = a.id; }
 quests.find((q) => q.id === 'q_hb_01').prereq = 'q_open_9'; quests.find((q) => q.id === 'q_open_9').next = 'q_hb_01';
-quests.find((q) => q.id === 'q_hb_02').prereq = 'q_open_9';
+quests.find((q) => q.id === 'q_hb_02').prereq = 'q_open_9'; quests.find((q) => q.id === 'q_hb_ham').prereq = 'q_open_9';
 const chain = (a, b) => { quests.find((q) => q.id === a).next = b; quests.find((q) => q.id === b).prereq = a; };
 chain('q_hb_01', 'q_hb_03'); chain('q_hb_03', 'q_hb_04'); chain('q_hb_04', 'q_hb_05'); chain('q_hb_05', 'q_hb_09');
 chain('q_hb_01', 'q_hb_06'); chain('q_hb_06', 'q_hb_07'); chain('q_hb_07', 'q_hb_08'); chain('q_hb_08', 'q_hb_17');

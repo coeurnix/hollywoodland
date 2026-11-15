@@ -89,6 +89,7 @@ public:
 		UPROPERTY() TObjectPtr<class UMaterialParameterCollection> Ambient; // MPC_HLAmbient: hemisphere ambient in the materials
 		UPROPERTY() TObjectPtr<class UExponentialHeightFogComponent> Fog;    // distance haze outdoors
 	UPROPERTY() TObjectPtr<UMaterialInterface> MatAdd; // additive glow (M_HLAdd)
+	UPROPERTY() TObjectPtr<UMaterialInstanceDynamic> EnemyLift; // the enemies' overlay (a faint additive lift off the ground)
 	UPROPERTY() TObjectPtr<AActor> FxActor;
 	UPROPERTY() TArray<TObjectPtr<UStaticMeshComponent>> FxPool;
 	UPROPERTY() TMap<uint32, TObjectPtr<UMaterialInstanceDynamic>> Mids;
@@ -162,6 +163,8 @@ private:
 	TArray<FVector> LampHeads;
 	UPROPERTY() TArray<TObjectPtr<UStaticMeshComponent>> LampGlows;
 	TArray<TWeakObjectPtr<class UPointLightComponent>> StreetLights;
+	struct FOccluder { TWeakObjectPtr<UStaticMeshComponent> C; int32 Area = 0; double ClearAt = 0; bool bHidden = false; };
+	TArray<FOccluder> Occluders;
 	UPROPERTY() TObjectPtr<class UPointLightComponent> PlayerLight;
 	double NextLampSort = 0;
 	bool bLampsOn = false;

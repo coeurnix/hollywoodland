@@ -244,6 +244,7 @@ N('npc_max_factor', 'Max Factor', 'Pharmacy Trainer', 158, 188, 90, ['quest', 'v
   ['powderman', 'Dutch Vanderhoek', 102], ['nurse', 'Edith Collier, R.N.', 108], ['preacher', 'Rev. Amos Tully', 114], ['mechanic', 'Hank Mulroney', 120]]
   .forEach(([cls, name, x]) => N(`npc_trainer_${cls}`, name, `${cls[0].toUpperCase() + cls.slice(1).replace('powderman', 'owder Man').replace('Powder Man', 'Powder Man')} Trainer`, x, 181, 90, ['trainer', 'quest'], { trains: cls, hub: 'hub_chinese_forecourt' }));
 npcs.find((n) => n.id === 'npc_trainer_powderman').title = 'Powder Man Trainer';
+N('npc_dolly', 'Dolly Marchetti', 'Chorus Girl', 92, 190, 90, ['quest', 'dancer'], { hub: 'hub_chinese_forecourt' }); // dances the Charleston all day (Ham It Up: the emotes)
 N('npc_newsie', 'Mickey Doyle', 'General Goods', 124, 187, 90, ['vendor'], { stock: 'general', hub: 'hub_chinese_forecourt' });
 N('npc_roosevelt_clerk', 'Mr. Pennington', 'Roosevelt Hotel Front Desk', 96, 212.5, -90, ['quest', 'vendor', 'innkeeper'], { stock: 'food', hub: 'hub_chinese_forecourt' });
 N('npc_teller', 'Miss Abigail Frost', 'Teller, First National Bank', 330, 188, 90, ['banker'], { hub: 'hub_highland' });

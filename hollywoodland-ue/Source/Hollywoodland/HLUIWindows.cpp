@@ -404,11 +404,44 @@ void SHLGameUI::DrawMap() const
 	}
 	if (Gm.MarkArea == P.Area && Btn(Lx + 8, My + Mh - 28, LegW - 16, 22, TEXT("Clear the mark"), true, 10)) Gm.MarkArea = -1;
 	const bool bLabels = K >= 2.2f;
+	TArray<int32> Lead; Lead.Init(-1, Svcs.Num());
+	TArray<TArray<int32>> Members; Members.SetNum(Svcs.Num());
+	for (int32 i = 0; i < Svcs.Num(); ++i)
+	{
+		if (i == HotSvc) continue;
+		const FVector2D Si(MX(Svcs[i].Pos.X), MY(Svcs[i].Pos.Y));
+		for (int32 j = 0; j < i && Lead[i] < 0; ++j)
+			if (j != HotSvc && Lead[j] == j && FVector2D::Distance(Si, FVector2D(MX(Svcs[j].Pos.X), MY(Svcs[j].Pos.Y))) < 17.f) Lead[i] = j;
+		if (Lead[i] < 0) Lead[i] = i;
+		Members[Lead[i]].Add(i);
+	}
+	for (int32 i = 0; i < Svcs.Num(); ++i)
+	{
+		if (i == HotSvc || Lead[i] != i || Members[i].Num() < 2) continue;
+		FVector2D Ctr(0, 0); for (int32 m : Members[i]) Ctr += Svcs[m].Pos; Ctr /= Members[i].Num();
+		const float X = MX(Ctr.X), Y = MY(Ctr.Y), R = 10;
+		if (!In(X, Y, 10)) continue;
+		const bool bH = Hover(X - R, Y - R, R * 2, R * 2);
+		Rc(X - R - 1, Y - R - 1, R * 2 + 2, R * 2 + 2, bH ? ColWhite : FLinearColor(0.05f, 0.05f, 0.05f));
+		Rc(X - R, Y - R, R * 2, R * 2, FLinearColor(0.16f, 0.13f, 0.09f));
+		// a strip of the members' colours along the bottom, the count in the middle
+		const float Sw = R * 2 / Members[i].Num();
+		for (int32 k = 0; k < Members[i].Num(); ++k) Rc(X - R + k * Sw, Y + R - 4, Sw, 4, Svcs[Members[i][k]].C);
+		TxC(X, Y - 9, FString::FromInt(Members[i].Num()), 10, ColGold, true);
+		if (bH)
+		{
+			FString L = TEXT("Here:");
+			for (int32 m : Members[i]) L += TEXT("\n") + Svcs[m].Label;
+			TipText = L + TEXT("\nClick to zoom in."); TipPos = Mouse;
+			if (bLClick) { bLClick = false; bMapPan = false; MapCtr = Ctr; MapK = FMath::Min(KMax, MapK * 2.5f); Gm.Sound2D(TEXT("ui_click")); }
+		}
+	}
 	for (int32 i = 0; i < Svcs.Num(); ++i)
 	{
 		const FSvc& S = Svcs[i];
 		const float X = MX(S.Pos.X), Y = MY(S.Pos.Y);
 		if (!In(X, Y, 8)) continue;
+		if (i != HotSvc && Members[Lead[i]].Num() > 1) continue; // drawn as part of a badge
 		const float R = i == HotSvc ? 10 : 7;
 		Rc(X - R - 1, Y - R - 1, R * 2 + 2, R * 2 + 2, i == HotSvc ? ColWhite : FLinearColor(0.05f, 0.05f, 0.05f));
 		Rc(X - R, Y - R, R * 2, R * 2, S.C);
@@ -686,7 +719,7 @@ void SHLGameUI::DrawMenu() const
 	FHLGame& Gm = G();
 	if (!Win(TEXT("menu"), TEXT("Game Menu"), 330, 462, bMenu, (VS.X - 330) * 0.5f, 200)) return;
 	if (Btn(WX, WY + 384, 300, 26, TEXT("Settings: interface, keys, sound, graphics"), true, 10)) { bSettings = true; bMenu = false; }
-	if (Btn(WX, WY + 34, 300, 26, TEXT("Save now"), true, 10)) { Gm.SaveNow(); Gm.System(TEXT("Game saved.")); }
+	if (Btn(WX, WY + 34, 300, 26, TEXT("Save now"), true, 10)) { Gm.SaveNow(); Gm.System(TEXT("Game saved.")); Gm.Toast(TEXT("Game saved")); }
 	if (Btn(WX, WY + 68, 300, 26, TEXT("How to play (H)"), true, 10)) bHelp = true;
 	if (Btn(WX, WY + 102, 300, 26, TEXT("Unstuck: return to the Chinese forecourt"), true, 10)) { if (FHLUnit* U = Gm.PlayerUnit()) if (!Gm.InCombat(*U)) Gm.TeleportUnit(*U, 0, Gm.Areas[0].Def->Spawn); }
 	{
