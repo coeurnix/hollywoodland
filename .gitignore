@@ -72,5 +72,3 @@ SUGGESTED-IMPROVEMENTS.md
 suggestioned-improvements/
 suggested-improvements-v2/
 
-# the rendered trailer (tools/capture/trailer_cut.py rebuilds it)
-tools/capture/trailer/
