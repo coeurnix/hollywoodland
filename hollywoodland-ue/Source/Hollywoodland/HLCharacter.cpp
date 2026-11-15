@@ -527,11 +527,17 @@ void FHLCharVisuals::ApplyV2(AActor* Owner, USceneComponent* Parent, FHLCharRig&
 		if (Look.IsEmpty() && (Slot == TEXT("shirt") || Slot == TEXT("trousers") || Slot == TEXT("shoes"))) Look = TEXT("Starter");
 		if (const FHLV2Piece* P = Look.IsEmpty() ? nullptr : V.Piece(Look, Sex, Slot)) Pieces.Add(*P);
 		else if (Slot == TEXT("trousers") || Slot == TEXT("shirt") || Slot == TEXT("shoes")) if (const FHLV2Piece* S = V.Piece(TEXT("Starter"), Sex, Slot)) Pieces.Add(*S);
+		// the steel looks wear a cuirass over the coat (tools/charv2/fit_gear.py)
+		if (Slot == TEXT("coat") && !Look.IsEmpty()) if (const FHLV2Piece* A = V.Piece(Look, Sex, TEXT("armour"))) Pieces.Add(*A);
 	}
+	const FHLV2Piece* Hat = L.Hat.IsEmpty() ? nullptr : V.Hat(L.Hat, Sex);
+	if (Hat) Pieces.Add(*Hat);
 	if (V.Hair[Sex].Num())
 	{
 		FHLV2Piece H = V.Hair[Sex][((L.App.Hair % V.Hair[Sex].Num()) + V.Hair[Sex].Num()) % V.Hair[Sex].Num()];
-		Pieces.Add(H);
+		H.Mul = FHLChars::HairTint(L.App.HairColor); // greyscale paint (tools/charv2/grey_hair.py) in the chosen colour
+		if (Hat && Hat->bHidesHair && !H.Mesh.IsEmpty()) H.Mesh += TEXT("hat"); // pressed in under the crown (fit_hats.py)
+		if (!H.Mesh.IsEmpty()) Pieces.Add(H);       // an empty style is the bald one
 	}
 	USceneComponent* Root = NewObject<USceneComponent>(Owner);
 	Root->SetupAttachment(Parent);
@@ -540,6 +546,8 @@ void FHLCharVisuals::ApplyV2(AActor* Owner, USceneComponent* Parent, FHLCharRig&
 	FHLV2Rig VR;
 	USkeletalMeshComponent* Body = FHLCharV2::Build(Owner, Root, Sex, Pieces, VR, V.SkinTone(L.App.Skin));
 	if (!Body) return;
+	// the face: morph Face_02..12 (build_body.make_faces); face 0 is the base head
+	if (L.App.Face > 0) Body->SetMorphTarget(*FString::Printf(TEXT("Face_%02d"), L.App.Face % 12 + 1), 1.f);
 	// facing: find the imported forward from the hands (as for the v1 bodies)
 	USkeletalMesh* Mesh = Cast<USkeletalMesh>(Body->GetSkinnedAsset());
 	const FTransform HandR = RefCS(Mesh, TEXT("hand_r")), HandL = RefCS(Mesh, TEXT("hand_l"));
@@ -743,6 +751,26 @@ void FHLCharVisuals::Apply(UWorld* World, AActor* Owner, USceneComponent* Parent
 			const FQuat Fix = FQuat(FVector::ForwardVector, FMath::DegreesToRadians(H->Roll)) * FQuat(FVector::RightVector, FMath::DegreesToRadians(H->Pitch));
 			FQuat Q = FRotationMatrix::MakeFromXZ(Rig.Fwd, FVector::UpVector).ToQuat();
 			FTransform BoneCS = RefCS(HeadMesh, Bone);
+			// v2 bodies bind with the forearms forward and the fingers in a grip (tools/charv2/export_v2.py GRIP): build the
+			// frame from the hand itself. The handle runs across the palm (pinky knuckle to index knuckle: the blade's +X),
+			// the item's top (+Z) points back up the hand towards the wrist, and the grip sits inside the curled fingers.
+			if (FHLCharsV2::Get().Ready())
+			{
+				const TCHAR* Sd = bLeft ? TEXT("l") : TEXT("r");
+				const FVector Idx = RefCS(HeadMesh, *FString::Printf(TEXT("index_01_%s"), Sd)).GetLocation();
+				const FVector Pky = RefCS(HeadMesh, *FString::Printf(TEXT("pinky_01_%s"), Sd)).GetLocation();
+				const FVector M1 = RefCS(HeadMesh, *FString::Printf(TEXT("middle_01_%s"), Sd)).GetLocation();
+				const FVector M3 = RefCS(HeadMesh, *FString::Printf(TEXT("middle_03_%s"), Sd)).GetLocation();
+				if (!Idx.IsNearlyZero() && !Pky.IsNearlyZero() && !M3.IsNearlyZero())
+				{
+					const FVector F = (M1 - Hand.GetLocation()).GetSafeNormal();        // wrist to knuckles
+					const FVector Across = (Idx - Pky).GetSafeNormal();                  // the handle's line, blade out past the index
+					FVector N = (M3 - M1) - F * ((M3 - M1) | F);                         // towards the palm (the curled fingertips)
+					N = N.GetSafeNormal();
+					Q = FRotationMatrix::MakeFromXZ(Across, -F).ToQuat();
+					Palm = M1 + N * 2.2f - F * 0.6f;
+				}
+			}
 			// firearms: the aim pose decides the grip. Fixed to the bind (A) pose hand, a revolver pointed up and back and a
 			// rifle hung barrel-up once the arms came up to aim. Fit the gun to the hand of the stance's combat clip instead:
 			// barrel along the facing (a long gun from the trigger hand towards the hand under the barrel), top up.

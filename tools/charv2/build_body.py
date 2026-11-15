@@ -52,9 +52,82 @@ DETAIL = {
                'torso/measure-waist-circ-decr': 0.5, 'torso/measure-hips-circ-incr': 0.2, 'buttocks/buttocks-volume-incr': 0.25},
 }
 SKIN = {'Male': SYS / 'skins' / 'young_caucasian_male' / 'young_caucasian_male.mhmat',
-        'Female': SYS / 'skins' / 'young_caucasian_female' / 'young_caucasian_female.mhmat'}
+        'Female': OUT / 'src' / 'skins' / 'hl_female' / 'hl_female.mhmat'}  # makeup.py
 BROWS = {'Male': 'eyebrow001', 'Female': 'eyebrow010'}
 LASHES = {'Male': 'eyelashes01', 'Female': 'eyelashes02'}
+
+
+# the 12 faces per sex (FHLAppearance::Face): shape keys Face_01..12, deltas from the default head. Only targets that
+# leave the eyes where they are (nose, mouth, chin, jaw, cheeks, ears, head shape), so the fitted eyes, lashes and brows
+# match every face.
+FACES = {
+    'Male': [
+        {}, {'nose/nose-scale-horiz-incr': 0.3, 'chin/chin-prominent-incr': 0.4, 'head/head-square': 0.4},
+        {'nose/nose-hump-incr': 0.5, 'nose/nose-scale-vert-incr': 0.3, 'cheek/{s}-cheek-bones-incr': 0.4},
+        {'head/head-round': 0.5, 'nose/nose-point-width-incr': 0.4, 'mouth/mouth-scale-horiz-incr': 0.3},
+        {'chin/chin-cleft-incr': 0.7, 'chin/chin-width-incr': 0.4, 'mouth/mouth-lowerlip-volume-incr': 0.3},
+        {'head/head-rectangular': 0.5, 'nose/nose-greek-incr': 0.5, 'cheek/{s}-cheek-volume-decr': 0.4},
+        {'nose/nose-flaring-incr': 0.5, 'mouth/mouth-scale-horiz-incr': 0.4, 'chin/chin-jaw-drop-incr': 0.3},
+        {'head/head-triangular': 0.4, 'nose/nose-curve-convex': 0.5, 'chin/chin-prognathism-incr': 0.3},
+        {'head/head-diamond': 0.4, 'cheek/{s}-cheek-bones-incr': 0.6, 'nose/nose-scale-horiz-decr': 0.3},
+        {'nose/nose-volume-incr': 0.4, 'mouth/mouth-upperlip-volume-incr': 0.4, 'ears/{s}-ear-scale-incr': 0.3},
+        {'chin/chin-width-incr': 0.6, 'head/head-square': 0.6, 'nose/nose-trans-down': 0.3},
+        {'head/head-oval': 0.6, 'nose/nose-point-up': 0.4, 'mouth/mouth-dimples-in': 0.6},
+    ],
+    'Female': [
+        {}, {'nose/nose-scale-horiz-decr': 0.3, 'nose/nose-point-up': 0.3, 'mouth/mouth-lowerlip-volume-incr': 0.3},
+        {'head/head-round': 0.4, 'cheek/{s}-cheek-volume-incr': 0.3, 'mouth/mouth-cupidsbow-incr': 0.5},
+        {'cheek/{s}-cheek-bones-incr': 0.5, 'chin/chin-width-decr': 0.3, 'nose/nose-greek-incr': 0.3},
+        {'head/head-invertedtriangular': 0.4, 'mouth/mouth-upperlip-volume-incr': 0.4, 'nose/nose-scale-vert-decr': 0.2},
+        {'head/head-diamond': 0.4, 'cheek/{s}-cheek-bones-incr': 0.4, 'mouth/mouth-scale-horiz-incr': 0.2},
+        {'nose/nose-point-width-decr': 0.4, 'chin/chin-prominent-decr': 0.3, 'mouth/mouth-dimples-in': 0.6},
+        {'head/head-oval': 0.4, 'nose/nose-curve-concave': 0.4, 'mouth/mouth-lowerlip-volume-incr': 0.4},
+        {'chin/chin-cleft-incr': 0.3, 'cheek/{s}-cheek-inner-incr': 0.4, 'nose/nose-scale-horiz-decr': 0.2},
+        {'head/head-round': 0.3, 'nose/nose-volume-decr': 0.4, 'mouth/mouth-cupidsbow-width-incr': 0.4},
+        {'cheek/{s}-cheek-bones-incr': 0.6, 'head/head-invertedtriangular': 0.3, 'mouth/mouth-scale-horiz-decr': 0.2},
+        {'nose/nose-hump-decr': 0.4, 'chin/chin-width-decr': 0.4, 'mouth/mouth-upperlip-volume-incr': 0.3},
+    ],
+}
+
+
+def mix_coords(obj):
+    k = obj.shape_key_add(name='_mix', from_mix=True)
+    co = [d.co.copy() for d in k.data]
+    obj.shape_key_remove(k)
+    return co
+
+
+def make_faces(obj, sex):
+    """Adds Face_01..12 shape keys (value 0) holding each face preset's delta from the current mix."""
+    base = mix_coords(obj)
+    basis = obj.data.shape_keys.reference_key
+    for n, preset in enumerate(FACES[sex], 1):
+        loaded = []
+        for rel, w in preset.items():
+            for s in (['l', 'r'] if '{s}' in rel else [None]):
+                name = rel.split('/')[-1].format(s=s) if s else rel.split('/')[-1]
+                p = TS.target_full_path(name)
+                if not p:
+                    print('HL_BODY face target missing', name)
+                    continue
+                kb = obj.data.shape_keys.key_blocks.get(name)
+                if kb:
+                    loaded.append((kb, kb.value))
+                    kb.value = min(1.0, kb.value + w)
+                else:
+                    TS.load_target(obj, p, weight=w, name=name)
+                    loaded.append((obj.data.shape_keys.key_blocks[name], None))
+        co = mix_coords(obj)
+        for kb, old in loaded:
+            if old is None:
+                obj.shape_key_remove(kb)
+            else:
+                kb.value = old
+        key = obj.shape_key_add(name=f'Face_{n:02d}', from_mix=False)
+        for i, d in enumerate(key.data):
+            d.co = basis.data[i].co + (co[i] - base[i])
+        key.value = 0.0
+    print(f'HL_BODY {sex} faces {len(FACES[sex])}')
 
 
 def target_path(rel):
@@ -103,6 +176,7 @@ def build(sex):
     lo, hi = body_height(obj)
     print(f'HL_BODY {sex} height {hi - lo:.3f} m (macro height {macro["height"]:.3f})')
     obj.name = f'Body_{sex}'
+    make_faces(obj, sex)
     HS.set_character_skin(str(SKIN[sex]), obj, skin_type='MAKESKIN')
     HS.add_mhclo_asset(str(SYS / 'eyes' / 'high-poly' / 'high-poly.mhclo'), obj, asset_type='Eyes', material_type='MAKESKIN')
     HS.add_mhclo_asset(str(SYS / 'eyebrows' / BROWS[sex] / f'{BROWS[sex]}.mhclo'), obj, asset_type='Eyebrows', material_type='MAKESKIN')

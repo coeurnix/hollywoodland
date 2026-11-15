@@ -33,7 +33,7 @@ submission (bible §2 rule 1).
 | Hive kit: wall segments, gap, spire, egg cluster, egg sac | 5 | spires and egg clusters are props with wrecks from `art/enemies/HiveStructures`; the egg sac is the rigged `SK_HiveEggSac`; walls are still dark boxes | `BuildWorld` object switch (`O.Kind`) |
 | Red car (Pacific Electric) | 1 | DONE: `redcar_pe` from `art/world` | object kind `redcar` |
 | Wrecks: newsreel truck, cars | 3 | DONE: Rodin wrecks from `art/props` and `art/world` | `zone.mjs` wreck boxes |
-| Player/NPC bodies | 2 base bodies | DONE: MakeHuman male/female, 37-bone rig, modular geosets (`Content/Characters/Body`) | `HLCharacter.cpp` (`FHLCharVisuals::Apply`) |
+| Player/NPC bodies | 2 base bodies | DONE (v2): full-resolution MakeHuman bodies on the Mannequin-named `game_engine` rig with fingers, 12 face morphs, painted makeup, real garment meshes per slot, Rodin hats/belts/wrist pieces/cuirasses, FLUX-painted per look (`Content/CharactersV2`, pipeline in `CHARACTERS-V2.md`, credits in `art/characters_v2/LICENSES.md`); v1 bodysuits remain behind `-HLV1Chars` | `HLCharV2.cpp`, `FHLCharVisuals::ApplyV2` |
 | Armour looks | 24 (4 types × 6 tiers) + 8 epic | DONE: 32 looks + starter, 38 hats; item → look by type letter, required level band and quality (`FHLChars::LookForItem`) | `Content/Data/characters.json` |
 | Weapon meshes | ~40 | DONE: 41 held items (name match, else same type by hash) in the palm of either hand | `FHLChars::HeldForItem` |
 | Invader meshes: Worker, Drone, Spitter, Soldier, Broodling, Brute, Burrower, Flier + bosses (Brood Keeper, Hive Warden, Spitter Matriarch, Hive Mother) | 12 | DONE: rigged models from `art/enemies` (gray-box shapes remain only as a fallback) | `FHLEnemyArt::Make` from `BuildUnit` |

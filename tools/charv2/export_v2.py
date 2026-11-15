@@ -10,7 +10,8 @@ Run: blender -b <scene.blend> --python tools/charv2/export_v2.py -- <out_dir> <p
 """
 import bpy, sys, json, bmesh
 from pathlib import Path
-from mathutils import Vector, Matrix
+from mathutils import Vector, Matrix, Quaternion
+import math
 from mathutils.kdtree import KDTree
 
 # zone ids (the runtime hides zones covered by an outer layer); keep in sync with HLCharacter.cpp
@@ -27,18 +28,45 @@ def zone_of_bone(name):
     return ZONES.index(BONE_ZONE.get(name.split('_')[0], 'chest'))
 
 
-def bake(obj, rig):
+def bake(obj, rig, deform=False):
     """Replaces obj's data with its evaluated mesh (no armature deformation), keeps bone groups, re-adds the armature."""
     for m in obj.modifiers:
-        if m.type == 'ARMATURE' or m.name.startswith('Delete.'):
+        if (m.type == 'ARMATURE' and not deform) or m.name.startswith('Delete.'):
             m.show_viewport = False
+    # face presets (build_body.make_faces) survive the bake as deltas re-added on top of the baked mesh
+    # (evaluated with each key at 1, so modifiers that drop helper vertices apply to the deltas too)
+    faces = []
     dg = bpy.context.evaluated_depsgraph_get()
+    if obj.data.shape_keys:
+        def coords():
+            dg.update()
+            m = obj.evaluated_get(dg).to_mesh()
+            c = [v.co.copy() for v in m.vertices]
+            obj.evaluated_get(dg).to_mesh_clear()
+            return c
+        base = coords()
+        for kb in obj.data.shape_keys.key_blocks:
+            if kb.name.startswith('Face_'):
+                old = kb.value
+                kb.value = 1.0
+                c = coords()
+                kb.value = old
+                faces.append((kb.name, [c[i] - base[i] for i in range(len(c))]))
+        dg.update()
     me = bpy.data.meshes.new_from_object(obj.evaluated_get(dg), preserve_all_data_layers=True, depsgraph=dg)
     for m in list(obj.modifiers):
         obj.modifiers.remove(m)
     old = obj.data
     obj.shape_key_clear() if old.shape_keys else None
     obj.data = me
+    if faces and len(faces[0][1]) == len(me.vertices):
+        obj.shape_key_add(name='Basis', from_mix=False)
+        for name, d in faces:
+            k = obj.shape_key_add(name=name, from_mix=False)
+            for i, v in enumerate(me.vertices):
+                k.data[i].co = v.co + d[i]
+    elif faces:
+        print('HL_EXPORT face keys dropped: vertex count changed', obj.name)
     bones = {b.name for b in rig.data.bones}
     for g in list(obj.vertex_groups):
         if g.name not in bones:
@@ -139,12 +167,13 @@ def textures(obj, out, name, report):
             if n.type == 'TEX_IMAGE' and n.image and n.image.filepath:
                 f = bpy.path.abspath(n.image.filepath)
                 low = Path(f).name.lower()
-                if any(k in low for k in ('norm', 'nrm', 'bump', 'spec', 'rough', 'normal', '_sss', 'ao.')):
+                if any(k in low for k in ('norm', 'nrm', 'bump', 'spec', 'rough', 'normal', '_sss', 'ao.', '_orm', 'metal')):
                     continue
                 imgs.append(f)
     if not imgs:
         return None
-    src = max(imgs, key=lambda f: Path(f).stat().st_size if Path(f).exists() else 0)
+    named = [f for f in imgs if any(k in Path(f).name.lower() for k in ('diffuse', 'albedo', 'basecolor', 'base_color'))]
+    src = max(named or imgs, key=lambda f: Path(f).stat().st_size if Path(f).exists() else 0)
     im = bpy.data.images.load(src, check_existing=False)
     if max(im.size) > 2048:
         im.scale(2048, 2048)
@@ -195,12 +224,61 @@ def to_centimetres(rig):
                 m.object = rig
 
 
+# a relaxed grip as the rest pose (degrees per joint, 01..03): clips without finger tracks (all the v1 clips) then hold
+# weapons in a closed hand; the left hand curls less
+GRIP = {'index': (50, 48, 30), 'middle': (56, 52, 30), 'ring': (60, 52, 30), 'pinky': (64, 50, 28), 'thumb': (8, 18, 14)}
+GRIP_SIDE = {'r': 1.0, 'l': 0.6}
+
+
+def grip(rig, sign=1.0):
+    """Poses the fingers into GRIP, bakes that into every skinned mesh and makes it the rig's rest pose."""
+    bones = rig.data.bones
+    for pb in rig.pose.bones:
+        pb.rotation_mode = 'QUATERNION'
+        pb.rotation_quaternion = (1, 0, 0, 0)
+        pb.location = (0, 0, 0)
+    posed = 0
+    for side, k in GRIP_SIDE.items():
+        if f'index_01_{side}' not in bones or f'pinky_01_{side}' not in bones:
+            continue
+        across = (bones[f'pinky_01_{side}'].head_local - bones[f'index_01_{side}'].head_local).normalized()
+        for finger, angles in GRIP.items():
+            for j, deg in enumerate(angles, 1):
+                name = f'{finger}_{j:02d}_{side}'
+                if name not in bones:
+                    continue
+                b = bones[name]
+                d = (b.tail_local - b.head_local).normalized()
+                ax = d.cross(across).normalized() * sign * (1 if side == 'r' else -1)
+                if finger == 'thumb':
+                    ax = d.cross(ax).normalized() if j == 1 else ax
+                local = (b.matrix_local.to_3x3().inverted() @ ax).normalized()
+                rig.pose.bones[name].rotation_quaternion = Quaternion(local, math.radians(deg * k))
+                posed += 1
+    bpy.context.view_layer.update()
+    return posed
+
+
+def apply_rest(rig):
+    """Bakes the current pose into every mesh skinned to rig, then makes it the rest pose."""
+    for o in [o for o in bpy.data.objects if o.type == 'MESH' and any(m.type == 'ARMATURE' and m.object == rig for m in o.modifiers)]:
+        bake(o, rig, deform=True)
+    bpy.ops.object.select_all(action='DESELECT')
+    bpy.context.view_layer.objects.active = rig
+    rig.select_set(True)
+    bpy.ops.object.mode_set(mode='POSE')
+    bpy.ops.pose.armature_apply(selected=False)
+    bpy.ops.object.mode_set(mode='OBJECT')
+
+
 def run(out, prefix, specs, with_body=True):
     """specs: {mhclo stem: 'slot' | 'slot+slot' | 'hat' [ '@name' ]}; pieces are named <prefix>_<name>_<slot>."""
     out = Path(out)
     rig = next(o for o in bpy.data.objects if o.type == 'ARMATURE')
     rig.name = 'Armature'
     to_centimetres(rig)
+    if grip(rig):
+        apply_rest(rig)
     body = next(o for o in bpy.data.objects if o.type == 'MESH' and o.name.startswith('Body_') and '.' not in o.name)
     bake(body, rig)
     kd, zones = dominant_zones(body, rig)

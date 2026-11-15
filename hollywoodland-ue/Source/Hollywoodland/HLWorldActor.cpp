@@ -1711,27 +1711,18 @@ void AHLWorldActor::AutoTest(float Dt)
 				A->SetActorLocationAndRotation(ToWorld(P->Area, At, P->Z), FRotator(0, Yaws[i], 0));
 				TArray<FHLV2Piece> Pieces;
 				const int32 Sex = i % 2;
-				auto Add = [&](const TCHAR* Mesh, const TCHAR* Tex, int32 Layer, uint32 Covers, bool bMasked = false)
+				// the looks table: a three-piece suit (C3) and an evening gown (C4), with their hats and the first hair style
+				const FHLCharsV2& V = FHLCharsV2::Get();
+				const TCHAR* Look = Sex ? TEXT("C4") : TEXT("C3");
+				for (const TCHAR* Sl : { TEXT("shirt"), TEXT("trousers"), TEXT("shoes"), TEXT("coat"), TEXT("gloves"), TEXT("belt"), TEXT("wrist") })
+					if (const FHLV2Piece* Pc = V.Piece(Look, Sex, Sl)) Pieces.Add(*Pc);
+				const FHLV2Piece* Hat = V.Hat(Look, Sex);
+				if (Hat) Pieces.Add(*Hat);
+				if (V.Hair[Sex].Num())
 				{
-					FHLV2Piece& Pc = Pieces.AddDefaulted_GetRef();
-					Pc.Mesh = FString::Printf(TEXT("SKV2_%s_%s"), Sex ? TEXT("Female") : TEXT("Male"), Mesh);
-					Pc.Tex = FString::Printf(TEXT("SKV2_%s_%s_D"), Sex ? TEXT("Female") : TEXT("Male"), Tex);
-					Pc.Layer = Layer; Pc.Covers = Covers; Pc.bMasked = bMasked;
-					return &Pc;
-				};
-				if (!Sex)
-				{
-					Add(TEXT("toigo_male_suit_3_coat"), TEXT("toigo_male_suit_3"), 3, HLZone::Chest | HLZone::Belly | HLZone::UpperArm | HLZone::Forearm);
-					Add(TEXT("toigo_male_suit_3_trousers"), TEXT("toigo_male_suit_3"), 1, HLZone::Hips | HLZone::Thigh | HLZone::Calf);
-					Add(TEXT("mindfront_shoes_oxford_male_shoes"), TEXT("mindfront_shoes_oxford_male"), 2, HLZone::Foot);
-					Add(TEXT("short02_hair"), TEXT("short02"), 4, 0, true);
-				}
-				else
-				{
-					Add(TEXT("toigo_halter_dress_midi_coat"), TEXT("toigo_halter_dress_midi"), 3, HLZone::Belly | HLZone::Hips | HLZone::Thigh);
-					Add(TEXT("dressupdoc_maryjane1_shoes"), TEXT("dressupdoc_maryjane1"), 2, 0);
-					Add(TEXT("toigo_gloves_long_gloves"), TEXT("toigo_gloves_long"), 5, HLZone::Hand | HLZone::Forearm);
-					Add(TEXT("toigo_curled_under_bob_hair"), TEXT("toigo_curled_under_bob"), 4, 0, true);
+					FHLV2Piece Hr = V.Hair[Sex][Sex ? 3 : 0];
+					if (Hat && Hat->bHidesHair) Hr.Mesh += TEXT("hat");
+					Pieces.Add(Hr);
 				}
 				FHLV2Rig& Rig = Rigs.AddDefaulted_GetRef();
 				if (!FHLCharV2::Build(A, R, Sex, Pieces, Rig)) { HLBridge::Log(TEXT("HL_V2 build failed")); continue; }
@@ -1754,6 +1745,35 @@ void AHLWorldActor::AutoTest(float Dt)
 			for (FHLV2Rig& Rg : Rigs) if (USkeletalMeshComponent* B = Rg.Body.Get())
 				HLBridge::Log(FString::Printf(TEXT("HL_V2 pose %s pelvis %s head %s hand_r %s root %s"), *Rg.Clip, *B->GetBoneLocation(TEXT("pelvis")).ToString(), *B->GetBoneLocation(TEXT("head")).ToString(),
 					*B->GetBoneLocation(TEXT("hand_r")).ToString(), *B->GetComponentLocation().ToString()));
+			for (FHLV2Rig& Rg : Rigs) if (USkeletalMeshComponent* B = Rg.Body.Get())
+			{
+				{
+					auto Ref = [&](USkeletalMesh* Mx, const TCHAR* Bn)
+					{
+						FTransform T = FTransform::Identity;
+						const FReferenceSkeleton& RS = Mx->GetRefSkeleton();
+						for (int32 b = RS.FindBoneIndex(Bn); b != INDEX_NONE; b = RS.GetParentIndex(b)) T = T * RS.GetRefBonePose()[b];
+						return T.GetLocation();
+					};
+					USkeletalMesh* SM2 = Cast<USkeletalMesh>(B->GetSkinnedAsset());
+					USkeletalMesh* MQ = LoadObject<USkeletalMesh>(nullptr, TEXT("/Game/Characters/Mannequins/Meshes/SKM_Manny_Simple.SKM_Manny_Simple"));
+					HLBridge::Log(FString::Printf(TEXT("HL_V2 facing v2 toe-ankle %s handR %s | manny toe-ankle %s handR %s"), *(Ref(SM2, TEXT("ball_r")) - Ref(SM2, TEXT("foot_r"))).ToString(),
+						*Ref(SM2, TEXT("hand_r")).ToString(), MQ ? *(Ref(MQ, TEXT("ball_r")) - Ref(MQ, TEXT("foot_r"))).ToString() : TEXT("-"), MQ ? *Ref(MQ, TEXT("hand_r")).ToString() : TEXT("-")));
+				}
+				// arm check: hands relative to the pelvis along the feet's forward (heel to toe) and the shoulders' right
+				const FVector Pel = B->GetBoneLocation(TEXT("pelvis")), Fwd = (B->GetBoneLocation(TEXT("ball_r")) - B->GetBoneLocation(TEXT("foot_r"))).GetSafeNormal2D();
+				const FVector Rt = (B->GetBoneLocation(TEXT("upperarm_r")) - B->GetBoneLocation(TEXT("upperarm_l"))).GetSafeNormal2D();
+				for (const TCHAR* Bn : { TEXT("hand_l"), TEXT("hand_r"), TEXT("lowerarm_r"), TEXT("head") })
+				{
+					const FVector D = B->GetBoneLocation(Bn) - Pel;
+					HLBridge::Log(FString::Printf(TEXT("HL_V2 arm %s %s fwd %.1f right %.1f up %.1f"), *Rg.Clip, Bn, D | Fwd, D | Rt, D.Z));
+				}
+			}
+			for (FHLV2Rig& Rg : Rigs) if (USkeletalMeshComponent* B = Rg.Body.Get())
+				for (const TWeakObjectPtr<USceneComponent>& Pc : Rg.Pieces)
+					if (const UStaticMeshComponent* S = Cast<UStaticMeshComponent>(Pc.Get()))
+						HLBridge::Log(FString::Printf(TEXT("HL_V2 hat %s bounds %s head %s headtop %.1f rel %s"), *S->GetStaticMesh()->GetName(), *S->Bounds.GetBox().ToString(),
+							*B->GetBoneLocation(TEXT("head")).ToString(), B->Bounds.GetBox().Max.Z, *S->GetRelativeTransform().ToString()));
 			++Shots;
 		}
 #endif

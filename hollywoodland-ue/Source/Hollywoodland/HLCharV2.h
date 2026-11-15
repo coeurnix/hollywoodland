@@ -27,6 +27,7 @@ struct FHLV2Piece
 	FName Socket;                 // static piece: the bone it rides (hats: head)
 	bool bMasked = false;         // alpha-tested (hair cards)
 	FLinearColor Mul = FLinearColor::White; // overall multiply (hair colour)
+	bool bHidesHair = false;      // hat: the hair swaps to its hat-safe variant (<hair>hat)
 };
 
 // Content/Data/characters_v2.json (tools/charv2/make_json.py): per look, sex and slot the garment piece; hair; skin tones
@@ -35,6 +36,7 @@ struct FHLCharsV2
 	static FHLCharsV2& Get();
 	bool Ready();                       // the table loaded and the bodies exist (false with -HLV1Chars)
 	const FHLV2Piece* Piece(const FString& Look, int32 Sex, const FString& Slot) const;
+	const FHLV2Piece* Hat(const FString& Look, int32 Sex) const { return Piece(Look, Sex, TEXT("hat")); }
 	TArray<FHLV2Piece> Hair[2];
 	TArray<FLinearColor> Skin;
 	FLinearColor SkinTone(int32 i) const { return Skin.Num() ? Skin[((i % Skin.Num()) + Skin.Num()) % Skin.Num()] : FLinearColor::White; }

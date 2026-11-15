@@ -3,7 +3,7 @@
 Keys come from the repo-root .env (FAL_AI_API_KEY, RODIN_API_KEY) and are never printed or written. Every request is
 recorded in a JSON state file (prompt, seed, task ids; no secrets) so a rerun never silently pays for a duplicate.
 """
-import hashlib, json, os, time
+import hashlib, json, os, threading, time
 from pathlib import Path
 import requests
 
@@ -32,11 +32,14 @@ class State:
     def get(self, key):
         return self.d.setdefault(key, {})
 
+    _lock = threading.Lock()
+
     def save(self):
-        self.path.parent.mkdir(parents=True, exist_ok=True)
-        tmp = self.path.with_suffix('.tmp')
-        tmp.write_text(json.dumps(self.d, indent=1), encoding='utf-8')
-        tmp.replace(self.path)
+        with State._lock:
+            self.path.parent.mkdir(parents=True, exist_ok=True)
+            tmp = self.path.with_suffix('.tmp')
+            tmp.write_text(json.dumps(self.d, indent=1), encoding='utf-8')
+            tmp.replace(self.path)
 
 
 def flux(key, prompt, out, st, w=1024, h=1024, attempt=0):

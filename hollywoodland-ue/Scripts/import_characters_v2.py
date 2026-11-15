@@ -21,7 +21,9 @@ eal = unreal.EditorAssetLibrary
 unreal.SystemLibrary.execute_console_command(None, 'Interchange.FeatureFlags.Import.FBX false')
 unreal.SystemLibrary.execute_console_command(None, 'Interchange.FeatureFlags.Import.PNG false')
 SEXES = ['Male', 'Female']
-FACE_PLUS_Y = unreal.Rotator(roll=0.0, pitch=0.0, yaw=180.0)
+# the FBX (Blender, facing -Y) comes in facing +Y like the Mannequin with no extra turn; a yaw here mirrors every
+# retargeted clip front to back (checked against SKM_Manny: toes and right hand must sit on the same sides)
+FACE_PLUS_Y = unreal.Rotator(roll=0.0, pitch=0.0, yaw=0.0)
 
 
 def want(k):
@@ -128,7 +130,7 @@ def char_material(name, masked):
     glow = scalar_param(m, 'Glow', -500, 700, 0.22)
     mel.connect_material_property(binop(m, unreal.MaterialExpressionMultiply, color, glow, -250, 650), '', unreal.MaterialProperty.MP_EMISSIVE_COLOR)
     mel.connect_material_property(scalar_param(m, 'Roughness', -250, 800, 0.8), '', unreal.MaterialProperty.MP_ROUGHNESS)
-    # zone hiding: bit (VertexColor.R * 31) of HideMask set -> the vertex collapses onto the object's origin
+    # zone hiding: bit (VertexColor.R * 31) of HideMask set -> the vertex sinks under the garment worn over it
     vc = expr(m, unreal.MaterialExpressionVertexColor, -1400, 1300)
     hm = scalar_param(m, 'HideMask', -1400, 1450, 0.0)
     cu = expr(m, unreal.MaterialExpressionCustom, -1100, 1350, output_type=unreal.CustomMaterialOutputType.CMOT_FLOAT1,
@@ -136,9 +138,12 @@ def char_material(name, masked):
               inputs=[custom_input('Z'), custom_input('M')])
     mel.connect_material_expressions(vc, 'R', cu, 'Z')
     mel.connect_material_expressions(hm, '', cu, 'M')
-    op = expr(m, unreal.MaterialExpressionObjectPositionWS, -1100, 1550)
-    wp = expr(m, unreal.MaterialExpressionWorldPosition, -1100, 1650)
-    d = binop(m, unreal.MaterialExpressionSubtract, op, wp, -850, 1600)
+    # (sunk 4.5 cm along the inward normal rather than collapsed onto the origin: a triangle on a zone border then only
+    # dips under the garment instead of stretching into a long sliver across the body)
+    nrm = expr(m, unreal.MaterialExpressionVertexNormalWS, -1100, 1550)
+    k = expr(m, unreal.MaterialExpressionConstant, -1100, 1650)
+    k.set_editor_property('r', -4.5)
+    d = binop(m, unreal.MaterialExpressionMultiply, nrm, k, -850, 1600)
     mel.connect_material_property(binop(m, unreal.MaterialExpressionMultiply, d, cu, -600, 1450), '', unreal.MaterialProperty.MP_WORLD_POSITION_OFFSET)
     if masked:
         m.set_editor_property('blend_mode', unreal.BlendMode.BLEND_MASKED)
@@ -159,9 +164,22 @@ def make_materials():
 def import_textures():
     tasks, names = [], []
     looks = os.path.join(os.path.dirname(EXPORT), 'looks')
+    # only what the game uses: the bodies' own maps and every texture characters_v2.json names (the base garments'
+    # unpainted maps stay out of the package)
+    data = json.load(open(os.path.join(ROOT, 'hollywoodland-ue', 'Content', 'Data', 'characters_v2.json'), encoding='utf-8'))
+    used = set()
+    for per in data['looks'].values():
+        for slots in per.values():
+            used |= {p['tex'] for p in slots.values()}
+    for lst in data['hair'].values():
+        used |= {h['tex'] for h in lst if h['tex']}
+    hat_tex = {h['tex'] for per in data['hats'].values() for h in per.values()}
+    used |= hat_tex
     for f in glob.glob(os.path.join(EXPORT, 'SKV2_*_D.png')) + glob.glob(os.path.join(EXPORT, 'SKV2_*_M.png')) + \
             glob.glob(os.path.join(looks, 'SKV2_*_D.png')) + glob.glob(os.path.join(looks, 'SKV2_*_M.png')):
         name = 'T_' + os.path.basename(f)[:-4]
+        if '_Body_' not in name and name not in used:
+            continue
         tasks.append(import_png(f, f'{BASE}/Tex', name))
         names.append(name)
     tools.import_asset_tasks(tasks)
@@ -172,10 +190,15 @@ def import_textures():
             log(f'FAILED texture {name}')
             continue
         tex.set_editor_property('lod_group', unreal.TextureGroup.TEXTUREGROUP_CHARACTER)
-        # the web package budget: the body keeps 2K, coats/dresses/hair 1K, everything else 512 (masters stay 2K)
-        big = ('_Body_D' in name and 'eye' not in name and 'lash' not in name and 'brow' not in name)
-        mid = any(k in name for k in ('suit', 'dinner', 'bowtie', 'jacket', 'longcoat', 'gown', 'midi', 'day', 'overalls', 'curled', 'short0', 'hair'))
-        tex.set_editor_property('max_texture_size', 2048 if big else 1024 if mid else 512)
+        # the web package budget (itch: 500 MiB; masters stay 2K): the skin 2K, everything else 512 but the small pieces
+        # (shoes, gloves, belts, wrist pieces, hats) at 256
+        body = '_Body_' in name
+        skin = body and not any(k in name for k in ('eye', 'lash', 'brow', 'high-poly'))
+        coat = any(k in name for k in ('_m_suit', '_m_dinner', '_m_bowtie', '_m_jacket', '_m_longcoat', '_f_gown', '_f_midi', '_f_day',
+                                       '_f_suit', '_f_jacket', '_f_longcoat', 'cuirass'))
+        small = name in hat_tex or any(k in name for k in ('_gloves_', 'boot', 'oxford', 'saddle', 'heels', 'maryjane', '_ankle',
+                                                             'belt_', 'cuff', 'bracer'))
+        tex.set_editor_property('max_texture_size', 2048 if skin else 256 if small and not coat else 512)
         if name.endswith('_M'):
             tex.set_editor_property('srgb', False)
             tex.set_editor_property('compression_settings', unreal.TextureCompressionSettings.TC_MASKS)
@@ -235,9 +258,15 @@ def import_meshes():
         eal.save_asset(f'{BASE}/Body/SKV2_{sex}_Body_Skeleton', only_if_is_dirty=False)
         log(f'body {sex}: skeleton {skeleton_for(sex)}')
     tasks, n = [], 0
+    # only the meshes characters_v2.json names (and each hair style's hat-safe variant)
+    data = json.load(open(os.path.join(ROOT, 'hollywoodland-ue', 'Content', 'Data', 'characters_v2.json'), encoding='utf-8'))
+    used = {p['mesh'] for per in data['looks'].values() for slots in per.values() for p in slots.values()}
+    used |= {h['mesh'] for lst in data['hair'].values() for h in lst if h['mesh']}
+    used |= {h['mesh'] + 'hat' for lst in data['hair'].values() for h in lst if h['mesh']}
+    used |= {h['mesh'] for per in data['hats'].values() for h in per.values()}
     for f in glob.glob(os.path.join(EXPORT, 'SKV2_*.fbx')):
         name = os.path.basename(f)[:-4]
-        if name.endswith('_Body'):
+        if name.endswith('_Body') or name not in used:
             continue
         sex = 'Female' if name.startswith('SKV2_Female') else 'Male'
         if name.endswith('_hat'):

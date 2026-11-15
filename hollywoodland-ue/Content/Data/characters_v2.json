@@ -40,7 +40,7 @@
      "mesh": "SKV2_Female_f_blouse_shirt",
      "tex": "T_SKV2_Female_f_blouse_Starter_D",
      "layer": 1,
-     "covers": 108
+     "covers": 96
     },
     "trousers": {
      "mesh": "SKV2_Female_f_skirt_trousers",
@@ -87,6 +87,18 @@
      "tex": "T_SKV2_Male_m_gloves_s_C1_D",
      "layer": 5,
      "covers": 128
+    },
+    "belt": {
+     "mesh": "SKV2_Male_belt_slim_belt",
+     "tex": "T_SKV2_GEAR_belt_slim_C1_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Male_cuff_wrist",
+     "tex": "T_SKV2_GEAR_cuff_C1_D",
+     "layer": 6,
+     "covers": 0
     }
    },
    "Female": {
@@ -119,6 +131,18 @@
      "tex": "T_SKV2_Female_f_gloves_s_C1_D",
      "layer": 5,
      "covers": 128
+    },
+    "belt": {
+     "mesh": "SKV2_Female_belt_slim_belt",
+     "tex": "T_SKV2_GEAR_belt_slim_C1_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Female_cuff_wrist",
+     "tex": "T_SKV2_GEAR_cuff_C1_D",
+     "layer": 6,
+     "covers": 0
     }
    }
   },
@@ -153,6 +177,18 @@
      "tex": "T_SKV2_Male_m_gloves_s_C2_D",
      "layer": 5,
      "covers": 128
+    },
+    "belt": {
+     "mesh": "SKV2_Male_belt_slim_belt",
+     "tex": "T_SKV2_GEAR_belt_slim_C2_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Male_cuff_wrist",
+     "tex": "T_SKV2_GEAR_cuff_C2_D",
+     "layer": 6,
+     "covers": 0
     }
    },
    "Female": {
@@ -160,7 +196,7 @@
      "mesh": "SKV2_Female_f_blouse_shirt",
      "tex": "T_SKV2_Female_f_blouse_C2_D",
      "layer": 1,
-     "covers": 108
+     "covers": 96
     },
     "coat": {
      "mesh": "SKV2_Female_f_day_coat",
@@ -185,6 +221,18 @@
      "tex": "T_SKV2_Female_f_gloves_s_C2_D",
      "layer": 5,
      "covers": 128
+    },
+    "belt": {
+     "mesh": "SKV2_Female_belt_slim_belt",
+     "tex": "T_SKV2_GEAR_belt_slim_C2_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Female_cuff_wrist",
+     "tex": "T_SKV2_GEAR_cuff_C2_D",
+     "layer": 6,
+     "covers": 0
     }
    }
   },
@@ -219,6 +267,18 @@
      "tex": "T_SKV2_Male_m_gloves_s_C3_D",
      "layer": 5,
      "covers": 128
+    },
+    "belt": {
+     "mesh": "SKV2_Male_belt_slim_belt",
+     "tex": "T_SKV2_GEAR_belt_slim_C3_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Male_cuff_wrist",
+     "tex": "T_SKV2_GEAR_cuff_C3_D",
+     "layer": 6,
+     "covers": 0
     }
    },
    "Female": {
@@ -226,7 +286,7 @@
      "mesh": "SKV2_Female_f_blouse_shirt",
      "tex": "T_SKV2_Female_f_blouse_C3_D",
      "layer": 1,
-     "covers": 108
+     "covers": 96
     },
     "coat": {
      "mesh": "SKV2_Female_f_suit_coat",
@@ -251,6 +311,18 @@
      "tex": "T_SKV2_Female_f_gloves_s_C3_D",
      "layer": 5,
      "covers": 128
+    },
+    "belt": {
+     "mesh": "SKV2_Female_belt_slim_belt",
+     "tex": "T_SKV2_GEAR_belt_slim_C3_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Female_cuff_wrist",
+     "tex": "T_SKV2_GEAR_cuff_C3_D",
+     "layer": 6,
+     "covers": 0
     }
    }
   },
@@ -285,6 +357,18 @@
      "tex": "T_SKV2_Male_m_gloves_s_C4_D",
      "layer": 5,
      "covers": 128
+    },
+    "belt": {
+     "mesh": "SKV2_Male_belt_slim_belt",
+     "tex": "T_SKV2_GEAR_belt_slim_C4_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Male_cuff_wrist",
+     "tex": "T_SKV2_GEAR_cuff_C4_D",
+     "layer": 6,
+     "covers": 0
     }
    },
    "Female": {
@@ -292,7 +376,7 @@
      "mesh": "SKV2_Female_f_blouse_shirt",
      "tex": "T_SKV2_Female_f_blouse_C4_D",
      "layer": 1,
-     "covers": 108
+     "covers": 96
     },
     "coat": {
      "mesh": "SKV2_Female_f_gown_coat",
@@ -317,6 +401,18 @@
      "tex": "T_SKV2_Female_f_gloves_l_C4_D",
      "layer": 5,
      "covers": 192
+    },
+    "belt": {
+     "mesh": "SKV2_Female_belt_slim_belt",
+     "tex": "T_SKV2_GEAR_belt_slim_C4_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Female_cuff_wrist",
+     "tex": "T_SKV2_GEAR_cuff_C4_D",
+     "layer": 6,
+     "covers": 0
     }
    }
   },
@@ -351,6 +447,18 @@
      "tex": "T_SKV2_Male_m_gloves_s_C5_D",
      "layer": 5,
      "covers": 128
+    },
+    "belt": {
+     "mesh": "SKV2_Male_belt_slim_belt",
+     "tex": "T_SKV2_GEAR_belt_slim_C5_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Male_cuff_wrist",
+     "tex": "T_SKV2_GEAR_cuff_C5_D",
+     "layer": 6,
+     "covers": 0
     }
    },
    "Female": {
@@ -358,7 +466,7 @@
      "mesh": "SKV2_Female_f_blouse_shirt",
      "tex": "T_SKV2_Female_f_blouse_C5_D",
      "layer": 1,
-     "covers": 108
+     "covers": 96
     },
     "coat": {
      "mesh": "SKV2_Female_f_gown_coat",
@@ -383,6 +491,18 @@
      "tex": "T_SKV2_Female_f_gloves_l_C5_D",
      "layer": 5,
      "covers": 192
+    },
+    "belt": {
+     "mesh": "SKV2_Female_belt_slim_belt",
+     "tex": "T_SKV2_GEAR_belt_slim_C5_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Female_cuff_wrist",
+     "tex": "T_SKV2_GEAR_cuff_C5_D",
+     "layer": 6,
+     "covers": 0
     }
    }
   },
@@ -417,6 +537,18 @@
      "tex": "T_SKV2_Male_m_gloves_s_C6_D",
      "layer": 5,
      "covers": 128
+    },
+    "belt": {
+     "mesh": "SKV2_Male_belt_slim_belt",
+     "tex": "T_SKV2_GEAR_belt_slim_C6_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Male_cuff_wrist",
+     "tex": "T_SKV2_GEAR_cuff_C6_D",
+     "layer": 6,
+     "covers": 0
     }
    },
    "Female": {
@@ -424,7 +556,7 @@
      "mesh": "SKV2_Female_f_blouse_shirt",
      "tex": "T_SKV2_Female_f_blouse_C6_D",
      "layer": 1,
-     "covers": 108
+     "covers": 96
     },
     "coat": {
      "mesh": "SKV2_Female_f_gown_coat",
@@ -449,6 +581,18 @@
      "tex": "T_SKV2_Female_f_gloves_l_C6_D",
      "layer": 5,
      "covers": 192
+    },
+    "belt": {
+     "mesh": "SKV2_Female_belt_slim_belt",
+     "tex": "T_SKV2_GEAR_belt_slim_C6_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Female_cuff_wrist",
+     "tex": "T_SKV2_GEAR_cuff_C6_D",
+     "layer": 6,
+     "covers": 0
     }
    }
   },
@@ -483,6 +627,18 @@
      "tex": "T_SKV2_Male_m_gloves_m_L1_D",
      "layer": 5,
      "covers": 192
+    },
+    "belt": {
+     "mesh": "SKV2_Male_belt_wide_belt",
+     "tex": "T_SKV2_GEAR_belt_wide_L1_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Male_bracer_wrist",
+     "tex": "T_SKV2_GEAR_bracer_L1_D",
+     "layer": 6,
+     "covers": 0
     }
    },
    "Female": {
@@ -490,7 +646,7 @@
      "mesh": "SKV2_Female_f_blouse_shirt",
      "tex": "T_SKV2_Female_f_blouse_L1_D",
      "layer": 1,
-     "covers": 108
+     "covers": 96
     },
     "coat": {
      "mesh": "SKV2_Female_f_jacket_coat",
@@ -515,6 +671,18 @@
      "tex": "T_SKV2_Female_f_gloves_s_L1_D",
      "layer": 5,
      "covers": 128
+    },
+    "belt": {
+     "mesh": "SKV2_Female_belt_wide_belt",
+     "tex": "T_SKV2_GEAR_belt_wide_L1_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Female_bracer_wrist",
+     "tex": "T_SKV2_GEAR_bracer_L1_D",
+     "layer": 6,
+     "covers": 0
     }
    }
   },
@@ -549,6 +717,18 @@
      "tex": "T_SKV2_Male_m_gloves_s_L2_D",
      "layer": 5,
      "covers": 128
+    },
+    "belt": {
+     "mesh": "SKV2_Male_belt_wide_belt",
+     "tex": "T_SKV2_GEAR_belt_wide_L2_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Male_bracer_wrist",
+     "tex": "T_SKV2_GEAR_bracer_L2_D",
+     "layer": 6,
+     "covers": 0
     }
    },
    "Female": {
@@ -556,7 +736,7 @@
      "mesh": "SKV2_Female_f_blouse_shirt",
      "tex": "T_SKV2_Female_f_blouse_L2_D",
      "layer": 1,
-     "covers": 108
+     "covers": 96
     },
     "coat": {
      "mesh": "SKV2_Female_f_jacket_coat",
@@ -581,6 +761,18 @@
      "tex": "T_SKV2_Female_f_gloves_s_L2_D",
      "layer": 5,
      "covers": 128
+    },
+    "belt": {
+     "mesh": "SKV2_Female_belt_wide_belt",
+     "tex": "T_SKV2_GEAR_belt_wide_L2_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Female_bracer_wrist",
+     "tex": "T_SKV2_GEAR_bracer_L2_D",
+     "layer": 6,
+     "covers": 0
     }
    }
   },
@@ -615,6 +807,18 @@
      "tex": "T_SKV2_Male_m_gloves_m_L3_D",
      "layer": 5,
      "covers": 192
+    },
+    "belt": {
+     "mesh": "SKV2_Male_belt_wide_belt",
+     "tex": "T_SKV2_GEAR_belt_wide_L3_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Male_bracer_wrist",
+     "tex": "T_SKV2_GEAR_bracer_L3_D",
+     "layer": 6,
+     "covers": 0
     }
    },
    "Female": {
@@ -647,6 +851,18 @@
      "tex": "T_SKV2_Female_f_gloves_s_L3_D",
      "layer": 5,
      "covers": 128
+    },
+    "belt": {
+     "mesh": "SKV2_Female_belt_wide_belt",
+     "tex": "T_SKV2_GEAR_belt_wide_L3_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Female_bracer_wrist",
+     "tex": "T_SKV2_GEAR_bracer_L3_D",
+     "layer": 6,
+     "covers": 0
     }
    }
   },
@@ -681,6 +897,18 @@
      "tex": "T_SKV2_Male_m_gloves_m_L4_D",
      "layer": 5,
      "covers": 192
+    },
+    "belt": {
+     "mesh": "SKV2_Male_belt_wide_belt",
+     "tex": "T_SKV2_GEAR_belt_wide_L4_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Male_bracer_wrist",
+     "tex": "T_SKV2_GEAR_bracer_L4_D",
+     "layer": 6,
+     "covers": 0
     }
    },
    "Female": {
@@ -688,7 +916,7 @@
      "mesh": "SKV2_Female_f_blouse_shirt",
      "tex": "T_SKV2_Female_f_blouse_L4_D",
      "layer": 1,
-     "covers": 108
+     "covers": 96
     },
     "coat": {
      "mesh": "SKV2_Female_f_jacket_coat",
@@ -713,6 +941,18 @@
      "tex": "T_SKV2_Female_f_gloves_s_L4_D",
      "layer": 5,
      "covers": 128
+    },
+    "belt": {
+     "mesh": "SKV2_Female_belt_wide_belt",
+     "tex": "T_SKV2_GEAR_belt_wide_L4_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Female_bracer_wrist",
+     "tex": "T_SKV2_GEAR_bracer_L4_D",
+     "layer": 6,
+     "covers": 0
     }
    }
   },
@@ -747,6 +987,18 @@
      "tex": "T_SKV2_Male_m_gloves_m_L5_D",
      "layer": 5,
      "covers": 192
+    },
+    "belt": {
+     "mesh": "SKV2_Male_belt_wide_belt",
+     "tex": "T_SKV2_GEAR_belt_wide_L5_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Male_bracer_wrist",
+     "tex": "T_SKV2_GEAR_bracer_L5_D",
+     "layer": 6,
+     "covers": 0
     }
    },
    "Female": {
@@ -754,7 +1006,7 @@
      "mesh": "SKV2_Female_f_blouse_shirt",
      "tex": "T_SKV2_Female_f_blouse_L5_D",
      "layer": 1,
-     "covers": 108
+     "covers": 96
     },
     "coat": {
      "mesh": "SKV2_Female_f_longcoat_coat",
@@ -779,6 +1031,18 @@
      "tex": "T_SKV2_Female_f_gloves_s_L5_D",
      "layer": 5,
      "covers": 128
+    },
+    "belt": {
+     "mesh": "SKV2_Female_belt_wide_belt",
+     "tex": "T_SKV2_GEAR_belt_wide_L5_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Female_bracer_wrist",
+     "tex": "T_SKV2_GEAR_bracer_L5_D",
+     "layer": 6,
+     "covers": 0
     }
    }
   },
@@ -804,47 +1068,71 @@
     },
     "shoes": {
      "mesh": "SKV2_Male_m_tallboot_shoes",
-     "tex": "T_SKV2_Male_m_tallboot_D",
+     "tex": "T_SKV2_Male_m_tallboot_L6_D",
      "layer": 3,
      "covers": 1536
     },
     "gloves": {
      "mesh": "SKV2_Male_m_gloves_m_gloves",
-     "tex": "T_SKV2_Male_m_gloves_m_D",
+     "tex": "T_SKV2_Male_m_gloves_m_L6_D",
      "layer": 5,
      "covers": 192
+    },
+    "belt": {
+     "mesh": "SKV2_Male_belt_wide_belt",
+     "tex": "T_SKV2_GEAR_belt_wide_L6_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Male_bracer_wrist",
+     "tex": "T_SKV2_GEAR_bracer_L6_D",
+     "layer": 6,
+     "covers": 0
     }
    },
    "Female": {
     "shirt": {
      "mesh": "SKV2_Female_f_blouse_shirt",
-     "tex": "T_SKV2_Female_f_blouse_D",
+     "tex": "T_SKV2_Female_f_blouse_L6_D",
      "layer": 1,
-     "covers": 108
+     "covers": 96
     },
     "coat": {
      "mesh": "SKV2_Female_f_jacket_coat",
-     "tex": "T_SKV2_Female_f_jacket_D",
+     "tex": "T_SKV2_Female_f_jacket_L6_D",
      "layer": 4,
      "covers": 108
     },
     "trousers": {
      "mesh": "SKV2_Female_f_jodhpurs_trousers",
-     "tex": "T_SKV2_Female_f_jodhpurs_D",
+     "tex": "T_SKV2_Female_f_jodhpurs_L6_D",
      "layer": 2,
      "covers": 784
     },
     "shoes": {
      "mesh": "SKV2_Female_f_tallboot_shoes",
-     "tex": "T_SKV2_Female_f_tallboot_D",
+     "tex": "T_SKV2_Female_f_tallboot_L6_D",
      "layer": 3,
      "covers": 1536
     },
     "gloves": {
      "mesh": "SKV2_Female_f_gloves_s_gloves",
-     "tex": "T_SKV2_Female_f_gloves_s_D",
+     "tex": "T_SKV2_Female_f_gloves_s_L6_D",
      "layer": 5,
      "covers": 128
+    },
+    "belt": {
+     "mesh": "SKV2_Female_belt_wide_belt",
+     "tex": "T_SKV2_GEAR_belt_wide_L6_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Female_bracer_wrist",
+     "tex": "T_SKV2_GEAR_bracer_L6_D",
+     "layer": 6,
+     "covers": 0
     }
    }
   },
@@ -852,65 +1140,89 @@
    "Male": {
     "shirt": {
      "mesh": "SKV2_Male_m_shirt_open_shirt",
-     "tex": "T_SKV2_Male_m_shirt_open_D",
+     "tex": "T_SKV2_Male_m_shirt_open_P1_D",
      "layer": 1,
      "covers": 108
     },
     "coat": {
      "mesh": "SKV2_Male_m_jacket_coat",
-     "tex": "T_SKV2_Male_m_jacket_D",
+     "tex": "T_SKV2_Male_m_jacket_P1_D",
      "layer": 4,
      "covers": 108
     },
     "trousers": {
      "mesh": "SKV2_Male_m_overalls_trousers",
-     "tex": "T_SKV2_Male_m_overalls_D",
+     "tex": "T_SKV2_Male_m_overalls_P1_D",
      "layer": 2,
      "covers": 796
     },
     "shoes": {
      "mesh": "SKV2_Male_m_workboot_shoes",
-     "tex": "T_SKV2_Male_m_workboot_D",
+     "tex": "T_SKV2_Male_m_workboot_P1_D",
      "layer": 3,
      "covers": 1024
     },
     "gloves": {
      "mesh": "SKV2_Male_m_gloves_s_gloves",
-     "tex": "T_SKV2_Male_m_gloves_s_D",
+     "tex": "T_SKV2_Male_m_gloves_s_P1_D",
      "layer": 5,
      "covers": 128
+    },
+    "belt": {
+     "mesh": "SKV2_Male_belt_wide_belt",
+     "tex": "T_SKV2_GEAR_belt_wide_P1_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Male_bracer_wrist",
+     "tex": "T_SKV2_GEAR_bracer_P1_D",
+     "layer": 6,
+     "covers": 0
     }
    },
    "Female": {
     "shirt": {
      "mesh": "SKV2_Female_f_blouse_shirt",
-     "tex": "T_SKV2_Female_f_blouse_D",
+     "tex": "T_SKV2_Female_f_blouse_P1_D",
      "layer": 1,
-     "covers": 108
+     "covers": 96
     },
     "coat": {
      "mesh": "SKV2_Female_f_jacket_coat",
-     "tex": "T_SKV2_Female_f_jacket_D",
+     "tex": "T_SKV2_Female_f_jacket_P1_D",
      "layer": 4,
      "covers": 108
     },
     "trousers": {
      "mesh": "SKV2_Female_f_trousers_trousers",
-     "tex": "T_SKV2_Female_f_trousers_D",
+     "tex": "T_SKV2_Female_f_trousers_P1_D",
      "layer": 2,
      "covers": 784
     },
     "shoes": {
      "mesh": "SKV2_Female_f_ankle_shoes",
-     "tex": "T_SKV2_Female_f_ankle_D",
+     "tex": "T_SKV2_Female_f_ankle_P1_D",
      "layer": 3,
      "covers": 1024
     },
     "gloves": {
      "mesh": "SKV2_Female_f_gloves_s_gloves",
-     "tex": "T_SKV2_Female_f_gloves_s_D",
+     "tex": "T_SKV2_Female_f_gloves_s_P1_D",
      "layer": 5,
      "covers": 128
+    },
+    "belt": {
+     "mesh": "SKV2_Female_belt_wide_belt",
+     "tex": "T_SKV2_GEAR_belt_wide_P1_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Female_bracer_wrist",
+     "tex": "T_SKV2_GEAR_bracer_P1_D",
+     "layer": 6,
+     "covers": 0
     }
    }
   },
@@ -918,65 +1230,89 @@
    "Male": {
     "shirt": {
      "mesh": "SKV2_Male_m_henley_shirt",
-     "tex": "T_SKV2_Male_m_henley_D",
+     "tex": "T_SKV2_Male_m_henley_P2_D",
      "layer": 1,
      "covers": 44
     },
     "coat": {
      "mesh": "SKV2_Male_m_jacket_coat",
-     "tex": "T_SKV2_Male_m_jacket_D",
+     "tex": "T_SKV2_Male_m_jacket_P2_D",
      "layer": 4,
      "covers": 108
     },
     "trousers": {
      "mesh": "SKV2_Male_m_cargo_trousers",
-     "tex": "T_SKV2_Male_m_cargo_D",
+     "tex": "T_SKV2_Male_m_cargo_P2_D",
      "layer": 2,
      "covers": 784
     },
     "shoes": {
      "mesh": "SKV2_Male_m_workboot_shoes",
-     "tex": "T_SKV2_Male_m_workboot_D",
+     "tex": "T_SKV2_Male_m_workboot_P2_D",
      "layer": 3,
      "covers": 1024
     },
     "gloves": {
      "mesh": "SKV2_Male_m_gloves_m_gloves",
-     "tex": "T_SKV2_Male_m_gloves_m_D",
+     "tex": "T_SKV2_Male_m_gloves_m_P2_D",
      "layer": 5,
      "covers": 192
+    },
+    "belt": {
+     "mesh": "SKV2_Male_belt_wide_belt",
+     "tex": "T_SKV2_GEAR_belt_wide_P2_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Male_bracer_wrist",
+     "tex": "T_SKV2_GEAR_bracer_P2_D",
+     "layer": 6,
+     "covers": 0
     }
    },
    "Female": {
     "shirt": {
      "mesh": "SKV2_Female_f_sweater_shirt",
-     "tex": "T_SKV2_Female_f_sweater_D",
+     "tex": "T_SKV2_Female_f_sweater_P2_D",
      "layer": 1,
      "covers": 108
     },
     "coat": {
      "mesh": "SKV2_Female_f_jacket_coat",
-     "tex": "T_SKV2_Female_f_jacket_D",
+     "tex": "T_SKV2_Female_f_jacket_P2_D",
      "layer": 4,
      "covers": 108
     },
     "trousers": {
      "mesh": "SKV2_Female_f_trousers_trousers",
-     "tex": "T_SKV2_Female_f_trousers_D",
+     "tex": "T_SKV2_Female_f_trousers_P2_D",
      "layer": 2,
      "covers": 784
     },
     "shoes": {
      "mesh": "SKV2_Female_f_ankle_shoes",
-     "tex": "T_SKV2_Female_f_ankle_D",
+     "tex": "T_SKV2_Female_f_ankle_P2_D",
      "layer": 3,
      "covers": 1024
     },
     "gloves": {
      "mesh": "SKV2_Female_f_gloves_s_gloves",
-     "tex": "T_SKV2_Female_f_gloves_s_D",
+     "tex": "T_SKV2_Female_f_gloves_s_P2_D",
      "layer": 5,
      "covers": 128
+    },
+    "belt": {
+     "mesh": "SKV2_Female_belt_wide_belt",
+     "tex": "T_SKV2_GEAR_belt_wide_P2_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Female_bracer_wrist",
+     "tex": "T_SKV2_GEAR_bracer_P2_D",
+     "layer": 6,
+     "covers": 0
     }
    }
   },
@@ -984,65 +1320,89 @@
    "Male": {
     "shirt": {
      "mesh": "SKV2_Male_m_sweater_shirt",
-     "tex": "T_SKV2_Male_m_sweater_D",
+     "tex": "T_SKV2_Male_m_sweater_P3_D",
      "layer": 1,
      "covers": 108
     },
     "coat": {
      "mesh": "SKV2_Male_m_jacket_coat",
-     "tex": "T_SKV2_Male_m_jacket_D",
+     "tex": "T_SKV2_Male_m_jacket_P3_D",
      "layer": 4,
      "covers": 108
     },
     "trousers": {
      "mesh": "SKV2_Male_m_cargo_trousers",
-     "tex": "T_SKV2_Male_m_cargo_D",
+     "tex": "T_SKV2_Male_m_cargo_P3_D",
      "layer": 2,
      "covers": 784
     },
     "shoes": {
      "mesh": "SKV2_Male_m_workboot_shoes",
-     "tex": "T_SKV2_Male_m_workboot_D",
+     "tex": "T_SKV2_Male_m_workboot_P3_D",
      "layer": 3,
      "covers": 1024
     },
     "gloves": {
      "mesh": "SKV2_Male_m_gloves_s_gloves",
-     "tex": "T_SKV2_Male_m_gloves_s_D",
+     "tex": "T_SKV2_Male_m_gloves_s_P3_D",
      "layer": 5,
      "covers": 128
+    },
+    "belt": {
+     "mesh": "SKV2_Male_belt_wide_belt",
+     "tex": "T_SKV2_GEAR_belt_wide_P3_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Male_bracer_wrist",
+     "tex": "T_SKV2_GEAR_bracer_P3_D",
+     "layer": 6,
+     "covers": 0
     }
    },
    "Female": {
     "shirt": {
      "mesh": "SKV2_Female_f_sweater_shirt",
-     "tex": "T_SKV2_Female_f_sweater_D",
+     "tex": "T_SKV2_Female_f_sweater_P3_D",
      "layer": 1,
      "covers": 108
     },
     "coat": {
      "mesh": "SKV2_Female_f_jacket_coat",
-     "tex": "T_SKV2_Female_f_jacket_D",
+     "tex": "T_SKV2_Female_f_jacket_P3_D",
      "layer": 4,
      "covers": 108
     },
     "trousers": {
      "mesh": "SKV2_Female_f_trousers_trousers",
-     "tex": "T_SKV2_Female_f_trousers_D",
+     "tex": "T_SKV2_Female_f_trousers_P3_D",
      "layer": 2,
      "covers": 784
     },
     "shoes": {
      "mesh": "SKV2_Female_f_ankle_shoes",
-     "tex": "T_SKV2_Female_f_ankle_D",
+     "tex": "T_SKV2_Female_f_ankle_P3_D",
      "layer": 3,
      "covers": 1024
     },
     "gloves": {
      "mesh": "SKV2_Female_f_gloves_s_gloves",
-     "tex": "T_SKV2_Female_f_gloves_s_D",
+     "tex": "T_SKV2_Female_f_gloves_s_P3_D",
      "layer": 5,
      "covers": 128
+    },
+    "belt": {
+     "mesh": "SKV2_Female_belt_wide_belt",
+     "tex": "T_SKV2_GEAR_belt_wide_P3_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Female_bracer_wrist",
+     "tex": "T_SKV2_GEAR_bracer_P3_D",
+     "layer": 6,
+     "covers": 0
     }
    }
   },
@@ -1050,65 +1410,89 @@
    "Male": {
     "shirt": {
      "mesh": "SKV2_Male_m_sweater_shirt",
-     "tex": "T_SKV2_Male_m_sweater_D",
+     "tex": "T_SKV2_Male_m_sweater_P4_D",
      "layer": 1,
      "covers": 108
     },
     "coat": {
      "mesh": "SKV2_Male_m_jacket_coat",
-     "tex": "T_SKV2_Male_m_jacket_D",
+     "tex": "T_SKV2_Male_m_jacket_P4_D",
      "layer": 4,
      "covers": 108
     },
     "trousers": {
      "mesh": "SKV2_Male_m_wool_trousers",
-     "tex": "T_SKV2_Male_m_wool_D",
+     "tex": "T_SKV2_Male_m_wool_P4_D",
      "layer": 2,
      "covers": 784
     },
     "shoes": {
      "mesh": "SKV2_Male_m_workboot_shoes",
-     "tex": "T_SKV2_Male_m_workboot_D",
+     "tex": "T_SKV2_Male_m_workboot_P4_D",
      "layer": 3,
      "covers": 1024
     },
     "gloves": {
      "mesh": "SKV2_Male_m_gloves_m_gloves",
-     "tex": "T_SKV2_Male_m_gloves_m_D",
+     "tex": "T_SKV2_Male_m_gloves_m_P4_D",
      "layer": 5,
      "covers": 192
+    },
+    "belt": {
+     "mesh": "SKV2_Male_belt_wide_belt",
+     "tex": "T_SKV2_GEAR_belt_wide_P4_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Male_bracer_wrist",
+     "tex": "T_SKV2_GEAR_bracer_P4_D",
+     "layer": 6,
+     "covers": 0
     }
    },
    "Female": {
     "shirt": {
      "mesh": "SKV2_Female_f_sweater_shirt",
-     "tex": "T_SKV2_Female_f_sweater_D",
+     "tex": "T_SKV2_Female_f_sweater_P4_D",
      "layer": 1,
      "covers": 108
     },
     "coat": {
      "mesh": "SKV2_Female_f_jacket_coat",
-     "tex": "T_SKV2_Female_f_jacket_D",
+     "tex": "T_SKV2_Female_f_jacket_P4_D",
      "layer": 4,
      "covers": 108
     },
     "trousers": {
      "mesh": "SKV2_Female_f_trousers_trousers",
-     "tex": "T_SKV2_Female_f_trousers_D",
+     "tex": "T_SKV2_Female_f_trousers_P4_D",
      "layer": 2,
      "covers": 784
     },
     "shoes": {
      "mesh": "SKV2_Female_f_ankle_shoes",
-     "tex": "T_SKV2_Female_f_ankle_D",
+     "tex": "T_SKV2_Female_f_ankle_P4_D",
      "layer": 3,
      "covers": 1024
     },
     "gloves": {
      "mesh": "SKV2_Female_f_gloves_s_gloves",
-     "tex": "T_SKV2_Female_f_gloves_s_D",
+     "tex": "T_SKV2_Female_f_gloves_s_P4_D",
      "layer": 5,
      "covers": 128
+    },
+    "belt": {
+     "mesh": "SKV2_Female_belt_wide_belt",
+     "tex": "T_SKV2_GEAR_belt_wide_P4_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Female_bracer_wrist",
+     "tex": "T_SKV2_GEAR_bracer_P4_D",
+     "layer": 6,
+     "covers": 0
     }
    }
   },
@@ -1116,65 +1500,89 @@
    "Male": {
     "shirt": {
      "mesh": "SKV2_Male_m_henley_shirt",
-     "tex": "T_SKV2_Male_m_henley_D",
+     "tex": "T_SKV2_Male_m_henley_P5_D",
      "layer": 1,
      "covers": 44
     },
     "coat": {
      "mesh": "SKV2_Male_m_jacket_coat",
-     "tex": "T_SKV2_Male_m_jacket_D",
+     "tex": "T_SKV2_Male_m_jacket_P5_D",
      "layer": 4,
      "covers": 108
     },
     "trousers": {
      "mesh": "SKV2_Male_m_overalls_trousers",
-     "tex": "T_SKV2_Male_m_overalls_D",
+     "tex": "T_SKV2_Male_m_overalls_P5_D",
      "layer": 2,
      "covers": 796
     },
     "shoes": {
      "mesh": "SKV2_Male_m_workboot_shoes",
-     "tex": "T_SKV2_Male_m_workboot_D",
+     "tex": "T_SKV2_Male_m_workboot_P5_D",
      "layer": 3,
      "covers": 1024
     },
     "gloves": {
      "mesh": "SKV2_Male_m_gloves_m_gloves",
-     "tex": "T_SKV2_Male_m_gloves_m_D",
+     "tex": "T_SKV2_Male_m_gloves_m_P5_D",
      "layer": 5,
      "covers": 192
+    },
+    "belt": {
+     "mesh": "SKV2_Male_belt_wide_belt",
+     "tex": "T_SKV2_GEAR_belt_wide_P5_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Male_bracer_wrist",
+     "tex": "T_SKV2_GEAR_bracer_P5_D",
+     "layer": 6,
+     "covers": 0
     }
    },
    "Female": {
     "shirt": {
      "mesh": "SKV2_Female_f_blouse_shirt",
-     "tex": "T_SKV2_Female_f_blouse_D",
+     "tex": "T_SKV2_Female_f_blouse_P5_D",
      "layer": 1,
-     "covers": 108
+     "covers": 96
     },
     "coat": {
      "mesh": "SKV2_Female_f_jacket_coat",
-     "tex": "T_SKV2_Female_f_jacket_D",
+     "tex": "T_SKV2_Female_f_jacket_P5_D",
      "layer": 4,
      "covers": 108
     },
     "trousers": {
      "mesh": "SKV2_Female_f_trousers_trousers",
-     "tex": "T_SKV2_Female_f_trousers_D",
+     "tex": "T_SKV2_Female_f_trousers_P5_D",
      "layer": 2,
      "covers": 784
     },
     "shoes": {
      "mesh": "SKV2_Female_f_ankle_shoes",
-     "tex": "T_SKV2_Female_f_ankle_D",
+     "tex": "T_SKV2_Female_f_ankle_P5_D",
      "layer": 3,
      "covers": 1024
     },
     "gloves": {
      "mesh": "SKV2_Female_f_gloves_s_gloves",
-     "tex": "T_SKV2_Female_f_gloves_s_D",
+     "tex": "T_SKV2_Female_f_gloves_s_P5_D",
      "layer": 5,
      "covers": 128
+    },
+    "belt": {
+     "mesh": "SKV2_Female_belt_wide_belt",
+     "tex": "T_SKV2_GEAR_belt_wide_P5_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Female_bracer_wrist",
+     "tex": "T_SKV2_GEAR_bracer_P5_D",
+     "layer": 6,
+     "covers": 0
     }
    }
   },
@@ -1182,65 +1590,89 @@
    "Male": {
     "shirt": {
      "mesh": "SKV2_Male_m_sweater_shirt",
-     "tex": "T_SKV2_Male_m_sweater_D",
+     "tex": "T_SKV2_Male_m_sweater_P6_D",
      "layer": 1,
      "covers": 108
     },
     "coat": {
      "mesh": "SKV2_Male_m_jacket_coat",
-     "tex": "T_SKV2_Male_m_jacket_D",
+     "tex": "T_SKV2_Male_m_jacket_P6_D",
      "layer": 4,
      "covers": 108
     },
     "trousers": {
      "mesh": "SKV2_Male_m_cargo_trousers",
-     "tex": "T_SKV2_Male_m_cargo_D",
+     "tex": "T_SKV2_Male_m_cargo_P6_D",
      "layer": 2,
      "covers": 784
     },
     "shoes": {
      "mesh": "SKV2_Male_m_workboot_shoes",
-     "tex": "T_SKV2_Male_m_workboot_D",
+     "tex": "T_SKV2_Male_m_workboot_P6_D",
      "layer": 3,
      "covers": 1024
     },
     "gloves": {
      "mesh": "SKV2_Male_m_gloves_m_gloves",
-     "tex": "T_SKV2_Male_m_gloves_m_D",
+     "tex": "T_SKV2_Male_m_gloves_m_P6_D",
      "layer": 5,
      "covers": 192
+    },
+    "belt": {
+     "mesh": "SKV2_Male_belt_wide_belt",
+     "tex": "T_SKV2_GEAR_belt_wide_P6_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Male_bracer_wrist",
+     "tex": "T_SKV2_GEAR_bracer_P6_D",
+     "layer": 6,
+     "covers": 0
     }
    },
    "Female": {
     "shirt": {
      "mesh": "SKV2_Female_f_sweater_shirt",
-     "tex": "T_SKV2_Female_f_sweater_D",
+     "tex": "T_SKV2_Female_f_sweater_P6_D",
      "layer": 1,
      "covers": 108
     },
     "coat": {
      "mesh": "SKV2_Female_f_jacket_coat",
-     "tex": "T_SKV2_Female_f_jacket_D",
+     "tex": "T_SKV2_Female_f_jacket_P6_D",
      "layer": 4,
      "covers": 108
     },
     "trousers": {
      "mesh": "SKV2_Female_f_trousers_trousers",
-     "tex": "T_SKV2_Female_f_trousers_D",
+     "tex": "T_SKV2_Female_f_trousers_P6_D",
      "layer": 2,
      "covers": 784
     },
     "shoes": {
      "mesh": "SKV2_Female_f_ankle_shoes",
-     "tex": "T_SKV2_Female_f_ankle_D",
+     "tex": "T_SKV2_Female_f_ankle_P6_D",
      "layer": 3,
      "covers": 1024
     },
     "gloves": {
      "mesh": "SKV2_Female_f_gloves_s_gloves",
-     "tex": "T_SKV2_Female_f_gloves_s_D",
+     "tex": "T_SKV2_Female_f_gloves_s_P6_D",
      "layer": 5,
      "covers": 128
+    },
+    "belt": {
+     "mesh": "SKV2_Female_belt_wide_belt",
+     "tex": "T_SKV2_GEAR_belt_wide_P6_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Female_bracer_wrist",
+     "tex": "T_SKV2_GEAR_bracer_P6_D",
+     "layer": 6,
+     "covers": 0
     }
    }
   },
@@ -1248,65 +1680,101 @@
    "Male": {
     "shirt": {
      "mesh": "SKV2_Male_m_shirt_open_shirt",
-     "tex": "T_SKV2_Male_m_shirt_open_D",
+     "tex": "T_SKV2_Male_m_shirt_open_S1_D",
      "layer": 1,
      "covers": 108
     },
     "coat": {
      "mesh": "SKV2_Male_m_jacket_coat",
-     "tex": "T_SKV2_Male_m_jacket_D",
+     "tex": "T_SKV2_Male_m_jacket_S1_D",
      "layer": 4,
      "covers": 108
     },
     "trousers": {
      "mesh": "SKV2_Male_m_breeches_trousers",
-     "tex": "T_SKV2_Male_m_breeches_D",
+     "tex": "T_SKV2_Male_m_breeches_S1_D",
      "layer": 2,
      "covers": 784
     },
     "shoes": {
      "mesh": "SKV2_Male_m_trenchboot_shoes",
-     "tex": "T_SKV2_Male_m_trenchboot_D",
+     "tex": "T_SKV2_Male_m_trenchboot_S1_D",
      "layer": 3,
      "covers": 1024
     },
     "gloves": {
      "mesh": "SKV2_Male_m_gloves_s_gloves",
-     "tex": "T_SKV2_Male_m_gloves_s_D",
+     "tex": "T_SKV2_Male_m_gloves_s_S1_D",
      "layer": 5,
      "covers": 128
+    },
+    "belt": {
+     "mesh": "SKV2_Male_belt_wide_belt",
+     "tex": "T_SKV2_GEAR_belt_wide_S1_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Male_bracer_wrist",
+     "tex": "T_SKV2_GEAR_bracer_S1_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "armour": {
+     "mesh": "SKV2_Male_cuirass_m_armour",
+     "tex": "T_SKV2_GEAR_cuirass_m_S1_D",
+     "layer": 7,
+     "covers": 0
     }
    },
    "Female": {
     "shirt": {
      "mesh": "SKV2_Female_f_blouse_shirt",
-     "tex": "T_SKV2_Female_f_blouse_D",
+     "tex": "T_SKV2_Female_f_blouse_S1_D",
      "layer": 1,
-     "covers": 108
+     "covers": 96
     },
     "coat": {
      "mesh": "SKV2_Female_f_jacket_coat",
-     "tex": "T_SKV2_Female_f_jacket_D",
+     "tex": "T_SKV2_Female_f_jacket_S1_D",
      "layer": 4,
      "covers": 108
     },
     "trousers": {
      "mesh": "SKV2_Female_f_jodhpurs_trousers",
-     "tex": "T_SKV2_Female_f_jodhpurs_D",
+     "tex": "T_SKV2_Female_f_jodhpurs_S1_D",
      "layer": 2,
      "covers": 784
     },
     "shoes": {
      "mesh": "SKV2_Female_f_ankle_shoes",
-     "tex": "T_SKV2_Female_f_ankle_D",
+     "tex": "T_SKV2_Female_f_ankle_S1_D",
      "layer": 3,
      "covers": 1024
     },
     "gloves": {
      "mesh": "SKV2_Female_f_gloves_s_gloves",
-     "tex": "T_SKV2_Female_f_gloves_s_D",
+     "tex": "T_SKV2_Female_f_gloves_s_S1_D",
      "layer": 5,
      "covers": 128
+    },
+    "belt": {
+     "mesh": "SKV2_Female_belt_wide_belt",
+     "tex": "T_SKV2_GEAR_belt_wide_S1_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Female_bracer_wrist",
+     "tex": "T_SKV2_GEAR_bracer_S1_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "armour": {
+     "mesh": "SKV2_Female_cuirass_f_armour",
+     "tex": "T_SKV2_GEAR_cuirass_f_S1_D",
+     "layer": 7,
+     "covers": 0
     }
    }
   },
@@ -1314,65 +1782,101 @@
    "Male": {
     "shirt": {
      "mesh": "SKV2_Male_m_shirt_tie_shirt",
-     "tex": "T_SKV2_Male_m_shirt_tie_D",
+     "tex": "T_SKV2_Male_m_shirt_tie_S2_D",
      "layer": 1,
      "covers": 108
     },
     "coat": {
      "mesh": "SKV2_Male_m_longcoat_coat",
-     "tex": "T_SKV2_Male_m_longcoat_D",
+     "tex": "T_SKV2_Male_m_longcoat_S2_D",
      "layer": 4,
      "covers": 380
     },
     "trousers": {
      "mesh": "SKV2_Male_m_breeches_trousers",
-     "tex": "T_SKV2_Male_m_breeches_D",
+     "tex": "T_SKV2_Male_m_breeches_S2_D",
      "layer": 2,
      "covers": 784
     },
     "shoes": {
      "mesh": "SKV2_Male_m_trenchboot_shoes",
-     "tex": "T_SKV2_Male_m_trenchboot_D",
+     "tex": "T_SKV2_Male_m_trenchboot_S2_D",
      "layer": 3,
      "covers": 1024
     },
     "gloves": {
      "mesh": "SKV2_Male_m_gloves_m_gloves",
-     "tex": "T_SKV2_Male_m_gloves_m_D",
+     "tex": "T_SKV2_Male_m_gloves_m_S2_D",
      "layer": 5,
      "covers": 192
+    },
+    "belt": {
+     "mesh": "SKV2_Male_belt_wide_belt",
+     "tex": "T_SKV2_GEAR_belt_wide_S2_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Male_bracer_wrist",
+     "tex": "T_SKV2_GEAR_bracer_S2_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "armour": {
+     "mesh": "SKV2_Male_cuirass_m_armour",
+     "tex": "T_SKV2_GEAR_cuirass_m_S2_D",
+     "layer": 7,
+     "covers": 0
     }
    },
    "Female": {
     "shirt": {
      "mesh": "SKV2_Female_f_blouse_shirt",
-     "tex": "T_SKV2_Female_f_blouse_D",
+     "tex": "T_SKV2_Female_f_blouse_S2_D",
      "layer": 1,
-     "covers": 108
+     "covers": 96
     },
     "coat": {
      "mesh": "SKV2_Female_f_longcoat_coat",
-     "tex": "T_SKV2_Female_f_longcoat_D",
+     "tex": "T_SKV2_Female_f_longcoat_S2_D",
      "layer": 4,
      "covers": 380
     },
     "trousers": {
      "mesh": "SKV2_Female_f_jodhpurs_trousers",
-     "tex": "T_SKV2_Female_f_jodhpurs_D",
+     "tex": "T_SKV2_Female_f_jodhpurs_S2_D",
      "layer": 2,
      "covers": 784
     },
     "shoes": {
      "mesh": "SKV2_Female_f_tallboot_shoes",
-     "tex": "T_SKV2_Female_f_tallboot_D",
+     "tex": "T_SKV2_Female_f_tallboot_S2_D",
      "layer": 3,
      "covers": 1536
     },
     "gloves": {
      "mesh": "SKV2_Female_f_gloves_s_gloves",
-     "tex": "T_SKV2_Female_f_gloves_s_D",
+     "tex": "T_SKV2_Female_f_gloves_s_S2_D",
      "layer": 5,
      "covers": 128
+    },
+    "belt": {
+     "mesh": "SKV2_Female_belt_wide_belt",
+     "tex": "T_SKV2_GEAR_belt_wide_S2_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Female_bracer_wrist",
+     "tex": "T_SKV2_GEAR_bracer_S2_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "armour": {
+     "mesh": "SKV2_Female_cuirass_f_armour",
+     "tex": "T_SKV2_GEAR_cuirass_f_S2_D",
+     "layer": 7,
+     "covers": 0
     }
    }
   },
@@ -1380,65 +1884,101 @@
    "Male": {
     "shirt": {
      "mesh": "SKV2_Male_m_tunic_shirt",
-     "tex": "T_SKV2_Male_m_tunic_D",
+     "tex": "T_SKV2_Male_m_tunic_S3_D",
      "layer": 1,
      "covers": 124
     },
     "coat": {
      "mesh": "SKV2_Male_m_jacket_coat",
-     "tex": "T_SKV2_Male_m_jacket_D",
+     "tex": "T_SKV2_Male_m_jacket_S3_D",
      "layer": 4,
      "covers": 108
     },
     "trousers": {
      "mesh": "SKV2_Male_m_breeches_trousers",
-     "tex": "T_SKV2_Male_m_breeches_D",
+     "tex": "T_SKV2_Male_m_breeches_S3_D",
      "layer": 2,
      "covers": 784
     },
     "shoes": {
      "mesh": "SKV2_Male_m_trenchboot_shoes",
-     "tex": "T_SKV2_Male_m_trenchboot_D",
+     "tex": "T_SKV2_Male_m_trenchboot_S3_D",
      "layer": 3,
      "covers": 1024
     },
     "gloves": {
      "mesh": "SKV2_Male_m_gloves_m_gloves",
-     "tex": "T_SKV2_Male_m_gloves_m_D",
+     "tex": "T_SKV2_Male_m_gloves_m_S3_D",
      "layer": 5,
      "covers": 192
+    },
+    "belt": {
+     "mesh": "SKV2_Male_belt_wide_belt",
+     "tex": "T_SKV2_GEAR_belt_wide_S3_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Male_bracer_wrist",
+     "tex": "T_SKV2_GEAR_bracer_S3_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "armour": {
+     "mesh": "SKV2_Male_cuirass_m_armour",
+     "tex": "T_SKV2_GEAR_cuirass_m_S3_D",
+     "layer": 7,
+     "covers": 0
     }
    },
    "Female": {
     "shirt": {
      "mesh": "SKV2_Female_f_blouse_shirt",
-     "tex": "T_SKV2_Female_f_blouse_D",
+     "tex": "T_SKV2_Female_f_blouse_S3_D",
      "layer": 1,
-     "covers": 108
+     "covers": 96
     },
     "coat": {
      "mesh": "SKV2_Female_f_jacket_coat",
-     "tex": "T_SKV2_Female_f_jacket_D",
+     "tex": "T_SKV2_Female_f_jacket_S3_D",
      "layer": 4,
      "covers": 108
     },
     "trousers": {
      "mesh": "SKV2_Female_f_jodhpurs_trousers",
-     "tex": "T_SKV2_Female_f_jodhpurs_D",
+     "tex": "T_SKV2_Female_f_jodhpurs_S3_D",
      "layer": 2,
      "covers": 784
     },
     "shoes": {
      "mesh": "SKV2_Female_f_tallboot_shoes",
-     "tex": "T_SKV2_Female_f_tallboot_D",
+     "tex": "T_SKV2_Female_f_tallboot_S3_D",
      "layer": 3,
      "covers": 1536
     },
     "gloves": {
      "mesh": "SKV2_Female_f_gloves_s_gloves",
-     "tex": "T_SKV2_Female_f_gloves_s_D",
+     "tex": "T_SKV2_Female_f_gloves_s_S3_D",
      "layer": 5,
      "covers": 128
+    },
+    "belt": {
+     "mesh": "SKV2_Female_belt_wide_belt",
+     "tex": "T_SKV2_GEAR_belt_wide_S3_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Female_bracer_wrist",
+     "tex": "T_SKV2_GEAR_bracer_S3_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "armour": {
+     "mesh": "SKV2_Female_cuirass_f_armour",
+     "tex": "T_SKV2_GEAR_cuirass_f_S3_D",
+     "layer": 7,
+     "covers": 0
     }
    }
   },
@@ -1446,65 +1986,101 @@
    "Male": {
     "shirt": {
      "mesh": "SKV2_Male_m_tunic_shirt",
-     "tex": "T_SKV2_Male_m_tunic_D",
+     "tex": "T_SKV2_Male_m_tunic_S4_D",
      "layer": 1,
      "covers": 124
     },
     "coat": {
      "mesh": "SKV2_Male_m_jacket_coat",
-     "tex": "T_SKV2_Male_m_jacket_D",
+     "tex": "T_SKV2_Male_m_jacket_S4_D",
      "layer": 4,
      "covers": 108
     },
     "trousers": {
      "mesh": "SKV2_Male_m_breeches_trousers",
-     "tex": "T_SKV2_Male_m_breeches_D",
+     "tex": "T_SKV2_Male_m_breeches_S4_D",
      "layer": 2,
      "covers": 784
     },
     "shoes": {
      "mesh": "SKV2_Male_m_tallboot_shoes",
-     "tex": "T_SKV2_Male_m_tallboot_D",
+     "tex": "T_SKV2_Male_m_tallboot_S4_D",
      "layer": 3,
      "covers": 1536
     },
     "gloves": {
      "mesh": "SKV2_Male_m_gloves_m_gloves",
-     "tex": "T_SKV2_Male_m_gloves_m_D",
+     "tex": "T_SKV2_Male_m_gloves_m_S4_D",
      "layer": 5,
      "covers": 192
+    },
+    "belt": {
+     "mesh": "SKV2_Male_belt_wide_belt",
+     "tex": "T_SKV2_GEAR_belt_wide_S4_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Male_bracer_wrist",
+     "tex": "T_SKV2_GEAR_bracer_S4_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "armour": {
+     "mesh": "SKV2_Male_cuirass_m_armour",
+     "tex": "T_SKV2_GEAR_cuirass_m_S4_D",
+     "layer": 7,
+     "covers": 0
     }
    },
    "Female": {
     "shirt": {
      "mesh": "SKV2_Female_f_blouse_shirt",
-     "tex": "T_SKV2_Female_f_blouse_D",
+     "tex": "T_SKV2_Female_f_blouse_S4_D",
      "layer": 1,
-     "covers": 108
+     "covers": 96
     },
     "coat": {
      "mesh": "SKV2_Female_f_jacket_coat",
-     "tex": "T_SKV2_Female_f_jacket_D",
+     "tex": "T_SKV2_Female_f_jacket_S4_D",
      "layer": 4,
      "covers": 108
     },
     "trousers": {
      "mesh": "SKV2_Female_f_jodhpurs_trousers",
-     "tex": "T_SKV2_Female_f_jodhpurs_D",
+     "tex": "T_SKV2_Female_f_jodhpurs_S4_D",
      "layer": 2,
      "covers": 784
     },
     "shoes": {
      "mesh": "SKV2_Female_f_tallboot_shoes",
-     "tex": "T_SKV2_Female_f_tallboot_D",
+     "tex": "T_SKV2_Female_f_tallboot_S4_D",
      "layer": 3,
      "covers": 1536
     },
     "gloves": {
      "mesh": "SKV2_Female_f_gloves_l_gloves",
-     "tex": "T_SKV2_Female_f_gloves_l_D",
+     "tex": "T_SKV2_Female_f_gloves_l_S4_D",
      "layer": 5,
      "covers": 192
+    },
+    "belt": {
+     "mesh": "SKV2_Female_belt_wide_belt",
+     "tex": "T_SKV2_GEAR_belt_wide_S4_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Female_bracer_wrist",
+     "tex": "T_SKV2_GEAR_bracer_S4_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "armour": {
+     "mesh": "SKV2_Female_cuirass_f_armour",
+     "tex": "T_SKV2_GEAR_cuirass_f_S4_D",
+     "layer": 7,
+     "covers": 0
     }
    }
   },
@@ -1512,65 +2088,101 @@
    "Male": {
     "shirt": {
      "mesh": "SKV2_Male_m_tunic_shirt",
-     "tex": "T_SKV2_Male_m_tunic_D",
+     "tex": "T_SKV2_Male_m_tunic_S5_D",
      "layer": 1,
      "covers": 124
     },
     "coat": {
      "mesh": "SKV2_Male_m_jacket_coat",
-     "tex": "T_SKV2_Male_m_jacket_D",
+     "tex": "T_SKV2_Male_m_jacket_S5_D",
      "layer": 4,
      "covers": 108
     },
     "trousers": {
      "mesh": "SKV2_Male_m_breeches_trousers",
-     "tex": "T_SKV2_Male_m_breeches_D",
+     "tex": "T_SKV2_Male_m_breeches_S5_D",
      "layer": 2,
      "covers": 784
     },
     "shoes": {
      "mesh": "SKV2_Male_m_tallboot_shoes",
-     "tex": "T_SKV2_Male_m_tallboot_D",
+     "tex": "T_SKV2_Male_m_tallboot_S5_D",
      "layer": 3,
      "covers": 1536
     },
     "gloves": {
      "mesh": "SKV2_Male_m_gloves_m_gloves",
-     "tex": "T_SKV2_Male_m_gloves_m_D",
+     "tex": "T_SKV2_Male_m_gloves_m_S5_D",
      "layer": 5,
      "covers": 192
+    },
+    "belt": {
+     "mesh": "SKV2_Male_belt_wide_belt",
+     "tex": "T_SKV2_GEAR_belt_wide_S5_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Male_bracer_wrist",
+     "tex": "T_SKV2_GEAR_bracer_S5_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "armour": {
+     "mesh": "SKV2_Male_cuirass_m_armour",
+     "tex": "T_SKV2_GEAR_cuirass_m_S5_D",
+     "layer": 7,
+     "covers": 0
     }
    },
    "Female": {
     "shirt": {
      "mesh": "SKV2_Female_f_blouse_shirt",
-     "tex": "T_SKV2_Female_f_blouse_D",
+     "tex": "T_SKV2_Female_f_blouse_S5_D",
      "layer": 1,
-     "covers": 108
+     "covers": 96
     },
     "coat": {
      "mesh": "SKV2_Female_f_jacket_coat",
-     "tex": "T_SKV2_Female_f_jacket_D",
+     "tex": "T_SKV2_Female_f_jacket_S5_D",
      "layer": 4,
      "covers": 108
     },
     "trousers": {
      "mesh": "SKV2_Female_f_jodhpurs_trousers",
-     "tex": "T_SKV2_Female_f_jodhpurs_D",
+     "tex": "T_SKV2_Female_f_jodhpurs_S5_D",
      "layer": 2,
      "covers": 784
     },
     "shoes": {
      "mesh": "SKV2_Female_f_tallboot_shoes",
-     "tex": "T_SKV2_Female_f_tallboot_D",
+     "tex": "T_SKV2_Female_f_tallboot_S5_D",
      "layer": 3,
      "covers": 1536
     },
     "gloves": {
      "mesh": "SKV2_Female_f_gloves_l_gloves",
-     "tex": "T_SKV2_Female_f_gloves_l_D",
+     "tex": "T_SKV2_Female_f_gloves_l_S5_D",
      "layer": 5,
      "covers": 192
+    },
+    "belt": {
+     "mesh": "SKV2_Female_belt_wide_belt",
+     "tex": "T_SKV2_GEAR_belt_wide_S5_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Female_bracer_wrist",
+     "tex": "T_SKV2_GEAR_bracer_S5_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "armour": {
+     "mesh": "SKV2_Female_cuirass_f_armour",
+     "tex": "T_SKV2_GEAR_cuirass_f_S5_D",
+     "layer": 7,
+     "covers": 0
     }
    }
   },
@@ -1578,65 +2190,101 @@
    "Male": {
     "shirt": {
      "mesh": "SKV2_Male_m_tunic_shirt",
-     "tex": "T_SKV2_Male_m_tunic_D",
+     "tex": "T_SKV2_Male_m_tunic_S6_D",
      "layer": 1,
      "covers": 124
     },
     "coat": {
      "mesh": "SKV2_Male_m_jacket_coat",
-     "tex": "T_SKV2_Male_m_jacket_D",
+     "tex": "T_SKV2_Male_m_jacket_S6_D",
      "layer": 4,
      "covers": 108
     },
     "trousers": {
      "mesh": "SKV2_Male_m_breeches_trousers",
-     "tex": "T_SKV2_Male_m_breeches_D",
+     "tex": "T_SKV2_Male_m_breeches_S6_D",
      "layer": 2,
      "covers": 784
     },
     "shoes": {
      "mesh": "SKV2_Male_m_tallboot_shoes",
-     "tex": "T_SKV2_Male_m_tallboot_D",
+     "tex": "T_SKV2_Male_m_tallboot_S6_D",
      "layer": 3,
      "covers": 1536
     },
     "gloves": {
      "mesh": "SKV2_Male_m_gloves_m_gloves",
-     "tex": "T_SKV2_Male_m_gloves_m_D",
+     "tex": "T_SKV2_Male_m_gloves_m_S6_D",
      "layer": 5,
      "covers": 192
+    },
+    "belt": {
+     "mesh": "SKV2_Male_belt_wide_belt",
+     "tex": "T_SKV2_GEAR_belt_wide_S6_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Male_bracer_wrist",
+     "tex": "T_SKV2_GEAR_bracer_S6_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "armour": {
+     "mesh": "SKV2_Male_cuirass_m_armour",
+     "tex": "T_SKV2_GEAR_cuirass_m_S6_D",
+     "layer": 7,
+     "covers": 0
     }
    },
    "Female": {
     "shirt": {
      "mesh": "SKV2_Female_f_blouse_shirt",
-     "tex": "T_SKV2_Female_f_blouse_D",
+     "tex": "T_SKV2_Female_f_blouse_S6_D",
      "layer": 1,
-     "covers": 108
+     "covers": 96
     },
     "coat": {
      "mesh": "SKV2_Female_f_jacket_coat",
-     "tex": "T_SKV2_Female_f_jacket_D",
+     "tex": "T_SKV2_Female_f_jacket_S6_D",
      "layer": 4,
      "covers": 108
     },
     "trousers": {
      "mesh": "SKV2_Female_f_jodhpurs_trousers",
-     "tex": "T_SKV2_Female_f_jodhpurs_D",
+     "tex": "T_SKV2_Female_f_jodhpurs_S6_D",
      "layer": 2,
      "covers": 784
     },
     "shoes": {
      "mesh": "SKV2_Female_f_tallboot_shoes",
-     "tex": "T_SKV2_Female_f_tallboot_D",
+     "tex": "T_SKV2_Female_f_tallboot_S6_D",
      "layer": 3,
      "covers": 1536
     },
     "gloves": {
      "mesh": "SKV2_Female_f_gloves_l_gloves",
-     "tex": "T_SKV2_Female_f_gloves_l_D",
+     "tex": "T_SKV2_Female_f_gloves_l_S6_D",
      "layer": 5,
      "covers": 192
+    },
+    "belt": {
+     "mesh": "SKV2_Female_belt_wide_belt",
+     "tex": "T_SKV2_GEAR_belt_wide_S6_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Female_bracer_wrist",
+     "tex": "T_SKV2_GEAR_bracer_S6_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "armour": {
+     "mesh": "SKV2_Female_cuirass_f_armour",
+     "tex": "T_SKV2_GEAR_cuirass_f_S6_D",
+     "layer": 7,
+     "covers": 0
     }
    }
   },
@@ -1644,65 +2292,89 @@
    "Male": {
     "shirt": {
      "mesh": "SKV2_Male_m_shirt_tie_shirt",
-     "tex": "T_SKV2_Male_m_shirt_tie_D",
+     "tex": "T_SKV2_Male_m_shirt_tie_E1_D",
      "layer": 1,
      "covers": 108
     },
     "coat": {
      "mesh": "SKV2_Male_m_suit_db_coat",
-     "tex": "T_SKV2_Male_m_suit_db_D",
+     "tex": "T_SKV2_Male_m_suit_db_E1_D",
      "layer": 4,
      "covers": 108
     },
     "trousers": {
      "mesh": "SKV2_Male_m_breeches_trousers",
-     "tex": "T_SKV2_Male_m_breeches_D",
+     "tex": "T_SKV2_Male_m_breeches_E1_D",
      "layer": 2,
      "covers": 784
     },
     "shoes": {
      "mesh": "SKV2_Male_m_tallboot_shoes",
-     "tex": "T_SKV2_Male_m_tallboot_D",
+     "tex": "T_SKV2_Male_m_tallboot_E1_D",
      "layer": 3,
      "covers": 1536
     },
     "gloves": {
      "mesh": "SKV2_Male_m_gloves_s_gloves",
-     "tex": "T_SKV2_Male_m_gloves_s_D",
+     "tex": "T_SKV2_Male_m_gloves_s_E1_D",
      "layer": 5,
      "covers": 128
+    },
+    "belt": {
+     "mesh": "SKV2_Male_belt_slim_belt",
+     "tex": "T_SKV2_GEAR_belt_slim_E1_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Male_cuff_wrist",
+     "tex": "T_SKV2_GEAR_cuff_E1_D",
+     "layer": 6,
+     "covers": 0
     }
    },
    "Female": {
     "shirt": {
      "mesh": "SKV2_Female_f_blouse_shirt",
-     "tex": "T_SKV2_Female_f_blouse_D",
+     "tex": "T_SKV2_Female_f_blouse_E1_D",
      "layer": 1,
-     "covers": 108
+     "covers": 96
     },
     "coat": {
      "mesh": "SKV2_Female_f_suit_db_coat",
-     "tex": "T_SKV2_Female_f_suit_db_D",
+     "tex": "T_SKV2_Female_f_suit_db_E1_D",
      "layer": 4,
      "covers": 108
     },
     "trousers": {
      "mesh": "SKV2_Female_f_jodhpurs_trousers",
-     "tex": "T_SKV2_Female_f_jodhpurs_D",
+     "tex": "T_SKV2_Female_f_jodhpurs_E1_D",
      "layer": 2,
      "covers": 784
     },
     "shoes": {
      "mesh": "SKV2_Female_f_tallboot_shoes",
-     "tex": "T_SKV2_Female_f_tallboot_D",
+     "tex": "T_SKV2_Female_f_tallboot_E1_D",
      "layer": 3,
      "covers": 1536
     },
     "gloves": {
      "mesh": "SKV2_Female_f_gloves_s_gloves",
-     "tex": "T_SKV2_Female_f_gloves_s_D",
+     "tex": "T_SKV2_Female_f_gloves_s_E1_D",
      "layer": 5,
      "covers": 128
+    },
+    "belt": {
+     "mesh": "SKV2_Female_belt_slim_belt",
+     "tex": "T_SKV2_GEAR_belt_slim_E1_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Female_cuff_wrist",
+     "tex": "T_SKV2_GEAR_cuff_E1_D",
+     "layer": 6,
+     "covers": 0
     }
    }
   },
@@ -1710,65 +2382,89 @@
    "Male": {
     "shirt": {
      "mesh": "SKV2_Male_m_henley_shirt",
-     "tex": "T_SKV2_Male_m_henley_D",
+     "tex": "T_SKV2_Male_m_henley_E2_D",
      "layer": 1,
      "covers": 44
     },
     "coat": {
      "mesh": "SKV2_Male_m_jacket_coat",
-     "tex": "T_SKV2_Male_m_jacket_D",
+     "tex": "T_SKV2_Male_m_jacket_E2_D",
      "layer": 4,
      "covers": 108
     },
     "trousers": {
      "mesh": "SKV2_Male_m_breeches_trousers",
-     "tex": "T_SKV2_Male_m_breeches_D",
+     "tex": "T_SKV2_Male_m_breeches_E2_D",
      "layer": 2,
      "covers": 784
     },
     "shoes": {
      "mesh": "SKV2_Male_m_tallboot_shoes",
-     "tex": "T_SKV2_Male_m_tallboot_D",
+     "tex": "T_SKV2_Male_m_tallboot_E2_D",
      "layer": 3,
      "covers": 1536
     },
     "gloves": {
      "mesh": "SKV2_Male_m_gloves_m_gloves",
-     "tex": "T_SKV2_Male_m_gloves_m_D",
+     "tex": "T_SKV2_Male_m_gloves_m_E2_D",
      "layer": 5,
      "covers": 192
+    },
+    "belt": {
+     "mesh": "SKV2_Male_belt_slim_belt",
+     "tex": "T_SKV2_GEAR_belt_slim_E2_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Male_cuff_wrist",
+     "tex": "T_SKV2_GEAR_cuff_E2_D",
+     "layer": 6,
+     "covers": 0
     }
    },
    "Female": {
     "shirt": {
      "mesh": "SKV2_Female_f_blouse_shirt",
-     "tex": "T_SKV2_Female_f_blouse_D",
+     "tex": "T_SKV2_Female_f_blouse_E2_D",
      "layer": 1,
-     "covers": 108
+     "covers": 96
     },
     "coat": {
      "mesh": "SKV2_Female_f_jacket_coat",
-     "tex": "T_SKV2_Female_f_jacket_D",
+     "tex": "T_SKV2_Female_f_jacket_E2_D",
      "layer": 4,
      "covers": 108
     },
     "trousers": {
      "mesh": "SKV2_Female_f_jodhpurs_trousers",
-     "tex": "T_SKV2_Female_f_jodhpurs_D",
+     "tex": "T_SKV2_Female_f_jodhpurs_E2_D",
      "layer": 2,
      "covers": 784
     },
     "shoes": {
      "mesh": "SKV2_Female_f_tallboot_shoes",
-     "tex": "T_SKV2_Female_f_tallboot_D",
+     "tex": "T_SKV2_Female_f_tallboot_E2_D",
      "layer": 3,
      "covers": 1536
     },
     "gloves": {
      "mesh": "SKV2_Female_f_gloves_s_gloves",
-     "tex": "T_SKV2_Female_f_gloves_s_D",
+     "tex": "T_SKV2_Female_f_gloves_s_E2_D",
      "layer": 5,
      "covers": 128
+    },
+    "belt": {
+     "mesh": "SKV2_Female_belt_slim_belt",
+     "tex": "T_SKV2_GEAR_belt_slim_E2_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Female_cuff_wrist",
+     "tex": "T_SKV2_GEAR_cuff_E2_D",
+     "layer": 6,
+     "covers": 0
     }
    }
   },
@@ -1776,65 +2472,89 @@
    "Male": {
     "shirt": {
      "mesh": "SKV2_Male_m_shirt_tie_shirt",
-     "tex": "T_SKV2_Male_m_shirt_tie_D",
+     "tex": "T_SKV2_Male_m_shirt_tie_E3_D",
      "layer": 1,
      "covers": 108
     },
     "coat": {
      "mesh": "SKV2_Male_m_longcoat_coat",
-     "tex": "T_SKV2_Male_m_longcoat_D",
+     "tex": "T_SKV2_Male_m_longcoat_E3_D",
      "layer": 4,
      "covers": 380
     },
     "trousers": {
      "mesh": "SKV2_Male_m_slacks_trousers",
-     "tex": "T_SKV2_Male_m_slacks_D",
+     "tex": "T_SKV2_Male_m_slacks_E3_D",
      "layer": 2,
      "covers": 784
     },
     "shoes": {
      "mesh": "SKV2_Male_m_tallboot_shoes",
-     "tex": "T_SKV2_Male_m_tallboot_D",
+     "tex": "T_SKV2_Male_m_tallboot_E3_D",
      "layer": 3,
      "covers": 1536
     },
     "gloves": {
      "mesh": "SKV2_Male_m_gloves_m_gloves",
-     "tex": "T_SKV2_Male_m_gloves_m_D",
+     "tex": "T_SKV2_Male_m_gloves_m_E3_D",
      "layer": 5,
      "covers": 192
+    },
+    "belt": {
+     "mesh": "SKV2_Male_belt_slim_belt",
+     "tex": "T_SKV2_GEAR_belt_slim_E3_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Male_cuff_wrist",
+     "tex": "T_SKV2_GEAR_cuff_E3_D",
+     "layer": 6,
+     "covers": 0
     }
    },
    "Female": {
     "shirt": {
      "mesh": "SKV2_Female_f_blouse_shirt",
-     "tex": "T_SKV2_Female_f_blouse_D",
+     "tex": "T_SKV2_Female_f_blouse_E3_D",
      "layer": 1,
-     "covers": 108
+     "covers": 96
     },
     "coat": {
      "mesh": "SKV2_Female_f_longcoat_coat",
-     "tex": "T_SKV2_Female_f_longcoat_D",
+     "tex": "T_SKV2_Female_f_longcoat_E3_D",
      "layer": 4,
      "covers": 380
     },
     "trousers": {
      "mesh": "SKV2_Female_f_jodhpurs_trousers",
-     "tex": "T_SKV2_Female_f_jodhpurs_D",
+     "tex": "T_SKV2_Female_f_jodhpurs_E3_D",
      "layer": 2,
      "covers": 784
     },
     "shoes": {
      "mesh": "SKV2_Female_f_tallboot_shoes",
-     "tex": "T_SKV2_Female_f_tallboot_D",
+     "tex": "T_SKV2_Female_f_tallboot_E3_D",
      "layer": 3,
      "covers": 1536
     },
     "gloves": {
      "mesh": "SKV2_Female_f_gloves_s_gloves",
-     "tex": "T_SKV2_Female_f_gloves_s_D",
+     "tex": "T_SKV2_Female_f_gloves_s_E3_D",
      "layer": 5,
      "covers": 128
+    },
+    "belt": {
+     "mesh": "SKV2_Female_belt_slim_belt",
+     "tex": "T_SKV2_GEAR_belt_slim_E3_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Female_cuff_wrist",
+     "tex": "T_SKV2_GEAR_cuff_E3_D",
+     "layer": 6,
+     "covers": 0
     }
    }
   },
@@ -1842,65 +2562,89 @@
    "Male": {
     "shirt": {
      "mesh": "SKV2_Male_m_henley_shirt",
-     "tex": "T_SKV2_Male_m_henley_D",
+     "tex": "T_SKV2_Male_m_henley_E4_D",
      "layer": 1,
      "covers": 44
     },
     "coat": {
      "mesh": "SKV2_Male_m_jacket_coat",
-     "tex": "T_SKV2_Male_m_jacket_D",
+     "tex": "T_SKV2_Male_m_jacket_E4_D",
      "layer": 4,
      "covers": 108
     },
     "trousers": {
      "mesh": "SKV2_Male_m_overalls_trousers",
-     "tex": "T_SKV2_Male_m_overalls_D",
+     "tex": "T_SKV2_Male_m_overalls_E4_D",
      "layer": 2,
      "covers": 796
     },
     "shoes": {
      "mesh": "SKV2_Male_m_workboot_shoes",
-     "tex": "T_SKV2_Male_m_workboot_D",
+     "tex": "T_SKV2_Male_m_workboot_E4_D",
      "layer": 3,
      "covers": 1024
     },
     "gloves": {
      "mesh": "SKV2_Male_m_gloves_m_gloves",
-     "tex": "T_SKV2_Male_m_gloves_m_D",
+     "tex": "T_SKV2_Male_m_gloves_m_E4_D",
      "layer": 5,
      "covers": 192
+    },
+    "belt": {
+     "mesh": "SKV2_Male_belt_slim_belt",
+     "tex": "T_SKV2_GEAR_belt_slim_E4_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Male_cuff_wrist",
+     "tex": "T_SKV2_GEAR_cuff_E4_D",
+     "layer": 6,
+     "covers": 0
     }
    },
    "Female": {
     "shirt": {
      "mesh": "SKV2_Female_f_blouse_shirt",
-     "tex": "T_SKV2_Female_f_blouse_D",
+     "tex": "T_SKV2_Female_f_blouse_E4_D",
      "layer": 1,
-     "covers": 108
+     "covers": 96
     },
     "coat": {
      "mesh": "SKV2_Female_f_jacket_coat",
-     "tex": "T_SKV2_Female_f_jacket_D",
+     "tex": "T_SKV2_Female_f_jacket_E4_D",
      "layer": 4,
      "covers": 108
     },
     "trousers": {
      "mesh": "SKV2_Female_f_trousers_trousers",
-     "tex": "T_SKV2_Female_f_trousers_D",
+     "tex": "T_SKV2_Female_f_trousers_E4_D",
      "layer": 2,
      "covers": 784
     },
     "shoes": {
      "mesh": "SKV2_Female_f_ankle_shoes",
-     "tex": "T_SKV2_Female_f_ankle_D",
+     "tex": "T_SKV2_Female_f_ankle_E4_D",
      "layer": 3,
      "covers": 1024
     },
     "gloves": {
      "mesh": "SKV2_Female_f_gloves_s_gloves",
-     "tex": "T_SKV2_Female_f_gloves_s_D",
+     "tex": "T_SKV2_Female_f_gloves_s_E4_D",
      "layer": 5,
      "covers": 128
+    },
+    "belt": {
+     "mesh": "SKV2_Female_belt_slim_belt",
+     "tex": "T_SKV2_GEAR_belt_slim_E4_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Female_cuff_wrist",
+     "tex": "T_SKV2_GEAR_cuff_E4_D",
+     "layer": 6,
+     "covers": 0
     }
    }
   },
@@ -1908,65 +2652,89 @@
    "Male": {
     "shirt": {
      "mesh": "SKV2_Male_m_henley_shirt",
-     "tex": "T_SKV2_Male_m_henley_D",
+     "tex": "T_SKV2_Male_m_henley_E5_D",
      "layer": 1,
      "covers": 44
     },
     "coat": {
      "mesh": "SKV2_Male_m_longcoat_coat",
-     "tex": "T_SKV2_Male_m_longcoat_D",
+     "tex": "T_SKV2_Male_m_longcoat_E5_D",
      "layer": 4,
      "covers": 380
     },
     "trousers": {
      "mesh": "SKV2_Male_m_cargo_trousers",
-     "tex": "T_SKV2_Male_m_cargo_D",
+     "tex": "T_SKV2_Male_m_cargo_E5_D",
      "layer": 2,
      "covers": 784
     },
     "shoes": {
      "mesh": "SKV2_Male_m_workboot_shoes",
-     "tex": "T_SKV2_Male_m_workboot_D",
+     "tex": "T_SKV2_Male_m_workboot_E5_D",
      "layer": 3,
      "covers": 1024
     },
     "gloves": {
      "mesh": "SKV2_Male_m_gloves_m_gloves",
-     "tex": "T_SKV2_Male_m_gloves_m_D",
+     "tex": "T_SKV2_Male_m_gloves_m_E5_D",
      "layer": 5,
      "covers": 192
+    },
+    "belt": {
+     "mesh": "SKV2_Male_belt_slim_belt",
+     "tex": "T_SKV2_GEAR_belt_slim_E5_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Male_cuff_wrist",
+     "tex": "T_SKV2_GEAR_cuff_E5_D",
+     "layer": 6,
+     "covers": 0
     }
    },
    "Female": {
     "shirt": {
      "mesh": "SKV2_Female_f_blouse_shirt",
-     "tex": "T_SKV2_Female_f_blouse_D",
+     "tex": "T_SKV2_Female_f_blouse_E5_D",
      "layer": 1,
-     "covers": 108
+     "covers": 96
     },
     "coat": {
      "mesh": "SKV2_Female_f_longcoat_coat",
-     "tex": "T_SKV2_Female_f_longcoat_D",
+     "tex": "T_SKV2_Female_f_longcoat_E5_D",
      "layer": 4,
      "covers": 380
     },
     "trousers": {
      "mesh": "SKV2_Female_f_trousers_trousers",
-     "tex": "T_SKV2_Female_f_trousers_D",
+     "tex": "T_SKV2_Female_f_trousers_E5_D",
      "layer": 2,
      "covers": 784
     },
     "shoes": {
      "mesh": "SKV2_Female_f_ankle_shoes",
-     "tex": "T_SKV2_Female_f_ankle_D",
+     "tex": "T_SKV2_Female_f_ankle_E5_D",
      "layer": 3,
      "covers": 1024
     },
     "gloves": {
      "mesh": "SKV2_Female_f_gloves_s_gloves",
-     "tex": "T_SKV2_Female_f_gloves_s_D",
+     "tex": "T_SKV2_Female_f_gloves_s_E5_D",
      "layer": 5,
      "covers": 128
+    },
+    "belt": {
+     "mesh": "SKV2_Female_belt_slim_belt",
+     "tex": "T_SKV2_GEAR_belt_slim_E5_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Female_cuff_wrist",
+     "tex": "T_SKV2_GEAR_cuff_E5_D",
+     "layer": 6,
+     "covers": 0
     }
    }
   },
@@ -1974,65 +2742,89 @@
    "Male": {
     "shirt": {
      "mesh": "SKV2_Male_m_shirt_open_shirt",
-     "tex": "T_SKV2_Male_m_shirt_open_D",
+     "tex": "T_SKV2_Male_m_shirt_open_E6_D",
      "layer": 1,
      "covers": 108
     },
     "coat": {
      "mesh": "SKV2_Male_m_jacket_coat",
-     "tex": "T_SKV2_Male_m_jacket_D",
+     "tex": "T_SKV2_Male_m_jacket_E6_D",
      "layer": 4,
      "covers": 108
     },
     "trousers": {
      "mesh": "SKV2_Male_m_slacks_trousers",
-     "tex": "T_SKV2_Male_m_slacks_D",
+     "tex": "T_SKV2_Male_m_slacks_E6_D",
      "layer": 2,
      "covers": 784
     },
     "shoes": {
      "mesh": "SKV2_Male_m_oxford_shoes",
-     "tex": "T_SKV2_Male_m_oxford_D",
+     "tex": "T_SKV2_Male_m_oxford_E6_D",
      "layer": 3,
      "covers": 1024
     },
     "gloves": {
      "mesh": "SKV2_Male_m_gloves_s_gloves",
-     "tex": "T_SKV2_Male_m_gloves_s_D",
+     "tex": "T_SKV2_Male_m_gloves_s_E6_D",
      "layer": 5,
      "covers": 128
+    },
+    "belt": {
+     "mesh": "SKV2_Male_belt_slim_belt",
+     "tex": "T_SKV2_GEAR_belt_slim_E6_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Male_cuff_wrist",
+     "tex": "T_SKV2_GEAR_cuff_E6_D",
+     "layer": 6,
+     "covers": 0
     }
    },
    "Female": {
     "shirt": {
      "mesh": "SKV2_Female_f_blouse_shirt",
-     "tex": "T_SKV2_Female_f_blouse_D",
+     "tex": "T_SKV2_Female_f_blouse_E6_D",
      "layer": 1,
-     "covers": 108
+     "covers": 96
     },
     "coat": {
      "mesh": "SKV2_Female_f_day_coat",
-     "tex": "T_SKV2_Female_f_day_D",
+     "tex": "T_SKV2_Female_f_day_E6_D",
      "layer": 4,
      "covers": 284
     },
     "trousers": {
      "mesh": "SKV2_Female_f_skirt_trousers",
-     "tex": "T_SKV2_Female_f_skirt_D",
+     "tex": "T_SKV2_Female_f_skirt_E6_D",
      "layer": 2,
      "covers": 272
     },
     "shoes": {
      "mesh": "SKV2_Female_f_oxford_shoes",
-     "tex": "T_SKV2_Female_f_oxford_D",
+     "tex": "T_SKV2_Female_f_oxford_E6_D",
      "layer": 3,
      "covers": 1024
     },
     "gloves": {
      "mesh": "SKV2_Female_f_gloves_s_gloves",
-     "tex": "T_SKV2_Female_f_gloves_s_D",
+     "tex": "T_SKV2_Female_f_gloves_s_E6_D",
      "layer": 5,
      "covers": 128
+    },
+    "belt": {
+     "mesh": "SKV2_Female_belt_slim_belt",
+     "tex": "T_SKV2_GEAR_belt_slim_E6_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Female_cuff_wrist",
+     "tex": "T_SKV2_GEAR_cuff_E6_D",
+     "layer": 6,
+     "covers": 0
     }
    }
   },
@@ -2040,65 +2832,89 @@
    "Male": {
     "shirt": {
      "mesh": "SKV2_Male_m_shirt_open_shirt",
-     "tex": "T_SKV2_Male_m_shirt_open_D",
+     "tex": "T_SKV2_Male_m_shirt_open_E7_D",
      "layer": 1,
      "covers": 108
     },
     "coat": {
      "mesh": "SKV2_Male_m_longcoat_coat",
-     "tex": "T_SKV2_Male_m_longcoat_D",
+     "tex": "T_SKV2_Male_m_longcoat_E7_D",
      "layer": 4,
      "covers": 380
     },
     "trousers": {
      "mesh": "SKV2_Male_m_slacks_trousers",
-     "tex": "T_SKV2_Male_m_slacks_D",
+     "tex": "T_SKV2_Male_m_slacks_E7_D",
      "layer": 2,
      "covers": 784
     },
     "shoes": {
      "mesh": "SKV2_Male_m_ankle_shoes",
-     "tex": "T_SKV2_Male_m_ankle_D",
+     "tex": "T_SKV2_Male_m_ankle_E7_D",
      "layer": 3,
      "covers": 1024
     },
     "gloves": {
      "mesh": "SKV2_Male_m_gloves_s_gloves",
-     "tex": "T_SKV2_Male_m_gloves_s_D",
+     "tex": "T_SKV2_Male_m_gloves_s_E7_D",
      "layer": 5,
      "covers": 128
+    },
+    "belt": {
+     "mesh": "SKV2_Male_belt_slim_belt",
+     "tex": "T_SKV2_GEAR_belt_slim_E7_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Male_cuff_wrist",
+     "tex": "T_SKV2_GEAR_cuff_E7_D",
+     "layer": 6,
+     "covers": 0
     }
    },
    "Female": {
     "shirt": {
      "mesh": "SKV2_Female_f_blouse_shirt",
-     "tex": "T_SKV2_Female_f_blouse_D",
+     "tex": "T_SKV2_Female_f_blouse_E7_D",
      "layer": 1,
-     "covers": 108
+     "covers": 96
     },
     "coat": {
      "mesh": "SKV2_Female_f_longcoat_coat",
-     "tex": "T_SKV2_Female_f_longcoat_D",
+     "tex": "T_SKV2_Female_f_longcoat_E7_D",
      "layer": 4,
      "covers": 380
     },
     "trousers": {
      "mesh": "SKV2_Female_f_skirt_trousers",
-     "tex": "T_SKV2_Female_f_skirt_D",
+     "tex": "T_SKV2_Female_f_skirt_E7_D",
      "layer": 2,
      "covers": 272
     },
     "shoes": {
      "mesh": "SKV2_Female_f_ankle_shoes",
-     "tex": "T_SKV2_Female_f_ankle_D",
+     "tex": "T_SKV2_Female_f_ankle_E7_D",
      "layer": 3,
      "covers": 1024
     },
     "gloves": {
      "mesh": "SKV2_Female_f_gloves_s_gloves",
-     "tex": "T_SKV2_Female_f_gloves_s_D",
+     "tex": "T_SKV2_Female_f_gloves_s_E7_D",
      "layer": 5,
      "covers": 128
+    },
+    "belt": {
+     "mesh": "SKV2_Female_belt_slim_belt",
+     "tex": "T_SKV2_GEAR_belt_slim_E7_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Female_cuff_wrist",
+     "tex": "T_SKV2_GEAR_cuff_E7_D",
+     "layer": 6,
+     "covers": 0
     }
    }
   },
@@ -2106,65 +2922,89 @@
    "Male": {
     "shirt": {
      "mesh": "SKV2_Male_m_henley_shirt",
-     "tex": "T_SKV2_Male_m_henley_D",
+     "tex": "T_SKV2_Male_m_henley_E8_D",
      "layer": 1,
      "covers": 44
     },
     "coat": {
      "mesh": "SKV2_Male_m_jacket_coat",
-     "tex": "T_SKV2_Male_m_jacket_D",
+     "tex": "T_SKV2_Male_m_jacket_E8_D",
      "layer": 4,
      "covers": 108
     },
     "trousers": {
      "mesh": "SKV2_Male_m_overalls_trousers",
-     "tex": "T_SKV2_Male_m_overalls_D",
+     "tex": "T_SKV2_Male_m_overalls_E8_D",
      "layer": 2,
      "covers": 796
     },
     "shoes": {
      "mesh": "SKV2_Male_m_workboot_shoes",
-     "tex": "T_SKV2_Male_m_workboot_D",
+     "tex": "T_SKV2_Male_m_workboot_E8_D",
      "layer": 3,
      "covers": 1024
     },
     "gloves": {
      "mesh": "SKV2_Male_m_gloves_m_gloves",
-     "tex": "T_SKV2_Male_m_gloves_m_D",
+     "tex": "T_SKV2_Male_m_gloves_m_E8_D",
      "layer": 5,
      "covers": 192
+    },
+    "belt": {
+     "mesh": "SKV2_Male_belt_slim_belt",
+     "tex": "T_SKV2_GEAR_belt_slim_E8_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Male_cuff_wrist",
+     "tex": "T_SKV2_GEAR_cuff_E8_D",
+     "layer": 6,
+     "covers": 0
     }
    },
    "Female": {
     "shirt": {
      "mesh": "SKV2_Female_f_blouse_shirt",
-     "tex": "T_SKV2_Female_f_blouse_D",
+     "tex": "T_SKV2_Female_f_blouse_E8_D",
      "layer": 1,
-     "covers": 108
+     "covers": 96
     },
     "coat": {
      "mesh": "SKV2_Female_f_jacket_coat",
-     "tex": "T_SKV2_Female_f_jacket_D",
+     "tex": "T_SKV2_Female_f_jacket_E8_D",
      "layer": 4,
      "covers": 108
     },
     "trousers": {
      "mesh": "SKV2_Female_f_trousers_trousers",
-     "tex": "T_SKV2_Female_f_trousers_D",
+     "tex": "T_SKV2_Female_f_trousers_E8_D",
      "layer": 2,
      "covers": 784
     },
     "shoes": {
      "mesh": "SKV2_Female_f_ankle_shoes",
-     "tex": "T_SKV2_Female_f_ankle_D",
+     "tex": "T_SKV2_Female_f_ankle_E8_D",
      "layer": 3,
      "covers": 1024
     },
     "gloves": {
      "mesh": "SKV2_Female_f_gloves_s_gloves",
-     "tex": "T_SKV2_Female_f_gloves_s_D",
+     "tex": "T_SKV2_Female_f_gloves_s_E8_D",
      "layer": 5,
      "covers": 128
+    },
+    "belt": {
+     "mesh": "SKV2_Female_belt_slim_belt",
+     "tex": "T_SKV2_GEAR_belt_slim_E8_D",
+     "layer": 6,
+     "covers": 0
+    },
+    "wrist": {
+     "mesh": "SKV2_Female_cuff_wrist",
+     "tex": "T_SKV2_GEAR_cuff_E8_D",
+     "layer": 6,
+     "covers": 0
     }
    }
   }
@@ -2174,14 +3014,124 @@
    {
     "mesh": "SKV2_Male_short02_hair",
     "tex": "T_SKV2_Male_short02_D",
-    "name": "Short"
+    "name": "Slicked Back"
+   },
+   {
+    "mesh": "SKV2_Male_elvs_short_side_do_hair",
+    "tex": "T_SKV2_Male_elvs_short_side_do_D",
+    "name": "Side Part"
+   },
+   {
+    "mesh": "SKV2_Male_culturalibre_hair_14_hair",
+    "tex": "T_SKV2_Male_culturalibre_hair_14_D",
+    "name": "Pompadour"
+   },
+   {
+    "mesh": "SKV2_Male_short04_hair",
+    "tex": "T_SKV2_Male_short04_D",
+    "name": "Crew Cut"
+   },
+   {
+    "mesh": "SKV2_Male_elvs_maxwell_hair_hair",
+    "tex": "T_SKV2_Male_elvs_maxwell_hair_D",
+    "name": "Centre Part"
+   },
+   {
+    "mesh": "SKV2_Male_culturalibre_hair_05_hair",
+    "tex": "T_SKV2_Male_culturalibre_hair_05_D",
+    "name": "Wavy"
+   },
+   {
+    "mesh": "SKV2_Male_short01_hair",
+    "tex": "T_SKV2_Male_short01_D",
+    "name": "Receding"
+   },
+   {
+    "mesh": "",
+    "tex": "",
+    "name": "Bald"
+   },
+   {
+    "mesh": "SKV2_Male_cortu_short_messy_hair_hair",
+    "tex": "T_SKV2_Male_cortu_short_messy_hair_D",
+    "name": "Curly"
+   },
+   {
+    "mesh": "SKV2_Male_afro01_hair",
+    "tex": "T_SKV2_Male_afro01_D",
+    "name": "Short Afro"
+   },
+   {
+    "mesh": "SKV2_Male_culturalibre_hair_13_hair",
+    "tex": "T_SKV2_Male_culturalibre_hair_13_D",
+    "name": "Tousled"
+   },
+   {
+    "mesh": "SKV2_Male_bob01_hair",
+    "tex": "T_SKV2_Male_bob01_D",
+    "name": "Side-swept"
    }
   ],
   "Female": [
    {
+    "mesh": "SKV2_Female_elvs_wavy_bob_hair",
+    "tex": "T_SKV2_Female_elvs_wavy_bob_D",
+    "name": "Finger-wave Bob"
+   },
+   {
     "mesh": "SKV2_Female_toigo_curled_under_bob_hair",
     "tex": "T_SKV2_Female_toigo_curled_under_bob_D",
-    "name": "Curled Bob"
+    "name": "Pin Curls"
+   },
+   {
+    "mesh": "SKV2_Female_toigo_blunt_bob_with_bangs_hair",
+    "tex": "T_SKV2_Female_toigo_blunt_bob_with_bangs_D",
+    "name": "Sleek Bob"
+   },
+   {
+    "mesh": "SKV2_Female_elvs_ashley_may_hair_hair",
+    "tex": "T_SKV2_Female_elvs_ashley_may_hair_D",
+    "name": "Marcel Waves"
+   },
+   {
+    "mesh": "SKV2_Female_elvs_50s_updo_hair",
+    "tex": "T_SKV2_Female_elvs_50s_updo_D",
+    "name": "Chignon"
+   },
+   {
+    "mesh": "SKV2_Female_elvs_inverted_curly_bob_hair",
+    "tex": "T_SKV2_Female_elvs_inverted_curly_bob_D",
+    "name": "Curly Crop"
+   },
+   {
+    "mesh": "SKV2_Female_elvs_short_daisy_hair_hair",
+    "tex": "T_SKV2_Female_elvs_short_daisy_hair_D",
+    "name": "Shoulder Waves"
+   },
+   {
+    "mesh": "SKV2_Female_elvs_braid_bun_hair",
+    "tex": "T_SKV2_Female_elvs_braid_bun_D",
+    "name": "Braided Bun"
+   },
+   {
+    "mesh": "SKV2_Female_rehmanpolanski_hair_bun_brown_hair",
+    "tex": "T_SKV2_Female_rehmanpolanski_hair_bun_brown_D",
+    "name": "Low Bun"
+   },
+   {
+    "mesh": "SKV2_Female_toigo_inverted_bob_hair",
+    "tex": "T_SKV2_Female_toigo_inverted_bob_D",
+    "name": "Pageboy"
+   },
+   {
+    "mesh": "SKV2_Female_afro01_hair",
+    "tex": "T_SKV2_Female_afro01_D",
+    "name": "Short Afro"
+   },
+   {
+    "mesh": "SKV2_Female_culturalibre_hair_17_hair",
+    "tex": "T_SKV2_Female_culturalibre_hair_17_D",
+    "name": "Wind-swept"
    }
   ]
  },
@@ -2226,5 +3176,391 @@
    0.25,
    0.19
   ]
- ]
+ ],
+ "hats": {
+  "C1": {
+   "Male": {
+    "mesh": "SKV2_Male_newsboy_hat",
+    "tex": "T_SKV2_Male_newsboy_D",
+    "hides": true
+   },
+   "Female": {
+    "mesh": "SKV2_Female_cloche_hat",
+    "tex": "T_SKV2_Female_cloche_D",
+    "hides": true
+   }
+  },
+  "C2": {
+   "Male": {
+    "mesh": "SKV2_Male_fedora_hat",
+    "tex": "T_SKV2_Male_fedora_D",
+    "hides": true
+   },
+   "Female": {
+    "mesh": "SKV2_Female_cloche_hat",
+    "tex": "T_SKV2_Female_cloche_D",
+    "hides": true
+   }
+  },
+  "C3": {
+   "Male": {
+    "mesh": "SKV2_Male_fedora_hat",
+    "tex": "T_SKV2_Male_fedora_D",
+    "hides": true
+   },
+   "Female": {
+    "mesh": "SKV2_Female_fedora_tilted_hat",
+    "tex": "T_SKV2_Female_fedora_tilted_D",
+    "hides": true
+   }
+  },
+  "C4": {
+   "Male": {
+    "mesh": "SKV2_Male_top_hat_hat",
+    "tex": "T_SKV2_Male_top_hat_D",
+    "hides": true
+   },
+   "Female": {
+    "mesh": "SKV2_Female_feather_headband_hat",
+    "tex": "T_SKV2_Female_feather_headband_D",
+    "hides": false
+   }
+  },
+  "C5": {
+   "Male": {
+    "mesh": "SKV2_Male_fedora_hat",
+    "tex": "T_SKV2_Male_fedora_D",
+    "hides": true
+   },
+   "Female": {
+    "mesh": "SKV2_Female_feather_headband_hat",
+    "tex": "T_SKV2_Female_feather_headband_D",
+    "hides": false
+   }
+  },
+  "C6": {
+   "Male": {
+    "mesh": "SKV2_Male_fedora_hat",
+    "tex": "T_SKV2_Male_fedora_D",
+    "hides": true
+   },
+   "Female": {
+    "mesh": "SKV2_Female_chitin_tiara_hat",
+    "tex": "T_SKV2_Female_chitin_tiara_D",
+    "hides": false
+   }
+  },
+  "L1": {
+   "Male": {
+    "mesh": "SKV2_Male_flying_cap_hat",
+    "tex": "T_SKV2_Male_flying_cap_D",
+    "hides": true
+   },
+   "Female": {
+    "mesh": "SKV2_Female_flying_cap_hat",
+    "tex": "T_SKV2_Female_flying_cap_D",
+    "hides": true
+   }
+  },
+  "L2": {
+   "Male": {
+    "mesh": "SKV2_Male_flying_cap_hat",
+    "tex": "T_SKV2_Male_flying_cap_D",
+    "hides": true
+   },
+   "Female": {
+    "mesh": "SKV2_Female_flying_cap_hat",
+    "tex": "T_SKV2_Female_flying_cap_D",
+    "hides": true
+   }
+  },
+  "L3": {
+   "Male": {
+    "mesh": "SKV2_Male_cowboy_hat_hat",
+    "tex": "T_SKV2_Male_cowboy_hat_D",
+    "hides": true
+   },
+   "Female": {
+    "mesh": "SKV2_Female_cowboy_hat_hat",
+    "tex": "T_SKV2_Female_cowboy_hat_D",
+    "hides": true
+   }
+  },
+  "L4": {
+   "Male": {
+    "mesh": "SKV2_Male_flying_cap_hat",
+    "tex": "T_SKV2_Male_flying_cap_D",
+    "hides": true
+   },
+   "Female": {
+    "mesh": "SKV2_Female_flying_cap_hat",
+    "tex": "T_SKV2_Female_flying_cap_D",
+    "hides": true
+   }
+  },
+  "L5": {
+   "Male": {
+    "mesh": "SKV2_Male_fedora_hat",
+    "tex": "T_SKV2_Male_fedora_D",
+    "hides": true
+   },
+   "Female": {
+    "mesh": "SKV2_Female_fedora_tilted_hat",
+    "tex": "T_SKV2_Female_fedora_tilted_D",
+    "hides": true
+   }
+  },
+  "L6": {
+   "Male": {
+    "mesh": "SKV2_Male_chitin_helmet_hat",
+    "tex": "T_SKV2_Male_chitin_helmet_D",
+    "hides": true
+   },
+   "Female": {
+    "mesh": "SKV2_Female_chitin_helmet_hat",
+    "tex": "T_SKV2_Female_chitin_helmet_D",
+    "hides": true
+   }
+  },
+  "P1": {
+   "Male": {
+    "mesh": "SKV2_Male_newsboy_hat",
+    "tex": "T_SKV2_Male_newsboy_D",
+    "hides": true
+   },
+   "Female": {
+    "mesh": "SKV2_Female_newsboy_hat",
+    "tex": "T_SKV2_Female_newsboy_D",
+    "hides": true
+   }
+  },
+  "P2": {
+   "Male": {
+    "mesh": "SKV2_Male_newsboy_hat",
+    "tex": "T_SKV2_Male_newsboy_D",
+    "hides": true
+   },
+   "Female": {
+    "mesh": "SKV2_Female_newsboy_hat",
+    "tex": "T_SKV2_Female_newsboy_D",
+    "hides": true
+   }
+  },
+  "P3": {
+   "Male": {
+    "mesh": "SKV2_Male_football_helmet_hat",
+    "tex": "T_SKV2_Male_football_helmet_D",
+    "hides": true
+   },
+   "Female": {
+    "mesh": "SKV2_Female_football_helmet_hat",
+    "tex": "T_SKV2_Female_football_helmet_D",
+    "hides": true
+   }
+  },
+  "P4": {
+   "Male": {
+    "mesh": "SKV2_Male_flying_cap_hat",
+    "tex": "T_SKV2_Male_flying_cap_D",
+    "hides": true
+   },
+   "Female": {
+    "mesh": "SKV2_Female_flying_cap_hat",
+    "tex": "T_SKV2_Female_flying_cap_D",
+    "hides": true
+   }
+  },
+  "P5": {
+   "Male": {
+    "mesh": "SKV2_Male_flying_cap_hat",
+    "tex": "T_SKV2_Male_flying_cap_D",
+    "hides": true
+   },
+   "Female": {
+    "mesh": "SKV2_Female_flying_cap_hat",
+    "tex": "T_SKV2_Female_flying_cap_D",
+    "hides": true
+   }
+  },
+  "P6": {
+   "Male": {
+    "mesh": "SKV2_Male_chitin_helmet_hat",
+    "tex": "T_SKV2_Male_chitin_helmet_D",
+    "hides": true
+   },
+   "Female": {
+    "mesh": "SKV2_Female_chitin_helmet_hat",
+    "tex": "T_SKV2_Female_chitin_helmet_D",
+    "hides": true
+   }
+  },
+  "S1": {
+   "Male": {
+    "mesh": "SKV2_Male_brodie_helmet_hat",
+    "tex": "T_SKV2_Male_brodie_helmet_D",
+    "hides": true
+   },
+   "Female": {
+    "mesh": "SKV2_Female_brodie_helmet_hat",
+    "tex": "T_SKV2_Female_brodie_helmet_D",
+    "hides": true
+   }
+  },
+  "S2": {
+   "Male": {
+    "mesh": "SKV2_Male_brodie_helmet_hat",
+    "tex": "T_SKV2_Male_brodie_helmet_D",
+    "hides": true
+   },
+   "Female": {
+    "mesh": "SKV2_Female_brodie_helmet_hat",
+    "tex": "T_SKV2_Female_brodie_helmet_D",
+    "hides": true
+   }
+  },
+  "S3": {
+   "Male": {
+    "mesh": "SKV2_Male_brodie_helmet_hat",
+    "tex": "T_SKV2_Male_brodie_helmet_D",
+    "hides": true
+   },
+   "Female": {
+    "mesh": "SKV2_Female_brodie_helmet_hat",
+    "tex": "T_SKV2_Female_brodie_helmet_D",
+    "hides": true
+   }
+  },
+  "S4": {
+   "Male": {
+    "mesh": "SKV2_Male_warrior_helmet_hat",
+    "tex": "T_SKV2_Male_warrior_helmet_D",
+    "hides": true
+   },
+   "Female": {
+    "mesh": "SKV2_Female_warrior_helmet_hat",
+    "tex": "T_SKV2_Female_warrior_helmet_D",
+    "hides": true
+   }
+  },
+  "S5": {
+   "Male": {
+    "mesh": "SKV2_Male_warrior_helmet_hat",
+    "tex": "T_SKV2_Male_warrior_helmet_D",
+    "hides": true
+   },
+   "Female": {
+    "mesh": "SKV2_Female_warrior_helmet_hat",
+    "tex": "T_SKV2_Female_warrior_helmet_D",
+    "hides": true
+   }
+  },
+  "S6": {
+   "Male": {
+    "mesh": "SKV2_Male_chitin_helmet_hat",
+    "tex": "T_SKV2_Male_chitin_helmet_D",
+    "hides": true
+   },
+   "Female": {
+    "mesh": "SKV2_Female_chitin_helmet_hat",
+    "tex": "T_SKV2_Female_chitin_helmet_D",
+    "hides": true
+   }
+  },
+  "E1": {
+   "Male": {
+    "mesh": "SKV2_Male_brodie_helmet_hat",
+    "tex": "T_SKV2_Male_brodie_helmet_D",
+    "hides": true
+   },
+   "Female": {
+    "mesh": "SKV2_Female_brodie_helmet_hat",
+    "tex": "T_SKV2_Female_brodie_helmet_D",
+    "hides": true
+   }
+  },
+  "E2": {
+   "Male": {
+    "mesh": "SKV2_Male_flying_cap_hat",
+    "tex": "T_SKV2_Male_flying_cap_D",
+    "hides": true
+   },
+   "Female": {
+    "mesh": "SKV2_Female_flying_cap_hat",
+    "tex": "T_SKV2_Female_flying_cap_D",
+    "hides": true
+   }
+  },
+  "E3": {
+   "Male": {
+    "mesh": "SKV2_Male_cowboy_hat_hat",
+    "tex": "T_SKV2_Male_cowboy_hat_D",
+    "hides": true
+   },
+   "Female": {
+    "mesh": "SKV2_Female_cowboy_hat_hat",
+    "tex": "T_SKV2_Female_cowboy_hat_D",
+    "hides": true
+   }
+  },
+  "E4": {
+   "Male": {
+    "mesh": "SKV2_Male_miner_helmet_hat",
+    "tex": "T_SKV2_Male_miner_helmet_D",
+    "hides": true
+   },
+   "Female": {
+    "mesh": "SKV2_Female_miner_helmet_hat",
+    "tex": "T_SKV2_Female_miner_helmet_D",
+    "hides": true
+   }
+  },
+  "E5": {
+   "Male": {
+    "mesh": "SKV2_Male_flying_cap_hat",
+    "tex": "T_SKV2_Male_flying_cap_D",
+    "hides": true
+   },
+   "Female": {
+    "mesh": "SKV2_Female_flying_cap_hat",
+    "tex": "T_SKV2_Female_flying_cap_D",
+    "hides": true
+   }
+  },
+  "E6": {
+   "Male": {
+    "mesh": "SKV2_Male_nurse_cap_hat",
+    "tex": "T_SKV2_Male_nurse_cap_D",
+    "hides": false
+   },
+   "Female": {
+    "mesh": "SKV2_Female_nurse_cap_hat",
+    "tex": "T_SKV2_Female_nurse_cap_D",
+    "hides": false
+   }
+  },
+  "E7": {
+   "Male": {
+    "mesh": "SKV2_Male_fedora_hat",
+    "tex": "T_SKV2_Male_fedora_D",
+    "hides": true
+   },
+   "Female": {
+    "mesh": "SKV2_Female_fedora_tilted_hat",
+    "tex": "T_SKV2_Female_fedora_tilted_D",
+    "hides": true
+   }
+  },
+  "E8": {
+   "Male": {
+    "mesh": "SKV2_Male_newsboy_hat",
+    "tex": "T_SKV2_Male_newsboy_D",
+    "hides": true
+   },
+   "Female": {
+    "mesh": "SKV2_Female_newsboy_hat",
+    "tex": "T_SKV2_Female_newsboy_D",
+    "hides": true
+   }
+  }
+ }
 }

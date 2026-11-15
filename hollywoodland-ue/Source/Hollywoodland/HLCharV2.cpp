@@ -47,9 +47,14 @@ UAnimSequence* FHLCharV2::Anim(int32 Sex, const FString& Clip)
 	return V2Load<UAnimSequence>(TEXT("Anim"), FString::Printf(TEXT("A_%s_%s"), V2Sex[Sex & 1], *Clip));
 }
 
-USkeletalMeshComponent* FHLCharV2::Build(AActor* Owner, USceneComponent* Parent, int32 Sex, const TArray<FHLV2Piece>& Pieces, FHLV2Rig& Rig,
+USkeletalMeshComponent* FHLCharV2::Build(AActor* Owner, USceneComponent* Parent, int32 Sex, const TArray<FHLV2Piece>& InPieces, FHLV2Rig& Rig,
 	const FLinearColor& SkinMul)
 {
+	// only pieces whose mesh exists count (a missing garment must not hide the body zones it would have covered)
+	TArray<FHLV2Piece> Pieces;
+	for (const FHLV2Piece& P : InPieces)
+		if (P.Socket.IsNone() ? V2Load<USkeletalMesh>(TEXT("Garments"), P.Mesh) != nullptr : V2Load<UStaticMesh>(TEXT("Hats"), P.Mesh) != nullptr) Pieces.Add(P);
+		else UE_LOG(LogTemp, Warning, TEXT("HL_V2 missing mesh %s"), *P.Mesh);
 	Sex &= 1;
 	const FString Prefix = FString::Printf(TEXT("SKV2_%s"), V2Sex[Sex]);
 	USkeletalMesh* BodyMesh = V2Load<USkeletalMesh>(TEXT("Body"), Prefix + TEXT("_Body"));
@@ -80,7 +85,11 @@ USkeletalMeshComponent* FHLCharV2::Build(AActor* Owner, USceneComponent* Parent,
 		bool bMasked = false;
 		if (N.Contains(TEXT("eyebrow"))) { Tex = Prefix + TEXT("_Body_") + N.RightChop(N.Find(TEXT("eyebrow"))) + TEXT("_D"); bMasked = true; }
 		else if (N.Contains(TEXT("eyelash"))) { Tex = Prefix + TEXT("_Body_") + N.RightChop(N.Find(TEXT("eyelash"))) + TEXT("_D"); bMasked = true; }
-		else if (N.Contains(TEXT("high-poly")) || N.Contains(TEXT("low-poly")) || N.Contains(TEXT("eye"))) Tex = Prefix + TEXT("_Body_high-poly_D");
+		else if (N.Contains(TEXT("high-poly")) || N.Contains(TEXT("low-poly")) || N.Contains(TEXT("eye")))
+		{
+			Tex = Prefix + TEXT("_Body_high-poly_D");
+			bMasked = true; // the cornea shell maps to a transparent patch: clipped, or it hides the iris in white
+		}
 		Tex = Tex.Replace(TEXT("."), TEXT("_"));
 		const bool bSkin = !bMasked && !N.Contains(TEXT("high-poly")) && !N.Contains(TEXT("low-poly"));
 		if (UMaterialInstanceDynamic* M = V2Mat(Owner, bMasked, Tex, FString(), FLinearColor::White, FLinearColor::White, bMasked ? 0u : BodyHide, bSkin ? SkinMul : FLinearColor::White))
@@ -90,7 +99,8 @@ USkeletalMeshComponent* FHLCharV2::Build(AActor* Owner, USceneComponent* Parent,
 	{
 		const FHLV2Piece& P = Pieces[k];
 		uint32 Hide = 0;
-		for (const FHLV2Piece& Q : Pieces) if (Q.Layer > P.Layer) Hide |= Q.Covers;
+		// (trousers do not cut away the tail of a shirt: their front waist sits lower than the hips zone reaches)
+		for (const FHLV2Piece& Q : Pieces) if (Q.Layer > P.Layer) Hide |= Q.Layer == 2 ? (Q.Covers & ~(uint32)HLZone::Hips) : Q.Covers;
 		if (!P.Socket.IsNone())
 		{
 			UStaticMesh* SM = V2Load<UStaticMesh>(TEXT("Hats"), P.Mesh);
@@ -99,7 +109,11 @@ USkeletalMeshComponent* FHLCharV2::Build(AActor* Owner, USceneComponent* Parent,
 			S->SetStaticMesh(SM);
 			S->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 			// the hat was exported in body space: undo the head bone's bind transform so it sits where it was fitted
-			const FTransform HeadRef = Body->GetBoneTransform(Body->GetBoneIndex(P.Socket), FTransform::Identity);
+			FTransform HeadRef = FTransform::Identity;
+			{
+				const FReferenceSkeleton& RS = BodyMesh->GetRefSkeleton();
+				for (int32 b = RS.FindBoneIndex(P.Socket); b != INDEX_NONE; b = RS.GetParentIndex(b)) HeadRef = HeadRef * RS.GetRefBonePose()[b];
+			}
 			S->SetupAttachment(Body, P.Socket);
 			S->RegisterComponent();
 			S->SetRelativeTransform(HeadRef.Inverse());
@@ -153,6 +167,17 @@ bool FHLCharsV2::Ready()
 					P.Layer = (int32)O->GetNumberField(TEXT("layer")); P.Covers = (uint32)O->GetNumberField(TEXT("covers"));
 					Pieces.Add(FString::Printf(TEXT("%s|%s|%s"), *L.Key, *Sx.Key, *Sl.Key), P);
 				}
+	const TSharedPtr<FJsonObject>* HatsO;
+	if (Root->TryGetObjectField(TEXT("hats"), HatsO))
+		for (const auto& L : (*HatsO)->Values)
+			for (const auto& Sx : L.Value->AsObject()->Values)
+			{
+				const TSharedPtr<FJsonObject> O = Sx.Value->AsObject();
+				FHLV2Piece P;
+				P.Mesh = O->GetStringField(TEXT("mesh")); P.Tex = O->GetStringField(TEXT("tex"));
+				P.Socket = TEXT("head"); P.Layer = 9; P.bHidesHair = O->GetBoolField(TEXT("hides"));
+				Pieces.Add(FString::Printf(TEXT("%s|%s|hat"), *L.Key, *Sx.Key), P);
+			}
 	const TSharedPtr<FJsonObject>* HairO;
 	if (Root->TryGetObjectField(TEXT("hair"), HairO))
 		for (int32 Sex = 0; Sex < 2; ++Sex)

@@ -50,7 +50,7 @@ BASES = {
     'm_gloves_s': ('Male', 'toigo_gloves_short', {'gloves': 'gloves'}, {'gloves': ['hand']}, '{leather} gloves'),
     'm_gloves_m': ('Male', 'toigo_gloves_medium', {'gloves': 'gloves'}, {'gloves': ['hand', 'forearm']}, '{leather} gauntlet gloves'),
     # ---- women
-    'f_blouse': ('Female', 'punkduck_lace_up_blouse', {'shirt': 'shirt'}, {'shirt': Z_TORSO}, 'a {shirt} blouse'),
+    'f_blouse': ('Female', 'punkduck_lace_up_blouse', {'shirt': 'shirt'}, {'shirt': ['upperarm', 'forearm']}, 'a {shirt} blouse'),
     'f_peasant': ('Female', 'elvs_ruffle_sleeve_peasant_blouse_1', {'shirt': 'shirt'}, {'shirt': ['chest', 'belly', 'upperarm']}, 'a {shirt} blouse'),
     'f_sweater': ('Female', 'janexx_old_female_sweater', {'shirt': 'shirt'}, {'shirt': Z_TORSO}, 'a {fabric} knitted jersey'),
     'f_suit': ('Female', 'toigo_female_suit', {'coat': 'coat', 'trousers': 'trousers'}, {'coat': Z_TORSO, 'trousers': ['hips', 'thigh']},
@@ -185,6 +185,30 @@ LOOKS = {
 }
 
 
+# Rodin gear (gear.py models, fit_gear.py fits): key -> (slot, paint template). Belts and wrist pieces share one model and
+# one painted texture per look between the sexes; the cuirasses are per sex and ride with the coat of the steel looks.
+GEAR = {
+    'belt_slim': ('belt', 'a slim {leather} trouser belt with a polished {metal} buckle and fine stitching'),
+    'belt_wide': ('belt', 'a wide {leather} adventurer utility belt with a big square {metal} buckle, two pouches and {metal} rivets'),
+    'cuff': ('wrist', 'a {leather} wrist cuff with a small round {metal} wristwatch'),
+    'bracer': ('wrist', 'a {leather} forearm bracer with {metal} rivets and laces, accents of {accent}'),
+    'cuirass_m': ('armour', 'torso armour plates of {fabric}, trimmed and riveted in {metal}, straps of {leather}'),
+    'cuirass_f': ('armour', 'torso armour plates of {fabric}, trimmed and riveted in {metal}, straps of {leather}'),
+}
+
+
+def gear_for(look, sex):
+    """{slot: gear key} for a look: town looks get a slim belt and a watch cuff, the rugged ones a utility belt and
+    bracers, and the steel looks a cuirass over the coat."""
+    if look == 'Starter':  # nothing in those slots at the start
+        return {}
+    rugged = look[0] in 'LPS'
+    g = {'belt': 'belt_wide' if rugged else 'belt_slim', 'wrist': 'bracer' if rugged else 'cuff'}
+    if look[0] == 'S':
+        g['armour'] = 'cuirass_m' if sex == 'Male' else 'cuirass_f'
+    return g
+
+
 def check():
     for look, (pal, sexes) in LOOKS.items():
         for sex, slots in sexes.items():
@@ -203,5 +227,14 @@ if __name__ == '__main__':
     used = {(b) for _, (p, s) in LOOKS.items() for sl in s.values() for b in sl.values() if b}
     print('ok', len(LOOKS), 'looks', len(used), 'bases used of', len(BASES), 'textures', sum(1 for _ in {(b, l) for l, (p, s) in LOOKS.items() for sl in s.values() for b in sl.values() if b}))
 
-# hair styles per sex: (MHCLO stem, label); exported as SKV2_<Sex>_<stem>_hair (build_wardrobe.py --hair)
-HAIR = {'Male': [('short02', 'Short')], 'Female': [('toigo_curled_under_bob', 'Curled Bob')]}
+# hair styles per sex, in the creator's order (FHLAppearance::Hair): (MHCLO stem or None for bald, label); exported as
+# SKV2_<Sex>_<stem>_hair and made tintable greyscale (grey_hair.py)
+HAIR = {
+    'Male': [('short02', 'Slicked Back'), ('elvs_short_side_do', 'Side Part'), ('culturalibre_hair_14', 'Pompadour'), ('short04', 'Crew Cut'),
+             ('elvs_maxwell_hair', 'Centre Part'), ('culturalibre_hair_05', 'Wavy'), ('short01', 'Receding'), (None, 'Bald'),
+             ('cortu_short_messy_hair', 'Curly'), ('afro01', 'Short Afro'), ('culturalibre_hair_13', 'Tousled'), ('bob01', 'Side-swept')],
+    'Female': [('elvs_wavy_bob', 'Finger-wave Bob'), ('toigo_curled_under_bob', 'Pin Curls'), ('toigo_blunt_bob_with_bangs', 'Sleek Bob'),
+               ('elvs_ashley_may_hair', 'Marcel Waves'), ('elvs_50s_updo', 'Chignon'), ('elvs_inverted_curly_bob', 'Curly Crop'),
+               ('elvs_short_daisy_hair', 'Shoulder Waves'), ('elvs_braid_bun', 'Braided Bun'), ('rehmanpolanski_hair_bun_brown', 'Low Bun'),
+               ('toigo_inverted_bob', 'Pageboy'), ('afro01', 'Short Afro'), ('culturalibre_hair_17', 'Wind-swept')],
+}

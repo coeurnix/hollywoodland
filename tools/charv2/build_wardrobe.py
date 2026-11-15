@@ -29,7 +29,7 @@ def find_mhclo(stem):
 
 
 report = {}
-if not only:
+if not only or 'body' in only:
     bpy.ops.wm.open_mainfile(filepath=str(BODY))
     report['Body'] = export_v2.run(OUT, f'SKV2_{sex}', {}, with_body=True)
 for base, (bsex, stem, pieces, covers, tmpl) in wardrobe.BASES.items():
@@ -47,7 +47,7 @@ for base, (bsex, stem, pieces, covers, tmpl) in wardrobe.BASES.items():
     report[base] = r
     print('HL_WARD ok', base, {k: v for k, v in r.items() if k != '_textures'}, flush=True)
 for stem, label in wardrobe.HAIR.get(sex, []):
-    if only and stem not in only:
+    if not stem or (only and stem not in only):
         continue
     f = find_mhclo(stem)
     if not f:
