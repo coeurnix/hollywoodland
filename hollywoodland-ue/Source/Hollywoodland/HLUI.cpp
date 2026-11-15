@@ -1321,7 +1321,7 @@ void SHLGameUI::DrawHud() const
 			if (bH) { TipText = Lbl[i]; TipPos = Mouse; if (bLClick) { bLClick = false; *Flags[i] = !*Flags[i]; if (i == 5) Gm.bWhoOpen = bWho; } }
 		}
 		{
-			const FString Info = FString::Printf(TEXT("%s%s    Players online: %d    %s"), Gm.bWorkerOk ? TEXT("") : TEXT("(chat AI offline: corpus mode)    "), *HLMoney(Gm.Player.Cents), Gm.OnlineCount(), TEXT(""));
+			const FString Info = HLMoney(Gm.Player.Cents);
 			Tx(VS.X - 14 - TW(Info.TrimEnd(), 10), Mtop - 18, Info.TrimEnd(), 10, ColGold);
 		}
 	}

@@ -58,7 +58,7 @@ export const quests = [
     "Six fewer. I can nearly hear the box office again. You'll do, kid."),
   // a short one that shows off emotes: perform for the other players on the forecourt (any of the showy emotes, aimed
   // at a player; each player counts once)
-  Q('q_hb_ham', 'Ham It Up', 2, 'npc_dolly', 'npc_dolly', [{ type: 'do', kind: 'emote_player', count: 3, label: 'Players entertained (click one, then /silly, /flirt, /dance or /bow)', npc: '' }],
+  Q('q_hb_ham', 'Ham It Up', 2, 'npc_dolly', 'npc_dolly', [{ type: 'do', kind: 'emote_player', count: 3, label: 'Players entertained (/dance, /silly)', npc: '' }],
     "Don't mind me, sugar, a girl's got to keep her legs warm between pictures. Say, you've got a face for the pictures, but can you sell it? Pick out three of the loafers on this forecourt and give 'em a show. Click one, then type /dance, or /silly, /flirt, /bow. Type /help in chat for the whole repertoire.",
     "Now that's what I call a performance! They'll be talking about you down at the Brown Derby. Here, you earned the applause money."),
   Q('q_hb_02', 'Plates for Mr. Factor', 1, 'npc_max_factor', null, [item('Cracked Chitin Plate', 5, 'mob_invader_worker', 0.6)],

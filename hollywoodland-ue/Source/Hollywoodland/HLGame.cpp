@@ -291,7 +291,7 @@ void FHLGame::EnterWorld()
 	WorkerSession();
 	CurSubzone = SubzoneAt(U.Area, U.Pos);
 	Banner(Zone.Name, CurSubzone, 5);
-	System(FString::Printf(TEXT("There are %d players online. Type /help for chat commands."), OnlineCount()));
+	System(TEXT("Type /help for chat commands and emotes."));
 	if (!PendingRestNote.IsEmpty()) { System(PendingRestNote); PendingRestNote.Reset(); }
 	TickAuctions();
 }
