@@ -709,11 +709,9 @@ void SHLGameUI::DrawCreator(float X, float Y, float W, bool bPreview) const
 		Ry += 28;
 	};
 	Step(TEXT("Skin"), A.Skin, Sx.Skins.Num(), FHLChars::SkinNames().IsValidIndex(A.Skin) ? FHLChars::SkinNames()[A.Skin] : FString::Printf(TEXT("%d"), A.Skin + 1));
-	Step(TEXT("Face"), A.Face, Sx.Faces.Num(), FString::Printf(TEXT("%d of %d"), A.Face + 1, Sx.Faces.Num()));
 	Step(TEXT("Hair"), A.Hair, Sx.Hair.Num(), Sx.Hair.IsValidIndex(A.Hair) ? Sx.Hair[A.Hair].Name : FString());
 	Step(TEXT("Hair colour"), A.HairColor, FHLChars::HairColors().Num(), FHLChars::HairColorNames().IsValidIndex(A.HairColor) ? FHLChars::HairColorNames()[A.HairColor] : FString());
-	const int32 Dye = FMath::Clamp(A.Outfit, 0, FMath::Max(0, C.OutfitA.Num() - 1));
-	if (C.OutfitA.Num() && C.OutfitB.Num() == C.OutfitA.Num()) Step(TEXT("Clothes"), A.Outfit, C.OutfitA.Num(), FString(), &C.OutfitB[Dye], &C.OutfitA[Dye]); // shirt, then trousers
+	// (no face or clothes-colour rows: the v2 faces read as one, and the v2 clothes are painted per look, not dyed)
 	if (Btn(Bx, Ry + 2, 212, 24, TEXT("Surprise me"), true, 11)) A = FHLAppearance::FromSeed(FMath::Rand(), A.Sex);
 }
 
@@ -772,6 +770,10 @@ void SHLGameUI::DrawTitle() const
 	Tx(24, 14, TEXT("HOLLYWOODLAND"), 34, ColGold, true);
 	Tx(26, 64, TEXT("Hollywood, California 1930."), 11, FLinearColor(1, 0.95f, 0.85f), true);
 	if (SelSlot < 0) { SelSlot = 0; for (int32 s = 0; s < 3; ++s) if (!World->SavedSlots[s].IsEmpty()) { SelSlot = s; break; } }
+	// the very first visit (no characters at all): straight into making one; Back returns to an empty select with the button glowing
+	static bool bFirstVisit = true;
+	const bool bNoChars = World->SavedSlots[0].IsEmpty() && World->SavedSlots[1].IsEmpty() && World->SavedSlots[2].IsEmpty();
+	if (bFirstVisit) { bFirstVisit = false; if (bNoChars && TitleMode == 0) { TitleMode = 1; SelClass = NurseClass(); bNewLookSet = false; NameEntry.Reset(); PreviewYaw = -18.f; } }
 	// drag on the open scene turns the figure
 	{
 		const bool bFree = !Hover(VS.X - 380, 0, 380, VS.Y) && !Hover(0, 0, 440, VS.Y) && Mouse.Y > 100 && Mouse.Y < VS.Y - 110;
@@ -838,6 +840,7 @@ void SHLGameUI::DrawTitle() const
 		}
 		else
 		{
+			if (bNoChars) Glow(X + 12, By, W - 24, 40);
 			if (Btn(X + 12, By, W - 24, 40, TEXT("Create New Character"), true, 15)) { TitleMode = 1; SelClass = NurseClass(); bNewLookSet = false; NameEntry.Reset(); PreviewYaw = -18.f; }
 			By += 48;
 			// restore from the cloud copy on another browser (the code is shown in the game menu) into this empty slot
@@ -885,6 +888,12 @@ void SHLGameUI::DrawTitle() const
 			const float Bx = X + 14 + (i % 2) * 198, Byy = Y + 36 + (i / 2) * 34;
 			if (i == SelClass) Rc(Bx - 3, Byy - 3, 194, 32, K.Color);
 			if (Btn(Bx, Byy, 188, 26, K.Name, true, 11)) SelClass = i;
+			if (i == SelClass)
+			{
+				++Layer; LastKind = 1;
+				const FVector2D Ck(Bx + 170, Byy + 13);
+				Line(Ck + FVector2D(-5, 0), Ck + FVector2D(-1.5f, 4), K.Color, 2.5f); Line(Ck + FVector2D(-1.5f, 4), Ck + FVector2D(6, -5), K.Color, 2.5f);
+			}
 		}
 		float Cy = Y + 36 + ((D.Classes.Num() + 1) / 2) * 34 + 8;
 		Rc(X + 14, Cy, W - 28, 1, FLinearColor(0.55f, 0.45f, 0.25f, 0.6f)); Cy += 10;
@@ -893,7 +902,9 @@ void SHLGameUI::DrawTitle() const
 		const TCHAR* RoleName = C.Role == TEXT("tank") ? TEXT("Tank") : C.Role == TEXT("healer") ? TEXT("Healer") : C.Role == TEXT("caster") ? TEXT("Ranged caster") : C.Role == TEXT("ranged") ? TEXT("Ranged damage") : TEXT("Melee damage");
 		const TCHAR* RoleLine = C.Role == TEXT("tank") ? TEXT("holds the enemy's attention up front") : C.Role == TEXT("healer") ? TEXT("keeps the group alive, fights from range") : C.Role == TEXT("caster") ? TEXT("spells from a distance") : C.Role == TEXT("ranged") ? TEXT("guns from a distance") : TEXT("up close and quick");
 		const float Rw = TW(RoleName, 12, true);
-		RRc(X + 12, Cy + 24, Rw + 14, 22, C.Color * FLinearColor(0.35f, 0.35f, 0.35f, 1), 5);
+		RRc(X + 12, Cy + 24, Rw + 14, 22, C.Color * FLinearColor(0.7f, 0.7f, 0.7f, 1), 5);
+		++Layer; LastKind = 1;
+		RRc(X + 13.5f, Cy + 25.5f, Rw + 11, 19, FLinearColor(0.05f, 0.04f, 0.03f, 1), 4);
 		Tx(X + 19, Cy + 27, RoleName, 12, C.Color * 1.25f, true);
 		Tx(X + 34 + Rw, Cy + 28, RoleLine, 11, FLinearColor(1, 0.95f, 0.85f), true);
 		Cy += 56;
@@ -917,7 +928,7 @@ void SHLGameUI::DrawTitle() const
 		}
 	}
 	{
-		const float W = 340, X = VS.X - W - 16, Y = 110, H = 470;
+		const float W = 340, X = VS.X - W - 16, Y = 110, H = 284;
 		Block(X, Y, W, H); Panel(X, Y, W, H, FLinearColor(0.04f, 0.035f, 0.03f, 0.92f), FLinearColor(0.72f, 0.56f, 0.28f));
 		Tx(X + 14, Y + 10, TEXT("Name"), 14, ColGold, true);
 		Rc(X + 14, Y + 34, W - 28, 30, FLinearColor(0.4f, 0.35f, 0.2f));
@@ -925,13 +936,14 @@ void SHLGameUI::DrawTitle() const
 		Rc(X + 15, Y + 35, W - 30, 28, FLinearColor(0.02f, 0.02f, 0.02f));
 		if (Hover(X + 14, Y + 34, W - 28, 30) && bLClick) { bLClick = false; bRestoreFocus = false; }
 		Tx(X + 22, Y + 39, NameEntry.IsEmpty() && !bBlink ? FString(TEXT("Name")) : NameEntry + (bBlink ? TEXT("_") : TEXT("")), 13, NameEntry.IsEmpty() ? ColDim : ColWhite);
-		Rc(X + 14, Y + 76, W - 28, 1, FLinearColor(0.55f, 0.45f, 0.25f, 0.6f));
-		DrawCreator(X + 10, Y + 86, W - 20, false);
+		Tx(X + 16, Y + 68, TEXT("Letters only, at least 2"), 9, NameEntry.Len() == 1 ? FLinearColor(1, 0.66f, 0.3f) : ColDim);
+		Rc(X + 14, Y + 86, W - 28, 1, FLinearColor(0.55f, 0.45f, 0.25f, 0.6f));
+		DrawCreator(X + 10, Y + 94, W - 20, false);
 	}
 	{
 		const bool bOk = NameEntry.Len() >= 2;
 		// under the looks panel, clear of the figure
-		const float Bw = 340, Bx = VS.X - Bw - 16, By = 110 + 480;
+		const float Bw = 340, Bx = VS.X - Bw - 16, By = 110 + 294;
 		if (Btn(Bx, By + 52, 120, 28, TEXT("Back"), true, 11)) { TitleMode = 0; return; }
 		if (Btn(Bx, By, Bw, 44, bOk ? TEXT("Enter Hollywood") : TEXT("Name your character"), bOk, 16))
 		{
@@ -1333,7 +1345,7 @@ void SHLGameUI::DrawHud() const
 			if (const FSlateBrush* IB = HLSkillBrush(Ab->Icon))
 			{
 				// out of range: red tint; not enough resource: blue-grey
-				const FLinearColor Tint = !bUsable ? FLinearColor(0.35f, 0.4f, 0.6f, 1) : !bRange ? FLinearColor(1, 0.35f, 0.3f, 1) : FLinearColor::White;
+				const FLinearColor Tint = (P->bDead || P->bGhost) ? FLinearColor(0.32f, 0.32f, 0.32f, 1) : !bUsable ? FLinearColor(0.35f, 0.4f, 0.6f, 1) : !bRange ? FLinearColor(1, 0.35f, 0.3f, 1) : FLinearColor::White;
 				Img(X + 2, By + 2, Bs - 4, Bs - 4, IB, Tint);
 			}
 			else
@@ -1377,9 +1389,9 @@ void SHLGameUI::DrawHud() const
 		const FHLGame::FHLRecipe& R = FHLGame::GunRecipes()[Gm.CraftIdx];
 		Bar(VS.X * 0.5f - 130, VS.Y - 150, 260, 18, (float)((Gm.Now - Gm.CraftStart) / FMath::Max(0.1, Gm.CraftEnd - Gm.CraftStart)), FLinearColor(0.85f, 0.6f, 0.25f), Gm.CraftLeft > 1 ? FString::Printf(TEXT("%s (%d)"), *R.Product, Gm.CraftLeft) : R.Product, 10);
 	}
-	if (P->bAutoAttack && T && !T->bDead) TxC(VS.X * 0.5f, VS.Y - 96, P->bRangedAuto ? TEXT("Auto-shot") : TEXT("Attacking"), 9, FLinearColor(1, 0.5f, 0.4f));
+	if (P->bAutoAttack && !P->bDead && !P->bGhost && T && !T->bDead) TxC(VS.X * 0.5f, VS.Y - 96, P->bRangedAuto ? TEXT("Auto-shot") : TEXT("Attacking"), 9, FLinearColor(1, 0.5f, 0.4f));
 	// error and banner text
-	if (Gm.Now < Gm.ErrorUntil) TxC(VS.X * 0.5f, 170, Gm.ErrorText, 14, FLinearColor(1, 0.2f, 0.15f, FMath::Min(1.f, Gm.ErrorUntil - (float)Gm.Now)), true);
+	if (Gm.Now < Gm.ErrorUntil && !(P->bDead && Gm.ErrorText == TEXT("You are dead."))) TxC(VS.X * 0.5f, 170, Gm.ErrorText, 14, FLinearColor(1, 0.2f, 0.15f, FMath::Min(1.f, Gm.ErrorUntil - (float)Gm.Now)), true);
 	if (Gm.Now < Gm.NoticeUntil && !Gm.NoticeText.IsEmpty())
 	{
 		// pops in a size larger, settles, fades at the end
@@ -1403,14 +1415,16 @@ void SHLGameUI::DrawHud() const
 			Ty -= 26;
 		}
 	}
+	float CardBottom = 0; // the quest card's lower edge, so the zone banner can drop under it
 	if (Gm.Now < Gm.QuestCardUntil)
 	{
 		// the quest card: pops in, holds, fades; gold-framed so it reads over any scene
 		const float Age = (float)(Gm.Now - Gm.QuestCardStart), A = FMath::Clamp((float)(Gm.QuestCardUntil - Gm.Now) * 1.2f, 0.f, 1.f) * FMath::Clamp(Age * 6.f, 0.f, 1.f);
 		const float Pop = 1.f + 0.12f * FMath::Clamp(1.f - Age * 5.f, 0.f, 1.f);
 		const int32 Ts = FMath::RoundToInt(24 * Pop);
-		const float Wd = FMath::Max(TW(Gm.QuestCardTitle, Ts, true), TW(Gm.QuestCardSub, 13, true)) + 80, Ht = 78, Cy = VS.Y * 0.125f;
+		const float Wd = FMath::Max(TW(Gm.QuestCardTitle, Ts, true), TW(Gm.QuestCardSub, 13, true)) + 80, Ht = 78, Cy = FMath::Max(VS.Y * 0.125f, TourBottom > 0 ? TourBottom + 14 : 0.f); // clear of the opening-night card
 		const FLinearColor C = Gm.QuestCardColor;
+		CardBottom = Cy + Ht + 2;
 		RRc(VS.X * 0.5f - Wd * 0.5f - 2, Cy - 2, Wd + 4, Ht + 4, FLinearColor(C.R, C.G, C.B, 0.85f * A), 10);
 		++Layer; LastKind = 1;
 		RRc(VS.X * 0.5f - Wd * 0.5f, Cy, Wd, Ht, FLinearColor(0.05f, 0.035f, 0.025f, 0.9f * A), 9);
@@ -1422,8 +1436,9 @@ void SHLGameUI::DrawHud() const
 	if (Gm.Now < Gm.BannerUntil)
 	{
 		const float A = FMath::Min(1.f, Gm.BannerUntil - (float)Gm.Now);
-		TxC(VS.X * 0.5f, 210, Gm.BannerText, 26, FLinearColor(1, 0.85f, 0.4f, A), true);
-		TxC(VS.X * 0.5f, 252, Gm.BannerSub, 13, Gm.bBannerHostile ? FLinearColor(1, 0.3f, 0.2f, A) : FLinearColor(1, 1, 1, A), Gm.bBannerHostile);
+		const float BnY = FMath::Max(210.f, CardBottom + 16);
+		TxC(VS.X * 0.5f, BnY, Gm.BannerText, 26, FLinearColor(1, 0.85f, 0.4f, A), true);
+		TxC(VS.X * 0.5f, BnY + 42, Gm.BannerSub, 13, Gm.bBannerHostile ? FLinearColor(1, 0.3f, 0.2f, A) : FLinearColor(1, 1, 1, A), Gm.bBannerHostile);
 	}
 	// micro menu
 	{
@@ -1710,6 +1725,7 @@ void SHLGameUI::DrawTour() const
 {
 	FHLGame& Gm = G();
 	const FHLUnit* P = Gm.PlayerUnit();
+	TourBottom = 0;
 	if (!P || P->bDead || bTourHidden) return;
 	const FHLQuestState* Cur = nullptr;
 	for (const FHLQuestState& QS : Gm.Player.Quests) if (QS.Q->Tour > 0 && (!Cur || QS.Q->Tour < Cur->Q->Tour)) Cur = &QS;
@@ -1798,6 +1814,7 @@ void SHLGameUI::DrawTour() const
 	const float H = 46 + TextH + 8;
 	Block(X, Y, W, H);
 	HudReserve.Add(FBox2D(FVector2D(X, Y), FVector2D(X + W, Y + H)));
+	TourBottom = Y + H;
 	Panel(X, Y, W, H, FLinearColor(0.06f, 0.05f, 0.04f, 0.96f), FLinearColor(0.85f, 0.66f, 0.3f));
 	++Layer; LastKind = 1;
 	Tx(X + 12, Y + 7, FString::Printf(TEXT("OPENING NIGHT   Reel %d of 9"), Q.Tour), 9, FLinearColor(0.9f, 0.3f, 0.2f), true);
@@ -2016,6 +2033,9 @@ void SHLGameUI::DrawPopups() const
 		const float W = 320, H = 110, X = (VS.X - W) * 0.5f, Y = 300;
 		Block(X, Y, W, H); Panel(X, Y, W, H);
 		TxC(X + W * 0.5f, Y + 14, TEXT("You have died."), 16, ColRed, true);
+		Rc(X + 57, Y + 53, 206, 40, FLinearColor(0.95f, 0.78f, 0.38f, 0.55f + 0.25f * FMath::Sin(FPlatformTime::Seconds() * 3.0)));
+		++Layer; LastKind = 1;
+		Rc(X + 58, Y + 54, 204, 38, FLinearColor(0.04f, 0.035f, 0.03f));
 		if (Btn(X + 60, Y + 56, 200, 34, TEXT("Release to aid station"), true, 12)) Gm.ReleaseSpirit();
 		}
 		else if (P->bGhost)

@@ -28,11 +28,12 @@ struct FHLSettings
 	bool bClickMove = false;      // right-click on open ground walks there (any movement key cancels)
 	float TextHold = 1.5f;        // how long on-screen messages stay, x the base time (1 .. 3)
 	// graphics
-	int32 Quality = 1;            // 0 low, 1 medium, 2 high, 3 ultra (presets for the four below)
-	int32 Shadows = 1;            // 0 off, 1 characters, 2 characters and the world
-	float ViewDist = 1.f;         // 0.6 .. 1.5 x prop/kit draw distance
+	int32 Quality = 2;            // 0 low, 1 medium, 2 high, 3 ultra (presets for the four below); High until the player picks
+	int32 Shadows = 2;            // 0 off, 1 characters, 2 characters and the world
+	float ViewDist = 1.2f;        // 0.6 .. 1.5 x prop/kit draw distance
 	int32 ResScale = 100;         // render resolution %, 50 .. 100
 	bool bEffects = true;         // combat effects (projectiles always draw)
+	bool bGfxChosen = false;      // the player has touched the graphics page: only then are the saved graphics kept
 	int32 Version = 0;            // bumps on every change; the world actor applies graphics when it moves
 
 	FHLSettings();

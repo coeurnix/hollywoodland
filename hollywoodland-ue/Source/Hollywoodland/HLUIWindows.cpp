@@ -99,7 +99,7 @@ void SHLGameUI::DrawCharacter() const
 					const float Sy = Top + (bLeft ? i : i - 6) * Step * 0.86f + S * 0.5f;
 					const FVector2D From(bLeft ? X0 + S + 2 : X0 + Cw - S - 2, Sy), To(Px + Anchor[i].X * Pw, Top + Anchor[i].Y * Ph);
 					const bool bH = Hover(bLeft ? X0 : X0 + Cw - S, Sy - S * 0.5f, S, S);
-					const FLinearColor C(0.95f, 0.78f, 0.38f, bH ? 0.85f : 0.22f);
+					const FLinearColor C(0.95f, 0.78f, 0.38f, bH ? 0.85f : 0.07f);
 					const FVector2D Knee(From.X + (bLeft ? 10 : -10), From.Y);
 					Line(From, Knee, C, 1.f);
 					Line(Knee, To, C, 1.f);
@@ -719,7 +719,7 @@ void SHLGameUI::DrawTalents() const
 		const int32 Spent = Gm.TalentSpent(t);
 		// tree backdrop: the spec's icon, dimmed and stretched
 		Rc(X0, Y0, TW3 - 8, WH - 92, FLinearColor(0.02f, 0.02f, 0.025f));
-		if (C.SpecIcons.IsValidIndex(t)) Img(X0, Y0 + 40, TW3 - 8, TW3 - 8, HLSkillBrush(C.SpecIcons[t]), FLinearColor(0.22f, 0.2f, 0.18f, 0.55f));
+		if (C.SpecIcons.IsValidIndex(t)) Img(X0, Y0 + 40, TW3 - 8, TW3 - 8, HLSkillBrush(C.SpecIcons[t]), FLinearColor(0.22f, 0.2f, 0.18f, 0.3f));
 		if (C.SpecIcons.IsValidIndex(t)) Img(X0 + 6, Y0 + 6, 26, 26, HLSkillBrush(C.SpecIcons[t]));
 		Tx(X0 + 38, Y0 + 4, C.Specs[t], 16, ColGold, true);
 		Tx(X0 + 40, Y0 + 24, FString::Printf(TEXT("%d point%s"), Spent, Spent == 1 ? TEXT("") : TEXT("s")), 9, ColDim);
@@ -739,8 +739,9 @@ void SHLGameUI::DrawTalents() const
 			Img(X, Y, S, S, HLSkillBrush(T->Icon), FLinearColor(Lum, Lum, Lum, 1));
 			const FString R = FString::Printf(TEXT("%d/%d"), Rank, T->Ranks);
 			++Layer; LastKind = 1;
-			Rc(X + S - TW(R, 8) - 5, Y + S - 12, TW(R, 8) + 6, 13, FLinearColor(0, 0, 0, 0.85f));
-			Tx(X + S - TW(R, 8) - 2, Y + S - 13, R, 8, Rank >= T->Ranks ? ColGold : Rank > 0 || bCan ? ColGreen : ColDim);
+			Rc(X + S - TW(R, 9) - 6, Y + S - 13, TW(R, 9) + 8, 15, FLinearColor(0, 0, 0, 0.92f));
+			Tx(X + S - TW(R, 9) - 2, Y + S - 15, R, 9, Rank >= T->Ranks ? ColGold : Rank > 0 || bCan ? ColGreen : ColDim);
+			if (bCan && Rank < T->Ranks) { ++Layer; LastKind = 1; Rc(X - 1, Y - 1, 7, 7, FLinearColor(0, 0, 0, 0.9f)); Rc(X, Y, 5, 5, FLinearColor(0.45f, 1.f, 0.45f)); }
 			if (Hover(X, Y, S, S))
 			{
 				Hot = T;
@@ -975,10 +976,25 @@ void SHLGameUI::DrawNpc() const
 			const int32 Cost = 10 * Ab->Level;
 			Rc(WX, Y, 24, 24, FLinearColor(0.45f, 0.36f, 0.18f));
 			if (const FSlateBrush* IB = Ab->Icon >= 0 ? HLSkillBrush(Ab->Icon) : nullptr) Img(WX + 1, Y + 1, 22, 22, IB, bKnown || bLevel ? FLinearColor::White : FLinearColor(0.4f, 0.4f, 0.4f, 1));
-			Tx(WX + 32, Y + 4, Ab->Name, 11, bKnown ? ColDim : bLevel ? ColGreen : ColRed, true);
-			Tx(WX + 216, Y + 5, FString::Printf(TEXT("Level %d"), Ab->Level), 10, bLevel ? ColWhite : ColRed);
+			const FLinearColor Amber(0.95f, 0.66f, 0.3f), Cream(0.82f, 0.77f, 0.66f);
+			Rc(WX, Y + 26, 440, 1, FLinearColor(0.72f, 0.56f, 0.28f, 0.12f));
+			Tx(WX + 32, Y + 4, Ab->Name, 11, bKnown ? ColDim : bLevel ? ColGreen : Cream, true);
+			if (!bLevel)
+			{
+				// a small drawn padlock before the level it needs
+				const float Lx = WX + 202, Ly = Y + 8;
+				Rc(Lx, Ly + 5, 10, 8, Amber);
+				Line(FVector2D(Lx + 2.5f, Ly + 5), FVector2D(Lx + 2.5f, Ly + 1.5f), Amber, 1.5f); Line(FVector2D(Lx + 7.5f, Ly + 5), FVector2D(Lx + 7.5f, Ly + 1.5f), Amber, 1.5f);
+				Line(FVector2D(Lx + 2.5f, Ly + 1.5f), FVector2D(Lx + 5, Ly - 0.5f), Amber, 1.5f); Line(FVector2D(Lx + 5, Ly - 0.5f), FVector2D(Lx + 7.5f, Ly + 1.5f), Amber, 1.5f);
+			}
+			Tx(WX + 216, Y + 5, FString::Printf(TEXT("Level %d"), Ab->Level), 10, bLevel ? ColWhite : Amber);
 			if (Hover(WX, Y, 300, 24)) AbilityTip(*Ab);
-			if (bKnown) Tx(WX + 340, Y + 5, TEXT("Known"), 10, ColDim);
+			if (bKnown)
+			{
+				const FVector2D K(WX + 326, Y + 12);
+				Line(K + FVector2D(-4, 0), K + FVector2D(-1, 3.5f), ColGreen, 2); Line(K + FVector2D(-1, 3.5f), K + FVector2D(5, -4), ColGreen, 2);
+				Tx(WX + 340, Y + 5, TEXT("Known"), 10, ColDim);
+			}
 			else if (Btn(WX + 320, Y + 1, 120, 22, FString::Printf(TEXT("Train  %s"), *HLMoney(Cost)), bLevel && Gm.Player.Cents >= Cost, 10)) Gm.LearnAbility(Ab, false);
 			Y += 28;
 		}
@@ -1367,7 +1383,20 @@ void SHLGameUI::DrawSettings() const
 		if (Btn(X, WY, 128, 24, Tabs[i], true, 10)) { SettingsTab = i; BindWait = -1; }
 	}
 	const float Y0 = WY + 40;
-	auto Toggle = [&](float Y, const TCHAR* Label, bool& B) { Tx(WX, Y + 4, Label, 10, ColWhite); if (Btn(WX + 400, Y, 120, 22, B ? TEXT("On") : TEXT("Off"), true, 10)) { B = !B; St.Changed(); } };
+	auto Toggle = [&](float Y, const TCHAR* Label, bool& B)
+	{
+		Tx(WX, Y + 4, Label, 10, ColWhite);
+		if (B) { Rc(WX + 398, Y - 2, 124, 26, FLinearColor(0.75f, 0.58f, 0.25f, 0.8f)); ++Layer; LastKind = 1; }
+		if (Btn(WX + 400, Y, 120, 22, B ? TEXT("On") : TEXT("Off"), true, 10)) { B = !B; St.Changed(); }
+		// the box: filled with a check when on, hollow when off (not colour alone)
+		++Layer; LastKind = 1;
+		const float Bx = WX + 408, By = Y + 5;
+		const FLinearColor K(0.95f, 0.8f, 0.45f);
+		Rc(Bx, By, 12, 12, K);
+		++Layer; LastKind = 1;
+		Rc(Bx + 1.5f, By + 1.5f, 9, 9, B ? FLinearColor(0.3f, 0.22f, 0.08f) : FLinearColor(0.06f, 0.05f, 0.04f));
+		if (B) { Line(FVector2D(Bx + 2.5f, By + 6), FVector2D(Bx + 5, By + 9), K, 2); Line(FVector2D(Bx + 5, By + 9), FVector2D(Bx + 10, By + 2.5f), K, 2); }
+	};
 	auto Pct = [&](float Y, const TCHAR* Label, float& V, float Lo, float Hi, int32 Shown) -> bool
 	{
 		Tx(WX, Y, Label, 10, ColWhite);
@@ -1436,7 +1465,7 @@ void SHLGameUI::DrawSettings() const
 		{
 			const float X = WX + 140 + i * 96;
 			if (St.Quality == i) { Rc(X - 2, Y0 - 2, 92, 26, FLinearColor(0.95f, 0.78f, 0.38f)); ++Layer; LastKind = 1; }
-			if (Btn(X, Y0, 88, 22, Q[i], true, 10)) { St.ApplyPreset(i); St.Changed(); }
+			if (Btn(X, Y0, 88, 22, Q[i], true, 10)) { St.ApplyPreset(i); St.bGfxChosen = true; St.Changed(); }
 		}
 		static const TCHAR* Sh[] = { TEXT("Off"), TEXT("Characters"), TEXT("Everything") };
 		Tx(WX, Y0 + 44, TEXT("Shadows"), 10, ColWhite);
@@ -1444,12 +1473,12 @@ void SHLGameUI::DrawSettings() const
 		{
 			const float X = WX + 140 + i * 128;
 			if (St.Shadows == i) { Rc(X - 2, Y0 + 38, 124, 26, FLinearColor(0.95f, 0.78f, 0.38f)); ++Layer; LastKind = 1; }
-			if (Btn(X, Y0 + 40, 120, 22, Sh[i], true, 10)) { St.Shadows = i; St.Changed(); }
+			if (Btn(X, Y0 + 40, 120, 22, Sh[i], true, 10)) { St.Shadows = i; St.bGfxChosen = true; St.Changed(); }
 		}
 		float Vd = St.ViewDist, Rs = (float)St.ResScale;
 		bDrag |= Pct(Y0 + 84, TEXT("View distance"), Vd, 0.6f, 1.5f, FMath::RoundToInt(Vd * 100));
 		bDrag |= Pct(Y0 + 120, TEXT("Render resolution"), Rs, 50.f, 100.f, FMath::RoundToInt(Rs));
-		if (Vd != St.ViewDist || FMath::RoundToInt(Rs) != St.ResScale) { St.ViewDist = FMath::RoundToFloat(Vd * 20.f) / 20.f; St.ResScale = FMath::RoundToInt(Rs / 5.f) * 5; ++St.Version; }
+		if (Vd != St.ViewDist || FMath::RoundToInt(Rs) != St.ResScale) { St.ViewDist = FMath::RoundToFloat(Vd * 20.f) / 20.f; St.ResScale = FMath::RoundToInt(Rs / 5.f) * 5; St.bGfxChosen = true; ++St.Version; }
 		TxWrap(WX, Y0 + 160, 520, TEXT("Shadows come from the sun and the moon in real time. \"Characters\" is cheap; \"Everything\" also lets buildings, lamps and dressing cast shadows and suits a mid-range graphics card. Lower the render resolution if the game stutters."), 9, ColDim);
 	}
 	if (bWasDrag && !bDrag) St.Save();

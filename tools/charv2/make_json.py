@@ -43,6 +43,9 @@ def mask(names):
     return m
 
 
+COVERAGE = json.loads((EXPORT / 'coverage.json').read_text()) if (EXPORT / 'coverage.json').exists() else {}
+
+
 def main():
     looks = {}
     missing = []
@@ -60,8 +63,13 @@ def main():
                     continue
                 if not (LOOKTEX / f'{tex}.png').exists():
                     tex = f'SKV2_{sex}_{base}_D'  # the base's own texture until the look's paint exists
+                # hide only what the garment really covers (coverage.py measures it on the exported meshes): a short
+                # sleeve declared as covering the arm used to sink the bare part into a stick
+                zones = covers.get(piece, [])
+                if mesh in COVERAGE:
+                    zones = [z for z in zones if COVERAGE[mesh].get(z, 0) >= (0.6 if z in ("hand", "foot") else 0.94)]  # rays slip between fingers
                 looks.setdefault(look, {}).setdefault(sex, {})[slot] = {
-                    'mesh': mesh, 'tex': 'T_' + tex, 'layer': LAYER[slot], 'covers': mask(covers.get(piece, []))}
+                    'mesh': mesh, 'tex': 'T_' + tex, 'layer': LAYER[slot], 'covers': mask(zones)}
     # Rodin gear: belts, wrist pieces, the steel looks' cuirasses (fit_gear.py), painted per look (retex.py --gear)
     for look in wardrobe.LOOKS:
         for sex in ('Male', 'Female'):

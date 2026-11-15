@@ -16,11 +16,7 @@ FHLSettings& FHLSettings::Get()
 FHLSettings::FHLSettings()
 {
 	ResetKeys();
-#if PLATFORM_WASM
-	ApplyPreset(1);
-#else
-	ApplyPreset(2);
-#endif
+	ApplyPreset(2); // High, on the web too, until the player chooses otherwise
 }
 
 void FHLSettings::ResetKeys()
@@ -92,6 +88,7 @@ void FHLSettings::Save() const
 	O->SetBoolField(TEXT("facecam"), bFaceCamera);
 	O->SetBoolField(TEXT("clickmove"), bClickMove);
 	O->SetNumberField(TEXT("hold"), TextHold);
+	O->SetBoolField(TEXT("gfx"), bGfxChosen);
 	O->SetNumberField(TEXT("q"), Quality);
 	O->SetNumberField(TEXT("shadows"), Shadows);
 	O->SetNumberField(TEXT("view"), ViewDist);
@@ -123,10 +120,12 @@ void FHLSettings::Load()
 		if (O->TryGetBoolField(TEXT("facecam"), b)) S.bFaceCamera = b;
 		if (O->TryGetBoolField(TEXT("clickmove"), b)) S.bClickMove = b;
 		if (O->TryGetNumberField(TEXT("hold"), D)) S.TextHold = FMath::Clamp((float)D, 1.f, 3.f);
-		if (O->TryGetNumberField(TEXT("q"), D)) S.Quality = FMath::Clamp((int32)D, 0, 3);
-		if (O->TryGetNumberField(TEXT("shadows"), D)) S.Shadows = FMath::Clamp((int32)D, 0, 2);
-		if (O->TryGetNumberField(TEXT("view"), D)) S.ViewDist = FMath::Clamp((float)D, 0.6f, 1.5f);
-		if (O->TryGetNumberField(TEXT("res"), D)) S.ResScale = FMath::Clamp((int32)D, 50, 100);
+		// graphics saved before the player ever chose them (other settings changed) are the old Medium defaults: ignore them
+		if (O->TryGetBoolField(TEXT("gfx"), b) && b) S.bGfxChosen = true;
+		if (S.bGfxChosen && O->TryGetNumberField(TEXT("q"), D)) S.Quality = FMath::Clamp((int32)D, 0, 3);
+		if (S.bGfxChosen && O->TryGetNumberField(TEXT("shadows"), D)) S.Shadows = FMath::Clamp((int32)D, 0, 2);
+		if (S.bGfxChosen && O->TryGetNumberField(TEXT("view"), D)) S.ViewDist = FMath::Clamp((float)D, 0.6f, 1.5f);
+		if (S.bGfxChosen && O->TryGetNumberField(TEXT("res"), D)) S.ResScale = FMath::Clamp((int32)D, 50, 100);
 		if (O->TryGetBoolField(TEXT("fx"), b)) S.bEffects = b;
 		const TSharedPtr<FJsonObject>* K = nullptr;
 		if (O->TryGetObjectField(TEXT("keys"), K) && K)

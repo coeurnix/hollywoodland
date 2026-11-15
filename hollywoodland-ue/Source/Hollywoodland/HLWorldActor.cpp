@@ -938,11 +938,11 @@ void AHLWorldActor::Showcase(const FHLCharLook* L, float Yaw, const FString& Cli
 				if (Score > Best) { Best = Score; BestCam = C; }
 			}
 		// the frame is ~50 degrees tall: the camera pitches up toward the sign (the letters about 16 degrees above the
-		// centre), the feet sit 23 degrees under it, and the figure's distance follows (eye 0.9 m over its feet)
+		// centre), the feet sit 19.5 degrees under it, and the figure's distance follows (eye 0.9 m over its feet)
 		const FVector2D Dir = (SignP - BestCam).GetSafeNormal();
 		const float Elev = FMath::RadiansToDegrees(FMath::Atan2(Letters[0].Z - GroundZ(0, BestCam) - 1.f, FVector2D::Distance(BestCam, SignP)));
 		ShowPitch = 5.f; (void)Elev;
-		const float Dch = 0.9f / FMath::Tan(FMath::DegreesToRadians(23.f - ShowPitch));
+		const float Dch = 0.9f / FMath::Tan(FMath::DegreesToRadians(19.5f - ShowPitch)); // feet ~4 degrees above the frame's bottom edge, on the grass
 		ShowCamP = BestCam; ShowCharP = BestCam + Dir * Dch;
 		UE_LOG(LogTemp, Display, TEXT("HL_STATUS showcase cam %.0f,%.0f score %.1f of %d letters, sign at %.0f,%.0f"), BestCam.X, BestCam.Y, Best, Letters.Num(), SignP.X, SignP.Y);
 		ShowSignP = SignP;
@@ -973,7 +973,7 @@ void AHLWorldActor::Showcase(const FHLCharLook* L, float Yaw, const FString& Cli
 		ShowCamLoc = FVector(CamP.X * M, CamP.Y * M, FMath::Max(Gc + 0.9f, GroundZ(0, CamP) + 0.4f) * M);
 		FRotator R = (ToWorld(0, SignP, 0.f) - ShowCamLoc).Rotation();
 		const float Dh = FVector2D::Distance(CamP, CharP);
-		R.Pitch = FMath::RadiansToDegrees(FMath::Atan2(Gc - ShowCamLoc.Z / M, Dh)) + 23.f;
+		R.Pitch = FMath::RadiansToDegrees(FMath::Atan2(Gc - ShowCamLoc.Z / M, Dh)) + 19.5f;
 		ShowCamRot = R;
 		Show->SetActorLocation(ToWorld(0, CharP, 0.f));
 	}

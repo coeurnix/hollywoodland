@@ -99,6 +99,7 @@ private:
 	struct FRouteCache { FVector2D Goal = FVector2D::ZeroVector, From = FVector2D::ZeroVector, Way = FVector2D::ZeroVector; double T = -100; int32 Area = -1; };
 	mutable FRouteCache Routes[4]; // screen boxes world labels keep out of (filled by the HUD, read next frame)
 	mutable bool bTourHidden = false;
+	mutable float TourBottom = 0; // the opening-night card's lower edge last frame (0: not shown), so the quest card sits under it
 	void DrawWindows() const;
 	void DrawCharacter() const;
 	void DrawBags() const;
