@@ -52,6 +52,8 @@ EM_JS(void, HL_JsStart, (double Slot, int Op, double TimeoutMs, double A, double
 	// the game owns the mouse wheel (map zoom, camera, lists): cancelled here, the wheel no longer scrolls the page that
 	// embeds the game (the itch.io page around the iframe). The engine still receives the event.
 	if (!window.__hlWheel) { window.__hlWheel = 1; window.addEventListener("wheel", function (e) { e.preventDefault(); }, { passive: false }); }
+	// right-click belongs to the game (talk, loot, steer): no browser context menu over it
+	if (!window.__hlCtx) { window.__hlCtx = 1; window.addEventListener("contextmenu", function (e) { e.preventDefault(); }); }
 	function publish(rec) {
 		if (!Slot) return;
 		try {

@@ -13,6 +13,7 @@ static const TCHAR* EquipNames[] = { TEXT("Hat"), TEXT("Neck"), TEXT("Coat"), TE
 void SHLGameUI::DrawWindows() const
 {
 	DrawNpc();
+	DrawLoot();
 	DrawCharacter();
 	DrawBags();
 	DrawQuestLog();
@@ -26,6 +27,30 @@ void SHLGameUI::DrawWindows() const
 		DrawSettings();
 	}
 
+void SHLGameUI::DrawLoot() const
+{
+	// what a corpse carries, beside the cursor's side of the screen: click an item to take it
+	FHLGame& Gm = G();
+	FHLUnit* C = Gm.LootUnitId ? Gm.Unit(Gm.LootUnitId) : nullptr;
+	const FHLUnit* P = Gm.PlayerUnit();
+	if (!C || !P || !C->bDead || !C->bLootable || !C->Loot.Num() || C->Area != P->Area || Gm.Dist(*P, *C) > 8) { Gm.LootUnitId = 0; return; }
+	bool bOpen = true;
+	const int32 N = C->Loot.Num();
+	if (!Win(TEXT("loot"), C->Name, 230, 70 + N * 46, bOpen, VS.X * 0.5f - 300, VS.Y * 0.35f)) { Gm.LootUnitId = 0; return; }
+	float Y = WY + 4;
+	for (int32 i = 0; i < N && i < C->Loot.Num(); ++i)
+	{
+		const FHLLoot& L = C->Loot[i];
+		const bool bH = Hover(WX - 4, Y - 3, 214, 44);
+		if (bH) RRc(WX - 4, Y - 3, 214, 44, FLinearColor(1, 0.85f, 0.4f, 0.12f), 4);
+		const int32 Click = ItemIcon(WX, Y, 38, L.Item, L.Count);
+		TxWrap(WX + 46, Y + 4, 160, L.Item->Name, 10, HLQualityColor(L.Item->Q));
+		if ((Click || (bH && (bLClick || bRClick))) && Gm.LootOne(*C, i)) { bLClick = bRClick = false; return; }
+		Y += 46;
+	}
+	if (Btn(WX + 55, Y + 2, 100, 24, TEXT("Take All"), true, 10)) { Gm.LootCorpse(*C, true); if (!C->bLootable) Gm.LootUnitId = 0; }
+}
+
 void SHLGameUI::DrawCharacter() const
 {
 	FHLGame& Gm = G();
@@ -36,7 +61,13 @@ void SHLGameUI::DrawCharacter() const
 	{
 		const FHLItem* It = Gm.Player.Equip.FindRef(EquipSlots[i]);
 		if (ItemIcon(X, Y, S, It) == 2) Gm.Unequip(EquipSlots[i]);
-		if (!It) { if (Hover(X, Y, S, S)) { TipText = EquipNames[i]; TipPos = Mouse; } return It; }
+		if (!It)
+		{
+			// an empty slot shows what goes there: a faint gold silhouette (Content/Data/UI/slot_<slot>.jpg)
+			if (const FSlateBrush* Gl = HLArtBrush(FString(TEXT("slot_")) + EquipSlots[i])) { ++Layer; LastKind = 1; Img(X + 3, Y + 3, S - 6, S - 6, Gl, FLinearColor(1, 1, 1, Hover(X, Y, S, S) ? 0.85f : 0.45f)); }
+			if (Hover(X, Y, S, S)) { TipText = EquipNames[i]; TipPos = Mouse; }
+			return It;
+		}
 		const float Dur = Gm.SlotDurability(EquipSlots[i]);
 		if (Dur < 0.995f)
 		{
@@ -57,10 +88,25 @@ void SHLGameUI::DrawCharacter() const
 				// clothes down the sides, the figure in the middle, weapons under it
 				const float S = 40, Step = 46, Cw = LeftW - 20, Pw = 196, Ph = 6 * Step - 6 - 40;
 				const float X0 = WX + 10;
+				const FHLCharLook L = FHLChars::Get().LookFor(Gm, U);
+				const float Px = X0 + (Cw - Pw) * 0.5f;
+				DrawPreview(Px, Top, Pw, Ph, L, TEXT("Idle"));
+				// leader lines from each clothing slot to where it is worn on the figure (fractions of the preview box)
+				static const FVector2D Anchor[9] = { {0.5, 0.07}, {0.5, 0.17}, {0.44, 0.3}, {0.33, 0.47}, {0.31, 0.53}, {0.5, 0.46}, {0.56, 0.66}, {0.57, 0.95}, {0.67, 0.53} };
+				for (int32 i = 0; i < 9; ++i)
+				{
+					const bool bLeft = i < 6;
+					const float Sy = Top + (bLeft ? i : i - 6) * Step * 0.86f + S * 0.5f;
+					const FVector2D From(bLeft ? X0 + S + 2 : X0 + Cw - S - 2, Sy), To(Px + Anchor[i].X * Pw, Top + Anchor[i].Y * Ph);
+					const bool bH = Hover(bLeft ? X0 : X0 + Cw - S, Sy - S * 0.5f, S, S);
+					const FLinearColor C(0.95f, 0.78f, 0.38f, bH ? 0.85f : 0.22f);
+					const FVector2D Knee(From.X + (bLeft ? 10 : -10), From.Y);
+					Line(From, Knee, C, 1.f);
+					Line(Knee, To, C, 1.f);
+					RRc(To.X - 2, To.Y - 2, 4, 4, C, 2);
+				}
 				for (int32 i = 0; i < 6; ++i) Slot(i, X0, Top + i * Step * 0.86f, S);
 				for (int32 i = 6; i < 9; ++i) Slot(i, X0 + Cw - S, Top + (i - 6) * Step * 0.86f, S);
-				const FHLCharLook L = FHLChars::Get().LookFor(Gm, U);
-				DrawPreview(X0 + (Cw - Pw) * 0.5f, Top, Pw, Ph, L, TEXT("Idle"));
 				for (int32 i = 9; i < 12; ++i) Slot(i, X0 + Cw * 0.5f - S * 1.5f - 6 + (i - 9) * Step, Top + Ph + 8, S);
 			}
 			else
@@ -278,7 +324,7 @@ void SHLGameUI::DrawMap() const
 		}
 		++Layer; LastKind = 1;
 		Rc(Mx, My + Mh - 22, Mw, 22, FLinearColor(0.05f, 0.035f, 0.03f, 0.88f));
-		Tx(Mx + 8, My + Mh - 19, TEXT("The dome's edge is the edge of the map. Pacific Electric red cars link the zones once you have discovered their stops."), 9, ColDim);
+		Tx(Mx + 8, My + Mh - 19, TEXT("Red cars link the stops you have found."), 9, ColDim);
 		return;
 	}
 	const FHLAreaDef& Def = *Gm.Areas[P.Area].Def;
@@ -294,10 +340,10 @@ void SHLGameUI::DrawMap() const
 			if (N.HasRole(TEXT("auctioneer")) && !bAuc) { bAuc = true; Svcs.Add({ TEXT("Auction House"), N.Name, Def.Pois.Contains(TEXT("auction")) ? Def.Pois[TEXT("auction")] : N.Pos, TEXT("A"), CAuc }); }
 			if (N.HasRole(TEXT("innkeeper"))) Svcs.Add({ TEXT("Inn: set your home"), N.Name, N.Pos, TEXT("I"), CInn });
 			if (N.HasRole(TEXT("trainer"))) { TSum += N.Pos; ++TN; }
-			if (N.HasRole(TEXT("redcar"))) Svcs.Add({ TEXT("Red Car (travel)"), N.Name, N.Pos, TEXT("C"), CCar });
+			if (N.HasRole(TEXT("redcar"))) Svcs.Add({ TEXT("Red Car"), N.Name, N.Pos, TEXT("C"), CCar });
 		}
 		if (TN) Svcs.Add({ TEXT("Class Trainers"), TEXT("Abilities for every class"), TSum / TN, TEXT("T"), CTrain });
-		for (const FHLNpcDef& N : Def.Npcs) if (N.HasRole(TEXT("trainer_prof"))) Svcs.Add({ N.Title.Replace(TEXT(" Trainer"), TEXT("")) + TEXT(" (profession)"), N.Name, N.Pos, TEXT("P"), CProf });
+		for (const FHLNpcDef& N : Def.Npcs) if (N.HasRole(TEXT("trainer_prof"))) Svcs.Add({ N.Title.Replace(TEXT(" Trainer"), TEXT("")), N.Name, N.Pos, TEXT("P"), CProf });
 		for (const FHLNpcDef& N : Def.Npcs) if (N.HasRole(TEXT("vendor")) && !N.HasRole(TEXT("innkeeper")))
 			Svcs.Add({ N.Name, N.HasRole(TEXT("repair")) ? N.Title + TEXT(", repairs") : N.Title, N.Pos, N.HasRole(TEXT("repair")) ? TEXT("R") : TEXT("V"), CVend });
 		if (const FVector2D* V = Def.Pois.Find(TEXT("mailbox"))) Svcs.Add({ TEXT("Mailbox"), TEXT("Letters and parcels"), *V, TEXT("M"), CMail });
@@ -388,7 +434,7 @@ void SHLGameUI::DrawMap() const
 	int32 HotSvc = -1;
 	const float Lx = Mx + Vw + 10;
 	Rc(Lx, My, LegW, Mh, FLinearColor(0.08f, 0.075f, 0.065f));
-	Tx(Lx + 8, My + 6, TEXT("Services  (click to mark)"), 10, ColGold, true);
+	Tx(Lx + 8, My + 6, TEXT("Services"), 10, ColGold, true);
 	const float RowH = FMath::Min(24.f, (Mh - 60) / FMath::Max(1, Svcs.Num()));
 	for (int32 i = 0; i < Svcs.Num(); ++i)
 	{
@@ -465,7 +511,6 @@ void SHLGameUI::DrawMap() const
 		Tx(X + 9, Y - 24, Gm.MarkLabel, 10, PinC, true);
 	}
 	DrawPlayerPin(FMath::Clamp(MX(P.Pos.X), Mx + 10, Mx + Vw - 10), FMath::Clamp(MY(P.Pos.Y), My + 10, My + Vh - 10), P.Yaw, false);
-	Tx(WX + 392, WY - 1, TEXT("Wheel zooms, drag pans. Any patrolman gives directions."), 9, ColDim);
 }
 
 void SHLGameUI::DrawWho() const
@@ -476,15 +521,17 @@ void SHLGameUI::DrawWho() const
 	const FString WhoTitle = WhoTab == 0 ? FString::Printf(TEXT("Who  -  %d players online"), Gm.OnlineCount()) : WhoTab == 1 ? FString::Printf(TEXT("Friends  -  %d"), Gm.Player.Friends.Num()) : WhoTab == 3 ? FString(TEXT("The Dome Herald  -  server news")) : MyG ? MyG->Name : FString(TEXT("Guild"));
 	if (!Win(TEXT("who"), WhoTitle, 640, 496, bWho, 380, 140)) { Gm.bWhoOpen = false; return; }
 	const FHLData& D = FHLData::Get();
-	for (int32 t = 0; t < 4; ++t) { static const TCHAR* Tabs[] = { TEXT("Who"), TEXT("Friends"), TEXT("Guild"), TEXT("News") }; if (WhoTab == t) Rc(WX + t * 94 - 2, WY - 4, 90, 22, ColGold); if (Btn(WX + t * 94, WY - 2, 86, 18, Tabs[t], true, 9)) WhoTab = t; }
+	for (int32 t = 0; t < 4; ++t) { static const TCHAR* Tabs[] = { TEXT("Who"), TEXT("Friends"), TEXT("Guild"), TEXT("News") }; if (WhoTab == t) Rc(WX + t * 94 - 2, WY - 4, 90, 22, ColGold); if (Btn(WX + t * 94, WY - 2, 86, 18, Tabs[t], true, 9)) WhoTab = t; }
+
 	WY += 28; // the tabs have their own row
 	if (WhoTab == 3)
 	{
 		// the server's history as a newspaper: headline, a line of copy, how long ago
-		Tx(WX, WY + 26, TEXT("Thirty days of the dome, and more. Click a story to bring it up in General."), 9, ColDim);
+		Tx(WX, WY + 26, TEXT("Thirty days of the dome, and more."), 9, ColDim);
 		if (Wheel != 0 && Hover(WX, WY, 620, 440)) WhoScroll -= (int32)(Wheel * 2);
 		const int32 PerPage = 9;
 		WhoScroll = FMath::Clamp(WhoScroll, 0, FMath::Max(0, Gm.History.Num() - PerPage));
+		ScrollBar(WX + 622, WY + 44, 380, WhoScroll, PerPage, Gm.History.Num());
 		for (int32 r = 0; r < PerPage && r + WhoScroll < Gm.History.Num(); ++r)
 		{
 			const FHLGame::FHLHistoryEvent& E = Gm.History[r + WhoScroll];
@@ -503,7 +550,7 @@ void SHLGameUI::DrawWho() const
 	}
 	if (WhoTab == 2)
 	{
-		if (!MyG) { TxWrap(WX, WY + 30, 600, TEXT("You are not in a guild. Guilds recruit in General chat, and someone may invite you once you have a few levels. Accepting puts their name over your head and opens guild chat (/g)."), 11, ColDim); return; }
+		if (!MyG) { TxWrap(WX, WY + 30, 600, TEXT("Not in a guild. Guilds recruit in General chat."), 11, ColDim); return; }
 		TArray<int32> M = Gm.GuildMembers(Gm.Player.Guild);
 		int32 On = 0; for (int32 i : M) if (Gm.Sims[i].bOnline) ++On;
 		M.Sort([&](int32 A, int32 B) { const FHLSim& Sa = Gm.Sims[A]; const FHLSim& Sb = Gm.Sims[B]; return Sa.bOnline != Sb.bOnline ? Sa.bOnline : Sa.Level != Sb.Level ? Sa.Level > Sb.Level : A < B; });
@@ -514,6 +561,7 @@ void SHLGameUI::DrawWho() const
 		const int32 PerPage = 19;
 		if (Wheel != 0 && Hover(WX, WY, 620, 440)) WhoScroll -= (int32)(Wheel * 3);
 		WhoScroll = FMath::Clamp(WhoScroll, 0, FMath::Max(0, M.Num() + 1 - PerPage));
+		ScrollBar(WX + 622, Top + 18, 360, WhoScroll, PerPage, M.Num() + 1);
 		for (int32 r = 0; r < PerPage && r + WhoScroll < M.Num() + 1; ++r)
 		{
 			const int32 Row = r + WhoScroll;
@@ -578,11 +626,12 @@ void SHLGameUI::DrawWho() const
 		Rows.Add(i);
 	}
 	Rows.Sort([&](int32 A, int32 B) { return Gm.Sims[A].Level != Gm.Sims[B].Level ? Gm.Sims[A].Level > Gm.Sims[B].Level : A < B; });
-	Tx(WX, WY, Q.IsEmpty() ? FString::Printf(TEXT("%d shown. Filter with /who <text>  (name, class, zone or level)"), Rows.Num()) : FString::Printf(TEXT("%d match \"%s\""), Rows.Num(), *Gm.WhoQuery), 10, ColDim);
+	Tx(WX, WY, Q.IsEmpty() ? FString::Printf(TEXT("%d shown"), Rows.Num()) : FString::Printf(TEXT("%d match \"%s\""), Rows.Num(), *Gm.WhoQuery), 10, ColDim);
 	if (!Q.IsEmpty() && Btn(WX + 330, WY - 2, 70, 18, TEXT("Clear"), true, 9)) Gm.WhoQuery.Reset();
 	const int32 PerPage = 22;
 	if (Wheel != 0 && Hover(WX, WY, 620, 440)) WhoScroll -= (int32)(Wheel * 3);
 	WhoScroll = FMath::Clamp(WhoScroll, 0, FMath::Max(0, Rows.Num() - PerPage));
+	ScrollBar(WX + 622, WY + 36, 396, WhoScroll, PerPage, Rows.Num());
 	Tx(WX, WY + 18, TEXT("Name"), 10, ColGold); Tx(WX + 130, WY + 18, TEXT("Lvl"), 10, ColGold); Tx(WX + 170, WY + 18, TEXT("Class"), 10, ColGold); Tx(WX + 260, WY + 18, TEXT("Guild"), 10, ColGold); Tx(WX + 420, WY + 18, TEXT("Zone"), 10, ColGold);
 	for (int32 r = 0; r < PerPage && r + WhoScroll < Rows.Num(); ++r)
 	{
@@ -711,7 +760,7 @@ void SHLGameUI::DrawTalents() const
 		if (!Hot->Desc.IsEmpty()) Tip += TEXT("\n") + Hot->Desc;
 		TipText = Tip; TipPos = Mouse;
 	}
-	Tx(WX, WY + WH - 60, FString::Printf(TEXT("Your class trainer can unlearn all talents for %s (doubling each time, to $50)."), *HLMoney(Gm.RespecCost())), 9, ColDim);
+	Tx(WX, WY + WH - 60, FString::Printf(TEXT("Unlearn at your class trainer: %s"), *HLMoney(Gm.RespecCost())), 9, ColDim);
 }
 
 void SHLGameUI::DrawMenu() const
@@ -736,10 +785,10 @@ void SHLGameUI::DrawMenu() const
 	}
 #if PLATFORM_WASM
 	TxWrap(WX, WY + 220, 300, TEXT("Your character is saved in this browser and backed up to the server."), 9, ColDim);
-	Tx(WX, WY + 272, TEXT("Cloud code (restore on another browser):"), 9, ColDim);
+	Tx(WX, WY + 272, TEXT("Cloud code:"), 9, ColDim);
 #else
 	TxWrap(WX, WY + 220, 300, TEXT("Your character is saved on this device and backed up to the server."), 9, ColDim);
-	Tx(WX, WY + 272, TEXT("Cloud code (restore on another device):"), 9, ColDim);
+	Tx(WX, WY + 272, TEXT("Cloud code:"), 9, ColDim);
 #endif
 	Tx(WX, WY + 288, Gm.Player.PlayerId, 12, ColGold, true);
 }
@@ -756,7 +805,7 @@ void SHLGameUI::DrawNpc() const
 		float Y = WY;
 		const TArray<FHLRedcarStop>& Stops = Gm.Areas[0].Def->Stops;
 		const int32 Here = Gm.NearestStop(40);
-		Tx(WX, Y, TEXT("Hollywood Blvd Line (inside the dome)"), 12, ColGold, true); Y += 20;
+		Tx(WX, Y, TEXT("Hollywood Blvd Line"), 12, ColGold, true); Y += 20;
 		for (int32 i = 0; i < Stops.Num(); ++i)
 		{
 			const FHLRedcarStop& St = Stops[i];
@@ -765,11 +814,11 @@ void SHLGameUI::DrawNpc() const
 			Tx(WX + 4, Y + 2, St.Name, 11, bKnown ? ColWhite : ColDim, true);
 			Tx(WX + 4, Y + 19, St.Note, 9, ColDim);
 			if (i == Here) Tx(WX + 410, Y + 10, TEXT("You are here"), 10, ColGreen);
-			else if (Btn(WX + 400, Y + 6, 104, 26, TEXT("Ride  (5c)"), Gm.Player.Cents >= 5, 10)) { Gm.RideRedcar(i); return; }
+			else if (Btn(WX + 400, Y + 6, 104, 26, TEXT("Ride  5c"), Gm.Player.Cents >= 5, 10)) { Gm.RideRedcar(i); return; }
 			Y += 44;
 		}
 		Y += 6;
-		Tx(WX, Y, TEXT("Beyond the dome (service suspended since the sky closed)"), 11, ColDim, true); Y += 18;
+		Tx(WX, Y, TEXT("Beyond the dome: suspended"), 11, ColDim, true); Y += 18;
 		for (const FHLRedcarLine& L : D.Redcar) { Tx(WX + 4, Y, FString::Printf(TEXT("%s:  %s"), *L.Name, *FString::Join(L.Stops, TEXT(" - "))), 9, FLinearColor(0.5f, 0.5f, 0.5f)); Y += 15; }
 		return;
 	}
@@ -814,6 +863,7 @@ void SHLGameUI::DrawNpc() const
 			const bool bActive = !bReady && Gm.QuestState(Q.Id) && (Q.Giver == Np.Id || Q.Turnin == Np.Id);
 			if (!bReady && !bAvail && !bActive) continue;
 			const FString Lbl = FString::Printf(TEXT("%s  %s  [%d]"), bReady ? TEXT("?") : bAvail ? TEXT("!") : TEXT("..."), *Q.Name, Q.Level);
+			if (bReady || bAvail) Glow(WX, Y, 410, 24);
 			if (Btn(WX, Y, 410, 24, Lbl, true, 10)) { Gm.OpenNpcMode = TEXT("quest:") + Q.Id; RewardChoice = -1; }
 			Y += 30;
 		}
@@ -839,11 +889,12 @@ void SHLGameUI::DrawNpc() const
 		if (Np.HasRole(TEXT("repair")))
 		{
 			const int32 Cost = Gm.RepairCost();
-			if (Btn(WX, Y, 410, 24, Cost > 0 ? FString::Printf(TEXT("Repair my gear (%s)."), *HLMoney(Cost)) : FString(TEXT("Repair my gear.")), true, 10)) Gm.RepairAll();
-			Y += 30;
-		}
-		return;
-	}
+					if (Btn(WX, Y, 410, 24, Cost > 0 ? FString::Printf(TEXT("Repair my gear (%s)."), *HLMoney(Cost)) : FString(TEXT("Repair my gear.")), true, 10)) Gm.RepairAll();
+					Y += 30;
+				}
+				if (Btn(WX + 290, FMath::Max(Y, WY + 334), 120, 24, TEXT("Goodbye"), true, 10)) { Close(); bOpen = false; return; }
+				return;
+			}
 	if (Gm.OpenNpcMode.StartsWith(TEXT("quest:")))
 	{
 		const FHLQuest* Q = D.Quest(Gm.OpenNpcMode.Mid(6));
@@ -869,9 +920,24 @@ void SHLGameUI::DrawNpc() const
 		}
 		if (Q->bGroup) { Tx(WX, Y, Q->bDungeon ? TEXT("Dungeon quest: bring a party of five.") : TEXT("Group quest: suggested players 3."), 10, ColRed); Y += 16; }
 		const float By = WY + 400;
-		if (bReady) { if (Btn(WX, By, 150, 28, TEXT("Complete Quest"), !Q->Choice.Num() || RewardChoice >= 0, 11)) { Gm.CompleteQuest(*Q, RewardChoice); Gm.OpenNpcMode = TEXT("gossip"); RewardChoice = -1; } }
-		else if (!QS && Gm.QuestAvailable(*Q)) { if (Btn(WX, By, 150, 28, TEXT("Accept"), true, 11)) { Gm.AcceptQuest(*Q); Gm.OpenNpcMode = TEXT("gossip"); } }
-		if (Btn(WX + 264, By, 150, 28, TEXT("Back"), true, 11)) Gm.OpenNpcMode = TEXT("gossip");
+		auto MoreHere = [&]()
+		{
+			for (const FHLQuest& O : D.Quests) if (Gm.QuestReadyAt(O, Np.Id) || (O.Giver == Np.Id && Gm.QuestAvailable(O))) return true;
+			return false;
+		};
+		auto After = [&]() { if (MoreHere()) Gm.OpenNpcMode = TEXT("gossip"); else { Close(); bOpen = false; } };
+		if (bReady)
+		{
+			const bool bCan = !Q->Choice.Num() || RewardChoice >= 0;
+			if (bCan) Glow(WX, By, 150, 28);
+			if (Btn(WX, By, 150, 28, TEXT("Complete Quest"), bCan, 11)) { Gm.CompleteQuest(*Q, RewardChoice); RewardChoice = -1; After(); return; }
+		}
+		else if (!QS && Gm.QuestAvailable(*Q))
+		{
+			Glow(WX, By, 150, 28);
+			if (Btn(WX, By, 150, 28, TEXT("Accept"), true, 11)) { Gm.AcceptQuest(*Q); After(); return; }
+		}
+		if (Btn(WX + 264, By, 150, 28, QS && !bReady ? TEXT("Goodbye") : TEXT("Back"), true, 11)) { if (QS && !bReady) { Close(); bOpen = false; return; } Gm.OpenNpcMode = TEXT("gossip"); }
 		return;
 	}
 	if (Gm.OpenNpcMode == TEXT("vendor"))
@@ -880,6 +946,7 @@ void SHLGameUI::DrawNpc() const
 		const int32 PerPage = 12;
 		if (Wheel != 0 && Hover(WX, WY, 420, 430)) VendorScroll -= (int32)Wheel * 3;
 		VendorScroll = FMath::Clamp(VendorScroll, 0, FMath::Max(0, Np.Stock.Num() - PerPage));
+		ScrollBar(WX + 414, WY, 380, VendorScroll, PerPage, Np.Stock.Num());
 		for (int32 r = 0; r < PerPage && r + VendorScroll < Np.Stock.Num(); ++r)
 		{
 			const FHLItem* It = Np.Stock[r + VendorScroll];
@@ -891,22 +958,25 @@ void SHLGameUI::DrawNpc() const
 			const int32 Cost = FMath::Max(1, It->Price * 4);
 			if (Btn(WX + 330, Y + 2, 84, 24, HLMoney(Cost), Gm.Player.Cents >= Cost, 10)) Gm.BuyItem(It);
 		}
-		Tx(WX, WY + 392, FString::Printf(TEXT("%d-%d of %d (mouse wheel scrolls)      You have %s"), VendorScroll + 1, FMath::Min(Np.Stock.Num(), VendorScroll + PerPage), Np.Stock.Num(), *HLMoney(Gm.Player.Cents)), 9, ColDim);
+		Tx(WX, WY + 392, FString::Printf(TEXT("%d-%d of %d      You have %s"), VendorScroll + 1, FMath::Min(Np.Stock.Num(), VendorScroll + PerPage), Np.Stock.Num(), *HLMoney(Gm.Player.Cents)), 9, ColDim);
 		if (Btn(WX + 264, WY + 408, 150, 22, TEXT("Back"), true, 10)) Gm.OpenNpcMode = TEXT("gossip");
 		return;
 	}
 	if (Gm.OpenNpcMode == TEXT("trainer"))
 	{
-		if (!Win(TEXT("npc"), Title, 470, 470, bOpen, 300, 140)) { Close(); return; }
 		const FHLClass* C = D.Class(Np.Trains);
+		const bool bMine = C && C == Gm.Player.Cls;
+		if (!Win(TEXT("npc"), Title, 470, bMine ? 130 + C->Abilities.Num() * 28 : 140, bOpen, 300, 140)) { Close(); return; }
 		if (!C || C != Gm.Player.Cls) { TxWrap(WX, WY, 440, FString::Printf(TEXT("I train %s. You'll want to see your own trainer, along the forecourt here."), C ? *(C->Name + TEXT("s")) : TEXT("others")), 11, ColWhite); return; }
 		float Y = WY;
 		for (const FHLAbility* Ab : C->Abilities)
 		{
 			const bool bKnown = Gm.Player.Known.Contains(Ab), bLevel = P.Level >= Ab->Level;
 			const int32 Cost = 10 * Ab->Level;
-			Tx(WX, Y + 4, Ab->Name, 11, bKnown ? ColDim : bLevel ? ColGreen : ColRed, true);
-			Tx(WX + 190, Y + 5, FString::Printf(TEXT("Level %d"), Ab->Level), 10, bLevel ? ColWhite : ColRed);
+			Rc(WX, Y, 24, 24, FLinearColor(0.45f, 0.36f, 0.18f));
+			if (const FSlateBrush* IB = Ab->Icon >= 0 ? HLSkillBrush(Ab->Icon) : nullptr) Img(WX + 1, Y + 1, 22, 22, IB, bKnown || bLevel ? FLinearColor::White : FLinearColor(0.4f, 0.4f, 0.4f, 1));
+			Tx(WX + 32, Y + 4, Ab->Name, 11, bKnown ? ColDim : bLevel ? ColGreen : ColRed, true);
+			Tx(WX + 216, Y + 5, FString::Printf(TEXT("Level %d"), Ab->Level), 10, bLevel ? ColWhite : ColRed);
 			if (Hover(WX, Y, 300, 24)) AbilityTip(*Ab);
 			if (bKnown) Tx(WX + 340, Y + 5, TEXT("Known"), 10, ColDim);
 			else if (Btn(WX + 320, Y + 1, 120, 22, FString::Printf(TEXT("Train  %s"), *HLMoney(Cost)), bLevel && Gm.Player.Cents >= Cost, 10)) Gm.LearnAbility(Ab, false);
@@ -915,7 +985,7 @@ void SHLGameUI::DrawNpc() const
 		static const int32 Later[] = { 14, 16, 18, 20, 24, 28, 32, 36, 40, 50, 60 };
 		FString More;
 		for (int32 L : Later) More += FString::Printf(TEXT("%d  "), L);
-		Tx(WX, Y + 6, TEXT("Further abilities and ranks at levels: ") + More, 9, ColDim);
+		Tx(WX, Y + 6, TEXT("More at levels ") + More, 9, ColDim);
 		if (Gm.TalentSpent() > 0 && Btn(WX, Y + 26, 220, 22, FString::Printf(TEXT("Unlearn talents  %s"), *HLMoney(Gm.RespecCost())), Gm.Player.Cents >= Gm.RespecCost(), 10)) Gm.ResetTalents();
 		return;
 	}
@@ -953,8 +1023,8 @@ void SHLGameUI::DrawNpc() const
 		Tx(WX, WY, TEXT("Salvaging (gathering)"), 12, ColGold, true);
 		TxWrap(WX, WY + 22, 410, TEXT("Strip scrap metal from wrecks, and chitin and glands from dead invaders. Used by Gunsmithing, Metalworking and Pharmacy."), 10, ColWhite);
 		if (Gm.Player.Salvage > 0) Tx(WX, WY + 70, FString::Printf(TEXT("You are an Apprentice Salvager (%d / 75)."), Gm.Player.Salvage), 10, ColGreen);
-		else if (Btn(WX, WY + 70, 200, 26, TEXT("Learn Salvaging (free)"), true, 10)) { Gm.Player.Salvage = 1; Gm.System(TEXT("You have learned Salvaging. Look for wreckage in the back lots.")); }
-		Tx(WX, WY + 120, TEXT("Other professions (trainers elsewhere under the dome):"), 10, ColDim);
+		else if (Btn(WX, WY + 70, 200, 26, TEXT("Learn Salvaging"), true, 10)) { Gm.Player.Salvage = 1; Gm.System(TEXT("You have learned Salvaging. Look for wreckage in the back lots.")); }
+		Tx(WX, WY + 120, TEXT("Other professions"), 10, ColDim);
 		TxWrap(WX, WY + 138, 410, TEXT("Foraging, Skinning, Gunsmithing, Metalworking, Leatherworking, Tailoring, Pharmacy, Electrics, Cooking, First Aid, Fishing."), 10, ColDim);
 		return;
 	}
@@ -977,7 +1047,7 @@ void SHLGameUI::DrawNpc() const
 			TxWrap(WX + 4, Y + 20, 330, M.Blurb, 9, ColDim);
 			const bool bLevel = Me && Me->Level >= M.Level;
 			Tx(WX + 4, Y + 48, FString::Printf(TEXT("Requires level %d    %s"), M.Level, *HLMoney(M.Price)), 9, bLevel ? ColWhite : ColRed);
-			if (Btn(WX + 352, Y + 8, 136, 24, TEXT("Test drive (1 min)"), Me && Me->Area == 0, 10)) { Gm.StartTestDrive(i); return; }
+			if (Btn(WX + 352, Y + 8, 136, 24, TEXT("Test drive"), Me && Me->Area == 0, 10)) { Gm.StartTestDrive(i); return; }
 			if (Btn(WX + 352, Y + 38, 136, 22, TEXT("Buy"), false, 9)) {}
 			if (Hover(WX + 352, Y + 38, 136, 22)) { TipText = bLevel ? TEXT("Eddie's waiting on a delivery. Come back soon.") : FString::Printf(TEXT("Mounts open at level %d. Until then, take one for a test drive."), M.Level); TipPos = Mouse; }
 			Y += 76;
@@ -1072,7 +1142,7 @@ void SHLGameUI::DrawNpc() const
 				if (Btn(WX + 624, Y + 2, 52, 22, TEXT("Buy"), Gm.Player.Cents >= A.Buyout, 9)) { Gm.BuyAuction(Idx); break; }
 			}
 		}
-		Tx(WX, WY + 436, FString::Printf(TEXT("Page %d / %d   (%d auctions, mouse wheel pages)    You have %s."), AuctionPage + 1, Pages, Rows.Num(), *HLMoney(Gm.Player.Cents)), 9, ColDim);
+		Tx(WX, WY + 436, FString::Printf(TEXT("Page %d / %d   %d auctions    You have %s"), AuctionPage + 1, Pages, Rows.Num(), *HLMoney(Gm.Player.Cents)), 9, ColDim);
 				// ---- sell panel: price an item from your bags, see the competition and the odds, then list it
 				const float Sy = WY + 456;
 				RRc(WX - 4, Sy, 688, 106, FLinearColor(0.1f, 0.08f, 0.05f, 0.95f), 5);
@@ -1117,7 +1187,7 @@ void SHLGameUI::DrawNpc() const
 				const float Odds = Gm.AuctionSellChance(It, AuctionSellEach, (float)AuctionHours);
 				const FLinearColor Oc = Odds > 0.7f ? ColGreen : Odds > 0.35f ? FLinearColor(1, 0.85f, 0.3f) : ColRed;
 				Tx(Dx, Sy + 74, FString::Printf(TEXT("Chance a buyer finds it: %d%%"), FMath::RoundToInt(Odds * 100)), 9, Oc, true);
-				if (Hover(Dx, Sy + 72, 200, 16)) { TipText = TEXT("Buyers look for a fair price and take the cheapest copy first.\nA lower price or a longer listing sells more surely; a bidder may still take it at the end."); TipPos = Mouse; }
+				if (Hover(Dx, Sy + 72, 200, 16)) { TipText = TEXT("The cheapest copy sells first."); TipPos = Mouse; }
 				const int32 Dep = Gm.AuctionDeposit(It, Sl.Count, (float)AuctionHours);
 				Tx(Dx + 128, Sy + 30, FString::Printf(TEXT("Deposit %s"), *HLMoney(Dep)), 9, Gm.Player.Cents >= Dep ? ColDim : ColRed);
 				if (Btn(Dx + 128, Sy + 44, 112, 22, TEXT("Create auction"), Gm.Player.Cents >= Dep, 10))
@@ -1199,7 +1269,7 @@ void SHLGameUI::DrawCraft() const
 	if (!Win(TEXT("craft"), FString::Printf(TEXT("Gunsmithing  %d / 75"), Gm.Player.Guns), 470, 340, bOpen, 420, 150) || !bOpen) { bCraft = false; return; }
 	if (Gm.Player.Guns <= 0)
 	{
-		TxWrap(WX, WY, 440, TEXT("You have not learned a crafting profession. Earl Tanner at the Hollywood Gun Shop (Highland) teaches Gunsmithing from level 5."), 10, ColWhite);
+		TxWrap(WX, WY, 440, TEXT("No crafting profession yet. Earl Tanner at the Hollywood Gun Shop teaches Gunsmithing from level 5."), 10, ColWhite);
 		return;
 	}
 	static const FLinearColor Cols[] = { FLinearColor(0.55f, 0.55f, 0.55f), FLinearColor(0.3f, 0.85f, 0.3f), FLinearColor(1.f, 0.9f, 0.2f), FLinearColor(1.f, 0.5f, 0.15f) };
@@ -1313,7 +1383,7 @@ void SHLGameUI::DrawSettings() const
 		if (S != St.UiScale) { St.UiScale = FMath::RoundToFloat(S * 20.f) / 20.f; ++St.Version; }
 		Toggle(Y0 + 36, TEXT("Names over other people and creatures"), St.bNameplates);
 		Toggle(Y0 + 66, TEXT("Floating combat numbers"), St.bFloatText);
-		Toggle(Y0 + 96, TEXT("Combat effects (projectiles always show)"), St.bEffects);
+		Toggle(Y0 + 96, TEXT("Combat effects"), St.bEffects);
 		Toggle(Y0 + 126, TEXT("Left-drag turns your character with the camera"), St.bFaceCamera);
 		Toggle(Y0 + 156, TEXT("Right-click the ground to walk there"), St.bClickMove);
 		{
@@ -1325,10 +1395,11 @@ void SHLGameUI::DrawSettings() const
 	}
 	else if (SettingsTab == 1)
 	{
-		TxWrap(WX, Y0 - 4, 520, BindWait >= 0 ? FString::Printf(TEXT("Press a key for \"%s\" (Backspace clears it, Esc cancels)."), St.Binds[BindWait].Label) : FString(TEXT("Click a key to change it, then press the new key. Esc, Enter and / are fixed.")), 10, BindWait >= 0 ? ColGold : ColDim);
+		TxWrap(WX, Y0 - 4, 520, BindWait >= 0 ? FString::Printf(TEXT("Press a key for \"%s\""), St.Binds[BindWait].Label) : FString(TEXT("Click a key to change it.")), 10, BindWait >= 0 ? ColGold : ColDim);
 		const int32 N = (int32)EHLAct::Count, Rows = 14;
 		if (Wheel != 0 && Hover(WX, Y0, 540, Rows * 24 + 30)) { BindScroll = FMath::Clamp(BindScroll - (int32)(Wheel * 2), 0, N - Rows); Wheel = 0; }
 		BindScroll = FMath::Clamp(BindScroll, 0, N - Rows);
+		ScrollBar(WX + 540, Y0 + 36, Rows * 24, BindScroll, Rows, N);
 		Tx(WX + 250, Y0 + 18, TEXT("Key"), 9, ColDim); Tx(WX + 390, Y0 + 18, TEXT("Second key"), 9, ColDim);
 		for (int32 r = 0; r < Rows; ++r)
 		{

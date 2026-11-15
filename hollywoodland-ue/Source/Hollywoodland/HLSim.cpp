@@ -386,6 +386,7 @@ void FHLGame::TickSimBrain(FHLSim& S, FHLUnit& U, float Dt)
 	{
 	case EHLSimState::Idle:
 	{
+		if (SimAntic(S, U, SimIdx)) break;
 		if (S.Role == EHLSimRole::Idler)
 		{
 			if (!S.bAfk && Now >= S.NextEmote) { S.NextEmote = Now + 8 + Rand() * 30; if (Chance(0.5f)) { static const TCHAR* Idle[] = { TEXT("Talk"), TEXT("Talk"), TEXT("Shrug"), TEXT("Laugh"), TEXT("Wave"), TEXT("Point"), TEXT("Cheer") }; Gesture(U, Idle[RandInt(0, 6)]); } else U.Yaw += Rand() * 120 - 60; }
@@ -867,4 +868,78 @@ void FHLGame::TickDirector(float Dt)
 	default: break;
 	}
 	if (InviteFromSim >= 0 && Now > InviteUntil) InviteFromSim = -1;
+}
+
+// ------------------------------------------------------------------------------------------------------------- antics
+// Real players, idle in town, do daft things: hop on the spot, spin, break into a dance, run in circles, start a conga
+// behind a stranger, bow to the nearest real person, sit down in the middle of the road. Only out of combat, only while
+// the player is near enough to see it, and more often for the jokers (the humour trait).
+bool FHLGame::SimAntic(FHLSim& S, FHLUnit& U, int32 SimIdx)
+{
+	const FHLUnit* P = PlayerUnit();
+	if (S.Antic == 0)
+	{
+		if (S.NextAntic == 0) S.NextAntic = Now + 20 + Rand() * 60;
+		if (Now < S.NextAntic || S.bAfk || InCombat(U) || U.bDead || !P || P->Area != U.Area || FVector2D::Distance(P->Pos, U.Pos) > 45) return false;
+		S.NextAntic = Now + FMath::Lerp(150.f, 45.f, S.P->Tr.Hum) * (0.6f + Rand() * 0.8f);
+		if (!Chance(0.35f + S.P->Tr.Hum * 0.5f)) return false;
+		S.Antic = RandInt(1, 7); S.AnticAt = U.Pos; S.AnticStep = Now; S.AnticWith = 0;
+		S.AnticUntil = Now + (S.Antic == 5 ? 12.0 : S.Antic == 7 ? 9.0 : 5.0 + Rand() * 2.0);
+		if (S.Antic == 5)
+		{
+			// a conga needs someone to stand behind: the nearest other person standing about
+			float Best = 18;
+			for (const FHLUnit* O : UnitList) if (O != &U && (O->Kind == EHLKind::Sim || O->Kind == EHLKind::Player) && !O->bDead && O->Area == U.Area && !InCombat(*O))
+			{ const float D = FVector2D::Distance(O->Pos, U.Pos); if (D < Best) { Best = D; S.AnticWith = O->Id; } }
+			if (!S.AnticWith) S.Antic = 3;
+		}
+		if (Chance(0.4f))
+		{
+			static const TCHAR* Lines[] = { TEXT("brb cat on keyboard"), TEXT("watch this"), TEXT("CONGA"), TEXT("i have no idea what im doing"), TEXT("lol"), TEXT("dance party at the bank"),
+				TEXT("anyone else hear that"), TEXT("this is my audition"), TEXT("hold my coffee"), TEXT("hollywood baby"), TEXT("is this thing on"), TEXT("mr demille, im ready for my closeup") };
+			const FString L = S.Antic == 5 ? FString(TEXT("conga line!! get in")) : FString(Lines[RandInt(0, UE_ARRAY_COUNT(Lines) - 1)]);
+			AddChat(TEXT("say"), S.P->Handle, StyleText(*S.P, L), SimIdx, 0.5f + Rand());
+		}
+	}
+	if (Now >= S.AnticUntil || InCombat(U) || U.bDead) { S.Antic = 0; U.bSitting = false; return false; }
+	switch (S.Antic)
+	{
+	case 1: // hop on the spot
+		if (Now >= S.AnticStep) { U.HopT = 0.4f; S.AnticStep = Now + 0.55; }
+		break;
+	case 2: // spin, then a laugh
+		U.Yaw = FMath::UnwindDegrees(U.Yaw + 420.f * FrameDt);
+		if (S.AnticUntil - Now < 0.8 && U.Gesture != TEXT("Laugh")) Gesture(U, TEXT("Laugh"));
+		break;
+	case 3: // a dance break
+		if (Now >= S.AnticStep) { Gesture(U, TEXT("Dance")); S.AnticStep = Now + 2.2; }
+		break;
+	case 4: // run circles round where they stood
+	{
+		const float A = float(Now - S.AnticStep) * 2.2f;
+		SimMove(S, U, S.AnticAt + FVector2D(FMath::Cos(A), FMath::Sin(A)) * 3.f, 0.4f);
+		break;
+	}
+	case 5: // a conga behind someone, hopping now and then
+		if (const FHLUnit* O = Unit(S.AnticWith))
+		{
+			const float Rad = FMath::DegreesToRadians(O->Yaw);
+			SimMove(S, U, O->Pos - FVector2D(FMath::Cos(Rad), FMath::Sin(Rad)) * 1.3f, 0.3f);
+			if (Now >= S.AnticStep) { U.HopT = 0.35f; S.AnticStep = Now + 0.9 + Rand() * 0.4; }
+		}
+		else S.Antic = 0;
+		break;
+	case 6: // walk up to the real player, bow, wave
+		if (P && SimMove(S, U, P->Pos + (U.Pos - P->Pos).GetSafeNormal() * 2.5f, 0.6f))
+		{
+			FaceTo(U, P->Pos);
+			if (Now >= S.AnticStep) { Gesture(U, Chance(0.5f) ? TEXT("Bow") : TEXT("Wave")); S.AnticStep = Now + 2.0; }
+		}
+		break;
+	case 7: // sit down in the middle of things
+		U.bSitting = true;
+		break;
+	default: S.Antic = 0; break;
+	}
+	return S.Antic != 0;
 }

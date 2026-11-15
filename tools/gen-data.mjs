@@ -34,11 +34,14 @@ if (atlasMeta) {
   for (const f of ship) copyFileSync(new URL(`../item-art/atlas/${f}`, import.meta.url), new URL(f, iconDir));
   writeFileSync(new URL('icons.json', iconDir), JSON.stringify({ tile: atlasMeta.tile, sheet_size: atlasMeta.sheet_size, columns: atlasMeta.columns, per_sheet: atlasMeta.per_sheet, sheets: ship }));
 }
-for (const it of items) {
-  const k = nameKey(it.name);
-  if (itemText[k]) it.desc = itemText[k].description;
-  if (itemIcons[k]) it.icon = itemIcons[k].index;
-}
+const applyItemArt = () => {
+  for (const it of items) {
+    const k = nameKey(it.name);
+    if (itemText[k]) it.desc = itemText[k].description;
+    if (itemIcons[k]) it.icon = itemIcons[k].index;
+  }
+};
+applyItemArt();
 const byNameReq = new Map(), byName = new Map();
 for (const it of items) { byNameReq.set(`${it.name}|${it.req}`, it); if (!byName.has(it.name)) byName.set(it.name, it); }
 const itemId = (name, req) => {
@@ -61,6 +64,8 @@ for (const q of quests) {
     items.push(row); byName.set(row.name, row);
   }
 }
+
+applyItemArt(); // the quest rows made just above get their tooltip text and icon too
 
 // ---- mobs: resolve loot names ----
 for (const m of mobs) {

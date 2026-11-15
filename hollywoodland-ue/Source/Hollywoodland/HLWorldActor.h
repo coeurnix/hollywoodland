@@ -26,9 +26,13 @@ struct FHLUnitVis
 		bool bEnemy = false;
 		FHLEnemyRig Enemy;
 		FHLCharRig Rig;
-		FHLCharLook Look;
-		double NextLook = 0;
-	};
+			FHLCharLook Look;
+			double NextLook = 0;
+			// the facing the body shows: follows the unit's yaw at a turning rate, so nobody spins on the spot
+			float ShownYaw = 0; bool bYawSet = false;
+			// the mount under a rider: which kind is built, and its gait (a stride phase that runs with the ground covered)
+			int32 MountKindShown = -1; float GaitPhase = 0, GaitAmt = 0; FVector2D GaitLastPos = FVector2D::ZeroVector;
+		};
 
 // one running effect (HLFx.cpp): a projectile in flight, a burst, a ring or a column
 struct FHLFxLive

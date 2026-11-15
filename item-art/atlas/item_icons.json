@@ -8835,6 +8835,18 @@
    "sheet": 3,
    "x": 0,
    "y": 672
+  },
+  "premiere_ticket": {
+   "index": 1471,
+   "sheet": 3,
+   "x": 96,
+   "y": 672
+  },
+  "souvenir_postcards": {
+   "index": 1472,
+   "sheet": 3,
+   "x": 192,
+   "y": 672
   }
  },
  "items": {
@@ -12823,6 +12835,8 @@
   "item_q_invader_nerve_cord": "invader_nerve_cord",
   "item_q_broodling_venom_sac": "broodling_venom_sac",
   "item_q_stolen_auto_parts": "stolen_auto_parts",
+  "item_q_premiere_ticket": "premiere_ticket",
+  "item_q_souvenir_postcards": "souvenir_postcards",
   "item_q_grauman_s_note": "grauman_s_note"
  }
 }

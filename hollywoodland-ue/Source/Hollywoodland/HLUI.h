@@ -76,6 +76,11 @@ private:
 	void Bar(float X, float Y, float W, float H, float Pct, const FLinearColor& C, const FString& Label = FString(), int32 Size = 10) const;
 	bool Win(const TCHAR* Id, const FString& Title, float W, float H, bool& bOpen, float DefX, float DefY) const; // content origin in WX, WY
 	int32 ItemIcon(float X, float Y, float S, const FHLItem* It, int32 Count = 1) const; // 0 none, 1 left click, 2 right click
+	float TH(int32 Size, bool bBold = false) const;
+	void TxMid(float X, float Y, float W, float H, const FString& S, int32 Size, const FLinearColor& C, bool bBold = false) const;
+	bool CloseBtn(float X, float Y, float S) const;
+	void Glow(float X, float Y, float W, float H) const; // a pulsing gold halo behind a button that moves the story on
+	void ScrollBar(float X, float Y, float H, int32 First, int32 Visible, int32 Total) const;
 	void AbilityTip(const FHLAbility& Ab) const;
 	bool Project(const FVector& WorldPos, FVector2D& Out) const;
 	void Block(float X, float Y, float W, float H) const { UiRectsNext.Add(FSlateRect(X, Y, X + W, Y + H)); }
@@ -130,6 +135,7 @@ private:
 	// windows
 	void DrawTrade() const;
 	void DrawMail() const;
+	void DrawLoot() const;
 	void DrawCraft() const;
 	mutable int32 SelMail = 0, WhoTab = 0, AuctionHours = 1;
 		mutable int32 AuctionSellBag = -1, AuctionSellEach = 0; mutable const FHLItem* AuctionSellItem = nullptr; // the item being priced

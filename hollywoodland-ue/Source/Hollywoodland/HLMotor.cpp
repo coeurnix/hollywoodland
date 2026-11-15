@@ -7,7 +7,8 @@
 /** Seconds this persona needs to type a line (words per minute, five characters to a word). */
 float FHLGame::SimTypeTime(const FHLSim& S, const FString& Text) const
 {
-	return FMath::Clamp(Text.Len() / (FMath::Max(15.f, S.P->Wpm) * 5.f / 60.f), 0.5f, 14.f);
+	// chat typists are quicker than their prose speed (short lines, no capitals, practice): half again, at most 7 s a line
+	return FMath::Clamp(Text.Len() / (FMath::Max(15.f, S.P->Wpm) * 1.5f * 5.f / 60.f), 0.4f, 7.f);
 }
 
 /** How much is going on for this player right now: 0 calm, 1 a handful, more is too much. */

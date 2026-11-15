@@ -382,6 +382,14 @@ void FHLGame::KillUnit(FHLUnit& U, FHLUnit* Killer)
 				SimQuestKill(S, U);
 			}
 		}
+		// whoever was fighting it takes a beat before the next thing (a breath, a glance round), even mid-fight
+		for (FHLUnit* O : UnitList)
+			if (O->Kind == EHLKind::Sim && O->SimIdx >= 0 && O->TargetId == U.Id)
+			{
+				FHLSim& S = Sims[O->SimIdx];
+				const float Beat = 0.6f + Rand() * 0.9f;
+				S.NextAct = FMath::Max(S.NextAct, (float)(Now + Beat)); S.EngageAt = FMath::Max(S.EngageAt, (decltype(S.EngageAt))(Now + Beat));
+			}
 		U.CorpseUntil = Now + (U.bLootable ? 120.f : 12.f);
 		if (U.CampIdx >= 0 && U.CampSlot >= 0)
 			Areas[U.Area].Camps[U.CampIdx].RespawnAt[U.CampSlot] = M.Respawn > 0 ? Now + M.Respawn * (0.8f + Rand() * 0.4f) : 1e18f;

@@ -1165,10 +1165,40 @@ void AHLWorldActor::SyncUnits()
 		float Z = U->Z + (U->HopT > 0 && !V->bHuman ? FMath::Sin(U->HopT * PI * 2) * 0.5f : 0.f);
 		if (U->bSitting && !U->bDead && !V->bHuman && !V->bEnemy) Z -= 0.45f;
 		if (U->bMounted) Z += MountSeat[FMath::Min<int32>(U->MountKind, 3)].Z;
+		float GaitPitch = 0;
+		if (U->bMounted && V)
+		{
+			const float Dt = FMath::Max(Game.FrameDt, 0.001f);
+			const float Spd = FVector2D::Distance(U->Pos, V->GaitLastPos) / Dt;
+			V->GaitLastPos = U->Pos;
+			V->GaitAmt += (FMath::Clamp(Spd / 7.f, 0.f, 1.f) - V->GaitAmt) * FMath::Min(1.f, Dt * 6.f);
+			if (U->MountKind == 0)
+			{
+				// a trot at a walk's pace, a gallop flat out: stride rate and rocking grow with speed
+				V->GaitPhase += Dt * (2.6f + 2.4f * V->GaitAmt) * 2.f * PI;
+				const float S = FMath::Sin(V->GaitPhase);
+				Z += FMath::Abs(S) * (0.05f + 0.09f * V->GaitAmt) * V->GaitAmt;
+				GaitPitch = S * (2.f + 5.f * V->GaitAmt) * V->GaitAmt;
+			}
+			else
+			{
+				V->GaitPhase += Dt * 22.f;
+				Z += FMath::Sin(V->GaitPhase) * 0.01f * (0.3f + V->GaitAmt);
+			}
+			if (V->Mount.IsValid()) V->Mount->SetRelativeRotation(FRotator(GaitPitch, 0, 0));
+		}
 		Z += U->Lift;
 		// only the back shows, a mound in the street (the rigged burrower's BurrowedIdle sinks itself)
 		if (U->bBurrowed && !(V->bEnemy && V->Enemy.Model && V->Enemy.Model->Has(TEXT("BurrowedIdle")))) Z -= 0.85f * U->Scale;
-		A->SetActorLocationAndRotation(ToWorld(U->Area, U->Pos, Z), FRotator(0, U->Yaw + U->FaceOfs, U->bDead && !V->bHuman && !V->bEnemy ? 90 : 0));
+		{
+			// people turn at a walking pace (about half a turn a second, quicker for small corrections); creatures a bit faster
+			const float Want = U->Yaw + U->FaceOfs;
+			if (!V->bYawSet || U->bDead) { V->ShownYaw = Want; V->bYawSet = true; }
+			const float Delta = FMath::FindDeltaAngleDegrees(V->ShownYaw, Want);
+			const float Rate = (V->bHuman ? 240.f : 360.f) + FMath::Abs(Delta) * 0.8f;
+			V->ShownYaw += FMath::Clamp(Delta, -Rate * Game.FrameDt, Rate * Game.FrameDt);
+		}
+		A->SetActorLocationAndRotation(ToWorld(U->Area, U->Pos, Z), FRotator(0, V->ShownYaw, U->bDead && !V->bHuman && !V->bEnemy ? 90 : 0));
 		if (V->bEnemy) FHLEnemyArt::Get().Drive(V->Enemy, *U, Game.Now, Game.FrameDt);
 		if (V->bHuman)
 		{
@@ -1187,11 +1217,14 @@ void AHLWorldActor::SyncUnits()
 			V->bDeadLook = U->bDead; V->bGhostLook = U->bGhost;
 			if (V->Body.IsValid()) V->Body->SetMaterial(0, Mid(U->bDead ? U->Color * 0.45f : U->bGhost ? FLinearColor(0.55f, 0.75f, 1.f) : U->Color));
 		}
-		if (U->bMounted != V->bMountLook)
+		if (U->bMounted != V->bMountLook || (U->bMounted && V->MountKindShown != U->MountKind))
 		{
 			V->bMountLook = U->bMounted;
 			// the mount art (art/world mounts) under the seated rider: the actor sits at the seat, the mount hangs below it
 			const int32 K = FMath::Min<int32>(U->MountKind, 3);
+			// a different mount than the one built (the Scout after the mare): build it afresh
+			if (U->bMounted && V->Mount.IsValid() && V->MountKindShown != U->MountKind) { V->Mount->DestroyComponent(); V->Mount.Reset(); }
+			if (U->bMounted) V->MountKindShown = U->MountKind;
 			if (U->bMounted && !V->Mount.IsValid())
 			{
 				static const TCHAR* MountMesh[] = { TEXT("/Game/Props/SM_MountHorse.SM_MountHorse"), TEXT("/Game/Props/SM_MountScout.SM_MountScout"),
@@ -1532,10 +1565,13 @@ void AHLWorldActor::AutoTest(float Dt)
 		// -HLViewSet=forecourt: the Chinese Theatre's entrance recess from the forecourt (both returns)
 		static const FView Forecourt[] = { { 96, 178, -70, 6, 9 }, { 90, 178, -110, 6, 9 }, { 93, 172, -90, 4, 6 },
 			{ 54, 34, -90, 10, 16, 1 }, { 24, 46, -90, 10, 14, 1 } }; // and the lobby's pylon and a column (camera behind them)
-		const bool bNature = bSet && Set == TEXT("nature"), bLandmarks = bSet && Set == TEXT("landmarks"), bFore = bSet && Set == TEXT("forecourt");
-		const FView* Views = bFore ? Forecourt : bNature ? Nature : bLandmarks ? Landmarks : Fronts;
+		// -HLViewSet=drag: the boulevard between the forecourt and the bank, both sides at street level (the flicker check)
+		static const FView Drag[] = { { 160, 200, -90, 4, 12 }, { 195, 200, -90, 4, 12 }, { 230, 200, -90, 4, 12 }, { 265, 200, -90, 4, 12 },
+			{ 160, 200, 90, 4, 12 }, { 195, 200, 90, 4, 12 }, { 230, 200, 90, 4, 12 }, { 265, 200, 90, 4, 12 } };
+		const bool bNature = bSet && Set == TEXT("nature"), bLandmarks = bSet && Set == TEXT("landmarks"), bFore = bSet && Set == TEXT("forecourt"), bDrag = bSet && Set == TEXT("drag");
+		const FView* Views = bDrag ? Drag : bFore ? Forecourt : bNature ? Nature : bLandmarks ? Landmarks : Fronts;
 		if (FParse::Param(FCommandLine::Get(), TEXT("HLFilmTest")) && Game.FilmStart <= 0) { Game.FilmStart = Game.Now; Game.FilmEnd = Game.Now + 1e6; } // picture night on (views of the screen)
-		const int32 NViews = bFore ? UE_ARRAY_COUNT(Forecourt) : bNature ? UE_ARRAY_COUNT(Nature) : bLandmarks ? UE_ARRAY_COUNT(Landmarks) : UE_ARRAY_COUNT(Fronts);
+		const int32 NViews = bDrag ? UE_ARRAY_COUNT(Drag) : bFore ? UE_ARRAY_COUNT(Forecourt) : bNature ? UE_ARRAY_COUNT(Nature) : bLandmarks ? UE_ARRAY_COUNT(Landmarks) : UE_ARRAY_COUNT(Fronts);
 		static int32 Step = -1; static double NextStep = 0;
 		AutoNextShot = 1e9;
 		P->CombatUntil = 0; P->bAutoAttack = false; P->TargetId = 0;

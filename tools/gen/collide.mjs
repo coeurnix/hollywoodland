@@ -8,12 +8,12 @@ import { KIT } from './facades.mjs';
 
 const BY_MESH = new Map();
 for (const p of Object.values(PROPS)) BY_MESH.set(p.mesh, p);
-for (const [id, k] of Object.entries(KIT)) if (k.min && k.max && /^(DR_Rubble|DR_Sandbag|DR_FallenAwning)/.test(id)) BY_MESH.set(k.mesh, k);
+for (const [id, k] of Object.entries(KIT)) if (k.min && k.max && /^(DR_Rubble|DR_Sandbag|DR_FallenAwning|LM_RedCarStop)/.test(id)) BY_MESH.set(k.mesh, k);
 const ID_OF = new Map();
 for (const [id, p] of Object.entries(PROPS)) ID_OF.set(p.mesh, id);
 
-const POSTS = /^(street_lamp|trolley_pole|lamp|post|pole_standing|hydrant|mailbox|clock)/;
-const SKIP = /^(palm_|egy_stage|fire_escape|theatre_facade|hive_goo|hive_arch|film_canister|stair_|sign_|rug|puddle|decal)/;
+const POSTS = /^(street_lamp|trolley_pole|lamp|post|pole_standing|hydrant|mailbox|clock|palm_fan|palm_canary)/; // palms: the trunk
+const SKIP = /^(egy_stage|fire_escape|theatre_facade|hive_goo|hive_arch|film_canister|stair_|sign_|rug|puddle|decal)/;
 const r2 = (v) => Math.round(v * 100) / 100;
 
 export function propCols(list) {
@@ -33,5 +33,13 @@ export function propCols(list) {
     for (const u of [b.min[0] * sx * k, b.max[0] * sx * k]) for (const v of [b.min[1] * sy * k, b.max[1] * sy * k]) { xs.push(p.x + u * c - v * s); ys.push(p.y + u * s + v * c); }
     out.push([r2(Math.min(...xs)), r2(Math.min(...ys)), r2(Math.max(...xs)), r2(Math.max(...ys)), r2(h)]);
   }
+  return out;
+}
+
+// Big interactive objects that stand in the street: the red cars at their stops (13 m x 2.9 m, along the boulevard).
+// Their interaction reach (9 m for big objects) still works from the kerb.
+export function objectCols(objects) {
+  const out = [];
+  for (const o of objects) if (o.kind === 'redcar') out.push([r2(o.x - 6.3), r2(o.y - 1.35), r2(o.x + 6.3), r2(o.y + 1.35), 4.2]);
   return out;
 }

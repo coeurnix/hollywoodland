@@ -121,8 +121,9 @@ FString FHLGame::StyleText(const FHLPersona& P, const FString& In)
 	{
 		Out = Out.Replace(TEXT(" you "), TEXT(" u "), ESearchCase::CaseSensitive).Replace(TEXT("thanks"), TEXT("ty"), ESearchCase::CaseSensitive).Replace(TEXT(" please"), TEXT(" pls"), ESearchCase::CaseSensitive).Replace(TEXT("people"), TEXT("ppl"), ESearchCase::CaseSensitive);
 	}
-	// typos: swap two neighbouring letters
-	if (P.TypoRate > 0 && Out.Len() > 6 && Chance(P.TypoRate * Out.Len() * 0.5f))
+	// typos: swap two neighbouring letters. Only the sloppier half of the town does it, and not often (one line in
+	// eight or so for a long line from the sloppiest)
+	if (P.TypoRate >= 0.02f && Out.Len() > 6 && Chance(FMath::Min(0.18f, P.TypoRate * Out.Len() * 0.1f)))
 	{
 		const int32 k = RandInt(1, Out.Len() - 3);
 		if (FChar::IsAlpha(Out[k]) && FChar::IsAlpha(Out[k + 1]) && !Out.Left(k).Contains(TEXT("["))) Swap(Out[k], Out[k + 1]);
@@ -648,8 +649,10 @@ void FHLGame::ApplyWorkerActions(const TSharedPtr<FJsonObject>& Resp, const FStr
 			A->TryGetNumberField(TEXT("delay_ms"), DelayMs);
 			// a reply appears no earlier than its typing time
 			// reading what was said, then typing the answer at their own speed (AddChat stretches the delay to the typing time)
-			const float Delay = FMath::Max((float)DelayMs / 1000.f, 0.5f + S.P->ReactionS) + Stagger;
-			Stagger += 1.2f;
+			// the public channels move quickly: a reply there waits at most 3 s before typing starts (6 s elsewhere)
+			const bool bPublic = Ch == TEXT("general") || Ch == TEXT("trade") || Ch == TEXT("lfg") || Ch == TEXT("zone");
+			const float Delay = FMath::Max(FMath::Min((float)DelayMs / 1000.f, bPublic ? 3.f : 6.f), 0.4f + S.P->ReactionS * 0.6f) + Stagger;
+			Stagger += 0.8f;
 			AddChat(Ch, S.P->Handle, Text, SI, Delay);
 			if (Ch == TEXT("party") || Ch == TEXT("say")) NoteTalk(SI, S.P->Handle, Text);
 		}

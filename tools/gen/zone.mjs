@@ -5,7 +5,7 @@
 // an object may carry `prop` (drawn instead of its primitive), and `props` lists free-standing dressing (no collision).
 import { PROPS as PROPS_TABLE, placement, footprint, fitBox, rng } from './props.mjs';
 import { kitFront, roofProps, landmark, landmarkDeco, signCard } from './facades.mjs';
-import { propCols } from './collide.mjs';
+import { propCols, objectCols } from './collide.mjs';
 const C = { road: [0.13, 0.13, 0.14], walk: [0.3, 0.29, 0.27], lot: [0.34, 0.31, 0.24], hill: [0.36, 0.34, 0.22], shop: [0.48, 0.44, 0.38], shop2: [0.42, 0.4, 0.42],
   landmark: [0.72, 0.62, 0.42], hive: [0.22, 0.12, 0.26], civic: [0.6, 0.6, 0.62], wreck: [0.2, 0.22, 0.25], interior: [0.25, 0.2, 0.18], seat: [0.4, 0.1, 0.1] };
 
@@ -429,7 +429,7 @@ for (const [x, y, id] of [[226, 372, 'hive_goo'], [300, 364, 'hive_goo'], [140, 
 
 const zone = {
   id: 'zone_hollywood_blvd', name: 'Hollywood Boulevard', min: [OX0 - 10, OY0 - 10], size: [OX1 - OX0 + 20, OY1 - OY0 + 20], cell: 2, offset: [0, 0], sky: [0.42, 0.32, 0.38], floor: C.lot, floor_kind: 'Lot',
-  boxes: boxes.splice(0), ground: ground.splice(0), cols: propCols(props), props: props.splice(0), subzones, npcs: npcs.splice(0), camps: camps.splice(0), objects: objects.splice(0),
+  boxes: boxes.splice(0), ground: ground.splice(0), cols: [...propCols(props), ...objectCols(objects)], props: props.splice(0), subzones, npcs: npcs.splice(0), camps: camps.splice(0), objects: objects.splice(0),
   redcar_stops: [{ id: 'stop_highland', name: 'Highland Avenue', note: "the bank, the gunsmith and the outfitter", x: 276, y: 200 },
     { id: 'stop_wilcox', name: 'Wilcox Avenue', note: 'the police station and Hollywood High', x: 505, y: 200 },
     { id: 'stop_vine', name: 'Vine Street', note: 'the Taft Building auction house, the Pantages, the Brown Derby', x: 736, y: 200 }],

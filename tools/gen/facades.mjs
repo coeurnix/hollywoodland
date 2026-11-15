@@ -166,6 +166,7 @@ const FACES = {
   S: { F: [0, 1], u: [1, 0], yaw: 90 }, N: { F: [0, -1], u: [-1, 0], yaw: -90 },
   W: { F: [-1, 0], u: [0, 1], yaw: 180 }, E: { F: [1, 0], u: [0, -1], yaw: 0 },
 };
+const LANDMARK_LIFT = 0.06;
 export function landmark(b, face, id, opts = {}) {
   const k = KIT[id];
   if (!k) throw new Error(`unknown landmark ${id}`);
@@ -175,14 +176,17 @@ export function landmark(b, face, id, opts = {}) {
   if (Math.abs(sw - 1) > 0.1 || Math.abs(sd - 1) > 0.1) console.warn(`landmark ${id}: box ${across}x${deep} vs nominal ${k.nominal[0]}x${k.nominal[1]}`);
   const m = opts.mirror ? -1 : 1;
   const c = [b.x + b.w / 2, b.y + b.d / 2];
-  const body = { m: k.mesh, x: r2(c[0]), y: r2(c[1]), z: r2(opts.z || 0), yaw: f.yaw, s: [r2(sd), r2(sw * m), 1] };
+  // landmarks stand 6 cm proud: their street aprons are modelled at z = 0, the ground's own height, and flickered
+  // against it (and the sidewalk slabs top out at 4 cm)
+  const z0 = (opts.z || 0) + LANDMARK_LIFT;
+  const body = { m: k.mesh, x: r2(c[0]), y: r2(c[1]), z: r2(z0), yaw: f.yaw, s: [r2(sd), r2(sw * m), 1] };
   const extra = [];
   for (const a of k.attachments || []) {
     const [ax, ay, az] = a.location, [sx, , sz] = a.scale || [1, 1, 1];
     const cw = (KIT[a.asset].nominal[0]) * sx;
     // a mirrored parent keeps its signs readable: the card's span [ax, ax + cw] maps to [-ax - cw, -ax]
     const fwd = -ay * sd, right = (m > 0 ? ax : -ax - cw) * sw;
-    put(extra, a.asset, [c[0] + f.F[0] * fwd + f.u[0] * right, c[1] + f.F[1] * fwd + f.u[1] * right], f.yaw, [1, sx, sz], az + (opts.z || 0));
+    put(extra, a.asset, [c[0] + f.F[0] * fwd + f.u[0] * right, c[1] + f.F[1] * fwd + f.u[1] * right], f.yaw, [1, sx, sz], az + z0);
   }
   return { body, extra };
 }

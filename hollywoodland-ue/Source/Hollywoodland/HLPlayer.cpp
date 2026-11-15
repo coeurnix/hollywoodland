@@ -607,7 +607,7 @@ void FHLGame::InteractUnit(int32 Id)
 	TargetUnit(Id);
 	if (T->Kind == EHLKind::Mob)
 	{
-		if (T->bDead) { if (T->bLootable && T->TappedBy == PlayerUnitId) { if (Dist(*U, *T) > 6) Error(TEXT("You are too far away.")); else { Gesture(*U, TEXT("Loot")); LootCorpse(*T); } } return; }
+		if (T->bDead) { if (T->bLootable && T->TappedBy == PlayerUnitId) { if (Dist(*U, *T) > 6) Error(TEXT("You are too far away.")); else { Gesture(*U, TEXT("Loot")); LootCorpse(*T, bLootAll); if (!bLootAll && T->bLootable && T->Loot.Num()) LootUnitId = T->Id; } } return; }
 		U->bAutoAttack = true;
 		if (!U->bRangedAuto && Dist(*U, *T) > U->AutoRange + 2) Error(TEXT("You are too far away."));
 		return;
@@ -642,7 +642,23 @@ void FHLGame::InteractUnit(int32 Id)
 	}
 }
 
-void FHLGame::LootCorpse(FHLUnit& Corpse)
+bool FHLGame::LootOne(FHLUnit& Corpse, int32 Index)
+{
+	if (!Corpse.Loot.IsValidIndex(Index)) return false;
+	const FHLLoot L = Corpse.Loot[Index];
+	bool bTaken = false;
+	if (Party.Num() && L.Item->Q >= 2 && L.Item->IsEquip())
+	{
+		if (Roll.bActive) { Error(TEXT("Another roll is under way.")); return false; }
+		StartRoll(L.Item); bTaken = true;
+	}
+	else if (AddItem(L.Item, L.Count)) { bTaken = true; Sound2D(TEXT("ui_loot")); }
+	if (bTaken) Corpse.Loot.RemoveAt(Index);
+	if (Corpse.Loot.Num() == 0) { Corpse.bLootable = false; Corpse.CorpseUntil = FMath::Min(Corpse.CorpseUntil, (float)Now + 6.f); if (LootUnitId == Corpse.Id) LootUnitId = 0; }
+	return bTaken;
+}
+
+void FHLGame::LootCorpse(FHLUnit& Corpse, bool bItems)
 {
 	if (Corpse.LootCents > 0)
 	{
@@ -650,9 +666,14 @@ void FHLGame::LootCorpse(FHLUnit& Corpse)
 		Player.Cents += FMath::Max(1, Share);
 		AddChat(TEXT("loot"), FString(), FString::Printf(TEXT("You loot %s%s"), *HLMoney(FMath::Max(1, Share)), Party.Num() ? TEXT(" (your share)") : TEXT("")));
 		Sound2D(TEXT("ui_coins"));
-		Corpse.LootCents = 0;
-	}
-	for (int32 i = Corpse.Loot.Num() - 1; i >= 0; --i)
+			Corpse.LootCents = 0;
+		}
+		if (!bItems)
+		{
+			if (Corpse.Loot.Num() == 0) { Corpse.bLootable = false; Corpse.CorpseUntil = FMath::Min(Corpse.CorpseUntil, (float)Now + 6.f); }
+			return;
+		}
+		for (int32 i = Corpse.Loot.Num() - 1; i >= 0; --i)
 	{
 		const FHLLoot L = Corpse.Loot[i];
 		if (Party.Num() && L.Item->Q >= 2 && L.Item->IsEquip())
@@ -830,8 +851,10 @@ void FHLGame::TickPlayer(float Dt)
 	FHLAreaState& Area = Areas[U->Area];
 	if (!U->bDead && !U->Stunned())
 	{
-		if (Input.bMouseSteer) U->Yaw = Input.CamYaw; else U->Yaw += Input.Turn * 200.f * Dt;
 		FVector2D Move(Input.Forward, Input.Strafe);
+		// right-drag only swings the camera while standing (look at your character from the side or front); the body
+		// takes the camera's heading once you move
+		if (Input.bMouseSteer && !Move.IsNearlyZero()) U->Yaw = Input.CamYaw; else if (!Input.bMouseSteer) U->Yaw += Input.Turn * 200.f * Dt;
 		{
 			// the body turns into a diagonal or sideways run (backpedalling keeps facing forward, turned the other way)
 			float Want = 0;
@@ -963,6 +986,7 @@ void FHLGame::AcceptQuest(const FHLQuest& Q)
 	FHLQuestState QS; QS.Q = &Q; QS.Progress.Init(0, Q.Objectives.Num());
 	Player.Quests.Add(QS);
 	System(FString::Printf(TEXT("Quest accepted: %s"), *Q.Name));
+	QuestCard(TEXT("Quest Accepted"), Q.Name, FLinearColor(0.95f, 0.88f, 0.7f), 3.5f);
 	Sound2D(TEXT("ui_quest_accept"));
 	if (!Q.GivesOnAccept.IsEmpty()) if (const FHLItem* Gift = FHLData::Get().ItemByName(Q.GivesOnAccept)) if (AddItem(Gift, Gift->Kind == TEXT("trade") ? 5 : 1, false)) AddChat(TEXT("loot"), FString(), FString::Printf(TEXT("You receive: [%s]"), *Gift->Name));
 	if (Q.BonusTalent > 0) { Player.BonusTalents += Q.BonusTalent; System(TEXT("You have an unspent talent point. Press N to open your talents.")); }
@@ -1001,7 +1025,7 @@ void FHLGame::QuestEvent(const TCHAR* Type, const FString& Key, int32 Count, con
 		{
 			bool bAll = true;
 			for (int32 i = 0; i < QS.Progress.Num(); ++i) if (QS.Progress[i] < QS.Q->Objectives[i].Count) bAll = false;
-			if (bAll) { QS.bComplete = true; if (QS.Q->Type != TEXT("talk")) { AddChat(TEXT("quest"), FString(), FString::Printf(TEXT("%s (Complete)"), *QS.Q->Name)); AddFloat(PlayerUnitId, TEXT("Quest complete"), FLinearColor(1, 0.85f, 0.2f)); PlayerBark(TEXT("quest_done"), 0); } }
+			if (bAll) { QS.bComplete = true; if (QS.Q->Type != TEXT("talk")) { AddChat(TEXT("quest"), FString(), FString::Printf(TEXT("%s (Complete)"), *QS.Q->Name)); AddFloat(PlayerUnitId, TEXT("Quest complete"), FLinearColor(1, 0.85f, 0.2f)); QuestCard(TEXT("Quest Complete"), QS.Q->Name, FLinearColor(1, 0.85f, 0.3f), 5.f); PlayerBark(TEXT("quest_done"), 0); } }
 		}
 	}
 }
@@ -1022,6 +1046,7 @@ void FHLGame::CompleteQuest(const FHLQuest& Q, int32 Choice)
 	Player.Cents += Q.Cents;
 	Sound2D(TEXT("ui_quest_done"));
 	System(FString::Printf(TEXT("%s completed."), *Q.Name));
+	QuestCard(Q.Name, FString::Printf(TEXT("+%d experience   %s"), Q.Xp, *HLMoney(Q.Cents)), FLinearColor(0.55f, 1, 0.5f), 4.5f);
 	if (Q.Cents) AddChat(TEXT("loot"), FString(), FString::Printf(TEXT("You receive %s."), *HLMoney(Q.Cents)));
 	for (const auto& KV : Q.Rep) { Player.Rep.FindOrAdd(KV.Key) += KV.Value; System(FString::Printf(TEXT("Your reputation with the Los Angeles Police Department has increased by %d."), KV.Value)); }
 	GrantXp(Q.Xp, true);

@@ -44,7 +44,9 @@ copyFileSync(join(ROOT, 'hollywoodland-ue', 'Content', 'Data', 'UI', 'ui_title.j
     + '#art .title{top:6cqh}#art h1{font:700 min(10cqh,8cqw)/1 Georgia,"Times New Roman",serif;letter-spacing:.06em;color:#f3d27a;text-shadow:0 .04em .14em #000,0 0 .5em #0009}'
     + '#progress-text{color:#f6ead0;text-shadow:0 1px 3px #000}.bar{background:#000c;border-color:#c9a24a}'
     + '#steps{background:#0d1418cc}</style>';
-  writeFileSync(page, readFileSync(page, 'utf8').replace('</head>', css + '</head>'));
+  // right-click is the game's (talk, loot, steer): no browser context menu, from the first frame of the page
+  const js = '<script>addEventListener("contextmenu",function(e){e.preventDefault()});</script>';
+  writeFileSync(page, readFileSync(page, 'utf8').replace('</head>', css + js + '</head>'));
 }
 const audio = packAudio(ROOT, out);
 const files = walk(out);

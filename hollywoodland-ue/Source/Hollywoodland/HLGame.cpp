@@ -408,7 +408,9 @@ void FHLGame::SeparateSims(float Dt)
 			const float L = D.Size();
 			if (L >= MinD) continue;
 			const FVector2D N = L > 0.01f ? D / L : FVector2D(FMath::Cos(A->Id * 1.7f), FMath::Sin(A->Id * 1.7f));
-			Push += N * (MinD - L);
+			// apart, and a step to the side (each to its own right, so two people walking into each other pass instead of
+			// pushing back and forth on the spot)
+			Push += N * (MinD - L) + FVector2D(-N.Y, N.X) * (MinD - L) * 0.7f;
 		}
 		if (!Push.IsNearlyZero()) A->Pos = Areas[A->Area].Nav.Slide(A->Pos, Push * FMath::Min(1.f, Dt * 5.f), 0.35f);
 	}

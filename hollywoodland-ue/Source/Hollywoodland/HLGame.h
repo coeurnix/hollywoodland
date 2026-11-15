@@ -218,6 +218,8 @@ struct FHLSim
 			int32 QuestHave = 0, QuestNeed = 0, HelpUnit = 0, LookAt = 0;
 			double GoalSince = 0, GoalHold = 0, NextPlan = 0, HelpUntil = 0, NextNotice = 0, ReactAt = 0, LookUntil = 0;
 			bool bPlanPending = false;
+			// ---- antics (HLSim.cpp SimAntic): an idle player being silly for a few seconds where the real player can see
+			int32 Antic = 0, AnticWith = 0; double AnticUntil = 0, AnticStep = 0, NextAntic = 0; FVector2D AnticAt = FVector2D::ZeroVector;
 			double LastTown = 0; int32 TrainedLevel = 0;
 			// ---- party beliefs (HLMind.cpp): what they think the group is doing, from what they saw and what was said
 			int32 BelTarget = 0;
@@ -389,7 +391,10 @@ public:
 	void TabTarget();
 	void TargetNearestFriend();
 	void InteractUnit(int32 Id);
-	void LootCorpse(FHLUnit& Corpse);
+	void LootCorpse(FHLUnit& Corpse, bool bItems = true);
+	bool LootOne(FHLUnit& Corpse, int32 Index);
+	int32 LootUnitId = 0;      // the corpse whose loot window is open
+	bool bLootAll = false;     // shift held on the right-click: take everything without the window
 	void ReleaseSpirit();
 	void ResurrectAtCorpse();
 	void ResurrectAtStation();
@@ -454,6 +459,10 @@ public:
 	int32 NpcClicks = 0; int32 NpcClickUnit = 0; double NpcClickAt = 0;
 	void VoiceAt(const FString& Id, int32 Variant, const FHLUnit* At) { if (SoundQueue.Num() < 256) { FHLSoundEvent E; E.Id = Id; E.Variant = Variant; E.Vol = 1; if (At) { E.Area = At->Area; E.Pos = At->Pos; E.Z = At->Z + 1.6f; E.UnitId = At->Id; } SoundQueue.Add(MoveTemp(E)); } }
 	void Banner(const FString& T, const FString& Sub = FString(), float Dur = 4) { BannerText = T; BannerSub = Sub; BannerUntil = Now + Dur * FHLSettings::Get().TextHold; bBannerHostile = false; }
+	// quest milestones: a framed card in the upper middle of the screen (accepted, objectives done, turned in)
+	FString QuestCardTitle, QuestCardSub; double QuestCardStart = -100, QuestCardUntil = 0; FLinearColor QuestCardColor = FLinearColor(1, 0.85f, 0.35f);
+	void QuestCard(const FString& T, const FString& Sub, const FLinearColor& C = FLinearColor(1, 0.85f, 0.35f), float Dur = 5)
+	{ QuestCardTitle = T; QuestCardSub = Sub; QuestCardColor = C; QuestCardStart = Now; QuestCardUntil = Now + Dur * FHLSettings::Get().TextHold; }
 	TArray<FHLFloatText> Floats;
 		TArray<FHLSpeech> Speech; // newest last; one per speaker
 		void Say(int32 UnitId, const FString& Text, bool bYell = false);
@@ -508,6 +517,7 @@ public:
 	// ---- motor (HLMotor.cpp)
 	void SimSee(FHLSim& S, FHLUnit& U);                                         // refresh the delayed view of the player
 	bool SimMove(FHLSim& S, FHLUnit& U, const FVector2D& Goal, float StopDist); // MoveTo, the way this person walks
+	bool SimAntic(FHLSim& S, FHLUnit& U, int32 SimIdx); // true while a bit of silliness is under way
 	void SimFollow(FHLSim& S, FHLUnit& U);                                      // keep up with the player (party)
 	bool SimTyping(const FHLSim& S) const { return Now >= S.TypeFrom && Now < S.TypeUntil; }
 	float SimLoad(const FHLSim& S, const FHLUnit& U) const;                     // 0 calm .. 1+ overwhelmed
