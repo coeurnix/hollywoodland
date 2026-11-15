@@ -45,6 +45,8 @@ def import_textures():
             tex.set_editor_property('srgb', False)
             tex.set_editor_property('compression_settings', unreal.TextureCompressionSettings.TC_NORMALMAP)
             tex.set_editor_property('lod_group', unreal.TextureGroup.TEXTUREGROUP_WORLD_NORMAL_MAP)
+            # the web package budget (itch, 500 MiB): normal maps at half the colour map's size (cap_prop_normals.py)
+            tex.set_editor_property('max_texture_size', max(256, max(tex.blueprint_get_size_x(), tex.blueprint_get_size_y()) // 2))
         elif t['kind'] == 'MR':
             tex.set_editor_property('srgb', False)
             tex.set_editor_property('compression_settings', unreal.TextureCompressionSettings.TC_MASKS)

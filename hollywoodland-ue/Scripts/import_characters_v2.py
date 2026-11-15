@@ -174,6 +174,7 @@ def import_textures():
     for lst in data['hair'].values():
         used |= {h['tex'] for h in lst if h['tex']}
     hat_tex = {h['tex'] for per in data['hats'].values() for h in per.values()}
+    slot_of = {p['tex']: slot for per in data['looks'].values() for slots in per.values() for slot, p in slots.items()}
     used |= hat_tex
     for f in glob.glob(os.path.join(EXPORT, 'SKV2_*_D.png')) + glob.glob(os.path.join(EXPORT, 'SKV2_*_M.png')) + \
             glob.glob(os.path.join(looks, 'SKV2_*_D.png')) + glob.glob(os.path.join(looks, 'SKV2_*_M.png')):
@@ -191,13 +192,15 @@ def import_textures():
             continue
         tex.set_editor_property('lod_group', unreal.TextureGroup.TEXTUREGROUP_CHARACTER)
         # the web package budget (itch: 500 MiB; masters stay 2K): the skin 2K, everything else 512 but the small pieces
-        # (shoes, gloves, belts, wrist pieces, hats) at 256
+        # (shoes, gloves, belts, wrist pieces, hats, shirts, trousers) at 256
         body = '_Body_' in name
         skin = body and not any(k in name for k in ('eye', 'lash', 'brow', 'high-poly'))
         coat = any(k in name for k in ('_m_suit', '_m_dinner', '_m_bowtie', '_m_jacket', '_m_longcoat', '_f_gown', '_f_midi', '_f_day',
                                        '_f_suit', '_f_jacket', '_f_longcoat', 'cuirass'))
         small = name in hat_tex or any(k in name for k in ('_gloves_', 'boot', 'oxford', 'saddle', 'heels', 'maryjane', '_ankle',
                                                              'belt_', 'cuff', 'bracer'))
+        # shirts and trousers sit mostly under coats and between belts: 256 as well
+        small = small or slot_of.get(name) in ('shirt', 'trousers', 'shoes', 'gloves', 'belt', 'wrist')
         tex.set_editor_property('max_texture_size', 2048 if skin else 256 if small and not coat else 512)
         if name.endswith('_M'):
             tex.set_editor_property('srgb', False)
