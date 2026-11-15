@@ -142,14 +142,14 @@ void SHLGameUI::Img(float X, float Y, float W, float H, const FSlateBrush* B, co
 {
 	if (!B) return;
 	++Layer; LastKind = 1;
-	FSlateDrawElement::MakeBox(*DL, Layer, PGeo.ToPaintGeometry(FVector2f(W, H), FSlateLayoutTransform(Sc, FVector2f(X * Sc, Y * Sc))), B, ESlateDrawEffect::None, Tint);
+	if (!bMuteUI) FSlateDrawElement::MakeBox(*DL, Layer, PGeo.ToPaintGeometry(FVector2f(W, H), FSlateLayoutTransform(Sc, FVector2f(X * Sc, Y * Sc))), B, ESlateDrawEffect::None, Tint);
 }
 
 // ------------------------------------------------------------------------------------------------------------- toolkit
 void SHLGameUI::Rc(float X, float Y, float W, float H, const FLinearColor& C) const
 {
 	if (LastKind != 1) { ++Layer; LastKind = 1; }
-	FSlateDrawElement::MakeBox(*DL, Layer, PGeo.ToPaintGeometry(FVector2f(W, H), FSlateLayoutTransform(Sc, FVector2f(X * Sc, Y * Sc))), FCoreStyle::Get().GetBrush("WhiteBrush"), ESlateDrawEffect::None, C);
+	if (!bMuteUI) FSlateDrawElement::MakeBox(*DL, Layer, PGeo.ToPaintGeometry(FVector2f(W, H), FSlateLayoutTransform(Sc, FVector2f(X * Sc, Y * Sc))), FCoreStyle::Get().GetBrush("WhiteBrush"), ESlateDrawEffect::None, C);
 }
 void SHLGameUI::RRc(float X, float Y, float W, float H, const FLinearColor& C, float Radius) const
 {
@@ -159,7 +159,7 @@ void SHLGameUI::RRc(float X, float Y, float W, float H, const FLinearColor& C, f
 	TSharedPtr<FSlateRoundedBoxBrush>& B = Brushes.FindOrAdd(R);
 	if (!B.IsValid()) B = MakeShared<FSlateRoundedBoxBrush>(FLinearColor::White, (float)R);
 	++Layer; LastKind = 1;
-	FSlateDrawElement::MakeBox(*DL, Layer, PGeo.ToPaintGeometry(FVector2f(W, H), FSlateLayoutTransform(Sc, FVector2f(X * Sc, Y * Sc))), B.Get(), ESlateDrawEffect::None, C);
+	if (!bMuteUI) FSlateDrawElement::MakeBox(*DL, Layer, PGeo.ToPaintGeometry(FVector2f(W, H), FSlateLayoutTransform(Sc, FVector2f(X * Sc, Y * Sc))), B.Get(), ESlateDrawEffect::None, C);
 }
 void SHLGameUI::Shadow(float X, float Y, float W, float H, float Spread, float Alpha) const
 {
@@ -210,8 +210,8 @@ void SHLGameUI::Tx(float X, float Y, const FString& S, int32 Size, const FLinear
 	if (S.IsEmpty()) return;
 	if (LastKind != 2) { ++Layer; LastKind = 2; }
 	const FSlateFontInfo Font = HLFont(Size, bBold);
-	if (bShadow) FSlateDrawElement::MakeText(*DL, Layer, PGeo.ToPaintGeometry(FVector2f(2000, 40), FSlateLayoutTransform(Sc, FVector2f((X + 1) * Sc, (Y + 1) * Sc))), S, Font, ESlateDrawEffect::None, FLinearColor(0, 0, 0, C.A * 0.9f));
-	FSlateDrawElement::MakeText(*DL, Layer, PGeo.ToPaintGeometry(FVector2f(2000, 40), FSlateLayoutTransform(Sc, FVector2f(X * Sc, Y * Sc))), S, Font, ESlateDrawEffect::None, C);
+	if (bShadow) if (!bMuteUI) FSlateDrawElement::MakeText(*DL, Layer, PGeo.ToPaintGeometry(FVector2f(2000, 40), FSlateLayoutTransform(Sc, FVector2f((X + 1) * Sc, (Y + 1) * Sc))), S, Font, ESlateDrawEffect::None, FLinearColor(0, 0, 0, C.A * 0.9f));
+	if (!bMuteUI) FSlateDrawElement::MakeText(*DL, Layer, PGeo.ToPaintGeometry(FVector2f(2000, 40), FSlateLayoutTransform(Sc, FVector2f(X * Sc, Y * Sc))), S, Font, ESlateDrawEffect::None, C);
 }
 float SHLGameUI::TW(const FString& S, int32 Size, bool bBold) const
 {
@@ -263,7 +263,7 @@ void SHLGameUI::Line(const FVector2D& A, const FVector2D& B, const FLinearColor&
 {
 	++Layer; LastKind = 3;
 	TArray<FVector2f> Pts = { FVector2f(A.X, A.Y), FVector2f(B.X, B.Y) };
-	FSlateDrawElement::MakeLines(*DL, Layer, PGeo.ToPaintGeometry(FVector2f(VS.X, VS.Y), FSlateLayoutTransform(Sc, FVector2f(0, 0))), Pts, ESlateDrawEffect::None, C, true, Thick);
+	if (!bMuteUI) FSlateDrawElement::MakeLines(*DL, Layer, PGeo.ToPaintGeometry(FVector2f(VS.X, VS.Y), FSlateLayoutTransform(Sc, FVector2f(0, 0))), Pts, ESlateDrawEffect::None, C, true, Thick);
 }
 bool SHLGameUI::Btn(float X, float Y, float W, float H, const FString& Label, bool bEnabled, int32 Size) const
 {
@@ -359,7 +359,7 @@ int32 SHLGameUI::ItemIcon(float X, float Y, float S, const FHLItem* It, int32 Co
 	if (const FSlateBrush* IB = HLIconBrush(It->Icon))
 	{
 		++Layer; LastKind = 1;
-		FSlateDrawElement::MakeBox(*DL, Layer, PGeo.ToPaintGeometry(FVector2f(S - 4, S - 4), FSlateLayoutTransform(Sc, FVector2f((X + 2) * Sc, (Y + 2) * Sc))), IB, ESlateDrawEffect::None, FLinearColor::White);
+		if (!bMuteUI) FSlateDrawElement::MakeBox(*DL, Layer, PGeo.ToPaintGeometry(FVector2f(S - 4, S - 4), FSlateLayoutTransform(Sc, FVector2f((X + 2) * Sc, (Y + 2) * Sc))), IB, ESlateDrawEffect::None, FLinearColor::White);
 		// quality frame
 		++Layer; LastKind = 1;
 		Rc(X, Y, S, 1.5f, QC); Rc(X, Y + S - 1.5f, S, 1.5f, QC); Rc(X, Y, 1.5f, S, QC); Rc(X + S - 1.5f, Y, 1.5f, S, QC);
@@ -558,6 +558,7 @@ void SHLGameUI::Interact() const
 int32 SHLGameUI::OnPaint(const FPaintArgs& Args, const FGeometry& Geo, const FSlateRect& Cull, FSlateWindowElementList& Out, int32 LayerId, const FWidgetStyle& Style, bool bParentEnabled) const
 {
 	DL = &Out; PGeo = Geo; Layer = LayerId; LastKind = 0;
+	{ static const bool bHide = FParse::Param(FCommandLine::Get(), TEXT("HLHideUI")); bMuteUI = bHide; } // trailer capture: the logic runs, nothing is drawn
 	Sc = ScaleFor(Geo);
 	VS = FVector2D(Geo.GetLocalSize()) / Sc;
 	PC = World && World->GetWorld() ? World->GetWorld()->GetFirstPlayerController() : nullptr;
@@ -664,7 +665,7 @@ void SHLGameUI::DrawPreview(float X, float Y, float W, float H, const FHLCharLoo
 	}
 	++Layer; LastKind = 1;
 	// the capture's alpha is not coverage: draw it opaque
-	FSlateDrawElement::MakeBox(*DL, Layer, PGeo.ToPaintGeometry(FVector2f(W, H), FSlateLayoutTransform(Sc, FVector2f(X * Sc, Y * Sc))), PreviewBrush.Get(), ESlateDrawEffect::IgnoreTextureAlpha, FLinearColor::White);
+	if (!bMuteUI) FSlateDrawElement::MakeBox(*DL, Layer, PGeo.ToPaintGeometry(FVector2f(W, H), FSlateLayoutTransform(Sc, FVector2f(X * Sc, Y * Sc))), PreviewBrush.Get(), ESlateDrawEffect::IgnoreTextureAlpha, FLinearColor::White);
 	if (Hover(X, Y, W, H) && !bPreviewDrag) TxC(X + W * 0.5f, Y + H - 18, TEXT("drag to turn"), 9, FLinearColor(1, 0.9f, 0.7f, 0.7f));
 }
 

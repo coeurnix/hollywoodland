@@ -1461,6 +1461,7 @@ void AHLWorldActor::Tick(float Dt)
 		static float CapStart = 10; static int32 CapFrames = 150, CapN = 0;
 		static bool bArgs = (FParse::Value(FCommandLine::Get(), TEXT("HLCapStart="), CapStart), FParse::Value(FCommandLine::Get(), TEXT("HLCapFrames="), CapFrames), true);
 		(void)bArgs;
+		if (bCap) GAreScreenMessagesEnabled = false; // "Preparing textures..." and the like stay out of the shot
 		if (bCap && GetWorld() && GetWorld()->GetTimeSeconds() >= CapStart)
 		{
 			if (CapN < CapFrames) FScreenshotRequest::RequestScreenshot(FPaths::ProjectSavedDir() / FString::Printf(TEXT("Capture/%s/f_%04d.png"), *Cap, CapN), true, false);
@@ -1500,7 +1501,7 @@ void AHLWorldActor::Tick(float Dt)
 	if (GViewCam.Z > 0) { CamYaw = GViewCam.X; CamPitch = GViewCam.Y; CamDist = GViewCam.Z; if (FHLUnit* VP = Game.PlayerUnit()) { VP->Pos = GViewPos; Game.StopMove(*VP); } }
 	// -HLCamOrbit=<yaw from the player's facing>,<pitch>,<distance> (trailer capture): the camera eases round to a set angle
 	{
-		static FString Orb; static bool bOrb = FParse::Value(FCommandLine::Get(), TEXT("HLCamOrbit="), Orb);
+		static FString Orb; static bool bOrb = FParse::Value(FCommandLine::Get(), TEXT("HLCamOrbit="), Orb, false);
 		if (bOrb && Game.bInWorld) if (const FHLUnit* PU = Game.PlayerUnit())
 		{
 			TArray<FString> V; Orb.ParseIntoArray(V, TEXT(","));
@@ -1716,7 +1717,7 @@ void AHLWorldActor::AutoTest(float Dt)
 			{ 160, 200, 90, 4, 12 }, { 195, 200, 90, 4, 12 }, { 230, 200, 90, 4, 12 }, { 265, 200, 90, 4, 12 } };
 		// -HLViewSet=show (trailer capture): the boulevard at its best, a slow pan at each stop (-HLViewHold, -HLViewPan)
 		static const FView ShowV[] = { { 150, 200, -20, 9, 16 }, { 640, 200, 160, 9, 18 }, { 300, 200, 200, 7, 14 } };
-		static const FView CrowdV[] = { { 96, 200, 222, 24, 28 } }; // -HLViewSet=crowd: high over the forecourt (surges, picture night)
+		static const FView CrowdV[] = { { 96, 200, 222, 15, 17 } }; // -HLViewSet=crowd: high over the forecourt (surges, picture night)
 		const bool bCrowd = bSet && Set == TEXT("crowd");
 		const bool bShowSet = bSet && Set == TEXT("show");
 		const bool bNature = bSet && Set == TEXT("nature"), bLandmarks = bSet && Set == TEXT("landmarks"), bFore = bSet && Set == TEXT("forecourt"), bDrag = bSet && Set == TEXT("drag");
@@ -2037,6 +2038,62 @@ void AHLWorldActor::AutoTest(float Dt)
 		}
 	#endif
 		return;
+	}
+	// -HLRoute=x,y;x,y;... (trailer capture): the player runs the route (one point: stands there). -HLMount=0|1|2 rides it,
+	// -HLParty joins four locals who follow (mounted too), -HLCrowd puts the town's players along the way, -HLRide=<stop>
+	// boards the red car on arrival
+	{
+		static FString Route; static const bool bRoute = FParse::Value(FCommandLine::Get(), TEXT("HLRoute="), Route, false);
+		if (P && bRoute)
+		{
+			static TArray<FVector2D> Pts; static int32 At = 0, Mount = -1, RideTo = -1; static bool bInit = false;
+			if (!bInit)
+			{
+				bInit = true;
+				TArray<FString> Seg; Route.ParseIntoArray(Seg, TEXT(";"));
+				for (const FString& Sg : Seg) { FString Xs, Ys; if (Sg.Split(TEXT(","), &Xs, &Ys)) Pts.Add(FVector2D(FCString::Atof(*Xs), FCString::Atof(*Ys))); }
+				FParse::Value(FCommandLine::Get(), TEXT("HLMount="), Mount);
+				FParse::Value(FCommandLine::Get(), TEXT("HLRide="), RideTo);
+				if (Pts.Num()) Game.TeleportUnit(*P, 0, Game.Areas[0].Nav.NearestFree(Pts[0]));
+				if (Pts.Num() > 1) Game.FaceTo(*P, Pts[1]);
+				Game.Player.Cents += 500;
+				if (FParse::Param(FCommandLine::Get(), TEXT("HLParty")))
+					for (int32 i = 0; i < Game.Sims.Num() && Game.Party.Num() < 4; ++i)
+					{
+						FHLSim& S = Game.Sims[i];
+						if (!S.UnitId || S.Role != EHLSimRole::Local || S.bInParty) continue;
+						Game.SimJoinParty(i);
+						if (FHLUnit* SU = Game.Unit(S.UnitId)) Game.TeleportUnit(*SU, 0, Game.Areas[0].Nav.NearestFree(P->Pos + FVector2D(-2.f - Game.Party.Num(), (Game.Party.Num() % 2 ? 1.5f : -1.5f))));
+					}
+				if (FParse::Param(FCommandLine::Get(), TEXT("HLCrowd")) && Pts.Num())
+				{
+					FRandomStream R(77);
+					for (FHLSim& S : Game.Sims)
+					{
+						if (!S.UnitId || S.Role != EHLSimRole::Local || S.bInParty) continue;
+						FHLUnit* SU = Game.Unit(S.UnitId);
+						if (!SU || SU->bDead || SU->Area != 0) continue;
+						const int32 k = R.RandRange(0, FMath::Max(0, Pts.Num() - 2));
+						const FVector2D B = Pts.Num() > 1 ? FMath::Lerp(Pts[k], Pts[k + 1], R.FRand()) : Pts[0];
+						Game.TeleportUnit(*SU, 0, Game.Areas[0].Nav.NearestFree(B + FVector2D(R.FRandRange(-14.f, 14.f), R.FRandRange(-9.f, 9.f))));
+						SU->TargetId = 0;
+					}
+				}
+			}
+			AutoNextShot = 1e9;
+			P->CombatUntil = 0; P->bAutoAttack = false; P->TargetId = 0; P->bSitting = false;
+			if (Mount >= 0 && Game.RideStop < 0)
+			{
+				P->bMounted = true; P->MountKind = (uint8)Mount; Game.TestDriveUntil = Game.Now + 60;
+				for (int32 SI : Game.Party) if (FHLUnit* SU = Game.Unit(Game.Sims[SI].UnitId)) { SU->bMounted = true; SU->MountKind = (uint8)((Mount + SI) % 3); }
+			}
+			if (Pts.IsValidIndex(At) && Game.RideStop < 0 && Game.MoveTo(*P, Pts[At], 1.5f))
+			{
+				++At;
+				if (At >= Pts.Num() && RideTo >= 0) { Game.RideRedcar(RideTo); RideTo = -1; }
+			}
+			return;
+		}
 	}
 	static const bool bClickTest = FParse::Param(FCommandLine::Get(), TEXT("HLClickTest"));
 	if (bClickTest) return; // -HLClickTest: the UI drives the player (SHLGameUI::OnPaint)
