@@ -565,7 +565,7 @@ int32 SHLGameUI::OnPaint(const FPaintArgs& Args, const FGeometry& Geo, const FSl
 	UiRectsNext.Reset(); Picks.Reset(); TipItem = nullptr; TipText.Reset(); TipExtra.Reset();
 	FHLGame& Gm = G();
 	{ static bool bOnce = false; if (!bOnce && Gm.bInWorld) { bOnce = true; if (Gm.InOpening()) bHelp = false; /* the tour card teaches instead */ if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenBags"))) { bBags = true; bChar = true; } if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenTalents"))) bTalents = true; if (FParse::Param(FCommandLine::Get(), TEXT("HLCraftTest"))) bCraft = true; if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenSpells"))) bSpells = true; if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenFriends"))) { bWho = true; WhoTab = 1; } if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenNews"))) { bWho = true; WhoTab = 3; }
-		if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenAuction"))) for (const FHLUnit* N : Gm.UnitList) if (N->Npc && N->Npc->HasRole(TEXT("auctioneer"))) { Gm.OpenNpcUnitId = N->Id; Gm.OpenNpcMode = TEXT("auction"); AuctionSearch = TEXT("boots"); break; }
+		if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenAuction"))) for (const FHLUnit* N : Gm.UnitList) if (N->Npc && N->Npc->HasRole(TEXT("auctioneer"))) { Gm.OpenNpcUnitId = N->Id; Gm.OpenNpcMode = TEXT("auction"); AuctionSearch = FParse::Param(FCommandLine::Get(), TEXT("HLAuctionFlip")) ? FString() : FString(TEXT("boots")); break; }
 		if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenWorldMap"))) { bMap = true; bWorldMap = true; }
 		if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenChar"))) bChar = true;
 		if (FParse::Param(FCommandLine::Get(), TEXT("HLOpenTrainer"))) for (const FHLUnit* N : Gm.UnitList) if (N->Npc && N->Npc->HasRole(TEXT("trainer")) && FHLData::Get().Class(N->Npc->Trains) == Gm.Player.Cls) { Gm.OpenNpcUnitId = N->Id; Gm.OpenNpcMode = TEXT("trainer"); break; }
@@ -751,6 +751,8 @@ void SHLGameUI::DrawTitle() const
 	static bool bArgs = false;
 	if (!bArgs) { bArgs = true; if (FParse::Param(FCommandLine::Get(), TEXT("HLCreateShot"))) { TitleMode = 1; SelClass = NurseClass(); NameEntry = TEXT("Ruby"); } }
 	const bool b3D = Chars.Ready() && World && World->bSaveChecked;
+	// -HLSpin (trailer capture): the figure turns slowly on its stand
+	{ static const bool bSpin = FParse::Param(FCommandLine::Get(), TEXT("HLSpin")); if (bSpin && !bPreviewDrag) PreviewYaw = FMath::Fmod(PreviewYaw + FApp::GetDeltaTime() * 28.f, 360.f); }
 	// until the character art and the saves are in: the poster
 	if (!b3D)
 	{

@@ -28,7 +28,7 @@ MH_HATS = {'newsboy': 'jujube_newsboy_cap', 'cloche': 'aethelraed_unraed_cloche_
            'm1_helmet': 'mrgreaterthan_m1_helmet', 'stunt_helmet': 'culturalibre_motorcycle_helmet', 'warrior_helmet': 'culturalibre_warrior_helmet',
            'great_helm': 'javherre_casco_caballero_templario_templar_knight_helmet'}
 # Rodin hats: (width between the 5th and 95th percentiles / head width, rim depth under the crown in head heights)
-RODIN = {'top_hat': (1.45, 0.30), 'feather_headband': (1.08, 0.24), 'chitin_tiara': (1.05, 0.26), 'flying_cap': (1.04, 0.58),
+RODIN = {'top_hat': (1.45, 0.30), 'feather_headband': (1.08, 0.24), 'chitin_tiara': (1.05, 0.26), 'flying_cap': (1.16, 0.64),
          'cowboy_hat': (2.0, 0.30), 'football_helmet': (1.25, 0.72), 'brodie_helmet': (1.7, 0.26), 'chitin_helmet': (1.25, 0.45),
          'miner_helmet': (1.4, 0.21), 'nurse_cap': (1.0, 0.22)}
 BRIM = {'brodie_helmet'}  # placed by the brim's edge (the chin strap hangs below it)

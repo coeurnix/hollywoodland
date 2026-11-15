@@ -878,8 +878,9 @@ void FHLCharVisuals::Drive(FHLCharRig& Rig, const FHLUnit& U, const FHLCharLook&
 	{
 		switch (L.Stance)
 		{
-		case EHLStance::Pistol: return ClipFor(S, { TEXT("Shoot_Pistol") });
-		case EHLStance::Rifle: return ClipFor(S, { TEXT("Shoot_Rifle") });
+		// a shot holds the aim (the stock Fire clips are recoil-only and fold the arms down when played on their own)
+		case EHLStance::Pistol: return ClipFor(S, { TEXT("Combat_Ranged1H"), TEXT("Shoot_Pistol") });
+		case EHLStance::Rifle: return ClipFor(S, { TEXT("Combat_Rifle"), TEXT("Shoot_Rifle") });
 		case EHLStance::TwoHand: return ClipFor(S, { TEXT("Attack_2H"), TEXT("Attack_1H_A"), TEXT("Attack_Unarmed_C") });
 		case EHLStance::OneHand: return ClipFor(S, { (Rig.LastAttack++ % 2) ? TEXT("Attack_1H_B") : TEXT("Attack_1H_A"), TEXT("Attack_1H_A"), TEXT("Attack_Unarmed") });
 		default: return ClipFor(S, { Unarmed[Rig.LastAttack++ % 3] });

@@ -51,10 +51,11 @@ def main():
     ap.add_argument('--sex', default='')
     ap.add_argument('--attempt', type=int, default=0)
     ap.add_argument('--res', default='1k')
+    ap.add_argument('--base', default='', help='only these base garments (e.g. m_shirt_open)')
     a = ap.parse_args()
     genlib.load_env()
     st = genlib.State(OUT / 'state.json')
-    todo = [j for j in jobs(set(x for x in a.only.split(',') if x), a.sex) if not a.gear or j[0] == 'GEAR']
+    todo = [j for j in jobs(set(x for x in a.only.split(',') if x), a.sex) if (not a.gear or j[0] == 'GEAR') and (not a.base or j[1] in a.base.split(','))]
     print(f'{len(todo)} textures', flush=True)
 
     stop = []
@@ -64,6 +65,10 @@ def main():
             return 'skipped (balance)'
         sex, base, look, prompt = job
         src = (GEAR / f'{base}_diffuse.png') if sex == 'GEAR' else EXPORT / f'SKV2_{sex}_{base}_D.png'
+        # a base whose own map is too dark to repaint (the untucked work shirt) gets a light template of its pieces
+        tmpl = EXPORT / f'SKV2_{sex}_{base}_template.png'
+        if tmpl.exists():
+            src = tmpl
         if not src.exists():
             return f'missing source {src.name}'
         key = f'{sex}_{base}_{look}'

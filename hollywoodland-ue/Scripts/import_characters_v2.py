@@ -184,6 +184,8 @@ def import_textures():
         name = 'T_' + os.path.basename(f)[:-4]
         if '_Body_' not in name and name not in used:
             continue
+        if MESH_RE and not re.search(MESH_RE, name):
+            continue
         tasks.append(import_png(f, f'{BASE}/Tex', name))
         names.append(name)
     tools.import_asset_tasks(tasks)

@@ -218,6 +218,8 @@ struct FHLSim
 			int32 QuestHave = 0, QuestNeed = 0, HelpUnit = 0, LookAt = 0;
 			double GoalSince = 0, GoalHold = 0, NextPlan = 0, HelpUntil = 0, NextNotice = 0, ReactAt = 0, LookUntil = 0;
 			bool bPlanPending = false;
+			// words kept (HonourWords): offered to group with the player (they invite, and accept the player's invite), leading the way
+			double OfferPartyUntil = 0, LeadUntil = 0; FVector2D LeadTo = FVector2D::ZeroVector; bool bLeadArrived = false;
 			// ---- antics (HLSim.cpp SimAntic): an idle player being silly for a few seconds where the real player can see
 			int32 Antic = 0, AnticWith = 0; double AnticUntil = 0, AnticStep = 0, NextAntic = 0; FVector2D AnticAt = FVector2D::ZeroVector;
 			double LastTown = 0; int32 TrainedLevel = 0;
@@ -518,6 +520,9 @@ public:
 	void SimSee(FHLSim& S, FHLUnit& U);                                         // refresh the delayed view of the player
 	bool SimMove(FHLSim& S, FHLUnit& U, const FVector2D& Goal, float StopDist); // MoveTo, the way this person walks
 	bool SimAntic(FHLSim& S, FHLUnit& U, int32 SimIdx); // true while a bit of silliness is under way
+	void HonourWords(int32 SimIdx, const FString& Ch, const FString& Text); // what a sim just said to the player, they then do
+	bool SimLead(FHLSim& S, FHLUnit& U, int32 SimIdx); // true while walking the player somewhere they promised to show
+	bool WhereNamed(const FString& Text, FVector2D& Out) const; // a place, person or landmark named in a line
 	void SimFollow(FHLSim& S, FHLUnit& U);                                      // keep up with the player (party)
 	bool SimTyping(const FHLSim& S) const { return Now >= S.TypeFrom && Now < S.TypeUntil; }
 	float SimLoad(const FHLSim& S, const FHLUnit& U) const;                     // 0 calm .. 1+ overwhelmed

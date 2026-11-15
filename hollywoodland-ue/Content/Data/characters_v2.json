@@ -3267,13 +3267,13 @@
     "mesh": "SKV2_Male_flying_cap_hat",
     "tex": "T_SKV2_Male_flying_cap_D",
     "hides": true,
-    "all_hair": true
+    "all_hair": false
    },
    "Female": {
     "mesh": "SKV2_Female_flying_cap_hat",
     "tex": "T_SKV2_Female_flying_cap_D",
     "hides": true,
-    "all_hair": true
+    "all_hair": false
    }
   },
   "L2": {
@@ -3281,13 +3281,13 @@
     "mesh": "SKV2_Male_flying_cap_hat",
     "tex": "T_SKV2_Male_flying_cap_D",
     "hides": true,
-    "all_hair": true
+    "all_hair": false
    },
    "Female": {
     "mesh": "SKV2_Female_flying_cap_hat",
     "tex": "T_SKV2_Female_flying_cap_D",
     "hides": true,
-    "all_hair": true
+    "all_hair": false
    }
   },
   "L3": {
@@ -3309,13 +3309,13 @@
     "mesh": "SKV2_Male_flying_cap_hat",
     "tex": "T_SKV2_Male_flying_cap_D",
     "hides": true,
-    "all_hair": true
+    "all_hair": false
    },
    "Female": {
     "mesh": "SKV2_Female_flying_cap_hat",
     "tex": "T_SKV2_Female_flying_cap_D",
     "hides": true,
-    "all_hair": true
+    "all_hair": false
    }
   },
   "L5": {
@@ -3393,13 +3393,13 @@
     "mesh": "SKV2_Male_flying_cap_hat",
     "tex": "T_SKV2_Male_flying_cap_D",
     "hides": true,
-    "all_hair": true
+    "all_hair": false
    },
    "Female": {
     "mesh": "SKV2_Female_flying_cap_hat",
     "tex": "T_SKV2_Female_flying_cap_D",
     "hides": true,
-    "all_hair": true
+    "all_hair": false
    }
   },
   "P5": {
@@ -3407,13 +3407,13 @@
     "mesh": "SKV2_Male_flying_cap_hat",
     "tex": "T_SKV2_Male_flying_cap_D",
     "hides": true,
-    "all_hair": true
+    "all_hair": false
    },
    "Female": {
     "mesh": "SKV2_Female_flying_cap_hat",
     "tex": "T_SKV2_Female_flying_cap_D",
     "hides": true,
-    "all_hair": true
+    "all_hair": false
    }
   },
   "P6": {
@@ -3533,13 +3533,13 @@
     "mesh": "SKV2_Male_flying_cap_hat",
     "tex": "T_SKV2_Male_flying_cap_D",
     "hides": true,
-    "all_hair": true
+    "all_hair": false
    },
    "Female": {
     "mesh": "SKV2_Female_flying_cap_hat",
     "tex": "T_SKV2_Female_flying_cap_D",
     "hides": true,
-    "all_hair": true
+    "all_hair": false
    }
   },
   "E3": {
@@ -3575,13 +3575,13 @@
     "mesh": "SKV2_Male_flying_cap_hat",
     "tex": "T_SKV2_Male_flying_cap_D",
     "hides": true,
-    "all_hair": true
+    "all_hair": false
    },
    "Female": {
     "mesh": "SKV2_Female_flying_cap_hat",
     "tex": "T_SKV2_Female_flying_cap_D",
     "hides": true,
-    "all_hair": true
+    "all_hair": false
    }
   },
   "E6": {

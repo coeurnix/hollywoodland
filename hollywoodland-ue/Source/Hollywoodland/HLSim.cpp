@@ -357,11 +357,13 @@ void FHLGame::TickSimBrain(FHLSim& S, FHLUnit& U, float Dt)
 		TickPartyMind(S, U);
 		if (U.TargetId && Unit(U.TargetId) && !Unit(U.TargetId)->bDead) { SimCombat(S, U); return; } // their own pull
 		if (Now < S.BelRestUntil) return; // sitting down, as they said
+		if (SimLead(S, U, SimIdx)) return; // showing the way, as they said
 		SimFollow(S, U);
 		return;
 	}
 
 	if (S.State == EHLSimState::Script) { MoveTo(U, S.Dest, 2.f); return; } // the Director set it running
+	if (SimLead(S, U, SimIdx)) return; // showing the way, as they said
 	if (S.EventRole && SimEventBrain(S, U)) return;
 	if (S.State == EHLSimState::Gather)
 	{
@@ -639,11 +641,13 @@ void FHLGame::InviteSim(int32 SimIdx)
 		}
 	};
 	const float Base = S.P->Temperament == TEXT("helpful") ? 0.92f : S.P->Temperament == TEXT("quiet") ? 0.6f : S.P->Temperament == TEXT("mercenary") ? 0.5f : 0.75f;
-	const bool bLocalRule = bEligible && Chance(FMath::Clamp(Base + 0.08f * Relation(S).Liking, 0.1f, 0.98f));
+	// a sim who just offered to group says yes to the invite (words kept, HonourWords)
+	const bool bOffered = S.OfferPartyUntil > Now && S.UnitId && S.State != EHLSimState::Script && FMath::Abs(S.Level - P->Level) <= 8;
+	const bool bLocalRule = bOffered || (bEligible && Chance(FMath::Clamp(Base + 0.08f * Relation(S).Liking, 0.1f, 0.98f)));
 	TArray<int32> Sp = { SimIdx };
-	WorkerSim(TEXT("decide"), Sp, TEXT("invite"), TEXT("whisper"), CurSubzone, {}, [this, SimIdx, bEligible, bLocalRule, Resolve, Sp](bool bOk, const TSharedPtr<FJsonObject>& Resp)
+	WorkerSim(TEXT("decide"), Sp, TEXT("invite"), TEXT("whisper"), CurSubzone, {}, [this, SimIdx, bEligible, bLocalRule, bOffered, Resolve, Sp](bool bOk, const TSharedPtr<FJsonObject>& Resp)
 	{
-		bool bAccept = bLocalRule, bSpoke = false;
+		bool bAccept = bLocalRule, bSpoke = false, bModelNo = false;
 		if (bOk && Resp.IsValid())
 		{
 			const TArray<TSharedPtr<FJsonValue>>* Acts = nullptr;
@@ -651,12 +655,13 @@ void FHLGame::InviteSim(int32 SimIdx)
 			{
 				const TSharedPtr<FJsonObject> A = V->AsObject();
 				FString Dec;
-				if (A.IsValid() && A->TryGetStringField(TEXT("decision"), Dec) && !Dec.IsEmpty()) bAccept = bEligible && Dec == TEXT("accept");
+				if (A.IsValid() && A->TryGetStringField(TEXT("decision"), Dec) && !Dec.IsEmpty()) { bModelNo = Dec != TEXT("accept"); bAccept = bOffered || (bEligible && !bModelNo); }
 				const TSharedPtr<FJsonObject>* ChatObj = nullptr;
 				if (A.IsValid() && A->TryGetObjectField(TEXT("chat"), ChatObj)) bSpoke = true;
 			}
 			// A model line that says yes while the local guardrail says no would contradict the outcome: drop it.
-			if (bEligible || !bSpoke) ApplyWorkerActions(Resp, bAccept ? TEXT("party") : TEXT("whisper"), Sp); else bSpoke = false;
+			// a model line that says no to a sim who offered (or yes past the guardrail) would contradict the outcome: drop it
+			if (bSpoke && ((bOffered && bModelNo) || (!bEligible && !bOffered))) bSpoke = false; else ApplyWorkerActions(Resp, bAccept ? TEXT("party") : TEXT("whisper"), Sp);
 		}
 		Resolve(bAccept, bSpoke);
 	});
@@ -868,6 +873,8 @@ void FHLGame::TickDirector(float Dt)
 	default: break;
 	}
 	if (InviteFromSim >= 0 && Now > InviteUntil) InviteFromSim = -1;
+	// trailer capture (-HLCapture=): no invitation popups over the shot
+	{ static const bool bCapturing = FString(FCommandLine::Get()).Contains(TEXT("HLCapture=")); if (bCapturing) { InviteFromSim = -1; DuelFromSim = -1; GuildFromSim = -1; } }
 }
 
 // ------------------------------------------------------------------------------------------------------------- antics

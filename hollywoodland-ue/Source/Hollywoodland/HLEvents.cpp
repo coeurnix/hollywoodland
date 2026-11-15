@@ -107,7 +107,7 @@ void FHLGame::TickEvents(float Dt)
 		int32 Taken = 0;
 		for (FHLSim& S : Sims)
 		{
-			if (Taken >= 6 || !S.UnitId || S.bInParty || S.Role != EHLSimRole::Local || S.State == EHLSimState::Script) continue;
+			if (Taken >= 10 || !S.UnitId || S.bInParty || S.Role != EHLSimRole::Local || S.State == EHLSimState::Script) continue;
 			const FHLUnit* U = Unit(S.UnitId);
 			if (U && !U->bDead && U->Area == 0 && FVector2D::Distance(U->Pos, H.Pos) < 320) { S.EventRole = 1; ++Taken; }
 		}

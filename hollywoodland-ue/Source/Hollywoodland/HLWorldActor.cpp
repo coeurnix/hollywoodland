@@ -1446,10 +1446,29 @@ void AHLWorldActor::TickFilm()
 	FilmScreen->UpdateMeshSection_LinearColor(0, FilmVerts, TArray<FVector>(), UV, TArray<FLinearColor>(), TArray<FProcMeshTangent>());
 }
 
+static FVector GViewCam = FVector::ZeroVector; // -HLViews: yaw, pitch, distance of the current view (0 distance: none)
+static FVector2D GViewPos = FVector2D::ZeroVector; // and where the player is pinned
+
 void AHLWorldActor::Tick(float Dt)
 {
 	Super::Tick(Dt);
 	HLBridge::Poll();
+#if !PLATFORM_WASM
+	// -HLCapture=<name> -HLCapStart=<s> -HLCapFrames=<n> (with -benchmark -fps=30 for a fixed step): every frame from the start
+	// time is written to Saved/Capture/<name>/f_NNNN.png, then the game quits (tools/capture: itch screenshots, the trailer)
+	{
+		static FString Cap; static bool bCap = FParse::Value(FCommandLine::Get(), TEXT("HLCapture="), Cap);
+		static float CapStart = 10; static int32 CapFrames = 150, CapN = 0;
+		static bool bArgs = (FParse::Value(FCommandLine::Get(), TEXT("HLCapStart="), CapStart), FParse::Value(FCommandLine::Get(), TEXT("HLCapFrames="), CapFrames), true);
+		(void)bArgs;
+		if (bCap && GetWorld() && GetWorld()->GetTimeSeconds() >= CapStart)
+		{
+			if (CapN < CapFrames) FScreenshotRequest::RequestScreenshot(FPaths::ProjectSavedDir() / FString::Printf(TEXT("Capture/%s/f_%04d.png"), *Cap, CapN), true, false);
+			else if (CapN == CapFrames + 3) UKismetSystemLibrary::QuitGame(this, nullptr, EQuitPreference::Quit, false);
+			++CapN;
+		}
+	}
+#endif
 	if (!Game.Areas.Num()) return;
 	if (UI.IsValid()) UI->PreTick(Dt);
 	// -HLTimeScale=N (self-play tests only): N bot + simulation steps per frame, for long soak runs (dungeon, pacing)
@@ -1477,6 +1496,22 @@ void AHLWorldActor::Tick(float Dt)
 	// camera: orbit the player (or the forecourt on the title screen)
 	const FHLUnit* P = Game.PlayerUnit();
 	FVector Focus = P ? ToWorld(P->Area, P->Pos, P->Z + 1.7f) : ToWorld(0, Game.Areas[0].Def->Spawn + FVector2D(0, 8), 2.f);
+	// -HLViews: the view's camera holds whatever else ran this frame
+	if (GViewCam.Z > 0) { CamYaw = GViewCam.X; CamPitch = GViewCam.Y; CamDist = GViewCam.Z; if (FHLUnit* VP = Game.PlayerUnit()) { VP->Pos = GViewPos; Game.StopMove(*VP); } }
+	// -HLCamOrbit=<yaw from the player's facing>,<pitch>,<distance> (trailer capture): the camera eases round to a set angle
+	{
+		static FString Orb; static bool bOrb = FParse::Value(FCommandLine::Get(), TEXT("HLCamOrbit="), Orb);
+		if (bOrb && Game.bInWorld) if (const FHLUnit* PU = Game.PlayerUnit())
+		{
+			TArray<FString> V; Orb.ParseIntoArray(V, TEXT(","));
+			if (V.Num() == 3)
+			{
+				const float Want = PU->Yaw + FCString::Atof(*V[0]);
+				CamYaw += FMath::FindDeltaAngleDegrees(CamYaw, Want) * FMath::Min(1.f, Dt * 1.2f);
+				CamPitch = FCString::Atof(*V[1]); CamDist = FCString::Atof(*V[2]);
+			}
+		}
+	}
 	float Yaw = CamYaw, Pitch = CamPitch, D = CamDist;
 	if (!Game.bInWorld) { Yaw = -90 + GetWorld()->GetTimeSeconds() * 3.f; Pitch = 18; D = 46; }
 	const FRotator Rot(-Pitch, Yaw, 0);
@@ -1676,13 +1711,19 @@ void AHLWorldActor::AutoTest(float Dt)
 		static const FView Forecourt[] = { { 96, 178, -70, 6, 9 }, { 90, 178, -110, 6, 9 }, { 93, 172, -90, 4, 6 },
 			{ 54, 34, -90, 10, 16, 1 }, { 24, 46, -90, 10, 14, 1 } }; // and the lobby's pylon and a column (camera behind them)
 		// -HLViewSet=drag: the boulevard between the forecourt and the bank, both sides at street level (the flicker check)
-		static const FView Drag[] = { { 160, 200, -90, 4, 12 }, { 195, 200, -90, 4, 12 }, { 230, 200, -90, 4, 12 }, { 265, 200, -90, 4, 12 },
+		static const FView Drag[] = { { 80, 203, 90, 4, 12 }, { 112, 203, 90, 4, 12 }, { 96, 205, 60, 3, 8 }, { 96, 205, 120, 3, 8 }, // the Roosevelt's front
+			{ 160, 200, -90, 4, 12 }, { 195, 200, -90, 4, 12 }, { 230, 200, -90, 4, 12 }, { 265, 200, -90, 4, 12 },
 			{ 160, 200, 90, 4, 12 }, { 195, 200, 90, 4, 12 }, { 230, 200, 90, 4, 12 }, { 265, 200, 90, 4, 12 } };
+		// -HLViewSet=show (trailer capture): the boulevard at its best, a slow pan at each stop (-HLViewHold, -HLViewPan)
+		static const FView ShowV[] = { { 150, 200, -20, 9, 16 }, { 640, 200, 160, 9, 18 }, { 300, 200, 200, 7, 14 } };
+		static const FView CrowdV[] = { { 96, 200, 222, 24, 28 } }; // -HLViewSet=crowd: high over the forecourt (surges, picture night)
+		const bool bCrowd = bSet && Set == TEXT("crowd");
+		const bool bShowSet = bSet && Set == TEXT("show");
 		const bool bNature = bSet && Set == TEXT("nature"), bLandmarks = bSet && Set == TEXT("landmarks"), bFore = bSet && Set == TEXT("forecourt"), bDrag = bSet && Set == TEXT("drag");
-		const FView* Views = bDrag ? Drag : bFore ? Forecourt : bNature ? Nature : bLandmarks ? Landmarks : Fronts;
+		const FView* Views = bCrowd ? CrowdV : bShowSet ? ShowV : bDrag ? Drag : bFore ? Forecourt : bNature ? Nature : bLandmarks ? Landmarks : Fronts;
 		if (FParse::Param(FCommandLine::Get(), TEXT("HLFilmTest")) && Game.FilmStart <= 0) { Game.FilmStart = Game.Now; Game.FilmEnd = Game.Now + 1e6; } // picture night on (views of the screen)
-		const int32 NViews = bDrag ? UE_ARRAY_COUNT(Drag) : bFore ? UE_ARRAY_COUNT(Forecourt) : bNature ? UE_ARRAY_COUNT(Nature) : bLandmarks ? UE_ARRAY_COUNT(Landmarks) : UE_ARRAY_COUNT(Fronts);
-		static int32 Step = -1; static double NextStep = 0;
+		const int32 NViews = bCrowd ? UE_ARRAY_COUNT(CrowdV) : bShowSet ? UE_ARRAY_COUNT(ShowV) : bDrag ? UE_ARRAY_COUNT(Drag) : bFore ? UE_ARRAY_COUNT(Forecourt) : bNature ? UE_ARRAY_COUNT(Nature) : bLandmarks ? UE_ARRAY_COUNT(Landmarks) : UE_ARRAY_COUNT(Fronts);
+		static int32 Step = -1; static double NextStep = 0, StepAt = 0;
 		AutoNextShot = 1e9;
 		P->CombatUntil = 0; P->bAutoAttack = false; P->TargetId = 0;
 		if (T >= NextStep)
@@ -1690,10 +1731,13 @@ void AHLWorldActor::AutoTest(float Dt)
 			if (++Step >= NViews) { UKismetSystemLibrary::QuitGame(this, nullptr, EQuitPreference::Quit, false); return; }
 			const FView& V = Views[Step];
 			Game.TeleportUnit(*P, V.Area, FVector2D(V.X, V.Y));
-			NextStep = T + 2.5;
+			static float Hold = 2.5f; static bool bH = FParse::Value(FCommandLine::Get(), TEXT("HLViewHold="), Hold); (void)bH;
+			NextStep = T + Hold; StepAt = T;
 		}
 		const FView& V = Views[FMath::Max(0, Step)];
-		CamYaw = V.Yaw; CamPitch = V.Pitch; CamDist = V.Dist; P->Yaw = V.Yaw; P->Pos = FVector2D(V.X, V.Y); // pinned: the self-play bot keeps walking
+		static float Pan = 0; static bool bPan = FParse::Value(FCommandLine::Get(), TEXT("HLViewPan="), Pan); (void)bPan;
+		CamYaw = V.Yaw + Pan * float(T - StepAt); CamPitch = V.Pitch; CamDist = V.Dist; P->Yaw = V.Yaw;
+		GViewCam = FVector(CamYaw, CamPitch, CamDist); GViewPos = P->Pos; // re-applied every frame (Tick), even when the bot returns early P->Pos = FVector2D(V.X, V.Y); // pinned: the self-play bot keeps walking
 #if !PLATFORM_WASM
 		static int32 Shot = -1;
 		if (Shot != Step && T > NextStep - 0.6) { Shot = Step; FScreenshotRequest::RequestScreenshot(FPaths::ProjectSavedDir() / FString::Printf(TEXT("Screenshots/hl_view_%02d.png"), Step), true, false); }

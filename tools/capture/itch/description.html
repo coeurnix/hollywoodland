@@ -1,0 +1,85 @@
+<h2>Hollywoodland: The MMO</h2>
+
+<p><strong>A full-featured, open-source MMORPG built on Unreal Engine 5.9, playable in your browser.</strong></p>
+
+<p><em>Can two dudes with $20-a-month AI subscriptions make a full-featured MMO in four days?</em> This is our answer.</p>
+
+<h2>The story</h2>
+
+<p>Hollywood, California 1930. The pictures have just learned to talk, the HOLLYWOODLAND sign glows on the hill above the boulevard, and the town has just been sealed under a shimmering dome! Something came down with it: giant insect invaders that tunnel up through the alleys, nest in the hotels, and hive in the old Egyptian Theatre. The studios, the shopkeepers
+
+<p>Pick a trade (Veteran, Stuntman, Gunman, Electrician, Powder Man, Nurse, Preacher or Mechanic), step onto Grauman's Chinese forecourt, and help take Hollywood back, one reel at a time.</p>
+
+<h2>What's in it</h2>
+
+<ul>
+<li><strong>A big, living world:</strong> Hollywood Boulevard from Grauman's Chinese to Vine Street, the Roosevelt and the Hollywood Hotel, the bank, the Brown Derby, Franklin Slopes, the Selma alleys, Hollywood High, the police station, the Pacific Electric red car line, and the hive wall at the edge of the dome. A day and night cycle runs over all of it.</li>
+<li><strong>A town full of players:</strong> Hundreds players can simultaneously call Hollywoodland home, out on the boulevard at any moment, questing, trading, chatting, dancing on the bank steps and getting in each other's way.</li>
+<li><strong>Eight classes, 61 abilities and 384 talents</strong> across three talent trees each, with trainers, ranks and respecs.</li>
+<li><strong>Quest chains everywhere:</strong> a guided nine-reel opening, then tons quests across branching chains, with voiced quest givers (569 voice lines).</li>
+<li><strong>Dungeons:</strong> Like the Egyptian Theatre, a five-player hive crawl with four bosses, from the Brood Keeper to the Hive Mother.</li>
+<li><strong>A connected social economy:</strong> an auction house with bids and buyouts, player trading, C.O.D. mail, a bank, vendors, repairs, professions and a workbench, and nearly 4,000 items to find, craft, sell and wear.</li>
+<li><strong>A huge social experience:</strong> parties and group finding, guilds that recruit, friends and rivals, duels, zone, trade, looking-for-group and guild chat, whispers, and a full set of emotes.</li>
+<li><strong>Custom appearances:</strong> men and women in many skin tones, hairstyles and colours, and 33 period outfits from newsboy caps and suspenders to tuxedos, gowns and steel cuirasses, all worn piece by piece as you gear up.</li>
+<li><strong>World events:</strong> hive surges that besiege a hub until the town drives them off, picture night on the forecourt, rare spawns, and the odd conga line.</li>
+<li><strong>Mounts:</strong> a horse, an Indian Scout motorcycle and a Model A, plus the red car for when you'd rather ride.</li>
+</ul>
+
+<h2>Open source</h2>
+
+<p>Hollywoodland is released under the <strong>MIT License</strong>. Every line of code, every data file and every custom  tool that built it is on GitHub: <a href="https://github.com/coeurnix/hollywoodland">github.com/coeurnix/hollywoodland</a>.</p>
+
+<h2>How it was made</h2>
+
+<p>Two humans, <a href="https://coeurnix.itch.io">Coeurnix</a> and <a href="https://mistercoconut.itch.io/">Mr. Coconut</a>, made this during the Epic AI MegaJam. The whole game was designed and coded through human-guided LLM agents. Everything other than the engine and the MakeHuman base models was created specifically for this game.</p>
+
+<p><strong>The agents</strong></p>
+<ul>
+<li><strong>Anthropic's Fable 5.2:</strong> high-level planning and the first pass at the large, complex systems</li>
+<li><strong>Anthropic's Opus 5.5:</strong> most of the coding, and some asset creation</li>
+<li><strong>OpenAI's Astra 6:</strong> game testing</li>
+<li><strong>OpenAI's Sol 6.1:</strong> game testing and 3D model creation</li>
+</ul>
+
+<p><strong>The assets</strong></p>
+<ul>
+<li><strong>3D models and animation:</strong> Hyper3D Rodin and agent-controlled Blender with MakeHuman, with some texturing and reference images from FLUX 3 Klein (via fal.ai) and GPT Image 2.6</li>
+<li><strong>Sound effects:</strong> ElevenLabs SFX v3 (via fal.ai)</li>
+<li><strong>Music:</strong> Google's Lyria 3 Pro (via fal.ai)</li>
+<li><strong>Voice acting:</strong> ElevenLabs Eleven v4 (via fal.ai)</li>
+<li><strong>Images:</strong> FLUX 3 Klein (via fal.ai) and a few GPT Image 2.6 images</li>
+</ul>
+
+<p><strong>The server</strong> runs on Cloudflare as a Worker. Getting a full Unreal Engine game talking to it from a browser took a few modifications to the engine's web build, and those are documented in the repo.</p>
+
+<details>
+<summary><strong>&#9632; Spoiler (click to reveal)</strong></summary>
+
+<p>Every other player in Hollywoodland is simulated, all 300 of them! And the simulation is likely the most complex thing in the game.</p>
+
+<p><strong>They are people, not mobs.</strong> Each one has a handle, a home country (24 of them), a time zone and a schedule for when they log on and off, a first language and an English level, and a typing style: some type in all lowercase, some never use punctuation, some write essays. Each has one of 18 personality archetypes, from the confused newbie and the min-maxer to the Leeroy, the trader, the lore nerd, the drama magnet, the backseat raid leader, the silent pro and the mum playing after the kids are asleep. They have traits (sociability, patience, humour, aggression, curiosity) that shape everything they do. They know it's 2026, they know this started as a jam game, and they have opinions about the news.</p>
+
+<p><strong>Each one has a mind, a motor and a body.</strong></p>
+<ul>
+<li><strong>The mind</strong> keeps an agenda of goals: quest, grind a camp, sell, train, bank, auction, rest, explore a landmark, socialise, group up for the Egyptian, help someone, watch an event, show off, go AFK, log off. Every second or two, each goal is scored locally by need, personality and opportunity, minus the cost of switching. Goals have commitment and are suspended rather than dropped, so a player who was selling before a fight goes back to selling after it.</li>
+<li><strong>When the choice is hard</strong> (two goals close, something unusual happening, the player asking for help), the game builds a situation report in code: their level, health, bags, money, mood, what they're doing and why, and three or four costed options with risks attached. A language model then makes the in-character judgment between options the code computed. It can only pick from that list. For background players, a cheaper structured decision samples the choice from the model's probabilities over the option IDs. If a call is slow or fails, local utility carries on without it.</li>
+<li><strong>The motor</strong> turns intent into imperfect, human input. Each player sees the world through a snapshot that refreshes every quarter second to a second and a bit, depending on attention and skill. They react late, overshoot and correct, press abilities with human timing, kite badly or well, and stand still while they type, for exactly as long as their typing speed takes.</li>
+<li><strong>The body</strong> is the same unit the real player has: the same pathing, abilities, cooldowns, threat and loot rules. Nobody cheats.</li>
+</ul>
+
+<p><strong>Detail follows attention.</strong> Players in your party, talking to you or within about 25 metres get the full mind, with model calls for replies, observations, plans and party chat. Other visible players run on local utility and the motor layer. The census off-screen keeps levelling, grouping and gossiping in summary.</p>
+
+<p><strong>They remember you.</strong> Each player keeps a relationship with you: liking, familiarity, the last lines you exchanged, and episodes ("healed me through a bad pull", "saw them dancing on the bank steps", "we wiped in the Egyptian"). Those memories fade over real days unless refreshed. Bonds and rivalries form. A friend logs on and says hi, and a rival remembers the duel.</p>
+
+<p><strong>They talk like players.</strong> General chat mixes a hand-written corpus of more than 1,500 lines and dozens of multi-player conversations with live replies from language models. Every reply comes from a persona card, the facts that persona would actually know about the world (pulled through world tools, half-remembered or wrong where that persona would be wrong), and the decision the game has already made. The words have to match the decision. Ask whether they're a bot and each one has a stance: dodge it, deny it while eating cereal, or cheerfully admit it.</p>
+
+<p><strong>Their words are kept.</strong> If someone offers to group, the invite arrives. If they say "omw", they walk over. If they say "follow me to the bank", they lead you there and wait when you fall behind. If they say they'll accept, they accept.</p>
+
+<p><strong>They are the economy and the events.</strong> They list and bid on the auction house, sell to vendors, recruit for guilds, challenge strangers to duels, rally when a hive surge hits a hub, find seats for picture night, start conga lines and run circles in the street when they're bored. The party you take into the Egyptian is four of them, each with a role, beliefs about the group, patience that wears thin after a wipe, and a voice in party chat.</p>
+
+<p>The town you walk into is a few hundred minds, each deciding what to do next. Say hi. Someone will probably answer.</p>
+</details>
+
+<h2>Thank you</h2>
+
+<p>Huge thanks to <strong>Epic Games</strong> for sponsoring and hosting the <strong>Epic AI MegaJam</strong>, and to everyone who stops by the boulevard.</p>

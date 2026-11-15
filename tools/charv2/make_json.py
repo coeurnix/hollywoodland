@@ -34,7 +34,7 @@ HATS = {'C1': ('newsboy', 'cloche'), 'C2': ('fedora', 'cloche'), 'C3': ('fedora'
         'E2': ('flying_cap', 'flying_cap'), 'E3': ('cowboy_hat', 'cowboy_hat'), 'E4': ('miner_helmet', 'miner_helmet'),
         'E5': ('flying_cap', 'flying_cap'), 'E6': ('nurse_cap', 'nurse_cap'), 'E7': ('fedora', 'fedora_tilted'), 'E8': ('newsboy', 'newsboy')}
 OPEN_HATS = {'feather_headband', 'chitin_tiara', 'nurse_cap'}  # the hair shows in full under these
-CLOSED_HATS = {'flying_cap', 'football_helmet'}  # these cover scalp and ears: no hair at all (it bulges out the back otherwise)
+CLOSED_HATS = {'football_helmet'}  # covers scalp and ears: no hair at all (the flying cap shows its hat-safe hair under the rim)
 
 
 def mask(names):

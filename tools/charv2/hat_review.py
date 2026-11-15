@@ -31,7 +31,7 @@ for o in meshes:
     m = bpy.data.materials.new(o.name)
     m.use_nodes = True
     bsdf = m.node_tree.nodes['Principled BSDF']
-    col = (0.85, 0.65, 0.5, 1) if 'body' in nm else (0.85, 0.85, 0.2, 1) if 'hair' in nm else (0.25, 0.4, 0.8, 1)
+    col = (0.85, 0.85, 0.2, 1) if 'hair' in nm else (0.25, 0.4, 0.8, 1) if hat in nm else (0.85, 0.65, 0.5, 1)
     bsdf.inputs['Base Color'].default_value = col
     o.data.materials.clear(); o.data.materials.append(m)
 body = max(meshes, key=lambda o: len(o.data.vertices))

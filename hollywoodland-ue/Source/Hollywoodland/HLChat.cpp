@@ -26,6 +26,7 @@ void FHLGame::AddChat(const FString& Ch, const FString& From, const FString& Tex
 	}
 	if (Delay > 0) { PendingChat.Add({ Now + Delay, L }); return; }
 	if (SimIdx >= 0 && Ch == TEXT("whisper")) NoteTalk(SimIdx, From, Text);
+	if (SimIdx >= 0) HonourWords(SimIdx, Ch, Text);
 	if (SimIdx >= 0 && (Ch == TEXT("whisper") || Ch == TEXT("party"))) AwaitingReply.Remove(SimIdx);
 	if (Chat.Num() >= 400) Chat.RemoveAt(0, 100);
 	if (Ch.StartsWith(TEXT("whisper")) || Ch == TEXT("say") || Ch == TEXT("guild") || Ch == TEXT("party")) UE_LOG(LogTemp, Verbose, TEXT("HL_CHAT [%s] %s: %s"), *Ch, *From, *Text);
@@ -692,4 +693,103 @@ void FHLGame::ApplyWorkerActions(const TSharedPtr<FJsonObject>& Resp, const FStr
 			}
 		}
 	}
+}
+
+// ------------------------------------------------------------------------------------------------- words kept
+// What a simulated player says to the player, they then do. A line is read when it is posted (whoever wrote it: the
+// model, the corpus or a template). Offering to group: they send the invite, and for ten minutes they accept the
+// player's. "omw" / "coming": they walk over. "follow me" / "I'll show you": they walk the player to the place named
+// in the line (or the one the player asked about), waiting when the player falls behind; with no place, they come over.
+bool FHLGame::WhereNamed(const FString& Text, FVector2D& Out) const
+{
+	const FString T = TEXT(" ") + Text.ToLower() + TEXT(" ");
+	const FHLAreaDef& Def = *Areas[0].Def;
+	for (const auto& KV : Def.Pois)
+	{
+		const FString Nm = const_cast<FHLGame*>(this)->PoiName(KV.Key).ToLower();
+		if (T.Contains(TEXT(" ") + KV.Key + TEXT(" ")) || T.Contains(Nm) || (KV.Key == TEXT("inn") && T.Contains(TEXT("roosevelt")))) { Out = KV.Value; return true; }
+	}
+	for (const FHLNpcDef& N : Def.Npcs)
+	{
+		TArray<FString> W; N.Name.ToLower().ParseIntoArray(W, TEXT(" "));
+		const FString Last = W.Num() ? W.Last().Replace(TEXT("."), TEXT("")) : FString();
+		if (Last.Len() >= 5 && T.Contains(TEXT(" ") + Last)) { Out = N.Pos; return true; }
+	}
+	for (const FHLSubzone& Z : Def.Subzones)
+	{
+		const FString Nm = Z.Name.ToLower();
+		if (Nm.Len() >= 5 && T.Contains(Nm)) { Out = FVector2D(Z.X + Z.W * 0.5f, Z.Y + Z.D * 0.5f); return true; }
+	}
+	if (T.Contains(TEXT("egyptian")) || T.Contains(TEXT("dungeon"))) for (const FHLPortal& Po : Def.Portals) { Out = Po.Pos; return true; }
+	return false;
+}
+
+void FHLGame::HonourWords(int32 SI, const FString& Ch, const FString& Text)
+{
+	if (!Sims.IsValidIndex(SI)) return;
+	FHLSim& S = Sims[SI];
+	FHLUnit* P = PlayerUnit();
+	FHLUnit* U = Unit(S.UnitId);
+	if (!P || !U || U->bDead || U->Area != P->Area) return;
+	// only words meant for the player: a whisper, the party channel, or said out loud close by
+	const bool bToPlayer = Ch == TEXT("whisper") || (Ch == TEXT("party") && S.bInParty) || (Ch == TEXT("say") && Dist(*U, *P) < 30);
+	if (!bToPlayer) return;
+	const FString T = TEXT(" ") + Text.ToLower().Replace(TEXT("'"), TEXT("")).Replace(TEXT(","), TEXT(" ")).Replace(TEXT("."), TEXT(" ")).Replace(TEXT("?"), TEXT(" ")).Replace(TEXT("!"), TEXT(" ")) + TEXT(" ");
+	auto Any = [&](std::initializer_list<const TCHAR*> Ks) { for (const TCHAR* K : Ks) if (T.Contains(K)) return true; return false; };
+	const bool bNo = Any({ TEXT(" no "), TEXT(" not "), TEXT(" cant "), TEXT(" wont "), TEXT(" dont "), TEXT(" busy "), TEXT(" nah "), TEXT(" later "), TEXT(" pass ") });
+	// grouping
+	if (!S.bInParty && !bNo && Any({ TEXT(" inv "), TEXT(" invite "), TEXT(" group up"), TEXT("party up"), TEXT(" wanna group"), TEXT("want to group"), TEXT("wanna party"),
+		TEXT("want to party"), TEXT(" join me"), TEXT(" join us"), TEXT("team up"), TEXT(" duo "), TEXT(" grp "), TEXT("group with"), TEXT(" lets group"), TEXT("faster together") }))
+	{
+		S.OfferPartyUntil = Now + 600;
+		if (InviteFromSim < 0 && Party.Num() < 4 && S.State != EHLSimState::Script && FMath::Abs(S.Level - P->Level) <= 8)
+		{
+			InviteFromSim = SI; InviteUntil = Now + 40; Sound2D(TEXT("ui_invite"));
+			System(FString::Printf(TEXT("%s has invited you to join a group."), *S.P->Handle));
+			UE_LOG(LogTemp, Display, TEXT("HL_LIFE words GROUP from %s"), *S.P->Handle);
+		}
+	}
+	if (bNo) return;
+	// leading the way, or coming over
+	const bool bLead = Any({ TEXT("follow me"), TEXT("lead the way"), TEXT("ill lead"), TEXT("i will lead"), TEXT("ill show you"), TEXT("i will show you"), TEXT("show you the way"),
+		TEXT("come with me"), TEXT("ill take you"), TEXT("i will take you"), TEXT(" this way"), TEXT("ill walk you"), TEXT("on me ") });
+	const bool bCome = !bLead && Any({ TEXT(" omw "), TEXT("on my way"), TEXT(" coming "), TEXT("be right there"), TEXT("brt "), TEXT("heading over"), TEXT("ill come to you"), TEXT("wait there"), TEXT("wait up") });
+	if (!bLead && !bCome) return;
+	if (InCombat(*U)) return;
+	FVector2D To;
+	bool bPlace = bLead && WhereNamed(Text, To);
+	if (bLead && !bPlace)
+	{
+		// the place the player asked them about
+		const FHLRelation& R = Relation(S);
+		for (int32 i = R.Lines.Num() - 1; i >= 0 && !bPlace; --i) if (!R.Lines[i].StartsWith(S.P->Handle + TEXT(":"))) bPlace = WhereNamed(R.Lines[i], To);
+	}
+	if (bPlace && FVector2D::Distance(To, U->Pos) > 12)
+	{
+		S.LeadTo = To; S.LeadUntil = Now + 150; S.bLeadArrived = false;
+		UE_LOG(LogTemp, Display, TEXT("HL_LIFE words LEAD %s to %.0f,%.0f"), *S.P->Handle, To.X, To.Y);
+	}
+	else if (!S.bInParty && Dist(*U, *P) > 6 && Dist(*U, *P) < 140 && S.State != EHLSimState::Script)
+	{
+		S.State = EHLSimState::Script; S.StateUntil = Now + 30; U->TargetId = 0; U->bSitting = false;
+		S.Dest = P->Pos + FVector2D(Rand() * 4 - 2, Rand() * 4 - 2);
+		UE_LOG(LogTemp, Display, TEXT("HL_LIFE words COME %s"), *S.P->Handle);
+	}
+}
+
+// the walk: ahead of the player toward the place, stopping to wait (and wave them on) when they fall behind
+bool FHLGame::SimLead(FHLSim& S, FHLUnit& U, int32 SI)
+{
+	if (S.LeadUntil <= Now) return false;
+	FHLUnit* P = PlayerUnit();
+	if (!P || P->Area != U.Area || InCombat(U) || U.bDead) { S.LeadUntil = 0; return false; }
+	const float ToGoal = FVector2D::Distance(U.Pos, S.LeadTo), Gap = Dist(U, *P);
+	if (ToGoal < 4.f)
+	{
+		if (!S.bLeadArrived) { S.bLeadArrived = true; FaceTo(U, P->Pos); Gesture(U, TEXT("Point")); SimSay(SI, S.bInParty ? TEXT("party") : TEXT("say"), TEXT("lead_here"), 0.6f, TEXT("here it is")); S.LeadUntil = Now + 6; }
+		return true;
+	}
+	if (Gap > 18.f) { StopMove(U); FaceTo(U, P->Pos); if (Gap > 70.f) S.LeadUntil = 0; return true; } // waiting for them
+	MoveTo(U, S.LeadTo, 2.f);
+	return true;
 }

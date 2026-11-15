@@ -1124,6 +1124,9 @@ void SHLGameUI::DrawNpc() const
 		Rows.Sort([&](int32 A, int32 B) { return Gm.Auctions[A].Item->Req != Gm.Auctions[B].Item->Req ? Gm.Auctions[A].Item->Req < Gm.Auctions[B].Item->Req : A < B; });
 		const int32 PerPage = 13, Pages = FMath::Max(1, (Rows.Num() + PerPage - 1) / PerPage);
 		if (Wheel != 0 && Hover(WX, WY, 680, 460)) AuctionPage -= (int32)FMath::Sign(Wheel);
+		// -HLAuctionFlip (trailer capture): leaf through the listings, a page a second
+		{ static const bool bFlip = FParse::Param(FCommandLine::Get(), TEXT("HLAuctionFlip")); static double NextFlip = 0; const double Tn = G().Now;
+		  if (bFlip && Tn > NextFlip) { if (NextFlip > 0) AuctionPage = (AuctionPage + 1) % FMath::Max(1, Pages); NextFlip = Tn + 1.1; } }
 		AuctionPage = FMath::Clamp(AuctionPage, 0, Pages - 1);
 		Tx(WX + 34, WY + 26, TEXT("Item"), 10, ColGold); Tx(WX + 290, WY + 26, TEXT("Lvl"), 10, ColGold); Tx(WX + 322, WY + 26, TEXT("Seller"), 10, ColGold); Tx(WX + 422, WY + 26, TEXT("Bid"), 10, ColGold); Tx(WX + 498, WY + 26, TEXT("Buyout"), 10, ColGold);
 		for (int32 r = 0; r < PerPage && r + AuctionPage * PerPage < Rows.Num(); ++r)
