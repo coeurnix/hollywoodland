@@ -34,7 +34,7 @@ HS, TS = mpfb()
 HEIGHT = {'Male': 1.85, 'Female': 1.72}
 MACRO = {
     'Male': dict(gender=1.0, age=0.5, muscle=0.92, weight=0.56, proportions=1.0, cupsize=0.5, firmness=0.5),
-    'Female': dict(gender=0.0, age=0.5, muscle=0.58, weight=0.46, proportions=1.0, cupsize=0.55, firmness=0.6),
+    'Female': dict(gender=0.0, age=0.5, muscle=0.5, weight=0.45, proportions=1.0, cupsize=0.66, firmness=0.8),
 }
 # heroic stylization on top of the macros: bigger hands and feet, a slightly smaller head, broad male shoulders
 DETAIL = {
@@ -44,7 +44,12 @@ DETAIL = {
              'head/head-square': 0.35, 'chin/chin-width-incr': 0.4, 'chin/chin-prominent-incr': 0.25, 'chin/chin-bones-incr': 0.3},
     'Female': {'hands/{s}-hand-scale-incr': 0.3, 'feet/{s}-foot-scale-incr': 0.2, 'head/head-scale-vert-decr': 0.08,
                'head/head-scale-horiz-decr': 0.06, 'head/head-scale-depth-decr': 0.06, 'torso/measure-shoulder-dist-incr': 0.15,
-               'head/head-oval': 0.4},
+               'head/head-oval': 0.4,
+               # a classic screen-siren face and an hourglass figure
+               'eyes/{s}-eye-scale-incr': 0.35, 'eyes/{s}-eye-corner1-up': 0.25, 'mouth/mouth-lowerlip-volume-incr': 0.45,
+               'mouth/mouth-upperlip-volume-incr': 0.35, 'nose/nose-scale-horiz-decr': 0.25, 'nose/nose-scale-vert-decr': 0.15,
+               'nose/nose-point-up': 0.2, 'cheek/{s}-cheek-bones-incr': 0.3, 'chin/chin-width-decr': 0.25,
+               'torso/measure-waist-circ-decr': 0.5, 'torso/measure-hips-circ-incr': 0.2, 'buttocks/buttocks-volume-incr': 0.25},
 }
 SKIN = {'Male': SYS / 'skins' / 'young_caucasian_male' / 'young_caucasian_male.mhmat',
         'Female': SYS / 'skins' / 'young_caucasian_female' / 'young_caucasian_female.mhmat'}

@@ -78,7 +78,7 @@ USkeletalMeshComponent* FHLCharV2::Build(AActor* Owner, USceneComponent* Parent,
 		if (N.Contains(TEXT("eyebrow"))) { Tex = Prefix + TEXT("_Body_") + N.RightChop(N.Find(TEXT("eyebrow"))) + TEXT("_D"); bMasked = true; }
 		else if (N.Contains(TEXT("eyelash"))) { Tex = Prefix + TEXT("_Body_") + N.RightChop(N.Find(TEXT("eyelash"))) + TEXT("_D"); bMasked = true; }
 		else if (N.Contains(TEXT("high-poly")) || N.Contains(TEXT("low-poly")) || N.Contains(TEXT("eye"))) Tex = Prefix + TEXT("_Body_high-poly_D");
-		Tex = Tex.Replace(TEXT("."), TEXT("_")).Replace(TEXT("-"), TEXT("_"));
+		Tex = Tex.Replace(TEXT("."), TEXT("_"));
 		if (UMaterialInstanceDynamic* M = V2Mat(Owner, bMasked, Tex, FString(), FLinearColor::White, FLinearColor::White, bMasked ? 0u : BodyHide))
 			Body->SetMaterial(i, M);
 	}
@@ -108,7 +108,7 @@ USkeletalMeshComponent* FHLCharV2::Build(AActor* Owner, USceneComponent* Parent,
 		USkeletalMeshComponent* G = Skel(GM, Body);
 		G->SetLeaderPoseComponent(Body);
 		for (int32 i = 0; i < GM->GetMaterials().Num(); ++i)
-			if (UMaterialInstanceDynamic* M = V2Mat(Owner, false, P.Tex, P.Mask, P.TintA, P.TintB, Hide)) G->SetMaterial(i, M);
+			if (UMaterialInstanceDynamic* M = V2Mat(Owner, P.bMasked, P.Tex, P.Mask, P.TintA, P.TintB, Hide)) G->SetMaterial(i, M);
 		Rig.Pieces.Add(G);
 	}
 	return Body;

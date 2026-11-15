@@ -98,7 +98,7 @@ def split_parts(obj, hip_z):
                         stack.append(o)
         lo = min((obj.matrix_world @ v.co).z for x in comp for v in x.verts)
         hi = max((obj.matrix_world @ v.co).z for x in comp for v in x.verts)
-        out['trousers' if lo < hip_z and hi < hip_z + 0.25 else 'coat'] += [x.index for x in comp]
+        out['trousers' if lo < hip_z and hi < hip_z + 25.0 else 'coat'] += [x.index for x in comp]
     bm.free()
     return out
 
@@ -111,8 +111,15 @@ def separate(obj, faces, name):
     bpy.ops.mesh.select_all(action='DESELECT')
     bpy.ops.object.mode_set(mode='OBJECT')
     fs = set(faces)
+    vs = set()
     for p in obj.data.polygons:
         p.select = p.index in fs
+        if p.select:
+            vs.update(p.vertices)
+    for v in obj.data.vertices:
+        v.select = v.index in vs
+    for e in obj.data.edges:
+        e.select = e.vertices[0] in vs and e.vertices[1] in vs
     bpy.ops.object.mode_set(mode='EDIT')
     bpy.ops.mesh.separate(type='SELECTED')
     bpy.ops.object.mode_set(mode='OBJECT')
@@ -198,7 +205,7 @@ def main():
     bake(body, rig)
     kd, zones = dominant_zones(body, rig)
     hip_z = rig.matrix_world @ rig.data.bones['pelvis'].head_local
-    hip_z = hip_z.z - 0.06
+    hip_z = hip_z.z - 6.0  # centimetres (the scene is converted above)
     report = {}
     # the head's extras (eyes, brows, lashes) ride with the body
     extras = [o for o in bpy.data.objects if o.type == 'MESH' and o.name.startswith(body.name + '.') and

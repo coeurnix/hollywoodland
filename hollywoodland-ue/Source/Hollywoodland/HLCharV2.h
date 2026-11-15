@@ -25,6 +25,7 @@ struct FHLV2Piece
 	uint32 Covers = 0;            // zones this piece hides on the body and on earlier pieces
 	int32 Layer = 0;              // 0 body .. higher is worn over lower
 	FName Socket;                 // static piece: the bone it rides (hats: head)
+	bool bMasked = false;         // alpha-tested (hair cards)
 };
 
 struct FHLV2Rig

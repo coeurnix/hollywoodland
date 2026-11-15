@@ -1710,13 +1710,31 @@ void AHLWorldActor::AutoTest(float Dt)
 				A->SetRootComponent(R); R->RegisterComponent();
 				A->SetActorLocationAndRotation(ToWorld(P->Area, At, P->Z), FRotator(0, Yaws[i], 0));
 				TArray<FHLV2Piece> Pieces;
-				FHLV2Piece Coat; Coat.Mesh = TEXT("SKV2_Male_toigo_male_suit_3_coat"); Coat.Tex = TEXT("SKV2_Male_toigo_male_suit_3_D"); Coat.Layer = 3;
-				Coat.Covers = HLZone::Chest | HLZone::Belly | HLZone::UpperArm | HLZone::Forearm; Pieces.Add(Coat);
-				FHLV2Piece Tr = Coat; Tr.Mesh = TEXT("SKV2_Male_toigo_male_suit_3_trousers"); Tr.Layer = 1; Tr.Covers = HLZone::Hips | HLZone::Thigh | HLZone::Calf; Pieces.Add(Tr);
-				FHLV2Piece Sh; Sh.Mesh = TEXT("SKV2_Male_mindfront_shoes_oxford_male_shoes"); Sh.Tex = TEXT("SKV2_Male_mindfront_shoes_oxford_male_D"); Sh.Layer = 2; Sh.Covers = HLZone::Foot; Pieces.Add(Sh);
-				FHLV2Piece Hat; Hat.Mesh = TEXT("SKV2_Male_fedora01_hat"); Hat.Tex = TEXT("SKV2_Male_fedora01_D"); Hat.Socket = TEXT("head"); Hat.Layer = 5; Pieces.Add(Hat);
+				const int32 Sex = i % 2;
+				auto Add = [&](const TCHAR* Mesh, const TCHAR* Tex, int32 Layer, uint32 Covers, bool bMasked = false)
+				{
+					FHLV2Piece& Pc = Pieces.AddDefaulted_GetRef();
+					Pc.Mesh = FString::Printf(TEXT("SKV2_%s_%s"), Sex ? TEXT("Female") : TEXT("Male"), Mesh);
+					Pc.Tex = FString::Printf(TEXT("SKV2_%s_%s_D"), Sex ? TEXT("Female") : TEXT("Male"), Tex);
+					Pc.Layer = Layer; Pc.Covers = Covers; Pc.bMasked = bMasked;
+					return &Pc;
+				};
+				if (!Sex)
+				{
+					Add(TEXT("toigo_male_suit_3_coat"), TEXT("toigo_male_suit_3"), 3, HLZone::Chest | HLZone::Belly | HLZone::UpperArm | HLZone::Forearm);
+					Add(TEXT("toigo_male_suit_3_trousers"), TEXT("toigo_male_suit_3"), 1, HLZone::Hips | HLZone::Thigh | HLZone::Calf);
+					Add(TEXT("mindfront_shoes_oxford_male_shoes"), TEXT("mindfront_shoes_oxford_male"), 2, HLZone::Foot);
+					Add(TEXT("short02_hair"), TEXT("short02"), 4, 0, true);
+				}
+				else
+				{
+					Add(TEXT("toigo_halter_dress_midi_coat"), TEXT("toigo_halter_dress_midi"), 3, HLZone::Belly | HLZone::Hips | HLZone::Thigh);
+					Add(TEXT("dressupdoc_maryjane1_shoes"), TEXT("dressupdoc_maryjane1"), 2, 0);
+					Add(TEXT("toigo_gloves_long_gloves"), TEXT("toigo_gloves_long"), 5, HLZone::Hand | HLZone::Forearm);
+					Add(TEXT("toigo_curled_under_bob_hair"), TEXT("toigo_curled_under_bob"), 4, 0, true);
+				}
 				FHLV2Rig& Rig = Rigs.AddDefaulted_GetRef();
-				if (!FHLCharV2::Build(A, R, 0, Pieces, Rig)) { HLBridge::Log(TEXT("HL_V2 build failed")); continue; }
+				if (!FHLCharV2::Build(A, R, Sex, Pieces, Rig)) { HLBridge::Log(TEXT("HL_V2 build failed")); continue; }
 				if (!FParse::Param(FCommandLine::Get(), TEXT("HLV2NoAnim"))) FHLCharV2::Play(Rig, Clips[i]);
 				{
 					USkeletalMeshComponent* B = Rig.Body.Get();
@@ -1724,7 +1742,7 @@ void AHLWorldActor::AutoTest(float Dt)
 					HLBridge::Log(FString::Printf(TEXT("HL_V2 dbg vis=%d reg=%d hidden=%d mesh=%s render=%d lods=%d world=%s scale=%s"), B && B->IsVisible(), B && B->IsRegistered(), A->IsHidden(),
 						SM ? *SM->GetName() : TEXT("none"), SM && SM->GetResourceForRendering() ? 1 : 0, SM ? SM->GetLODNum() : -1, B ? *B->GetComponentLocation().ToString() : TEXT("-"), B ? *B->GetComponentScale().ToString() : TEXT("-")));
 				}
-				HLBridge::Log(FString::Printf(TEXT("HL_V2 built %d pieces %d clip %s anim %s at %s player %s bounds %s"), i, Rig.Pieces.Num(), Clips[i], FHLCharV2::Anim(0, Clips[i]) ? TEXT("ok") : TEXT("MISSING"),
+				HLBridge::Log(FString::Printf(TEXT("HL_V2 built %d pieces %d clip %s anim %s at %s player %s bounds %s"), i, Rig.Pieces.Num(), Clips[i], FHLCharV2::Anim(Sex, Clips[i]) ? TEXT("ok") : TEXT("MISSING"),
 					*A->GetActorLocation().ToString(), *ToWorld(P->Area, P->Pos, P->Z).ToString(), *Rig.Body->Bounds.ToString()));
 			}
 		}
