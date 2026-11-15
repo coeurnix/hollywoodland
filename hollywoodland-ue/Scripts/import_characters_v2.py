@@ -158,7 +158,9 @@ def make_materials():
 # ---------------------------------------------------------------- textures
 def import_textures():
     tasks, names = [], []
-    for f in glob.glob(os.path.join(EXPORT, 'SKV2_*_D.png')) + glob.glob(os.path.join(EXPORT, 'SKV2_*_M.png')):
+    looks = os.path.join(os.path.dirname(EXPORT), 'looks')
+    for f in glob.glob(os.path.join(EXPORT, 'SKV2_*_D.png')) + glob.glob(os.path.join(EXPORT, 'SKV2_*_M.png')) + \
+            glob.glob(os.path.join(looks, 'SKV2_*_D.png')) + glob.glob(os.path.join(looks, 'SKV2_*_M.png')):
         name = 'T_' + os.path.basename(f)[:-4]
         tasks.append(import_png(f, f'{BASE}/Tex', name))
         names.append(name)
@@ -170,6 +172,10 @@ def import_textures():
             log(f'FAILED texture {name}')
             continue
         tex.set_editor_property('lod_group', unreal.TextureGroup.TEXTUREGROUP_CHARACTER)
+        # the web package budget: the body keeps 2K, coats/dresses/hair 1K, everything else 512 (masters stay 2K)
+        big = ('_Body_D' in name and 'eye' not in name and 'lash' not in name and 'brow' not in name)
+        mid = any(k in name for k in ('suit', 'dinner', 'bowtie', 'jacket', 'longcoat', 'gown', 'midi', 'day', 'overalls', 'curled', 'short0', 'hair'))
+        tex.set_editor_property('max_texture_size', 2048 if big else 1024 if mid else 512)
         if name.endswith('_M'):
             tex.set_editor_property('srgb', False)
             tex.set_editor_property('compression_settings', unreal.TextureCompressionSettings.TC_MASKS)

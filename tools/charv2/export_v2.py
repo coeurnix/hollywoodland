@@ -195,9 +195,9 @@ def to_centimetres(rig):
                 m.object = rig
 
 
-def main():
-    a = sys.argv[sys.argv.index('--') + 1:]
-    out, prefix, specs = Path(a[0]), a[1], dict(x.split('=') for x in a[2:])
+def run(out, prefix, specs, with_body=True):
+    """specs: {mhclo stem: 'slot' | 'slot+slot' | 'hat' [ '@name' ]}; pieces are named <prefix>_<name>_<slot>."""
+    out = Path(out)
     rig = next(o for o in bpy.data.objects if o.type == 'ARMATURE')
     rig.name = 'Armature'
     to_centimetres(rig)
@@ -207,26 +207,30 @@ def main():
     hip_z = rig.matrix_world @ rig.data.bones['pelvis'].head_local
     hip_z = hip_z.z - 6.0  # centimetres (the scene is converted above)
     report = {}
-    # the head's extras (eyes, brows, lashes) ride with the body
-    extras = [o for o in bpy.data.objects if o.type == 'MESH' and o.name.startswith(body.name + '.') and
-              any(k in o.name for k in ('high-poly', 'low-poly', 'eyebrow', 'eyelash'))]
-    for e in extras:
-        bake(e, rig)
-        stamp_zones(e, kd, zones)
-    stamp_zones(body, kd, zones)
-    export([body] + extras, rig, out / f'{prefix}_Body.fbx')
-    textures(body, out, f'{prefix}_Body', report)
-    for e in extras:
-        textures(e, out, f'{prefix}_Body_' + e.name.split('.')[-1], report)
-    report['Body'] = {'verts': len(body.data.vertices), 'extras': [e.name for e in extras]}
+    if with_body:
+        # the head's extras (eyes, brows, lashes) ride with the body
+        extras = [o for o in bpy.data.objects if o.type == 'MESH' and o.name.startswith(body.name + '.') and
+                  any(k in o.name for k in ('high-poly', 'low-poly', 'eyebrow', 'eyelash'))]
+        for e in extras:
+            bake(e, rig)
+            stamp_zones(e, kd, zones)
+        stamp_zones(body, kd, zones)
+        export([body] + extras, rig, out / f'{prefix}_Body.fbx')
+        textures(body, out, f'{prefix}_Body', report)
+        for e in extras:
+            textures(e, out, f'{prefix}_Body_' + e.name.split('.')[-1], report)
+        report['Body'] = {'verts': len(body.data.vertices), 'extras': [e.name for e in extras]}
     for key, slot in specs.items():
+        name = key
+        if '@' in slot:
+            slot, name = slot.split('@')
         g = next((o for o in bpy.data.objects if o.type == 'MESH' and o.name.endswith('.' + key)), None)
         if not g:
             print('HL_EXPORT missing', key)
             continue
         bake(g, rig)
         stamp_zones(g, kd, zones)
-        textures(g, out, f'{prefix}_{key}', report)
+        textures(g, out, f'{prefix}_{name}', report)
         if slot == 'hat':
             # hats are static (the head socket carries them): no armature, exported on their own
             for m in list(g.modifiers):
@@ -235,10 +239,10 @@ def main():
             bpy.ops.object.select_all(action='DESELECT')
             g.select_set(True)
             bpy.context.view_layer.objects.active = g
-            p = out / f'{prefix}_{key}_hat.fbx'
+            p = out / f'{prefix}_{name}_hat.fbx'
             bpy.ops.export_scene.fbx(filepath=str(p), use_selection=True, object_types={'MESH'}, apply_unit_scale=True,
                                      apply_scale_options='FBX_SCALE_NONE', mesh_smooth_type='FACE')
-            report[f'{key}:hat'] = {'verts': len(g.data.vertices)}
+            report[f'{name}:hat'] = {'verts': len(g.data.vertices)}
             continue
         if '+' in slot:
             parts = split_parts(g, hip_z)
@@ -246,14 +250,22 @@ def main():
                 if s == 'coat':
                     continue
                 if parts[s]:
-                    piece = separate(g, parts[s], f'{key}_{s}')
-                    export([piece], rig, out / f'{prefix}_{key}_{s}.fbx')
-                    report[f'{key}:{s}'] = {'verts': len(piece.data.vertices)}
+                    piece = separate(g, parts[s], f'{name}_{s}')
+                    export([piece], rig, out / f'{prefix}_{name}_{s}.fbx')
+                    report[f'{name}:{s}'] = {'verts': len(piece.data.vertices)}
             slot = 'coat'
-        export([g], rig, out / f'{prefix}_{key}_{slot}.fbx')
-        report[f'{key}:{slot}'] = {'verts': len(g.data.vertices)}
+        export([g], rig, out / f'{prefix}_{name}_{slot}.fbx')
+        report[f'{name}:{slot}'] = {'verts': len(g.data.vertices)}
+    return report
+
+
+def main():
+    a = sys.argv[sys.argv.index('--') + 1:]
+    out, prefix, specs = Path(a[0]), a[1], dict(x.split('=') for x in a[2:])
+    report = run(out, prefix, specs)
     (out / f'{prefix}_export.json').write_text(json.dumps(report, indent=1))
     print('HL_EXPORT', json.dumps(report))
 
 
-main()
+if __name__ == '__main__' and 'export_v2.py' in ' '.join(sys.argv):
+    main()

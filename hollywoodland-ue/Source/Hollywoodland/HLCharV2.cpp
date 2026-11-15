@@ -9,6 +9,11 @@
 #include "Materials/MaterialInstanceDynamic.h"
 #include "GameFramework/Actor.h"
 #include "Misc/CommandLine.h"
+#include "Misc/FileHelper.h"
+#include "Misc/Paths.h"
+#include "Dom/JsonObject.h"
+#include "Serialization/JsonReader.h"
+#include "Serialization/JsonSerializer.h"
 
 static const TCHAR* V2Base = TEXT("/Game/CharactersV2");
 static const TCHAR* V2Sex[2] = { TEXT("Male"), TEXT("Female") };
@@ -20,22 +25,20 @@ static T* V2Load(const FString& Folder, const FString& Name)
 	return LoadObject<T>(nullptr, *FString::Printf(TEXT("%s/%s/%s.%s"), V2Base, *Folder, *Name, *Name), nullptr, LOAD_NoWarn);
 }
 
-static UMaterialInstanceDynamic* V2Mat(UObject* Outer, bool bMasked, const FString& Tex, const FString& Mask, const FLinearColor& A, const FLinearColor& B, uint32 Hide)
+static UMaterialInstanceDynamic* V2Mat(UObject* Outer, bool bMasked, const FString& Tex, const FString& Mask, const FLinearColor& A, const FLinearColor& B, uint32 Hide,
+	const FLinearColor& Mul = FLinearColor::White)
 {
 	if (FParse::Param(FCommandLine::Get(), TEXT("HLV2NoMat"))) return nullptr;
 	UMaterialInterface* Base = LoadObject<UMaterialInterface>(nullptr, bMasked ? TEXT("/Game/CharactersV2/M_HLCharV2Masked.M_HLCharV2Masked") : TEXT("/Game/CharactersV2/M_HLCharV2.M_HLCharV2"), nullptr, LOAD_NoWarn);
 	if (!Base) { UE_LOG(LogTemp, Warning, TEXT("HL_V2 base material missing")); return nullptr; }
 	UMaterialInstanceDynamic* M = UMaterialInstanceDynamic::Create(Base, Outer);
-	if (UTexture2D* T = Tex.IsEmpty() ? nullptr : V2Load<UTexture2D>(TEXT("Tex"), TEXT("T_") + Tex)) M->SetTextureParameterValue(TEXT("Tex"), T);
+	if (UTexture2D* T = Tex.IsEmpty() ? nullptr : V2Load<UTexture2D>(TEXT("Tex"), Tex.StartsWith(TEXT("T_")) ? Tex : TEXT("T_") + Tex)) M->SetTextureParameterValue(TEXT("Tex"), T);
 	else if (!Tex.IsEmpty()) UE_LOG(LogTemp, Warning, TEXT("HL_V2 missing texture T_%s"), *Tex);
-	if (UTexture2D* T = Mask.IsEmpty() ? nullptr : V2Load<UTexture2D>(TEXT("Tex"), TEXT("T_") + Mask)) M->SetTextureParameterValue(TEXT("Mask"), T);
+	if (UTexture2D* T = Mask.IsEmpty() ? nullptr : V2Load<UTexture2D>(TEXT("Tex"), Mask.StartsWith(TEXT("T_")) ? Mask : TEXT("T_") + Mask)) M->SetTextureParameterValue(TEXT("Mask"), T);
 	M->SetVectorParameterValue(TEXT("TintA"), A);
 	M->SetVectorParameterValue(TEXT("TintB"), B);
 	M->SetScalarParameterValue(TEXT("HideMask"), (float)Hide);
-	{
-		UTexture* Got = nullptr; M->GetTextureParameterValue(FHashedMaterialParameterInfo(TEXT("Tex")), Got);
-		UE_LOG(LogTemp, Display, TEXT("HL_V2 mat %s tex=%s got=%s hide=%u"), *Base->GetName(), *Tex, Got ? *Got->GetName() : TEXT("none"), Hide);
-	}
+	M->SetVectorParameterValue(TEXT("Mul"), Mul);
 	return M;
 }
 
@@ -44,7 +47,8 @@ UAnimSequence* FHLCharV2::Anim(int32 Sex, const FString& Clip)
 	return V2Load<UAnimSequence>(TEXT("Anim"), FString::Printf(TEXT("A_%s_%s"), V2Sex[Sex & 1], *Clip));
 }
 
-USkeletalMeshComponent* FHLCharV2::Build(AActor* Owner, USceneComponent* Parent, int32 Sex, const TArray<FHLV2Piece>& Pieces, FHLV2Rig& Rig)
+USkeletalMeshComponent* FHLCharV2::Build(AActor* Owner, USceneComponent* Parent, int32 Sex, const TArray<FHLV2Piece>& Pieces, FHLV2Rig& Rig,
+	const FLinearColor& SkinMul)
 {
 	Sex &= 1;
 	const FString Prefix = FString::Printf(TEXT("SKV2_%s"), V2Sex[Sex]);
@@ -72,14 +76,14 @@ USkeletalMeshComponent* FHLCharV2::Build(AActor* Owner, USceneComponent* Parent,
 	for (int32 i = 0; i < Slots.Num(); ++i)
 	{
 		const FString N = Slots[i].MaterialSlotName.ToString().ToLower();
-		UE_LOG(LogTemp, Display, TEXT("HL_V2 body slot %d %s"), i, *N);
 		FString Tex = Prefix + TEXT("_Body_D");
 		bool bMasked = false;
 		if (N.Contains(TEXT("eyebrow"))) { Tex = Prefix + TEXT("_Body_") + N.RightChop(N.Find(TEXT("eyebrow"))) + TEXT("_D"); bMasked = true; }
 		else if (N.Contains(TEXT("eyelash"))) { Tex = Prefix + TEXT("_Body_") + N.RightChop(N.Find(TEXT("eyelash"))) + TEXT("_D"); bMasked = true; }
 		else if (N.Contains(TEXT("high-poly")) || N.Contains(TEXT("low-poly")) || N.Contains(TEXT("eye"))) Tex = Prefix + TEXT("_Body_high-poly_D");
 		Tex = Tex.Replace(TEXT("."), TEXT("_"));
-		if (UMaterialInstanceDynamic* M = V2Mat(Owner, bMasked, Tex, FString(), FLinearColor::White, FLinearColor::White, bMasked ? 0u : BodyHide))
+		const bool bSkin = !bMasked && !N.Contains(TEXT("high-poly")) && !N.Contains(TEXT("low-poly"));
+		if (UMaterialInstanceDynamic* M = V2Mat(Owner, bMasked, Tex, FString(), FLinearColor::White, FLinearColor::White, bMasked ? 0u : BodyHide, bSkin ? SkinMul : FLinearColor::White))
 			Body->SetMaterial(i, M);
 	}
 	for (int32 k = 0; k < Pieces.Num(); ++k)
@@ -108,7 +112,7 @@ USkeletalMeshComponent* FHLCharV2::Build(AActor* Owner, USceneComponent* Parent,
 		USkeletalMeshComponent* G = Skel(GM, Body);
 		G->SetLeaderPoseComponent(Body);
 		for (int32 i = 0; i < GM->GetMaterials().Num(); ++i)
-			if (UMaterialInstanceDynamic* M = V2Mat(Owner, P.bMasked, P.Tex, P.Mask, P.TintA, P.TintB, Hide)) G->SetMaterial(i, M);
+			if (UMaterialInstanceDynamic* M = V2Mat(Owner, P.bMasked, P.Tex, P.Mask, P.TintA, P.TintB, Hide, P.Mul)) G->SetMaterial(i, M);
 		Rig.Pieces.Add(G);
 	}
 	return Body;
@@ -122,4 +126,60 @@ void FHLCharV2::Play(FHLV2Rig& Rig, const FString& Clip, bool bLoop, float Rate)
 	B->PlayAnimation(S, bLoop);
 	B->SetPlayRate(Rate);
 	Rig.Clip = Clip;
+}
+
+FHLCharsV2& FHLCharsV2::Get() { static FHLCharsV2 Inst; return Inst; }
+
+bool FHLCharsV2::Ready()
+{
+	if (bLoaded) return bOk;
+	bLoaded = true;
+	if (FParse::Param(FCommandLine::Get(), TEXT("HLV1Chars"))) return false;
+	FString Text;
+	if (!FFileHelper::LoadFileToString(Text, *(FPaths::ProjectContentDir() / TEXT("Data/characters_v2.json")))) return false;
+	TSharedPtr<FJsonObject> Root;
+	if (!FJsonSerializer::Deserialize(TJsonReaderFactory<>::Create(Text), Root) || !Root.IsValid()) return false;
+	if (!V2Load<USkeletalMesh>(TEXT("Body"), TEXT("SKV2_Male_Body")) || !V2Load<USkeletalMesh>(TEXT("Body"), TEXT("SKV2_Female_Body"))) return false;
+	const TSharedPtr<FJsonObject>* Looks;
+	if (Root->TryGetObjectField(TEXT("looks"), Looks))
+		for (const auto& L : (*Looks)->Values)
+			for (const auto& Sx : L.Value->AsObject()->Values)
+				for (const auto& Sl : Sx.Value->AsObject()->Values)
+				{
+					const TSharedPtr<FJsonObject> O = Sl.Value->AsObject();
+					FHLV2Piece P;
+					P.Mesh = O->GetStringField(TEXT("mesh")); P.Tex = O->GetStringField(TEXT("tex"));
+					O->TryGetStringField(TEXT("mask"), P.Mask);
+					P.Layer = (int32)O->GetNumberField(TEXT("layer")); P.Covers = (uint32)O->GetNumberField(TEXT("covers"));
+					Pieces.Add(FString::Printf(TEXT("%s|%s|%s"), *L.Key, *Sx.Key, *Sl.Key), P);
+				}
+	const TSharedPtr<FJsonObject>* HairO;
+	if (Root->TryGetObjectField(TEXT("hair"), HairO))
+		for (int32 Sex = 0; Sex < 2; ++Sex)
+		{
+			const TArray<TSharedPtr<FJsonValue>>* Arr;
+			if (!(*HairO)->TryGetArrayField(V2Sex[Sex], Arr)) continue;
+			for (const TSharedPtr<FJsonValue>& V : *Arr)
+			{
+				FHLV2Piece P;
+				P.Mesh = V->AsObject()->GetStringField(TEXT("mesh")); P.Tex = V->AsObject()->GetStringField(TEXT("tex"));
+				P.Layer = 8; P.bMasked = true;
+				Hair[Sex].Add(P);
+			}
+		}
+	const TArray<TSharedPtr<FJsonValue>>* SkinA;
+	if (Root->TryGetArrayField(TEXT("skin"), SkinA))
+		for (const TSharedPtr<FJsonValue>& V : *SkinA)
+		{
+			const TArray<TSharedPtr<FJsonValue>>& C = V->AsArray();
+			if (C.Num() >= 3) Skin.Add(FLinearColor(FColor((uint8)(C[0]->AsNumber() * 255), (uint8)(C[1]->AsNumber() * 255), (uint8)(C[2]->AsNumber() * 255))));
+		}
+	bOk = Pieces.Num() > 0;
+	UE_LOG(LogTemp, Display, TEXT("HL_V2 table: %d pieces, hair %d/%d, %d skins"), Pieces.Num(), Hair[0].Num(), Hair[1].Num(), Skin.Num());
+	return bOk;
+}
+
+const FHLV2Piece* FHLCharsV2::Piece(const FString& Look, int32 Sex, const FString& Slot) const
+{
+	return Pieces.Find(FString::Printf(TEXT("%s|%s|%s"), *Look, V2Sex[Sex & 1], *Slot));
 }

@@ -143,4 +143,5 @@ private:
 	bool Compose(UWorld* World, UTextureRenderTarget2D* RT, const FHLCharLook& L);
 	FString ClipFor(int32 Sex, std::initializer_list<const TCHAR*> Names) const;
 	void AttachHeld(AActor* Owner, FHLCharRig& Rig, const FHLCharLook& L);
+	void ApplyV2(AActor* Owner, USceneComponent* Parent, FHLCharRig& Rig, const FHLCharLook& L);
 };

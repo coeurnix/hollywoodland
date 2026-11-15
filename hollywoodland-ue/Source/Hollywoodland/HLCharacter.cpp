@@ -1,6 +1,7 @@
 ﻿#include "HLCharacter.h"
 #include "HLGame.h"
 #include "HLBridge.h"
+#include "HLCharV2.h"
 #include "Animation/AnimSequence.h"
 #include "Animation/Skeleton.h"
 #include "Components/SkeletalMeshComponent.h"
@@ -337,7 +338,7 @@ UStaticMesh* FHLChars::StaticMesh(const FString& Folder, const FString& Name) { 
 UAnimSequence* FHLChars::Anim(int32 Sex, const FString& Clip)
 {
 	const FString Name = FString::Printf(TEXT("A_%s_%s"), SexName[Sex & 1], *Clip);
-	const FString Path = ObjPath(TEXT("Anim"), Name);
+	const FString Path = FHLCharsV2::Get().Ready() ? FString::Printf(TEXT("/Game/CharactersV2/Anim/%s.%s"), *Name, *Name) : ObjPath(TEXT("Anim"), Name);
 	if (Missing.Contains(Path)) return nullptr;
 	if (TObjectPtr<UObject>* Found = Cache.Find(Path)) return Cast<UAnimSequence>(*Found);
 	UObject* O = StaticLoadObject(UObject::StaticClass(), nullptr, *Path, nullptr, LOAD_NoWarn | LOAD_Quiet);
@@ -503,6 +504,59 @@ UMaterialInstanceDynamic* FHLCharVisuals::BodyMid(UWorld* World, const FHLCharLo
 	return Idx ? Atlases[*Idx].Mid.Get() : nullptr;
 }
 
+static FTransform RefCS(const USkeletalMesh* Mesh, FName Bone);
+
+// v2 (CHARACTERS-V2.md): the MakeHuman body with a garment mesh per worn slot (each look's own paint), hiding the zones
+// covered by what is worn over them; empty shirt/trousers/shoes slots wear the starter clothes
+void FHLCharVisuals::ApplyV2(AActor* Owner, USceneComponent* Parent, FHLCharRig& Rig, const FHLCharLook& L)
+{
+	FHLCharsV2& V = FHLCharsV2::Get();
+	const int32 Sex = L.App.Sex & 1;
+	const uint32 MKey = HashCombineFast(L.MeshKey(), L.TexKey());
+	if (Rig.Leader.IsValid() && Rig.MeshKey == MKey)
+	{
+		if (Rig.HeldKey != L.HeldKey()) AttachHeld(Owner, Rig, L);
+		return;
+	}
+	Clear(Rig);
+	TArray<FHLV2Piece> Pieces;
+	for (int32 i = 0; i < FHLChars::NumSlots; ++i)
+	{
+		const FString Slot = FHLChars::SlotName[i];
+		FString Look = L.Slots[i];
+		if (Look.IsEmpty() && (Slot == TEXT("shirt") || Slot == TEXT("trousers") || Slot == TEXT("shoes"))) Look = TEXT("Starter");
+		if (const FHLV2Piece* P = Look.IsEmpty() ? nullptr : V.Piece(Look, Sex, Slot)) Pieces.Add(*P);
+		else if (Slot == TEXT("trousers") || Slot == TEXT("shirt") || Slot == TEXT("shoes")) if (const FHLV2Piece* S = V.Piece(TEXT("Starter"), Sex, Slot)) Pieces.Add(*S);
+	}
+	if (V.Hair[Sex].Num())
+	{
+		FHLV2Piece H = V.Hair[Sex][((L.App.Hair % V.Hair[Sex].Num()) + V.Hair[Sex].Num()) % V.Hair[Sex].Num()];
+		Pieces.Add(H);
+	}
+	USceneComponent* Root = NewObject<USceneComponent>(Owner);
+	Root->SetupAttachment(Parent);
+	Root->RegisterComponent();
+	Rig.Root = Root;
+	FHLV2Rig VR;
+	USkeletalMeshComponent* Body = FHLCharV2::Build(Owner, Root, Sex, Pieces, VR, V.SkinTone(L.App.Skin));
+	if (!Body) return;
+	// facing: find the imported forward from the hands (as for the v1 bodies)
+	USkeletalMesh* Mesh = Cast<USkeletalMesh>(Body->GetSkinnedAsset());
+	const FTransform HandR = RefCS(Mesh, TEXT("hand_r")), HandL = RefCS(Mesh, TEXT("hand_l"));
+	FVector Right = HandR.GetLocation() - HandL.GetLocation(); Right.Z = 0;
+	FVector Fwd = FVector::CrossProduct(Right.GetSafeNormal(), FVector::UpVector).GetSafeNormal();
+	if (Fwd.IsNearlyZero()) Fwd = FVector::ForwardVector;
+	Root->SetRelativeRotation(FRotator(0, -FMath::RadiansToDegrees(FMath::Atan2(Fwd.Y, Fwd.X)), 0));
+	Body->SetCastShadow(false);
+	for (TWeakObjectPtr<USceneComponent>& P : VR.Pieces) if (UPrimitiveComponent* Pc = Cast<UPrimitiveComponent>(P.Get())) { Pc->SetCastShadow(false); Rig.Parts.Add(P); }
+	if (USkeletalMeshComponent* S = Body) S->bUseBoundsFromLeaderPoseComponent = false;
+	for (TWeakObjectPtr<USceneComponent>& P : Rig.Parts) if (USkeletalMeshComponent* S = Cast<USkeletalMeshComponent>(P.Get())) S->bUseBoundsFromLeaderPoseComponent = true;
+	Rig.Leader = Body;
+	Rig.Fwd = Fwd;
+	Rig.MeshKey = MKey; Rig.TexKey = 0; Rig.Sex = Sex; Rig.AtlasSize = 0; Rig.BodyMat.Reset();
+	AttachHeld(Owner, Rig, L);
+}
+
 void FHLCharVisuals::Clear(FHLCharRig& Rig)
 {
 	for (TWeakObjectPtr<USceneComponent>& P : Rig.Parts) if (P.IsValid()) P->DestroyComponent();
@@ -556,6 +610,7 @@ void FHLCharVisuals::Apply(UWorld* World, AActor* Owner, USceneComponent* Parent
 {
 	FHLChars& C = FHLChars::Get();
 	if (!C.Ready() || !World || !Owner || !Parent) return;
+	if (FHLCharsV2::Get().Ready()) { ApplyV2(Owner, Parent, Rig, L); return; }
 	const int32 Sex = L.App.Sex & 1;
 	const uint32 MKey = L.MeshKey(), TKey = L.TexKey(), HKey = L.HeldKey();
 	// a weapon drawn or put away: swap the held items only. Rebuilding the skeleton would show one frame of the

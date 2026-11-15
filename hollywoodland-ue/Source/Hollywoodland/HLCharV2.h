@@ -26,6 +26,21 @@ struct FHLV2Piece
 	int32 Layer = 0;              // 0 body .. higher is worn over lower
 	FName Socket;                 // static piece: the bone it rides (hats: head)
 	bool bMasked = false;         // alpha-tested (hair cards)
+	FLinearColor Mul = FLinearColor::White; // overall multiply (hair colour)
+};
+
+// Content/Data/characters_v2.json (tools/charv2/make_json.py): per look, sex and slot the garment piece; hair; skin tones
+struct FHLCharsV2
+{
+	static FHLCharsV2& Get();
+	bool Ready();                       // the table loaded and the bodies exist (false with -HLV1Chars)
+	const FHLV2Piece* Piece(const FString& Look, int32 Sex, const FString& Slot) const;
+	TArray<FHLV2Piece> Hair[2];
+	TArray<FLinearColor> Skin;
+	FLinearColor SkinTone(int32 i) const { return Skin.Num() ? Skin[((i % Skin.Num()) + Skin.Num()) % Skin.Num()] : FLinearColor::White; }
+private:
+	bool bLoaded = false, bOk = false;
+	TMap<FString, FHLV2Piece> Pieces; // "<look>|<sex>|<slot>"
 };
 
 struct FHLV2Rig
@@ -40,7 +55,8 @@ class FHLCharV2
 {
 public:
 	// builds the body (Sex 0 male, 1 female) under Parent with the given pieces; returns the body (leader) component
-	static USkeletalMeshComponent* Build(AActor* Owner, USceneComponent* Parent, int32 Sex, const TArray<FHLV2Piece>& Pieces, FHLV2Rig& Rig);
+	static USkeletalMeshComponent* Build(AActor* Owner, USceneComponent* Parent, int32 Sex, const TArray<FHLV2Piece>& Pieces, FHLV2Rig& Rig,
+		const FLinearColor& SkinMul = FLinearColor::White);
 	static void Play(FHLV2Rig& Rig, const FString& Clip, bool bLoop = true, float Rate = 1.f);
 	static UAnimSequence* Anim(int32 Sex, const FString& Clip);
 };
